@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SnailedItHelpers",
+        "repositoryURL": "https://gitlab.com/snailed-it/swift-packages/snailedithelpers",
+        "state": {
+          "branch": null,
+          "revision": "15f76f8b867d67ca6879a7c018016700048a194d",
+          "version": "1.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

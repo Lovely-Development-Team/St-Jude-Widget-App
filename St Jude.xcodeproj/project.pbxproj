@@ -1,0 +1,1587 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6348F9F726D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
+		6348F9F826D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
+		6348F9F926D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
+		6348F9FA26D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
+		6348F9FB26D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
+		6348F9FC26D6C9970031697F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
+		6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
+		6348F9FE26D6C9970031697F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
+		63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656D26D1AD24004F04DE /* WidgetKit.framework */; platformFilter = maccatalyst; };
+		63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656F26D1AD25004F04DE /* SwiftUI.framework */; platformFilter = maccatalyst; };
+		63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A1626D658FD00A2D495 /* macOS_Widget.swift */; };
+		63574A1A26D6590000A2D495 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63574A1926D6590000A2D495 /* Assets.xcassets */; };
+		63574A1C26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */; };
+		63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */; };
+		63574A2026D6590000A2D495 /* macOS WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		63574A2626D6594600A2D495 /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */; };
+		63574A2826D6596100A2D495 /* SampleCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2726D6596100A2D495 /* SampleCampaign.swift */; };
+		63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2726D6596100A2D495 /* SampleCampaign.swift */; };
+		63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2726D6596100A2D495 /* SampleCampaign.swift */; };
+		63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2726D6596100A2D495 /* SampleCampaign.swift */; };
+		63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2C26D6598700A2D495 /* WidgetDataProviding.swift */; };
+		63574A3026D6598700A2D495 /* WidgetDataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2C26D6598700A2D495 /* WidgetDataProviding.swift */; };
+		63574A3126D659D300A2D495 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
+		63574A3226D659DA00A2D495 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFE926D296F100F98023 /* Loggers.swift */; };
+		63574A3326D659DF00A2D495 /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		63574A3426D659E100A2D495 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
+		63574A3526D65A0200A2D495 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
+		63574A3926D65A4A00A2D495 /* SimpleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A3626D65A4A00A2D495 /* SimpleEntry.swift */; };
+		63574A3A26D65A4A00A2D495 /* SimpleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A3626D65A4A00A2D495 /* SimpleEntry.swift */; };
+		63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A3B26D65BCE00A2D495 /* WidgetEntryView.swift */; };
+		63574A3F26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A3B26D65BCE00A2D495 /* WidgetEntryView.swift */; };
+		63574A4026D65C8100A2D495 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
+		63574A4126D65D8D00A2D495 /* CampaignTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */; };
+		63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
+		63574A4426D65DDB00A2D495 /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF026D3C4D400F98023 /* MilestoneView.swift */; };
+		63574A4626D65DF300A2D495 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63574A4526D65DF300A2D495 /* SnailedItHelpers */; };
+		6357654426D1A73E004F04DE /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357654326D1A73E004F04DE /* Tests_iOS.swift */; };
+		6357654626D1A73E004F04DE /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357654526D1A73E004F04DE /* Tests_iOSLaunchTests.swift */; };
+		6357655026D1A73E004F04DE /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357654F26D1A73E004F04DE /* Tests_macOS.swift */; };
+		6357655226D1A73E004F04DE /* Tests_macOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357655126D1A73E004F04DE /* Tests_macOSLaunchTests.swift */; };
+		6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652D26D1A73B004F04DE /* St_JudeApp.swift */; };
+		6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652D26D1A73B004F04DE /* St_JudeApp.swift */; };
+		6357655526D1A73E004F04DE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652E26D1A73B004F04DE /* ContentView.swift */; };
+		6357655626D1A73E004F04DE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652E26D1A73B004F04DE /* ContentView.swift */; };
+		6357656E26D1AD25004F04DE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656D26D1AD24004F04DE /* WidgetKit.framework */; platformFilter = maccatalyst; };
+		6357657026D1AD25004F04DE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656F26D1AD25004F04DE /* SwiftUI.framework */; platformFilter = maccatalyst; };
+		6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357657226D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift */; };
+		6357657626D1AD28004F04DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6357657526D1AD28004F04DE /* Assets.xcassets */; };
+		6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
+		6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
+		6357657C26D1AD28004F04DE /* Tiltify St Jude WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6357658326D25309004F04DE /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
+		6357658426D25309004F04DE /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
+		6357658626D256C9004F04DE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
+		6357658726D256C9004F04DE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
+		638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99226D634E300095ACB /* CurrencyHelpers.swift */; };
+		638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99226D634E300095ACB /* CurrencyHelpers.swift */; };
+		638AEFE926D7965600BC6AB9 /* CurrencyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99226D634E300095ACB /* CurrencyHelpers.swift */; };
+		638AEFEA26D7965A00BC6AB9 /* CurrencyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99226D634E300095ACB /* CurrencyHelpers.swift */; };
+		638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99226D634E300095ACB /* CurrencyHelpers.swift */; };
+		63A6F99126D6348A00095ACB /* ListMilestonesIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99026D6348A00095ACB /* ListMilestonesIntentHandler.swift */; };
+		63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99526D636A900095ACB /* INMilestoneExtension.swift */; };
+		63A6F99826D6382100095ACB /* INAmountExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99726D6382100095ACB /* INAmountExtension.swift */; };
+		63A6F99A26D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F99926D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift */; };
+		63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFE926D296F100F98023 /* Loggers.swift */; };
+		63A6F9A326D64D0C00095ACB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
+		63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
+		63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
+		63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
+		63A6F9A826D64DEF00095ACB /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63A6F9A726D64DEF00095ACB /* SnailedItHelpers */; };
+		63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */; };
+		63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
+		63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF026D3C4D400F98023 /* MilestoneView.swift */; };
+		63A6F9AE26D64F2900095ACB /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */; };
+		63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */; };
+		63A6F9B026D64F2A00095ACB /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */; };
+		63ACEFEA26D296F100F98023 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFE926D296F100F98023 /* Loggers.swift */; };
+		63ACEFEB26D2973E00F98023 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFE926D296F100F98023 /* Loggers.swift */; };
+		63ACEFEE26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		63ACEFF226D3C4D500F98023 /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF026D3C4D400F98023 /* MilestoneView.swift */; };
+		63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
+		63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */; };
+		63ACEFF926D3C76E00F98023 /* CampaignTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */; };
+		63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF026D3C4D400F98023 /* MilestoneView.swift */; };
+		63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
+		63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
+		63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
+		63ACF00426D3D4C200F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00326D3D4C200F98023 /* SnailedItHelpers */; };
+		63ACF00626D3D53300F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00526D3D53300F98023 /* SnailedItHelpers */; };
+		63ACF00826D3D53800F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00726D3D53800F98023 /* SnailedItHelpers */; };
+		63ACF00A26D3D53F00F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00926D3D53F00F98023 /* SnailedItHelpers */; };
+		63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACF00E26D3FCB200F98023 /* AppDelegate.swift */; };
+		63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACF01226D4E6D800F98023 /* Refresh.swift */; };
+		63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
+		63BFF17E26D5B2990023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
+		63BFF19C26D5D37C0023263D /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BFF18426D5CA400023263D /* Intents.framework */; platformFilter = maccatalyst; };
+		63BFF1A326D5D37C0023263D /* Intents Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63BFF19B26D5D37C0023263D /* Intents Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		63BFF1A726D5D38B0023263D /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF18726D5CA410023263D /* IntentHandler.swift */; };
+		63BFF1A826D5D38F0023263D /* GetAmountRaisedIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF19226D5CB590023263D /* GetAmountRaisedIntentHandler.swift */; };
+		63BFF1AA26D5D3AB0023263D /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
+		63BFF1AB26D5D3AF0023263D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
+		63BFF1AC26D5D3BE0023263D /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFE926D296F100F98023 /* Loggers.swift */; };
+		63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */; };
+		63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */; };
+		63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		63574A1E26D6590000A2D495 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6357652826D1A73B004F04DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63574A1126D658FD00A2D495;
+			remoteInfo = "macOS WidgetExtension";
+		};
+		6357654026D1A73E004F04DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6357652826D1A73B004F04DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6357653326D1A73E004F04DE;
+			remoteInfo = "St Nude (iOS)";
+		};
+		6357654C26D1A73E004F04DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6357652826D1A73B004F04DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6357653926D1A73E004F04DE;
+			remoteInfo = "St Nude (macOS)";
+		};
+		6357657A26D1AD28004F04DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6357652826D1A73B004F04DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6357656A26D1AD24004F04DE;
+			remoteInfo = "Tiltify St Jude WidgetExtension";
+		};
+		63BFF1A126D5D37C0023263D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6357652826D1A73B004F04DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63BFF19A26D5D37C0023263D;
+			remoteInfo = "Intents Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		63574A2126D6590000A2D495 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				63574A2026D6590000A2D495 /* macOS WidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357658026D1AD28004F04DE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6357657C26D1AD28004F04DE /* Tiltify St Jude WidgetExtension.appex in Embed App Extensions */,
+				63BFF1A326D5D37C0023263D /* Intents Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6348F9F626D6B5100031697F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6348F9FF26D6C9970031697F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
+		63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "macOS WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63574A1626D658FD00A2D495 /* macOS_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOS_Widget.swift; sourceTree = "<group>"; };
+		63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = macOS_Widget.intentdefinition; sourceTree = "<group>"; };
+		63574A1926D6590000A2D495 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		63574A1B26D6590000A2D495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63574A2726D6596100A2D495 /* SampleCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCampaign.swift; sourceTree = "<group>"; };
+		63574A2C26D6598700A2D495 /* WidgetDataProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataProviding.swift; sourceTree = "<group>"; };
+		63574A3626D65A4A00A2D495 /* SimpleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleEntry.swift; sourceTree = "<group>"; };
+		63574A3B26D65BCE00A2D495 /* WidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEntryView.swift; sourceTree = "<group>"; };
+		63574A4326D65DD300A2D495 /* St-Jude--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "St-Jude--macOS--Info.plist"; sourceTree = "<group>"; };
+		63574A4726D65E5C00A2D495 /* macOS WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "macOS WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		6357652D26D1A73B004F04DE /* St_JudeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_JudeApp.swift; sourceTree = "<group>"; };
+		6357652E26D1A73B004F04DE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6357653426D1A73E004F04DE /* St Jude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "St Jude.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357653A26D1A73E004F04DE /* St Jude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "St Jude.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357653F26D1A73E004F04DE /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357654326D1A73E004F04DE /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
+		6357654526D1A73E004F04DE /* Tests_iOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOSLaunchTests.swift; sourceTree = "<group>"; };
+		6357654B26D1A73E004F04DE /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357654F26D1A73E004F04DE /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
+		6357655126D1A73E004F04DE /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
+		6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Tiltify St Jude WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357656D26D1AD24004F04DE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		6357656F26D1AD25004F04DE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		6357657226D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tiltify_St_Jude_Widget.swift; sourceTree = "<group>"; };
+		6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Tiltify_St_Jude_Widget.intentdefinition; sourceTree = "<group>"; };
+		6357657526D1AD28004F04DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6357657726D1AD28004F04DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6357658226D25309004F04DE /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		6357658526D256C9004F04DE /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		63A6F99026D6348A00095ACB /* ListMilestonesIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMilestonesIntentHandler.swift; sourceTree = "<group>"; };
+		63A6F99226D634E300095ACB /* CurrencyHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyHelpers.swift; sourceTree = "<group>"; };
+		63A6F99526D636A900095ACB /* INMilestoneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INMilestoneExtension.swift; sourceTree = "<group>"; };
+		63A6F99726D6382100095ACB /* INAmountExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INAmountExtension.swift; sourceTree = "<group>"; };
+		63A6F99926D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPreviousMilestoneIntentHandler.swift; sourceTree = "<group>"; };
+		63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetFamily.swift; sourceTree = "<group>"; };
+		63ACEFE926D296F100F98023 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
+		63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiltifyWidgetData.swift; sourceTree = "<group>"; };
+		63ACEFF026D3C4D400F98023 /* MilestoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneView.swift; sourceTree = "<group>"; };
+		63ACEFF326D3C64100F98023 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignTitle.swift; sourceTree = "<group>"; };
+		63ACEFFE26D3CC3400F98023 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
+		63ACF00B26D3E8A400F98023 /* St Jude (macOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "St Jude (macOS).entitlements"; sourceTree = "<group>"; };
+		63ACF00C26D3E8DB00F98023 /* St Jude (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "St Jude (iOS).entitlements"; sourceTree = "<group>"; };
+		63ACF00E26D3FCB200F98023 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		63ACF01226D4E6D800F98023 /* Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
+		63BFF17C26D5B0660023263D /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		63BFF18426D5CA400023263D /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		63BFF18726D5CA410023263D /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		63BFF19226D5CB590023263D /* GetAmountRaisedIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAmountRaisedIntentHandler.swift; sourceTree = "<group>"; };
+		63BFF19B26D5D37C0023263D /* Intents Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Intents Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63BFF1A026D5D37C0023263D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGoalIntentHandler.swift; sourceTree = "<group>"; };
+		63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextMilestoneIntentHandler.swift; sourceTree = "<group>"; };
+		DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tiltify St Jude WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "St-Jude--iOS--Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		63574A0F26D658FD00A2D495 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */,
+				63574A4626D65DF300A2D495 /* SnailedItHelpers in Frameworks */,
+				63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653126D1A73E004F04DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63ACF00426D3D4C200F98023 /* SnailedItHelpers in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653726D1A73E004F04DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63A6F9A826D64DEF00095ACB /* SnailedItHelpers in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653C26D1A73E004F04DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63ACF00626D3D53300F98023 /* SnailedItHelpers in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357654826D1A73E004F04DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63ACF00826D3D53800F98023 /* SnailedItHelpers in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357656826D1AD24004F04DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6357657026D1AD25004F04DE /* SwiftUI.framework in Frameworks */,
+				63ACF00A26D3D53F00F98023 /* SnailedItHelpers in Frameworks */,
+				6357656E26D1AD25004F04DE /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63BFF19826D5D37C0023263D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63BFF19C26D5D37C0023263D /* Intents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		63574A1526D658FD00A2D495 /* macOS Widget */ = {
+			isa = PBXGroup;
+			children = (
+				63574A1626D658FD00A2D495 /* macOS_Widget.swift */,
+				63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */,
+				63574A1926D6590000A2D495 /* Assets.xcassets */,
+				63574A1B26D6590000A2D495 /* Info.plist */,
+			);
+			path = "macOS Widget";
+			sourceTree = "<group>";
+		};
+		63574A2526D6592C00A2D495 /* Shared Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */,
+				63574A2726D6596100A2D495 /* SampleCampaign.swift */,
+				63574A2C26D6598700A2D495 /* WidgetDataProviding.swift */,
+				63574A3626D65A4A00A2D495 /* SimpleEntry.swift */,
+				63574A3B26D65BCE00A2D495 /* WidgetEntryView.swift */,
+			);
+			path = "Shared Widgets";
+			sourceTree = "<group>";
+		};
+		6357652726D1A73B004F04DE = {
+			isa = PBXGroup;
+			children = (
+				63574A4726D65E5C00A2D495 /* macOS WidgetExtension.entitlements */,
+				63574A4326D65DD300A2D495 /* St-Jude--macOS--Info.plist */,
+				DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */,
+				63BFF17B26D5B0310023263D /* Extensions */,
+				DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */,
+				63ACF00C26D3E8DB00F98023 /* St Jude (iOS).entitlements */,
+				63ACF00B26D3E8A400F98023 /* St Jude (macOS).entitlements */,
+				6357652C26D1A73B004F04DE /* Shared */,
+				63574A2526D6592C00A2D495 /* Shared Widgets */,
+				63ACF00D26D3FC8A00F98023 /* iOS */,
+				6357654226D1A73E004F04DE /* Tests iOS */,
+				6357654E26D1A73E004F04DE /* Tests macOS */,
+				6357657126D1AD25004F04DE /* Tiltify St Jude Widget */,
+				63BFF19D26D5D37C0023263D /* Intents Extension */,
+				63574A1526D658FD00A2D495 /* macOS Widget */,
+				6357656C26D1AD24004F04DE /* Frameworks */,
+				6357653526D1A73E004F04DE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6357652C26D1A73B004F04DE /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				6348F9F626D6B5100031697F /* Assets.xcassets */,
+				63ACEFF626D3C6EF00F98023 /* Views */,
+				63ACEFE826D276A400F98023 /* Model */,
+				6357658126D252EE004F04DE /* Networking */,
+				6357652D26D1A73B004F04DE /* St_JudeApp.swift */,
+				6357652E26D1A73B004F04DE /* ContentView.swift */,
+				63ACF01226D4E6D800F98023 /* Refresh.swift */,
+				63A6F99226D634E300095ACB /* CurrencyHelpers.swift */,
+				63ACEFE926D296F100F98023 /* Loggers.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		6357653526D1A73E004F04DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6357653426D1A73E004F04DE /* St Jude.app */,
+				6357653A26D1A73E004F04DE /* St Jude.app */,
+				6357653F26D1A73E004F04DE /* Tests iOS.xctest */,
+				6357654B26D1A73E004F04DE /* Tests macOS.xctest */,
+				6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */,
+				63BFF19B26D5D37C0023263D /* Intents Extension.appex */,
+				63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6357654226D1A73E004F04DE /* Tests iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6357654326D1A73E004F04DE /* Tests_iOS.swift */,
+				6357654526D1A73E004F04DE /* Tests_iOSLaunchTests.swift */,
+			);
+			path = "Tests iOS";
+			sourceTree = "<group>";
+		};
+		6357654E26D1A73E004F04DE /* Tests macOS */ = {
+			isa = PBXGroup;
+			children = (
+				6357654F26D1A73E004F04DE /* Tests_macOS.swift */,
+				6357655126D1A73E004F04DE /* Tests_macOSLaunchTests.swift */,
+			);
+			path = "Tests macOS";
+			sourceTree = "<group>";
+		};
+		6357656C26D1AD24004F04DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6357656D26D1AD24004F04DE /* WidgetKit.framework */,
+				6357656F26D1AD25004F04DE /* SwiftUI.framework */,
+				63BFF18426D5CA400023263D /* Intents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6357657126D1AD25004F04DE /* Tiltify St Jude Widget */ = {
+			isa = PBXGroup;
+			children = (
+				6357657226D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift */,
+				6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */,
+				6357657526D1AD28004F04DE /* Assets.xcassets */,
+				6357657726D1AD28004F04DE /* Info.plist */,
+			);
+			path = "Tiltify St Jude Widget";
+			sourceTree = "<group>";
+		};
+		6357658126D252EE004F04DE /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				6357658226D25309004F04DE /* ApiClient.swift */,
+				6357658526D256C9004F04DE /* Model.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		63A6F99426D6369500095ACB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				63A6F99526D636A900095ACB /* INMilestoneExtension.swift */,
+				63A6F99726D6382100095ACB /* INAmountExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		63ACEFE826D276A400F98023 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		63ACEFF626D3C6EF00F98023 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				63ACEFF026D3C4D400F98023 /* MilestoneView.swift */,
+				63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */,
+				63ACEFF326D3C64100F98023 /* ProgressBar.swift */,
+				63ACEFFE26D3CC3400F98023 /* EntryView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		63ACF00D26D3FC8A00F98023 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				63ACF00E26D3FCB200F98023 /* AppDelegate.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		63BFF17B26D5B0310023263D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				63BFF17C26D5B0660023263D /* UserDefaults.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		63BFF19D26D5D37C0023263D /* Intents Extension */ = {
+			isa = PBXGroup;
+			children = (
+				63A6F99426D6369500095ACB /* Extensions */,
+				63BFF18726D5CA410023263D /* IntentHandler.swift */,
+				63BFF19226D5CB590023263D /* GetAmountRaisedIntentHandler.swift */,
+				63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */,
+				63A6F99926D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift */,
+				63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */,
+				63A6F99026D6348A00095ACB /* ListMilestonesIntentHandler.swift */,
+				6348FA0026D6C9970031697F /* Intents.intentdefinition */,
+				63BFF1A026D5D37C0023263D /* Info.plist */,
+			);
+			path = "Intents Extension";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		63574A1126D658FD00A2D495 /* macOS WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63574A2426D6590000A2D495 /* Build configuration list for PBXNativeTarget "macOS WidgetExtension" */;
+			buildPhases = (
+				63574A0E26D658FD00A2D495 /* Sources */,
+				63574A0F26D658FD00A2D495 /* Frameworks */,
+				63574A1026D658FD00A2D495 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "macOS WidgetExtension";
+			packageProductDependencies = (
+				63574A4526D65DF300A2D495 /* SnailedItHelpers */,
+			);
+			productName = "macOS WidgetExtension";
+			productReference = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		6357653326D1A73E004F04DE /* St Jude (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357655B26D1A73E004F04DE /* Build configuration list for PBXNativeTarget "St Jude (iOS)" */;
+			buildPhases = (
+				6357653026D1A73E004F04DE /* Sources */,
+				6357653126D1A73E004F04DE /* Frameworks */,
+				6357653226D1A73E004F04DE /* Resources */,
+				6357658026D1AD28004F04DE /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6357657B26D1AD28004F04DE /* PBXTargetDependency */,
+				63BFF1A226D5D37C0023263D /* PBXTargetDependency */,
+			);
+			name = "St Jude (iOS)";
+			packageProductDependencies = (
+				63ACF00326D3D4C200F98023 /* SnailedItHelpers */,
+			);
+			productName = "St Nude (iOS)";
+			productReference = 6357653426D1A73E004F04DE /* St Jude.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6357653926D1A73E004F04DE /* St Jude (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357655E26D1A73E004F04DE /* Build configuration list for PBXNativeTarget "St Jude (macOS)" */;
+			buildPhases = (
+				6357653626D1A73E004F04DE /* Sources */,
+				6357653726D1A73E004F04DE /* Frameworks */,
+				6357653826D1A73E004F04DE /* Resources */,
+				63574A2126D6590000A2D495 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63574A1F26D6590000A2D495 /* PBXTargetDependency */,
+			);
+			name = "St Jude (macOS)";
+			packageProductDependencies = (
+				63A6F9A726D64DEF00095ACB /* SnailedItHelpers */,
+			);
+			productName = "St Nude (macOS)";
+			productReference = 6357653A26D1A73E004F04DE /* St Jude.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6357653E26D1A73E004F04DE /* Tests iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357656126D1A73E004F04DE /* Build configuration list for PBXNativeTarget "Tests iOS" */;
+			buildPhases = (
+				6357653B26D1A73E004F04DE /* Sources */,
+				6357653C26D1A73E004F04DE /* Frameworks */,
+				6357653D26D1A73E004F04DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6357654126D1A73E004F04DE /* PBXTargetDependency */,
+			);
+			name = "Tests iOS";
+			packageProductDependencies = (
+				63ACF00526D3D53300F98023 /* SnailedItHelpers */,
+			);
+			productName = "Tests iOS";
+			productReference = 6357653F26D1A73E004F04DE /* Tests iOS.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		6357654A26D1A73E004F04DE /* Tests macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357656426D1A73E004F04DE /* Build configuration list for PBXNativeTarget "Tests macOS" */;
+			buildPhases = (
+				6357654726D1A73E004F04DE /* Sources */,
+				6357654826D1A73E004F04DE /* Frameworks */,
+				6357654926D1A73E004F04DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6357654D26D1A73E004F04DE /* PBXTargetDependency */,
+			);
+			name = "Tests macOS";
+			packageProductDependencies = (
+				63ACF00726D3D53800F98023 /* SnailedItHelpers */,
+			);
+			productName = "Tests macOS";
+			productReference = 6357654B26D1A73E004F04DE /* Tests macOS.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		6357656A26D1AD24004F04DE /* Tiltify St Jude WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357657D26D1AD28004F04DE /* Build configuration list for PBXNativeTarget "Tiltify St Jude WidgetExtension" */;
+			buildPhases = (
+				6357656726D1AD24004F04DE /* Sources */,
+				6357656826D1AD24004F04DE /* Frameworks */,
+				6357656926D1AD24004F04DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Tiltify St Jude WidgetExtension";
+			packageProductDependencies = (
+				63ACF00926D3D53F00F98023 /* SnailedItHelpers */,
+			);
+			productName = "Tiltify St Jude WidgetExtension";
+			productReference = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		63BFF19A26D5D37C0023263D /* Intents Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63BFF1A426D5D37C0023263D /* Build configuration list for PBXNativeTarget "Intents Extension" */;
+			buildPhases = (
+				63BFF19726D5D37C0023263D /* Sources */,
+				63BFF19826D5D37C0023263D /* Frameworks */,
+				63BFF19926D5D37C0023263D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Intents Extension";
+			productName = "Intents Extension";
+			productReference = 63BFF19B26D5D37C0023263D /* Intents Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6357652826D1A73B004F04DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					63574A1126D658FD00A2D495 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					6357653326D1A73E004F04DE = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					6357653926D1A73E004F04DE = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					6357653E26D1A73E004F04DE = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 6357653326D1A73E004F04DE;
+					};
+					6357654A26D1A73E004F04DE = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 6357653926D1A73E004F04DE;
+					};
+					6357656A26D1AD24004F04DE = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					63BFF19A26D5D37C0023263D = {
+						CreatedOnToolsVersion = 13.0;
+					};
+				};
+			};
+			buildConfigurationList = 6357652B26D1A73B004F04DE /* Build configuration list for PBXProject "St Jude" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6357652726D1A73B004F04DE;
+			packageReferences = (
+				63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */,
+			);
+			productRefGroup = 6357653526D1A73E004F04DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6357653326D1A73E004F04DE /* St Jude (iOS) */,
+				6357653926D1A73E004F04DE /* St Jude (macOS) */,
+				6357653E26D1A73E004F04DE /* Tests iOS */,
+				6357654A26D1A73E004F04DE /* Tests macOS */,
+				6357656A26D1AD24004F04DE /* Tiltify St Jude WidgetExtension */,
+				63BFF19A26D5D37C0023263D /* Intents Extension */,
+				63574A1126D658FD00A2D495 /* macOS WidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63574A1026D658FD00A2D495 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6348F9FB26D6B5100031697F /* Assets.xcassets in Resources */,
+				63574A1A26D6590000A2D495 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653226D1A73E004F04DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653826D1A73E004F04DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653D26D1A73E004F04DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357654926D1A73E004F04DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357656926D1AD24004F04DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6348F9F926D6B5100031697F /* Assets.xcassets in Resources */,
+				6357657626D1AD28004F04DE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63BFF19926D5D37C0023263D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6348F9FA26D6B5100031697F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		63574A0E26D658FD00A2D495 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63574A3026D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
+				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
+				63574A3F26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
+				638AEFE926D7965600BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				63574A1C26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
+				63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */,
+				63574A3226D659DA00A2D495 /* Loggers.swift in Sources */,
+				63574A4126D65D8D00A2D495 /* CampaignTitle.swift in Sources */,
+				63574A2626D6594600A2D495 /* WidgetFamily.swift in Sources */,
+				63574A3A26D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
+				63574A4426D65DDB00A2D495 /* MilestoneView.swift in Sources */,
+				63574A3526D65A0200A2D495 /* Model.swift in Sources */,
+				63574A3426D659E100A2D495 /* UserDefaults.swift in Sources */,
+				63574A3326D659DF00A2D495 /* TiltifyWidgetData.swift in Sources */,
+				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
+				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
+				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653026D1A73E004F04DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63574A2826D6596100A2D495 /* SampleCampaign.swift in Sources */,
+				6348F9FC26D6C9970031697F /* Intents.intentdefinition in Sources */,
+				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
+				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
+				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				6357658626D256C9004F04DE /* Model.swift in Sources */,
+				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
+				6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */,
+				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */,
+				63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */,
+				63ACEFEA26D296F100F98023 /* Loggers.swift in Sources */,
+				63ACEFEE26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
+				6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
+				63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */,
+				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
+				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
+				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653626D1A73E004F04DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
+				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
+				63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
+				63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */,
+				63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */,
+				63A6F9B026D64F2A00095ACB /* WidgetFamily.swift in Sources */,
+				6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */,
+				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,
+				63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */,
+				63A6F9A326D64D0C00095ACB /* Model.swift in Sources */,
+				6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */,
+				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
+				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
+				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
+				638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357653B26D1A73E004F04DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6357654626D1A73E004F04DE /* Tests_iOSLaunchTests.swift in Sources */,
+				6357654426D1A73E004F04DE /* Tests_iOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357654726D1A73E004F04DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6357655226D1A73E004F04DE /* Tests_macOSLaunchTests.swift in Sources */,
+				6357655026D1A73E004F04DE /* Tests_macOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6357656726D1AD24004F04DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */,
+				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
+				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
+				638AEFEA26D7965A00BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
+				63574A3926D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
+				63ACEFEB26D2973E00F98023 /* Loggers.swift in Sources */,
+				63BFF17E26D5B2990023263D /* UserDefaults.swift in Sources */,
+				6357658426D25309004F04DE /* ApiClient.swift in Sources */,
+				6357658726D256C9004F04DE /* Model.swift in Sources */,
+				63ACEFF926D3C76E00F98023 /* CampaignTitle.swift in Sources */,
+				63A6F9AE26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				63ACEFF226D3C4D500F98023 /* MilestoneView.swift in Sources */,
+				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
+				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
+				63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
+				63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63BFF19726D5D37C0023263D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63BFF1AB26D5D3AF0023263D /* Model.swift in Sources */,
+				6348F9FE26D6C9970031697F /* Intents.intentdefinition in Sources */,
+				63BFF1A726D5D38B0023263D /* IntentHandler.swift in Sources */,
+				63A6F99126D6348A00095ACB /* ListMilestonesIntentHandler.swift in Sources */,
+				63BFF1AC26D5D3BE0023263D /* Loggers.swift in Sources */,
+				63A6F99A26D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift in Sources */,
+				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
+				63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */,
+				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,
+				63BFF1A826D5D38F0023263D /* GetAmountRaisedIntentHandler.swift in Sources */,
+				638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				63BFF1AA26D5D3AB0023263D /* ApiClient.swift in Sources */,
+				63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */,
+				63A6F99826D6382100095ACB /* INAmountExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		63574A1F26D6590000A2D495 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63574A1126D658FD00A2D495 /* macOS WidgetExtension */;
+			targetProxy = 63574A1E26D6590000A2D495 /* PBXContainerItemProxy */;
+		};
+		6357654126D1A73E004F04DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6357653326D1A73E004F04DE /* St Jude (iOS) */;
+			targetProxy = 6357654026D1A73E004F04DE /* PBXContainerItemProxy */;
+		};
+		6357654D26D1A73E004F04DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6357653926D1A73E004F04DE /* St Jude (macOS) */;
+			targetProxy = 6357654C26D1A73E004F04DE /* PBXContainerItemProxy */;
+		};
+		6357657B26D1AD28004F04DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6357656A26D1AD24004F04DE /* Tiltify St Jude WidgetExtension */;
+			targetProxy = 6357657A26D1AD28004F04DE /* PBXContainerItemProxy */;
+		};
+		63BFF1A226D5D37C0023263D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63BFF19A26D5D37C0023263D /* Intents Extension */;
+			targetProxy = 63BFF1A126D5D37C0023263D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6348FA0026D6C9970031697F /* Intents.intentdefinition */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6348F9FF26D6C9970031697F /* Base */,
+			);
+			name = Intents.intentdefinition;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		63574A2226D6590000A2D495 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "macOS Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.macOS-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		63574A2326D6590000A2D495 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "macOS Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.macOS-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6357655926D1A73E004F04DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6357655A26D1A73E004F04DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		6357655C26D1A73E004F04DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "St-Jude--iOS--Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Relay for St. Jude";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosemaryorchard.stjude;
+				PRODUCT_NAME = "St Jude";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6357655D26D1A73E004F04DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "St-Jude--iOS--Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Relay for St. Jude";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosemaryorchard.stjude;
+				PRODUCT_NAME = "St Jude";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6357655F26D1A73E004F04DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "St-Jude--macOS--Info.plist";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosemaryorchard.stjude;
+				PRODUCT_NAME = "St Jude";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		6357656026D1A73E004F04DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "St-Jude--macOS--Info.plist";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosemaryorchard.stjude;
+				PRODUCT_NAME = "St Jude";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6357656226D1A73E004F04DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dwrs.Tests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "St Nude (iOS)";
+			};
+			name = Debug;
+		};
+		6357656326D1A73E004F04DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dwrs.Tests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "St Nude (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6357656526D1A73E004F04DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dwrs.Tests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "St Nude (macOS)";
+			};
+			name = Debug;
+		};
+		6357656626D1A73E004F04DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.dwrs.Tests-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "St Nude (macOS)";
+			};
+			name = Release;
+		};
+		6357657E26D1AD28004F04DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Tiltify St Jude Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.Tiltify-St-Jude-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6357657F26D1AD28004F04DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Tiltify St Jude Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.Tiltify-St-Jude-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		63BFF1A526D5D37C0023263D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Intents Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Intents Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.Intents-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		63BFF1A626D5D37C0023263D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = QRVYSKD5TN;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Intents Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Intents Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.Intents-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		63574A2426D6590000A2D495 /* Build configuration list for PBXNativeTarget "macOS WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63574A2226D6590000A2D495 /* Debug */,
+				63574A2326D6590000A2D495 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357652B26D1A73B004F04DE /* Build configuration list for PBXProject "St Jude" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357655926D1A73E004F04DE /* Debug */,
+				6357655A26D1A73E004F04DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357655B26D1A73E004F04DE /* Build configuration list for PBXNativeTarget "St Jude (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357655C26D1A73E004F04DE /* Debug */,
+				6357655D26D1A73E004F04DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357655E26D1A73E004F04DE /* Build configuration list for PBXNativeTarget "St Jude (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357655F26D1A73E004F04DE /* Debug */,
+				6357656026D1A73E004F04DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357656126D1A73E004F04DE /* Build configuration list for PBXNativeTarget "Tests iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357656226D1A73E004F04DE /* Debug */,
+				6357656326D1A73E004F04DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357656426D1A73E004F04DE /* Build configuration list for PBXNativeTarget "Tests macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357656526D1A73E004F04DE /* Debug */,
+				6357656626D1A73E004F04DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357657D26D1AD28004F04DE /* Build configuration list for PBXNativeTarget "Tiltify St Jude WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357657E26D1AD28004F04DE /* Debug */,
+				6357657F26D1AD28004F04DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63BFF1A426D5D37C0023263D /* Build configuration list for PBXNativeTarget "Intents Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63BFF1A526D5D37C0023263D /* Debug */,
+				63BFF1A626D5D37C0023263D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://gitlab.com/snailed-it/swift-packages/snailedithelpers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63574A4526D65DF300A2D495 /* SnailedItHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
+			productName = SnailedItHelpers;
+		};
+		63A6F9A726D64DEF00095ACB /* SnailedItHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
+			productName = SnailedItHelpers;
+		};
+		63ACF00326D3D4C200F98023 /* SnailedItHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
+			productName = SnailedItHelpers;
+		};
+		63ACF00526D3D53300F98023 /* SnailedItHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
+			productName = SnailedItHelpers;
+		};
+		63ACF00726D3D53800F98023 /* SnailedItHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
+			productName = SnailedItHelpers;
+		};
+		63ACF00926D3D53F00F98023 /* SnailedItHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
+			productName = SnailedItHelpers;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6357652826D1A73B004F04DE /* Project object */;
+}
