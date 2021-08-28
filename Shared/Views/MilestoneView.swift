@@ -7,7 +7,6 @@
 
 import SwiftUI
 import WidgetKit
-import SnailedItHelpers
 
 struct LargeMilestoneTitle: View {
     let title: String

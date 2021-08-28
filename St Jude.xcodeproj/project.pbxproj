@@ -42,7 +42,6 @@
 		63574A4126D65D8D00A2D495 /* CampaignTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */; };
 		63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
 		63574A4426D65DDB00A2D495 /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF026D3C4D400F98023 /* MilestoneView.swift */; };
-		63574A4626D65DF300A2D495 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63574A4526D65DF300A2D495 /* SnailedItHelpers */; };
 		6357654426D1A73E004F04DE /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357654326D1A73E004F04DE /* Tests_iOS.swift */; };
 		6357654626D1A73E004F04DE /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357654526D1A73E004F04DE /* Tests_iOSLaunchTests.swift */; };
 		6357655026D1A73E004F04DE /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357654F26D1A73E004F04DE /* Tests_macOS.swift */; };
@@ -77,7 +76,6 @@
 		63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
 		63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
 		63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
-		63A6F9A826D64DEF00095ACB /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63A6F9A726D64DEF00095ACB /* SnailedItHelpers */; };
 		63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */; };
 		63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
 		63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF026D3C4D400F98023 /* MilestoneView.swift */; };
@@ -96,10 +94,6 @@
 		63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFF326D3C64100F98023 /* ProgressBar.swift */; };
 		63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
 		63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
-		63ACF00426D3D4C200F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00326D3D4C200F98023 /* SnailedItHelpers */; };
-		63ACF00626D3D53300F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00526D3D53300F98023 /* SnailedItHelpers */; };
-		63ACF00826D3D53800F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00726D3D53800F98023 /* SnailedItHelpers */; };
-		63ACF00A26D3D53F00F98023 /* SnailedItHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 63ACF00926D3D53F00F98023 /* SnailedItHelpers */; };
 		63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACF00E26D3FCB200F98023 /* AppDelegate.swift */; };
 		63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACF01226D4E6D800F98023 /* Refresh.swift */; };
 		63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
@@ -114,6 +108,11 @@
 		63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */; };
 		63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */; };
 		63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
+		DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
+		DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
+		DE0F34C126DA6A8E00F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
+		DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +236,7 @@
 		63BFF1A026D5D37C0023263D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGoalIntentHandler.swift; sourceTree = "<group>"; };
 		63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextMilestoneIntentHandler.swift; sourceTree = "<group>"; };
+		DE0F34BC26DA692C00F268C9 /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tiltify St Jude WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "St-Jude--iOS--Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -247,7 +247,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */,
-				63574A4626D65DF300A2D495 /* SnailedItHelpers in Frameworks */,
 				63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,7 +255,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63ACF00426D3D4C200F98023 /* SnailedItHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +262,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63A6F9A826D64DEF00095ACB /* SnailedItHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,7 +269,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63ACF00626D3D53300F98023 /* SnailedItHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +276,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63ACF00826D3D53800F98023 /* SnailedItHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +284,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357657026D1AD25004F04DE /* SwiftUI.framework in Frameworks */,
-				63ACF00A26D3D53F00F98023 /* SnailedItHelpers in Frameworks */,
 				6357656E26D1AD25004F04DE /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,6 +348,7 @@
 		6357652C26D1A73B004F04DE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				DE0F34BD26DA694100F268C9 /* Helpers */,
 				6348F9F626D6B5100031697F /* Assets.xcassets */,
 				63ACEFF626D3C6EF00F98023 /* Views */,
 				63ACEFE826D276A400F98023 /* Model */,
@@ -489,6 +484,14 @@
 			path = "Intents Extension";
 			sourceTree = "<group>";
 		};
+		DE0F34BD26DA694100F268C9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DE0F34BC26DA692C00F268C9 /* DeviceType.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -506,7 +509,6 @@
 			);
 			name = "macOS WidgetExtension";
 			packageProductDependencies = (
-				63574A4526D65DF300A2D495 /* SnailedItHelpers */,
 			);
 			productName = "macOS WidgetExtension";
 			productReference = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */;
@@ -529,7 +531,6 @@
 			);
 			name = "St Jude (iOS)";
 			packageProductDependencies = (
-				63ACF00326D3D4C200F98023 /* SnailedItHelpers */,
 			);
 			productName = "St Nude (iOS)";
 			productReference = 6357653426D1A73E004F04DE /* St Jude.app */;
@@ -551,7 +552,6 @@
 			);
 			name = "St Jude (macOS)";
 			packageProductDependencies = (
-				63A6F9A726D64DEF00095ACB /* SnailedItHelpers */,
 			);
 			productName = "St Nude (macOS)";
 			productReference = 6357653A26D1A73E004F04DE /* St Jude.app */;
@@ -572,7 +572,6 @@
 			);
 			name = "Tests iOS";
 			packageProductDependencies = (
-				63ACF00526D3D53300F98023 /* SnailedItHelpers */,
 			);
 			productName = "Tests iOS";
 			productReference = 6357653F26D1A73E004F04DE /* Tests iOS.xctest */;
@@ -593,7 +592,6 @@
 			);
 			name = "Tests macOS";
 			packageProductDependencies = (
-				63ACF00726D3D53800F98023 /* SnailedItHelpers */,
 			);
 			productName = "Tests macOS";
 			productReference = 6357654B26D1A73E004F04DE /* Tests macOS.xctest */;
@@ -613,7 +611,6 @@
 			);
 			name = "Tiltify St Jude WidgetExtension";
 			packageProductDependencies = (
-				63ACF00926D3D53F00F98023 /* SnailedItHelpers */,
 			);
 			productName = "Tiltify St Jude WidgetExtension";
 			productReference = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */;
@@ -681,7 +678,6 @@
 			);
 			mainGroup = 6357652726D1A73B004F04DE;
 			packageReferences = (
-				63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */,
 			);
 			productRefGroup = 6357653526D1A73E004F04DE /* Products */;
 			projectDirPath = "";
@@ -777,6 +773,7 @@
 				63574A3426D659E100A2D495 /* UserDefaults.swift in Sources */,
 				63574A3326D659DF00A2D495 /* TiltifyWidgetData.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
+				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
 			);
@@ -804,6 +801,7 @@
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
+				DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,6 +816,7 @@
 				63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				63A6F9B026D64F2A00095ACB /* WidgetFamily.swift in Sources */,
 				6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */,
+				DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,
 				63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */,
 				63A6F9A326D64D0C00095ACB /* Model.swift in Sources */,
@@ -867,6 +866,7 @@
 				63ACEFF226D3C4D500F98023 /* MilestoneView.swift in Sources */,
 				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
+				DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */,
 				63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
 				63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */,
 			);
@@ -885,6 +885,7 @@
 				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
 				63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */,
 				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,
+				DE0F34C126DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63BFF1A826D5D38F0023263D /* GetAmountRaisedIntentHandler.swift in Sources */,
 				638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				63BFF1AA26D5D3AB0023263D /* ApiClient.swift in Sources */,
@@ -1538,50 +1539,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://gitlab.com/snailed-it/swift-packages/snailedithelpers";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		63574A4526D65DF300A2D495 /* SnailedItHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
-			productName = SnailedItHelpers;
-		};
-		63A6F9A726D64DEF00095ACB /* SnailedItHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
-			productName = SnailedItHelpers;
-		};
-		63ACF00326D3D4C200F98023 /* SnailedItHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
-			productName = SnailedItHelpers;
-		};
-		63ACF00526D3D53300F98023 /* SnailedItHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
-			productName = SnailedItHelpers;
-		};
-		63ACF00726D3D53800F98023 /* SnailedItHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
-			productName = SnailedItHelpers;
-		};
-		63ACF00926D3D53F00F98023 /* SnailedItHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 63ACF00226D3D4C200F98023 /* XCRemoteSwiftPackageReference "snailedithelpers" */;
-			productName = SnailedItHelpers;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6357652826D1A73B004F04DE /* Project object */;
 }
