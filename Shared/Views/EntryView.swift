@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SnailedItHelpers
 
 struct EntryView: View {
     @Environment(\.widgetFamily) var family
