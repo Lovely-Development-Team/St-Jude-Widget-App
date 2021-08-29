@@ -33,10 +33,9 @@ struct TiltifyWidgetData {
         let descriptionString = currencyFormatter.string(from: totalRaised as NSNumber) ?? totalRaisedRaw
         if !showFullCurrencySymbol {
 //            currencyFormatter.locale = originalLocale
-            currencyFormatter.currencySymbol = originalSymbol
-        } else {
-            currencyFormatter.currencyCode = originalCode
         }
+        currencyFormatter.currencySymbol = originalSymbol
+        currencyFormatter.currencyCode = originalCode
         
         return descriptionString
     }
@@ -58,6 +57,8 @@ struct TiltifyWidgetData {
         }
 //        let originalLocale = currencyFormatter.locale
         let originalSymbol = currencyFormatter.currencySymbol
+        let originalCode = currencyFormatter.currencyCode
+        currencyFormatter.currencyCode = "USD"
         if !showFullCurrencySymbol {
 //            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
             currencyFormatter.currencySymbol = "$"
@@ -69,6 +70,7 @@ struct TiltifyWidgetData {
 //            currencyFormatter.locale = originalLocale
 //        }
         currencyFormatter.currencySymbol = originalSymbol
+        currencyFormatter.currencyCode = originalCode
         return descriptionString
     }
     let milestones: [TiltifyMilestone]
