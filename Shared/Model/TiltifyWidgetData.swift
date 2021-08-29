@@ -14,17 +14,30 @@ struct TiltifyWidgetData {
         Double(totalRaisedRaw)
     }
     func totalRaisedDescription(showFullCurrencySymbol: Bool) -> String {
+        
         guard let totalRaised = totalRaised else {
             return totalRaisedRaw
         }
-        let originalLocale = currencyFormatter.locale
+        
+//        let originalLocale = currencyFormatter.locale
+        let originalSymbol = currencyFormatter.currencySymbol
+        let originalCode = currencyFormatter.currencyCode
+        currencyFormatter.currencyCode = "USD"
         if !showFullCurrencySymbol {
-            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
+//            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
+            currencyFormatter.currencySymbol = "$"
+        } else {
+            currencyFormatter.currencySymbol = "USD"
         }
+        
         let descriptionString = currencyFormatter.string(from: totalRaised as NSNumber) ?? totalRaisedRaw
         if !showFullCurrencySymbol {
-            currencyFormatter.locale = originalLocale
+//            currencyFormatter.locale = originalLocale
+            currencyFormatter.currencySymbol = originalSymbol
+        } else {
+            currencyFormatter.currencyCode = originalCode
         }
+        
         return descriptionString
     }
     func totalRaisedAccessibilityDescription(showFullCurrencySymbol: Bool) -> String {
@@ -43,14 +56,19 @@ struct TiltifyWidgetData {
         guard let goal = goal else {
             return goalRaw
         }
-        let originalLocale = currencyFormatter.locale
+//        let originalLocale = currencyFormatter.locale
+        let originalSymbol = currencyFormatter.currencySymbol
         if !showFullCurrencySymbol {
-            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
+//            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
+            currencyFormatter.currencySymbol = "$"
+        } else {
+            currencyFormatter.currencySymbol = "USD"
         }
         let descriptionString = currencyFormatter.string(from: goal as NSNumber) ?? goalRaw
-        if !showFullCurrencySymbol {
-            currencyFormatter.locale = originalLocale
-        }
+//        if !showFullCurrencySymbol {
+//            currencyFormatter.locale = originalLocale
+//        }
+        currencyFormatter.currencySymbol = originalSymbol
         return descriptionString
     }
     let milestones: [TiltifyMilestone]
