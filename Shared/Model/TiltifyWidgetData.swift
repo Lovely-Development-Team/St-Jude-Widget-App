@@ -19,21 +19,16 @@ struct TiltifyWidgetData {
             return totalRaisedRaw
         }
         
-//        let originalLocale = currencyFormatter.locale
         let originalSymbol = currencyFormatter.currencySymbol
         let originalCode = currencyFormatter.currencyCode
         currencyFormatter.currencyCode = "USD"
         if !showFullCurrencySymbol {
-//            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
             currencyFormatter.currencySymbol = "$"
         } else {
             currencyFormatter.currencySymbol = "USD"
         }
         
         let descriptionString = currencyFormatter.string(from: totalRaised as NSNumber) ?? totalRaisedRaw
-        if !showFullCurrencySymbol {
-//            currencyFormatter.locale = originalLocale
-        }
         currencyFormatter.currencySymbol = originalSymbol
         currencyFormatter.currencyCode = originalCode
         
@@ -55,20 +50,15 @@ struct TiltifyWidgetData {
         guard let goal = goal else {
             return goalRaw
         }
-//        let originalLocale = currencyFormatter.locale
         let originalSymbol = currencyFormatter.currencySymbol
         let originalCode = currencyFormatter.currencyCode
         currencyFormatter.currencyCode = "USD"
         if !showFullCurrencySymbol {
-//            currencyFormatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
             currencyFormatter.currencySymbol = "$"
         } else {
             currencyFormatter.currencySymbol = "USD"
         }
         let descriptionString = currencyFormatter.string(from: goal as NSNumber) ?? goalRaw
-//        if !showFullCurrencySymbol {
-//            currencyFormatter.locale = originalLocale
-//        }
         currencyFormatter.currencySymbol = originalSymbol
         currencyFormatter.currencyCode = originalCode
         return descriptionString
