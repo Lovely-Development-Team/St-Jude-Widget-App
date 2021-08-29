@@ -13,7 +13,6 @@ func formatCurrency(from string: String, currency currencyCode: String, showFull
     formatter.currencyCode = currencyCode
     formatter.currencySymbol = "USD"
     if !showFullCurrencySymbol {
-//        formatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
         formatter.currencySymbol = "$"
     }
     let decimalValue = Double(string).map { NSNumber(value: $0) }
@@ -27,7 +26,6 @@ func formatCurrency(amount: TiltifyAmount, showFullCurrencySymbol: Bool) -> Stri
     formatter.currencyCode = amount.currency
     formatter.currencySymbol = "USD"
     if !showFullCurrencySymbol {
-//        formatter.locale = Locale(identifier: Locale.canonicalIdentifier(from: "US"))
         formatter.currencySymbol = "$"
     }
     let decimalValue = Double(amount.value).map { NSNumber(value: $0) }
