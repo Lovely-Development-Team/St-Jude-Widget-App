@@ -73,6 +73,7 @@ struct ContentView: View {
                         .accessibility(hidden: true)
                 }
             }
+            .accessibility(hidden: isWidgetFlipped)
             .padding()
             .onAppear {
                 self.showMilestones = UserDefaults.shared.inAppShowMilestones
