@@ -46,11 +46,11 @@ struct WidgetEntryView : View {
     }
     
     var shouldShowGoalPercentage: Bool {
-        entry.configuration.showGoalPercentage?.boolValue == false
+        entry.configuration.showGoalPercentage?.boolValue == true
     }
     
     var shouldShowMilestonePercentage: Bool {
-        entry.configuration.showMilestonePercentage?.boolValue == false
+        entry.configuration.showMilestonePercentage?.boolValue == true
     }
 
     
