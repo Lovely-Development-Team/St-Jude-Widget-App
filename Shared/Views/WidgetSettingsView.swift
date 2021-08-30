@@ -73,7 +73,7 @@ struct WidgetSettingsView: View {
                 })
             }
             
-            Text("Displays the current Relay FM for St. Jude funraising status.")
+            Text("Displays the current Relay FM for St. Jude fundraising status.")
                 .font(.callout)
                 .foregroundColor(.secondary)
                 .allowsTightening(true)
