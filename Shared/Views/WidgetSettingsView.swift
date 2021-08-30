@@ -92,7 +92,7 @@ struct WidgetSettingsView: View {
         }
         .padding()
         .background(Color(UIColor.tertiarySystemBackground))
-        
+        .accessibilityAction(.escape, onDismiss)
     }
 }
 
