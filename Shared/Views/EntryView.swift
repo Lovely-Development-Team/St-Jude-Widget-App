@@ -70,11 +70,14 @@ struct EntryView: View {
                         }
                         .font(.caption)
                     }
-                    
+                    if #available(iOS 15.0, *), showGoalPercentage, family == .systemExtraLarge && DeviceType.isInWidget() {
+                            Spacer()
+                            Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
+                    }
                 }
                 
                 if showGoalPercentage,
-                   isLargeSize(family: family) || !DeviceType.isInWidget() {
+                   family == .systemLarge || !DeviceType.isInWidget() {
                     Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
                 }
                 
