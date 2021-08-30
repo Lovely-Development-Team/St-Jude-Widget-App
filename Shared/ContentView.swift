@@ -20,7 +20,7 @@ struct ContentView: View {
     @State var backgroundTask: UIBackgroundTaskIdentifier = .invalid
 #endif
     
-    @State var isWidgetFlipped: Bool = false
+    @State private var isWidgetFlipped: Bool = false
     @State private var showMilestones: Bool = true
     @State private var showFullCurrencySymbol: Bool = false
     
@@ -102,8 +102,8 @@ struct ContentView: View {
                 }
             }
             
-            BlurView(effect: UIBlurEffect(style: .systemMaterial))
-                .opacity((self.isWidgetFlipped) ? 1 : 0)
+            BlurView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+                .opacity((self.isWidgetFlipped) ? 1.0 : 0)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture(perform: {
                     self.dismissSettings()

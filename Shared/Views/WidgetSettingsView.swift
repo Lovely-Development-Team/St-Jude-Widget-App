@@ -59,14 +59,14 @@ struct WidgetSettingsView: View {
                     .padding(10)
                     .padding(.horizontal, 10)
             }
-            .background(Color(UIColor.systemBackground))
+            .background(Color(UIColor.quaternarySystemFill))
             .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
             
             Spacer()
             
         }
         .padding()
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(Color(UIColor.tertiarySystemBackground))
         
     }
 }
