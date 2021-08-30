@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C526DCC01B002892CC /* UIApplication.swift */; };
+		5E49D6C726DCC01B002892CC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C526DCC01B002892CC /* UIApplication.swift */; };
+		5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
+		5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
 		6348F9F726D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
 		6348F9F826D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
 		6348F9F926D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
@@ -180,6 +184,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5E49D6C526DCC01B002892CC /* UIApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
 		6348F9F626D6B5100031697F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6348F9FF26D6C9970031697F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "macOS WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -448,6 +454,7 @@
 				63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */,
 				63ACEFF326D3C64100F98023 /* ProgressBar.swift */,
 				63ACEFFE26D3CC3400F98023 /* EntryView.swift */,
+				5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -463,6 +470,7 @@
 		63BFF17B26D5B0310023263D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5E49D6C526DCC01B002892CC /* UIApplication.swift */,
 				63BFF17C26D5B0660023263D /* UserDefaults.swift */,
 			);
 			path = Extensions;
@@ -788,9 +796,11 @@
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				6357658626D256C9004F04DE /* Model.swift in Sources */,
 				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
 				6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */,
+				5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */,
 				63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */,
@@ -809,6 +819,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E49D6C726DCC01B002892CC /* UIApplication.swift in Sources */,
 				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
 				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
 				63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
@@ -825,6 +836,7 @@
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
 				638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
