@@ -136,9 +136,14 @@ struct ContentView: View {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
                         }
+                        .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .contextMenu {
                             Button {
-                                self.isWidgetFlipped = true
+                                DispatchQueue.main.asyncAfter(deadline: .now()+0.7) {
+                                    withAnimation {
+                                        self.isWidgetFlipped = true
+                                    }
+                                }
                             } label: {
                                 Label("Edit Widget", systemImage: "info.circle")
                             }
