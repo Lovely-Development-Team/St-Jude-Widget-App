@@ -13,6 +13,8 @@ struct EntryView: View {
     @Binding var campaign: TiltifyWidgetData
     let showMilestones: Bool
     let showFullCurrencySymbol: Bool
+    let showGoalPercentage: Bool
+    let showMilestonePercentage: Bool
 
     
     var showPreviousMilestone: Bool {
@@ -52,33 +54,35 @@ struct EntryView: View {
                     .frame(height: 15)
             }
             VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .lastTextBaseline, spacing: 5) {
-                
-                Text(campaign.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
-                    .font(raisedAmountFont)
-                    .fontWeight(.bold)
-                    .minimumScaleFactor(0.7)
-                    .lineLimit(1)
-                    .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
-                
-                if family == .systemMedium && DeviceType.isInWidget() {
-                    VStack(alignment: .leading) {
-                        Text(campaign.percentageReachedDescription ?? "Unknown")
-                        Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                HStack(alignment: .lastTextBaseline, spacing: 5) {
+                    
+                    Text(campaign.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                        .font(raisedAmountFont)
+                        .fontWeight(.bold)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
+                    
+                    if showGoalPercentage && family == .systemMedium && DeviceType.isInWidget() {
+                        VStack(alignment: .leading) {
+                            Text(campaign.percentageReachedDescription ?? "Unknown")
+                            Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                        }
+                        .font(.caption)
                     }
-                    .font(.caption)
+                    
                 }
                 
-            }
-            
-            if isLargeSize(family: family) || !DeviceType.isInWidget() {
-                Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
-            }
-            
-            if family == .systemSmall && DeviceType.isInWidget() {
-                Text(campaign.percentageReachedDescription ?? "Unknown")
-                    .font(.caption)
-            }
+                if showGoalPercentage,
+                   isLargeSize(family: family) || !DeviceType.isInWidget() {
+                    Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
+                }
+                
+                if showGoalPercentage,
+                   family == .systemSmall && DeviceType.isInWidget() {
+                    Text(campaign.percentageReachedDescription ?? "Unknown")
+                        .font(.caption)
+                }
             }
             .accessibilityElement(children: .ignore)
             .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
@@ -86,11 +90,11 @@ struct EntryView: View {
             if showMilestones && family != .systemSmall {
                 if showPreviousMilestone,
                    let milestone = campaign.previousMilestone {
-                    MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol)
+                    MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage)
                 }
                 
                 if let milestone = campaign.nextMilestone {
-                    MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol)
+                    MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage)
                 }
             }
             
@@ -109,6 +113,6 @@ struct EntryView: View {
 
 struct EntryViewPreview: PreviewProvider {
     static var previews: some View {
-        return EntryView(campaign: .constant(sampleCampaign), showMilestones: true, showFullCurrencySymbol: false)
+        return EntryView(campaign: .constant(sampleCampaign), showMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true)
     }
 }

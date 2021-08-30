@@ -21,8 +21,10 @@ struct ContentView: View {
 #endif
     
     @State private var isWidgetFlipped: Bool = false
-    @State private var showMilestones: Bool = true
-    @State private var showFullCurrencySymbol: Bool = false
+    @AppStorage(UserDefaults.inAppShowMilestonesKey, store: UserDefaults.shared) var showMilestones: Bool = true
+    @AppStorage(UserDefaults.inAppShowFullCurrencySymbolKey, store: UserDefaults.shared) var showFullCurrencySymbol: Bool = false
+    @AppStorage(UserDefaults.inAppShowGoalPercentageKey, store: UserDefaults.shared) var showGoalPercentage: Bool = true
+    @AppStorage(UserDefaults.inAppShowMilestonePercentageKey, store: UserDefaults.shared) var showMilestonePercentage: Bool = true
     
     var body: some View {
         ZStack {
@@ -111,11 +113,11 @@ struct ContentView: View {
                 
             VStack {
                 if isWidgetFlipped {
-                    WidgetSettingsView(showMilestones: $showMilestones, showFullCurrencySymbol: $showFullCurrencySymbol, onDismiss: {self.dismissSettings()})
+                    WidgetSettingsView(onDismiss: self.dismissSettings)
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                         .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: 378.5)
                 } else {
-                    EntryView(campaign: $widgetData, showMilestones: showMilestones, showFullCurrencySymbol: showFullCurrencySymbol)
+                    EntryView(campaign: $widgetData, showMilestones: showMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage)
                         .onAppear {
 #if os(iOS)
                             submitRefreshTask()
@@ -154,9 +156,9 @@ struct ContentView: View {
     }
     
     func dismissSettings() {
-        withAnimation(.spring(), {
+        withAnimation(.spring()) {
             self.isWidgetFlipped = false
-        })
+        }
     }
 }
 

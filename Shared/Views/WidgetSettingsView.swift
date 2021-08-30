@@ -10,8 +10,14 @@ import SwiftUI
 
 struct WidgetSettingsView: View {
     
-    @Binding var showMilestones: Bool
-    @Binding var showFullCurrencySymbol: Bool
+    @AppStorage(UserDefaults.inAppShowMilestonesKey, store: UserDefaults.shared)
+    private var showMilestones: Bool = true
+    @AppStorage(UserDefaults.inAppShowFullCurrencySymbolKey, store: UserDefaults.shared)
+    private var showFullCurrencySymbol: Bool = false
+    @AppStorage(UserDefaults.inAppShowGoalPercentageKey, store: UserDefaults.shared)
+    private var showGoalPercentage: Bool = true
+    @AppStorage(UserDefaults.inAppShowMilestonePercentageKey, store: UserDefaults.shared)
+    private var showMilestonePercentage: Bool = true
     var onDismiss: ()->()
     
     @State private var imageHeight: CGFloat = 0
@@ -30,7 +36,6 @@ struct WidgetSettingsView: View {
                             return Color.clear
                         }
                     )
-    //            Text(UIApplication.displayName)
                 Text("Relay FM for St. Jude")
                     .font(.headline)
                 Spacer()
@@ -58,6 +63,16 @@ struct WidgetSettingsView: View {
                 Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol)
                     .padding(10)
                     .padding(.horizontal, 10)
+                Divider()
+                    .offset(x: 20, y: 0)
+                Toggle("Show Main Goal Percentage", isOn: $showGoalPercentage)
+                    .padding(10)
+                    .padding(.horizontal, 10)
+                Divider()
+                    .offset(x: 20, y: 0)
+                Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
+                    .padding(10)
+                    .padding(.horizontal, 10)
             }
             .background(Color(UIColor.quaternarySystemFill))
             .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
@@ -73,6 +88,6 @@ struct WidgetSettingsView: View {
 
 struct WidgetSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        WidgetSettingsView(showMilestones: .constant(false), showFullCurrencySymbol: .constant(true), onDismiss: {})
+        WidgetSettingsView(onDismiss: {})
     }
 }

@@ -100,6 +100,11 @@
 		63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFFE26D3CC3400F98023 /* EntryView.swift */; };
 		63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACF00E26D3FCB200F98023 /* AppDelegate.swift */; };
 		63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACF01226D4E6D800F98023 /* Refresh.swift */; };
+		63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4B0A926DD30AA001A3D30 /* BlurView.swift */; };
+		63B4B0AB26DD30AA001A3D30 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4B0A926DD30AA001A3D30 /* BlurView.swift */; };
+		63B4B0AC26DD30AA001A3D30 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4B0A926DD30AA001A3D30 /* BlurView.swift */; };
+		63B4B0AD26DD30AA001A3D30 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4B0A926DD30AA001A3D30 /* BlurView.swift */; };
+		63B4B0AE26DD30AA001A3D30 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4B0A926DD30AA001A3D30 /* BlurView.swift */; };
 		63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
 		63BFF17E26D5B2990023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
 		63BFF19C26D5D37C0023263D /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BFF18426D5CA400023263D /* Intents.framework */; platformFilter = maccatalyst; };
@@ -234,6 +239,7 @@
 		63ACF00C26D3E8DB00F98023 /* St Jude (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "St Jude (iOS).entitlements"; sourceTree = "<group>"; };
 		63ACF00E26D3FCB200F98023 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63ACF01226D4E6D800F98023 /* Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
+		63B4B0A926DD30AA001A3D30 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		63BFF17C26D5B0660023263D /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		63BFF18426D5CA400023263D /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		63BFF18726D5CA410023263D /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -495,6 +501,7 @@
 		DE0F34BD26DA694100F268C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				63B4B0A926DD30AA001A3D30 /* BlurView.swift */,
 				DE0F34BC26DA692C00F268C9 /* DeviceType.swift */,
 			);
 			path = Helpers;
@@ -782,6 +789,7 @@
 				63574A3326D659DF00A2D495 /* TiltifyWidgetData.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
+				63B4B0AE26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
 			);
@@ -806,6 +814,7 @@
 				63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */,
 				63ACEFEA26D296F100F98023 /* Loggers.swift in Sources */,
 				63ACEFEE26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
+				63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */,
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
@@ -836,6 +845,7 @@
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
 				638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				63B4B0AB26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */,
 			);
@@ -879,6 +889,7 @@
 				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
 				DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */,
+				63B4B0AC26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
 				63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */,
 			);
@@ -897,6 +908,7 @@
 				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
 				63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */,
 				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,
+				63B4B0AD26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				DE0F34C126DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63BFF1A826D5D38F0023263D /* GetAmountRaisedIntentHandler.swift in Sources */,
 				638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */,

@@ -37,8 +37,26 @@ struct WidgetEntryView : View {
         }
     }
     
+    var shouldShowMilestones: Bool {
+        entry.configuration.showMilestones?.boolValue == true
+    }
+    
+    var shouldShouldFullCurrencySymbol: Bool {
+        entry.configuration.showFullCurrencySymbol?.boolValue == false
+    }
+    
+    var shouldShowGoalPercentage: Bool {
+        entry.configuration.showGoalPercentage?.boolValue == false
+    }
+    
+    var shouldShowMilestonePercentage: Bool {
+        entry.configuration.showMilestonePercentage?.boolValue == false
+    }
+
+    
+    
     
     var body: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: entry.configuration.showMilestones?.boolValue == true, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false)
+        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage)
     }
 }
