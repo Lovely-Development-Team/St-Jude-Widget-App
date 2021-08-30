@@ -60,4 +60,36 @@ public enum DeviceType {
         return false
         #endif
     }
+        
+    public static func isSmallPhone() -> Bool {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        return mapToIsSmallPhone(identifier: identifier)
+    }
+    
+    private static func mapToIsSmallPhone(identifier: String) -> Bool {
+        switch identifier {
+        case "iPhone8,1", // iPhone 6s
+            "iPhone9,1", // iPhone 7
+            "iPhone10,1", "iPhone10,4", //iPhone 8
+            "iPhone8,4", // iPhone SE
+            "iPod9,1", // iPodTouch7
+            "iPhone13,1": // iPhone SE2
+            return true
+        case "iPhone12,8": // iPhone 12 Mini
+            return true
+        case "i386", "x86_64", "arm64":
+            guard let simulatorModelIdentifier = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] else {
+                return false
+            }
+            return mapToIsSmallPhone(identifier: simulatorModelIdentifier)
+        default:
+            return false
+        }
+    }
 }
