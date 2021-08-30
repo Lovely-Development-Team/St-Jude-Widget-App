@@ -27,12 +27,14 @@ struct MilestoneView: View {
     let milestone: TiltifyMilestone
     let showFullCurrencySymbol: Bool
     let percentageReached: Double?
+    let showMilestonePercentage: Bool
     
-    init(data: TiltifyWidgetData, milestone: TiltifyMilestone, showFullCurrencySymbol: Bool) {
+    init(data: TiltifyWidgetData, milestone: TiltifyMilestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool) {
         self.data = data
         self.milestone = milestone
 		self.showFullCurrencySymbol = showFullCurrencySymbol
         self.percentageReached = data.percentage(ofMilestone: milestone)
+        self.showMilestonePercentage = showMilestonePercentage
     }
     
     var milestoneTitle: String {
@@ -68,14 +70,16 @@ struct MilestoneView: View {
                     }
                 }
                 Spacer()
-                if let percentageToMilestone = percentageReached,
+                if showMilestonePercentage,
+                   let percentageToMilestone = percentageReached,
                    percentageToMilestone <= 1 {
                     Text(data.percentageDescription(for: milestone))
                 }
             }
             .accessibility(hidden: true)
             
-            if isLargeSize(family: family) || !DeviceType.isInWidget(),
+            if showMilestonePercentage,
+               isLargeSize(family: family) || !DeviceType.isInWidget(),
                let percentageToMilestone = percentageReached,
                percentageToMilestone <= 1 {
                 ProgressBar(value: .constant(Float(percentageToMilestone)))
