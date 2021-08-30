@@ -12,7 +12,7 @@ struct WidgetSettingsView: View {
     
     @Binding var showMilestones: Bool
     @Binding var showFullCurrencySymbol: Bool
-    var parentView: ContentView
+    var onDismiss: ()->()
     
     @State private var imageHeight: CGFloat = 0
     
@@ -35,7 +35,7 @@ struct WidgetSettingsView: View {
                     .font(.headline)
                 Spacer()
                 Button(action: {
-                    self.parentView.dismissSettings()
+                    self.onDismiss()
                 }, label: {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()
@@ -73,6 +73,6 @@ struct WidgetSettingsView: View {
 
 struct WidgetSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        WidgetSettingsView(showMilestones: .constant(false), showFullCurrencySymbol: .constant(true), parentView: ContentView())
+        WidgetSettingsView(showMilestones: .constant(false), showFullCurrencySymbol: .constant(true), onDismiss: {})
     }
 }

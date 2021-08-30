@@ -111,7 +111,7 @@ struct ContentView: View {
                 
             VStack {
                 if isWidgetFlipped {
-                    WidgetSettingsView(showMilestones: $showMilestones, showFullCurrencySymbol: $showFullCurrencySymbol, parentView: self)
+                    WidgetSettingsView(showMilestones: $showMilestones, showFullCurrencySymbol: $showFullCurrencySymbol, onDismiss: {self.dismissSettings()})
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                         .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: 378.5)
                 } else {
