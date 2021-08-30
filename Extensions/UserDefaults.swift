@@ -15,4 +15,15 @@ extension UserDefaults {
         get { data(forKey: "relayData") }
         set { set(newValue, forKey: "relayData") }
     }
+    
+    @objc var inAppShowMilestones: Bool {
+        get { bool(forKey: "inAppShowMilestones") }
+        set { set(newValue, forKey: "inAppShowMilestones") }
+    }
+    
+    @objc var inAppShowFullCurrencySymbol: Bool {
+        get { bool(forKey: "inAppShowFullCurrencySymbol") }
+        set { set(newValue, forKey: "inAppShowFullCurrencySymbol") }
+    }
+
 }

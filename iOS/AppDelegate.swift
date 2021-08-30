@@ -26,6 +26,13 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "org.dwrs.st-jude.refresh", using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
+        
+        UserDefaults.standard.register(
+            defaults: [
+                "inAppShowMilestones": true,
+            ]
+        )
+        
         return true
     }
     
