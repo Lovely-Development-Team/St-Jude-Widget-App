@@ -60,6 +60,7 @@ struct WidgetSettingsView: View {
                             return Color.clear
                         }
                     )
+                    .accessibility(hidden: true)
                 Text("Relay FM for St. Jude")
                     .font(.headline)
                 Spacer()
@@ -70,6 +71,7 @@ struct WidgetSettingsView: View {
                         .resizable()
                         .frame(width: self.imageHeight, height: self.imageHeight, alignment: .center)
                         .foregroundColor(.secondary)
+                        .accessibility(label: Text("Close"))
                 })
             }
             
