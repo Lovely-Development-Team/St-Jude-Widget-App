@@ -23,27 +23,34 @@ struct WidgetSettingsView: View {
     @State private var imageHeight: CGFloat = 0
     
     var settingsForm: some View {
-        GeometryReader { proxy in
-            VStack(alignment: .trailing, spacing: 0) {
-                Toggle("Show Milestones", isOn: $showMilestones)
-                    .padding(10)
-                    .padding(.horizontal, 10)
+        VStack(alignment: .trailing, spacing: 0) {
+            Toggle("Show Milestones", isOn: $showMilestones)
+                .padding(10)
+                .padding(.horizontal, 10)
+            GeometryReader { proxy in
                 Divider()
+                    .offset(x: 20, y: 0)
                     .frame(width: proxy.size.width - 20)
-                Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol)
-                    .padding(10)
-                    .padding(.horizontal, 10)
+            }.frame(height: 0)
+            Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol)
+                .padding(10)
+                .padding(.horizontal, 10)
+            GeometryReader { proxy in
                 Divider()
+                    .offset(x: 20, y: 0)
                     .frame(width: proxy.size.width - 20)
-                Toggle("Show Main Goal Percentage", isOn: $showGoalPercentage)
-                    .padding(10)
-                    .padding(.horizontal, 10)
+            }.frame(height: 0)
+            Toggle("Show Main Goal Percentage", isOn: $showGoalPercentage)
+                .padding(10)
+                .padding(.horizontal, 10)
+            GeometryReader { proxy in
                 Divider()
+                    .offset(x: 20, y: 0)
                     .frame(width: proxy.size.width - 20)
-                Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
-                    .padding(10)
-                    .padding(.horizontal, 10)
-            }
+            }.frame(height: 0)
+            Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
+                .padding(10)
+                .padding(.horizontal, 10)
         }
     }
     
@@ -85,14 +92,11 @@ struct WidgetSettingsView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            ZStack(alignment: .top) {
-                GeometryReader { proxy in
+            settingsForm
+                .background(
                     Color(UIColor.quaternarySystemFill)
                         .cornerRadius(15)
-                        .frame(height: proxy.size.height - 30)
-                    settingsForm
-                }
-            }
+                )
             
             Spacer()
             
@@ -106,5 +110,6 @@ struct WidgetSettingsView: View {
 struct WidgetSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         WidgetSettingsView(onDismiss: {})
+            .frame(height: 375)
     }
 }
