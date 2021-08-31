@@ -125,7 +125,7 @@ struct ContentView: View {
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                         .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: Self.maxFrameHeight)
                 } else {
-                    EntryView(campaign: $widgetData, showMilestones: showMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage)
+                    EntryView(campaign: $widgetData, showMilestones: showMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: false)
                         .onAppear {
 #if os(iOS)
                             submitRefreshTask()
