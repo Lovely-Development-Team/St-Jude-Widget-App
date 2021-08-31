@@ -18,6 +18,8 @@ struct WidgetSettingsView: View {
     private var showGoalPercentage: Bool = true
     @AppStorage(UserDefaults.inAppShowMilestonePercentageKey, store: UserDefaults.shared)
     private var showMilestonePercentage: Bool = true
+    @AppStorage(UserDefaults.inAppUseTrueBlackBackgroundKey, store: UserDefaults.shared)
+    private var useTrueBlackBackground: Bool = false
     var onDismiss: ()->()
     
     @State private var imageHeight: CGFloat = 0
@@ -49,6 +51,14 @@ struct WidgetSettingsView: View {
                     .frame(width: proxy.size.width - 20)
             }.frame(height: 0)
             Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
+                .padding(10)
+                .padding(.horizontal, 10)
+            GeometryReader { proxy in
+                Divider()
+                    .offset(x: 20, y: 0)
+                    .frame(width: proxy.size.width - 20)
+            }.frame(height: 0)
+            Toggle("Use True Black Background", isOn: $useTrueBlackBackground)
                 .padding(10)
                 .padding(.horizontal, 10)
         }

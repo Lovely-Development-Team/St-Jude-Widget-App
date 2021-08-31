@@ -15,6 +15,7 @@ extension UserDefaults {
     static let inAppShowFullCurrencySymbolKey = "inAppShowFullCurrencySymbol"
     static let inAppShowGoalPercentageKey = "inAppShowGoalPercentage"
     static let inAppShowMilestonePercentageKey = "inAppShowMilestonePercentage"
+    static let inAppUseTrueBlackBackgroundKey = "inAppUseTrueBlackBackground"
     
     @objc var relayData: Data? {
         get { data(forKey: "relayData") }
@@ -39,6 +40,11 @@ extension UserDefaults {
     @objc var inAppShowMilestonePercentage: Bool {
         get { bool(forKey: Self.inAppShowMilestonePercentageKey) }
         set { set(newValue, forKey: Self.inAppShowMilestonePercentageKey) }
+    }
+    
+    @objc var inAppUseTrueBlackBackground: Bool {
+        get { bool(forKey: Self.inAppUseTrueBlackBackgroundKey) }
+        set { set(newValue, forKey: Self.inAppUseTrueBlackBackgroundKey) }
     }
 
 }
