@@ -97,6 +97,7 @@ struct ContentView: View {
                             dataLogger.error("Request failed: \(error.localizedDescription)")
                         case .success(let response):
                             self.widgetData = TiltifyWidgetData(from: response.data.campaign)
+                            checkSignificantAmounts(for: self.widgetData)
                             do {
                                 self.storedData = try apiClient.jsonEncoder.encode(self.widgetData)
                             } catch {
@@ -135,7 +136,8 @@ struct ContentView: View {
                             submitRefreshTask()
 #endif
                             do {
-                                widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
+                                self.widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
+                                checkSignificantAmounts(for: self.widgetData)
                             } catch {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
