@@ -83,25 +83,27 @@ struct WidgetSettingsView: View {
                 })
             }
             
-            Text("Displays the current Relay FM for St. Jude fundraising status.")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .allowsTightening(true)
-                .minimumScaleFactor(0.8)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            ScrollView(showsIndicators: false) {
             
-            settingsForm
-                .background(
-                    Color(UIColor.quaternarySystemFill)
-                        .cornerRadius(15)
-                )
+                Text("Displays the current Relay FM for St. Jude fundraising status.")
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .allowsTightening(true)
+                    .minimumScaleFactor(0.8)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             
-            Spacer()
+                settingsForm
+                    .background(
+                        Color(UIColor.quaternarySystemFill)
+                            .cornerRadius(15)
+                    )
+                    .padding(.bottom)
+            }
             
         }
-        .padding()
+        .padding([.top, .horizontal])
         .background(Color(UIColor.tertiarySystemBackground))
         .accessibilityAction(.escape, onDismiss)
     }
