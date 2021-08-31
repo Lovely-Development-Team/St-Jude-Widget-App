@@ -67,11 +67,14 @@ struct ContentView: View {
                     Text("From the makers of MottoBotto")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    Image("tildy")
+                    Image("l2culogosvg")
+                        .renderingMode(.template)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.secondary)
                         .frame(height: 15)
                         .accessibility(hidden: true)
+                        
                 }
             }
             .accessibility(hidden: isWidgetFlipped)
