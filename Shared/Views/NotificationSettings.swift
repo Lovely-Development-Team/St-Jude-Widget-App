@@ -61,68 +61,67 @@ class NotificationSettingsData: ObservableObject {
         if(!self.refreshing) {
             self.refreshing = true
             removePublishers()
+            self.showMilestones = false
+            self.showGoal = false
+            self.showSignificantAmounts = false
+            self.showMilestoneAdded = false
+            self.notificationsAllowed = false
+            self.notificationAccessAsked = false
             UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {(settings) in
-                
-                DispatchQueue.main.async {
-                    if(settings.authorizationStatus == .authorized) {
+                if(settings.authorizationStatus == .authorized) {
+                    DispatchQueue.main.async {
                         self.showMilestones = UserDefaults.shared.showMilestoneNotification
                         self.showGoal = UserDefaults.shared.showGoalNotification
                         self.showSignificantAmounts = UserDefaults.shared.showSignificantAmountNotification
                         self.showMilestoneAdded = UserDefaults.shared.showMilestoneAddedNotification
                         self.notificationsAllowed = true
-                    } else {
-                        self.showMilestones = false
-                        self.showGoal = false
-                        self.showSignificantAmounts = false
-                        self.showMilestoneAdded = false
-                        self.notificationsAllowed = false
                     }
-                    
-                    if(settings.authorizationStatus != .notDetermined) {
+                }
+                
+                if(settings.authorizationStatus != .notDetermined) {
+                    DispatchQueue.main.async {
                         self.notificationAccessAsked = true
                     }
-                    
-                    self.setupPublishers()
-                    self.refreshing = false
                 }
+                self.setupPublishers()
+                self.refreshing = false
             })
         }
     }
 }
 
 struct NotificationSettings: View {
-    @Environment(\.presentationMode) var presentationMode
     @Environment(\.scenePhase) private var scenePhase
     @StateObject var data = NotificationSettingsData()
     
+    var onDismiss: ()->()
+    
     var body: some View {
-        NavigationView {    
-            Form {
-                Section(header: EmptyView().accessibility(hidden: true), footer: Text("Significant amount notifications fire every $50k or when the goal is doubled, tripled, etc.")) {
-                    Toggle(isOn: self.$data.showMilestones, label: {
-                        Text("Milestones")
-                    })
-                        .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
-                    Toggle(isOn: self.$data.showGoal, label: {
-                        Text("Goal Reached")
-                    })
-                        .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
-                    Toggle(isOn: self.$data.showSignificantAmounts, label: {
-                        Text("Significant Amounts")
-                    })
-                        .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
-                    Toggle(isOn: self.$data.showMilestoneAdded, label: {
-                        Text("Milestones Added")
-                    })
-                        .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
-                }
-                if(!self.data.notificationsAllowed && self.data.notificationAccessAsked) {
-                    Section() {
-                        Button(action: {
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                if(UIApplication.shared.canOpenURL(url)) {
-                                    UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
-                                }
+        Form {
+            Section(footer: Text("Significant amount notifications fire every $50k or when the goal is doubled, tripled, etc.")) {
+                Toggle(isOn: self.$data.showMilestones, label: {
+                    Text("Milestones")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+                Toggle(isOn: self.$data.showGoal, label: {
+                    Text("Goal Reached")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+                Toggle(isOn: self.$data.showSignificantAmounts, label: {
+                    Text("Significant Amounts")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+                Toggle(isOn: self.$data.showMilestoneAdded, label: {
+                    Text("Milestones Added")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+            }
+            if(!self.data.notificationsAllowed && self.data.notificationAccessAsked) {
+                Section() {
+                    Button(action: {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            if(UIApplication.shared.canOpenURL(url)) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
                             }
                         }, label: {
                             Text("Notification access denied.")
@@ -145,6 +144,20 @@ struct NotificationSettings: View {
                 if scenePhase == .background && newPhase != .background{
                     self.data.refresh()
                 }
+            }
+        }
+        .navigationBarTitle("Notifications")
+        .toolbar(content: {
+            ToolbarItem(placement: .primaryAction, content: {
+                Button(action: self.onDismiss) {
+                    Text("Done")
+                        .bold()
+                }
+            })
+        })
+        .onChange(of: scenePhase) { newPhase in
+            if scenePhase == .background && newPhase != .background{
+                self.data.refresh()
             }
         }
     }
