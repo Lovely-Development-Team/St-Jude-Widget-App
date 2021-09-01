@@ -9,7 +9,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>wAvlGo</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>20F71</string>
+	<string>20G95</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>13A5212g</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -21,6 +21,8 @@
 			<string>information</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Get Amount Raised</string>
 			<key>INIntentDescriptionID</key>
 			<string>6QiOGL</string>
 			<key>INIntentManagedParameterCombinations</key>
@@ -108,6 +110,8 @@
 			<string>information</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Get Goal</string>
 			<key>INIntentDescriptionID</key>
 			<string>ZR64bL</string>
 			<key>INIntentManagedParameterCombinations</key>
@@ -195,6 +199,8 @@
 			<string>information</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Get Previous Milestones</string>
 			<key>INIntentDescriptionID</key>
 			<string>zTsBGt</string>
 			<key>INIntentManagedParameterCombinations</key>
@@ -302,6 +308,8 @@
 			<string>information</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Get Next Milestone</string>
 			<key>INIntentDescriptionID</key>
 			<string>DDy4C1</string>
 			<key>INIntentManagedParameterCombinations</key>
@@ -409,6 +417,8 @@
 			<string>information</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>List Milestones</string>
 			<key>INIntentDescriptionID</key>
 			<string>HQ2TAR</string>
 			<key>INIntentManagedParameterCombinations</key>

@@ -248,6 +248,7 @@
 		63BFF1A026D5D37C0023263D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGoalIntentHandler.swift; sourceTree = "<group>"; };
 		63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextMilestoneIntentHandler.swift; sourceTree = "<group>"; };
+		BAD9E11726DEFE41001BB7B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
 		DE0F34BC26DA692C00F268C9 /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tiltify St Jude WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "St-Jude--iOS--Info.plist"; sourceTree = "<group>"; };
@@ -953,6 +954,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6348F9FF26D6C9970031697F /* Base */,
+				BAD9E11726DEFE41001BB7B8 /* en */,
 			);
 			name = Intents.intentdefinition;
 			sourceTree = "<group>";
