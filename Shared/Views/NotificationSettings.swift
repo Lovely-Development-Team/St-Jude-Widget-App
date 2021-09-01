@@ -9,6 +9,7 @@ import SwiftUI
 import UserNotifications
 
 class NotificationSettingsData: ObservableObject {
+
     private var refreshing = false
     
     @Published var showMilestones: Bool {
@@ -67,56 +68,57 @@ class NotificationSettingsData: ObservableObject {
 }
 
 struct NotificationSettings: View {
+    @Environment(\.presentationMode) var presentationMode
+
     @ObservedObject var data = NotificationSettingsData()
-    
-    var onDismiss: ()->()
-    
+        
     var body: some View {
-        Form {
-            Toggle(isOn: self.$data.showMilestones, label: {
-                Text("Milestones")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            Toggle(isOn: self.$data.showGoal, label: {
-                Text("Goal Reached")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            Toggle(isOn: self.$data.showSignificantAmounts, label: {
-                Text("Significant Amounts")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            Toggle(isOn: self.$data.showMilestoneAdded, label: {
-                Text("Milestones Added")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            if(!self.data.notificationsAllowed) {
-                Section() {
-                    Button(action: {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            if(UIApplication.shared.canOpenURL(url)) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
+        NavigationView {
+            Form {
+                Toggle(isOn: self.$data.showMilestones, label: {
+                    Text("Milestones")
+                })
+                    .disabled(!self.data.notificationsAllowed)
+                Toggle(isOn: self.$data.showGoal, label: {
+                    Text("Goal Reached")
+                })
+                    .disabled(!self.data.notificationsAllowed)
+                Toggle(isOn: self.$data.showSignificantAmounts, label: {
+                    Text("Significant Amounts")
+                })
+                    .disabled(!self.data.notificationsAllowed)
+                Toggle(isOn: self.$data.showMilestoneAdded, label: {
+                    Text("Milestones Added")
+                })
+                    .disabled(!self.data.notificationsAllowed)
+                if(!self.data.notificationsAllowed) {
+                    Section() {
+                        Button(action: {
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                if(UIApplication.shared.canOpenURL(url)) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
+                                }
                             }
-                        }
-                    }, label: {
-                        Text("Notification access denied.")
-                    })
+                        }, label: {
+                            Text("Notification access denied.")
+                        })
+                    }
                 }
             }
-        }
-        .navigationBarTitle("Notifications")
-        .toolbar(content: {
-            ToolbarItem(placement: .primaryAction, content: {
-                Button(action: self.onDismiss) {
-                    Text("Done")
-                        .bold()
-                }
+            .navigationBarTitle("Notifications")
+            .toolbar(content: {
+                ToolbarItem(placement: .primaryAction, content: {
+                    Button("Done") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                })
             })
-        })
+        }
     }
 }
 
 struct NotificationSettings_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationSettings(onDismiss: {})
+        NotificationSettings()
     }
 }

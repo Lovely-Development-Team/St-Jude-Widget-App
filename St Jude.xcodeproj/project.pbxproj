@@ -130,6 +130,7 @@
 		63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */; };
 		63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */; };
 		63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D544692526DFE14D00EA04C9 /* EasterEggView.swift */; };
 		DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 		DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 		DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
@@ -266,6 +267,7 @@
 		63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGoalIntentHandler.swift; sourceTree = "<group>"; };
 		63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextMilestoneIntentHandler.swift; sourceTree = "<group>"; };
 		BAD9E11726DEFE41001BB7B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
+		D544692526DFE14D00EA04C9 /* EasterEggView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggView.swift; sourceTree = "<group>"; };
 		DE0F34BC26DA692C00F268C9 /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tiltify St Jude WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "St-Jude--iOS--Info.plist"; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				63ACEFFE26D3CC3400F98023 /* EntryView.swift */,
 				5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */,
 				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
+				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -847,6 +850,7 @@
 				63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */,
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
 				5EF748C926DF748F008174DF /* Notifications.swift in Sources */,
+				D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */,
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
 				DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */,
