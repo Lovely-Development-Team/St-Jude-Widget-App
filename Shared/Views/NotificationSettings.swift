@@ -60,9 +60,8 @@ class NotificationSettingsData: ObservableObject {
     func refresh() {
         if(!self.refreshing) {
             self.refreshing = true
-            removePublishers()
+            self.removePublishers()
             UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {(settings) in
-                
                 DispatchQueue.main.async {
                     if(settings.authorizationStatus == .authorized) {
                         self.showMilestones = UserDefaults.shared.showMilestoneNotification
@@ -145,6 +144,22 @@ struct NotificationSettings: View {
                 if scenePhase == .background && newPhase != .background{
                     self.data.refresh()
                 }
+            }
+        }
+        .navigationBarTitle("Notifications")
+        .toolbar(content: {
+            ToolbarItem(placement: .primaryAction, content: {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Done")
+                        .bold()
+                }
+            })
+        })
+        .onChange(of: scenePhase) { newPhase in
+            if scenePhase == .background && newPhase != .background{
+                self.data.refresh()
             }
         }
     }

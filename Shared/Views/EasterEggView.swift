@@ -34,9 +34,12 @@ struct EasterEggView: View {
             .navigationBarTitle("Hi there!")
             .toolbar(content: {
                 ToolbarItem(placement: .primaryAction, content: {
-                    Button("Done") {
+                    Button(action: {
                         presentationMode.wrappedValue.dismiss()
-                    }
+                    }, label: {
+                        Text("Done")
+                            .bold()
+                    })
                 })
             })
         }
