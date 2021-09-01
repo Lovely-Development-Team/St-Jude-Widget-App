@@ -61,30 +61,30 @@ class NotificationSettingsData: ObservableObject {
         if(!self.refreshing) {
             self.refreshing = true
             removePublishers()
-            self.showMilestones = false
-            self.showGoal = false
-            self.showSignificantAmounts = false
-            self.showMilestoneAdded = false
-            self.notificationsAllowed = false
-            self.notificationAccessAsked = false
             UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {(settings) in
-                if(settings.authorizationStatus == .authorized) {
-                    DispatchQueue.main.async {
+                
+                DispatchQueue.main.async {
+                    if(settings.authorizationStatus == .authorized) {
                         self.showMilestones = UserDefaults.shared.showMilestoneNotification
                         self.showGoal = UserDefaults.shared.showGoalNotification
                         self.showSignificantAmounts = UserDefaults.shared.showSignificantAmountNotification
                         self.showMilestoneAdded = UserDefaults.shared.showMilestoneAddedNotification
                         self.notificationsAllowed = true
+                    } else {
+                        self.showMilestones = false
+                        self.showGoal = false
+                        self.showSignificantAmounts = false
+                        self.showMilestoneAdded = false
+                        self.notificationsAllowed = false
                     }
-                }
-                
-                if(settings.authorizationStatus != .notDetermined) {
-                    DispatchQueue.main.async {
+                    
+                    if(settings.authorizationStatus != .notDetermined) {
                         self.notificationAccessAsked = true
                     }
+                    
+                    self.setupPublishers()
+                    self.refreshing = false
                 }
-                self.setupPublishers()
-                self.refreshing = false
             })
         }
     }
@@ -94,8 +94,6 @@ struct NotificationSettings: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.scenePhase) private var scenePhase
     @StateObject var data = NotificationSettingsData()
-    
-    var onDismiss: ()->()
     
     var body: some View {
         NavigationView {    
@@ -131,12 +129,15 @@ struct NotificationSettings: View {
                         })
                     }
                 }
-                .navigationBarTitle("Notifications")
-                .toolbar(content: {
-                    ToolbarItem(placement: .primaryAction, content: {
-                        Button("Done") {
-                            presentationMode.wrappedValue.dismiss()
-                        }
+            }
+            .navigationBarTitle("Notifications")
+            .toolbar(content: {
+                ToolbarItem(placement: .primaryAction, content: {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Done")
+                            .bold()
                     })
                 })
             })
