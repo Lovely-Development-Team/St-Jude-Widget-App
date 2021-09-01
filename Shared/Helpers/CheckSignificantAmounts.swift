@@ -14,11 +14,10 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     let totalRaised = round(totalRaisedRaw)
     let goal = widgetData.goal ?? -1.0
     
-    var showMilestoneNotification = false
-    var showAmountNotification = false
-    var showGoalNotification = false
-    var showGoalMultiplierNotification = false
-    
+    var shouldShowMilestoneNotification = false
+    var shouldShowAmountNotification = false
+    var shouldShowGoalNotification = false
+    var shouldShowGoalMultiplierNotification = false
     
     let nearest50kToTotalRaised = Double(Int((totalRaised+50000)/50000))*50000
     let nearest50kToCachedTotal = Double(Int((cachedTotal+50000)/50000))*50000
@@ -33,35 +32,35 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
         }
         
         if(cachedTotal < milestoneAmount && totalRaised > milestoneAmount) {
-            showMilestoneNotification = true
+            shouldShowMilestoneNotification = true
         }
         
         
         if(nearest50kToTotalRaised > nearest50kToCachedTotal) {
-            showAmountNotification = true
+            shouldShowAmountNotification = true
         }
         
         if(cachedTotal < goal && totalRaised > goal) {
-            showGoalNotification = true
+            shouldShowGoalNotification = true
         }
         
         
-        if(nearestGoalMultipleToTotalRaised > nearestGoalMultipleToCachedTotal && !showGoalNotification) {
-            showGoalMultiplierNotification = true
+        if(nearestGoalMultipleToTotalRaised > nearestGoalMultipleToCachedTotal && !shouldShowGoalNotification) {
+            shouldShowGoalMultiplierNotification = true
         }
     }
     
     var notificationTitle: String = "You should not be seeing this."
     var messages: [String] = []
     
-    if(showAmountNotification && UserDefaults.shared.showSignificantAmountNotification) {
+    if(shouldShowAmountNotification && UserDefaults.shared.showSignificantAmountNotification) {
         let amountString = formatCurrency(from: String(nearest50kToCachedTotal), currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
         
         notificationTitle = "Significant Amount Reached"
         messages.append("Reached \(amountString.1)")
     }
     
-    if(showMilestoneNotification && UserDefaults.shared.showMilestoneNotification) {
+    if(shouldShowMilestoneNotification && UserDefaults.shared.showMilestoneNotification) {
         var amountString = "Unknown Amount"
         var milestoneName = "Unknown Milestone"
         if let previousMilestone = widgetData.previousMilestone {
@@ -73,13 +72,13 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
         messages.append("Reached milestone \"\(milestoneName)\" at \(amountString)")
     }
     
-    if(showGoalNotification && UserDefaults.shared.showGoalNotification) {
+    if(shouldShowGoalNotification && UserDefaults.shared.showGoalNotification) {
         let amountString = widgetData.goalDescription(showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
         notificationTitle = "🎉 Campaign Goal Reached 🎉"
         messages.append("Reached campaign goal of \(amountString)")
     }
     
-    if(showGoalMultiplierNotification && UserDefaults.shared.showSignificantAmountNotification) {
+    if(shouldShowGoalMultiplierNotification && UserDefaults.shared.showSignificantAmountNotification) {
         notificationTitle = "Significant Amount Reached"
         
         let multiple = Int(nearestGoalMultipleToCachedTotal/goal)
