@@ -94,7 +94,6 @@ struct WidgetSettingsView: View {
             }
             
             ScrollView(showsIndicators: false) {
-            
                 Text("Displays the current Relay FM for St. Jude fundraising status.")
                     .font(.callout)
                     .foregroundColor(.secondary)
@@ -111,7 +110,6 @@ struct WidgetSettingsView: View {
                     )
                     .padding(.bottom)
             }
-            
         }
         .padding([.top, .horizontal])
         .background(Color(UIColor.tertiarySystemBackground))
