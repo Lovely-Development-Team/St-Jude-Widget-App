@@ -7,46 +7,50 @@
 
 import SwiftUI
 import UserNotifications
+import Combine
 
 class NotificationSettingsData: ObservableObject {
     private var refreshing = false
+    private var subscribers: Set<AnyCancellable> = []
     
-    @Published var showMilestones: Bool {
-        didSet {
-            if(!refreshing) {
-                UserDefaults.shared.showMilestoneNotification = self.showMilestones
-            }
-        }
-    }
+    @Published var showMilestones: Bool = false
     
-    @Published var showGoal: Bool {
-        didSet {
-            if(!refreshing) {
-                UserDefaults.shared.showGoalNotification = self.showGoal
-            }
-        }
-    }
+    @Published var showGoal: Bool = false
     
-    @Published var showSignificantAmounts: Bool {
-        didSet {
-            if(!refreshing) {
-                UserDefaults.shared.showSignificantAmountNotification = self.showSignificantAmounts
-            }
-        }
-    }
+    @Published var showSignificantAmounts: Bool = false
     
-    @Published var showMilestoneAdded: Bool {
-        didSet {
-            if(!refreshing) {
-                UserDefaults.shared.showMilestoneAddedNotification = self.showMilestoneAdded
-            }
-        }
-    }
+    @Published var showMilestoneAdded: Bool = false
     
     @Published var notificationsAllowed: Bool = false
+    @Published var notificationAccessAsked: Bool = false
     
     init() {
+        self.$showMilestones.sink { newValue in
+            if(!self.refreshing) { UserDefaults.shared.showMilestoneNotification = newValue }
+        }.store(in: &self.subscribers)
+        
+        
+        self.$showGoal.sink { newValue in
+            if(!self.refreshing) { UserDefaults.shared.showGoalNotification = newValue }
+        }.store(in: &self.subscribers)
+        
+        
+        self.$showSignificantAmounts.sink { newValue in
+            if(!self.refreshing) { UserDefaults.shared.showSignificantAmountNotification = newValue }
+        }.store(in: &self.subscribers)
+        
+        
+        self.$showMilestoneAdded.sink { newValue in
+            if(!self.refreshing) { UserDefaults.shared.showMilestoneAddedNotification = newValue }
+        }.store(in: &self.subscribers)
+        
+        self.refresh()
+    }
+    
+    func refresh() {
         self.refreshing = true
+        self.notificationAccessAsked = false
+        self.notificationsAllowed = false
         self.showMilestones = false
         self.showGoal = false
         self.showSignificantAmounts = false
@@ -61,35 +65,43 @@ class NotificationSettingsData: ObservableObject {
                     self.notificationsAllowed = true
                 }
             }
+            if(settings.authorizationStatus != .notDetermined) {
+                DispatchQueue.main.async {
+                    self.notificationAccessAsked = true
+                }
+            }
             self.refreshing = false
         })
     }
 }
 
 struct NotificationSettings: View {
-    @ObservedObject var data = NotificationSettingsData()
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject var data = NotificationSettingsData()
     
     var onDismiss: ()->()
     
     var body: some View {
         Form {
-            Toggle(isOn: self.$data.showMilestones, label: {
-                Text("Milestones")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            Toggle(isOn: self.$data.showGoal, label: {
-                Text("Goal Reached")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            Toggle(isOn: self.$data.showSignificantAmounts, label: {
-                Text("Significant Amounts")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            Toggle(isOn: self.$data.showMilestoneAdded, label: {
-                Text("Milestones Added")
-            })
-                .disabled(!self.data.notificationsAllowed)
-            if(!self.data.notificationsAllowed) {
+            Section(footer: Text("Significant amount notifications fire every $50k or when the goal is doubled, tripled, etc.")) {
+                Toggle(isOn: self.$data.showMilestones, label: {
+                    Text("Milestones")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+                Toggle(isOn: self.$data.showGoal, label: {
+                    Text("Goal Reached")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+                Toggle(isOn: self.$data.showSignificantAmounts, label: {
+                    Text("Significant Amounts")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+                Toggle(isOn: self.$data.showMilestoneAdded, label: {
+                    Text("Milestones Added")
+                })
+                    .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
+            }
+            if(!self.data.notificationsAllowed && self.data.notificationAccessAsked) {
                 Section() {
                     Button(action: {
                         if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -112,6 +124,14 @@ struct NotificationSettings: View {
                 }
             })
         })
+        .onAppear(perform: {
+            self.data.refresh()
+        })
+        .onChange(of: scenePhase) { newPhase in
+            if scenePhase == .background && newPhase != .background{
+                self.data.refresh()
+            }
+        }
     }
 }
 
