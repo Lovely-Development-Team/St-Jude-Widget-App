@@ -33,6 +33,8 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
             ]
         )
         
+        initNotificationCenter()
+        
         return true
     }
     
@@ -49,6 +51,7 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
                 let widgetData = TiltifyWidgetData(from: response.data.campaign)
                 do {
                     checkSignificantAmounts(for: widgetData)
+                    checkNewMilestones(for: widgetData)
                     UserDefaults.shared.set(try apiClient.jsonEncoder.encode(widgetData), forKey: "relayData")
                     WidgetCenter.shared.reloadAllTimelines()
                     refreshLogger.info("Background refresh completed successfully.")

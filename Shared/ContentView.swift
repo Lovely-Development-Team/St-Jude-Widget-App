@@ -29,6 +29,8 @@ struct ContentView: View {
     
     static let maxFrameHeight = DeviceType.isSmallPhone() ? 310 : 378.5
     
+    @State private var notificationSettingsVisible = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -54,14 +56,32 @@ struct ContentView: View {
                     .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: Self.maxFrameHeight)
                     .foregroundColor(.clear)
                 Spacer()
-                Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
-                    .font(.headline)
-                    .foregroundColor(Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1))
-                    .padding(10)
-                    .padding(.horizontal, 20)
-                    .background(Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1))
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .frame(minHeight: 80)
+                VStack {
+                    Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
+                        .font(.headline)
+                        .foregroundColor(Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1))
+                        .padding(10)
+                        .padding(.horizontal, 20)
+                        .background(Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .frame(minHeight: 80)
+                    Button(action: {
+                        self.notificationSettingsVisible = true
+                    }, label: {
+                        HStack {
+                            Image(systemName: "bell.badge")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 15)
+                                .foregroundColor(Color(UIColor.label))
+                                .accessibility(hidden: true)
+                            Text("Notification Settings")
+                                .foregroundColor(Color(UIColor.label))
+                                .font(.callout)
+                                .fontWeight(.bold)
+                        }
+                    })
+                }
                 Spacer()
                 HStack {
                     Text("From the makers of MottoBotto")
@@ -98,6 +118,7 @@ struct ContentView: View {
                         case .success(let response):
                             self.widgetData = TiltifyWidgetData(from: response.data.campaign)
                             checkSignificantAmounts(for: self.widgetData)
+                            checkNewMilestones(for: self.widgetData)
                             do {
                                 self.storedData = try apiClient.jsonEncoder.encode(self.widgetData)
                             } catch {
@@ -138,6 +159,7 @@ struct ContentView: View {
                             do {
                                 self.widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
                                 checkSignificantAmounts(for: self.widgetData)
+                                checkNewMilestones(for: self.widgetData)
                             } catch {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
@@ -161,6 +183,11 @@ struct ContentView: View {
             .padding()
             .shadow(radius: 20)
             .padding(.top, DeviceType.isSmallPhone() ? 80 : 0)
+            .sheet(isPresented: self.$notificationSettingsVisible, content: {
+                NavigationView {
+                    NotificationSettings(onDismiss: {self.notificationSettingsVisible = false})
+                }
+            })
         }
     }
     
