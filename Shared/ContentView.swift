@@ -8,6 +8,14 @@
 import SwiftUI
 import BackgroundTasks
 
+enum ActiveSheet: Identifiable {
+    case notifications, egg
+    
+    var id: Int {
+        hashValue
+    }
+}
+
 struct ContentView: View {
     // MARK: Environment
     @Environment(\.scenePhase) private var scenePhase
@@ -30,6 +38,9 @@ struct ContentView: View {
     static let maxFrameHeight = DeviceType.isSmallPhone() ? 310 : 378.5
     
     @State private var notificationSettingsVisible = false
+    @State private var easterEggVisible = false
+    
+    @State var activeSheet: ActiveSheet?
     
     var body: some View {
         ZStack {
@@ -66,7 +77,7 @@ struct ContentView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .frame(minHeight: 80)
                     Button(action: {
-                        self.notificationSettingsVisible = true
+                        activeSheet = .notifications
                     }, label: {
                         HStack {
                             Image(systemName: "bell.badge")
@@ -83,19 +94,23 @@ struct ContentView: View {
                     })
                 }
                 Spacer()
-                HStack {
-                    Text("From the makers of MottoBotto")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Image("l2culogosvg")
-                        .renderingMode(.template)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.secondary)
-                        .frame(height: 15)
-                        .accessibility(hidden: true)
-                        
-                }
+                Button(action: {
+                    activeSheet = .egg
+                }, label: {
+                    HStack {
+                        Text("From the makers of MottoBotto")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Image("l2culogosvg")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.secondary)
+                            .frame(height: 15)
+                            .accessibility(hidden: true)
+                            
+                    }
+                })
             }
             .accessibility(hidden: isWidgetFlipped)
             .padding()
@@ -183,11 +198,16 @@ struct ContentView: View {
             .padding()
             .shadow(radius: 20)
             .padding(.top, DeviceType.isSmallPhone() ? 80 : 0)
-            .sheet(isPresented: self.$notificationSettingsVisible, content: {
-                NavigationView {
-                    NotificationSettings(onDismiss: {self.notificationSettingsVisible = false})
+            .sheet(item: $activeSheet) { item in
+                switch item {
+                case .notifications:
+                    NotificationSettings()
+                case .egg:
+                    EasterEggView()
+                    
                 }
-            })
+            }
+          
         }
     }
     
