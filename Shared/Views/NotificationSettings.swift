@@ -74,8 +74,8 @@ struct NotificationSettings: View {
         
     var body: some View {
         NavigationView {
-            Section(header: EmptyView().accessibility(hidden: true)) {
-                Form {
+            Form {
+                Section(header: EmptyView().accessibility(hidden: true)) {
                     Toggle(isOn: self.$data.showMilestones, label: {
                         Text("Milestones")
                     })
@@ -92,6 +92,7 @@ struct NotificationSettings: View {
                         Text("Milestones Added")
                     })
                         .disabled(!self.data.notificationsAllowed)
+                }
                     if(!self.data.notificationsAllowed) {
                         Section() {
                             Button(action: {
@@ -105,7 +106,7 @@ struct NotificationSettings: View {
                             })
                         }
                     }
-                }
+                
             }
             .navigationBarTitle("Notifications")
             .toolbar(content: {
