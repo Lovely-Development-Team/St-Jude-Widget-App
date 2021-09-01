@@ -69,6 +69,6 @@ extension UserDefaults {
     
     @objc var showMilestoneAddedNotification: Bool {
         get { bool(forKey: Self.showMilestoneAddedNotificationKey) }
-        set { set(newValue, forKey: Self.showMilestoneAddedNotificationKey) }
+        set { setNotificationPreference(newValue: newValue, for: Self.showMilestoneAddedNotificationKey) }
     }
 }
