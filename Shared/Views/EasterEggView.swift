@@ -16,9 +16,10 @@ struct EasterEggView: View {
                 Image("Team_Logo_F")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: 350.0)
+                    .frame(height: nil)
                     .padding(.bottom, -50.0)
                     .scaledToFit()
+                    .accessibility(hidden: true)
                 Text("L2CU Says")
                     .font(.headline)
                     .padding(.bottom, 5.0)
@@ -29,6 +30,7 @@ struct EasterEggView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 Spacer()
             }
+            .accessibilityElement(children: .combine)
             .navigationBarTitle("Hi there!")
             .toolbar(content: {
                 ToolbarItem(placement: .primaryAction, content: {

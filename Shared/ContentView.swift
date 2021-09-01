@@ -37,9 +37,6 @@ struct ContentView: View {
     
     static let maxFrameHeight = DeviceType.isSmallPhone() ? 310 : 378.5
     
-    @State private var notificationSettingsVisible = false
-    @State private var easterEggVisible = false
-    
     @State var activeSheet: ActiveSheet?
     
     var body: some View {
