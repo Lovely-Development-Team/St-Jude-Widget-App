@@ -94,7 +94,7 @@ struct NotificationSettings: View {
                         .disabled(!self.data.notificationsAllowed)
                 }
                     if(!self.data.notificationsAllowed) {
-                        Section() {
+                        Section(header: EmptyView().accessibility(hidden: true)) {
                             Button(action: {
                                 if let url = URL(string: UIApplication.openSettingsURLString) {
                                     if(UIApplication.shared.canOpenURL(url)) {
