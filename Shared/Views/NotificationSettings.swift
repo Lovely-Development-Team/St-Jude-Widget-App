@@ -74,34 +74,36 @@ struct NotificationSettings: View {
         
     var body: some View {
         NavigationView {
-            Form {
-                Toggle(isOn: self.$data.showMilestones, label: {
-                    Text("Milestones")
-                })
-                    .disabled(!self.data.notificationsAllowed)
-                Toggle(isOn: self.$data.showGoal, label: {
-                    Text("Goal Reached")
-                })
-                    .disabled(!self.data.notificationsAllowed)
-                Toggle(isOn: self.$data.showSignificantAmounts, label: {
-                    Text("Significant Amounts")
-                })
-                    .disabled(!self.data.notificationsAllowed)
-                Toggle(isOn: self.$data.showMilestoneAdded, label: {
-                    Text("Milestones Added")
-                })
-                    .disabled(!self.data.notificationsAllowed)
-                if(!self.data.notificationsAllowed) {
-                    Section() {
-                        Button(action: {
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                if(UIApplication.shared.canOpenURL(url)) {
-                                    UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
+            Section(header: EmptyView().accessibility(hidden: true)) {
+                Form {
+                    Toggle(isOn: self.$data.showMilestones, label: {
+                        Text("Milestones")
+                    })
+                        .disabled(!self.data.notificationsAllowed)
+                    Toggle(isOn: self.$data.showGoal, label: {
+                        Text("Goal Reached")
+                    })
+                        .disabled(!self.data.notificationsAllowed)
+                    Toggle(isOn: self.$data.showSignificantAmounts, label: {
+                        Text("Significant Amounts")
+                    })
+                        .disabled(!self.data.notificationsAllowed)
+                    Toggle(isOn: self.$data.showMilestoneAdded, label: {
+                        Text("Milestones Added")
+                    })
+                        .disabled(!self.data.notificationsAllowed)
+                    if(!self.data.notificationsAllowed) {
+                        Section() {
+                            Button(action: {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    if(UIApplication.shared.canOpenURL(url)) {
+                                        UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
+                                    }
                                 }
-                            }
-                        }, label: {
-                            Text("Notification access denied.")
-                        })
+                            }, label: {
+                                Text("Notification access denied.")
+                            })
+                        }
                     }
                 }
             }
