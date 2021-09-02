@@ -35,6 +35,17 @@ struct NotificationSettings: View {
                     })
                         .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
                 }
+                
+                Section(header: EmptyView().accessibility(hidden: true)) {
+                    Toggle(isOn: self.$data.enableCustomAmountNotification, label: {
+                        Text("Custom Amount")
+                    })
+                    if(self.data.enableCustomAmountNotification) {
+                        TextField("Enter Amount", text: self.$data.customAmountInput)
+                            .foregroundColor((self.data.rejectedInputShowing) ? .red : Color(UIColor.label))
+                    }
+                }
+                
                 if(!self.data.notificationsAllowed && self.data.notificationAccessAsked) {
                     Section() {
                         Button(action: {
