@@ -79,8 +79,12 @@ class NotificationSettingsController: ObservableObject {
                 case .authorized:
                     DispatchQueue.main.async {
                         if(newValue) {
-                            self.customAmountInput = "$100.00"
-                            UserDefaults.shared.set(100, forKey: "customNotificationAmount")
+                            if((UserDefaults.shared.object(forKey: "customNotificationAmount") as? Double) ?? -1.0 == -1.0) {
+                                self.customAmountInput = "$100.00"
+                                UserDefaults.shared.set(100, forKey: "customNotificationAmount")
+                            } else {
+                                self.customAmountInput = formatCurrency(from: String((UserDefaults.shared.object(forKey: "customNotificationAmount") as? Double) ?? -1.0), currency: "USD", showFullCurrencySymbol: false).1
+                            }
                         } else {
                             UserDefaults.shared.set(-1, forKey: "customNotificationAmount")
                         }
