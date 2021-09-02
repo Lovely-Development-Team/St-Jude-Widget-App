@@ -9,21 +9,31 @@ import Foundation
 
 func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     //check if cached amount is significant
-    let cachedTotal = round((UserDefaults.shared.object(forKey: "cachedTotalRaised") as? Double) ?? -1.0)
-    let totalRaisedRaw = widgetData.totalRaised ?? -1.0
-    let totalRaised = round(totalRaisedRaw)
+    //uncomment below for testing
+//    UserDefaults.shared.set(49990.0, forKey: "cachedTotalRaised")
+    let cachedTotal = (UserDefaults.shared.object(forKey: "cachedTotalRaised") as? Double) ?? -1.0
+    
+    
+    let totalRaised = widgetData.totalRaised ?? -1.0
+    //uncomment below for testing
+//    let totalRaised = 50001.0
     let goal = widgetData.goal ?? -1.0
+    
+    let customAmount = (UserDefaults.shared.object(forKey: "customNotificationAmount") as? Double) ?? -1.0
     
     var shouldShowMilestoneNotification = false
     var shouldShowAmountNotification = false
     var shouldShowGoalNotification = false
     var shouldShowGoalMultiplierNotification = false
+    var shouldShowCustomAmountNotification = false
     
-    let nearest50kToTotalRaised = Double(Int((totalRaised+50000)/50000))*50000
-    let nearest50kToCachedTotal = Double(Int((cachedTotal+50000)/50000))*50000
     
-    let nearestGoalMultipleToCachedTotal = Double(Int((cachedTotal+goal)/goal))*goal
-    let nearestGoalMultipleToTotalRaised = Double(Int((totalRaised+goal)/goal))*goal
+    //rounded cached total and total raised are only used for these 4 calculations, decimals would give weird values. "raw" values are used for the rest
+    let nearest50kToTotalRaised = Double(Int((round(totalRaised)+50000)/50000))*50000
+    let nearest50kToCachedTotal = Double(Int((round(cachedTotal)+50000)/50000))*50000
+    
+    let nearestGoalMultipleToCachedTotal = Double(Int((round(cachedTotal)+goal)/goal))*goal
+    let nearestGoalMultipleToTotalRaised = Double(Int((round(totalRaised)+goal)/goal))*goal
     
     if(cachedTotal != -1 && cachedTotal != totalRaised) {
         var milestoneAmount: Double = -1.0
@@ -47,6 +57,12 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
         
         if(nearestGoalMultipleToTotalRaised > nearestGoalMultipleToCachedTotal && !shouldShowGoalNotification) {
             shouldShowGoalMultiplierNotification = true
+        }
+        
+        if(customAmount != -1.0) {
+            if(cachedTotal < customAmount && totalRaised > customAmount) {
+                shouldShowCustomAmountNotification = true
+            }
         }
     }
     
@@ -87,6 +103,12 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
         messages.append("Reached \(Int(multiple))x campaign goal at \(amountString.1)")
     }
     
+    if(shouldShowCustomAmountNotification) {
+        notificationTitle = "Custom Amount Reached"
+        let amountString = formatCurrency(from: String(customAmount), currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
+        messages.append("Reached custom amount of \(amountString.1)")
+    }
+    
     if(messages.count > 1) {
         notificationTitle = "Multiple Milestones Reached"
         var masterMessage = messages.first!
@@ -98,5 +120,5 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
         sendNotification(notificationTitle, message: messages.first!)
     }
     
-    UserDefaults.shared.set(totalRaisedRaw, forKey: "cachedTotalRaised")
+    UserDefaults.shared.set(totalRaised, forKey: "cachedTotalRaised")
 }
