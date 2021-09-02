@@ -11,9 +11,13 @@ struct EasterEggView: View {
     
     @State private var animate = false
     @State private var animationType: Animation? = .none
+    #if os(iOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    let selectionHaptics = UISelectionFeedbackGenerator()
+    #endif
     
     @State private var showFullL2CUName = false
+    @State private var collapseNameWorkItem = DispatchWorkItem { }
     private var affirmationToShow: String = "Teamwork makes the dream work!"
     
     private let affirmations: [String] = [
@@ -40,7 +44,9 @@ struct EasterEggView: View {
                 .fontWeight(.bold)
             Button(action: {
                 withAnimation {
+                    #if os(iOS)
                     bounceHaptics.impactOccurred()
+                    #endif
                     self.animate.toggle()
                     self.animationType = .default
                 }
@@ -63,13 +69,21 @@ struct EasterEggView: View {
             HStack(spacing: 5) {
                 Button(action: {
                     withAnimation {
+                        #if os(iOS)
+                        selectionHaptics.selectionChanged()
+                        #endif
                         self.showFullL2CUName.toggle()
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    guard showFullL2CUName == true else {
+                        collapseNameWorkItem.cancel()
+                        return
+                    }
+                    collapseNameWorkItem = DispatchWorkItem {
                         withAnimation {
                             self.showFullL2CUName.toggle()
                         }
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: collapseNameWorkItem)
                 }) {
                     Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
                 }
