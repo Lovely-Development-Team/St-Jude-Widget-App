@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct EasterEggView: View {
-    @Environment(\.presentationMode) var presentationMode
     
-    @State var animate = false
-    @State var animationType: Animation? = .none
+    @State private var animate = false
+    @State private var animationType: Animation? = .none
+    
+    @State private var showFullL2CUName = false
     
     var body: some View {
         VStack {
@@ -31,16 +32,32 @@ struct EasterEggView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: nil)
-                    .padding(.bottom, -50.0)
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, 30)
                     .scaledToFit()
                     .accessibility(hidden: true)
                     .offset(x: 0, y: animate ? -5 : 0)
                     .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
             }
             .buttonStyle(PlainButtonStyle())
-            Text("L2CU says:")
-                .font(.headline)
-                .padding(.bottom, 5.0)
+            HStack(spacing: 5) {
+                Button(action: {
+                    withAnimation {
+                        self.showFullL2CUName.toggle()
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        withAnimation {
+                            self.showFullL2CUName.toggle()
+                        }
+                    }
+                }) {
+                    Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
+                }
+                .buttonStyle(PlainButtonStyle())
+                Text("says:")
+            }
+            .font(.headline)
+            .padding(.bottom, 5.0)
             Text("“Teamwork makes the dream work!”")
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
@@ -48,14 +65,9 @@ struct EasterEggView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
         }
+        .padding(.top, 30)
+        .padding(10)
         .accessibilityElement(children: .combine)
-        .toolbar(content: {
-            ToolbarItem(placement: .primaryAction, content: {
-                Button("Done") {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            })
-        })
     }
 }
 
