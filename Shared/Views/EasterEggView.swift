@@ -88,7 +88,7 @@ struct EasterEggView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
             Section{
-            Text("L2CU drawing by rhl_. \nRelay FM for St. Jude with care by \nThe Lovely Devs. ")
+            Text("L2CU drawing by rhl_. \nRelay FM for St. Jude crafted with care by The Lovely Devs. ")
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .allowsTightening(true)
