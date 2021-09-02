@@ -15,9 +15,12 @@ struct EntryView: View {
     let showFullCurrencySymbol: Bool
     let showGoalPercentage: Bool
     let showMilestonePercentage: Bool
+    let useTrueBlackBackground: Bool
+    var forceHidePreviousMilestone: Bool = false
 
     
     var showPreviousMilestone: Bool {
+        if(self.forceHidePreviousMilestone) { return false }
         return (isExtraLargeSize(family: family) || !DeviceType.isInWidget()) || campaign.nextMilestone == nil
     }
     
@@ -41,6 +44,16 @@ struct EntryView: View {
         }
     }
     
+    var backgroundColors: [Color] {
+        if useTrueBlackBackground {
+            return [Color.black]
+        } else {
+            return [
+                Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1),
+                Color(.sRGB, red: 51 / 255, green: 63 / 255, blue: 72 / 255, opacity: 1)
+            ]
+        }
+    }
     
     var body: some View {
         
@@ -105,17 +118,14 @@ struct EntryView: View {
         .foregroundColor(.white)
         .frame(maxWidth: .infinity)
         .padding()
-        .background(
-            LinearGradient(colors: [
-                Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1),
-                Color(.sRGB, red: 51 / 255, green: 63 / 255, blue: 72 / 255, opacity: 1)
-            ], startPoint: .bottom, endPoint: .top)
-        )
+        .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
     }
 }
 
 struct EntryViewPreview: PreviewProvider {
     static var previews: some View {
-        return EntryView(campaign: .constant(sampleCampaign), showMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true)
+        return EntryView(campaign: .constant(sampleCampaign), showMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true)
+            .frame(width: 300, height: 378)
+            .cornerRadius(15)
     }
 }

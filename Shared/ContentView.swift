@@ -6,7 +6,16 @@
 //
 
 import SwiftUI
+import WidgetKit
 import BackgroundTasks
+
+enum ActiveSheet: Identifiable {
+    case notifications, egg
+    
+    var id: Int {
+        hashValue
+    }
+}
 
 struct ContentView: View {
     // MARK: Environment
@@ -25,8 +34,16 @@ struct ContentView: View {
     @AppStorage(UserDefaults.inAppShowFullCurrencySymbolKey, store: UserDefaults.shared) var showFullCurrencySymbol: Bool = false
     @AppStorage(UserDefaults.inAppShowGoalPercentageKey, store: UserDefaults.shared) var showGoalPercentage: Bool = true
     @AppStorage(UserDefaults.inAppShowMilestonePercentageKey, store: UserDefaults.shared) var showMilestonePercentage: Bool = true
+    @AppStorage(UserDefaults.inAppUseTrueBlackBackgroundKey, store: UserDefaults.shared) var useTrueBlackBackground: Bool = false
     
-    static let maxFrameHeight = DeviceType.isSmallPhone() ? 310 : 378.5
+//    static let maxFrameHeight = DeviceType.isSmallPhone() ? 310 : 378.5
+    @State private var maxFrameHeight = 378.5
+    @State private var rectangleSize: CGSize = .zero
+    @State private var rectangleCenter: CGPoint = .zero
+    
+    @State private var fadeInWidget = true
+    
+    @State var activeSheet: ActiveSheet?
     
     var body: some View {
         ZStack {
@@ -39,39 +56,78 @@ struct ContentView: View {
                     .allowsTightening(true)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.bottom, 5)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
                     .accessibility(label: Text("Relay FM for Saint Jude 2021"))
                 Text("This app provides a widget to track the progress of the 2021 Relay FM St. Jude fundraiser. Add the widget to your Home Screen!")
                     .multilineTextAlignment(.center)
                     .allowsTightening(true)
-                    .minimumScaleFactor(0.8)
-                    .lineLimit(4)
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .accessibility(label: Text("This app provides a widget to track the progress of the 2021 Relay FM Saint Jude fundraiser. Add the widget to your Home Screen!"))
+                    .padding(.bottom, 5)
                 Spacer()
                 Rectangle()
-                    .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: Self.maxFrameHeight)
+                    .frame(minWidth: 0, maxWidth: 795, maxHeight: 378.5)
                     .foregroundColor(.clear)
+                    .background(
+                        GeometryReader { geometry -> Color in
+                            DispatchQueue.main.async {
+                                let frame = geometry.frame(in: CoordinateSpace.global)
+                                self.maxFrameHeight = min(frame.size.height, 378.5) // 378.5
+                                self.rectangleCenter = CGPoint(x: frame.midX, y: frame.midY)
+                                self.rectangleSize = frame.size
+                            }
+                            return Color.clear
+                        })
                 Spacer()
-                Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
-                    .font(.headline)
-                    .foregroundColor(Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1))
-                    .padding(10)
-                    .padding(.horizontal, 20)
-                    .background(Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1))
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .frame(minHeight: 80)
-                Spacer()
-                HStack {
-                    Text("From the makers of MottoBotto")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Image("tildy")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 15)
-                        .accessibility(hidden: true)
+                VStack{
+                    Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
+                        .font(.headline)
+                        .foregroundColor(Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1))
+                        .padding(10)
+                        .padding(.horizontal, 20)
+                        .background(Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .frame(minHeight: 80)
+                    Button(action: {
+                        activeSheet = .notifications
+                    }, label: {
+                        HStack {
+                            Image(systemName: "bell.badge")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 15)
+                                .foregroundColor(Color(UIColor.label))
+                                .accessibility(hidden: true)
+                            Text("Notification Settings")
+                                .foregroundColor(Color(UIColor.label))
+                                .font(.callout)
+                                .fontWeight(.bold)
+                        }
+                    })
                 }
+                Spacer()
+                Button(action: {
+                    activeSheet = .egg
+                }, label: {
+                    HStack {
+                        Text("From the makers of MottoBotto")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Image("l2culogosvg")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.secondary)
+                            .frame(height: 15)
+                            .accessibility(hidden: true)
+                            
+                    }
+                })
+                    .padding(.vertical, 5)
             }
             .accessibility(hidden: isWidgetFlipped)
             .padding()
@@ -93,6 +149,8 @@ struct ContentView: View {
                             dataLogger.error("Request failed: \(error.localizedDescription)")
                         case .success(let response):
                             self.widgetData = TiltifyWidgetData(from: response.data.campaign)
+                            checkSignificantAmounts(for: self.widgetData)
+                            checkNewMilestones(for: self.widgetData)
                             do {
                                 self.storedData = try apiClient.jsonEncoder.encode(self.widgetData)
                             } catch {
@@ -111,6 +169,7 @@ struct ContentView: View {
     #endif
                 }
             }
+            .scaleEffect((self.isWidgetFlipped) ? 0.95 : 1.0)
             
             BlurView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
                 .opacity((self.isWidgetFlipped) ? 1.0 : 0)
@@ -118,27 +177,29 @@ struct ContentView: View {
                 .onTapGesture(perform: {
                     self.dismissSettings()
                 })
-                
+            
             VStack {
                 if isWidgetFlipped {
                     WidgetSettingsView(onDismiss: self.dismissSettings)
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                        .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: Self.maxFrameHeight)
                 } else {
-                    EntryView(campaign: $widgetData, showMilestones: showMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage)
+                    EntryView(campaign: $widgetData, showMilestones: (self.maxFrameHeight/self.rectangleSize.width < 0.68) ? false : showMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: useTrueBlackBackground, forceHidePreviousMilestone: (self.maxFrameHeight/self.rectangleSize.width < 0.75) ? true : false)
                         .onAppear {
 #if os(iOS)
                             submitRefreshTask()
 #endif
                             do {
-                                widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
+                                self.widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
+                                checkSignificantAmounts(for: self.widgetData)
+                                checkNewMilestones(for: self.widgetData)
                             } catch {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
                         }
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .contextMenu {
                             Button {
-                                self.isWidgetFlipped = true
+                                self.showSettings()
                             } label: {
                                 Label("Edit Widget", systemImage: "info.circle")
                             }
@@ -147,15 +208,34 @@ struct ContentView: View {
             }
             .background(Color(UIColor.secondarySystemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .frame(minWidth: 0, maxWidth: 795, minHeight: 300, maxHeight: Self.maxFrameHeight)
+            .frame(minWidth: 0, maxWidth: 795, maxHeight: self.maxFrameHeight)
             .rotation3DEffect(.degrees(isWidgetFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
             .onTapGesture {
                 self.showSettings()
             }
             .padding()
+            .position(self.rectangleCenter)
             .shadow(radius: 20)
-            .padding(.top, DeviceType.isSmallPhone() ? 80 : 0)
+            .edgesIgnoringSafeArea(.all)
+//            .padding(.top, DeviceType.isSmallPhone() ? 80 : 0)
+            .sheet(item: $activeSheet) { item in
+                switch item {
+                case .notifications:
+                    NotificationSettings()
+                case .egg:
+                    EasterEggView()
+                        .background(Color(UIColor.secondarySystemBackground))
+                }
+            }
+            .opacity((!self.fadeInWidget) ? 1 : 0)
         }
+        .onAppear(perform: {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: {
+                withAnimation(.spring(), {
+                    self.fadeInWidget = false
+                })
+            })
+        })
     }
     
     func showSettings() {
@@ -174,5 +254,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd Generation)"))
     }
 }

@@ -18,32 +18,50 @@ struct WidgetSettingsView: View {
     private var showGoalPercentage: Bool = true
     @AppStorage(UserDefaults.inAppShowMilestonePercentageKey, store: UserDefaults.shared)
     private var showMilestonePercentage: Bool = true
+    @AppStorage(UserDefaults.inAppUseTrueBlackBackgroundKey, store: UserDefaults.shared)
+    private var useTrueBlackBackground: Bool = false
     var onDismiss: ()->()
     
     @State private var imageHeight: CGFloat = 0
     
     var settingsForm: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .trailing, spacing: 0) {
             Toggle("Show Milestones", isOn: $showMilestones)
                 .padding(10)
                 .padding(.horizontal, 10)
-            Divider()
-                .offset(x: 20, y: 0)
+            GeometryReader { proxy in
+                Divider()
+                    .offset(x: 20, y: 0)
+                    .frame(width: proxy.size.width - 20)
+            }.frame(height: 0)
             Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol)
                 .padding(10)
                 .padding(.horizontal, 10)
-            Divider()
-                .offset(x: 20, y: 0)
+            GeometryReader { proxy in
+                Divider()
+                    .offset(x: 20, y: 0)
+                    .frame(width: proxy.size.width - 20)
+            }.frame(height: 0)
             Toggle("Show Main Goal Percentage", isOn: $showGoalPercentage)
                 .padding(10)
                 .padding(.horizontal, 10)
-            Divider()
-                .offset(x: 20, y: 0)
+            GeometryReader { proxy in
+                Divider()
+                    .offset(x: 20, y: 0)
+                    .frame(width: proxy.size.width - 20)
+            }.frame(height: 0)
             Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
                 .padding(10)
                 .padding(.horizontal, 10)
+            GeometryReader { proxy in
+                Divider()
+                    .offset(x: 20, y: 0)
+                    .frame(width: proxy.size.width - 20)
+            }.frame(height: 0)
+            Toggle("Use True Black Background", isOn: $useTrueBlackBackground)
+                .padding(10)
+                .padding(.horizontal, 10)
         }
-        .background(Color(UIColor.quaternarySystemFill))
     }
     
     var body: some View {
@@ -75,22 +93,25 @@ struct WidgetSettingsView: View {
                 })
             }
             
-            Text("Displays the current Relay FM for St. Jude fundraising status.")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .allowsTightening(true)
-                .minimumScaleFactor(0.8)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            ScrollView(showsIndicators: false) {
+                Text("Displays the current Relay FM for St. Jude fundraising status.")
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .allowsTightening(true)
+                    .minimumScaleFactor(0.8)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             
-            settingsForm
-                .cornerRadius(15)
-            
-            Spacer()
-            
+                settingsForm
+                    .background(
+                        Color(UIColor.quaternarySystemFill)
+                            .cornerRadius(15)
+                    )
+                    .padding(.bottom)
+            }
         }
-        .padding()
+        .padding([.top, .horizontal])
         .background(Color(UIColor.tertiarySystemBackground))
         .accessibilityAction(.escape, onDismiss)
     }
@@ -99,5 +120,6 @@ struct WidgetSettingsView: View {
 struct WidgetSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         WidgetSettingsView(onDismiss: {})
+            .frame(height: 375)
     }
 }

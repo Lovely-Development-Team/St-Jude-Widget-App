@@ -11,6 +11,19 @@
 		5E49D6C726DCC01B002892CC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C526DCC01B002892CC /* UIApplication.swift */; };
 		5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
 		5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
+		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
+		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
+		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
+		5EF748CD26DF749A008174DF /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748CC26DF749A008174DF /* NotificationSettings.swift */; };
+		5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
+		5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
+		5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
+		5EF748D126DF74B2008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
+		5EF748D226DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
+		5EF748D326DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
+		5EF748D426DF74B6008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
+		5EF748D526DF74B7008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
+		5EF748D626DF74B7008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		6348F9F726D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
 		6348F9F826D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
 		6348F9F926D6B5100031697F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6348F9F626D6B5100031697F /* Assets.xcassets */; };
@@ -117,6 +130,8 @@
 		63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */; };
 		63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */; };
 		63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5126E114AF009F318F /* NotificationSettingsController.swift */; };
+		D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D544692526DFE14D00EA04C9 /* EasterEggView.swift */; };
 		DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 		DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 		DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
@@ -191,6 +206,10 @@
 /* Begin PBXFileReference section */
 		5E49D6C526DCC01B002892CC /* UIApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
+		5EF748C626DF748F008174DF /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
+		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
+		5EF748CC26DF749A008174DF /* NotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		6348F9F626D6B5100031697F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6348F9FF26D6C9970031697F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "macOS WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,6 +267,9 @@
 		63BFF1A026D5D37C0023263D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGoalIntentHandler.swift; sourceTree = "<group>"; };
 		63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextMilestoneIntentHandler.swift; sourceTree = "<group>"; };
+		63E19D5126E114AF009F318F /* NotificationSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsController.swift; sourceTree = "<group>"; };
+		BAD9E11726DEFE41001BB7B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
+		D544692526DFE14D00EA04C9 /* EasterEggView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggView.swift; sourceTree = "<group>"; };
 		DE0F34BC26DA692C00F268C9 /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tiltify St Jude WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "St-Jude--iOS--Info.plist"; sourceTree = "<group>"; };
@@ -360,6 +382,7 @@
 		6357652C26D1A73B004F04DE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				63E19D5026E1143C009F318F /* Controller */,
 				DE0F34BD26DA694100F268C9 /* Helpers */,
 				6348F9F626D6B5100031697F /* Assets.xcassets */,
 				63ACEFF626D3C6EF00F98023 /* Views */,
@@ -461,6 +484,8 @@
 				63ACEFF326D3C64100F98023 /* ProgressBar.swift */,
 				63ACEFFE26D3CC3400F98023 /* EntryView.swift */,
 				5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */,
+				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
+				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -498,9 +523,20 @@
 			path = "Intents Extension";
 			sourceTree = "<group>";
 		};
+		63E19D5026E1143C009F318F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				63E19D5126E114AF009F318F /* NotificationSettingsController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		DE0F34BD26DA694100F268C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5EF748C726DF748F008174DF /* CheckNewMilestones.swift */,
+				5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */,
+				5EF748C626DF748F008174DF /* Notifications.swift */,
 				63B4B0A926DD30AA001A3D30 /* BlurView.swift */,
 				DE0F34BC26DA692C00F268C9 /* DeviceType.swift */,
 			);
@@ -775,11 +811,13 @@
 			files = (
 				63574A3026D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
+				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
 				63574A3F26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				638AEFE926D7965600BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				63574A1C26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
 				63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				63574A3226D659DA00A2D495 /* Loggers.swift in Sources */,
+				5EF748D326DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63574A4126D65D8D00A2D495 /* CampaignTitle.swift in Sources */,
 				63574A2626D6594600A2D495 /* WidgetFamily.swift in Sources */,
 				63574A3A26D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
@@ -787,6 +825,7 @@
 				63574A3526D65A0200A2D495 /* Model.swift in Sources */,
 				63574A3426D659E100A2D495 /* UserDefaults.swift in Sources */,
 				63574A3326D659DF00A2D495 /* TiltifyWidgetData.swift in Sources */,
+				5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63B4B0AE26DD30AA001A3D30 /* BlurView.swift in Sources */,
@@ -805,8 +844,11 @@
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
 				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
+				5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */,
+				63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */,
 				6357658626D256C9004F04DE /* Model.swift in Sources */,
 				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
+				5EF748CD26DF749A008174DF /* NotificationSettings.swift in Sources */,
 				6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
@@ -815,9 +857,12 @@
 				63ACEFEA26D296F100F98023 /* Loggers.swift in Sources */,
 				63ACEFEE26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
 				63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */,
+				5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */,
 				6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */,
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
+				5EF748C926DF748F008174DF /* Notifications.swift in Sources */,
+				D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */,
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
 				DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */,
@@ -838,13 +883,16 @@
 				6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */,
 				DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,
+				5EF748D126DF74B2008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */,
 				63A6F9A326D64D0C00095ACB /* Model.swift in Sources */,
 				6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
+				5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
 				638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				5EF748D426DF74B6008174DF /* Notifications.swift in Sources */,
 				63B4B0AB26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */,
@@ -875,11 +923,13 @@
 			files = (
 				6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
+				5EF748D526DF74B7008174DF /* Notifications.swift in Sources */,
 				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				638AEFEA26D7965A00BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63574A3926D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
 				63ACEFEB26D2973E00F98023 /* Loggers.swift in Sources */,
+				5EF748D226DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63BFF17E26D5B2990023263D /* UserDefaults.swift in Sources */,
 				6357658426D25309004F04DE /* ApiClient.swift in Sources */,
 				6357658726D256C9004F04DE /* Model.swift in Sources */,
@@ -887,6 +937,7 @@
 				63A6F9AE26D64F2900095ACB /* WidgetFamily.swift in Sources */,
 				63ACEFF226D3C4D500F98023 /* MilestoneView.swift in Sources */,
 				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
+				5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
 				DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */,
 				63B4B0AC26DD30AA001A3D30 /* BlurView.swift in Sources */,
@@ -953,6 +1004,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6348F9FF26D6C9970031697F /* Base */,
+				BAD9E11726DEFE41001BB7B8 /* en */,
 			);
 			name = Intents.intentdefinition;
 			sourceTree = "<group>";

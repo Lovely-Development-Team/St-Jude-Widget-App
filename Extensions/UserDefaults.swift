@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 extension UserDefaults {
     // Type-safe access to UserDefaults shared with the extension
@@ -15,6 +16,11 @@ extension UserDefaults {
     static let inAppShowFullCurrencySymbolKey = "inAppShowFullCurrencySymbol"
     static let inAppShowGoalPercentageKey = "inAppShowGoalPercentage"
     static let inAppShowMilestonePercentageKey = "inAppShowMilestonePercentage"
+    static let inAppUseTrueBlackBackgroundKey = "inAppUseTrueBlackBackground"
+    static let showMilestoneNotificationKey = "showMilestoneNotification"
+    static let showSignificantAmountNotificationKey = "showSignificantAmountNotification"
+    static let showGoalNotificationKey = "showGoalNotification"
+    static let showMilestoneAddedNotificationKey = "showMilestoneAddedNotification"
     
     @objc var relayData: Data? {
         get { data(forKey: "relayData") }
@@ -40,5 +46,29 @@ extension UserDefaults {
         get { bool(forKey: Self.inAppShowMilestonePercentageKey) }
         set { set(newValue, forKey: Self.inAppShowMilestonePercentageKey) }
     }
-
+    
+    @objc var inAppUseTrueBlackBackground: Bool {
+        get { bool(forKey: Self.inAppUseTrueBlackBackgroundKey) }
+        set { set(newValue, forKey: Self.inAppUseTrueBlackBackgroundKey) }
+    }
+    
+    @objc var showMilestoneNotification: Bool {
+        get { return bool(forKey: Self.showMilestoneNotificationKey) }
+        set { setNotificationPreference(newValue: newValue, for: Self.showMilestoneNotificationKey) }
+    }
+    
+    @objc var showGoalNotification: Bool {
+        get { bool(forKey: Self.showGoalNotificationKey) }
+        set { setNotificationPreference(newValue: newValue, for: Self.showGoalNotificationKey) }
+    }
+    
+    @objc var showSignificantAmountNotification: Bool {
+        get { bool(forKey: Self.showSignificantAmountNotificationKey) }
+        set { setNotificationPreference(newValue: newValue, for: Self.showSignificantAmountNotificationKey) }
+    }
+    
+    @objc var showMilestoneAddedNotification: Bool {
+        get { bool(forKey: Self.showMilestoneAddedNotificationKey) }
+        set { setNotificationPreference(newValue: newValue, for: Self.showMilestoneAddedNotificationKey) }
+    }
 }
