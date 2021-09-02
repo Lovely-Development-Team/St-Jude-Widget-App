@@ -14,6 +14,19 @@ struct EasterEggView: View {
     
     @State private var showFullL2CUName = false
     
+    private let affirmations: [String] = [
+        "Teamwork makes the dream work!",
+        "You can do it!",
+        "Remember to stay hydrated!",
+        "You are so strong.",
+        "Do you need something to eat or drink?",
+        "I am so proud of the progress you've made.",
+    ]
+    
+    private var randomAffirmation: String {
+        affirmations.randomElement() ?? "Teamwork makes the dream work!"
+    }
+    
     var body: some View {
         VStack {
             Text("Hi there!")
@@ -58,7 +71,7 @@ struct EasterEggView: View {
             }
             .font(.headline)
             .padding(.bottom, 5.0)
-            Text("“Teamwork makes the dream work!”")
+            Text("“\(randomAffirmation)”")
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
                 .allowsTightening(true)
