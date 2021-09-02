@@ -10,9 +10,23 @@ import SwiftUI
 struct EasterEggView: View {
     @Environment(\.presentationMode) var presentationMode
     
+    @State var animate = false
+    @State var animationType: Animation? = .none
+    
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
+            Text("Hi there!")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+            Button(action: {
+                withAnimation {
+                    self.animate.toggle()
+                    self.animationType = .default
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.animate.toggle()
+                }
+            }) {
                 Image("Team_Logo_F")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -20,26 +34,28 @@ struct EasterEggView: View {
                     .padding(.bottom, -50.0)
                     .scaledToFit()
                     .accessibility(hidden: true)
-                Text("L2CU Says")
-                    .font(.headline)
-                    .padding(.bottom, 5.0)
-                Text("\"Teamwork makes the dream work\"")
-                    .font(.largeTitle)
-                    .multilineTextAlignment(.center)
-                    .allowsTightening(true)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                Spacer()
+                    .offset(x: 0, y: animate ? -5 : 0)
+                    .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
             }
-            .accessibilityElement(children: .combine)
-            .navigationBarTitle("Hi there!")
-            .toolbar(content: {
-                ToolbarItem(placement: .primaryAction, content: {
-                    Button("Done") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                })
-            })
+            .buttonStyle(PlainButtonStyle())
+            Text("L2CU says:")
+                .font(.headline)
+                .padding(.bottom, 5.0)
+            Text("“Teamwork makes the dream work!”")
+                .font(.largeTitle)
+                .multilineTextAlignment(.center)
+                .allowsTightening(true)
+                .frame(maxWidth: .infinity, alignment: .center)
+            Spacer()
         }
+        .accessibilityElement(children: .combine)
+        .toolbar(content: {
+            ToolbarItem(placement: .primaryAction, content: {
+                Button("Done") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            })
+        })
     }
 }
 

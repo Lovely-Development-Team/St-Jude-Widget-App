@@ -200,11 +200,12 @@ struct ContentView: View {
                 case .notifications:
                     NotificationSettings()
                 case .egg:
-                    EasterEggView()
-                    
+                    NavigationView {
+                        EasterEggView()
+                            .navigationBarTitleDisplayMode(.inline)
+                    }
                 }
             }
-          
         }
     }
     
