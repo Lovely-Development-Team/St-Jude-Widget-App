@@ -29,6 +29,10 @@ struct EasterEggView: View {
         affirmationToShow = affirmations.randomElement() ?? "Teamwork makes the dream work!"
     }
     
+    var accessibilityLabel: Text {
+        Text("L2CU (\"Lovely to See You\") says \"\(affirmationToShow)\"")
+    }
+    
     var body: some View {
         VStack {
             Text("Hi there!")
@@ -55,7 +59,7 @@ struct EasterEggView: View {
                     .offset(x: 0, y: animate ? -5 : 0)
                     .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
             }
-            .buttonStyle(PlainButtonStyle())
+                .buttonStyle(PlainButtonStyle())
             HStack(spacing: 5) {
                 Button(action: {
                     withAnimation {
@@ -83,7 +87,8 @@ struct EasterEggView: View {
         }
         .padding(.top, 30)
         .padding(10)
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
+        .accessibility(label: accessibilityLabel)
     }
 }
 
