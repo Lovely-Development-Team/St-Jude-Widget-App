@@ -13,6 +13,7 @@ struct EasterEggView: View {
     @State private var animationType: Animation? = .none
     
     @State private var showFullL2CUName = false
+    private var affirmationToShow: String = "Teamwork makes the dream work!"
     
     private let affirmations: [String] = [
         "Teamwork makes the dream work!",
@@ -23,8 +24,8 @@ struct EasterEggView: View {
         "I am so proud of the progress you've made.",
     ]
     
-    private var randomAffirmation: String {
-        affirmations.randomElement() ?? "Teamwork makes the dream work!"
+    init() {
+        affirmationToShow = affirmations.randomElement() ?? "Teamwork makes the dream work!"
     }
     
     var body: some View {
@@ -71,7 +72,7 @@ struct EasterEggView: View {
             }
             .font(.headline)
             .padding(.bottom, 5.0)
-            Text("“\(randomAffirmation)”")
+            Text("“\(affirmationToShow)”")
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
                 .allowsTightening(true)
