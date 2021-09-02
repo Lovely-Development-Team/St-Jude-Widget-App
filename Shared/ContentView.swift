@@ -223,10 +223,8 @@ struct ContentView: View {
                 case .notifications:
                     NotificationSettings()
                 case .egg:
-                    NavigationView {
-                        EasterEggView()
-                            .navigationBarTitleDisplayMode(.inline)
-                    }
+                    EasterEggView()
+                        .background(Color(UIColor.secondarySystemBackground))
                 }
             }
             .opacity((!self.fadeInWidget) ? 1 : 0)
@@ -256,5 +254,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd Generation)"))
     }
 }
