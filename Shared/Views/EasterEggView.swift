@@ -11,6 +11,7 @@ struct EasterEggView: View {
     
     @State private var animate = false
     @State private var animationType: Animation? = .none
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     
     @State private var showFullL2CUName = false
     private var affirmationToShow: String = "Teamwork makes the dream work!"
@@ -35,6 +36,7 @@ struct EasterEggView: View {
                 .fontWeight(.bold)
             Button(action: {
                 withAnimation {
+                    bounceHaptics.impactOccurred()
                     self.animate.toggle()
                     self.animationType = .default
                 }
