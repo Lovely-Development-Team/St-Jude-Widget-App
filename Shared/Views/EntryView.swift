@@ -16,9 +16,11 @@ struct EntryView: View {
     let showGoalPercentage: Bool
     let showMilestonePercentage: Bool
     let useTrueBlackBackground: Bool
+    var forceHidePreviousMilestone: Bool = false
 
     
     var showPreviousMilestone: Bool {
+        if(self.forceHidePreviousMilestone) { return false }
         return (isExtraLargeSize(family: family) || !DeviceType.isInWidget()) || campaign.nextMilestone == nil
     }
     
