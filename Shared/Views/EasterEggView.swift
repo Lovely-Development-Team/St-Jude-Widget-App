@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct EasterEggView: View {
+    @Environment(\.openURL) var openURL
     
     @State private var animate = false
     @State private var animationType: Animation? = .none
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    let selectionHaptics = UISelectionFeedbackGenerator()
     
     @State private var showFullL2CUName = false
     private var affirmationToShow: String = "Teamwork makes the dream work!"
@@ -63,11 +65,12 @@ struct EasterEggView: View {
             HStack(spacing: 5) {
                 Button(action: {
                     withAnimation {
+                        selectionHaptics.selectionChanged()
                         self.showFullL2CUName.toggle()
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         withAnimation {
-                            self.showFullL2CUName.toggle()
+                            self.showFullL2CUName = false
                         }
                     }
                 }) {
@@ -79,11 +82,29 @@ struct EasterEggView: View {
             .font(.headline)
             .padding(.bottom, 5.0)
             Text("“\(affirmationToShow)”")
-                .font(.largeTitle)
+                .font(.title)
                 .multilineTextAlignment(.center)
                 .allowsTightening(true)
                 .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
+            Section{
+            Text("L2CU drawing by rhl_. \nRelay FM for St. Jude with care by \nThe Lovely Devs. ")
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .allowsTightening(true)
+                .minimumScaleFactor(0.7)
+                .foregroundColor(.secondary)
+                Button("tildy.dev") {
+                    openURL(URL(string: "https://tildy.dev")!)
+                }
+                .allowsTightening(true)
+                .minimumScaleFactor(0.7)
+                .font(.body)
+        
+            }
+            .padding(.horizontal)
+            Spacer()
+
         }
         .padding(.top, 30)
         .padding(10)
@@ -94,6 +115,9 @@ struct EasterEggView: View {
 
 struct EasterEggView_Previews: PreviewProvider {
     static var previews: some View {
-        EasterEggView()
+        Group {
+            EasterEggView()
+            EasterEggView()
+        }
     }
 }
