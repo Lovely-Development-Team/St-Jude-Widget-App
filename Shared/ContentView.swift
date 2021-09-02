@@ -224,6 +224,7 @@ struct ContentView: View {
                     NotificationSettings()
                 case .egg:
                     EasterEggView()
+                        .edgesIgnoringSafeArea(.all)
                         .background(Color(UIColor.secondarySystemBackground))
                 }
             }
