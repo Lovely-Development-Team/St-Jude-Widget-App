@@ -224,8 +224,8 @@ struct ContentView: View {
                     NotificationSettings()
                 case .egg:
                     EasterEggView()
-                        .edgesIgnoringSafeArea(.all)
                         .background(Color(UIColor.secondarySystemBackground))
+                        .edgesIgnoringSafeArea(.all)
                 }
             }
             .opacity((!self.fadeInWidget) ? 1 : 0)
