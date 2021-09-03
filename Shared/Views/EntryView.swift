@@ -59,8 +59,9 @@ struct EntryView: View {
     var body: some View {
         
         VStack(alignment: .leading, spacing: 5) {
-            
+           
             CampaignTitle(name: campaign.name)
+             
             Spacer()
             
             if let percentageReached = campaign.percentageReached {
