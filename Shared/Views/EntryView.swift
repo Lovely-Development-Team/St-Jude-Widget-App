@@ -21,7 +21,7 @@ struct EntryView: View {
     
     var showPreviousMilestone: Bool {
         if(self.forceHidePreviousMilestone) { return false }
-        return (isExtraLargeSize(family: family) || !DeviceType.isInWidget()) || campaign.nextMilestone == nil
+        return (isLargeSize(family: family) || !DeviceType.isInWidget()) || campaign.nextMilestone == nil
     }
     
     var titleFont: Font {
