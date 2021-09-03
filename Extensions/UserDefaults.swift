@@ -13,6 +13,7 @@ extension UserDefaults {
     static let shared = UserDefaults(suiteName: "group.com.rosemaryorchard.stjude")!
     
     static let inAppShowMilestonesKey = "inAppShowMilestones"
+    static let inAppPreferFutureMilestonesKey = "inAppShowPreferFutureMilestones"
     static let inAppShowFullCurrencySymbolKey = "inAppShowFullCurrencySymbol"
     static let inAppShowGoalPercentageKey = "inAppShowGoalPercentage"
     static let inAppShowMilestonePercentageKey = "inAppShowMilestonePercentage"
@@ -30,6 +31,11 @@ extension UserDefaults {
     @objc var inAppShowMilestones: Bool {
         get { bool(forKey: Self.inAppShowMilestonesKey) }
         set { set(newValue, forKey: Self.inAppShowMilestonesKey) }
+    }
+    
+    @objc var inAppPreferFutureMilestones: Bool {
+        get { bool(forKey: Self.inAppPreferFutureMilestonesKey) }
+        set { set(newValue, forKey: Self.inAppPreferFutureMilestonesKey) }
     }
     
     @objc var inAppShowFullCurrencySymbol: Bool {

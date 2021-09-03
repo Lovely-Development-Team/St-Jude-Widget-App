@@ -11,6 +11,8 @@ struct WidgetSettingsView: View {
     
     @AppStorage(UserDefaults.inAppShowMilestonesKey, store: UserDefaults.shared)
     private var showMilestones: Bool = true
+    @AppStorage(UserDefaults.inAppPreferFutureMilestonesKey, store: UserDefaults.shared)
+    private var preferFutureMilestones: Bool = true
     @AppStorage(UserDefaults.inAppShowFullCurrencySymbolKey, store: UserDefaults.shared)
     private var showFullCurrencySymbol: Bool = false
     @AppStorage(UserDefaults.inAppShowGoalPercentageKey, store: UserDefaults.shared)
@@ -23,44 +25,39 @@ struct WidgetSettingsView: View {
     
     @State private var imageHeight: CGFloat = 0
     
+    @ViewBuilder
+    var milestoneSettings: some View {
+        InAppSettingsToggle("Show Milestones", isOn: $showMilestones)
+        SettingsDivider()
+        if showMilestones {
+            Group {
+                InAppSettingsToggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
+                GeometryReader { proxy in
+                    Divider()
+                        .offset(x: 20, y: 0)
+                        .frame(width: proxy.size.width - 20)
+                    
+                }
+                InAppSettingsToggle("Prefer Future Milestones (where available)", isOn: $preferFutureMilestones)
+                GeometryReader { proxy in
+                    Divider()
+                        .offset(x: 20, y: 0)
+                        .frame(width: proxy.size.width - 20)
+                    
+                }
+            }
+        }
+    }
+    
     var settingsForm: some View {
         VStack(alignment: .trailing, spacing: 0) {
-            Toggle("Show Milestones", isOn: $showMilestones)
-                .padding(10)
-                .padding(.horizontal, 10)
-            GeometryReader { proxy in
-                Divider()
-                    .offset(x: 20, y: 0)
-                    .frame(width: proxy.size.width - 20)
-            }.frame(height: 0)
-            Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol)
-                .padding(10)
-                .padding(.horizontal, 10)
-            GeometryReader { proxy in
-                Divider()
-                    .offset(x: 20, y: 0)
-                    .frame(width: proxy.size.width - 20)
-            }.frame(height: 0)
-            Toggle("Show Main Goal Percentage", isOn: $showGoalPercentage)
-                .padding(10)
-                .padding(.horizontal, 10)
-            GeometryReader { proxy in
-                Divider()
-                    .offset(x: 20, y: 0)
-                    .frame(width: proxy.size.width - 20)
-            }.frame(height: 0)
-            Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
-                .padding(10)
-                .padding(.horizontal, 10)
-            GeometryReader { proxy in
-                Divider()
-                    .offset(x: 20, y: 0)
-                    .frame(width: proxy.size.width - 20)
-            }.frame(height: 0)
-            Toggle("Use True Black Background", isOn: $useTrueBlackBackground)
-                .padding(10)
-                .padding(.horizontal, 10)
-        }
+            milestoneSettings
+            InAppSettingsToggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol)
+            SettingsDivider()
+            InAppSettingsToggle("Show Main Goal Percentage", isOn: $showGoalPercentage)
+            SettingsDivider()
+            InAppSettingsToggle("Use True Black Background", isOn: $useTrueBlackBackground)
+        }.animation(.easeInOut)
     }
     
     var appIconImage: some View {
