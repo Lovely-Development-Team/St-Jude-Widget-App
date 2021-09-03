@@ -9,12 +9,14 @@ import SwiftUI
 import WidgetKit
 
 struct LargeMilestoneTitle: View {
-    let title: String
+    let title: String?
     let name: String
     var body: some View {
-        Text(title)
-            .font(.caption)
-            .opacity(0.8)
+        if let title = title {
+            Text(title)
+                .font(.caption)
+                .opacity(0.8)
+        }
         Text(name)
             .fontWeight(.bold)
     }
@@ -23,13 +25,15 @@ struct LargeMilestoneTitle: View {
 struct MilestoneView: View {
     @Environment(\.widgetFamily) private var family
     
+    let title: String?
     let data: TiltifyWidgetData
     let milestone: TiltifyMilestone
     let showFullCurrencySymbol: Bool
     let percentageReached: Double?
     let showMilestonePercentage: Bool
     
-    init(data: TiltifyWidgetData, milestone: TiltifyMilestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool) {
+    init(title: String? = nil, data: TiltifyWidgetData, milestone: TiltifyMilestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool) {
+        self.title = title
         self.data = data
         self.milestone = milestone
 		self.showFullCurrencySymbol = showFullCurrencySymbol
@@ -37,26 +41,15 @@ struct MilestoneView: View {
         self.showMilestonePercentage = showMilestonePercentage
     }
     
-    var milestoneTitle: String {
-        guard let percentageReached = percentageReached else {
-            return "Milestone"
-        }
-        if percentageReached > 1 {
-            return "Previous milestone"
-        } else {
-            return "Next milestone"
-        }
-    }
-    
     var accessibilityLabel: String {
-        "\(milestoneTitle): \(milestone.name). \(data.percentageDescription(for: milestone)) of \(formatCurrency(amount: milestone.amount, showFullCurrencySymbol: showFullCurrencySymbol)) raised."
+        "\(title ?? "Milestone"): \(milestone.name). \(data.percentageDescription(for: milestone)) of \(formatCurrency(amount: milestone.amount, showFullCurrencySymbol: showFullCurrencySymbol)) raised."
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            if isLargeSize(family: family) || !DeviceType.isInWidget() {
+            if isLargeSize(family: family) || !DeviceType.isInWidget(){
                 Spacer().fixedSize()
-                LargeMilestoneTitle(title: milestoneTitle, name: milestone.name)
+                LargeMilestoneTitle(title: title, name: milestone.name)
                     .accessibility(hidden: true)
             }
             
