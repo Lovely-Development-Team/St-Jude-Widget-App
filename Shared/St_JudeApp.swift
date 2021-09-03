@@ -1,5 +1,5 @@
 //
-//  St_NudeApp.swift
+//  St_JudeApp.swift
 //  Shared
 //
 //  Created by David on 21/08/2021.
@@ -10,7 +10,7 @@ import WidgetKit
 import Intents
 
 @main
-struct St_NudeApp: App {
+struct St_JudeApp: App {
     @Environment(\.scenePhase) private var scenePhase
     #if os(iOS)
     @UIApplicationDelegateAdaptor(StJudeAppDelegate.self) var appDelegate
