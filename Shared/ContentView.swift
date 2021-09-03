@@ -196,7 +196,6 @@ struct ContentView: View {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .contextMenu {
                             Button {
                                 self.showSettings()

@@ -22,7 +22,7 @@ func sendNotification(_ title: String, message: String?) {
     
     UNUserNotificationCenter.current().add(request, withCompletionHandler: {(error) in
         if let e = error {
-            print(e.localizedDescription)
+            dataLogger.error("could not schedule notification: \(e.localizedDescription)")
         }
     })
 }
@@ -40,28 +40,24 @@ func initNotificationCenter() {
     UNUserNotificationCenter.current().delegate = customNotificationDelegate
 }
 
-func setNotificationPreference(newValue: Bool, for key: String) {
-    if(newValue) {
-        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {(settings) in
-            switch(settings.authorizationStatus) {
-            case .authorized:
-                UserDefaults.shared.set(newValue, forKey: key)
-                break
-            case .denied:
-                UserDefaults.shared.set(false, forKey: key)
-                break
-            default:
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {(authorized, error) in
-                    if let e = error {
-                        print(e.localizedDescription)
-                        UserDefaults.shared.set(false, forKey: key)
-                        return
-                    }
-                    setNotificationPreference(newValue: authorized, for: key)
-                })
-            }
-        })
-    } else {
-        UserDefaults.shared.set(newValue, forKey: key)
-    }
+func setNotificationPreference(newValue: Bool?, for key: String?) {
+    UNUserNotificationCenter.current().getNotificationSettings(completionHandler: {(settings) in
+        switch(settings.authorizationStatus) {
+        case .authorized:
+            if let key = key, let newValue = newValue { UserDefaults.shared.set(newValue, forKey: key) }
+            break
+        case .denied:
+            if let key = key, let _ = newValue { UserDefaults.shared.set(false, forKey: key) }
+            break
+        default:
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {(authorized, error) in
+                if let e = error {
+                    dataLogger.error("could not request notification authorization: \(e.localizedDescription)")
+                    if let key = key, let _ = newValue { UserDefaults.shared.set(false, forKey: key) }
+                    return
+                }
+                if let key = key, let _ = newValue { setNotificationPreference(newValue: authorized, for: key) }
+            })
+        }
+    })
 }
