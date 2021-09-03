@@ -30,7 +30,7 @@ struct CampaignTitle: View {
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, alignment: .leading)
             .lineLimit(family == .systemMedium ? 1 : 2)
-            .minimumScaleFactor(0.7)
+            .minimumScaleFactor(0.6)
     }
 }
 
