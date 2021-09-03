@@ -11,7 +11,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     //check if cached amount is significant
     //uncomment below for testing
 //    UserDefaults.shared.set(49990.0, forKey: "cachedTotalRaised")
-    let cachedTotal = (UserDefaults.shared.object(forKey: "cachedTotalRaised") as? Double) ?? -1.0
+    let cachedTotal = UserDefaults.shared.double(forKey: "cachedTotalRaised")
     
     
     let totalRaised = widgetData.totalRaised ?? -1.0
@@ -19,7 +19,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
 //    let totalRaised = 50001.0
     let goal = widgetData.goal ?? -1.0
     
-    let customAmount = (UserDefaults.shared.object(forKey: "customNotificationAmount") as? Double) ?? -1.0
+    let customAmount = UserDefaults.shared.double(forKey: "customNotificationAmount")
     
     var shouldShowMilestoneNotification = false
     var shouldShowAmountNotification = false
@@ -35,10 +35,10 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     let nearestGoalMultipleToCachedTotal = Double(Int((round(cachedTotal)+goal)/goal))*goal
     let nearestGoalMultipleToTotalRaised = Double(Int((round(totalRaised)+goal)/goal))*goal
     
-    if(cachedTotal != -1 && cachedTotal != totalRaised) {
-        var milestoneAmount: Double = -1.0
+    if(cachedTotal != 0 && cachedTotal != totalRaised) {
+        var milestoneAmount: Double = 0
         if let previousMilestone = widgetData.previousMilestone {
-            milestoneAmount = Double(previousMilestone.amount.value) ?? -1.0
+            milestoneAmount = Double(previousMilestone.amount.value) ?? 0
         }
         
         if(cachedTotal < milestoneAmount && totalRaised > milestoneAmount) {
@@ -59,7 +59,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
             shouldShowGoalMultiplierNotification = true
         }
         
-        if(customAmount != -1.0) {
+        if(customAmount != 0) {
             if(cachedTotal < customAmount && totalRaised > customAmount) {
                 shouldShowCustomAmountNotification = true
             }

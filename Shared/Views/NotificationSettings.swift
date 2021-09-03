@@ -40,6 +40,7 @@ struct NotificationSettings: View {
                     Toggle(isOn: self.$data.enableCustomAmountNotification, label: {
                         Text("Custom Amount")
                     })
+                        .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
                     if(self.data.enableCustomAmountNotification) {
                         TextField("Enter Amount", text: self.$data.customAmountInput)
                             .foregroundColor((self.data.rejectedInputShowing) ? .red : Color(UIColor.label))

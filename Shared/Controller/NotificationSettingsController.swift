@@ -77,7 +77,6 @@ class NotificationSettingsController: ObservableObject {
                     DispatchQueue.main.async {
                         self.rejectedInputShowing = false
                         UserDefaults.shared.set(number.doubleValue, forKey: "customNotificationAmount")
-                        print(UserDefaults.shared.double(forKey: "customNotificationAmount"))
                     }
                 } else {
                     self.rejectedInputShowing = true
@@ -104,11 +103,7 @@ class NotificationSettingsController: ObservableObject {
                     }
                     break
                 default:
-                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: {(authorized, error) in
-                        if let e = error {
-                            print(e.localizedDescription)
-                        }
-                    })
+                    setNotificationPreference(newValue: nil, for: nil)
                     break
                 }
             })
