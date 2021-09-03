@@ -45,6 +45,25 @@ struct ContentView: View {
     
     @State var activeSheet: ActiveSheet?
     
+    
+    var blurView: some View {
+        #if !os(iOS)
+        BlurView()
+            .opacity((self.isWidgetFlipped) ? 1.0 : 0)
+            .edgesIgnoringSafeArea(.all)
+            .onTapGesture(perform: {
+                self.dismissSettings()
+            })
+        #else
+        BlurView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+            .opacity((self.isWidgetFlipped) ? 1.0 : 0)
+            .edgesIgnoringSafeArea(.all)
+            .onTapGesture(perform: {
+                self.dismissSettings()
+            })
+        #endif
+    }
+    
     var body: some View {
         ZStack {
             VStack {
@@ -100,10 +119,10 @@ struct ContentView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 15)
-                                .foregroundColor(Color(UIColor.label))
+                                .foregroundColor(Color.label)
                                 .accessibility(hidden: true)
                             Text("Notification Settings")
-                                .foregroundColor(Color(UIColor.label))
+                                .foregroundColor(Color.label)
                                 .font(.callout)
                                 .fontWeight(.bold)
                         }
@@ -171,12 +190,7 @@ struct ContentView: View {
             }
             .scaleEffect((self.isWidgetFlipped) ? 0.95 : 1.0)
             
-            BlurView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
-                .opacity((self.isWidgetFlipped) ? 1.0 : 0)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture(perform: {
-                    self.dismissSettings()
-                })
+            blurView
             
             VStack {
                 if isWidgetFlipped {
@@ -205,7 +219,7 @@ struct ContentView: View {
                         }
                 }
             }
-            .background(Color(UIColor.secondarySystemBackground))
+            .background(Color.secondarySystemBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .frame(minWidth: 0, maxWidth: 795, maxHeight: self.maxFrameHeight)
             .rotation3DEffect(.degrees(isWidgetFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
@@ -223,7 +237,7 @@ struct ContentView: View {
                     NotificationSettings()
                 case .egg:
                     EasterEggView()
-                        .background(Color(UIColor.secondarySystemBackground))
+                        .background(Color.secondarySystemBackground)
                         .edgesIgnoringSafeArea(.all)
                 }
             }

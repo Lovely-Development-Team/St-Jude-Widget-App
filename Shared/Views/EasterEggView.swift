@@ -12,8 +12,10 @@ struct EasterEggView: View {
     
     @State private var animate = false
     @State private var animationType: Animation? = .none
+    #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     let selectionHaptics = UISelectionFeedbackGenerator()
+    #endif
     
     @State private var showFullL2CUName = false
     private var affirmationToShow: String = "Teamwork makes the dream work!"
@@ -42,7 +44,9 @@ struct EasterEggView: View {
                 .fontWeight(.bold)
             Button(action: {
                 withAnimation {
+                    #if !os(macOS)
                     bounceHaptics.impactOccurred()
+                    #endif
                     self.animate.toggle()
                     self.animationType = .default
                 }
@@ -65,7 +69,9 @@ struct EasterEggView: View {
             HStack(spacing: 5) {
                 Button(action: {
                     withAnimation {
+                        #if !os(macOS)
                         selectionHaptics.selectionChanged()
+                        #endif
                         self.showFullL2CUName.toggle()
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {

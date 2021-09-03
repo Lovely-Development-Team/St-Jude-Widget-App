@@ -5,7 +5,6 @@
 //  Created by Ben Cardy on 30/08/2021.
 //
 
-import UIKit
 import SwiftUI
 
 struct WidgetSettingsView: View {
@@ -64,11 +63,19 @@ struct WidgetSettingsView: View {
         }
     }
     
+    var appIconImage: some View {
+        #if os(macOS)
+        Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+        #else
+        Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+        #endif
+    }
+    
     var body: some View {
         
         VStack(spacing: 15) {
             HStack {
-                Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                appIconImage
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                     .background(
                         GeometryReader() { geometry -> Color in
@@ -105,14 +112,14 @@ struct WidgetSettingsView: View {
             
                 settingsForm
                     .background(
-                        Color(UIColor.quaternarySystemFill)
+                        Color.quaternarySystemFill
                             .cornerRadius(15)
                     )
                     .padding(.bottom)
             }
         }
         .padding([.top, .horizontal])
-        .background(Color(UIColor.tertiarySystemBackground))
+        .background(Color.tertiarySystemBackground)
         .accessibilityAction(.escape, onDismiss)
     }
 }
