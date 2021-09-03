@@ -41,6 +41,10 @@ struct WidgetEntryView : View {
         entry.configuration.showMilestones?.boolValue == true
     }
     
+    var preferFutureMilestones: Bool {
+        entry.configuration.preferFutureMilestones?.boolValue == true
+    }
+    
     var shouldShouldFullCurrencySymbol: Bool {
         entry.configuration.showFullCurrencySymbol?.boolValue == false
     }
@@ -59,6 +63,6 @@ struct WidgetEntryView : View {
     
     
     var body: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, useTrueBlackBackground: shouldUseTrueBlackBackground)
+        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, useTrueBlackBackground: shouldUseTrueBlackBackground)
     }
 }

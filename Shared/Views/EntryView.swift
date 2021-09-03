@@ -12,6 +12,7 @@ struct EntryView: View {
     
     @Binding var campaign: TiltifyWidgetData
     let showMilestones: Bool
+    let preferFutureMilestones: Bool
     let showFullCurrencySymbol: Bool
     let showGoalPercentage: Bool
     let showMilestonePercentage: Bool
@@ -19,8 +20,8 @@ struct EntryView: View {
     var forceHidePreviousMilestone: Bool = false
 
     
-    var showPreviousMilestone: Bool {
-        if(self.forceHidePreviousMilestone) { return false }
+    var showTwoMilestones: Bool {
+        if self.forceHidePreviousMilestone { return false }
         return (isLargeSize(family: family) || !DeviceType.isInWidget()) || campaign.nextMilestone == nil
     }
     
@@ -104,12 +105,20 @@ struct EntryView: View {
             .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
             
             if showMilestones && family != .systemSmall {
-                if showPreviousMilestone,
+                if showTwoMilestones,
+                   !preferFutureMilestones || campaign.futureMilestones.count <= 1,
                    let milestone = campaign.previousMilestone {
                     MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage)
                 }
                 
                 if let milestone = campaign.nextMilestone {
+                    MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage)
+                }
+                
+                if showTwoMilestones,
+                   preferFutureMilestones && campaign.futureMilestones.count > 1,
+                   1 < campaign.futureMilestones.endIndex,
+                   let milestone = campaign.futureMilestones[1] {
                     MilestoneView(data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage)
                 }
             }
@@ -124,8 +133,13 @@ struct EntryView: View {
 
 struct EntryViewPreview: PreviewProvider {
     static var previews: some View {
-        return EntryView(campaign: .constant(sampleCampaign), showMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true)
-            .frame(width: 300, height: 378)
-            .cornerRadius(15)
+        Group {
+            EntryView(campaign: .constant(sampleCampaign), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true)
+                .frame(width: 300, height: 378)
+                .cornerRadius(15)
+            EntryView(campaign: .constant(sampleCampaign), showMilestones: true, preferFutureMilestones: false, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true)
+                .frame(width: 300, height: 378)
+                .cornerRadius(15)
+        }
     }
 }

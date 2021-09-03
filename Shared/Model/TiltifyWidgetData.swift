@@ -64,6 +64,9 @@ struct TiltifyWidgetData {
         return descriptionString
     }
     let milestones: [TiltifyMilestone]
+    let previousMilestone: TiltifyMilestone?
+    let nextMilestone: TiltifyMilestone?
+    let futureMilestones: [TiltifyMilestone]
     
     private let currencyCode: String
     let currencyFormatter: NumberFormatter
@@ -85,6 +88,15 @@ struct TiltifyWidgetData {
         self.totalRaisedRaw = campaign.totalAmountRaised.value
         self.goalRaw = campaign.goal.value
         self.milestones = campaign.milestones.sorted(by: sortMilestones)
+        if let totalRaised = Double(campaign.totalAmountRaised.value) {
+            self.previousMilestone = Self.previousMilestone(at: totalRaised, in: self.milestones)
+            self.nextMilestone = Self.nextMilestone(at: totalRaised, in: self.milestones)
+            self.futureMilestones = Self.futureMilestones(at: totalRaised, in: self.milestones)
+        } else {
+            self.previousMilestone = nil
+            self.nextMilestone = nil
+            self.futureMilestones = []
+        }
     }
     
     var percentageReached: Double? {
@@ -107,13 +119,6 @@ struct TiltifyWidgetData {
         }
     }
     
-    var previousMilestone: TiltifyMilestone? {
-        guard let totalRaised = totalRaised else {
-            return nil
-        }
-        return Self.previousMilestone(at: totalRaised, in: milestones)
-    }
-    
     static func nextMilestone(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> TiltifyMilestone? {
         return milestones.first { milestone in
             guard let milestoneValue = Double(milestone.amount.value) else {
@@ -124,11 +129,14 @@ struct TiltifyWidgetData {
         }
     }
     
-    var nextMilestone: TiltifyMilestone? {
-        guard let totalRaised = totalRaised else {
-            return nil
+    static func futureMilestones(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> [TiltifyMilestone] {
+        return milestones.filter { milestone in
+            guard let milestoneValue = Double(milestone.amount.value) else {
+                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value)' to double")
+                return false
+            }
+            return milestoneValue >= totalRaised
         }
-        return Self.nextMilestone(at: totalRaised, in: milestones)
     }
     
     func percentage(ofMilestone Milestone: TiltifyMilestone) -> Double? {
@@ -184,6 +192,15 @@ extension TiltifyWidgetData: Codable {
         formatter.numberStyle = .currency
         formatter.currencyCode = currencyCode
         self.currencyFormatter = formatter
+        if let totalRaised = Double(self.totalRaisedRaw) {
+            self.previousMilestone = Self.previousMilestone(at: totalRaised, in: self.milestones)
+            self.nextMilestone = Self.nextMilestone(at: totalRaised, in: self.milestones)
+            self.futureMilestones = Self.futureMilestones(at: totalRaised, in: self.milestones)
+        } else {
+            self.previousMilestone = nil
+            self.nextMilestone = nil
+            self.futureMilestones = []
+        }
     }
     
     func encode(to encoder: Encoder) throws {
