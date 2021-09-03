@@ -56,7 +56,10 @@ func setNotificationPreference(newValue: Bool?, for key: String?) {
                     if let key = key, let _ = newValue { UserDefaults.shared.set(false, forKey: key) }
                     return
                 }
-                if let key = key, let _ = newValue { setNotificationPreference(newValue: authorized, for: key) }
+                if let key = key,
+                    let newValue = newValue {
+                    setNotificationPreference(newValue: authorized ? newValue : false, for: key)
+                }
             })
         }
     })

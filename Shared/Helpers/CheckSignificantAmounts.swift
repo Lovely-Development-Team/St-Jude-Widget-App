@@ -19,7 +19,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
 //    let totalRaised = 50001.0
     let goal = widgetData.goal ?? -1.0
     
-    let customAmount = UserDefaults.shared.double(forKey: "customNotificationAmount")
+    let customAmount = UserDefaults.shared.customNotificationAmount
     
     var shouldShowMilestoneNotification = false
     var shouldShowAmountNotification = false

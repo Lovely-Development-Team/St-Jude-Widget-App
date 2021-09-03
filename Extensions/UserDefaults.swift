@@ -22,6 +22,8 @@ extension UserDefaults {
     static let showSignificantAmountNotificationKey = "showSignificantAmountNotification"
     static let showGoalNotificationKey = "showGoalNotification"
     static let showMilestoneAddedNotificationKey = "showMilestoneAddedNotification"
+    static let enableCustomAmountNotificationKey = "enableCustomAmountNotification"
+    static let customNotificationAmountKey = "customNotificationAmount"
     
     @objc var relayData: Data? {
         get { data(forKey: "relayData") }
@@ -76,5 +78,15 @@ extension UserDefaults {
     @objc var showMilestoneAddedNotification: Bool {
         get { bool(forKey: Self.showMilestoneAddedNotificationKey) }
         set { setNotificationPreference(newValue: newValue, for: Self.showMilestoneAddedNotificationKey) }
+    }
+    
+    @objc var enableCustomAmountNotification: Bool {
+        get { bool(forKey: Self.enableCustomAmountNotificationKey) }
+        set { setNotificationPreference(newValue: newValue, for: Self.enableCustomAmountNotificationKey) }
+    }
+    
+    @objc var customNotificationAmount: Double {
+        get { double(forKey: Self.customNotificationAmountKey) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.customNotificationAmountKey) }
     }
 }

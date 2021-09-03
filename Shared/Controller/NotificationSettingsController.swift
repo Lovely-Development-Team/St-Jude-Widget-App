@@ -63,11 +63,15 @@ class NotificationSettingsController: ObservableObject {
             if(!self.refreshing) { UserDefaults.shared.showMilestoneAddedNotification = newValue }
         }.store(in: &self.subscribers)
         
+        self.$enableCustomAmountNotification.removeDuplicates().sink { newValue in
+            UserDefaults.shared.enableCustomAmountNotification = newValue
+        }.store(in: &self.subscribers)
+        
         
         self.$customAmountInput.sink(receiveValue: {newValue in
             if let doubleValue = Double(newValue) {
                 //no currency formatting fallback (e.g. 300000)
-                UserDefaults.shared.set(doubleValue, forKey: "customNotificationAmount")
+                UserDefaults.shared.customNotificationAmount = doubleValue
                 self.rejectedInputShowing = false
             } else {
                 //currency formatter (e.g. $300,000)
@@ -76,7 +80,7 @@ class NotificationSettingsController: ObservableObject {
                 if let number = f.number(from: newValue) {
                     DispatchQueue.main.async {
                         self.rejectedInputShowing = false
-                        UserDefaults.shared.set(number.doubleValue, forKey: "customNotificationAmount")
+                        UserDefaults.shared.customNotificationAmount = number.doubleValue
                     }
                 } else {
                     self.rejectedInputShowing = true
@@ -91,14 +95,15 @@ class NotificationSettingsController: ObservableObject {
                 case .authorized:
                     DispatchQueue.main.async {
                         if(newValue) {
-                            if(UserDefaults.shared.double(forKey: "customNotificationAmount") == 0.0) {
+                            if(UserDefaults.shared.customNotificationAmount == 0.0) {
                                 self.customAmountInput = "$100.00"
-                                UserDefaults.shared.set(100, forKey: "customNotificationAmount")
+                                
+                                UserDefaults.shared.customNotificationAmount = 100
                             } else {
-                                self.customAmountInput = formatCurrency(from: String(UserDefaults.shared.double(forKey: "customNotificationAmount")), currency: "USD", showFullCurrencySymbol: false).1
+                                self.customAmountInput = formatCurrency(from: String(UserDefaults.shared.customNotificationAmount), currency: "USD", showFullCurrencySymbol: false).1
                             }
                         } else {
-                            UserDefaults.shared.set(nil, forKey: "customNotificationAmount")
+                            UserDefaults.shared.removeObject(forKey: UserDefaults.customNotificationAmountKey)
                         }
                     }
                     break
@@ -126,9 +131,9 @@ class NotificationSettingsController: ObservableObject {
                         self.showGoal = UserDefaults.shared.showGoalNotification
                         self.showSignificantAmounts = UserDefaults.shared.showSignificantAmountNotification
                         self.showMilestoneAdded = UserDefaults.shared.showMilestoneAddedNotification
-                        self.enableCustomAmountNotification = (UserDefaults.shared.double(forKey: "customNotificationAmount") != 0)
-                        if(self.enableCustomAmountNotification) {
-                            self.customAmountInput = formatCurrency(from: String(UserDefaults.shared.double(forKey: "customNotificationAmount")), currency: "USD", showFullCurrencySymbol: false).1
+                        self.enableCustomAmountNotification = UserDefaults.shared.enableCustomAmountNotification
+                        if self.enableCustomAmountNotification {
+                            self.customAmountInput = formatCurrency(from: String(UserDefaults.shared.customNotificationAmount), currency: "USD", showFullCurrencySymbol: false).1
                         }
                         self.notificationsAllowed = true
                     } else {
