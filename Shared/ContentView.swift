@@ -211,25 +211,31 @@ struct ContentView: View {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
                         }
-                        .contextMenu {
-                            Button {
-                                self.showSettings()
-                            } label: {
-                                Label("Edit Widget", systemImage: "info.circle")
-                            }
-                        }
+                        
+//                        .contextMenu {
+//                            Button {
+//                                self.showSettings()
+//                            } label: {
+//                                Label("Edit Widget", systemImage: "info.circle")
+//                            }
+//                        }
                 }
+                
             }
             .background(Color.secondarySystemBackground)
+            .shadow(radius: 20)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .shadow(radius: 20)
             .frame(minWidth: 0, maxWidth: 795, maxHeight: self.maxFrameHeight)
             .rotation3DEffect(.degrees(isWidgetFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
             .onTapGesture {
                 self.showSettings()
             }
+            .onLongPressGesture {
+                self.showSettings()
+            }
             .padding()
             .position(self.rectangleCenter)
-            .shadow(radius: 20)
             .edgesIgnoringSafeArea(.all)
 //            .padding(.top, DeviceType.isSmallPhone() ? 80 : 0)
             .sheet(item: $activeSheet) { item in
@@ -252,6 +258,7 @@ struct ContentView: View {
             })
         })
     }
+
     
     func showSettings() {
         withAnimation(.spring(), {
