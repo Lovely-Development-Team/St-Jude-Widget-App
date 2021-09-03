@@ -1377,7 +1377,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "St Nude (iOS)";
+				TEST_TARGET_NAME = "St Jude (iOS)";
 			};
 			name = Debug;
 		};
@@ -1402,7 +1402,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "St Nude (iOS)";
+				TEST_TARGET_NAME = "St Jude (iOS)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1428,7 +1428,7 @@
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "St Nude (macOS)";
+				TEST_TARGET_NAME = "St Jude (macOS)";
 			};
 			name = Debug;
 		};
@@ -1453,7 +1453,7 @@
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "St Nude (macOS)";
+				TEST_TARGET_NAME = "St Jude (macOS)";
 			};
 			name = Release;
 		};
