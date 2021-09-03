@@ -10,6 +10,7 @@ import UserNotifications
 import Combine
 
 struct NotificationSettings: View {
+    @Environment(\.openURL) private var openURL
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var data = NotificationSettingsController()
@@ -38,10 +39,8 @@ struct NotificationSettings: View {
                 if(!self.data.notificationsAllowed && self.data.notificationAccessAsked) {
                     Section() {
                         Button(action: {
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                if(UIApplication.shared.canOpenURL(url)) {
-                                    UIApplication.shared.open(url, options: [:], completionHandler: {_ in})
-                                }
+                            if let url = systemSettingsNotificationsUrl() {
+                                openURL(url)
                             }
                         }, label: {
                             Text("Notification access denied.")
@@ -49,7 +48,7 @@ struct NotificationSettings: View {
                     }
                 }
             }
-            .navigationBarTitle("Notifications")
+            .navigationTitle("Notifications")
             .toolbar(content: {
                 ToolbarItem(placement: .primaryAction, content: {
                     Button(action: {

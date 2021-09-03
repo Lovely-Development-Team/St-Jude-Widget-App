@@ -83,7 +83,7 @@ struct EntryView: View {
                         }
                         .font(.caption)
                     }
-                    if #available(iOS 15.0, *), showGoalPercentage, family == .systemExtraLarge && DeviceType.isInWidget() {
+                    if #available(iOS 15.0, *), showGoalPercentage, isExtraLargeSize(family: family) && DeviceType.isInWidget() {
                             Spacer()
                             Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
                     }

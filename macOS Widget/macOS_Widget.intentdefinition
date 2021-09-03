@@ -9,7 +9,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>20F71</string>
+	<string>20G95</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>13A5212g</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -26,7 +26,7 @@
 			<key>INIntentIneligibleForSuggestions</key>
 			<true/>
 			<key>INIntentLastParameterTag</key>
-			<integer>4</integer>
+			<integer>5</integer>
 			<key>INIntentName</key>
 			<string>Configuration</string>
 			<key>INIntentParameters</key>
@@ -214,6 +214,54 @@
 					<true/>
 					<key>INIntentParameterTag</key>
 					<integer>4</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Use True Black Background</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>K4RwdA</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>5</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>false</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>3D2vLC</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>true</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>FMYIOM</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>useTrueBlackBackground</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Use true black background?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>dlZGM7</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>5</integer>
 					<key>INIntentParameterType</key>
 					<string>Boolean</string>
 				</dict>
