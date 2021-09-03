@@ -128,6 +128,7 @@ struct ContentView: View {
                                 .fontWeight(.bold)
                         }
                     })
+                        .buttonStyle(PlainButtonStyle())
                 }
                 Spacer()
                 Button(action: {
@@ -147,6 +148,7 @@ struct ContentView: View {
                             
                     }
                 })
+                    .buttonStyle(PlainButtonStyle())
                     .padding(.vertical, 5)
             }
             .accessibility(hidden: isWidgetFlipped)

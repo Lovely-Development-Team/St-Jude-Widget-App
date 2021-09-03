@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EasterEggView: View {
     @Environment(\.openURL) var openURL
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var animate = false
     @State private var animationType: Animation? = .none
@@ -38,6 +39,22 @@ struct EasterEggView: View {
     }
     
     var body: some View {
+        
+        #if os(macOS)
+        HStack {
+            Spacer()
+            Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                  }) {
+                    Text("Dismiss")
+                          .fontWeight(.semibold)
+                          .foregroundColor(.blue)
+                  }
+                  .buttonStyle(PlainButtonStyle())
+                  .padding(.horizontal, 15)
+                  .padding(.vertical, 10)
+        }
+        #endif
         VStack {
             Text("Hi there!")
                 .font(.largeTitle)
@@ -57,7 +74,7 @@ struct EasterEggView: View {
                 Image("Team_Logo_F")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: nil)
+                    .frame(maxWidth:500, maxHeight: 400)
                     .padding(.bottom, 20)
                     .padding(.horizontal, 30)
                     .scaledToFit()
@@ -106,6 +123,7 @@ struct EasterEggView: View {
                 .allowsTightening(true)
                 .minimumScaleFactor(0.7)
                 .font(.body)
+                .buttonStyle(PlainButtonStyle())
         
             }
             .padding(.horizontal)
@@ -122,7 +140,6 @@ struct EasterEggView: View {
 struct EasterEggView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            EasterEggView()
             EasterEggView()
         }
     }
