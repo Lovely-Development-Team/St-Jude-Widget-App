@@ -13,7 +13,7 @@ struct SettingsDivider: View {
             Divider()
                 .offset(x: 20, y: 0)
                 .frame(width: proxy.size.width - 20)
-        }.frame(height: 0)
+        }.frame(height: 1)
     }
 }
 
