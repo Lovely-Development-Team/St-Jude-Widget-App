@@ -213,19 +213,10 @@ struct ContentView: View {
                                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
                             }
                         }
-                        
-//                        .contextMenu {
-//                            Button {
-//                                self.showSettings()
-//                            } label: {
-//                                Label("Edit Widget", systemImage: "info.circle")
-//                            }
-//                        }
                 }
                 
             }
             .background(Color.secondarySystemBackground)
-            .shadow(radius: 20)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .shadow(radius: 20)
             .frame(minWidth: 0, maxWidth: 795, maxHeight: self.maxFrameHeight)
@@ -278,6 +269,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd Generation)"))
+            .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro"))
     }
 }

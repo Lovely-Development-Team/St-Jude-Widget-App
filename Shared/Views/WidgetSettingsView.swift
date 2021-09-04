@@ -32,19 +32,9 @@ struct WidgetSettingsView: View {
         if showMilestones {
             Group {
                 InAppSettingsToggle("Show Milestone Percentage", isOn: $showMilestonePercentage)
-                GeometryReader { proxy in
-                    Divider()
-                        .offset(x: 20, y: 0)
-                        .frame(width: proxy.size.width - 20)
-                    
-                }
-                InAppSettingsToggle("Prefer Future Milestones (where available)", isOn: $preferFutureMilestones)
-                GeometryReader { proxy in
-                    Divider()
-                        .offset(x: 20, y: 0)
-                        .frame(width: proxy.size.width - 20)
-                    
-                }
+                SettingsDivider()
+                InAppSettingsToggle("Prefer Future Milestones", isOn: $preferFutureMilestones)
+                SettingsDivider()
             }
         }
     }
