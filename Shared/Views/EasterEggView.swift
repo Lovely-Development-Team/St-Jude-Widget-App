@@ -111,24 +111,25 @@ struct EasterEggView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
             Section{
-            Text("L2CU drawing by rhl_. \nRelay FM for St. Jude crafted with care by The Lovely Devs. ")
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .allowsTightening(true)
-                .minimumScaleFactor(0.7)
-                .foregroundColor(.secondary)
+                Text("L2CU drawing by rhl_. \nRelay FM for St. Jude crafted with care by The Lovely Devs. ")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .allowsTightening(true)
+                    .minimumScaleFactor(0.7)
+                    .foregroundColor(.secondary)
                 Button("tildy.dev") {
-                    openURL(URL(string: "https://tildy.dev")!)
+                        openURL(URL(string: "https://tildy.dev")!)
                 }
+                .padding(.top, 5.0)
+                .padding(.bottom, 10)
                 .allowsTightening(true)
                 .minimumScaleFactor(0.7)
                 .font(.body)
+                .foregroundColor(.blue)
                 .buttonStyle(PlainButtonStyle())
-        
             }
-            .padding(.horizontal)
-            Spacer()
-
+            .padding(5.0)
+//            Spacer()
         }
         .padding(.top, 30)
         .padding(10)
