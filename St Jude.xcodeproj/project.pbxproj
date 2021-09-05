@@ -281,6 +281,7 @@
 		63E19D5726E22D78009F318F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		63E19D5D26E2339C009F318F /* SystemSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettings.swift; sourceTree = "<group>"; };
 		63E19D5F26E234A5009F318F /* SystemSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettings.swift; sourceTree = "<group>"; };
+		63E19D6426E55768009F318F /* exportOptions.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = exportOptions.plist; sourceTree = "<group>"; };
 		BAD9E11726DEFE41001BB7B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
 		D544692526DFE14D00EA04C9 /* EasterEggView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggView.swift; sourceTree = "<group>"; };
 		DE0F34BC26DA692C00F268C9 /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
@@ -372,6 +373,7 @@
 		6357652726D1A73B004F04DE = {
 			isa = PBXGroup;
 			children = (
+				63E19D6426E55768009F318F /* exportOptions.plist */,
 				63574A4726D65E5C00A2D495 /* macOS WidgetExtension.entitlements */,
 				63574A4326D65DD300A2D495 /* St-Jude--macOS--Info.plist */,
 				DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */,
