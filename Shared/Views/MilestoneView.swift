@@ -78,6 +78,7 @@ struct MilestoneView: View {
                 ProgressBar(value: .constant(Float(percentageToMilestone)))
                     .frame(height: 10)
                     .accessibility(hidden: true)
+                    .padding(.top, -5)
             }
         }
         .accessibilityElement()
