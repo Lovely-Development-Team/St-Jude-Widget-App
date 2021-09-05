@@ -46,6 +46,10 @@ struct ContentView: View {
     
     @State var activeSheet: ActiveSheet?
     
+    #if !os(macOS)
+    let impactMed = UIImpactFeedbackGenerator(style: .medium)
+    let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+    #endif
     
     var blurView: some View {
         #if !os(iOS)
@@ -61,6 +65,7 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.all)
             .onTapGesture(perform: {
                 self.dismissSettings()
+                impactMed.impactOccurred()
             })
         #endif
     }
@@ -222,9 +227,15 @@ struct ContentView: View {
             .frame(minWidth: 0, maxWidth: 795, maxHeight: self.maxFrameHeight)
             .rotation3DEffect(.degrees(isWidgetFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
             .onTapGesture {
+                #if !os(macOS)
+                    impactMed.impactOccurred()
+                #endif
                 self.showSettings()
             }
             .onLongPressGesture {
+                #if !os(macOS)
+                    impactHeavy.impactOccurred()
+                #endif
                 self.showSettings()
             }
             .padding()
