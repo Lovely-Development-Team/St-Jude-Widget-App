@@ -15,6 +15,8 @@ struct NotificationSettings: View {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var data = NotificationSettingsController()
     
+    @State private var keyboardShowing: Bool = false
+    
     var body: some View {
         NavigationView {    
             Form {
@@ -43,10 +45,36 @@ struct NotificationSettings: View {
                     })
                         .disabled(!self.data.notificationsAllowed && self.data.notificationAccessAsked)
                     if(self.data.enableCustomAmountNotification) {
-                        TextField("Enter Amount", text: self.$data.customAmountInput)
-                            .foregroundColor((self.data.rejectedInputShowing) ? .red : Color.label)
+                        HStack(spacing: 0) {
+                            Text("$")
+                                .foregroundColor((self.data.rejectedInputShowing) ? .red : .label)
+                            TextField(" Enter Amount", text: self.$data.customAmountInput)
+                                .keyboardType(.decimalPad)
+                                .foregroundColor((self.data.rejectedInputShowing) ? .red : .label)
+                            if(self.keyboardShowing) {
+                                Button(action: {
+                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                }, label: {
+                                    Text("Done")
+                                        .bold()
+                                })
+                                    .disabled(self.data.rejectedInputShowing)
+                                    .animation(.easeInOut(duration: 0.25))
+                            }
+                        }
                     }
                 }
+                
+                //uncomment below to test custom amounts
+//                Button(action: {
+//                    UserDefaults.shared.removeObject(forKey: UserDefaults.customNotificationAmountKey)
+//                    UserDefaults.shared.enableCustomAmountNotification = false
+//                    self.data.customAmountInput = ""
+//                    self.data.refresh()
+//                }, label: {
+//                    Text("Reset Custom Amount Prefs")
+//                        .foregroundColor(.red)
+//                })
                 
                 if(!self.data.notificationsAllowed && self.data.notificationAccessAsked) {
                     Section() {
@@ -69,6 +97,7 @@ struct NotificationSettings: View {
                         Text("Done")
                             .bold()
                     })
+                        .disabled(self.keyboardShowing)
                 })
             })
             .onChange(of: scenePhase) { newPhase in
@@ -76,6 +105,17 @@ struct NotificationSettings: View {
                     self.data.refresh()
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification, object: nil), perform: { (notification) in
+                self.data.deformatText()
+                self.keyboardShowing = true
+            })
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification), perform: { (notification) in
+                self.data.formatText()
+                self.keyboardShowing = false
+            })
+            .onReceive(NotificationCenter.default.publisher(for: .init("NotificationAccessChangedNotification"), object: nil), perform: {(notification) in
+                self.data.refresh()
+            })
         }
     }
 }

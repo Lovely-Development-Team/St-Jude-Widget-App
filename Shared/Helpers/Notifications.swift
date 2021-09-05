@@ -56,6 +56,9 @@ func setNotificationPreference(newValue: Bool?, for key: String?) {
                     if let key = key, let _ = newValue { UserDefaults.shared.set(false, forKey: key) }
                     return
                 }
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .init("NotificationAccessChangedNotification"), object: nil)
+                }
                 if let key = key,
                     let newValue = newValue {
                     setNotificationPreference(newValue: authorized ? newValue : false, for: key)
