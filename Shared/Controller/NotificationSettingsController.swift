@@ -100,7 +100,8 @@ class NotificationSettingsController: ObservableObject {
         
         
         self.$customAmountInput.sink(receiveValue: {newValue in
-            if(!self.refreshing && !self.modifyingPublishers) {
+            if !self.refreshing, 
+            !self.modifyingPublishers {
                 if let numberValue = self.getNumberFromFormattedString(newValue) {
                     //no currency formatting fallback (e.g. 300000)
                     UserDefaults.shared.customNotificationAmount = numberValue.doubleValue
@@ -155,12 +156,12 @@ class NotificationSettingsController: ObservableObject {
                         self.showMilestoneAdded = UserDefaults.shared.showMilestoneAddedNotification
                         self.enableCustomAmountNotification = UserDefaults.shared.enableCustomAmountNotification
                         if self.enableCustomAmountNotification {
-                            if(UserDefaults.shared.customNotificationAmount != 0) {
+                            if UserDefaults.shared.customNotificationAmount != 0 {
                                 self.customAmountInput = self.getFormattedStringFromNumber(NSNumber(value: UserDefaults.shared.customNotificationAmount)) ?? "100.00"
                             }
                         }
                         self.notificationsAllowed = true
-                    } else if(settings.authorizationStatus == .denied) {
+                    } else if settings.authorizationStatus == .denied {
                         self.removePublishers()
                         self.showMilestones = false
                         self.showGoal = false
