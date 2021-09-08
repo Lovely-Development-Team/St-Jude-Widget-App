@@ -31,7 +31,7 @@ struct ContentView: View {
     
     @State private var isWidgetFlipped: Bool = false
     @AppStorage(UserDefaults.inAppShowMilestonesKey, store: UserDefaults.shared) var showMilestones: Bool = true
-    @AppStorage(UserDefaults.inAppPreferFutureMilestonesKey, store: UserDefaults.shared) var preferFutureMilestones: Bool = false
+    @AppStorage(UserDefaults.inAppPreferFutureMilestonesKey, store: UserDefaults.shared) var preferFutureMilestones: Bool = true
     @AppStorage(UserDefaults.inAppShowFullCurrencySymbolKey, store: UserDefaults.shared) var showFullCurrencySymbol: Bool = false
     @AppStorage(UserDefaults.inAppShowGoalPercentageKey, store: UserDefaults.shared) var showGoalPercentage: Bool = true
     @AppStorage(UserDefaults.inAppShowMilestonePercentageKey, store: UserDefaults.shared) var showMilestonePercentage: Bool = true
