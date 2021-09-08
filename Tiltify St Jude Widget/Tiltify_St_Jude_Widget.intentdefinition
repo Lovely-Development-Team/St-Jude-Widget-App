@@ -140,7 +140,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Prefer Future Milestones (when available)</string>
+					<string>Prefer Future Milestones</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>HgVX4i</string>
 					<key>INIntentParameterDisplayPriority</key>
