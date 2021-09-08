@@ -1,9 +1,10 @@
 FILE=build_app
-FILE_HASH=$(sha3sum build_app)
-LAST_BUILD_HASH=$(cat last_build 2>/dev/null)
+LAST_BUILD_FILE=last_build
+FILE_HASH=$(sha3sum $FILE)
+LAST_BUILD_HASH=$(cat $LAST_BUILD_FILE 2>/dev/null)
 # Build file must exist and be different from the last we processed
 if test -f "$FILE" -a "$FILE_HASH" != "$LAST_BUILD_HASH"; then
-	rm last_build
+	rm $LAST_BUILD_FILE
 	# Bump the build version
 	agvtool bump
 	# Store the new build number for use in commit
@@ -14,14 +15,17 @@ if test -f "$FILE" -a "$FILE_HASH" != "$LAST_BUILD_HASH"; then
 	xcodebuild -exportArchive -archivePath ./app.xcarchive -exportOptionsPlist exportOptions.plist
 	# PR with new version number
 	git checkout -B "release/$NEW_BUILD"
-	rm build_app
-	git add "$PROJECT_FILE/project.pbxproj"
-	git add build_app
-	git commit -m "Bump build ($NEW_BUILD)"
-	gh pr create --title "Release $NEW_BUILD" --body "" -B main
 	# Store hash of this build file
-	rm last_build
-	sha3sum $FILE >> last_build
+	sha3sum $FILE > $LAST_BUILD_FILE
+	# Remove file & continue PR
+	rm $FILE
+	git add "$PROJECT_FILE/project.pbxproj"
+	git add "$FILE"
+	git commit -m "Bump build ($NEW_BUILD)"
+	git push -u orign "release/$NEW_BUILD"
+	gh pr create --title "Release $NEW_BUILD" --body "$(cat $FILE)" -B main
 	# Return to the main branch
 	git checkout main
+	# Remove app.xcarchive
+	rm -rf app.xcarchive
 fi
