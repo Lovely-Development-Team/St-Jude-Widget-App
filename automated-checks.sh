@@ -46,7 +46,7 @@ if test -f "$FILE" -a "$FILE_HASH" != "$LAST_BUILD_HASH"; then
 	git add "$PROJECT_FILE/project.pbxproj"
 	git add "$FILE"
 	if "$CHANGE_ICON" == "true"; then
-		git add Elsewhen/Assets.xcassets/AppIcon.appiconset/*
+		git add Shared/Assets.xcassets/AppIcon.appiconset/*
 	fi
 	git commit -m "Bump build ($NEW_BUILD)"
 	git push -u origin "release/$NEW_BUILD"
