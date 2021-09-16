@@ -23,7 +23,7 @@ if test -f "$FILE" -a "$FILE_HASH" != "$LAST_BUILD_HASH"; then
 	if test -f "$ICON_FILE" -a "$ICON_HASH" != "$LAST_ICON_HASH"; then
 		CHANGE_ICON=true
 		npx app-icon generate
-		sha3sum $ICON_FILE > $LAST_ICON_HASH
+		sha3sum $ICON_FILE > $LAST_ICON_FILE
 	fi 
 	touch $LAST_BUILD_FILE
 	rm $LAST_BUILD_FILE
