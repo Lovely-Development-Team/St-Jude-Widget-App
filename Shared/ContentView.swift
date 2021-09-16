@@ -26,8 +26,9 @@ struct ContentView: View {
     @AppStorage("relayData", store: UserDefaults.shared) private var storedData: Data = Data()
     @StateObject private var apiClient = ApiClient.shared
 #if os(iOS)
-    @State var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+    @State private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
 #endif
+    @State private var refreshInProgress = false
     
     @State private var isWidgetFlipped: Bool = false
     @AppStorage(UserDefaults.inAppShowMilestonesKey, store: UserDefaults.shared) var showMilestones: Bool = true
@@ -169,31 +170,8 @@ struct ContentView: View {
                 UserDefaults.shared.inAppShowFullCurrencySymbol = newShowFullCurrencySymbol
             })
             .onChange(of: scenePhase) { newPhase in
-                if scenePhase == .background && newPhase != .background{
-                    let dataTask = apiClient.fetchCampaign { result in
-                        switch result {
-                        case .failure(let error):
-                            dataLogger.error("Request failed: \(error.localizedDescription)")
-                        case .success(let response):
-                            self.widgetData = TiltifyWidgetData(from: response.data.campaign)
-                            checkSignificantAmounts(for: self.widgetData)
-                            checkNewMilestones(for: self.widgetData)
-                            do {
-                                self.storedData = try apiClient.jsonEncoder.encode(self.widgetData)
-                            } catch {
-                                dataLogger.error("Failed to store API response: \((error as? LocalizedError)?.errorDescription ?? error.localizedDescription)")
-                            }
-                        }
-    #if os(iOS)
-                        UIApplication.shared.endBackgroundTask(backgroundTask)
-    #endif
-                    }
-    #if os(iOS)
-                    backgroundTask = UIApplication.shared.beginBackgroundTask {
-                        dataTask?.cancel()
-                        UIApplication.shared.endBackgroundTask(backgroundTask)
-                    }
-    #endif
+                if scenePhase == .background && newPhase != .background {
+                    refresh()
                 }
             }
             .scaleEffect((self.isWidgetFlipped) ? 0.95 : 1.0)
@@ -206,18 +184,6 @@ struct ContentView: View {
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 } else {
                     EntryView(campaign: $widgetData, showMilestones: (self.maxFrameHeight/self.rectangleSize.width < 0.68) ? false : showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: useTrueBlackBackground, forceHidePreviousMilestone: (self.maxFrameHeight/self.rectangleSize.width < 0.75) ? true : false)
-                        .onAppear {
-#if os(iOS)
-                            submitRefreshTask()
-#endif
-                            do {
-                                self.widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
-                                checkSignificantAmounts(for: self.widgetData)
-                                checkNewMilestones(for: self.widgetData)
-                            } catch {
-                                dataLogger.error("Failed to store API response: \(error.localizedDescription)")
-                            }
-                        }
                 }
                 
             }
@@ -254,13 +220,24 @@ struct ContentView: View {
             }
             .opacity((!self.fadeInWidget) ? 1 : 0)
         }
-        .onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: {
-                withAnimation(.spring(), {
+        .onAppear {
+#if os(iOS)
+            submitRefreshTask()
+#endif
+            refresh()
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                withAnimation(.spring()) {
                     self.fadeInWidget = false
-                })
-            })
-        })
+                }
+            }
+            do {
+                self.widgetData = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: storedData)
+                checkSignificantAmounts(for: self.widgetData)
+                checkNewMilestones(for: self.widgetData)
+            } catch {
+                dataLogger.error("Failed to store API response: \(error.localizedDescription)")
+            }
+        }
     }
 
     
@@ -274,6 +251,42 @@ struct ContentView: View {
         withAnimation(.spring()) {
             self.isWidgetFlipped = false
         }
+    }
+    
+    func refresh() {
+        guard refreshInProgress == false else {
+            dataLogger.notice("Refresh already in progress. Not refreshing.")
+            return
+        }
+        refreshInProgress = true
+        let dataTask = apiClient.fetchCampaign { result in
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Request failed: \(error.localizedDescription)")
+            case .success(let response):
+                self.widgetData = TiltifyWidgetData(from: response.data.campaign)
+                dataLogger.info("Fetched fresh data")
+                checkSignificantAmounts(for: self.widgetData)
+                checkNewMilestones(for: self.widgetData)
+                do {
+                    self.storedData = try apiClient.jsonEncoder.encode(self.widgetData)
+                    dataLogger.debug("Stored fresh data")
+                } catch {
+                    dataLogger.error("Failed to store API response: \((error as? LocalizedError)?.errorDescription ?? error.localizedDescription)")
+                }
+            }
+            refreshInProgress = false
+#if os(iOS)
+            UIApplication.shared.endBackgroundTask(backgroundTask)
+#endif
+        }
+#if os(iOS)
+        backgroundTask = UIApplication.shared.beginBackgroundTask {
+            dataTask?.cancel()
+            refreshInProgress = false
+            UIApplication.shared.endBackgroundTask(backgroundTask)
+        }
+#endif
     }
 }
 
