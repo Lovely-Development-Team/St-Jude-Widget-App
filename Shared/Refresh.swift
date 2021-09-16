@@ -9,7 +9,7 @@ import Foundation
 import BackgroundTasks
 
 func submitRefreshTask() {
-    let request = BGAppRefreshTaskRequest(identifier: "org.dwrs.st-jude.refresh")
+    let request = BGAppRefreshTaskRequest(identifier: "com.rosemaryorchard.stjude.refresh")
     // Fetch no earlier than 1 hour from now
     request.earliestBeginDate = Date(timeIntervalSinceNow: 1 * 60)
     
