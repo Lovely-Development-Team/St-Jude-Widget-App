@@ -36,7 +36,7 @@ if test -f "$FILE" -a "$FILE_HASH" != "$LAST_BUILD_HASH"; then
 	xcodebuild clean
 	# Build the app and upload
 	xcodebuild -project "$PROJECT_FILE" -scheme "St Jude (iOS)" -configuration Release -destination 'platform=iOS Simulator,name=iPhone 12' -archivePath ./app.xcarchive -allowProvisioningUpdates archive
-	xcodebuild -exportArchive -archivePath ./app.xcarchive -exportOptionsPlist exportOptions.plist
+	xcodebuild -exportArchive -archivePath ./app.xcarchive -exportOptionsPlist exportOptions.plist -allowProvisioningUpdates
 	# PR with new version number
 	git checkout -B "release/$NEW_BUILD"
 	# Store hash of this build file
