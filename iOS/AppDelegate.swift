@@ -23,8 +23,11 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "org.dwrs.st-jude.refresh", using: nil) { task in
+        let taskRegistered = BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.rosemaryorchard.stjude.refresh", using: nil) { task in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
+        }
+        if !taskRegistered {
+            refreshLogger.warning("Failed to register background refresh task")
         }
         
         UserDefaults.standard.register(
