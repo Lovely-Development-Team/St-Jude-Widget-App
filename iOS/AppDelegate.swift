@@ -39,6 +39,7 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func handleAppRefresh(task: BGAppRefreshTask) {
+        refreshLogger.notice("Running background refresh")
         let apiClient = ApiClient.shared
         let dataTask = apiClient.fetchCampaign { result in
             submitRefreshTask()
@@ -46,7 +47,7 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
             case .failure(let error):
                 dataLogger.error("Request failed: \(error.localizedDescription)")
                 task.setTaskCompleted(success: false)
-                refreshLogger.info("Background refresh failed")
+                refreshLogger.warning("Background refresh failed")
             case .success(let response):
                 let widgetData = TiltifyWidgetData(from: response.data.campaign)
                 do {
