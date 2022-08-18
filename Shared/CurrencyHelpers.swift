@@ -28,7 +28,7 @@ func formatCurrency(amount: TiltifyAmount, showFullCurrencySymbol: Bool) -> Stri
     if !showFullCurrencySymbol {
         formatter.currencySymbol = "$"
     }
-    let decimalValue = Double(amount.value).map { NSNumber(value: $0) }
+    let decimalValue = Double(amount.value ?? "0").map { NSNumber(value: $0) }
     let displayString = decimalValue.flatMap { formatter.string(from: $0) } ?? "Unknown"
     return displayString
 }

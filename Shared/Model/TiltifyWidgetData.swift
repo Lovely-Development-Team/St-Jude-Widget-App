@@ -85,10 +85,10 @@ struct TiltifyWidgetData {
         formatter.numberStyle = .currency
         formatter.currencyCode = currencyCode
         currencyFormatter = formatter
-        self.totalRaisedRaw = campaign.totalAmountRaised.value
-        self.goalRaw = campaign.goal.value
+        self.totalRaisedRaw = campaign.totalAmountRaised.value ?? "0"
+        self.goalRaw = campaign.goal.value ?? "0"
         self.milestones = campaign.milestones.sorted(by: sortMilestones)
-        if let totalRaised = Double(campaign.totalAmountRaised.value) {
+        if let value = campaign.totalAmountRaised.value, let totalRaised = Double(value) {
             self.previousMilestone = Self.previousMilestone(at: totalRaised, in: self.milestones)
             self.nextMilestone = Self.nextMilestone(at: totalRaised, in: self.milestones)
             self.futureMilestones = Self.futureMilestones(at: totalRaised, in: self.milestones)
@@ -111,8 +111,8 @@ struct TiltifyWidgetData {
     
     static func previousMilestone(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> TiltifyMilestone? {
         return milestones.last { milestone in
-            guard let milestoneValue = Double(milestone.amount.value) else {
-                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value)' to double")
+            guard let value = milestone.amount.value, let milestoneValue = Double(value) else {
+                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value ?? "nil")' to double")
                 return false
             }
             return milestoneValue < totalRaised
@@ -121,8 +121,8 @@ struct TiltifyWidgetData {
     
     static func nextMilestone(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> TiltifyMilestone? {
         return milestones.first { milestone in
-            guard let milestoneValue = Double(milestone.amount.value) else {
-                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value)' to double")
+            guard let value = milestone.amount.value, let milestoneValue = Double(value) else {
+                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value ?? "nil")' to double")
                 return false
             }
             return milestoneValue >= totalRaised
@@ -131,8 +131,8 @@ struct TiltifyWidgetData {
     
     static func futureMilestones(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> [TiltifyMilestone] {
         return milestones.filter { milestone in
-            guard let milestoneValue = Double(milestone.amount.value) else {
-                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value)' to double")
+            guard let value = milestone.amount.value, let milestoneValue = Double(value) else {
+                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value ?? "nil")' to double")
                 return false
             }
             return milestoneValue >= totalRaised
@@ -143,7 +143,7 @@ struct TiltifyWidgetData {
         guard let totalRaised = totalRaised else {
             return nil
         }
-        guard let goal = Double(Milestone.amount.value) else {
+        guard let value = Milestone.amount.value, let goal = Double(value) else {
             return nil
         }
         return totalRaised/goal

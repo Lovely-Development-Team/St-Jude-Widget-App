@@ -9,7 +9,7 @@ import Foundation
 
 extension INMilestone {
     convenience init(from milestone: TiltifyMilestone, showFullCurrencySymbol: Bool) {
-        let (decimalValue, amountString) = formatCurrency(from: milestone.amount.value, currency: milestone.amount.currency, showFullCurrencySymbol: showFullCurrencySymbol)
+        let (decimalValue, amountString) = formatCurrency(from: milestone.amount.value ?? "0", currency: milestone.amount.currency, showFullCurrencySymbol: showFullCurrencySymbol)
         self.init(identifier: String(milestone.id), display: milestone.name, subtitle: amountString, image: nil)
         self.name = milestone.name
         self.stringAmountValue = milestone.amount.value
