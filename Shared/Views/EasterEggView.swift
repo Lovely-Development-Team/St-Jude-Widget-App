@@ -111,7 +111,7 @@ struct EasterEggView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
             Section{
-                Text("L2CU drawing by rhl_. \nRelay FM for St. Jude crafted with care by The Lovely Devs. ")
+                Text("L2CU drawing by rhl_. \nRelay FM for St. Jude crafted with care by The Lovely Developers. ")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .allowsTightening(true)
@@ -129,7 +129,6 @@ struct EasterEggView: View {
                 .buttonStyle(PlainButtonStyle())
             }
             .padding(5.0)
-//            Spacer()
         }
         .padding(.top, 30)
         .padding(10)

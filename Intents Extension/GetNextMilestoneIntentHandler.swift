@@ -19,7 +19,7 @@ class GetNextMilestoneIntentHandler: NSObject, GetNextMilestoneIntentHandling {
                 return
             case .success(let response):
                 let campaign = response.data.campaign
-                guard let totalRaised = Double(campaign.totalAmountRaised.value) else {
+                guard let totalRaised = Double(campaign.totalAmountRaised.value ?? "0") else {
                     completion(.init(code: .badApiResponse, userActivity: nil))
                     return
                 }

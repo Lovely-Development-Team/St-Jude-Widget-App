@@ -36,6 +36,6 @@ struct CampaignTitle: View {
 
 struct CampaignTitle_Previews: PreviewProvider {
     static var previews: some View {
-        CampaignTitle(name: "Relay FM for St. Jude 2021")
+        CampaignTitle(name: "Relay FM for St. Jude 2022")
     }
 }

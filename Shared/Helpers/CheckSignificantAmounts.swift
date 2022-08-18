@@ -38,7 +38,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     if(cachedTotal != 0 && cachedTotal != totalRaised) {
         var milestoneAmount: Double = 0
         if let previousMilestone = widgetData.previousMilestone {
-            milestoneAmount = Double(previousMilestone.amount.value) ?? 0
+            milestoneAmount = Double(previousMilestone.amount.value ?? "0") ?? 0
         }
         
         if(cachedTotal < milestoneAmount && totalRaised > milestoneAmount) {

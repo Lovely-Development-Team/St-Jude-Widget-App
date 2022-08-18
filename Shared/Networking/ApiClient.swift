@@ -16,6 +16,13 @@ struct TiltifyRequest: Codable {
 }
 
 
+struct TiltifyCauseRequest: Codable {
+    let operationName: String
+    let variables: String
+    let query: String
+}
+
+
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
     static let backgroundSessionIdentifier = "FetchCampaignBackgroundSession"
@@ -31,14 +38,13 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         
     }
     
-    func buildRequest() throws -> URLRequest {
+    func buildCampaignRequest(vanity: String, slug: String) throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let queryString = """
 query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
   campaign(vanity: $vanity, slug: $slug) {
-    id
     name
     slug
     status
@@ -58,12 +64,6 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
       currency
       value
     }
-    avatar {
-      alt
-      height
-      width
-      src
-    }
     milestones {
       id
       name
@@ -76,15 +76,85 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
 }
 """
         let body = TiltifyRequest(operationName: "get_campaign_by_vanity_and_slug",
-                                  variables: ["vanity": "@relay-fm", "slug": "relay-st-jude-21"],
+                                  variables: ["vanity": "@\(vanity)", "slug": slug],
                                   query: queryString)
         request.httpBody = try jsonEncoder.encode(body)
         return request
     }
     
-    func fetchCampaign(completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
+    func buildCauseRequest() throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let queryString = """
+query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!, $limit: Int!) {
+  cause(slug: $causeSlug) {
+    name
+    slug
+  }
+  fundraisingEvent(slug: $feSlug, causeSlug: $causeSlug) {
+    publicId
+    name
+    slug
+    description
+    status
+    publishedCampaignsCount
+    amountRaised {
+      currency
+      value
+    }
+    goal {
+      currency
+      value
+    }
+    colors {
+      highlight
+      background
+    }
+    publishedCampaigns(limit: $limit) {
+      edges {
+        node {
+          name
+          slug
+          live
+          user {
+            username
+            slug
+          }
+          team {
+            name
+            slug
+          }
+          totalAmountRaised {
+            value
+            currency
+          }
+          goal {
+            value
+            currency
+          }
+        }
+      }
+    }
+  }
+}
+"""
+        let body = TiltifyCauseRequest(operationName: "get_cause_and_fe_by_slug",
+                                  variables: """
+{
+    "causeSlug": "st-jude-children-s-research-hospital",
+    "feSlug": "relay-fm-for-st-jude-2022",
+    "limit": 100
+}
+""",
+                                  query: queryString)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
+    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm-for-st-jude-2022", completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
         do {
-            let request = try buildRequest()
+            let request = try buildCampaignRequest(vanity: vanity, slug: slug)
             let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let error = error {
                     completion(.failure(error))
@@ -96,6 +166,31 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
                 }
                 completion(Result {
                     let payload = try JSONDecoder().decode(TiltifyResponse.self, from: data)
+                    return payload
+                })
+            }
+            dataTask.resume()
+            return dataTask
+        } catch {
+            completion(.failure(error))
+            return nil
+        }
+    }
+    
+    func fetchCause(completion: @escaping (Result<TiltifyCauseResponse, Error>) -> ()) -> URLSessionDataTask? {
+        do {
+            let request = try buildCauseRequest()
+            let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = data else {
+                    completion(.failure(TiltifyError.noData))
+                    return
+                }
+                completion(Result {
+                    let payload = try JSONDecoder().decode(TiltifyCauseResponse.self, from: data)
                     return payload
                 })
             }

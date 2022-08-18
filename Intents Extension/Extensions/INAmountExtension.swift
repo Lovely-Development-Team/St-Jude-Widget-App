@@ -9,7 +9,7 @@ import Foundation
 
 extension INAmount {
     convenience init(from amount: TiltifyAmount, showFullCurrencySymbol: Bool) {
-        let (decimalValue, displayString) = formatCurrency(from: amount.value, currency: amount.currency, showFullCurrencySymbol: showFullCurrencySymbol)
+        let (decimalValue, displayString) = formatCurrency(from: amount.value ?? "0", currency: amount.currency, showFullCurrencySymbol: showFullCurrencySymbol)
         self.init(identifier: nil, display: displayString)
         self.stringValue = amount.value
         self.decimalValue = decimalValue
