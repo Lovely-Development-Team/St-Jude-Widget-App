@@ -18,17 +18,19 @@ struct St_JudeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .onChange(of: scenePhase) { newValue in
-                    if newValue == .active {
-                        WidgetCenter.shared.reloadAllTimelines()
-                        if #available(macOS 12.0, *) {
-                            if let getAmountRaisedShortcut = INShortcut(intent: GetAmountRaisedIntent()) {
-                                INVoiceShortcutCenter.shared.setShortcutSuggestions([getAmountRaisedShortcut])
+            NavigationView {
+                CampaignList()
+                    .onChange(of: scenePhase) { newValue in
+                        if newValue == .active {
+                            WidgetCenter.shared.reloadAllTimelines()
+                            if #available(macOS 12.0, *) {
+                                if let getAmountRaisedShortcut = INShortcut(intent: GetAmountRaisedIntent()) {
+                                    INVoiceShortcutCenter.shared.setShortcutSuggestions([getAmountRaisedShortcut])
+                                }
                             }
                         }
                     }
-                }
+            }
         }
     }
 }

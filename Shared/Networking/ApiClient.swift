@@ -15,14 +15,6 @@ struct TiltifyRequest: Codable {
     let query: String
 }
 
-
-struct TiltifyCauseRequest: Codable {
-    let operationName: String
-    let variables: String
-    let query: String
-}
-
-
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
     static let backgroundSessionIdentifier = "FetchCampaignBackgroundSession"
@@ -87,7 +79,7 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let queryString = """
-query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!, $limit: Int!) {
+query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
   cause(slug: $causeSlug) {
     name
     slug
@@ -111,9 +103,10 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!, $limit: In
       highlight
       background
     }
-    publishedCampaigns(limit: $limit) {
+    publishedCampaigns {
       edges {
         node {
+          publicId
           name
           slug
           live
@@ -139,14 +132,8 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!, $limit: In
   }
 }
 """
-        let body = TiltifyCauseRequest(operationName: "get_cause_and_fe_by_slug",
-                                  variables: """
-{
-    "causeSlug": "st-jude-children-s-research-hospital",
-    "feSlug": "relay-fm-for-st-jude-2022",
-    "limit": 100
-}
-""",
+        let body = TiltifyRequest(operationName: "get_cause_and_fe_by_slug",
+                                  variables: ["causeSlug": "st-jude-children-s-research-hospital", "feSlug": "relay-fm-for-st-jude-2022"],
                                   query: queryString)
         request.httpBody = try jsonEncoder.encode(body)
         return request

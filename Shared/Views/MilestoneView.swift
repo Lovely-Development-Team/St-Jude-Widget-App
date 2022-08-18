@@ -75,7 +75,7 @@ struct MilestoneView: View {
                isLargeSize(family: family) || !DeviceType.isInWidget(),
                let percentageToMilestone = percentageReached,
                percentageToMilestone <= 1 {
-                ProgressBar(value: .constant(Float(percentageToMilestone)))
+                ProgressBar(value: .constant(Float(percentageToMilestone)), fillColor: Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1))
                     .frame(height: 10)
                     .accessibility(hidden: true)
                     .padding(.top, -5)

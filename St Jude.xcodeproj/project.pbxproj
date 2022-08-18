@@ -10,6 +10,8 @@
 		5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C526DCC01B002892CC /* UIApplication.swift */; };
 		5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
 		5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
+		5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
+		5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
@@ -213,6 +215,7 @@
 /* Begin PBXFileReference section */
 		5E49D6C526DCC01B002892CC /* UIApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
+		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
 		5EF748C626DF748F008174DF /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
 		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
@@ -504,6 +507,7 @@
 				630DD48426E253CF00FE44E5 /* SettingsDivider.swift */,
 				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
 				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
+				5ED5638528AEBAC5004A65A5 /* CampaignList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -871,6 +875,7 @@
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */,
 				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */,
 				63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */,
@@ -916,6 +921,7 @@
 				63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */,
 				63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				63A6F9B026D64F2A00095ACB /* WidgetFamily.swift in Sources */,
+				5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */,
 				6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */,
 				DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,

@@ -23,7 +23,6 @@ struct ContentView: View {
     
     // MARK: State
     @State private var widgetData = sampleCampaign
-    @State private var causeData: TiltifyCauseData? = nil
     @AppStorage("relayData", store: UserDefaults.shared) private var storedData: Data = Data()
     @StateObject private var apiClient = ApiClient.shared
 #if os(iOS)
@@ -47,6 +46,10 @@ struct ContentView: View {
     @State private var fadeInWidget = true
     
     @State var activeSheet: ActiveSheet?
+    
+    let vanity: String
+    let slug: String
+    let user: String
     
     #if !os(macOS)
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
@@ -76,24 +79,27 @@ struct ContentView: View {
         ZStack {
             VStack {
                 Spacer()
-                Text("Relay FM for St. Jude 2022")
+                Text(widgetData.name)
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                    .allowsTightening(true)
+//                    .allowsTightening(true)
                     .frame(maxWidth: .infinity, alignment: .center)
+//                    .lineLimit(1)
+//                    .minimumScaleFactor(0.6)
+//                    .accessibility(label: Text("Relay FM for Saint Jude 2022"))
+                    .padding(.bottom, 1)
+                Text(user)
+                    .foregroundColor(.secondary)
                     .padding(.bottom, 5)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                    .accessibility(label: Text("Relay FM for Saint Jude 2022"))
-                Text("This app provides a widget to track the progress of the 2022 Relay FM St. Jude fundraiser. Add the widget to your Home Screen!")
+                Text(widgetData.description)
                     .multilineTextAlignment(.center)
-                    .allowsTightening(true)
-                    .minimumScaleFactor(0.7)
+//                    .allowsTightening(true)
+//                    .minimumScaleFactor(0.7)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .accessibility(label: Text("This app provides a widget to track the progress of the 2022 Relay FM Saint Jude fundraiser. Add the widget to your Home Screen!"))
+//                    .accessibility(label: Text("This app provides a widget to track the progress of the 2022 Relay FM Saint Jude fundraiser. Add the widget to your Home Screen!"))
                     .padding(.bottom, 5)
                 Spacer()
                 Rectangle()
@@ -110,16 +116,7 @@ struct ContentView: View {
                             return Color.clear
                         })
                 Spacer()
-                VStack{
-                    if let causeData = causeData {
-                        Text(causeData.cause.name)
-                        Text(causeData.fundraisingEvent.amountRaised.value ?? "0")
-                        Text(causeData.fundraisingEvent.goal.value ?? "0")
-                        Text("Campaigns: \(causeData.fundraisingEvent.publishedCampaigns.edges.count)")
-                        ForEach(causeData.fundraisingEvent.publishedCampaigns.edges, id: \.node.name) { campaign in
-                            Text("\(campaign.node.name)")
-                        }
-                    }
+                VStack {
                     Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
                         .font(.headline)
                         .foregroundColor(Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1))
@@ -146,26 +143,26 @@ struct ContentView: View {
                     })
                         .buttonStyle(PlainButtonStyle())
                 }
-                Spacer()
-                Button(action: {
-                    activeSheet = .egg
-                }, label: {
-                    HStack {
-                        Text("From the Lovely Developers")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        Image("l2culogosvg")
-                            .renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.secondary)
-                            .frame(height: 15)
-                            .accessibility(hidden: true)
-                            
-                    }
-                })
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.vertical, 5)
+//                Spacer()
+//                Button(action: {
+//                    activeSheet = .egg
+//                }, label: {
+//                    HStack {
+//                        Text("From the Lovely Developers")
+//                            .font(.caption)
+//                            .foregroundColor(.secondary)
+//                        Image("l2culogosvg")
+//                            .renderingMode(.template)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .foregroundColor(.secondary)
+//                            .frame(height: 15)
+//                            .accessibility(hidden: true)
+//
+//                    }
+//                })
+//                    .buttonStyle(PlainButtonStyle())
+//                    .padding(.vertical, 5)
             }
             .accessibility(hidden: isWidgetFlipped)
             .padding()
@@ -269,7 +266,7 @@ struct ContentView: View {
             return
         }
         refreshInProgress = true
-        let dataTask = apiClient.fetchCampaign(vanity: "jillian-grembowicz", slug: "st-jude-podcastathon-support-campaign") { result ing
+        let dataTask = apiClient.fetchCampaign(vanity: vanity, slug: slug) { result in
             switch result {
             case .failure(let error):
                 dataLogger.error("Request failed: \(error.localizedDescription)")
@@ -291,20 +288,9 @@ struct ContentView: View {
 #endif
         }
         
-        let dataTask1 = apiClient.fetchCause { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Request failed: \(error.localizedDescription)")
-            case .success(let response):
-                causeData = response.data
-            }
-            refreshInProgress = false
-        }
-        
 #if os(iOS)
         backgroundTask = UIApplication.shared.beginBackgroundTask {
             dataTask?.cancel()
-            dataTask1?.cancel()
             refreshInProgress = false
             UIApplication.shared.endBackgroundTask(backgroundTask)
         }
@@ -314,7 +300,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(vanity: "jillian-grembowicz", slug: "st-jude-podcastathon-support-campaign", user: "Jillian Grembowicz")
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro"))
     }
 }
