@@ -16,6 +16,8 @@ struct ProgressBar: View {
     let foregroundColour = Color(NSColor.systemGray)
     #endif
     
+    let fillColor: Color
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -23,7 +25,7 @@ struct ProgressBar: View {
                     .opacity(0.3)
                     .foregroundColor(foregroundColour)
                 Rectangle().frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width), height: geometry.size.height)
-                    .foregroundColor(Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1))
+                    .foregroundColor(fillColor)
             }.clipShape(Capsule())
         }
     }

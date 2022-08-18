@@ -11,6 +11,29 @@ import SwiftUI
 struct TiltifyAmount: Codable {
     let currency: String
     let value: String?
+    
+    func description(showFullCurrencySymbol: Bool) -> String {
+        
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.currencyCode = currency
+        
+        let originalSymbol = currencyFormatter.currencySymbol
+        let originalCode = currencyFormatter.currencyCode
+        currencyFormatter.currencyCode = "USD"
+        if !showFullCurrencySymbol {
+            currencyFormatter.currencySymbol = "$"
+        } else {
+            currencyFormatter.currencySymbol = "USD"
+        }
+        
+        let descriptionString = currencyFormatter.string(from: NumberFormatter().number(from: value ?? "0") ?? 0) ?? "\(currency) 0"
+        currencyFormatter.currencySymbol = originalSymbol
+        currencyFormatter.currencyCode = originalCode
+        
+        return descriptionString
+    }
+    
 }
 
 struct TiltifyMilestone: Codable {
@@ -71,7 +94,9 @@ struct TiltifyUser: Codable {
 }
 
 struct TiltifyCauseCampaign: Codable {
+    let publicId: String
     let name: String
+    let slug: String
     let goal: TiltifyAmount
     let totalAmountRaised: TiltifyAmount
     let user: TiltifyUser
@@ -89,7 +114,7 @@ struct TiltifyColors: Codable {
     let background: String
     let highlight: String
     
-    func convert(hex: String) -> Color {
+    private func convert(hex: String) -> Color {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
         if (cString.hasPrefix("#")) {
@@ -128,6 +153,22 @@ struct TiltifyFundraisingEvent: Codable {
     let goal: TiltifyAmount
     let name: String
     let publishedCampaigns: TiltifyPublishedCampaigns
+    
+    var percentageReached: Double? {
+        return calcPercentage(goal: goal.value ?? "0", total: amountRaised.value ?? "0")
+    }
+    
+    var percentageReachedDescription: String? {
+        guard let percentageReached = percentageReached else {
+            return nil
+        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 1
+        return formatter.string(from: percentageReached as NSNumber)
+    }
+    
 }
 
 struct TiltifyCause: Codable {

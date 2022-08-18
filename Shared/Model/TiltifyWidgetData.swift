@@ -9,6 +9,7 @@ import Foundation
 
 struct TiltifyWidgetData {
     let name: String
+    let description: String
     private let totalRaisedRaw: String
     var totalRaised: Double? {
         Double(totalRaisedRaw)
@@ -80,6 +81,7 @@ struct TiltifyWidgetData {
     
     init(from campaign: TiltifyCampaign) {
         self.name = campaign.name
+        self.description = campaign.description
         self.currencyCode = campaign.totalAmountRaised.currency
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -179,11 +181,13 @@ extension TiltifyWidgetData: Codable {
         case goalRaw
         case milestones
         case currencyCode
+        case description
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Self.CodingKeys)
         self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decode(String.self, forKey: .description)
         self.totalRaisedRaw = try container.decode(String.self, forKey: .totalRaisedRaw)
         self.goalRaw = try container.decode(String.self, forKey: .goalRaw)
         self.milestones = try container.decode([TiltifyMilestone].self, forKey: .milestones)
@@ -206,6 +210,7 @@ extension TiltifyWidgetData: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Self.CodingKeys)
         try container.encode(name, forKey: .name)
+        try container.encode(description, forKey: .description)
         try container.encode(totalRaisedRaw, forKey: .totalRaisedRaw)
         try container.encode(goalRaw, forKey: .goalRaw)
         try container.encode(milestones, forKey: .milestones)
