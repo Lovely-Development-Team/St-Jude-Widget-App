@@ -10,7 +10,7 @@ import UserNotifications
 
 extension UserDefaults {
     // Type-safe access to UserDefaults shared with the extension
-    static let shared = UserDefaults(suiteName: "group.com.rosemaryorchard.stjude")!
+    static let shared = UserDefaults(suiteName: "group.dev.snailedit.stjude")!
     
     static let inAppShowMilestonesKey = "inAppShowMilestones"
     static let inAppPreferFutureMilestonesKey = "inAppShowPreferFutureMilestones"
