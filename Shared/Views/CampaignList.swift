@@ -15,13 +15,13 @@ struct CampaignList: View {
     var body: some View {
         Group {
             if let causeData = causeData {
-                List {
+                VStack {
                     VStack(spacing: 0) {
                         Text(causeData.cause.name)
                             .font(.subheadline)
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-//                            .foregroundColor(.white)
+                        //                            .foregroundColor(.white)
                             .opacity(0.8)
                             .padding(.bottom, 2)
                         Text(causeData.fundraisingEvent.name)
@@ -30,7 +30,7 @@ struct CampaignList: View {
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 20)
                         if let percentageReached =  causeData.fundraisingEvent.percentageReached {
-                            ProgressBar(value: .constant(Float(percentageReached)), fillColor: causeData.fundraisingEvent.colors.backgroundColor)
+                            ProgressBar(value: .constant(Float(percentageReached)), fillColor: causeData.fundraisingEvent.colors.highlightColor)
                                 .frame(height: 15)
                                 .padding(.bottom, 2)
                         }
@@ -48,12 +48,9 @@ struct CampaignList: View {
                     }
                     .foregroundColor(.white)
                     .padding()
-//                    .background(LinearGradient(colors: [
-//                        Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1),
-//                        Color(.sRGB, red: 51 / 255, green: 63 / 255, blue: 72 / 255, opacity: 1)
-//                    ], startPoint: .bottom, endPoint: .top))
-                    .background(causeData.fundraisingEvent.colors.highlightColor)
+                    .background(causeData.fundraisingEvent.colors.backgroundColor)
                     .cornerRadius(10)
+                    .padding()
                     
                     Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
                         .font(.headline)
@@ -62,28 +59,43 @@ struct CampaignList: View {
                         .padding(.horizontal, 20)
                         .background(causeData.fundraisingEvent.colors.backgroundColor)
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//                        .frame(minHeight: 80)
+                    //                        .frame(minHeight: 80)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        .padding(.bottom)
                     
-                    ForEach(causeData.fundraisingEvent.publishedCampaigns.edges, id: \.node.publicId) { campaign in
-                        NavigationLink(destination: ContentView(vanity: campaign.node.user.slug, slug: campaign.node.slug, user: campaign.node.user.username)) {
-                            VStack(alignment: .leading) {
-                                Text(campaign.node.name)
-                                    .font(.headline)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                HStack(alignment: .top) {
-                                    Text(campaign.node.user.username)
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                    Text(campaign.node.totalAmountRaised.description(showFullCurrencySymbol: false))
-                                        .font(.title)
-                                        .fontWeight(.bold)
+                    Text("Fundraisers")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                    
+                    List {
+                        //                    .background(LinearGradient(colors: [
+                        //                        Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1),
+                        //                        Color(.sRGB, red: 51 / 255, green: 63 / 255, blue: 72 / 255, opacity: 1)
+                        //                    ], startPoint: .bottom, endPoint: .top))
+                        
+                        
+                        ForEach(causeData.fundraisingEvent.publishedCampaigns.edges, id: \.node.publicId) { campaign in
+                            NavigationLink(destination: ContentView(vanity: campaign.node.user.slug, slug: campaign.node.slug, user: campaign.node.user.username).navigationTitle(campaign.node.name)) {
+                                VStack(alignment: .leading) {
+                                    Text(campaign.node.name)
+                                        .font(.headline)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    HStack(alignment: .top) {
+                                        Text(campaign.node.user.username)
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                        Text(campaign.node.totalAmountRaised.description(showFullCurrencySymbol: false))
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
                                 }
                             }
                         }
                     }
+                    .listStyle(.plain)
                 }
-                .listStyle(.plain)
 //                .listRowSeparator(.hidden)
             } else {
                 Text("Loading...")

@@ -56,6 +56,10 @@ struct ContentView: View {
     let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
     #endif
     
+    var fundraiserURL: URL {
+        URL(string: "https://tiltify.com/@\(vanity)/\(slug)")!
+    }
+    
     var blurView: some View {
         #if !os(iOS)
         BlurView()
@@ -78,7 +82,6 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             VStack {
-                Spacer()
                 Text(widgetData.name)
                     .font(.title)
                     .fontWeight(.bold)
@@ -89,9 +92,6 @@ struct ContentView: View {
 //                    .minimumScaleFactor(0.6)
 //                    .accessibility(label: Text("Relay FM for Saint Jude 2022"))
                     .padding(.bottom, 1)
-                Text(user)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 5)
                 Text(widgetData.description)
                     .multilineTextAlignment(.center)
 //                    .allowsTightening(true)
@@ -99,6 +99,7 @@ struct ContentView: View {
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(.secondary)
 //                    .accessibility(label: Text("This app provides a widget to track the progress of the 2022 Relay FM Saint Jude fundraiser. Add the widget to your Home Screen!"))
                     .padding(.bottom, 5)
                 Spacer()
@@ -117,7 +118,7 @@ struct ContentView: View {
                         })
                 Spacer()
                 VStack {
-                    Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
+                    Link("Visit the fundraiser!", destination: fundraiserURL)
                         .font(.headline)
                         .foregroundColor(Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1))
                         .padding(10)
@@ -245,6 +246,8 @@ struct ContentView: View {
                 dataLogger.error("Failed to store API response: \(error.localizedDescription)")
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(user)
     }
 
     
@@ -300,7 +303,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(vanity: "jillian-grembowicz", slug: "st-jude-podcastathon-support-campaign", user: "Jillian Grembowicz")
-            .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro"))
+        NavigationView {
+            ContentView(vanity: "jillian-grembowicz", slug: "st-jude-podcastathon-support-campaign", user: "Jillian Grembowicz")
+        }
+        .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro"))
     }
 }
