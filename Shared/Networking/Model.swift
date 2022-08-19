@@ -100,6 +100,10 @@ struct TiltifyCauseCampaign: Codable {
     let goal: TiltifyAmount
     let totalAmountRaised: TiltifyAmount
     let user: TiltifyUser
+    
+    var percentageReached: Double? {
+        return calcPercentage(goal: goal.value ?? "0", total: totalAmountRaised.value ?? "0")
+    }
 }
 
 struct TiltifyPublishedCampaign: Codable {
