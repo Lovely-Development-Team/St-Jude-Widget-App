@@ -1545,7 +1545,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.Intents-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.IntentsExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1572,7 +1572,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rosemaryorchard.stjude.Intents-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.IntentsExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
