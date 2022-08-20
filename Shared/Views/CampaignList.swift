@@ -15,11 +15,30 @@ struct FundraiserListItem: View {
         
         GroupBox {
             VStack(alignment: .leading, spacing: 2) {
-                Text(fundraiser.name)
-                    .multilineTextAlignment(.leading)
-                    .font(.headline)
-                Text(fundraiser.user.username)
-                    .foregroundColor(.secondary)
+                HStack(alignment: .top) {
+                    if let url = URL(string: fundraiser.user.avatar.src) {
+                        AsyncImage(
+                            url: url,
+                            content: { image in
+                                image.resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 45, height: 45)
+                            },
+                            placeholder: {
+                                ProgressView()
+                                    .frame(width: 45, height: 45)
+                            }
+                        )
+                        .cornerRadius(5)
+                    }
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(fundraiser.name)
+                            .multilineTextAlignment(.leading)
+                            .font(.headline)
+                        Text(fundraiser.user.username)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 Text(fundraiser.totalAmountRaised.description(showFullCurrencySymbol: false))
                     .font(.title)
                     .fontWeight(.bold)
@@ -37,6 +56,32 @@ struct CampaignList: View {
     
     @State private var causeData: TiltifyCauseData? = nil
     @StateObject private var apiClient = ApiClient.shared
+    
+    func refresh() {
+        apiClient.fetchCause { result in
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Request failed: \(error.localizedDescription)")
+            case .success(let response):
+                causeData = response.data
+            }
+        }
+    }
+    
+    var sortedCampaigns: [TiltifyPublishedCampaign] {
+        if let causeData = causeData {
+            return causeData.fundraisingEvent.publishedCampaigns.edges.sorted { c1, c2 in
+                if c1.node.user.username == "Relay FM" {
+                    return true
+                }
+                if c1.node.name.lowercased() == c2.node.name.lowercased() {
+                    return c1.node.publicId < c2.node.publicId
+                }
+                return c1.node.name.lowercased() < c2.node.name.lowercased()
+            }
+        }
+        return []
+    }
     
     var body: some View {
         ScrollView {
@@ -117,9 +162,9 @@ struct CampaignList: View {
                 }
                 .padding(.horizontal)
                 
-                if let causeData = causeData {
+                if causeData != nil {
                     
-                    ForEach(causeData.fundraisingEvent.publishedCampaigns.edges, id: \.node.publicId) { campaign in
+                    ForEach(sortedCampaigns, id: \.node.publicId) { campaign in
                         NavigationLink(destination: ContentView(vanity: campaign.node.user.slug, slug: campaign.node.slug, user: campaign.node.user.username).navigationTitle(campaign.node.name)) {
                             FundraiserListItem(fundraiser: campaign.node)
                         }
@@ -129,21 +174,20 @@ struct CampaignList: View {
                     
                 } else {
                     
+                    ProgressView()
+                        .padding(.top, 40)
+                        .padding(.bottom, 10)
                     Text("Loading ...")
-                        .padding(.vertical, 40)
+                        .padding(.bottom, 40)
                     
                 }
             }
         }
+        .refreshable {
+            refresh()
+        }
         .onAppear {
-            let dataTask1 = apiClient.fetchCause { result in
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Request failed: \(error.localizedDescription)")
-                case .success(let response):
-                    causeData = response.data
-                }
-            }
+            refresh()
         }
         .navigationTitle("Relay FM for St. Jude 2022")
     }

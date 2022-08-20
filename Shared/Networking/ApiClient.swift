@@ -113,6 +113,10 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
           user {
             username
             slug
+            avatar {
+              alt
+              src
+            }
           }
           team {
             name
