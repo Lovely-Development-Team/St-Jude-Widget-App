@@ -7,51 +7,56 @@
 
 import SwiftUI
 
+// From https://codakuma.com/swiftui-view-to-image-2/
+extension View {
+    var asImage: UIImage {
+        // Must ignore safe area due to a bug in iOS 15+ https://stackoverflow.com/a/69819567/1011161
+        let controller = UIHostingController(rootView: self.edgesIgnoringSafeArea(.top))
+        let view = controller.view
+        let targetSize = controller.view.intrinsicContentSize
+        view?.bounds = CGRect(origin: CGPoint(x: 0, y: 0), size: targetSize)
+        view?.backgroundColor = .clear
+
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 3 // Ensures 3x-scale images. You can customise this however you like.
+        let renderer = UIGraphicsImageRenderer(size: targetSize, format: format)
+        return renderer.image { _ in
+            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        }
+    }
+}
+
+
 struct CampaignList: View {
     
     @State private var causeData: TiltifyCauseData? = nil
     @StateObject private var apiClient = ApiClient.shared
+    @State private var isShareSheetPresented = false
     
     var body: some View {
         Group {
             if let causeData = causeData {
+                let campaignImage = MainCampaign(causeData).asImage
                 VStack {
-                    VStack(spacing: 0) {
-                        Text(causeData.cause.name)
-                            .font(.subheadline)
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        //                            .foregroundColor(.white)
-                            .opacity(0.8)
-                            .padding(.bottom, 2)
-                        Text(causeData.fundraisingEvent.name)
-                            .multilineTextAlignment(.leading)
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 20)
-                        if let percentageReached =  causeData.fundraisingEvent.percentageReached {
-                            ProgressBar(value: .constant(Float(percentageReached)), fillColor: causeData.fundraisingEvent.colors.highlightColor)
-                                .frame(height: 15)
-                                .padding(.bottom, 2)
+                    ZStack {
+                        MainCampaign(causeData)
+                        Button {
+                            self.isShareSheetPresented.toggle()
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
                         }
-                        Text(causeData.fundraisingEvent.amountRaised.description(showFullCurrencySymbol: false))
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(1)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        if let percentageReachedDesc = causeData.fundraisingEvent.percentageReachedDescription {
-                            Text("\(percentageReachedDesc) of \(causeData.fundraisingEvent.goal.description(showFullCurrencySymbol: false))")
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .opacity(0.8)
+                        .foregroundColor(.white)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+                        .padding(.trailing, 30.0)
+                        .padding(.top, -70.0)
+                        .sheet(isPresented: $isShareSheetPresented) {
+                            NavigationView{
+                                ShareImageView(campaignImage)
+                            }
+                            
                         }
+
                     }
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(causeData.fundraisingEvent.colors.backgroundColor)
-                    .cornerRadius(10)
-                    .padding()
-                    
                     Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
                         .font(.headline)
                         .foregroundColor(.white)
