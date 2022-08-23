@@ -9,46 +9,47 @@ import SwiftUI
 
 struct CampaignList: View {
     
-    @State private var causeData: TiltifyCauseData? = nil
+    @State private var fundraisingEvent: FundraisingEvent? = nil
+    @State private var campaigns: [Campaign] = []
     @StateObject private var apiClient = ApiClient.shared
     
     var body: some View {
         Group {
-            if let causeData = causeData {
+            if let fundraisingEvent = fundraisingEvent {
                 VStack {
                     VStack(spacing: 0) {
-                        Text(causeData.cause.name)
+                        Text(fundraisingEvent.cause.name)
                             .font(.subheadline)
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         //                            .foregroundColor(.white)
                             .opacity(0.8)
                             .padding(.bottom, 2)
-                        Text(causeData.fundraisingEvent.name)
+                        Text(fundraisingEvent.name)
                             .multilineTextAlignment(.leading)
                             .font(.headline)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 20)
-                        if let percentageReached =  causeData.fundraisingEvent.percentageReached {
-                            ProgressBar(value: .constant(Float(percentageReached)), fillColor: causeData.fundraisingEvent.colors.highlightColor)
+                        if let percentageReached =  fundraisingEvent.percentageReached {
+                            ProgressBar(value: .constant(Float(percentageReached)), fillColor: fundraisingEvent.colors.highlightColor)
                                 .frame(height: 15)
                                 .padding(.bottom, 2)
                         }
-                        Text(causeData.fundraisingEvent.amountRaised.description(showFullCurrencySymbol: false))
+                        Text(fundraisingEvent.amountRaised.description(showFullCurrencySymbol: false))
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .minimumScaleFactor(0.7)
                             .lineLimit(1)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        if let percentageReachedDesc = causeData.fundraisingEvent.percentageReachedDescription {
-                            Text("\(percentageReachedDesc) of \(causeData.fundraisingEvent.goal.description(showFullCurrencySymbol: false))")
+                        if let percentageReachedDesc = fundraisingEvent.percentageReachedDescription {
+                            Text("\(percentageReachedDesc) of \(fundraisingEvent.goal.description(showFullCurrencySymbol: false))")
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                 .opacity(0.8)
                         }
                     }
                     .foregroundColor(.white)
                     .padding()
-                    .background(causeData.fundraisingEvent.colors.backgroundColor)
+                    .background(fundraisingEvent.colors.backgroundColor)
                     .cornerRadius(10)
                     .padding()
                     
@@ -57,7 +58,7 @@ struct CampaignList: View {
                         .foregroundColor(.white)
                         .padding(10)
                         .padding(.horizontal, 20)
-                        .background(causeData.fundraisingEvent.colors.backgroundColor)
+                        .background(fundraisingEvent.colors.backgroundColor)
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     //                        .frame(minHeight: 80)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -76,17 +77,17 @@ struct CampaignList: View {
                         //                    ], startPoint: .bottom, endPoint: .top))
                         
                         
-                        ForEach(causeData.fundraisingEvent.publishedCampaigns.edges, id: \.node.publicId) { campaign in
-                            NavigationLink(destination: ContentView(vanity: campaign.node.user.slug, slug: campaign.node.slug, user: campaign.node.user.username).navigationTitle(campaign.node.name)) {
+                        ForEach(campaigns, id: \.id) { campaign in
+                            NavigationLink(destination: ContentView(vanity: campaign.user.slug, slug: campaign.slug, user: campaign.user.username).navigationTitle(campaign.name)) {
                                 VStack(alignment: .leading) {
-                                    Text(campaign.node.name)
+                                    Text(campaign.name)
                                         .font(.headline)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     HStack(alignment: .top) {
-                                        Text(campaign.node.user.username)
+                                        Text(campaign.user.username)
                                             .foregroundColor(.secondary)
                                         Spacer()
-                                        Text(campaign.node.totalAmountRaised.description(showFullCurrencySymbol: false))
+                                        Text(campaign.totalRaised.description(showFullCurrencySymbol: false))
                                             .font(.title)
                                             .fontWeight(.bold)
                                     }
@@ -102,13 +103,59 @@ struct CampaignList: View {
             }
         }
         .onAppear {
-            let dataTask1 = apiClient.fetchCause { result in
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Request failed: \(error.localizedDescription)")
-                case .success(let response):
-                    causeData = response.data
+            Task {
+                do {
+                    fundraisingEvent = try await AppDatabase.shared.fetchRelayFundraisingEvent()
+                    dataLogger.notice("Fetched stored fundraiser")
+                    if let fundraisingEvent = fundraisingEvent {
+                        dataLogger.notice("Fetched stored fundraiser")
+                        campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent)
+                        dataLogger.notice("Fetched stored campaigns")
+                    }
+                } catch {
+                    dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
                 }
+                await refresh()
+            }
+        }
+    }
+    
+    func refresh() async {
+        let response: TiltifyCauseResponse
+        do {
+            response = try await apiClient.fetchCause()
+        } catch {
+            dataLogger.error("Fetching cause failed: \(error.localizedDescription)")
+            return
+        }
+        let apiEvent = FundraisingEvent(from: response.data)
+        do {
+            if let existingEvent = fundraisingEvent {
+                fundraisingEvent = try await AppDatabase.shared.updateFundraisingEvent(apiEvent, from: existingEvent)
+            } else {
+                fundraisingEvent = try! await AppDatabase.shared.saveFundraisingEvent(apiEvent)
+            }
+        } catch {
+            dataLogger.error("Updating stord fundraiser failed: \(error.localizedDescription)")
+        }
+        campaigns = await response.data.fundraisingEvent.publishedCampaigns.edges.asyncMap { apiCampaign in
+            let storedCampaign: Campaign?
+            do {
+                storedCampaign = try await AppDatabase.shared.fetchCampaign(with: apiCampaign.node.publicId)
+            } catch {
+                return Campaign(from: apiCampaign.node, fundraiserId: apiEvent.id)
+            }
+            
+            let campaign: Campaign
+            if let storedCampaign = storedCampaign {
+                campaign = storedCampaign.update(fromCauseCampaign: apiCampaign.node, fundraiserId: apiEvent.id)
+            } else {
+                campaign = Campaign(from: apiCampaign.node, fundraiserId: apiEvent.id)
+            }
+            do {
+                return try await AppDatabase.shared.saveCampaign(campaign)
+            } catch {
+                return campaign
             }
         }
     }

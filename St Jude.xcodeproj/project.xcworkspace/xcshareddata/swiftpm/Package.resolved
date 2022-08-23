@@ -1,16 +1,14 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SnailedItHelpers",
-        "repositoryURL": "https://gitlab.com/snailed-it/swift-packages/snailedithelpers",
-        "state": {
-          "branch": null,
-          "revision": "15f76f8b867d67ca6879a7c018016700048a194d",
-          "version": "1.1.0"
-        }
+  "pins" : [
+    {
+      "identity" : "grdb.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/groue/GRDB.swift.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "23f4254ae36fa19aecd73047c0577a9f49850d1c"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 2
 }

@@ -37,15 +37,13 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         let queryString = """
 query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
   campaign(vanity: $vanity, slug: $slug) {
+    publicId
     name
     slug
     status
     originalGoal {
       value
       currency
-    }
-    team {
-      name
     }
     description
     totalAmountRaised {
@@ -81,6 +79,7 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
         let queryString = """
 query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
   cause(slug: $causeSlug) {
+    publicId
     name
     slug
   }
@@ -112,10 +111,6 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
           live
           user {
             username
-            slug
-          }
-          team {
-            name
             slug
           }
           totalAmountRaised {
@@ -164,6 +159,7 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
         }
     }
     
+    @available(*, renamed: "fetchCause()")
     func fetchCause(completion: @escaping (Result<TiltifyCauseResponse, Error>) -> ()) -> URLSessionDataTask? {
         do {
             let request = try buildCauseRequest()
@@ -186,6 +182,14 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
         } catch {
             completion(.failure(error))
             return nil
+        }
+    }
+    
+    func fetchCause() async throws -> TiltifyCauseResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            _ = fetchCause { result in
+                continuation.resume(with: result)
+            }
         }
     }
     
