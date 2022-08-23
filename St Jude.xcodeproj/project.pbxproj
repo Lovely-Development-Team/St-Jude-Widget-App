@@ -131,6 +131,45 @@
 		63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */; };
 		63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */; };
 		63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
+		63D0CCDE28B101200073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCDD28B101200073957E /* GRDB-dynamic */; };
+		63D0CCE028B1012D0073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCDF28B1012D0073957E /* GRDB-dynamic */; };
+		63D0CCE128B1012D0073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCDF28B1012D0073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		63D0CCE428B101340073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE328B101340073957E /* GRDB-dynamic */; };
+		63D0CCE528B101340073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE328B101340073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		63D0CCE828B1013A0073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE728B1013A0073957E /* GRDB-dynamic */; };
+		63D0CCE928B1013A0073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE728B1013A0073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		63D0CCEC28B1013E0073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCEB28B1013E0073957E /* GRDB-dynamic */; };
+		63D0CCED28B1013E0073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCEB28B1013E0073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		63D0CCF128B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
+		63D0CCF228B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
+		63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
+		63D0CCF428B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
+		63D0CCF528B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
+		63D0CCF728B108EF0073957E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF628B108EF0073957E /* Persistence.swift */; };
+		63D0CCF828B108EF0073957E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF628B108EF0073957E /* Persistence.swift */; };
+		63D0CCF928B108EF0073957E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF628B108EF0073957E /* Persistence.swift */; };
+		63D0CCFA28B108EF0073957E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF628B108EF0073957E /* Persistence.swift */; };
+		63D0CCFB28B108EF0073957E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF628B108EF0073957E /* Persistence.swift */; };
+		63D0CCFE28B117390073957E /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCFD28B117390073957E /* Campaign.swift */; };
+		63D0CCFF28B117390073957E /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCFD28B117390073957E /* Campaign.swift */; };
+		63D0CD0028B117390073957E /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCFD28B117390073957E /* Campaign.swift */; };
+		63D0CD0128B117390073957E /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCFD28B117390073957E /* Campaign.swift */; };
+		63D0CD0228B117390073957E /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCFD28B117390073957E /* Campaign.swift */; };
+		63D0CD0A28B267A60073957E /* FundraisingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0928B267A60073957E /* FundraisingEvent.swift */; };
+		63D0CD0B28B267A60073957E /* FundraisingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0928B267A60073957E /* FundraisingEvent.swift */; };
+		63D0CD0C28B267A60073957E /* FundraisingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0928B267A60073957E /* FundraisingEvent.swift */; };
+		63D0CD0D28B267A60073957E /* FundraisingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0928B267A60073957E /* FundraisingEvent.swift */; };
+		63D0CD0E28B267A60073957E /* FundraisingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0928B267A60073957E /* FundraisingEvent.swift */; };
+		63D0CD1028B269490073957E /* FundraisingEventCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */; };
+		63D0CD1128B269490073957E /* FundraisingEventCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */; };
+		63D0CD1228B269490073957E /* FundraisingEventCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */; };
+		63D0CD1328B269490073957E /* FundraisingEventCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */; };
+		63D0CD1428B269490073957E /* FundraisingEventCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */; };
+		63D0CD1C28B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
+		63D0CD1D28B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
+		63D0CD1E28B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
+		63D0CD1F28B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
+		63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
 		63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5126E114AF009F318F /* NotificationSettingsController.swift */; };
 		63E19D5626E22B41009F318F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5426E22B28009F318F /* BlurView.swift */; };
 		63E19D5826E22D78009F318F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
@@ -210,6 +249,50 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		63D0CCE228B1012D0073957E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				63D0CCE128B1012D0073957E /* GRDB-dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63D0CCE628B101340073957E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				63D0CCE528B101340073957E /* GRDB-dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63D0CCEA28B1013A0073957E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				63D0CCE928B1013A0073957E /* GRDB-dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63D0CCEE28B1013E0073957E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				63D0CCED28B1013E0073957E /* GRDB-dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -279,6 +362,12 @@
 		63BFF1A026D5D37C0023263D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGoalIntentHandler.swift; sourceTree = "<group>"; };
 		63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNextMilestoneIntentHandler.swift; sourceTree = "<group>"; };
+		63D0CCF028B102AA0073957E /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
+		63D0CCF628B108EF0073957E /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		63D0CCFD28B117390073957E /* Campaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campaign.swift; sourceTree = "<group>"; };
+		63D0CD0928B267A60073957E /* FundraisingEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraisingEvent.swift; sourceTree = "<group>"; };
+		63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraisingEventCampaign.swift; sourceTree = "<group>"; };
+		63D0CD1B28B4E8AB0073957E /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		63E19D5126E114AF009F318F /* NotificationSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsController.swift; sourceTree = "<group>"; };
 		63E19D5426E22B28009F318F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		63E19D5726E22D78009F318F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -298,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */,
+				63D0CCEC28B1013E0073957E /* GRDB-dynamic in Frameworks */,
 				63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +396,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D0CCDE28B101200073957E /* GRDB-dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +404,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D0CCE028B1012D0073957E /* GRDB-dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357657026D1AD25004F04DE /* SwiftUI.framework in Frameworks */,
+				63D0CCE428B101340073957E /* GRDB-dynamic in Frameworks */,
 				6357656E26D1AD25004F04DE /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63BFF19C26D5D37C0023263D /* Intents.framework in Frameworks */,
+				63D0CCE828B1013A0073957E /* GRDB-dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +584,7 @@
 		63ACEFE826D276A400F98023 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				63D0CCFC28B117290073957E /* DB */,
 				63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */,
 			);
 			path = Model;
@@ -528,6 +623,7 @@
 				5E49D6C526DCC01B002892CC /* UIApplication.swift */,
 				63BFF17C26D5B0660023263D /* UserDefaults.swift */,
 				63E19D5726E22D78009F318F /* Color.swift */,
+				63D0CD1B28B4E8AB0073957E /* Sequence.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -546,6 +642,18 @@
 				63BFF1A026D5D37C0023263D /* Info.plist */,
 			);
 			path = "Intents Extension";
+			sourceTree = "<group>";
+		};
+		63D0CCFC28B117290073957E /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				63D0CCF028B102AA0073957E /* AppDatabase.swift */,
+				63D0CCF628B108EF0073957E /* Persistence.swift */,
+				63D0CD0928B267A60073957E /* FundraisingEvent.swift */,
+				63D0CCFD28B117390073957E /* Campaign.swift */,
+				63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */,
+			);
+			path = DB;
 			sourceTree = "<group>";
 		};
 		63E19D5026E1143C009F318F /* Controller */ = {
@@ -586,6 +694,7 @@
 				63574A0E26D658FD00A2D495 /* Sources */,
 				63574A0F26D658FD00A2D495 /* Frameworks */,
 				63574A1026D658FD00A2D495 /* Resources */,
+				63D0CCEE28B1013E0073957E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -593,6 +702,7 @@
 			);
 			name = "macOS WidgetExtension";
 			packageProductDependencies = (
+				63D0CCEB28B1013E0073957E /* GRDB-dynamic */,
 			);
 			productName = "macOS WidgetExtension";
 			productReference = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */;
@@ -615,6 +725,7 @@
 			);
 			name = "St Jude (iOS)";
 			packageProductDependencies = (
+				63D0CCDD28B101200073957E /* GRDB-dynamic */,
 			);
 			productName = "St Nude (iOS)";
 			productReference = 6357653426D1A73E004F04DE /* St Jude.app */;
@@ -628,6 +739,7 @@
 				6357653726D1A73E004F04DE /* Frameworks */,
 				6357653826D1A73E004F04DE /* Resources */,
 				63574A2126D6590000A2D495 /* Embed App Extensions */,
+				63D0CCE228B1012D0073957E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -636,6 +748,7 @@
 			);
 			name = "St Jude (macOS)";
 			packageProductDependencies = (
+				63D0CCDF28B1012D0073957E /* GRDB-dynamic */,
 			);
 			productName = "St Nude (macOS)";
 			productReference = 6357653A26D1A73E004F04DE /* St Jude.app */;
@@ -688,6 +801,7 @@
 				6357656726D1AD24004F04DE /* Sources */,
 				6357656826D1AD24004F04DE /* Frameworks */,
 				6357656926D1AD24004F04DE /* Resources */,
+				63D0CCE628B101340073957E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -695,6 +809,7 @@
 			);
 			name = "Tiltify St Jude WidgetExtension";
 			packageProductDependencies = (
+				63D0CCE328B101340073957E /* GRDB-dynamic */,
 			);
 			productName = "Tiltify St Jude WidgetExtension";
 			productReference = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */;
@@ -707,12 +822,16 @@
 				63BFF19726D5D37C0023263D /* Sources */,
 				63BFF19826D5D37C0023263D /* Frameworks */,
 				63BFF19926D5D37C0023263D /* Resources */,
+				63D0CCEA28B1013A0073957E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Intents Extension";
+			packageProductDependencies = (
+				63D0CCE728B1013A0073957E /* GRDB-dynamic */,
+			);
 			productName = "Intents Extension";
 			productReference = 63BFF19B26D5D37C0023263D /* Intents Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -762,6 +881,7 @@
 			);
 			mainGroup = 6357652726D1A73B004F04DE;
 			packageReferences = (
+				63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 			);
 			productRefGroup = 6357653526D1A73E004F04DE /* Products */;
 			projectDirPath = "";
@@ -843,6 +963,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				63574A3026D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
+				63D0CD0228B117390073957E /* Campaign.swift in Sources */,
+				63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */,
+				63D0CCF528B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
 				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
 				63574A3F26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
@@ -853,10 +976,13 @@
 				5EF748D326DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63574A4126D65D8D00A2D495 /* CampaignTitle.swift in Sources */,
 				63574A2626D6594600A2D495 /* WidgetFamily.swift in Sources */,
+				63D0CD0E28B267A60073957E /* FundraisingEvent.swift in Sources */,
 				63574A3A26D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
 				63574A4426D65DDB00A2D495 /* MilestoneView.swift in Sources */,
 				63574A3526D65A0200A2D495 /* Model.swift in Sources */,
+				63D0CCFB28B108EF0073957E /* Persistence.swift in Sources */,
 				63574A3426D659E100A2D495 /* UserDefaults.swift in Sources */,
+				63D0CD1428B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63574A3326D659DF00A2D495 /* TiltifyWidgetData.swift in Sources */,
 				5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
@@ -875,6 +1001,7 @@
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				63D0CD0A28B267A60073957E /* FundraisingEvent.swift in Sources */,
 				5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */,
 				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */,
@@ -887,6 +1014,7 @@
 				5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */,
+				63D0CD1C28B4E8AB0073957E /* Sequence.swift in Sources */,
 				63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */,
 				63ACEFEA26D296F100F98023 /* Loggers.swift in Sources */,
 				63E19D5826E22D78009F318F /* Color.swift in Sources */,
@@ -894,7 +1022,10 @@
 				630DD48226E24A9200FE44E5 /* InAppSettingsToggle.swift in Sources */,
 				63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */,
+				63D0CCF728B108EF0073957E /* Persistence.swift in Sources */,
+				63D0CCFE28B117390073957E /* Campaign.swift in Sources */,
 				6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
+				63D0CD1028B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */,
 				63E19D5E26E2339C009F318F /* SystemSettings.swift in Sources */,
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
@@ -903,6 +1034,7 @@
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
 				DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */,
+				63D0CCF128B102AA0073957E /* AppDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,11 +1054,16 @@
 				63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				63A6F9B026D64F2A00095ACB /* WidgetFamily.swift in Sources */,
 				5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */,
+				63D0CD0B28B267A60073957E /* FundraisingEvent.swift in Sources */,
 				6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */,
 				DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,
+				63D0CCF228B102AA0073957E /* AppDatabase.swift in Sources */,
 				5EF748D126DF74B2008174DF /* CheckSignificantAmounts.swift in Sources */,
+				63D0CCF828B108EF0073957E /* Persistence.swift in Sources */,
 				63E19D6126E234CA009F318F /* SystemSettings.swift in Sources */,
+				63D0CCFF28B117390073957E /* Campaign.swift in Sources */,
+				63D0CD1D28B4E8AB0073957E /* Sequence.swift in Sources */,
 				63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */,
 				63A6F9A326D64D0C00095ACB /* Model.swift in Sources */,
 				63E19D5C26E23154009F318F /* EasterEggView.swift in Sources */,
@@ -934,6 +1071,7 @@
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
 				5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
+				63D0CD1128B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
 				638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				5EF748D426DF74B6008174DF /* Notifications.swift in Sources */,
@@ -966,6 +1104,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */,
+				63D0CD0028B117390073957E /* Campaign.swift in Sources */,
+				63D0CD1E28B4E8AB0073957E /* Sequence.swift in Sources */,
+				63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				5EF748D526DF74B7008174DF /* Notifications.swift in Sources */,
 				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
@@ -976,10 +1117,13 @@
 				5EF748D226DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63BFF17E26D5B2990023263D /* UserDefaults.swift in Sources */,
 				6357658426D25309004F04DE /* ApiClient.swift in Sources */,
+				63D0CD0C28B267A60073957E /* FundraisingEvent.swift in Sources */,
 				6357658726D256C9004F04DE /* Model.swift in Sources */,
 				63ACEFF926D3C76E00F98023 /* CampaignTitle.swift in Sources */,
 				63A6F9AE26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				63D0CCF928B108EF0073957E /* Persistence.swift in Sources */,
 				63ACEFF226D3C4D500F98023 /* MilestoneView.swift in Sources */,
+				63D0CD1228B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
@@ -995,13 +1139,19 @@
 			files = (
 				63BFF1AB26D5D3AF0023263D /* Model.swift in Sources */,
 				6348F9FE26D6C9970031697F /* Intents.intentdefinition in Sources */,
+				63D0CCFA28B108EF0073957E /* Persistence.swift in Sources */,
 				63BFF1A726D5D38B0023263D /* IntentHandler.swift in Sources */,
+				63D0CD1328B269490073957E /* FundraisingEventCampaign.swift in Sources */,
+				63D0CD1F28B4E8AB0073957E /* Sequence.swift in Sources */,
 				63A6F99126D6348A00095ACB /* ListMilestonesIntentHandler.swift in Sources */,
 				63BFF1AC26D5D3BE0023263D /* Loggers.swift in Sources */,
 				63A6F99A26D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift in Sources */,
+				63D0CD0128B117390073957E /* Campaign.swift in Sources */,
 				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
 				63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */,
 				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,
+				63D0CCF428B102AA0073957E /* AppDatabase.swift in Sources */,
+				63D0CD0D28B267A60073957E /* FundraisingEvent.swift in Sources */,
 				DE0F34C126DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63BFF1A826D5D38F0023263D /* GetAmountRaisedIntentHandler.swift in Sources */,
 				638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */,
@@ -1659,6 +1809,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63D0CCDD28B101200073957E /* GRDB-dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = "GRDB-dynamic";
+		};
+		63D0CCDF28B1012D0073957E /* GRDB-dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = "GRDB-dynamic";
+		};
+		63D0CCE328B101340073957E /* GRDB-dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = "GRDB-dynamic";
+		};
+		63D0CCE728B1013A0073957E /* GRDB-dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = "GRDB-dynamic";
+		};
+		63D0CCEB28B1013E0073957E /* GRDB-dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = "GRDB-dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6357652826D1A73B004F04DE /* Project object */;
 }

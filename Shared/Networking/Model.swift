@@ -42,7 +42,7 @@ struct TiltifyMilestone: Codable {
     let name: String
 }
 
-struct TiltifyAvatar: Codable {
+struct TiltifyAvatar: Codable, Hashable {
     let alt: String
     let src: String
     let height: Int?
@@ -50,6 +50,7 @@ struct TiltifyAvatar: Codable {
 }
 
 struct TiltifyCampaign: Codable {
+    let publicId: String
     let avatar: TiltifyAvatar?
     let goal: TiltifyAmount
     let milestones: [TiltifyMilestone]
@@ -88,13 +89,13 @@ func sortMilestones(_ milestoneA: TiltifyMilestone, _ milestoneB: TiltifyMilesto
     return milestoneAValue < milestoneBValue
 }
 
-struct TiltifyUser: Codable {
+struct TiltifyUser: Codable, Hashable {
     let username: String
     let slug: String
 }
 
 struct TiltifyCauseCampaign: Codable {
-    let publicId: String
+    let publicId: UUID
     let name: String
     let slug: String
     let goal: TiltifyAmount
@@ -110,7 +111,7 @@ struct TiltifyPublishedCampaigns: Codable {
     let edges: [TiltifyPublishedCampaign]
 }
 
-struct TiltifyColors: Codable {
+struct TiltifyColors: Codable, Hashable {
     let background: String
     let highlight: String
     
@@ -147,6 +148,8 @@ struct TiltifyColors: Codable {
 }
 
 struct TiltifyFundraisingEvent: Codable {
+    let publicId: UUID
+    let slug: String
     let amountRaised: TiltifyAmount
     let colors: TiltifyColors
     let description: String
@@ -171,7 +174,8 @@ struct TiltifyFundraisingEvent: Codable {
     
 }
 
-struct TiltifyCause: Codable {
+struct TiltifyCause: Codable, Hashable {
+    let publicId: UUID
     let name: String
     let slug: String
 }
