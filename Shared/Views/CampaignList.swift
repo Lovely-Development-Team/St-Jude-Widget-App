@@ -8,6 +8,27 @@
 import SwiftUI
 import GRDB
 
+enum FundraiserSortOrder: CaseIterable {
+    case byName
+    case byAmountRaised
+    case byGoal
+    case byPercentage
+    
+    var description: String {
+        switch self {
+        case .byName:
+            return "Name"
+        case .byAmountRaised:
+            return "Amount Raised"
+        case .byGoal:
+            return "Goal"
+        case .byPercentage:
+            return "Percentage"
+        }
+    }
+    
+}
+
 struct CampaignList: View {
     @State private var fundraisingEvent: FundraisingEvent? = nil
     @State private var campaigns: [Campaign] = []
@@ -16,6 +37,8 @@ struct CampaignList: View {
     @State private var fundraisingEventObservation = AppDatabase.shared.observeRelayFundraisingEventObservation()
     @State private var fundraisingEventCancellable: DatabaseCancellable?
     @State private var fetchCampaignsTask: Task<(), Never>?
+    
+    @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -39,6 +62,30 @@ struct CampaignList: View {
         value
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             .opacity(0.8)
+    }
+    
+    var sortedCampaigns: [Campaign] {
+        return campaigns.sorted { c1, c2 in
+            if c1.user.username == "Relay FM" {
+                return true
+            }
+            if c2.user.username == "Relay FM" {
+                return false
+            }
+            switch fundraiserSortOrder {
+            case .byAmountRaised:
+                return c1.totalRaised.numericalValue > c2.totalRaised.numericalValue
+            case .byGoal:
+                return c1.goal.numericalValue > c2.goal.numericalValue
+            case .byPercentage:
+                return (c1.percentageReached ?? 0) > (c2.percentageReached ?? 0)
+            default:
+                if c1.name.lowercased() == c2.name.lowercased() {
+                    return c1.id.uuidString < c2.id.uuidString
+                }
+                return c1.name.lowercased() < c2.name.lowercased()
+            }
+        }
     }
     
     var body: some View {
@@ -102,7 +149,7 @@ struct CampaignList: View {
                     
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                         
-                        ForEach(campaigns, id: \.id) { campaign in
+                        ForEach(sortedCampaigns, id: \.id) { campaign in
                             NavigationLink(destination: ContentView(vanity: campaign.user.slug, slug: campaign.slug, user: campaign.user.username).navigationTitle(campaign.name)) {
                                 FundraiserListItem(campaign: campaign)
                             }
