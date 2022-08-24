@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E253D9728B64DE300CF024F /* FundraiserListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E253D9628B64DE300CF024F /* FundraiserListItem.swift */; };
+		5E253D9828B64DE300CF024F /* FundraiserListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E253D9628B64DE300CF024F /* FundraiserListItem.swift */; };
 		5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C526DCC01B002892CC /* UIApplication.swift */; };
 		5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
 		5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
@@ -298,6 +300,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5E253D9628B64DE300CF024F /* FundraiserListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraiserListItem.swift; sourceTree = "<group>"; };
 		5E49D6C526DCC01B002892CC /* UIApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
 		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
@@ -605,6 +608,7 @@
 				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
 				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 				5ED5638528AEBAC5004A65A5 /* CampaignList.swift */,
+				5E253D9628B64DE300CF024F /* FundraiserListItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1024,6 +1028,7 @@
 				63ACEFEE26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
 				630DD48226E24A9200FE44E5 /* InAppSettingsToggle.swift in Sources */,
 				63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */,
+				5E253D9728B64DE300CF024F /* FundraiserListItem.swift in Sources */,
 				5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63D0CCF728B108EF0073957E /* Persistence.swift in Sources */,
 				63D0CCFE28B117390073957E /* Campaign.swift in Sources */,
@@ -1055,6 +1060,7 @@
 				63E19D5B26E230F4009F318F /* NotificationSettingsController.swift in Sources */,
 				63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */,
 				63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */,
+				5E253D9828B64DE300CF024F /* FundraiserListItem.swift in Sources */,
 				63A6F9B026D64F2A00095ACB /* WidgetFamily.swift in Sources */,
 				5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */,
 				63D0CD0B28B267A60073957E /* FundraisingEvent.swift in Sources */,
@@ -1402,7 +1408,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1438,7 +1444,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

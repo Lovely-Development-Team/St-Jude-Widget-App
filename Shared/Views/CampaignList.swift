@@ -17,94 +17,110 @@ struct CampaignList: View {
     @State private var fundraisingEventCancellable: DatabaseCancellable?
     @State private var fetchCampaignsTask: Task<(), Never>?
     
+    @ViewBuilder
+    func mainProgressBar(value: Float, color: Color) -> some View {
+        ProgressBar(value: .constant(value), fillColor: color)
+            .frame(height: 15)
+            .padding(.bottom, 2)
+    }
+    
+    @ViewBuilder
+    func mainAmountRaised(_ value: Text) -> some View {
+        value
+            .font(.largeTitle)
+            .fontWeight(.bold)
+            .minimumScaleFactor(0.7)
+            .lineLimit(1)
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+    }
+    
+    @ViewBuilder
+    func mainPercentageReached(_ value: Text) -> some View {
+        value
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .opacity(0.8)
+    }
+    
     var body: some View {
-        Group {
-            if let fundraisingEvent = fundraisingEvent {
-                VStack {
-                    VStack(spacing: 0) {
-                        Text(fundraisingEvent.cause.name)
-                            .font(.subheadline)
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        //                            .foregroundColor(.white)
-                            .opacity(0.8)
-                            .padding(.bottom, 2)
-                        Text(fundraisingEvent.name)
-                            .multilineTextAlignment(.leading)
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 20)
-                        if let percentageReached =  fundraisingEvent.percentageReached {
-                            ProgressBar(value: .constant(Float(percentageReached)), fillColor: fundraisingEvent.colors.highlightColor)
-                                .frame(height: 15)
-                                .padding(.bottom, 2)
-                        }
-                        Text(fundraisingEvent.amountRaised.description(showFullCurrencySymbol: false))
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(1)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        if let percentageReachedDesc = fundraisingEvent.percentageReachedDescription {
-                            Text("\(percentageReachedDesc) of \(fundraisingEvent.goal.description(showFullCurrencySymbol: false))")
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .opacity(0.8)
-                        }
-                    }
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(fundraisingEvent.colors.backgroundColor)
-                    .cornerRadius(10)
-                    .padding()
-                    
-                    Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
+        
+        ScrollView {
+            VStack(spacing: 0) {
+                VStack(spacing: 0) {
+                    Text(fundraisingEvent?.name ?? "Relay FM for St. Jude 2022")
+                        .multilineTextAlignment(.leading)
                         .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .padding(.horizontal, 20)
-                        .background(fundraisingEvent.colors.backgroundColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    //                        .frame(minHeight: 80)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .padding(.bottom)
-                    
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 2)
+                    Text(fundraisingEvent?.cause.name ?? "St. Jude Children's Research Hospital")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.leading)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .opacity(0.8)
+                        .padding(.bottom, 20)
+                    if let fundraisingEvent = fundraisingEvent {
+                        if let percentageReached =  fundraisingEvent.percentageReached {
+                            mainProgressBar(value: Float(percentageReached), color: fundraisingEvent.colors.highlightColor)
+                        }
+                        mainAmountRaised(Text(fundraisingEvent.amountRaised.description(showFullCurrencySymbol: false)))
+                        if let percentageReachedDesc = fundraisingEvent.percentageReachedDescription {
+                            mainPercentageReached(Text("\(percentageReachedDesc) of \(fundraisingEvent.goal.description(showFullCurrencySymbol: false))"))
+                        }
+                    } else {
+                        mainProgressBar(value: 0, color: .accentColor)
+                        mainAmountRaised(Text("PLACEHOLDER"))
+                            .redacted(reason: .placeholder)
+                        mainPercentageReached(Text("PLACEHOLDER"))
+                            .redacted(reason: .placeholder)
+                    }
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background(fundraisingEvent?.colors.backgroundColor ?? Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
+                .cornerRadius(10)
+                .padding()
+                
+                Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .padding(.horizontal, 20)
+                    .background(Color.accentColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom)
+                
+                HStack {
                     Text("Fundraisers")
                         .font(.title)
                         .fontWeight(.bold)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
+                    Spacer()
                     
-                    List {
-                        //                    .background(LinearGradient(colors: [
-                        //                        Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1),
-                        //                        Color(.sRGB, red: 51 / 255, green: 63 / 255, blue: 72 / 255, opacity: 1)
-                        //                    ], startPoint: .bottom, endPoint: .top))
-                        
-                        
-                        ForEach(campaigns, id: \.id) { campaign in
-                            NavigationLink(destination: ContentView(vanity: campaign.user.slug, slug: campaign.slug, user: campaign.user.username).navigationTitle(campaign.name)) {
-                                VStack(alignment: .leading) {
-                                    Text(campaign.name)
-                                        .font(.headline)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                    HStack(alignment: .top) {
-                                        Text(campaign.user.username)
-                                            .foregroundColor(.secondary)
-                                        Spacer()
-                                        Text(campaign.totalRaised.description(showFullCurrencySymbol: false))
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .listStyle(.plain)
                 }
-//                .listRowSeparator(.hidden)
-            } else {
-                Text("Loading...")
+                .padding(.horizontal)
+                
+                if campaigns.count != 0 {
+                    
+                    ForEach(campaigns, id: \.id) { campaign in
+                        NavigationLink(destination: ContentView(vanity: campaign.user.slug, slug: campaign.slug, user: campaign.user.username).navigationTitle(campaign.name)) {
+                            FundraiserListItem(campaign: campaign)
+                        }
+                        .padding(.horizontal)
+                        .padding(.top)
+                    }
+                    
+                } else {
+                    
+                    ProgressView()
+                        .padding(.top, 40)
+                        .padding(.bottom, 10)
+                    Text("Loading ...")
+                        .padding(.bottom, 40)
+                    
+                }
             }
+        }
+        .refreshable {
+            await refresh()
         }
         .onAppear {
             fundraisingEventCancellable = AppDatabase.shared.start(observation: fundraisingEventObservation) { error in
@@ -134,6 +150,7 @@ struct CampaignList: View {
                 await refresh()
             }
         }
+        .navigationTitle("Relay FM for St. Jude 2022")
     }
     
     func refresh() async {
@@ -193,6 +210,7 @@ struct CampaignList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CampaignList()
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

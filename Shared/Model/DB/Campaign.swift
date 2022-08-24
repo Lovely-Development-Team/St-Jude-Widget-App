@@ -30,9 +30,25 @@ struct Campaign: Identifiable, Hashable {
     private let username: String
     private let userSlug: String
     var user: TiltifyUser {
-        TiltifyUser(username: username, slug: userSlug)
+        TiltifyUser(username: username, slug: userSlug, avatar: avatar)
     }
     let fundraisingEventId: UUID
+    
+    var percentageReached: Double? {
+        return calcPercentage(goal: goal.value ?? "0", total: totalRaised.value ?? "0")
+    }
+    
+    var percentageReachedDescription: String? {
+        guard let percentageReached = percentageReached else {
+            return nil
+        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 1
+        return formatter.string(from: percentageReached as NSNumber)
+    }
+    
 }
 
 //extension Campaign: Codable {
@@ -101,9 +117,9 @@ extension Campaign {
         self.id = campaign.publicId
         self.name = campaign.name
         self.slug = campaign.slug
-        self.avatar = nil
+        self.avatar = campaign.user.avatar
         self.status = nil
-        self.description = nil
+        self.description = campaign.description
         self.goalCurrency = campaign.goal.currency
         self.goalValue = campaign.goal.value
         self.totalRaisedCurrency = campaign.totalAmountRaised.currency
@@ -117,9 +133,9 @@ extension Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
-                        avatar: self.avatar,
+                        avatar: campaign.user.avatar,
                         status: self.status,
-                        description: self.description,
+                        description: campaign.description,
                         goalCurrency: campaign.goal.currency,
                         goalValue: campaign.goal.value,
                         totalRaisedCurrency: campaign.totalAmountRaised.currency,
