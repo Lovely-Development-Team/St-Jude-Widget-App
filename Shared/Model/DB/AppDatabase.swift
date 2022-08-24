@@ -95,11 +95,21 @@ extension AppDatabase {
         }
     }
     
+    /**
+     If the event has any difference from the other event, executes an
+     UPDATE statement so that those differences and only those difference are
+     saved in the database.
+     - parameter newEvent: The latest version of the event.
+     - parameter oldEvent: The event to compare against..
+     - returns: Whether the event had changes.
+     - throws: A DatabaseError is thrown whenever an SQLite error occurs.
+     PersistenceError.recordNotFound is thrown if the primary key does not
+     match any row in the database and record could not be updated.
+     */
     @discardableResult
-    func updateFundraisingEvent(_ event: FundraisingEvent, from newEvent: FundraisingEvent) async throws -> FundraisingEvent {
+    func updateFundraisingEvent(_ newEvent: FundraisingEvent, changesFrom oldEvent: FundraisingEvent) async throws -> Bool {
         try await dbWriter.write { db in
-            try newEvent.updateChanges(db, from: event)
-            return newEvent
+            try newEvent.updateChanges(db, from: oldEvent)
         }
     }
     
@@ -128,6 +138,24 @@ extension AppDatabase {
     func saveCampaign(_ campaign: Campaign) async throws -> Campaign {
         try await dbWriter.write { db in
             try campaign.saved(db)
+        }
+    }
+    
+    /**
+     If the campaign has any difference from the other campaign, executes an
+     UPDATE statement so that those differences and only those difference are
+     saved in the database.
+     - parameter newCampaign: The latest version of the campaign.
+     - parameter oldCampaign: The event to compare campaign..
+     - returns: Whether the campaign had changes.
+     - throws: A DatabaseError is thrown whenever an SQLite error occurs.
+     PersistenceError.recordNotFound is thrown if the primary key does not
+     match any row in the database and record could not be updated.
+     */
+    @discardableResult
+    func updateCampaign(_ newCampaign: Campaign, changesFrom oldCampaign: Campaign) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newCampaign.updateChanges(db, from: oldCampaign)
         }
     }
 }

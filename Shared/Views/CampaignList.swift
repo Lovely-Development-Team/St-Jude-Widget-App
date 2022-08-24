@@ -130,14 +130,20 @@ struct CampaignList: View {
         }
         let apiEvent = FundraisingEvent(from: response.data)
         do {
+            // Always saving the new event would work fine, but only the amount raised is likely to change regularly,
+            // so it's more efficient to update if we have an existing event
             if let existingEvent = fundraisingEvent {
-                fundraisingEvent = try await AppDatabase.shared.updateFundraisingEvent(apiEvent, from: existingEvent)
+                fundraisingEvent = apiEvent
+                if try await AppDatabase.shared.updateFundraisingEvent(apiEvent, changesFrom: existingEvent) {
+                    dataLogger.info("Updated fundraising event '\(apiEvent.name)' (id: \(apiEvent.id)")
+                }
             } else {
                 fundraisingEvent = try! await AppDatabase.shared.saveFundraisingEvent(apiEvent)
             }
         } catch {
             dataLogger.error("Updating stord fundraiser failed: \(error.localizedDescription)")
         }
+        
         campaigns = await response.data.fundraisingEvent.publishedCampaigns.edges.asyncMap { apiCampaign in
             let storedCampaign: Campaign?
             do {
@@ -147,14 +153,20 @@ struct CampaignList: View {
             }
             
             let campaign: Campaign
-            if let storedCampaign = storedCampaign {
-                campaign = storedCampaign.update(fromCauseCampaign: apiCampaign.node, fundraiserId: apiEvent.id)
-            } else {
-                campaign = Campaign(from: apiCampaign.node, fundraiserId: apiEvent.id)
-            }
             do {
-                return try await AppDatabase.shared.saveCampaign(campaign)
+                // Same as above. In this case, we *really* don't want to update every campaign unless they've changed
+                if let storedCampaign = storedCampaign {
+                    campaign = storedCampaign.updated(fromCauseCampaign: apiCampaign.node, fundraiserId: apiEvent.id)
+                    if try await AppDatabase.shared.updateCampaign(campaign, changesFrom: storedCampaign) {
+                        dataLogger.info("Updated campaign '\(campaign.name)' (id: \(campaign.id)")
+                    }
+                    return campaign
+                } else {
+                    campaign = Campaign(from: apiCampaign.node, fundraiserId: apiEvent.id)
+                    return try await AppDatabase.shared.saveCampaign(campaign)
+                }
             } catch {
+                dataLogger.error("Failed to save campaign: \(error.localizedDescription)")
                 return campaign
             }
         }
