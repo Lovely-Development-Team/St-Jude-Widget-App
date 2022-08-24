@@ -92,6 +92,7 @@ func sortMilestones(_ milestoneA: TiltifyMilestone, _ milestoneB: TiltifyMilesto
 struct TiltifyUser: Codable, Hashable {
     let username: String
     let slug: String
+    let avatar: TiltifyAvatar?
 }
 
 struct TiltifyCauseCampaign: Codable {
@@ -101,6 +102,7 @@ struct TiltifyCauseCampaign: Codable {
     let goal: TiltifyAmount
     let totalAmountRaised: TiltifyAmount
     let user: TiltifyUser
+    let description: String
 }
 
 struct TiltifyPublishedCampaign: Codable {

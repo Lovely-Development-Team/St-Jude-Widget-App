@@ -165,7 +165,7 @@ struct TiltifyWidgetData {
 }
 
 func calcPercentage(goal: String, total: String) -> Double? {
-    guard let goal = Double(goal) else {
+    guard let goal = Double(goal), goal != 0 else {
         return nil
     }
     guard let total = Double(total) else {
