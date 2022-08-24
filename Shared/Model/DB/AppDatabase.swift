@@ -113,10 +113,18 @@ extension AppDatabase {
         }
     }
     
+    private func fetchFundraisingEvent(using db: Database, with slug: String, forCause causeSlug: String) throws -> FundraisingEvent? {
+        try FundraisingEvent.all().filter(slug: slug, causeSlug: causeSlug).fetchOne(db)
+    }
+    
     func fetchFundraisingEvent(with slug: String, forCause causeSlug: String) async throws -> FundraisingEvent? {
         try await dbWriter.read { db in
-            try FundraisingEvent.all().filter(slug: slug, causeSlug: causeSlug).fetchOne(db)
+            try self.fetchFundraisingEvent(using: db, with: slug, forCause: causeSlug)
         }
+    }
+    
+    private func fetchRelayFundraisingEvent(using db: Database) throws -> FundraisingEvent? {
+        try fetchFundraisingEvent(using: db, with: "relay-fm-for-st-jude-2022", forCause: "st-jude-children-s-research-hospital")
     }
     
     func fetchRelayFundraisingEvent() async throws -> FundraisingEvent? {
@@ -157,5 +165,22 @@ extension AppDatabase {
         try await dbWriter.write { db in
             try newCampaign.updateChanges(db, from: oldCampaign)
         }
+    }
+}
+
+extension AppDatabase {
+    func observeRelayFundraisingEventObservation() -> ValueObservation<ValueReducers.Fetch<FundraisingEvent?>> {
+        ValueObservation.trackingConstantRegion { db in
+            try AppDatabase.shared.fetchRelayFundraisingEvent(using: db)
+        }
+    }
+}
+
+extension AppDatabase {
+    func start<T: ValueReducer>(observation: ValueObservation<T>,
+                                scheduling scheduler: ValueObservationScheduler = .async(onQueue: .main),
+                                onError: @escaping (Error) -> Void,
+                                onChange: @escaping (T.Value) -> Void) -> DatabaseCancellable {
+        observation.start(in: dbWriter, scheduling: scheduler, onError: onError, onChange: onChange)
     }
 }

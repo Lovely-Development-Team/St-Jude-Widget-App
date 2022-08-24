@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import GRDB
 
 struct CampaignList: View {
-    
     @State private var fundraisingEvent: FundraisingEvent? = nil
     @State private var campaigns: [Campaign] = []
     @StateObject private var apiClient = ApiClient.shared
+    
+    @State private var fundraisingEventObservation = AppDatabase.shared.observeRelayFundraisingEventObservation()
+    @State private var fundraisingEventCancellable: DatabaseCancellable?
+    @State private var fetchCampaignsTask: Task<(), Never>?
     
     var body: some View {
         Group {
@@ -103,18 +107,30 @@ struct CampaignList: View {
             }
         }
         .onAppear {
-            Task {
-                do {
-                    fundraisingEvent = try await AppDatabase.shared.fetchRelayFundraisingEvent()
-                    dataLogger.notice("Fetched stored fundraiser")
-                    if let fundraisingEvent = fundraisingEvent {
-                        dataLogger.notice("Fetched stored fundraiser")
-                        campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent)
-                        dataLogger.notice("Fetched stored campaigns")
+            fundraisingEventCancellable = AppDatabase.shared.start(observation: fundraisingEventObservation) { error in
+                dataLogger.error("Error observing stored fundraiser: \(error.localizedDescription)")
+            } onChange: { event in
+                fundraisingEvent = event
+                // When changes happen in quick succession, we don't want to concurrently fetch the same data
+                fetchCampaignsTask?.cancel()
+                fetchCampaignsTask = Task {
+                    do {
+                        if let fundraisingEvent = fundraisingEvent {
+                            dataLogger.notice("Fetched stored fundraiser")
+                            try Task.checkCancellation()
+                            campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent)
+                            dataLogger.notice("Fetched stored campaigns")
+                        }
+                    } catch is CancellationError {
+                        dataLogger.info("Campaign fetch cancelled")
                     }
-                } catch {
-                    dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
+                    catch {
+                        dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
+                    }
                 }
+            }
+            
+            Task {
                 await refresh()
             }
         }
