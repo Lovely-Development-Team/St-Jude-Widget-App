@@ -122,6 +122,7 @@ struct CampaignList: View {
                     
                 }
             }
+            .padding(.bottom)
         }
         .refreshable {
             await refresh()
