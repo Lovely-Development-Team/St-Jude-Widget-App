@@ -49,6 +49,10 @@ struct Campaign: Identifiable, Hashable {
         return formatter.string(from: percentageReached as NSNumber)
     }
     
+    var title: String {
+        username == "Relay FM" ? "Relay FM" : name
+    }
+    
 }
 
 //extension Campaign: Codable {

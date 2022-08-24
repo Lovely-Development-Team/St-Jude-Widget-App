@@ -31,7 +31,7 @@ struct FundraiserListItem: View {
                         .cornerRadius(5)
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(campaign.name)
+                        Text(campaign.title)
                             .multilineTextAlignment(.leading)
                             .font(.headline)
                         Text(campaign.user.username)
