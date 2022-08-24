@@ -131,15 +131,6 @@
 		63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AD26D5D3E60023263D /* GetGoalIntentHandler.swift */; };
 		63BFF1B026D5D4A20023263D /* GetNextMilestoneIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */; };
 		63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACEFED26D3B51900F98023 /* TiltifyWidgetData.swift */; };
-		63D0CCDE28B101200073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCDD28B101200073957E /* GRDB-dynamic */; };
-		63D0CCE028B1012D0073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCDF28B1012D0073957E /* GRDB-dynamic */; };
-		63D0CCE128B1012D0073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCDF28B1012D0073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		63D0CCE428B101340073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE328B101340073957E /* GRDB-dynamic */; };
-		63D0CCE528B101340073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE328B101340073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		63D0CCE828B1013A0073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE728B1013A0073957E /* GRDB-dynamic */; };
-		63D0CCE928B1013A0073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCE728B1013A0073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		63D0CCEC28B1013E0073957E /* GRDB-dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCEB28B1013E0073957E /* GRDB-dynamic */; };
-		63D0CCED28B1013E0073957E /* GRDB-dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CCEB28B1013E0073957E /* GRDB-dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		63D0CCF128B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
 		63D0CCF228B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
 		63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CCF028B102AA0073957E /* AppDatabase.swift */; };
@@ -170,6 +161,11 @@
 		63D0CD1E28B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
 		63D0CD1F28B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
 		63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD1B28B4E8AB0073957E /* Sequence.swift */; };
+		63D0CD2628B63C500073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2528B63C500073957E /* GRDB */; };
+		63D0CD2828B63C580073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2728B63C580073957E /* GRDB */; };
+		63D0CD2A28B63C640073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2928B63C640073957E /* GRDB */; };
+		63D0CD2C28B63C6D0073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2B28B63C6D0073957E /* GRDB */; };
+		63D0CD2E28B63C730073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2D28B63C730073957E /* GRDB */; };
 		63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5126E114AF009F318F /* NotificationSettingsController.swift */; };
 		63E19D5626E22B41009F318F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5426E22B28009F318F /* BlurView.swift */; };
 		63E19D5826E22D78009F318F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
@@ -255,7 +251,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				63D0CCE128B1012D0073957E /* GRDB-dynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,7 +261,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				63D0CCE528B101340073957E /* GRDB-dynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,7 +271,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				63D0CCE928B1013A0073957E /* GRDB-dynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,7 +281,16 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				63D0CCED28B1013E0073957E /* GRDB-dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63D0CD2428B639DD0073957E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,8 +388,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D0CD2E28B63C730073957E /* GRDB in Frameworks */,
 				63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */,
-				63D0CCEC28B1013E0073957E /* GRDB-dynamic in Frameworks */,
 				63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,7 +398,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63D0CCDE28B101200073957E /* GRDB-dynamic in Frameworks */,
+				63D0CD2628B63C500073957E /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,7 +406,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63D0CCE028B1012D0073957E /* GRDB-dynamic in Frameworks */,
+				63D0CD2828B63C580073957E /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,8 +428,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D0CD2A28B63C640073957E /* GRDB in Frameworks */,
 				6357657026D1AD25004F04DE /* SwiftUI.framework in Frameworks */,
-				63D0CCE428B101340073957E /* GRDB-dynamic in Frameworks */,
 				6357656E26D1AD25004F04DE /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,7 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63BFF19C26D5D37C0023263D /* Intents.framework in Frameworks */,
-				63D0CCE828B1013A0073957E /* GRDB-dynamic in Frameworks */,
+				63D0CD2C28B63C6D0073957E /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,7 +704,7 @@
 			);
 			name = "macOS WidgetExtension";
 			packageProductDependencies = (
-				63D0CCEB28B1013E0073957E /* GRDB-dynamic */,
+				63D0CD2D28B63C730073957E /* GRDB */,
 			);
 			productName = "macOS WidgetExtension";
 			productReference = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */;
@@ -716,6 +718,7 @@
 				6357653126D1A73E004F04DE /* Frameworks */,
 				6357653226D1A73E004F04DE /* Resources */,
 				6357658026D1AD28004F04DE /* Embed App Extensions */,
+				63D0CD2428B639DD0073957E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -725,7 +728,7 @@
 			);
 			name = "St Jude (iOS)";
 			packageProductDependencies = (
-				63D0CCDD28B101200073957E /* GRDB-dynamic */,
+				63D0CD2528B63C500073957E /* GRDB */,
 			);
 			productName = "St Nude (iOS)";
 			productReference = 6357653426D1A73E004F04DE /* St Jude.app */;
@@ -748,7 +751,7 @@
 			);
 			name = "St Jude (macOS)";
 			packageProductDependencies = (
-				63D0CCDF28B1012D0073957E /* GRDB-dynamic */,
+				63D0CD2728B63C580073957E /* GRDB */,
 			);
 			productName = "St Nude (macOS)";
 			productReference = 6357653A26D1A73E004F04DE /* St Jude.app */;
@@ -809,7 +812,7 @@
 			);
 			name = "Tiltify St Jude WidgetExtension";
 			packageProductDependencies = (
-				63D0CCE328B101340073957E /* GRDB-dynamic */,
+				63D0CD2928B63C640073957E /* GRDB */,
 			);
 			productName = "Tiltify St Jude WidgetExtension";
 			productReference = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */;
@@ -830,7 +833,7 @@
 			);
 			name = "Intents Extension";
 			packageProductDependencies = (
-				63D0CCE728B1013A0073957E /* GRDB-dynamic */,
+				63D0CD2B28B63C6D0073957E /* GRDB */,
 			);
 			productName = "Intents Extension";
 			productReference = 63BFF19B26D5D37C0023263D /* Intents Extension.appex */;
@@ -1822,30 +1825,30 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		63D0CCDD28B101200073957E /* GRDB-dynamic */ = {
+		63D0CD2528B63C500073957E /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
-			productName = "GRDB-dynamic";
+			productName = GRDB;
 		};
-		63D0CCDF28B1012D0073957E /* GRDB-dynamic */ = {
+		63D0CD2728B63C580073957E /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
-			productName = "GRDB-dynamic";
+			productName = GRDB;
 		};
-		63D0CCE328B101340073957E /* GRDB-dynamic */ = {
+		63D0CD2928B63C640073957E /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
-			productName = "GRDB-dynamic";
+			productName = GRDB;
 		};
-		63D0CCE728B1013A0073957E /* GRDB-dynamic */ = {
+		63D0CD2B28B63C6D0073957E /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
-			productName = "GRDB-dynamic";
+			productName = GRDB;
 		};
-		63D0CCEB28B1013E0073957E /* GRDB-dynamic */ = {
+		63D0CD2D28B63C730073957E /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
-			productName = "GRDB-dynamic";
+			productName = GRDB;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
