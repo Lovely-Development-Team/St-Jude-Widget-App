@@ -113,7 +113,7 @@ extension Campaign {
         self.fundraisingEventId = fundraiserId
     }
     
-    func update(fromCauseCampaign campaign: TiltifyCauseCampaign, fundraiserId: UUID) -> Campaign {
+    func updated(fromCauseCampaign campaign: TiltifyCauseCampaign, fundraiserId: UUID) -> Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
