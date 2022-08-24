@@ -12,6 +12,10 @@ struct TiltifyAmount: Codable {
     let currency: String
     let value: String?
     
+    var numericalValue: Double {
+        return Double(value ?? "0") ?? 0
+    }
+    
     func description(showFullCurrencySymbol: Bool) -> String {
         
         let currencyFormatter = NumberFormatter()
