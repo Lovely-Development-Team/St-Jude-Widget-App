@@ -20,6 +20,7 @@ struct TiltifyAmount: Codable {
         
         let originalSymbol = currencyFormatter.currencySymbol
         let originalCode = currencyFormatter.currencyCode
+        
         currencyFormatter.currencyCode = "USD"
         if !showFullCurrencySymbol {
             currencyFormatter.currencySymbol = "$"
@@ -27,7 +28,10 @@ struct TiltifyAmount: Codable {
             currencyFormatter.currencySymbol = "USD"
         }
         
-        let descriptionString = currencyFormatter.string(from: NumberFormatter().number(from: value ?? "0") ?? 0) ?? "\(currency) 0"
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        
+        let descriptionString = currencyFormatter.string(from: numberFormatter.number(from: value ?? "0") ?? 0) ?? "\(currency) 0"
         currencyFormatter.currencySymbol = originalSymbol
         currencyFormatter.currencyCode = originalCode
         
