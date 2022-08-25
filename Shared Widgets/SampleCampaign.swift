@@ -7,9 +7,9 @@
 
 import Foundation
 
-let sampleCampaign = TiltifyWidgetData(from: TiltifyCampaign(publicId: "relay", avatar: nil, goal: TiltifyAmount(currency: "USD", value: "333333.33"), milestones: [], slug: "relay-st-jude-21", status: "published", team: nil, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100")))
+let sampleCampaign = TiltifyWidgetData(from: TiltifyCampaign(publicId: "relay", avatar: nil, goal: TiltifyAmount(currency: "USD", value: "333333.33"), milestones: [], slug: "relay-st-jude-21", status: "published", team: nil, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []))
 
-let sampleCampaignSingleMilestone = TiltifyWidgetData(from: TiltifyCampaign(publicId: "relay", avatar: nil,goal: TiltifyAmount(currency: "USD", value: "333333.33"), milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), id: 1, name: "A milestone!")], slug: "relay-st-jude-21", status: "published", team: nil, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100")))
+let sampleCampaignSingleMilestone = TiltifyWidgetData(from: TiltifyCampaign(publicId: "relay", avatar: nil,goal: TiltifyAmount(currency: "USD", value: "333333.33"), milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), id: 1, name: "A milestone!")], slug: "relay-st-jude-21", status: "published", team: nil, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []))
 
 
 let sampleCampaignTwoMilestones = TiltifyWidgetData(from: TiltifyCampaign(publicId: "relay", avatar: nil,
@@ -21,7 +21,7 @@ let sampleCampaignTwoMilestones = TiltifyWidgetData(from: TiltifyCampaign(public
                                                                           description: ". . .",
                                                                           totalAmountRaised: TiltifyAmount(currency: "USD", value: "122.25"),
                                                                           name: "Relay FM for St. Jude 2022 (a)",
-                                                                          originalGoal: TiltifyAmount(currency: "USD", value: "100")))
+                                                                          originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []   ))
 
 let sampleCampaignThreeMilestones = TiltifyWidgetData(from: TiltifyCampaign(publicId: "relay", avatar: nil,
                                                                           goal: TiltifyAmount(currency: "USD", value: "333333.33"),
@@ -32,4 +32,4 @@ let sampleCampaignThreeMilestones = TiltifyWidgetData(from: TiltifyCampaign(publ
                                                                           description: ". . .",
                                                                           totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"),
                                                                           name: "Relay FM for St. Jude 2022 (b)",
-                                                                          originalGoal: TiltifyAmount(currency: "USD", value: "100")))
+                                                                            originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []))
