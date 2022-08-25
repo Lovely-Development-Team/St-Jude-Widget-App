@@ -170,7 +170,7 @@ struct CampaignList: View {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                         
                         ForEach(sortedCampaigns, id: \.id) { campaign in
-                            NavigationLink(destination: ContentView(vanity: campaign.user.slug, slug: campaign.slug, user: campaign.user.username).navigationTitle(campaign.name)) {
+                            NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder)
                             }
                             .padding(.top)
