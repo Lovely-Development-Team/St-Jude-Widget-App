@@ -55,44 +55,6 @@ struct Campaign: Identifiable, Hashable {
     
 }
 
-//extension Campaign: Codable {
-//    enum CodingKeys: CodingKey {
-//        case id
-//        case publicId
-//        case name
-//        case slug
-//        case goal
-//        case totalAmountRaised
-//        case username
-//        case userSlug
-//    }
-//
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        try container.encode(id, forKey: .id)
-//        try container.encode(publicId, forKey: .publicId)
-//        try container.encode(name, forKey: .name)
-//        try container.encode(slug, forKey: .slug)
-//        try container.encode(goal, forKey: .goal)
-//        try container.encode(totalAmountRaised, forKey: .totalAmountRaised)
-//        try container.encode(user.username, forKey: .username)
-//        try container.encode(user.slug, forKey: .userSlug)
-//    }
-//
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        self.id = try container.decode(Int64.self, forKey: .id)
-//        self.publicId = try container.decode(String.self, forKey: .publicId)
-//        self.name = try container.decode(String.self, forKey: .name)
-//        self.slug = try container.decode(String.self, forKey: .slug)
-//        self.goal = try container.decode(TiltifyAmount.self, forKey: .goal)
-//        self.totalAmountRaised = try container.decode(TiltifyAmount.self, forKey: .totalAmountRaised)
-//        let username = try container.decode(String.self, forKey: .username)
-//        let userSlug = try container.decode(String.self, forKey: .userSlug)
-//        self.user = TiltifyUser(username: username, slug: userSlug)
-//    }
-//}
-
 extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
     fileprivate enum Columns {
         static let id = Column(CodingKeys.id)
