@@ -72,6 +72,10 @@ final class AppDatabase {
                 t.uniqueKey(["slug", "userSlug"])
             }
             
+        }
+        
+        migrator.registerMigration("createMilestoneAndRewardTables") { db in
+            
             try db.create(table: "milestone") { t in
                 t.column("id", .integer).primaryKey()
                 t.column("name", .text).notNull()
