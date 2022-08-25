@@ -81,7 +81,7 @@ final class AppDatabase {
             }
             
             try db.create(table: "reward") { t in
-                t.column("id", .integer).primaryKey()
+                t.column("id", .blob).primaryKey()
                 t.column("name", .text).notNull()
                 t.column("description", .blob).notNull()
                 t.column("amountCurrency", .text).notNull()
