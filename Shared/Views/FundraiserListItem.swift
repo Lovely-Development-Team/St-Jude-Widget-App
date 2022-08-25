@@ -36,7 +36,7 @@ struct FundraiserListItem: View {
                         Text(campaign.title)
                             .multilineTextAlignment(.leading)
                             .font(.headline)
-                        Text(campaign.user.username)
+                        Text(campaign.user.name)
                             .foregroundColor(.secondary)
                     }
                     if showDisclosureIndicator {

@@ -113,6 +113,14 @@ struct TiltifyUser: Codable, Hashable {
     let username: String
     let slug: String
     let avatar: TiltifyAvatar?
+    
+    var name: String {
+        if username.contains("@") {
+            return username.components(separatedBy: "@")[0]
+        }
+        return username
+    }
+    
 }
 
 struct TiltifyCauseCampaign: Codable {
