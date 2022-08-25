@@ -140,8 +140,28 @@ struct CampaignList: View {
                     Text("Fundraisers")
                         .font(.title)
                         .fontWeight(.bold)
+                    if campaigns.count != 0 {
+                        Text("\(campaigns.count)")
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            Color.secondarySystemBackground
+                                .cornerRadius(15)
+                        )
+                    }
                     Spacer()
-                    
+                    Menu {
+                        ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                            Button(action: {
+                                fundraiserSortOrder = order
+                            }) {
+                                Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                    }
                 }
                 .padding(.horizontal)
                 
@@ -151,7 +171,7 @@ struct CampaignList: View {
                         
                         ForEach(sortedCampaigns, id: \.id) { campaign in
                             NavigationLink(destination: ContentView(vanity: campaign.user.slug, slug: campaign.slug, user: campaign.user.username).navigationTitle(campaign.name)) {
-                                FundraiserListItem(campaign: campaign)
+                                FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder)
                             }
                             .padding(.top)
                         }

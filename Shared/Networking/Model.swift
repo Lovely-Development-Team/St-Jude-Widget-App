@@ -13,7 +13,9 @@ struct TiltifyAmount: Codable {
     let value: String?
     
     var numericalValue: Double {
-        return Double(value ?? "0") ?? 0
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        return Double(truncating: numberFormatter.number(from: value ?? "0") ?? 0)
     }
     
     func description(showFullCurrencySymbol: Bool) -> String {
@@ -32,10 +34,7 @@ struct TiltifyAmount: Codable {
             currencyFormatter.currencySymbol = "USD"
         }
         
-        let numberFormatter = NumberFormatter()
-        numberFormatter.locale = Locale(identifier: "en_US")
-        
-        let descriptionString = currencyFormatter.string(from: numberFormatter.number(from: value ?? "0") ?? 0) ?? "\(currency) 0"
+        let descriptionString = currencyFormatter.string(from: numericalValue as NSNumber) ?? "\(currency) 0"
         currencyFormatter.currencySymbol = originalSymbol
         currencyFormatter.currencyCode = originalCode
         

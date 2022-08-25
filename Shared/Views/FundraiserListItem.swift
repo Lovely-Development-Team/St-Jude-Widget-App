@@ -10,6 +10,7 @@ import SwiftUI
 struct FundraiserListItem: View {
     
     let campaign: Campaign
+    let sortOrder: FundraiserSortOrder
     
     var body: some View {
         GroupBox {
@@ -48,6 +49,12 @@ struct FundraiserListItem: View {
                 if let percentageReached = campaign.percentageReached {
                     ProgressBar(value: .constant(Float(percentageReached)), fillColor: .accentColor)
                         .frame(height: 10)
+                }
+                if sortOrder == .byGoal || sortOrder == .byPercentage, let percentageReachedDesc = campaign.percentageReachedDescription {
+                    Text("\(percentageReachedDesc) of \(campaign.goal.description(showFullCurrencySymbol: false))")
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding(.top, 2)
                 }
             }
         }
