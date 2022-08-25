@@ -10,7 +10,7 @@ import GRDB
 
 /// The Reward struct.
 struct Reward: Identifiable, Hashable {
-    var id: Int
+    var id: UUID
     let name: String
     let description: String
     private let amountCurrency: String
@@ -41,7 +41,7 @@ extension Reward: Codable, FetchableRecord, MutablePersistableRecord {
 
 extension Reward {
     init (from reward: TiltifyCampaignReward, campaignId: UUID) {
-        self.id = reward.id
+        self.id = reward.publicId
         self.name = reward.name
         self.description = reward.description
         self.amountCurrency = reward.amount.currency

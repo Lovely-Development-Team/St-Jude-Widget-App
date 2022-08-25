@@ -63,6 +63,7 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
       }
     }
     rewards {
+      publicId
       id
       amount {
         value
