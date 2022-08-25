@@ -92,14 +92,44 @@ struct ContentView: View {
 //                    .minimumScaleFactor(0.6)
 //                    .accessibility(label: Text("Relay FM for Saint Jude 2022"))
                     .padding(.bottom, 1)
-                Text(widgetData.description)
-                    .multilineTextAlignment(.center)
-//                    .allowsTightening(true)
-//                    .minimumScaleFactor(0.7)
-                    .lineLimit(3)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(.secondary)
+                ForEach(widgetData.rewards, id: \.id) { reward in
+                    HStack {
+                        if let url = URL(string: reward.image?.src ?? "") {
+                            AsyncImage(
+                                url: url,
+                                content: { image in
+                                    image.resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 45, height: 45)
+                                },
+                                placeholder: {
+                                    ProgressView()
+                                        .frame(width: 45, height: 45)
+                                }
+                            )
+                            .cornerRadius(5)
+                        }
+                        VStack {
+                            HStack {
+                                Text(reward.name)
+                                    .font(.headline)
+                                Spacer()
+                                Text(reward.amount.description(showFullCurrencySymbol: false))
+                                    .foregroundColor(.secondary)
+                            }
+                            Text(reward.description)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                }
+//                Text(widgetData.description)
+//                    .multilineTextAlignment(.center)
+////                    .allowsTightening(true)
+////                    .minimumScaleFactor(0.7)
+//                    .lineLimit(3)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .frame(maxWidth: .infinity, alignment: .center)
+//                    .foregroundColor(.secondary)
 //                    .accessibility(label: Text("This app provides a widget to track the progress of the 2022 Relay FM Saint Jude fundraiser. Add the widget to your Home Screen!"))
                     .padding(.bottom, 5)
                 Spacer()

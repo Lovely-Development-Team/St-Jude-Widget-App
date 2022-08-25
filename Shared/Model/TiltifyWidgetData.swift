@@ -69,6 +69,8 @@ struct TiltifyWidgetData {
     let nextMilestone: TiltifyMilestone?
     let futureMilestones: [TiltifyMilestone]
     
+    let rewards: [TiltifyCampaignReward]
+    
     private let currencyCode: String
     let currencyFormatter: NumberFormatter
     let percentageFormatter: NumberFormatter = {
@@ -99,6 +101,7 @@ struct TiltifyWidgetData {
             self.nextMilestone = nil
             self.futureMilestones = []
         }
+        self.rewards = campaign.rewards
     }
     
     var percentageReached: Double? {
@@ -182,6 +185,7 @@ extension TiltifyWidgetData: Codable {
         case milestones
         case currencyCode
         case description
+        case rewards
     }
     
     init(from decoder: Decoder) throws {
@@ -205,6 +209,7 @@ extension TiltifyWidgetData: Codable {
             self.nextMilestone = nil
             self.futureMilestones = []
         }
+        self.rewards = try container.decode([TiltifyCampaignReward].self, forKey: .rewards)
     }
     
     func encode(to encoder: Encoder) throws {

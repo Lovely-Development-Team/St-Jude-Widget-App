@@ -62,6 +62,20 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
         currency
       }
     }
+    rewards {
+      id
+      amount {
+        value
+        currency
+      }
+      description
+      name
+      quantity
+      remaining
+      image {
+        src
+      }
+    }
   }
 }
 """
@@ -151,8 +165,10 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
                     completion(.failure(TiltifyError.noData))
                     return
                 }
+                print("BEN: \(String(decoding: data, as: UTF8.self))")
                 completion(Result {
                     let payload = try JSONDecoder().decode(TiltifyResponse.self, from: data)
+                    print("BEN: \(payload)")
                     return payload
                 })
             }

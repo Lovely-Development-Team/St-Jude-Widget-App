@@ -56,6 +56,18 @@ struct TiltifyAvatar: Codable, Hashable {
     let width: Int?
 }
 
+struct TiltifyCampaignRewardImage: Codable {
+    let src: String
+}
+
+struct TiltifyCampaignReward: Codable {
+    let id: Int
+    let name: String
+    let description: String
+    let amount: TiltifyAmount
+    let image: TiltifyCampaignRewardImage?
+}
+
 struct TiltifyCampaign: Codable {
     let publicId: String
     let avatar: TiltifyAvatar?
@@ -68,6 +80,7 @@ struct TiltifyCampaign: Codable {
     let totalAmountRaised: TiltifyAmount
     let name: String
     let originalGoal: TiltifyAmount
+    let rewards: [TiltifyCampaignReward]
 }
 
 struct TiltifyData: Codable {
