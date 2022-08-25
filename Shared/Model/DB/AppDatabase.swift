@@ -72,6 +72,24 @@ final class AppDatabase {
                 t.uniqueKey(["slug", "userSlug"])
             }
             
+            try db.create(table: "milestone") { t in
+                t.column("id", .integer).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("amountCurrency", .text).notNull()
+                t.column("amountValue", .text).notNull()
+                t.column("campaignId", .blob).notNull().references("campaign")
+            }
+            
+            try db.create(table: "reward") { t in
+                t.column("id", .integer).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("description", .blob).notNull()
+                t.column("amountCurrency", .text).notNull()
+                t.column("amountValue", .text).notNull()
+                t.column("imageSrc", .text)
+                t.column("campaignId", .blob).notNull().references("campaign")
+            }
+            
 //            try db.create(table: "fundraisingEventCampaign") { t in
 //                t.autoIncrementedPrimaryKey("id")
 //                t.column("fundraisingEventId", .numeric).notNull().references("fundraisingEvent", onDelete: .cascade, onUpdate: .cascade)
@@ -146,6 +164,18 @@ extension AppDatabase {
     func saveCampaign(_ campaign: Campaign) async throws -> Campaign {
         try await dbWriter.write { db in
             try campaign.saved(db)
+        }
+    }
+    
+    func saveMilestone(_ milestone: Milestone) async throws -> Milestone {
+        try await dbWriter.write { db in
+            try milestone.saved(db)
+        }
+    }
+    
+    func saveReward(_ reward: Reward) async throws -> Reward {
+        try await dbWriter.write { db in
+            try reward.saved(db)
         }
     }
     
