@@ -11,6 +11,7 @@ struct FundraiserListItem: View {
     
     let campaign: Campaign
     let sortOrder: FundraiserSortOrder
+    var showDisclosureIndicator: Bool = true
     
     var body: some View {
         GroupBox {
@@ -38,9 +39,11 @@ struct FundraiserListItem: View {
                         Text(campaign.user.username)
                             .foregroundColor(.secondary)
                     }
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.secondary)
+                    if showDisclosureIndicator {
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.secondary)
+                    }
                 }
                 Text(campaign.totalRaised.description(showFullCurrencySymbol: false))
                     .font(.title)
