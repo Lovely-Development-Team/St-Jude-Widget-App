@@ -97,10 +97,16 @@ struct CampaignView: View {
                         
                         ForEach(sortedMilestones, id: \.id) { milestone in
                             HStack(alignment: .top) {
-                                Text(milestone.name)
+                                if milestone.amount.numericalValue <= campaign.totalAmountRaised.numericalValue {
+                                    Image(systemName: "checkmark.seal.fill")
+                                        .foregroundColor(.green)
+                                }
+                                Text("\(milestone.name)")
+                                    .foregroundColor(milestone.amount.numericalValue <= campaign.totalAmountRaised.numericalValue ? .secondary : .primary)
                                 Spacer()
                                 Text(milestone.amount.description(showFullCurrencySymbol: false))
                                     .foregroundColor(.accentColor)
+                                    .opacity(milestone.amount.numericalValue <= campaign.totalAmountRaised.numericalValue ? 0.75 : 1)
                             }
                             .padding(.vertical, 8)
                             Divider()
@@ -121,11 +127,11 @@ struct CampaignView: View {
                             VStack(alignment: .leading) {
                                 HStack(alignment: .top) {
                                     Text(reward.name)
+                                        .font(.headline)
                                     Spacer()
                                     Text(reward.amount.description(showFullCurrencySymbol: false))
                                         .foregroundColor(.accentColor)
                                 }
-                                .font(.headline)
                                 HStack(alignment: .top) {
                                     if let url = URL(string: reward.image?.src ?? "") {
                                         AsyncImage(
@@ -186,7 +192,7 @@ struct CampaignView: View {
 struct CampaignView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CampaignView(initialCampaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Relay FM for St. Jude 2022", slug: "relay-fm-for-st-jude-2022", goal: TiltifyAmount(currency: "USD", value: "444444.44"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "6023.06"), user: TiltifyUser(username: "Relay FM", slug: "relay-fm", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/uploads/user/thumbnail/152503/c931ec4a-7f09-4048-b6d5-01875c6d618a.jpeg", height: nil, width: nil)), description: "Every September, the Relay FM community of podcasters and listeners rallies together to support the lifesaving mission of St. Jude Children’s Research Hospital during Childhood Cancer Awareness Month. Throughout the month, Relay FM will introduce ways to support St. Jude through entertaining donation challenges and other mini-fundraising events that will culminate in the third annual Relay for St. Jude Podcastathon on September 16th beginning at 12pm Eastern at twitch.tv/relayfm."), fundraiserId: UUID()))
+            CampaignView(initialCampaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), description: "I'm fundraising for St. Jude Children's Research Hospital."), fundraiserId: UUID()))
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Label("Back", systemImage: "chevron.left")
