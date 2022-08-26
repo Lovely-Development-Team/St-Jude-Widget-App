@@ -38,7 +38,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     if(cachedTotal != 0 && cachedTotal != totalRaised) {
         var milestoneAmount: Double = 0
         if let previousMilestone = widgetData.previousMilestone {
-            milestoneAmount = Double(previousMilestone.amount.value ?? "0") ?? 0
+            milestoneAmount = previousMilestone.amount.value
         }
         
         if(cachedTotal < milestoneAmount && totalRaised > milestoneAmount) {
@@ -70,7 +70,7 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     var messages: [String] = []
     
     if(shouldShowAmountNotification && UserDefaults.shared.showSignificantAmountNotification) {
-        let amountString = formatCurrency(from: String(nearest50kToCachedTotal), currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
+        let amountString = formatCurrency(from: nearest50kToCachedTotal, currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
         
         notificationTitle = "Significant Amount Reached"
         messages.append("Reached \(amountString.1)")
@@ -98,14 +98,14 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
         notificationTitle = "Significant Amount Reached"
         
         let multiple = Int(nearestGoalMultipleToCachedTotal/goal)
-        let amountString = formatCurrency(from: String(nearestGoalMultipleToCachedTotal), currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
+        let amountString = formatCurrency(from: nearestGoalMultipleToCachedTotal, currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
         
         messages.append("Reached \(Int(multiple))x campaign goal at \(amountString.1)")
     }
     
     if(shouldShowCustomAmountNotification) {
         notificationTitle = "Custom Amount Reached"
-        let amountString = formatCurrency(from: String(customAmount), currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
+        let amountString = formatCurrency(from: Double(customAmount), currency: "USD", showFullCurrencySymbol: UserDefaults.shared.inAppShowFullCurrencySymbol)
         messages.append("Reached custom amount of \(amountString.1)")
     }
     

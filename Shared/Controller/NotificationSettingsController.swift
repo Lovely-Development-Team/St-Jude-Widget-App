@@ -39,7 +39,7 @@ class NotificationSettingsController: ObservableObject {
         
         self.enableCustomAmountNotification = (UserDefaults.shared.double(forKey: "customNotificationAmount") != 0)
         if(self.enableCustomAmountNotification) {
-            self.customAmountInput = formatCurrency(from: String(UserDefaults.shared.double(forKey: "customNotificationAmount")), currency: "USD", showFullCurrencySymbol: false).1
+            self.customAmountInput = formatCurrency(from: UserDefaults.shared.double(forKey: "customNotificationAmount"), currency: "USD", showFullCurrencySymbol: false).1
         }
         
         self.setupPublishers()

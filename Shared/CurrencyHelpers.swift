@@ -7,7 +7,7 @@
 
 import Foundation
 
-func formatCurrency(from string: String, currency currencyCode: String, showFullCurrencySymbol: Bool) -> (NSNumber?, String) {
+func formatCurrency(from string: Double, currency currencyCode: String, showFullCurrencySymbol: Bool) -> (NSNumber?, String) {
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
     formatter.currencyCode = currencyCode
@@ -15,12 +15,12 @@ func formatCurrency(from string: String, currency currencyCode: String, showFull
     if !showFullCurrencySymbol {
         formatter.currencySymbol = "$"
     }
-    let decimalValue = Double(string).map { NSNumber(value: $0) }
-    let displayString = decimalValue.flatMap { formatter.string(from: $0) } ?? "Unknown"
+    let decimalValue = NSNumber(value: string)
+    let displayString = formatter.string(from: decimalValue) ?? "Unknown"
     return (decimalValue, displayString)
 }
 
-func formatCurrency(amount: TiltifyAmount, showFullCurrencySymbol: Bool) -> String {
+func formatCurrency(amount: ResolvedTiltifyAmount, showFullCurrencySymbol: Bool) -> String {
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
     formatter.currencyCode = amount.currency
@@ -28,7 +28,7 @@ func formatCurrency(amount: TiltifyAmount, showFullCurrencySymbol: Bool) -> Stri
     if !showFullCurrencySymbol {
         formatter.currencySymbol = "$"
     }
-    let decimalValue = Double(amount.value ?? "0").map { NSNumber(value: $0) }
-    let displayString = decimalValue.flatMap { formatter.string(from: $0) } ?? "Unknown"
+    let decimalValue = NSNumber(value: amount.value)
+    let displayString = formatter.string(from: decimalValue) ?? "Unknown"
     return displayString
 }

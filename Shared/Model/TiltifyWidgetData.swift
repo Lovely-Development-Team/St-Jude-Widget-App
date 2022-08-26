@@ -64,12 +64,12 @@ struct TiltifyWidgetData {
         currencyFormatter.currencyCode = originalCode
         return descriptionString
     }
-    let milestones: [TiltifyMilestone]
-    let previousMilestone: TiltifyMilestone?
-    let nextMilestone: TiltifyMilestone?
-    let futureMilestones: [TiltifyMilestone]
+    let milestones: [Milestone]
+    let previousMilestone: Milestone?
+    let nextMilestone: Milestone?
+    let futureMilestones: [Milestone]
     
-    let rewards: [TiltifyCampaignReward]
+    let rewards: [Reward]
     
     private let currencyCode: String
     let currencyFormatter: NumberFormatter
@@ -91,7 +91,7 @@ struct TiltifyWidgetData {
         currencyFormatter = formatter
         self.totalRaisedRaw = campaign.totalAmountRaised.value ?? "0"
         self.goalRaw = campaign.goal.value ?? "0"
-        self.milestones = campaign.milestones.sorted(by: sortMilestones)
+        self.milestones = campaign.milestones.sorted(by: sortMilestones).map { Milestone(from: $0, campaignId: campaign.publicId) }
         if let value = campaign.totalAmountRaised.value, let totalRaised = Double(value) {
             self.previousMilestone = Self.previousMilestone(at: totalRaised, in: self.milestones)
             self.nextMilestone = Self.nextMilestone(at: totalRaised, in: self.milestones)
@@ -101,8 +101,32 @@ struct TiltifyWidgetData {
             self.nextMilestone = nil
             self.futureMilestones = []
         }
-        self.rewards = campaign.rewards
+        self.rewards = campaign.rewards.map { Reward(from: $0, campaignId: campaign.publicId) }
     }
+    
+    init(from campaign: Campaign) async throws {
+        self.name = campaign.name
+        self.description = campaign.description ?? ""
+        self.currencyCode = campaign.totalRaised.currency
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        currencyFormatter = formatter
+        self.totalRaisedRaw = campaign.totalRaised.value ?? "0"
+        self.goalRaw = campaign.goal.value ?? "0"
+        self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
+        if let value = campaign.totalRaised.value, let totalRaised = Double(value) {
+            self.previousMilestone = Self.previousMilestone(at: totalRaised, in: self.milestones)
+            self.nextMilestone = Self.nextMilestone(at: totalRaised, in: self.milestones)
+            self.futureMilestones = Self.futureMilestones(at: totalRaised, in: self.milestones)
+        } else {
+            self.previousMilestone = nil
+            self.nextMilestone = nil
+            self.futureMilestones = []
+        }
+        self.rewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
+    }
+    
     
     var percentageReached: Double? {
         return calcPercentage(goal: goalRaw, total: totalRaisedRaw)
@@ -114,47 +138,32 @@ struct TiltifyWidgetData {
         return percentageFormatter.string(from: percentageReached as NSNumber)
     }
     
-    static func previousMilestone(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> TiltifyMilestone? {
+    static func previousMilestone(at totalRaised: Double, in milestones: [Milestone]) -> Milestone? {
         return milestones.last { milestone in
-            guard let value = milestone.amount.value, let milestoneValue = Double(value) else {
-                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value ?? "nil")' to double")
-                return false
-            }
-            return milestoneValue < totalRaised
+            return milestone.amount.value < totalRaised
         }
     }
     
-    static func nextMilestone(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> TiltifyMilestone? {
+    static func nextMilestone(at totalRaised: Double, in milestones: [Milestone]) -> Milestone? {
         return milestones.first { milestone in
-            guard let value = milestone.amount.value, let milestoneValue = Double(value) else {
-                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value ?? "nil")' to double")
-                return false
-            }
-            return milestoneValue >= totalRaised
+            return milestone.amount.value >= totalRaised
         }
     }
     
-    static func futureMilestones(at totalRaised: Double, in milestones: [TiltifyMilestone]) -> [TiltifyMilestone] {
+    static func futureMilestones(at totalRaised: Double, in milestones: [Milestone]) -> [Milestone] {
         return milestones.filter { milestone in
-            guard let value = milestone.amount.value, let milestoneValue = Double(value) else {
-                dataLogger.warning("Failed to convert milestone value '\(milestone.amount.value ?? "nil")' to double")
-                return false
-            }
-            return milestoneValue >= totalRaised
+            return milestone.amount.value >= totalRaised
         }
     }
     
-    func percentage(ofMilestone Milestone: TiltifyMilestone) -> Double? {
+    func percentage(ofMilestone milestone: Milestone) -> Double? {
         guard let totalRaised = totalRaised else {
             return nil
         }
-        guard let value = Milestone.amount.value, let goal = Double(value) else {
-            return nil
-        }
-        return totalRaised/goal
+        return totalRaised/milestone.amount.value
     }
     
-    func percentageDescription(for milestone: TiltifyMilestone) -> String {
+    func percentageDescription(for milestone: Milestone) -> String {
         guard let milestonePercentage = self.percentage(ofMilestone: milestone) else {
             dataLogger.warning("Failed to calculate percentage of milestone: \(String(reflecting: milestone))")
             return "Unknown"
@@ -194,7 +203,7 @@ extension TiltifyWidgetData: Codable {
         self.description = try container.decode(String.self, forKey: .description)
         self.totalRaisedRaw = try container.decode(String.self, forKey: .totalRaisedRaw)
         self.goalRaw = try container.decode(String.self, forKey: .goalRaw)
-        self.milestones = try container.decode([TiltifyMilestone].self, forKey: .milestones)
+        self.milestones = try container.decode([Milestone].self, forKey: .milestones)
         self.currencyCode = try container.decode(String.self, forKey: .currencyCode)
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -209,7 +218,7 @@ extension TiltifyWidgetData: Codable {
             self.nextMilestone = nil
             self.futureMilestones = []
         }
-        self.rewards = try container.decode([TiltifyCampaignReward].self, forKey: .rewards)
+        self.rewards = try container.decode([Reward].self, forKey: .rewards)
     }
     
     func encode(to encoder: Encoder) throws {

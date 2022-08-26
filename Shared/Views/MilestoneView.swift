@@ -27,12 +27,12 @@ struct MilestoneView: View {
     
     let title: String?
     let data: TiltifyWidgetData
-    let milestone: TiltifyMilestone
+    let milestone: Milestone
     let showFullCurrencySymbol: Bool
     let percentageReached: Double?
     let showMilestonePercentage: Bool
     
-    init(title: String? = nil, data: TiltifyWidgetData, milestone: TiltifyMilestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool) {
+    init(title: String? = nil, data: TiltifyWidgetData, milestone: Milestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool) {
         self.title = title
         self.data = data
         self.milestone = milestone

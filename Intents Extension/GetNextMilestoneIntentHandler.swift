@@ -23,8 +23,9 @@ class GetNextMilestoneIntentHandler: NSObject, GetNextMilestoneIntentHandling {
                     completion(.init(code: .badApiResponse, userActivity: nil))
                     return
                 }
-                let nextMilestone = TiltifyWidgetData.nextMilestone(at: totalRaised, in: campaign.milestones)
-                guard let milestone = nextMilestone ?? TiltifyWidgetData.previousMilestone(at: totalRaised, in: campaign.milestones) else {
+                let milestones = campaign.milestones.map { Milestone(from: $0, campaignId: campaign.publicId) }
+                let nextMilestone = TiltifyWidgetData.nextMilestone(at: totalRaised, in: milestones)
+                guard let milestone = nextMilestone ?? TiltifyWidgetData.previousMilestone(at: totalRaised, in: milestones) else {
                     completion(.init(code: .failedToFindMilestone, userActivity: nil))
                     return
                 }
