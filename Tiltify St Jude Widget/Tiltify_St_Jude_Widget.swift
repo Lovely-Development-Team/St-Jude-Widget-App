@@ -41,7 +41,7 @@ struct Tiltify_St_Jude_Widget: Widget {
             WidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Relay FM for St. Jude")
-        .description("Displays the current Relay FM for St. Jude fundraising status.")
+        .description("Displays the current fundraising status for a given campaign.")
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion
             // Access the background session to make sure it is initialised
