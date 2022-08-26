@@ -153,6 +153,10 @@ extension AppDatabase {
         }
     }
     
+    private func fetchCampaign(with id: UUID, using db: Database) throws -> Campaign? {
+        try Campaign.fetchOne(db, id: id)
+    }
+    
     func fetchCampaign(with id: UUID) async throws -> Campaign? {
         try await dbWriter.read { db in
             try Campaign.fetchOne(db, id: id)
@@ -239,6 +243,12 @@ extension AppDatabase {
     func observeRelayFundraisingEventObservation() -> ValueObservation<ValueReducers.Fetch<FundraisingEvent?>> {
         ValueObservation.trackingConstantRegion { db in
             try AppDatabase.shared.fetchRelayFundraisingEvent(using: db)
+        }
+    }
+    
+    func observeCampaignObservation(for campaign: Campaign) -> ValueObservation<ValueReducers.Fetch<Campaign?>> {
+        ValueObservation.trackingConstantRegion { db in
+            try AppDatabase.shared.fetchCampaign(with: campaign.id, using: db)
         }
     }
 }

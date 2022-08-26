@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import GRDB
 
 struct CampaignView: View {
+    
+    @State private var campaignObservation: ValueObservation<ValueReducers.Fetch<Campaign?>>
+    @State private var campaignCancellable: DatabaseCancellable?
+    @State private var fetchTask: Task<(), Never>?
     
     @State private var initialCampaign: Campaign?
     @State private var milestones: [Milestone] = []
@@ -17,6 +22,7 @@ struct CampaignView: View {
     
     init(initialCampaign: Campaign) {
         _initialCampaign = State(wrappedValue: initialCampaign)
+        _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
     }
     
     var fundraiserURL: URL {
@@ -103,7 +109,6 @@ struct CampaignView: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .id("Milestones")
                             
                             Spacer()
                             
@@ -117,6 +122,7 @@ struct CampaignView: View {
                                 )
                             
                         }
+                        .id("Milestones")
                         
                         ForEach(milestones, id: \.id) { milestone in
                             HStack(alignment: .top) {
@@ -146,7 +152,6 @@ struct CampaignView: View {
                                 .fontWeight(.bold)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                 .padding(.top, milestones.isEmpty ? 0 : 10)
-                                .id("Rewards")
                 
                             Text("\(rewards.count)")
                                 .foregroundColor(.secondary)
@@ -158,6 +163,7 @@ struct CampaignView: View {
                                 )
                             
                         }
+                        .id("Rewards")
                         
                         ForEach(rewards, id: \.id) { reward in
                             VStack(alignment: .leading) {
@@ -206,17 +212,15 @@ struct CampaignView: View {
         }
         .onAppear {
             
-            // Old API fetch
-            //            ApiClient.shared.fetchCampaign(vanity: initialCampaign.user.slug, slug: initialCampaign.slug) { result in
-            //                switch result {
-            //                case .failure(let error):
-            //                    dataLogger.error("Request failed: \(error.localizedDescription)")
-            //                case .success(let response):
-            //                    self.campaign = response.data.campaign
-            //                }
-            //            }
-            
-            // Campaign change watch?
+            // Campaign change watch
+            campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
+                dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
+            } onChange: { event in
+                fetchTask?.cancel()
+                fetchTask = Task {
+                    await fetch()
+                }
+            }
             
             // New Database and API Fetch!
             Task {
