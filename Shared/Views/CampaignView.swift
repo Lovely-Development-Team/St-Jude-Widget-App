@@ -222,10 +222,7 @@ struct CampaignView: View {
                 }
             }
             
-            // New Database and API Fetch!
-            Task {
-                await fetch()
-            }
+            // New API fetch
             Task {
                 await refresh()
             }

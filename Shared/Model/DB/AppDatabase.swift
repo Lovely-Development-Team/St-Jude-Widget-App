@@ -153,7 +153,7 @@ extension AppDatabase {
         }
     }
     
-    private func fetchCampaign(with id: UUID, using db: Database) throws -> Campaign? {
+    private func fetchCampaign(using db: Database, with id: UUID) throws -> Campaign? {
         try Campaign.fetchOne(db, id: id)
     }
     
@@ -248,7 +248,7 @@ extension AppDatabase {
     
     func observeCampaignObservation(for campaign: Campaign) -> ValueObservation<ValueReducers.Fetch<Campaign?>> {
         ValueObservation.trackingConstantRegion { db in
-            try AppDatabase.shared.fetchCampaign(with: campaign.id, using: db)
+            try AppDatabase.shared.fetchCampaign(using: db, with: campaign.id)
         }
     }
 }
