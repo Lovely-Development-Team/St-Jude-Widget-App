@@ -156,7 +156,7 @@ struct CampaignList: View {
                 .cornerRadius(10)
                 .padding()
                 
-                Link("Visit the fundraiser!", destination: URL(string: "https://stjude.org/relay")!)
+                Link("Visit the event!", destination: URL(string: "https://stjude.org/relay")!)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding(10)
