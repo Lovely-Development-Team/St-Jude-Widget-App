@@ -80,7 +80,7 @@ final class AppDatabase {
                 t.column("id", .integer).primaryKey()
                 t.column("name", .text).notNull()
                 t.column("amountCurrency", .text).notNull()
-                t.column("amountValue", .text).notNull()
+                t.column("amountValue", .double).notNull()
                 t.column("campaignId", .blob).notNull().references("campaign")
             }
             
@@ -89,7 +89,7 @@ final class AppDatabase {
                 t.column("name", .text).notNull()
                 t.column("description", .blob).notNull()
                 t.column("amountCurrency", .text).notNull()
-                t.column("amountValue", .text).notNull()
+                t.column("amountValue", .double).notNull()
                 t.column("imageSrc", .text)
                 t.column("campaignId", .blob).notNull().references("campaign")
             }
@@ -177,9 +177,33 @@ extension AppDatabase {
         }
     }
     
+    func deleteMilestone(_ milestone: Milestone) async throws {
+        try await dbWriter.write { db in
+            try milestone.delete(db)
+        }
+    }
+    
+    func fetchSortedMilestones(for campaign: Campaign) async throws -> [Milestone] {
+        try await dbWriter.read { db in
+            try campaign.milestones.order(Column("amountValue").asc).fetchAll(db)
+        }
+    }
+    
     func saveReward(_ reward: Reward) async throws -> Reward {
         try await dbWriter.write { db in
             try reward.saved(db)
+        }
+    }
+    
+    func deleteReward(_ reward: Reward) async throws {
+        try await dbWriter.write { db in
+            try reward.delete(db)
+        }
+    }
+    
+    func fetchSortedRewards(for campaign: Campaign) async throws -> [Reward] {
+        try await dbWriter.read { db in
+            try campaign.rewards.order(Column("amountValue").asc).fetchAll(db)
         }
     }
     
@@ -200,6 +224,21 @@ extension AppDatabase {
             try newCampaign.updateChanges(db, from: oldCampaign)
         }
     }
+    
+    @discardableResult
+    func updateMilestone(_ newMilestone: Milestone, changesFrom oldMilestone: Milestone) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newMilestone.updateChanges(db, from: oldMilestone)
+        }
+    }
+    
+    @discardableResult
+    func updateReward(_ newReward: Reward, changesFrom oldReward: Reward) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newReward.updateChanges(db, from: oldReward)
+        }
+    }
+    
 }
 
 extension AppDatabase {

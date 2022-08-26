@@ -72,14 +72,39 @@ extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
     }
     
     static let fundraisingEvent = belongsTo(FundraisingEvent.self)
-    
     var fundraisingEvent: QueryInterfaceRequest<FundraisingEvent> {
         request(for: Campaign.fundraisingEvent)
+    }
+    
+    static let milestones = hasMany(Milestone.self)
+    var milestones: QueryInterfaceRequest<Milestone> {
+        request(for: Campaign.milestones)
+    }
+    
+    static let rewards = hasMany(Reward.self)
+    var rewards: QueryInterfaceRequest<Reward> {
+        request(for: Campaign.rewards)
     }
 }
 
 extension Campaign {
     init(from campaign: TiltifyCauseCampaign, fundraiserId: UUID) {
+        self.id = campaign.publicId
+        self.name = campaign.name
+        self.slug = campaign.slug
+        self.avatar = campaign.user.avatar
+        self.status = nil
+        self.description = campaign.description
+        self.goalCurrency = campaign.goal.currency
+        self.goalValue = campaign.goal.value
+        self.totalRaisedCurrency = campaign.totalAmountRaised.currency
+        self.totalRaisedValue = campaign.totalAmountRaised.value
+        self.username = campaign.user.username
+        self.userSlug = campaign.user.slug
+        self.fundraisingEventId = fundraiserId
+    }
+    
+    init(from campaign: TiltifyCampaign, fundraiserId: UUID) {
         self.id = campaign.publicId
         self.name = campaign.name
         self.slug = campaign.slug

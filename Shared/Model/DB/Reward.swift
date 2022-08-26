@@ -14,9 +14,9 @@ struct Reward: Identifiable, Hashable {
     let name: String
     let description: String
     private let amountCurrency: String
-    private let amountValue: String?
-    var amount: TiltifyAmount {
-        TiltifyAmount(currency: amountCurrency, value: amountValue)
+    private let amountValue: Double
+    var amount: ResolvedTiltifyAmount {
+        ResolvedTiltifyAmount(currency: amountCurrency, value: amountValue)
     }
     let imageSrc: String?
     let campaignId: UUID
@@ -45,7 +45,7 @@ extension Reward {
         self.name = reward.name
         self.description = reward.description
         self.amountCurrency = reward.amount.currency
-        self.amountValue = reward.amount.value
+        self.amountValue = reward.amount.numericalValue
         self.imageSrc = reward.image?.src
         self.campaignId = campaignId
     }
@@ -55,7 +55,7 @@ extension Reward {
                       name: reward.name,
                       description: reward.description,
                       amountCurrency: reward.amount.currency,
-                      amountValue: reward.amount.value,
+                      amountValue: reward.amount.numericalValue,
                       imageSrc: reward.image?.src,
                       campaignId: campaignId)
     }

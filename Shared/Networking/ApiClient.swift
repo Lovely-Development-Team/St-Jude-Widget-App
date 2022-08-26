@@ -45,6 +45,14 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
       value
       currency
     }
+    user {
+      username
+      slug
+      avatar {
+        alt
+        src
+      }
+    }
     description
     totalAmountRaised {
       currency
@@ -154,6 +162,7 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
         return request
     }
     
+    @available(*, renamed: "fetchCampaign()")
     func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm-for-st-jude-2022", completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
         do {
             let request = try buildCampaignRequest(vanity: vanity, slug: slug)
@@ -178,6 +187,14 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
         } catch {
             completion(.failure(error))
             return nil
+        }
+    }
+    
+    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm-for-st-jude-2022") async throws -> TiltifyResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            _ = fetchCampaign(vanity: vanity, slug: slug) { result in
+                continuation.resume(with: result)
+            }
         }
     }
     
