@@ -201,6 +201,9 @@ struct CampaignView: View {
             .padding()
             
         }
+        .refreshable {
+            await refresh()
+        }
         .onAppear {
             
             // Old API fetch
