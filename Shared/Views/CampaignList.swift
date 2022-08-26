@@ -8,7 +8,7 @@
 import SwiftUI
 import GRDB
 
-enum FundraiserSortOrder: CaseIterable {
+enum FundraiserSortOrder: Int, CaseIterable {
     case byStarred
     case byName
     case byAmountRaised
@@ -224,7 +224,13 @@ struct CampaignList: View {
         .refreshable {
             await refresh()
         }
+        .onChange(of: fundraiserSortOrder) { newValue in
+            UserDefaults.shared.campaignListSortOrder = newValue
+        }
         .onAppear {
+            
+            fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
+            
             fundraisingEventCancellable = AppDatabase.shared.start(observation: fundraisingEventObservation) { error in
                 dataLogger.error("Error observing stored fundraiser: \(error.localizedDescription)")
             } onChange: { event in
