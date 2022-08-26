@@ -13,6 +13,16 @@ struct FundraiserListItem: View {
     let sortOrder: FundraiserSortOrder
     var showDisclosureIndicator: Bool = true
     
+    var disclosureIndicatorIcon: String {
+        if campaign.title == "Relay FM" {
+            return "pin"
+        }
+        if campaign.isStarred {
+            return "star.fill"
+        }
+        return "chevron.right"
+    }
+    
     var body: some View {
         GroupBox {
             VStack(alignment: .leading, spacing: 2) {
@@ -41,7 +51,7 @@ struct FundraiserListItem: View {
                     }
                     if showDisclosureIndicator {
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Image(systemName: disclosureIndicatorIcon)
                             .foregroundColor(.secondary)
                     }
                 }
