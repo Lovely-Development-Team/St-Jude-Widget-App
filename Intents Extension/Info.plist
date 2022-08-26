@@ -12,6 +12,7 @@
 			<array/>
 			<key>IntentsSupported</key>
 			<array>
+				<string>ConfigurationIntent</string>
 				<string>GetAmountRaisedIntent</string>
 				<string>GetGoalIntent</string>
 				<string>GetNextMilestoneIntent</string>
