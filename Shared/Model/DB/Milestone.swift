@@ -13,9 +13,9 @@ struct Milestone: Identifiable, Hashable {
     var id: Int
     let name: String
     private let amountCurrency: String
-    private let amountValue: String?
-    var amount: TiltifyAmount {
-        TiltifyAmount(currency: amountCurrency, value: amountValue)
+    private let amountValue: Double
+    var amount: ResolvedTiltifyAmount {
+        ResolvedTiltifyAmount(currency: amountCurrency, value: amountValue)
     }
     let campaignId: UUID
 }
@@ -40,7 +40,7 @@ extension Milestone {
         self.id = milestone.id
         self.name = milestone.name
         self.amountCurrency = milestone.amount.currency
-        self.amountValue = milestone.amount.value
+        self.amountValue = milestone.amount.numericalValue
         self.campaignId = campaignId
     }
     
@@ -48,7 +48,7 @@ extension Milestone {
         return Milestone(id: self.id,
                          name: milestone.name,
                          amountCurrency: milestone.amount.currency,
-                         amountValue: milestone.amount.value,
+                         amountValue: milestone.amount.numericalValue,
                          campaignId: campaignId)
     }
 }

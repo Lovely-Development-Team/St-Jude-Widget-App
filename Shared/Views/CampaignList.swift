@@ -246,7 +246,7 @@ struct CampaignList: View {
                 fundraisingEvent = try! await AppDatabase.shared.saveFundraisingEvent(apiEvent)
             }
         } catch {
-            dataLogger.error("Updating stord fundraiser failed: \(error.localizedDescription)")
+            dataLogger.error("Updating stored fundraiser failed: \(error.localizedDescription)")
         }
         
         campaigns = await response.data.fundraisingEvent.publishedCampaigns.edges.asyncMap { apiCampaign in

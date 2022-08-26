@@ -8,6 +8,34 @@
 import Foundation
 import SwiftUI
 
+struct ResolvedTiltifyAmount {
+    let currency: String
+    let value: Double
+    
+    func description(showFullCurrencySymbol: Bool) -> String {
+        
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.currencyCode = currency
+        
+        let originalSymbol = currencyFormatter.currencySymbol
+        let originalCode = currencyFormatter.currencyCode
+        
+        currencyFormatter.currencyCode = "USD"
+        if !showFullCurrencySymbol {
+            currencyFormatter.currencySymbol = "$"
+        } else {
+            currencyFormatter.currencySymbol = "USD"
+        }
+        
+        let descriptionString = currencyFormatter.string(from: value as NSNumber) ?? "\(currency) 0"
+        currencyFormatter.currencySymbol = originalSymbol
+        currencyFormatter.currencyCode = originalCode
+        
+        return descriptionString
+    }
+}
+
 struct TiltifyAmount: Codable {
     let currency: String
     let value: String?
@@ -70,18 +98,19 @@ struct TiltifyCampaignReward: Codable {
 }
 
 struct TiltifyCampaign: Codable {
-    let publicId: String
+    let publicId: UUID
     let avatar: TiltifyAvatar?
     let goal: TiltifyAmount
     let milestones: [TiltifyMilestone]
     let slug: String
     let status: String
     let team: String?
+    let user: TiltifyUser
     let description: String
     let totalAmountRaised: TiltifyAmount
     let name: String
     let originalGoal: TiltifyAmount
-    let rewards: [TiltifyCampaignReward]
+    let rewards: [TiltifyCampaignReward]    
 }
 
 struct TiltifyData: Codable {
