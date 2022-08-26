@@ -9,6 +9,7 @@ import SwiftUI
 import GRDB
 
 enum FundraiserSortOrder: CaseIterable {
+    case byStarred
     case byName
     case byAmountRaised
     case byGoal
@@ -16,6 +17,8 @@ enum FundraiserSortOrder: CaseIterable {
     
     var description: String {
         switch self {
+        case .byStarred:
+            return "Starred"
         case .byName:
             return "Name"
         case .byAmountRaised:
@@ -38,7 +41,7 @@ struct CampaignList: View {
     @State private var fundraisingEventCancellable: DatabaseCancellable?
     @State private var fetchCampaignsTask: Task<(), Never>?
     
-    @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
+    @State private var fundraiserSortOrder: FundraiserSortOrder = .byStarred
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -64,6 +67,13 @@ struct CampaignList: View {
             .opacity(0.8)
     }
     
+    func compareNames(c1: Campaign, c2: Campaign) -> Bool {
+        if c1.name.lowercased() == c2.name.lowercased() {
+            return c1.id.uuidString < c2.id.uuidString
+        }
+        return c1.name.lowercased() < c2.name.lowercased()
+    }
+    
     var sortedCampaigns: [Campaign] {
         return campaigns.sorted { c1, c2 in
             if c1.user.username == "Relay FM" {
@@ -74,16 +84,36 @@ struct CampaignList: View {
             }
             switch fundraiserSortOrder {
             case .byAmountRaised:
-                return c1.totalRaised.numericalValue > c2.totalRaised.numericalValue
-            case .byGoal:
-                return c1.goal.numericalValue > c2.goal.numericalValue
-            case .byPercentage:
-                return (c1.percentageReached ?? 0) > (c2.percentageReached ?? 0)
-            default:
-                if c1.name.lowercased() == c2.name.lowercased() {
-                    return c1.id.uuidString < c2.id.uuidString
+                let v1 = c1.totalRaised.numericalValue
+                let v2 = c2.totalRaised.numericalValue
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
                 }
-                return c1.name.lowercased() < c2.name.lowercased()
+                return v1 > v2
+            case .byGoal:
+                let v1 = c1.goal.numericalValue
+                let v2 = c2.goal.numericalValue
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
+                }
+                return v1 > v2
+            case .byPercentage:
+                let v1 = c1.percentageReached ?? 0
+                let v2 = c2.percentageReached ?? 0
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
+                }
+                return v1 > v2
+            case .byStarred:
+                if c1.isStarred && !c2.isStarred {
+                    return true
+                }
+                if c2.isStarred && !c1.isStarred {
+                    return false
+                }
+                return compareNames(c1: c1, c2: c2)
+            default:
+                return compareNames(c1: c1, c2: c2)
             }
         }
     }

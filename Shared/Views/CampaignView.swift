@@ -227,9 +227,35 @@ struct CampaignView: View {
             }
             
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    Task {
+                        await starOrUnstar()
+                    }
+                }) {
+                    Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "star.fill" : "star")
+                }
+                .disabled(initialCampaign?.title ?? "" == "Relay FM")
+            }
+        }
         .navigationTitle(initialCampaign?.name ?? "Campaign")
         .navigationBarTitleDisplayMode(.inline)
         
+    }
+    
+    func starOrUnstar() async {
+        if let initialCampaign = initialCampaign {
+            let newCampaign = initialCampaign.setStar(to: !initialCampaign.isStarred)
+            do {
+                if try await AppDatabase.shared.updateCampaign(newCampaign, changesFrom: initialCampaign) {
+                    dataLogger.info("Updated starring stored campaign: \(newCampaign.id)")
+                }
+            } catch {
+                dataLogger.error("Starring/unstarring stored campaign failed: \(error.localizedDescription)")
+            }
+            self.initialCampaign = newCampaign
+        }
     }
     
     /// Fetch data from the API, save it to the database
@@ -245,7 +271,7 @@ struct CampaignView: View {
                 return
             }
             
-            let apiCampaign = Campaign(from: response.data.campaign, fundraiserId: initialCampaign.fundraisingEventId)
+            let apiCampaign = initialCampaign.updated(fromCampaign: response.data.campaign, fundraiserId: initialCampaign.fundraisingEventId)
             do {
                 if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: initialCampaign) {
                     dataLogger.info("Updated stored campaign: \(apiCampaign.id)")
@@ -255,9 +281,8 @@ struct CampaignView: View {
                 dataLogger.error("Updating stored campaign failed: \(error.localizedDescription)")
             }
             
-            var apiMilestones: [Int: Milestone] = [:]
-            for ms in response.data.campaign.milestones {
-                apiMilestones[ms.id] = Milestone(from: ms, campaignId: initialCampaign.id)
+            var apiMilestones: [Int: Milestone] = response.data.campaign.milestones.reduce(into: [:]) { partialResult, ms in
+                partialResult.updateValue(Milestone(from: ms, campaignId: initialCampaign.id), forKey: ms.id)
             }
             do {
                 // For each milestone from the database...
@@ -291,9 +316,8 @@ struct CampaignView: View {
                 dataLogger.error("Failed to fetch stored milestones for \(initialCampaign.id): \(error.localizedDescription)")
             }
             
-            var apiRewards: [UUID: Reward] = [:]
-            for reward in response.data.campaign.rewards {
-                apiRewards[reward.publicId] = Reward(from: reward, campaignId: initialCampaign.id)
+            var apiRewards: [UUID: Reward] = response.data.campaign.rewards.reduce(into: [:]) { partialResult, reward in
+                partialResult.updateValue(Reward(from: reward, campaignId: initialCampaign.id), forKey: reward.publicId)
             }
             do {
                 // For each reward from the database...

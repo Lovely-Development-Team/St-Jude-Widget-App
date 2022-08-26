@@ -94,17 +94,11 @@ final class AppDatabase {
                 t.column("campaignId", .blob).notNull().references("campaign")
             }
             
-//            try db.create(table: "fundraisingEventCampaign") { t in
-//                t.autoIncrementedPrimaryKey("id")
-//                t.column("fundraisingEventId", .numeric).notNull().references("fundraisingEvent", onDelete: .cascade, onUpdate: .cascade)
-//                t.column("campaignId", .numeric).notNull().references("campaign", onDelete: .cascade, onUpdate: .cascade)
-//            }
+            try db.alter(table: "campaign") { t in
+                t.add(column: "isStarred", .boolean).defaults(to: false)
+            }
+            
         }
-        
-        // Migrations for future application versions will be inserted here:
-        // migrator.registerMigration(...) { db in
-        //     ...
-        // }
         
         return migrator
     }
