@@ -23,6 +23,8 @@ class IntentHandler: INExtension {
             return GetNextMilestoneIntentHandler()
         case is ListMilestonesIntent:
             return ListMilestonesIntentHandler()
+        case is ConfigurationIntent:
+            return ConfigurationIntentHandler()
         default:
             return self
         }

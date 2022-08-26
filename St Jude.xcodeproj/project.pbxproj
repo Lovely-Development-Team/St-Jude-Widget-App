@@ -182,6 +182,9 @@
 		63D0CD2A28B63C640073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2928B63C640073957E /* GRDB */; };
 		63D0CD2C28B63C6D0073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2B28B63C6D0073957E /* GRDB */; };
 		63D0CD2E28B63C730073957E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 63D0CD2D28B63C730073957E /* GRDB */; };
+		63D0CD2F28B922B00073957E /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
+		63D0CD3128B9247D0073957E /* ConfigurationIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0CD3028B9247D0073957E /* ConfigurationIntentHandler.swift */; };
+		63DCCEAE28B9284500AF4C5C /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
 		63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5126E114AF009F318F /* NotificationSettingsController.swift */; };
 		63E19D5626E22B41009F318F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5426E22B28009F318F /* BlurView.swift */; };
 		63E19D5826E22D78009F318F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
@@ -391,6 +394,8 @@
 		63D0CD0928B267A60073957E /* FundraisingEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraisingEvent.swift; sourceTree = "<group>"; };
 		63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraisingEventCampaign.swift; sourceTree = "<group>"; };
 		63D0CD1B28B4E8AB0073957E /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		63D0CD3028B9247D0073957E /* ConfigurationIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationIntentHandler.swift; sourceTree = "<group>"; };
+		63DCCEB128B92C5E00AF4C5C /* Intents Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Intents Extension.entitlements"; sourceTree = "<group>"; };
 		63E19D5126E114AF009F318F /* NotificationSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsController.swift; sourceTree = "<group>"; };
 		63E19D5426E22B28009F318F /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		63E19D5726E22D78009F318F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -657,6 +662,7 @@
 		63BFF19D26D5D37C0023263D /* Intents Extension */ = {
 			isa = PBXGroup;
 			children = (
+				63DCCEB128B92C5E00AF4C5C /* Intents Extension.entitlements */,
 				63A6F99426D6369500095ACB /* Extensions */,
 				63BFF18726D5CA410023263D /* IntentHandler.swift */,
 				63BFF19226D5CB590023263D /* GetAmountRaisedIntentHandler.swift */,
@@ -664,6 +670,7 @@
 				63A6F99926D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift */,
 				63BFF1AF26D5D4A20023263D /* GetNextMilestoneIntentHandler.swift */,
 				63A6F99026D6348A00095ACB /* ListMilestonesIntentHandler.swift */,
+				63D0CD3028B9247D0073957E /* ConfigurationIntentHandler.swift */,
 				6348FA0026D6C9970031697F /* Intents.intentdefinition */,
 				63BFF1A026D5D37C0023263D /* Info.plist */,
 			);
@@ -1145,6 +1152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */,
+				63DCCEAE28B9284500AF4C5C /* Intents.intentdefinition in Sources */,
 				5E180C2328B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63D0CD0028B117390073957E /* Campaign.swift in Sources */,
 				63D0CD1E28B4E8AB0073957E /* Sequence.swift in Sources */,
@@ -1189,6 +1197,7 @@
 				63A6F99126D6348A00095ACB /* ListMilestonesIntentHandler.swift in Sources */,
 				63BFF1AC26D5D3BE0023263D /* Loggers.swift in Sources */,
 				63A6F99A26D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift in Sources */,
+				63D0CD2F28B922B00073957E /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63D0CD0128B117390073957E /* Campaign.swift in Sources */,
 				5E180C2428B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
@@ -1197,6 +1206,7 @@
 				63D0CCF428B102AA0073957E /* AppDatabase.swift in Sources */,
 				63D0CD0D28B267A60073957E /* FundraisingEvent.swift in Sources */,
 				DE0F34C126DA6A8E00F268C9 /* DeviceType.swift in Sources */,
+				63D0CD3128B9247D0073957E /* ConfigurationIntentHandler.swift in Sources */,
 				63BFF1A826D5D38F0023263D /* GetAmountRaisedIntentHandler.swift in Sources */,
 				638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				5E180C1E28B7F18F00F10BE5 /* Milestone.swift in Sources */,
@@ -1726,6 +1736,7 @@
 		63BFF1A526D5D37C0023263D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
@@ -1753,6 +1764,7 @@
 		63BFF1A626D5D37C0023263D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
