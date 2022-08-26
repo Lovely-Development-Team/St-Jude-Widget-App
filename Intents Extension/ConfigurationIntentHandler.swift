@@ -40,7 +40,10 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
         }
         let campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: event)
         let widgetCampaigns = campaigns.map { campaign in
-            INWidgetCampaign(identifier: campaign.id.uuidString, display: "\(campaign.title) (\(campaign.user.name))")
+            let widgetCampaign = INWidgetCampaign(identifier: campaign.id.uuidString, display: "\(campaign.title) (\(campaign.user.name))")
+            widgetCampaign.slug = campaign.slug
+            widgetCampaign.vanity = campaign.user.slug
+            return widgetCampaign
         }
         return INObjectCollection(items: widgetCampaigns)
     }

@@ -13,14 +13,14 @@ protocol WidgetDataProviding: IntentTimelineProvider {
 }
 
 extension WidgetDataProviding {
-    internal func fetchStoredData() -> TiltifyWidgetData? {
+    internal func fetchStoredData(for campaignId: UUID) async -> TiltifyWidgetData? {
         do {
             dataLogger.notice("Attempting to fetch stored data")
-            guard let data = UserDefaults.shared.data(forKey: "relayData") else {
+            guard let campaign = try await AppDatabase.shared.fetchCampaign(with: campaignId) else {
                 dataLogger.notice("No stored data found")
                 return nil
             }
-            return try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+            return try await TiltifyWidgetData(from: campaign)
         } catch {
             dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
             return nil
@@ -37,6 +37,11 @@ extension WidgetDataProviding {
 }
 
 extension WidgetDataProviding {
+    private func fetchCampaign(vanity: String?, slug: String?, completion: @escaping (Result<TiltifyResponse, Error>) -> ()) {
+        _ = apiClient.fetchCampaign(vanity: vanity ?? "relay-fm", slug: slug ?? "relay-fm-for-st-jude-2022", completion: completion)
+    }
+    
+    
     internal func fetchPlaceholder(in context: Context) -> SimpleEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
@@ -50,15 +55,18 @@ extension WidgetDataProviding {
     }
     
     internal func fetchSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        _ = apiClient.fetchCampaign { result in
+        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
             switch result {
             case .failure(let error):
                 dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                guard let campaign = fetchStoredData() else {
-                    completion(SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign))
-                    return
+                Task {
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        completion(SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign))
+                        return
+                    }
+                    completion(SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: campaign))
                 }
-                completion(SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: campaign))
                 break
             case .success(let response):
                 let campaign: TiltifyWidgetData = TiltifyWidgetData(from:response.data.campaign)
@@ -70,26 +78,29 @@ extension WidgetDataProviding {
     }
     
     internal func fetchTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
-        _ = apiClient.fetchCampaign { result in
-            var entries: [SimpleEntry] = []
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                guard let campaign = fetchStoredData() else {
-                    let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
-                    completion(Timeline(entries: [entry], policy: .atEnd))
-                    return
+        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+            Task {
+                var entries: [SimpleEntry] = []
+                switch result {
+                case .failure(let error):
+                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
+                    }
+                    entries.append(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
+                    break
+                case .success(let response):
+                    let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                    let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
+                    storeData(campaign)
+                    entries.append(entry)
                 }
-                entries.append(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
-                break
-            case .success(let response):
-                let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
-                storeData(campaign)
-                entries.append(entry)
+                let timeline = Timeline(entries: entries, policy: .atEnd)
+                completion(timeline)
             }
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
         }
     }
 }

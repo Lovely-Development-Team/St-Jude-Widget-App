@@ -26,6 +26,12 @@ struct Provider: IntentTimelineProvider, WidgetDataProviding {
 }
 
 @main
+struct TiltifyStJudeWidgets: WidgetBundle {
+   var body: some Widget {
+       Tiltify_St_Jude_Widget()
+   }
+}
+
 struct Tiltify_St_Jude_Widget: Widget {
     let kind: String = "Tiltify_St_Jude_Widget"
     @StateObject private var apiClient = ApiClient.shared

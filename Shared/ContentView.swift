@@ -94,7 +94,7 @@ struct ContentView: View {
                     .padding(.bottom, 1)
                 ForEach(widgetData.rewards, id: \.id) { reward in
                     HStack {
-                        if let url = URL(string: reward.image?.src ?? "") {
+                        if let url = URL(string: reward.imageSrc ?? "") {
                             AsyncImage(
                                 url: url,
                                 content: { image in

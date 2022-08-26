@@ -433,7 +433,7 @@
 			<key>INTypeDisplayNameID</key>
 			<string>JNpGf5</string>
 			<key>INTypeLastPropertyTag</key>
-			<integer>99</integer>
+			<integer>101</integer>
 			<key>INTypeName</key>
 			<string>WidgetCampaign</string>
 			<key>INTypeProperties</key>
@@ -487,6 +487,34 @@
 					<integer>4</integer>
 					<key>INTypePropertyType</key>
 					<string>SpeakableString</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Vanity</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>vUujKC</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>5</integer>
+					<key>INTypePropertyName</key>
+					<string>vanity</string>
+					<key>INTypePropertyTag</key>
+					<integer>100</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Slug</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>uqTaAk</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>6</integer>
+					<key>INTypePropertyName</key>
+					<string>slug</string>
+					<key>INTypePropertyTag</key>
+					<integer>101</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
 				</dict>
 			</array>
 		</dict>
