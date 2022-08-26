@@ -110,7 +110,7 @@ struct TiltifyCampaign: Codable {
     let totalAmountRaised: TiltifyAmount
     let name: String
     let originalGoal: TiltifyAmount
-    let rewards: [TiltifyCampaignReward]    
+    let rewards: [TiltifyCampaignReward]
 }
 
 struct TiltifyData: Codable {
