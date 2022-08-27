@@ -179,7 +179,7 @@ struct TiltifyWidgetData {
     }
     
     var widgetURL: String {
-        "st-jude://campaign?id=\(id)"
+        "relay-fm-for-st-jude://campaign?id=\(id)"
     }
     
 }

@@ -57,7 +57,7 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
             }
             return c1.name.lowercased() < c2.name.lowercased()
         }
-        .map { campaign in
+        .map { campaign -> INWidgetCampaign in
             let prefix: String
             if campaign.user.name == "Relay FM" {
                 prefix = "📌 "
