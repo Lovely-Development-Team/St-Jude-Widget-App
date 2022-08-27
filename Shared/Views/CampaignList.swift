@@ -42,6 +42,7 @@ struct CampaignList: View {
     @State private var fetchCampaignsTask: Task<(), Never>?
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byStarred
+    @State private var selectedCampaignId: UUID? = nil
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -200,7 +201,7 @@ struct CampaignList: View {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                         
                         ForEach(sortedCampaigns, id: \.id) { campaign in
-                            NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
+                            NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder)
                             }
                             .padding(.top)
@@ -259,6 +260,13 @@ struct CampaignList: View {
             }
         }
         .navigationTitle("Relay FM for St. Jude 2022")
+        .onOpenURL { url in
+            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
+                result[item.name] = item.value
+            }), let id = queryComponents["id"] {
+                selectedCampaignId = UUID(uuidString: id)
+            }
+        }
     }
     
     func refresh() async {
