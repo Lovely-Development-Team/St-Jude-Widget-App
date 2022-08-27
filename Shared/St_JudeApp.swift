@@ -12,9 +12,9 @@ import Intents
 @main
 struct St_JudeApp: App {
     @Environment(\.scenePhase) private var scenePhase
-    #if os(iOS)
+#if os(iOS)
     @UIApplicationDelegateAdaptor(StJudeAppDelegate.self) var appDelegate
-    #endif
+#endif
     
     var body: some Scene {
         WindowGroup {

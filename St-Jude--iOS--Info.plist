@@ -15,7 +15,7 @@
 			<string>dev.snailedit.stjude</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>st-jude</string>
+				<string>relay-fm-for-st-jude</string>
 			</array>
 		</dict>
 	</array>
