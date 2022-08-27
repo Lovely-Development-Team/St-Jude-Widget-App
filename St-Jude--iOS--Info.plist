@@ -6,6 +6,19 @@
 	<array>
 		<string>com.rosemaryorchard.stjude.refresh</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>dev.snailedit.stjude</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>st-jude</string>
+			</array>
+		</dict>
+	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSUserActivityTypes</key>

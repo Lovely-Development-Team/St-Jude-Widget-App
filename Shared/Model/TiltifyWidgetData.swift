@@ -8,6 +8,7 @@
 import Foundation
 
 struct TiltifyWidgetData {
+    let id: UUID
     let name: String
     let description: String
     private let totalRaisedRaw: String
@@ -82,6 +83,7 @@ struct TiltifyWidgetData {
     }()
     
     init(from campaign: TiltifyCampaign) {
+        self.id = campaign.publicId
         self.name = campaign.name
         self.description = campaign.description
         self.currencyCode = campaign.totalAmountRaised.currency
@@ -105,6 +107,7 @@ struct TiltifyWidgetData {
     }
     
     init(from campaign: Campaign) async throws {
+        self.id = campaign.id
         self.name = campaign.name
         self.description = campaign.description ?? ""
         self.currencyCode = campaign.totalRaised.currency
@@ -174,6 +177,11 @@ struct TiltifyWidgetData {
         }
         return description
     }
+    
+    var widgetURL: String {
+        "st-jude://campaign?id=\(id)"
+    }
+    
 }
 
 func calcPercentage(goal: String, total: String) -> Double? {
@@ -188,6 +196,7 @@ func calcPercentage(goal: String, total: String) -> Double? {
 
 extension TiltifyWidgetData: Codable {
     enum CodingKeys: String, CodingKey {
+        case publicId
         case name
         case totalRaisedRaw
         case goalRaw
@@ -219,6 +228,7 @@ extension TiltifyWidgetData: Codable {
             self.futureMilestones = []
         }
         self.rewards = try container.decode([Reward].self, forKey: .rewards)
+        self.id = try container.decode(UUID.self, forKey: .publicId)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -229,5 +239,6 @@ extension TiltifyWidgetData: Codable {
         try container.encode(goalRaw, forKey: .goalRaw)
         try container.encode(milestones, forKey: .milestones)
         try container.encode(currencyCode, forKey: .currencyCode)
+        try container.encode(id, forKey: .publicId)
     }
 }
