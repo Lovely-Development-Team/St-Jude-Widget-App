@@ -9,6 +9,7 @@ import Foundation
 
 extension UserDefaults {
     static let campaignListSortOrderKey = "campaignListSortOrder"
+    static let campaignListCompactViewKey = "campaignListCompactView"
     
     var campaignListSortOrder: FundraiserSortOrder {
         get {
@@ -17,5 +18,10 @@ extension UserDefaults {
         set {
             set(newValue.rawValue, forKey: Self.campaignListSortOrderKey)
         }
+    }
+    
+    @objc var campaignListCompactView: Bool {
+        get { bool(forKey: Self.campaignListCompactViewKey) }
+        set { set(newValue, forKey: Self.campaignListCompactViewKey) }
     }
 }
