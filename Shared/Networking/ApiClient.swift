@@ -175,10 +175,8 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
                     completion(.failure(TiltifyError.noData))
                     return
                 }
-                print("BEN: \(String(decoding: data, as: UTF8.self))")
                 completion(Result {
                     let payload = try JSONDecoder().decode(TiltifyResponse.self, from: data)
-                    print("BEN: \(payload)")
                     return payload
                 })
             }
