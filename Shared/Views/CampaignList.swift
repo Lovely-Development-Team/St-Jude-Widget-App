@@ -198,10 +198,22 @@ struct CampaignList: View {
                 
                 if campaigns.count != 0 {
                     
+                    if selectedCampaignId != nil {
+                        /// In order to open a selected campaign when a widget is tapped, the corresponding
+                        /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
+                        /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
+                        /// trigger on the widget tap instead
+                        ForEach(sortedCampaigns, id: \.id) { campaign in
+                            NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
+                                EmptyView()
+                            }
+                        }
+                    }
+                    
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                         
                         ForEach(sortedCampaigns, id: \.id) { campaign in
-                            NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
+                            NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder)
                             }
                             .padding(.top)
