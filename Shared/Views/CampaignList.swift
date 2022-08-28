@@ -42,6 +42,7 @@ struct CampaignList: View {
     @State private var fetchCampaignsTask: Task<(), Never>?
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byStarred
+    @State private var compactListMode: Bool = false
     @State private var selectedCampaignId: UUID? = nil
     
     @ViewBuilder
@@ -185,13 +186,23 @@ struct CampaignList: View {
                     Menu {
                         ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
                             Button(action: {
-                                fundraiserSortOrder = order
+                                withAnimation {
+                                    fundraiserSortOrder = order
+                                }
                             }) {
                                 Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
                             }
                         }
+                        Divider()
+                        Button(action: {
+                            withAnimation {
+                                compactListMode.toggle()
+                            }
+                        }) {
+                            Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
+                        }
                     } label: {
-                        Image(systemName: "arrow.up.arrow.down")
+                        Image(systemName: "slider.horizontal.3")
                     }
                 }
                 .padding(.horizontal)
@@ -214,7 +225,7 @@ struct CampaignList: View {
                         
                         ForEach(sortedCampaigns, id: \.id) { campaign in
                             NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                                FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder)
+                                FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode)
                             }
                             .padding(.top)
                         }
@@ -240,9 +251,12 @@ struct CampaignList: View {
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
         }
+        .onChange(of: compactListMode) { newValue in
+            UserDefaults.shared.campaignListCompactView = newValue
+        }
         .onAppear {
-            
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
+            compactListMode = UserDefaults.shared.campaignListCompactView
             
             fundraisingEventCancellable = AppDatabase.shared.start(observation: fundraisingEventObservation) { error in
                 dataLogger.error("Error observing stored fundraiser: \(error.localizedDescription)")
