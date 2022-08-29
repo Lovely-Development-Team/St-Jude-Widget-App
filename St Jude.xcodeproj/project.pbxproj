@@ -28,6 +28,8 @@
 		5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
 		5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
+		5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
+		5EE0EC0B28BD57250053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
@@ -1027,6 +1029,7 @@
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
+				5EE0EC0B28BD57250053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1118,6 +1121,7 @@
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
 				5E180C1C28B7F18F00F10BE5 /* Milestone.swift in Sources */,
+				5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63D0CD1128B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
