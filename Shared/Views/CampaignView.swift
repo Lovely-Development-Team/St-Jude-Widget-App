@@ -48,6 +48,15 @@ struct CampaignView: View {
         fundraisingEvent?.description ?? initialCampaign?.description ?? ""
     }
     
+    func milestoneReached(for milestone: Milestone) -> Bool {
+        if let fundraisingEvent = fundraisingEvent {
+            return milestone.amount.value <= fundraisingEvent.amountRaised.numericalValue
+        } else if let initialCampaign = initialCampaign {
+            return milestone.amount.value <= initialCampaign.totalRaised.numericalValue
+        }
+        return false
+    }
+    
     var body: some View {
         ScrollView {
             
@@ -114,106 +123,103 @@ struct CampaignView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical)
                 
-                if let initialCampaign = initialCampaign {
+                if !milestones.isEmpty {
                     
-                    if !milestones.isEmpty {
+                    HStack {
                         
-                        HStack {
-                            
-                            Text("Milestones")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            
-                            Spacer()
-                            
-                            Text("\(milestones.count)")
-                                .foregroundColor(.secondary)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(
-                                    Color.secondarySystemBackground
-                                        .cornerRadius(15)
-                                )
-                            
-                        }
-                        .id("Milestones")
+                        Text("Milestones")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         
-                        ForEach(milestones, id: \.id) { milestone in
-                            HStack(alignment: .top) {
-                                if milestone.amount.value <= initialCampaign.totalRaised.numericalValue {
-                                    Image(systemName: "checkmark.seal.fill")
-                                        .foregroundColor(.green)
-                                }
-                                Text("\(milestone.name)")
-                                    .foregroundColor(milestone.amount.value <= initialCampaign.totalRaised.numericalValue ? .secondary : .primary)
-                                Spacer()
-                                Text(milestone.amount.description(showFullCurrencySymbol: false))
-                                    .foregroundColor(.accentColor)
-                                    .opacity(milestone.amount.value <= initialCampaign.totalRaised.numericalValue ? 0.75 : 1)
-                            }
-                            .padding(.vertical, 8)
-                            Divider()
-                        }
+                        Spacer()
+                        
+                        Text("\(milestones.count)")
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Color.secondarySystemBackground
+                                    .cornerRadius(15)
+                            )
                         
                     }
+                    .id("Milestones")
                     
-                    if !rewards.isEmpty {
-                        
-                        HStack {
-                            
-                            Text("Rewards")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.top, milestones.isEmpty ? 0 : 10)
-                
-                            Text("\(rewards.count)")
-                                .foregroundColor(.secondary)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(
-                                    Color.secondarySystemBackground
-                                        .cornerRadius(15)
-                                )
-                            
-                        }
-                        .id("Rewards")
-                        
-                        ForEach(rewards, id: \.id) { reward in
-                            VStack(alignment: .leading) {
-                                HStack(alignment: .top) {
-                                    Text(reward.name)
-                                        .font(.headline)
-                                    Spacer()
-                                    Text(reward.amount.description(showFullCurrencySymbol: false))
-                                        .foregroundColor(.accentColor)
-                                }
-                                HStack(alignment: .top) {
-                                    if let url = URL(string: reward.imageSrc ?? "") {
-                                        AsyncImage(
-                                            url: url,
-                                            content: { image in
-                                                image.resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 45, height: 45)
-                                            },
-                                            placeholder: {
-                                                ProgressView()
-                                                    .frame(width: 45, height: 45)
-                                            }
-                                        )
-                                        .cornerRadius(5)
-                                    }
-                                    Text(reward.description)
-                                        .font(.caption)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                }
+                    ForEach(milestones, id: \.id) { milestone in
+                        let reached = milestoneReached(for: milestone)
+                        HStack(alignment: .top) {
+                            if reached {
+                                Image(systemName: "checkmark.seal.fill")
+                                    .foregroundColor(.green)
                             }
-                            .padding(.vertical, 8)
-                            Divider()
+                            Text("\(milestone.name)")
+                                .foregroundColor(reached ? .secondary : .primary)
+                            Spacer()
+                            Text(milestone.amount.description(showFullCurrencySymbol: false))
+                                .foregroundColor(.accentColor)
+                                .opacity(reached ? 0.75 : 1)
                         }
+                        .padding(.vertical, 8)
+                        Divider()
+                    }
+                    
+                }
+                
+                if !rewards.isEmpty {
+                    
+                    HStack {
                         
+                        Text("Rewards")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, milestones.isEmpty ? 0 : 10)
+            
+                        Text("\(rewards.count)")
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Color.secondarySystemBackground
+                                    .cornerRadius(15)
+                            )
+                        
+                    }
+                    .id("Rewards")
+                    
+                    ForEach(rewards, id: \.id) { reward in
+                        VStack(alignment: .leading) {
+                            HStack(alignment: .top) {
+                                Text(reward.name)
+                                    .font(.headline)
+                                Spacer()
+                                Text(reward.amount.description(showFullCurrencySymbol: false))
+                                    .foregroundColor(.accentColor)
+                            }
+                            HStack(alignment: .top) {
+                                if let url = URL(string: reward.imageSrc ?? "") {
+                                    AsyncImage(
+                                        url: url,
+                                        content: { image in
+                                            image.resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 45, height: 45)
+                                        },
+                                        placeholder: {
+                                            ProgressView()
+                                                .frame(width: 45, height: 45)
+                                        }
+                                    )
+                                    .cornerRadius(5)
+                                }
+                                Text(reward.description)
+                                    .font(.caption)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                        Divider()
                     }
                     
                 }
@@ -429,6 +435,20 @@ struct CampaignView: View {
                 dataLogger.error("Failed to fetch stored fundraising event: \(error.localizedDescription)")
             }
             
+            var relayCampaign: Campaign? = nil
+            
+            do {
+                dataLogger.notice("Fetching Relay campaign")
+                relayCampaign = try await AppDatabase.shared.fetchRelayCampaign()
+                dataLogger.notice("Fetched Relay campaign")
+            } catch {
+                dataLogger.error("Failed to fetch Relay campaign: \(error.localizedDescription)")
+            }
+            
+            if let relayCampaign = relayCampaign {
+                await fetchRewardsAndMilestones(for: relayCampaign)
+            }
+            
         } else if let initialCampaign = initialCampaign {
             
             do {
@@ -439,21 +459,27 @@ struct CampaignView: View {
                 dataLogger.error("Failed to fetch stored campaign \(initialCampaign.id): \(error.localizedDescription)")
             }
             
-            do {
-                dataLogger.notice("Fetching stored milestones for \(initialCampaign.id)")
-                self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: initialCampaign)
-                dataLogger.notice("Fetched stored milestones for \(initialCampaign.id)")
-            } catch {
-                dataLogger.error("Failed to fetch stored milestones for \(initialCampaign.id): \(error.localizedDescription)")
-            }
-            do {
-                dataLogger.notice("Fetching stored rewards for \(initialCampaign.id)")
-                self.rewards = try await AppDatabase.shared.fetchSortedRewards(for: initialCampaign)
-                dataLogger.notice("Fetched stored rewards for \(initialCampaign.id)")
-            } catch {
-                dataLogger.error("Failed to fetch stored rewards for \(initialCampaign.id): \(error.localizedDescription)")
-            }
+            await fetchRewardsAndMilestones(for: initialCampaign)
             
+        }
+        
+    }
+    
+    func fetchRewardsAndMilestones(for campaign: Campaign) async {
+        
+        do {
+            dataLogger.notice("Fetching stored milestones for \(campaign.id)")
+            self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
+            dataLogger.notice("Fetched stored milestones for \(campaign.id)")
+        } catch {
+            dataLogger.error("Failed to fetch stored milestones for \(campaign.id): \(error.localizedDescription)")
+        }
+        do {
+            dataLogger.notice("Fetching stored rewards for \(campaign.id)")
+            self.rewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
+            dataLogger.notice("Fetched stored rewards for \(campaign.id)")
+        } catch {
+            dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
         }
         
     }
