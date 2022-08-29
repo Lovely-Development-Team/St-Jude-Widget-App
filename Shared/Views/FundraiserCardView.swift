@@ -77,6 +77,5 @@ struct FundraiserCardView: View {
         .padding()
         .background(fundraisingEvent?.colors.backgroundColor ?? Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .cornerRadius(10)
-        .padding()
     }
 }

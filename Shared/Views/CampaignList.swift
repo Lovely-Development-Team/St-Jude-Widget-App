@@ -94,7 +94,16 @@ struct CampaignList: View {
         
         ScrollView {
             VStack(spacing: 0) {
-                FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true)
+                
+                if let fundraisingEvent = fundraisingEvent {
+                    NavigationLink(destination: CampaignView(fundraisingEvent: fundraisingEvent)) {
+                        FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true)
+                            .padding()
+                    }
+                } else {
+                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false)
+                        .padding()
+                }
                 
                 Link("Visit the event!", destination: URL(string: "https://stjude.org/relay")!)
                     .font(.headline)

@@ -10,19 +10,27 @@ import GRDB
 
 struct CampaignView: View {
     
-    @State private var campaignObservation: ValueObservation<ValueReducers.Fetch<Campaign?>>
+    @State private var campaignObservation: ValueObservation<ValueReducers.Fetch<Campaign?>>?
     @State private var campaignCancellable: DatabaseCancellable?
     @State private var fetchTask: Task<(), Never>?
     
     @State private var initialCampaign: Campaign?
+    @State private var fundraisingEvent: FundraisingEvent?
     @State private var milestones: [Milestone] = []
     @State private var rewards: [Reward] = []
     
     @StateObject private var apiClient = ApiClient.shared
     
     init(initialCampaign: Campaign) {
+        _fundraisingEvent = State(wrappedValue: nil)
         _initialCampaign = State(wrappedValue: initialCampaign)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
+    }
+    
+    init(fundraisingEvent: FundraisingEvent) {
+        _initialCampaign = State(wrappedValue: initialCampaign)
+        _fundraisingEvent = State(wrappedValue: fundraisingEvent)
+        _campaignObservation = State(wrappedValue: nil)
     }
     
     var fundraiserURL: URL {
@@ -38,56 +46,62 @@ struct CampaignView: View {
             
             ScrollViewReader { scrollViewReader in
                 
-                if let initialCampaign = initialCampaign {
+                if let fundraisingEvent = fundraisingEvent {
+                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false)
+                } else if let initialCampaign = initialCampaign {
                     
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false)
                     
-                    LazyVGrid(columns: [GridItem(.flexible()),
-                                        GridItem(.flexible())]) {
-                        Button(action: {
-                            withAnimation {
-                                scrollViewReader.scrollTo("Milestones", anchor: .top)
-                            }
-                        }) {
-                            GroupBox {
-                                HStack {
-                                    Image(systemName: "flag")
-                                    Spacer()
-                                    Text("\(milestones.count) Milestones")
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                    Spacer()
-                                }
-                            }
-                        }
-                        .disabled(milestones.isEmpty)
-                        Button(action: {
-                            withAnimation {
-                                scrollViewReader.scrollTo("Rewards", anchor: .top)
-                            }
-                        }) {
-                            GroupBox {
-                                HStack {
-                                    Image(systemName: "rosette")
-                                    Spacer()
-                                    Text("\(rewards.count) Rewards")
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                    Spacer()
-                                }
-                            }
-                        }
-                        .disabled(rewards.isEmpty)
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                }
                     
-                    Link("Visit the fundraiser!", destination: fundraiserURL)
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .padding(.horizontal, 20)
-                        .background(Color.accentColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .padding(.top)
+                LazyVGrid(columns: [GridItem(.flexible()),
+                                    GridItem(.flexible())]) {
+                    Button(action: {
+                        withAnimation {
+                            scrollViewReader.scrollTo("Milestones", anchor: .top)
+                        }
+                    }) {
+                        GroupBox {
+                            HStack {
+                                Image(systemName: "flag")
+                                Spacer()
+                                Text("\(milestones.count) Milestones")
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                Spacer()
+                            }
+                        }
+                    }
+                    .disabled(milestones.isEmpty)
+                    Button(action: {
+                        withAnimation {
+                            scrollViewReader.scrollTo("Rewards", anchor: .top)
+                        }
+                    }) {
+                        GroupBox {
+                            HStack {
+                                Image(systemName: "rosette")
+                                Spacer()
+                                Text("\(rewards.count) Rewards")
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                Spacer()
+                            }
+                        }
+                    }
+                    .disabled(rewards.isEmpty)
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                
+                Link("Visit the \(fundraisingEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .padding(.horizontal, 20)
+                    .background(Color.accentColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                    .padding(.top)
+                
+                if let initialCampaign = initialCampaign {
                     
                     if let description = initialCampaign.description {
                         
@@ -211,12 +225,14 @@ struct CampaignView: View {
         .onAppear {
             
             // Campaign change watch
-            campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
-                dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
-            } onChange: { event in
-                fetchTask?.cancel()
-                fetchTask = Task {
-                    await fetch()
+            if let campaignObservation = campaignObservation {
+                campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
+                    dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
+                } onChange: { event in
+                    fetchTask?.cancel()
+                    fetchTask = Task {
+                        await fetch()
+                    }
                 }
             }
             
@@ -235,11 +251,23 @@ struct CampaignView: View {
                 }) {
                     Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "star.fill" : "star")
                 }
+                .opacity(fundraisingEvent == nil ? 1 : 0)
+                .disabled(fundraisingEvent != nil)
             }
         }
-        .navigationTitle(initialCampaign?.name ?? "Campaign")
+        .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
         
+    }
+    
+    var navigationTitle: String {
+        if let initialCampaign = initialCampaign {
+            return initialCampaign.name
+        }
+        if let fundraisingEvent = fundraisingEvent {
+            return fundraisingEvent.name
+        }
+        return "Campaign"
     }
     
     func starOrUnstar() async {
