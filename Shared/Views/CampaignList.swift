@@ -78,12 +78,6 @@ struct CampaignList: View {
     
     var sortedCampaigns: [Campaign] {
         return campaigns.sorted { c1, c2 in
-            if c1.user.username == "Relay FM" {
-                return true
-            }
-            if c2.user.username == "Relay FM" {
-                return false
-            }
             switch fundraiserSortOrder {
             case .byAmountRaised:
                 let v1 = c1.totalRaised.numericalValue
