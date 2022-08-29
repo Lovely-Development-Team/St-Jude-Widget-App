@@ -15,9 +15,6 @@ struct FundraiserListItem: View {
     var compact: Bool = false
     
     var disclosureIndicatorIcon: String {
-        if campaign.title == "Relay FM" {
-            return "pin"
-        }
         if campaign.isStarred {
             return "star.fill"
         }

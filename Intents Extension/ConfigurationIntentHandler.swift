@@ -45,12 +45,6 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
         }
         let campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: event)
         let widgetCampaigns = campaigns.sorted { c1, c2 in
-            if c1.user.username == "Relay FM" {
-                return true
-            }
-            if c2.user.username == "Relay FM" {
-                return false
-            }
             if c1.isStarred && !c2.isStarred {
                 return true
             }
@@ -63,14 +57,7 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
             return c1.name.lowercased() < c2.name.lowercased()
         }
         .map { campaign -> INWidgetCampaign in
-            let prefix: String
-            if campaign.user.name == "Relay FM" {
-                prefix = "📌 "
-            } else if campaign.isStarred {
-                prefix = "⭐️ "
-            } else {
-                prefix = ""
-            }
+            let prefix = campaign.isStarred ? "⭐️ " : ""
             let widgetCampaign = INWidgetCampaign(identifier: campaign.id.uuidString, display: "\(prefix) \(campaign.user.name) — \(campaign.title)")
             widgetCampaign.slug = campaign.slug
             widgetCampaign.vanity = campaign.user.slug
