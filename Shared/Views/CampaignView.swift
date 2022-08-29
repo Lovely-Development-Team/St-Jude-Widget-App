@@ -11,6 +11,7 @@ import GRDB
 struct CampaignView: View {
     
     @State private var campaignObservation: ValueObservation<ValueReducers.Fetch<Campaign?>>?
+    @State private var fundraisingEventObservation: ValueObservation<ValueReducers.Fetch<FundraisingEvent?>>?
     @State private var campaignCancellable: DatabaseCancellable?
     @State private var fetchTask: Task<(), Never>?
     
@@ -25,12 +26,14 @@ struct CampaignView: View {
         _fundraisingEvent = State(wrappedValue: nil)
         _initialCampaign = State(wrappedValue: initialCampaign)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
+        _fundraisingEventObservation = State(wrappedValue: nil)
     }
     
     init(fundraisingEvent: FundraisingEvent) {
         _initialCampaign = State(wrappedValue: initialCampaign)
         _fundraisingEvent = State(wrappedValue: fundraisingEvent)
         _campaignObservation = State(wrappedValue: nil)
+        _fundraisingEventObservation = State(wrappedValue: AppDatabase.shared.observeRelayFundraisingEventObservation())
     }
     
     var fundraiserURL: URL {
@@ -39,6 +42,10 @@ struct CampaignView: View {
         } else {
             return URL(string: "https://stjude.org/relay")!
         }
+    }
+    
+    var description: String {
+        fundraisingEvent?.description ?? initialCampaign?.description ?? ""
     }
     
     var body: some View {
@@ -101,17 +108,13 @@ struct CampaignView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                     .padding(.top)
                 
+                Text(description)
+                    .font(.caption)
+                    .multilineTextAlignment(.leading)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical)
+                
                 if let initialCampaign = initialCampaign {
-                    
-                    if let description = initialCampaign.description {
-                        
-                        Text(description)
-                            .font(.caption)
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical)
-                        
-                    }
                     
                     if !milestones.isEmpty {
                         
@@ -225,7 +228,16 @@ struct CampaignView: View {
         .onAppear {
             
             // Campaign change watch
-            if let campaignObservation = campaignObservation {
+            if let fundraisingEventObservation = fundraisingEventObservation {
+                campaignCancellable = AppDatabase.shared.start(observation: fundraisingEventObservation) { error in
+                    dataLogger.error("Error observing stored fundraising event: \(error.localizedDescription)")
+                } onChange: { event in
+                    fetchTask?.cancel()
+                    fetchTask = Task {
+                        await fetch()
+                    }
+                }
+            } else if let campaignObservation = campaignObservation {
                 campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
                     dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
                 } onChange: { event in
@@ -287,7 +299,28 @@ struct CampaignView: View {
     /// Fetch data from the API, save it to the database
     func refresh() async {
         
-        if let initialCampaign = initialCampaign {
+        if let fundraisingEvent = fundraisingEvent {
+            
+            let response: TiltifyCauseResponse
+            do {
+                response = try await apiClient.fetchCause()
+            } catch {
+                dataLogger.error("Fetching cause failed: \(error.localizedDescription)")
+                return
+            }
+            let apiEvent = FundraisingEvent(from: response.data)
+            do {
+                // Always saving the new event would work fine, but only the amount raised is likely to change regularly,
+                // so it's more efficient to update if we have an existing event
+                if try await AppDatabase.shared.updateFundraisingEvent(apiEvent, changesFrom: fundraisingEvent) {
+                    dataLogger.info("Updated fundraising event '\(apiEvent.name)' (id: \(apiEvent.id)")
+                }
+                self.fundraisingEvent = apiEvent
+            } catch {
+                dataLogger.error("Updating stored fundraiser failed: \(error.localizedDescription)")
+            }
+            
+        } else if let initialCampaign = initialCampaign {
             
             let response: TiltifyResponse
             do {
@@ -386,7 +419,17 @@ struct CampaignView: View {
     /// Fetches the campaign data from GRDB
     func fetch() async {
         
-        if let initialCampaign = initialCampaign {
+        if let fundraisingEvent = fundraisingEvent {
+            
+            do {
+                dataLogger.notice("Fetching stored fundraising event")
+                self.fundraisingEvent = try await AppDatabase.shared.fetchRelayFundraisingEvent()
+                dataLogger.notice("Fetched stored fundraising event")
+            } catch {
+                dataLogger.error("Failed to fetch stored fundraising event: \(error.localizedDescription)")
+            }
+            
+        } else if let initialCampaign = initialCampaign {
             
             do {
                 dataLogger.notice("Fetching stored campaign: \(initialCampaign.id)")
