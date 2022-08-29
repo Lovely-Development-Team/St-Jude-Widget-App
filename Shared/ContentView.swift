@@ -221,7 +221,7 @@ struct ContentView: View {
                     WidgetSettingsView(onDismiss: self.dismissSettings)
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 } else {
-                    EntryView(campaign: $widgetData, showMilestones: (self.maxFrameHeight/self.rectangleSize.width < 0.68) ? false : showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: useTrueBlackBackground, forceHidePreviousMilestone: (self.maxFrameHeight/self.rectangleSize.width < 0.75) ? true : false)
+                    EntryView(campaign: $widgetData, showMilestones: (self.maxFrameHeight/self.rectangleSize.width < 0.68) ? false : showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: useTrueBlackBackground, appearance: .relay, forceHidePreviousMilestone: (self.maxFrameHeight/self.rectangleSize.width < 0.75) ? true : false)
                 }
                 
             }

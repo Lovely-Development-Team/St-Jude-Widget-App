@@ -8,7 +8,12 @@
 import Foundation
 import Intents
 
+
 class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
+    
+    func resolveAppearance(for intent: ConfigurationIntent) async -> WidgetAppearanceResolutionResult {
+        .success(with: intent.appearance)
+    }
     
     func resolveShowMilestonePercentage(for intent: ConfigurationIntent) async -> INBooleanResolutionResult {
         .success(with: intent.showMilestones?.boolValue ?? true)

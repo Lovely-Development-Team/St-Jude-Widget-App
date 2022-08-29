@@ -61,9 +61,8 @@ struct WidgetEntryView : View {
         entry.configuration.useTrueBlackBackground?.boolValue == true
     }
     
-    
     var body: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, useTrueBlackBackground: shouldUseTrueBlackBackground)
+        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, useTrueBlackBackground: shouldUseTrueBlackBackground, appearance: entry.configuration.appearance)
             .widgetURL(URL(string: entry.campaign.widgetURL)!)
     }
 }
