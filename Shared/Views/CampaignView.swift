@@ -42,44 +42,42 @@ struct CampaignView: View {
                     
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false)
                     
-                    if !milestones.isEmpty && !rewards.isEmpty {
-                        
-                        LazyVGrid(columns: [GridItem(.flexible()),
-                                            GridItem(.flexible())]) {
-                            Button(action: {
-                                withAnimation {
-                                    scrollViewReader.scrollTo("Milestones", anchor: .top)
-                                }
-                            }) {
-                                GroupBox {
-                                    HStack {
-                                        Image(systemName: "flag")
-                                        Spacer()
-                                        Text("\(milestones.count) Milestones")
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                        Spacer()
-                                    }
-                                }
+                    LazyVGrid(columns: [GridItem(.flexible()),
+                                        GridItem(.flexible())]) {
+                        Button(action: {
+                            withAnimation {
+                                scrollViewReader.scrollTo("Milestones", anchor: .top)
                             }
-                            Button(action: {
-                                withAnimation {
-                                    scrollViewReader.scrollTo("Rewards", anchor: .top)
-                                }
-                            }) {
-                                GroupBox {
-                                    HStack {
-                                        Image(systemName: "rosette")
-                                        Spacer()
-                                        Text("\(rewards.count) Rewards")
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                        Spacer()
-                                    }
+                        }) {
+                            GroupBox {
+                                HStack {
+                                    Image(systemName: "flag")
+                                    Spacer()
+                                    Text("\(milestones.count) Milestones")
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    Spacer()
                                 }
                             }
                         }
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        
+                        .disabled(milestones.isEmpty)
+                        Button(action: {
+                            withAnimation {
+                                scrollViewReader.scrollTo("Rewards", anchor: .top)
+                            }
+                        }) {
+                            GroupBox {
+                                HStack {
+                                    Image(systemName: "rosette")
+                                    Spacer()
+                                    Text("\(rewards.count) Rewards")
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    Spacer()
+                                }
+                            }
+                        }
+                        .disabled(rewards.isEmpty)
                     }
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                     
                     Link("Visit the fundraiser!", destination: fundraiserURL)
                         .font(.headline)
