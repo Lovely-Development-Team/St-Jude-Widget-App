@@ -235,7 +235,6 @@ struct CampaignView: View {
                 }) {
                     Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "star.fill" : "star")
                 }
-                .disabled(initialCampaign?.title ?? "" == "Relay FM")
             }
         }
         .navigationTitle(initialCampaign?.name ?? "Campaign")
