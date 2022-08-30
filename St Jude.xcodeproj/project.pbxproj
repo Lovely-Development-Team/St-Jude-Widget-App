@@ -57,6 +57,10 @@
 		6348F9FC26D6C9970031697F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
 		6348F9FD26D6C9970031697F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
 		6348F9FE26D6C9970031697F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0026D6C9970031697F /* Intents.intentdefinition */; };
+		6350A75A28BE0646000A986F /* FundraisingEventEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350A75928BE0646000A986F /* FundraisingEventEntry.swift */; };
+		6350A75B28BE0646000A986F /* FundraisingEventEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350A75928BE0646000A986F /* FundraisingEventEntry.swift */; };
+		6350A75D28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350A75C28BE0732000A986F /* FundraisingWidgetEntryView.swift */; };
+		6350A75E28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350A75C28BE0732000A986F /* FundraisingWidgetEntryView.swift */; };
 		63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656D26D1AD24004F04DE /* WidgetKit.framework */; platformFilter = maccatalyst; };
 		63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656F26D1AD25004F04DE /* SwiftUI.framework */; platformFilter = maccatalyst; };
 		63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A1626D658FD00A2D495 /* macOS_Widget.swift */; };
@@ -338,6 +342,8 @@
 		630DD48426E253CF00FE44E5 /* SettingsDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDivider.swift; sourceTree = "<group>"; };
 		6348F9F626D6B5100031697F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6348F9FF26D6C9970031697F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
+		6350A75928BE0646000A986F /* FundraisingEventEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraisingEventEntry.swift; sourceTree = "<group>"; };
+		6350A75C28BE0732000A986F /* FundraisingWidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraisingWidgetEntryView.swift; sourceTree = "<group>"; };
 		63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "macOS WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63574A1626D658FD00A2D495 /* macOS_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOS_Widget.swift; sourceTree = "<group>"; };
 		63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = macOS_Widget.intentdefinition; sourceTree = "<group>"; };
@@ -496,6 +502,8 @@
 				63574A2C26D6598700A2D495 /* WidgetDataProviding.swift */,
 				63574A3626D65A4A00A2D495 /* SimpleEntry.swift */,
 				63574A3B26D65BCE00A2D495 /* WidgetEntryView.swift */,
+				6350A75928BE0646000A986F /* FundraisingEventEntry.swift */,
+				6350A75C28BE0732000A986F /* FundraisingWidgetEntryView.swift */,
 			);
 			path = "Shared Widgets";
 			sourceTree = "<group>";
@@ -1006,6 +1014,7 @@
 			files = (
 				63574A3026D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				5E180C2528B7F3F400F10BE5 /* Reward.swift in Sources */,
+				6350A75B28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				63D0CD0228B117390073957E /* Campaign.swift in Sources */,
 				63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */,
 				63D0CCF528B102AA0073957E /* AppDatabase.swift in Sources */,
@@ -1015,6 +1024,7 @@
 				63574A3F26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				638AEFE926D7965600BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				63574A1C26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
+				6350A75E28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */,
 				63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				63574A3226D659DA00A2D495 /* Loggers.swift in Sources */,
 				5EF748D326DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */,
@@ -1163,6 +1173,7 @@
 			files = (
 				6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */,
 				63DCCEAE28B9284500AF4C5C /* Intents.intentdefinition in Sources */,
+				6350A75A28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				5E180C2328B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63D0CD0028B117390073957E /* Campaign.swift in Sources */,
 				63D0CD1E28B4E8AB0073957E /* Sequence.swift in Sources */,
@@ -1172,6 +1183,7 @@
 				5E180C1D28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				638AEFEA26D7965A00BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				6350A75D28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */,
 				6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63574A3926D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
 				63ACEFEB26D2973E00F98023 /* Loggers.swift in Sources */,

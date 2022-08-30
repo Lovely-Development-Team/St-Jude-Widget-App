@@ -5,6 +5,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ConfigurationIntent</string>
+		<string>FundraisingEventConfigurationIntent</string>
 	</array>
 </dict>
 </plist>

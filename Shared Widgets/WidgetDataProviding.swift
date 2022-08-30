@@ -104,3 +104,69 @@ extension WidgetDataProviding {
         }
     }
 }
+
+extension WidgetDataProviding {
+    internal func fetchPlaceholder(in context: Context) -> FundraisingEventEntry {
+        if let data = UserDefaults.shared.data(forKey: "relayData") {
+            do {
+                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                return FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: campaign)
+            } catch {
+                dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
+            }
+        }
+        return FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: sampleCampaign)
+    }
+    
+    internal func fetchSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
+        // TODO: Fetch cause not campaign
+        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
+                Task {
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: sampleCampaign))
+                        return
+                    }
+                    completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: campaign))
+                }
+                break
+            case .success(let response):
+                let campaign: TiltifyWidgetData = TiltifyWidgetData(from:response.data.campaign)
+                let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign)
+                storeData(campaign)
+                completion(entry)
+            }
+        }
+    }
+    
+    internal func fetchTimeline(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingEventEntry>) -> ()) {
+        // TODO: Fetch cause not campaign
+        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+            Task {
+                var entries: [FundraisingEventEntry] = []
+                switch result {
+                case .failure(let error):
+                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        let entry = FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: sampleCampaign)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
+                    }
+                    entries.append(FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign))
+                    break
+                case .success(let response):
+                    let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                    let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign)
+                    storeData(campaign)
+                    entries.append(entry)
+                }
+                let timeline = Timeline(entries: entries, policy: .atEnd)
+                completion(timeline)
+            }
+        }
+    }
+}
