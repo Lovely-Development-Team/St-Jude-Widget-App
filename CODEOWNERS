@@ -7,6 +7,6 @@
 # review when someone opens a pull request.
 *                     @Lovely-Development-Team/mottobotto-builders
 
-*.swift                  @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji
-*.xcodeproj/*            @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji
-CODEOWNERS               @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji
+*.swift                  @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
+*.xcodeproj/*            @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
+CODEOWNERS               @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
