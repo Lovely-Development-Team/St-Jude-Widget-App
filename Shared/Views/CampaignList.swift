@@ -264,10 +264,12 @@ struct CampaignList: View {
                     if let apiCampaign = apiCampaigns[dbCampaign.id] {
                         apiCampaigns.removeValue(forKey: dbCampaign.id)
                         // Update it from the API if it exists...
+                        let updateCampaign = dbCampaign.isStarred ? apiCampaign.setStar(to: true) : apiCampaign
                         do {
-                            try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: dbCampaign)
+                            dataLogger.notice("Updating \(apiCampaign.title) - \(apiCampaign.totalRaised.description(showFullCurrencySymbol: false))")
+                            try await AppDatabase.shared.updateCampaign(updateCampaign, changesFrom: dbCampaign)
                         } catch {
-                            dataLogger.error("Failed to update campaign: \(apiCampaign.id) \(apiCampaign.name): \(error.localizedDescription)")
+                            dataLogger.error("Failed to update campaign: \(updateCampaign.id) \(updateCampaign.name): \(error.localizedDescription)")
                         }
                     } else {
                         // Remove it from the database if it doesn't...
