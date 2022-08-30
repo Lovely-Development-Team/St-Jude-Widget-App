@@ -85,6 +85,7 @@ struct CampaignView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 Spacer()
                             }
+                            .frame(minHeight: 0, maxHeight: .infinity)
                         }
                     }
                     .disabled(milestones.isEmpty)
@@ -101,6 +102,7 @@ struct CampaignView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 Spacer()
                             }
+                            .frame(minHeight: 0, maxHeight: .infinity)
                         }
                     }
                     .disabled(rewards.isEmpty)
