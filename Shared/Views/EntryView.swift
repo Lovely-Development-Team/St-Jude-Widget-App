@@ -50,28 +50,12 @@ struct EntryView: View {
         if useTrueBlackBackground {
             return [Color.black]
         } else {
-            switch appearance {
-            case .relay:
-                return [
-                    Color(.sRGB, red: 43 / 255, green: 54 / 255, blue: 61 / 255, opacity: 1),
-                    Color(.sRGB, red: 51 / 255, green: 63 / 255, blue: 72 / 255, opacity: 1)
-                ]
-            default:
-                return [
-                    Color(red: 12 / 255, green: 25 / 255, blue: 56 / 255),
-                    Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255)
-                ]
-            }
+            return appearance.backgroundColors
         }
     }
     
     var fillColor: Color {
-        switch appearance {
-        case .relay:
-            return Color(.sRGB, red: 254 / 255, green: 206 / 255, blue: 52 / 255, opacity: 1)
-        default:
-            return Color(red: 195 / 255, green: 18 / 255, blue: 53 / 255)
-        }
+        return appearance.fillColor
     }
     
     var body: some View {
@@ -143,7 +127,7 @@ struct EntryView: View {
             }
             
         }
-        .foregroundColor(.white)
+        .foregroundColor(appearance.foregroundColor)
         .frame(maxWidth: .infinity)
         .padding()
         .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))

@@ -32,6 +32,11 @@
 		5EE0EC0B28BD57250053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
 		5EE0EC0D28BD5A320053C9D1 /* FundraiserCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */; };
 		5EE0EC0E28BD5A320053C9D1 /* FundraiserCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */; };
+		5EE0EC1028BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
+		5EE0EC1128BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
+		5EE0EC1228BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
+		5EE0EC1328BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
+		5EE0EC1428BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
@@ -334,6 +339,7 @@
 		5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
 		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
 		5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraiserCardView.swift; sourceTree = "<group>"; };
+		5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetAppearance+Colors.swift"; sourceTree = "<group>"; };
 		5EF748C626DF748F008174DF /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
 		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
@@ -600,6 +606,7 @@
 				6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */,
 				6357657526D1AD28004F04DE /* Assets.xcassets */,
 				6357657726D1AD28004F04DE /* Info.plist */,
+				5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */,
 			);
 			path = "Tiltify St Jude Widget";
 			sourceTree = "<group>";
@@ -1017,6 +1024,7 @@
 				6350A75B28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				63D0CD0228B117390073957E /* Campaign.swift in Sources */,
 				63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */,
+				5EE0EC1428BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				63D0CCF528B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
 				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
@@ -1062,6 +1070,7 @@
 				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */,
 				63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */,
+				5EE0EC1028BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				630DD48526E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
 				6357658626D256C9004F04DE /* Model.swift in Sources */,
 				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
@@ -1108,6 +1117,7 @@
 				63E19D5926E22D7D009F318F /* Color.swift in Sources */,
 				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
 				5E366E1528B8FC41001BA937 /* UserDefaults+CampaignList.swift in Sources */,
+				5EE0EC1128BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				5E180C2228B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
 				63E19D5A26E230D7009F318F /* NotificationSettings.swift in Sources */,
@@ -1176,6 +1186,7 @@
 				6350A75A28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				5E180C2328B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63D0CD0028B117390073957E /* Campaign.swift in Sources */,
+				5EE0EC1228BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				63D0CD1E28B4E8AB0073957E /* Sequence.swift in Sources */,
 				63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
@@ -1233,6 +1244,7 @@
 				638AEFEB26D7965D00BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				5E180C1E28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63BFF1AA26D5D3AB0023263D /* ApiClient.swift in Sources */,
+				5EE0EC1328BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				63BFF1AE26D5D3E60023263D /* GetGoalIntentHandler.swift in Sources */,
 				63A6F99826D6382100095ACB /* INAmountExtension.swift in Sources */,
 			);
