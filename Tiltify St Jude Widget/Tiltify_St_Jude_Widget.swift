@@ -57,8 +57,8 @@ struct FundraisingEventWidget: Widget {
         IntentConfiguration(kind: kind, intent: FundraisingEventConfigurationIntent.self, provider: FundraisingProvider()) { entry in
             FundraisingWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Relay FM for St. Jude Fundraiser")
-        .description("Displays the current status of the overall fundraiser.")
+        .configurationDisplayName("Relay FM for St. Jude")
+        .description("Displays the current status of the overall fundraising event.")
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion
             // Access the background session to make sure it is initialised
@@ -75,8 +75,8 @@ struct Tiltify_St_Jude_Widget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             WidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Individual Campaign")
-        .description("Displays the current fundraising status for a given campaign.")
+        .configurationDisplayName("Individual Fundraiser")
+        .description("Displays the current status for a particular fundraiser.")
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion
             // Access the background session to make sure it is initialised
