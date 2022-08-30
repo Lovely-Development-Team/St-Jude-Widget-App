@@ -96,7 +96,7 @@ struct CampaignList: View {
             VStack(spacing: 0) {
                 
                 if let fundraisingEvent = fundraisingEvent {
-                    NavigationLink(destination: CampaignView(fundraisingEvent: fundraisingEvent)) {
+                    NavigationLink(destination: CampaignView(fundraisingEvent: fundraisingEvent), tag: fundraisingEvent.id, selection: $selectedCampaignId) {
                         FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true)
                             .padding()
                     }

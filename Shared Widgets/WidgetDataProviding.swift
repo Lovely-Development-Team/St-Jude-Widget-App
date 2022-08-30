@@ -27,6 +27,20 @@ extension WidgetDataProviding {
         }
     }
     
+    internal func fetchStoredDataForFundraisingEvent() async -> TiltifyWidgetData? {
+        do {
+            dataLogger.notice("Attempting to fetch stored data")
+            guard let fundraisingEvent = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
+                dataLogger.notice("No stored data found")
+                return nil
+            }
+            return try await TiltifyWidgetData(from: fundraisingEvent)
+        } catch {
+            dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
     internal func storeData(_ data: TiltifyWidgetData) {
         do {
             UserDefaults.shared.set(try apiClient.jsonEncoder.encode(data), forKey: "relayData")
@@ -106,6 +120,10 @@ extension WidgetDataProviding {
 }
 
 extension WidgetDataProviding {
+    private func fetchFundraisingEvent(completion: @escaping (Result<TiltifyCauseResponse, Error>) -> ()) {
+        _ = apiClient.fetchCause(completion: completion)
+    }
+    
     internal func fetchPlaceholder(in context: Context) -> FundraisingEventEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
@@ -119,53 +137,47 @@ extension WidgetDataProviding {
     }
     
     internal func fetchSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
-        // TODO: Fetch cause not campaign
-        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+        self.fetchFundraisingEvent { result in
             switch result {
             case .failure(let error):
                 dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
                 Task {
-                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                          let campaign = await fetchStoredData(for: campaignId) else {
-                        completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: sampleCampaign))
-                        return
+                    if let fundraisingEvent = await fetchStoredDataForFundraisingEvent() {
+                        completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: fundraisingEvent))
                     }
-                    completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: campaign))
                 }
                 break
             case .success(let response):
-                let campaign: TiltifyWidgetData = TiltifyWidgetData(from:response.data.campaign)
-                let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign)
-                storeData(campaign)
-                completion(entry)
+                Task {
+                    let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
+                    let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
+                    completion(entry)
+                }
             }
         }
     }
     
     internal func fetchTimeline(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingEventEntry>) -> ()) {
-        // TODO: Fetch cause not campaign
-        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+        self.fetchFundraisingEvent { result in
             Task {
-                var entries: [FundraisingEventEntry] = []
                 switch result {
                 case .failure(let error):
                     dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                          let campaign = await fetchStoredData(for: campaignId) else {
-                        let entry = FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: sampleCampaign)
+                    if let campaign = await fetchStoredDataForFundraisingEvent() {
+                        completion(Timeline(entries: [FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign)], policy: .atEnd))
+                        return
+                    } else {
+                        let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: sampleCampaign)
                         completion(Timeline(entries: [entry], policy: .atEnd))
                         return
                     }
-                    entries.append(FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign))
-                    break
                 case .success(let response):
-                    let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                    let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign)
-                    storeData(campaign)
-                    entries.append(entry)
+                    Task {
+                        let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
+                        let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                    }
                 }
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
             }
         }
     }
