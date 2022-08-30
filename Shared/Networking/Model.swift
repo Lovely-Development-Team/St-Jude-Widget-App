@@ -111,6 +111,11 @@ struct TiltifyCampaign: Codable {
     let name: String
     let originalGoal: TiltifyAmount
     let rewards: [TiltifyCampaignReward]
+        
+    var title: String {
+        user.name == "Relay FM" ? "Relay FM" : name
+    }
+    
 }
 
 struct TiltifyData: Codable {

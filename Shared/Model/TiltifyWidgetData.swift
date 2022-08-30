@@ -84,7 +84,7 @@ struct TiltifyWidgetData {
     
     init(from campaign: TiltifyCampaign) {
         self.id = campaign.publicId
-        self.name = campaign.name
+        self.name = campaign.title
         self.description = campaign.description
         self.currencyCode = campaign.totalAmountRaised.currency
         let formatter = NumberFormatter()
@@ -108,7 +108,7 @@ struct TiltifyWidgetData {
     
     init(from campaign: Campaign) async throws {
         self.id = campaign.id
-        self.name = campaign.name
+        self.name = campaign.title
         self.description = campaign.description ?? ""
         self.currencyCode = campaign.totalRaised.currency
         let formatter = NumberFormatter()
