@@ -9,6 +9,22 @@ import WidgetKit
 import SwiftUI
 import Intents
 
+struct FundraisingProvider: IntentTimelineProvider, WidgetDataProviding {
+    let apiClient = ApiClient.shared
+    
+    func placeholder(in context: Context) -> FundraisingEventEntry {
+        return fetchPlaceholder(in: context)
+    }
+    
+    func getSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
+        fetchSnapshot(for: configuration, in: context, completion: completion)
+    }
+    
+    func getTimeline(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingEventEntry>) -> ()) {
+        fetchTimeline(for: configuration, in: context, completion: completion)
+    }
+}
+
 struct Provider: IntentTimelineProvider, WidgetDataProviding {
     let apiClient = ApiClient.shared
     
@@ -28,8 +44,27 @@ struct Provider: IntentTimelineProvider, WidgetDataProviding {
 @main
 struct TiltifyStJudeWidgets: WidgetBundle {
    var body: some Widget {
+       FundraisingEventWidget()
        Tiltify_St_Jude_Widget()
    }
+}
+
+struct FundraisingEventWidget: Widget {
+    let kind: String = "FundraisingEvent"
+    @StateObject private var apiClient = ApiClient.shared
+    
+    var body: some WidgetConfiguration {
+        IntentConfiguration(kind: kind, intent: FundraisingEventConfigurationIntent.self, provider: FundraisingProvider()) { entry in
+            FundraisingWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("Relay FM for St. Jude Fundraiser")
+        .description("Displays the current fundraising status the overall fundraiser")
+        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+            apiClient.backgroundCompletionHandler = completion
+            // Access the background session to make sure it is initialised
+            _ = apiClient.backgroundURLSession
+        }
+    }
 }
 
 struct Tiltify_St_Jude_Widget: Widget {

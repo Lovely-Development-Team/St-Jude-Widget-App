@@ -24,6 +24,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ConfigurationIntent</string>
+		<string>FundraisingEventConfigurationIntent</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
