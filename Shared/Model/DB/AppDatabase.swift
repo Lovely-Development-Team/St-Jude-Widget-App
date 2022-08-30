@@ -167,6 +167,12 @@ extension AppDatabase {
         try await fetchCampaign(with: UUID(uuidString: "8a17ee82-b90a-4aba-a22f-e8cc7e8cf410")!)
     }
     
+    func deleteCampaign(_ campaign: Campaign) async throws {
+        try await dbWriter.write { db in
+            try campaign.delete(db)
+        }
+    }
+    
     func saveCampaign(_ campaign: Campaign) async throws -> Campaign {
         try await dbWriter.write { db in
             try campaign.saved(db)

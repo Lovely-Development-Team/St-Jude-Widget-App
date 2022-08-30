@@ -212,19 +212,7 @@ struct CampaignList: View {
                 // When changes happen in quick succession, we don't want to concurrently fetch the same data
                 fetchCampaignsTask?.cancel()
                 fetchCampaignsTask = Task {
-                    do {
-                        if let fundraisingEvent = fundraisingEvent {
-                            dataLogger.notice("Fetched stored fundraiser")
-                            try Task.checkCancellation()
-                            campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent)
-                            dataLogger.notice("Fetched stored campaigns")
-                        }
-                    } catch is CancellationError {
-                        dataLogger.info("Campaign fetch cancelled")
-                    }
-                    catch {
-                        dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
-                    }
+                    await fetch()
                 }
             }
             
@@ -266,33 +254,63 @@ struct CampaignList: View {
             dataLogger.error("Updating stored fundraiser failed: \(error.localizedDescription)")
         }
         
-        campaigns = await response.data.fundraisingEvent.publishedCampaigns.edges.asyncMap { apiCampaign in
-            let storedCampaign: Campaign?
-            do {
-                storedCampaign = try await AppDatabase.shared.fetchCampaign(with: apiCampaign.node.publicId)
-            } catch {
-                return Campaign(from: apiCampaign.node, fundraiserId: apiEvent.id)
+        if let fundraisingEvent = fundraisingEvent {
+            var apiCampaigns: [UUID: Campaign] = response.data.fundraisingEvent.publishedCampaigns.edges.reduce(into: [:]) { partialResult, campaign in
+                partialResult.updateValue(Campaign(from: campaign.node, fundraiserId: apiEvent.id), forKey: campaign.node.publicId)
             }
-            
-            let campaign: Campaign
             do {
-                // Same as above. In this case, we *really* don't want to update every campaign unless they've changed
-                if let storedCampaign = storedCampaign {
-                    campaign = storedCampaign.updated(fromCauseCampaign: apiCampaign.node, fundraiserId: apiEvent.id)
-                    if try await AppDatabase.shared.updateCampaign(campaign, changesFrom: storedCampaign) {
-                        dataLogger.info("Updated campaign '\(campaign.name)' (id: \(campaign.id)")
+                // For each campaign from the database...
+                for dbCampaign in try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent) {
+                    if let apiCampaign = apiCampaigns[dbCampaign.id] {
+                        apiCampaigns.removeValue(forKey: dbCampaign.id)
+                        // Update it from the API if it exists...
+                        do {
+                            try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: dbCampaign)
+                        } catch {
+                            dataLogger.error("Failed to update campaign: \(apiCampaign.id) \(apiCampaign.name): \(error.localizedDescription)")
+                        }
+                    } else {
+                        // Remove it from the database if it doesn't...
+                        do {
+                            try await AppDatabase.shared.deleteCampaign(dbCampaign)
+                        } catch {
+                            dataLogger.error("Failed to delete Campaign \(dbCampaign.id) \(dbCampaign.name): \(error.localizedDescription)")
+                        }
                     }
-                    return campaign
-                } else {
-                    campaign = Campaign(from: apiCampaign.node, fundraiserId: apiEvent.id)
-                    return try await AppDatabase.shared.saveCampaign(campaign)
+                }
+                // For each new campaign in the API, save it to the database
+                for apiCampaign in apiCampaigns.values {
+                    do {
+                        try await AppDatabase.shared.saveCampaign(apiCampaign)
+                    } catch {
+                        dataLogger.error("Failed to save Campaign \(apiCampaign.id) \(apiCampaign.name): \(error.localizedDescription)")
+                    }
                 }
             } catch {
-                dataLogger.error("Failed to save campaign: \(error.localizedDescription)")
-                return campaign
+                dataLogger.error("Failed to fetch stored campaigns: \(error.localizedDescription)")
             }
         }
+        
+        await fetch()
+        
     }
+    
+    func fetch() async {
+        do {
+            if let fundraisingEvent = fundraisingEvent {
+                dataLogger.notice("Fetched stored fundraiser")
+                try Task.checkCancellation()
+                campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent)
+                dataLogger.notice("Fetched stored campaigns")
+            }
+        } catch is CancellationError {
+            dataLogger.info("Campaign fetch cancelled")
+        }
+        catch {
+            dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
+        }
+    }
+    
 }
 
 struct CampaignList_Previews: PreviewProvider {
