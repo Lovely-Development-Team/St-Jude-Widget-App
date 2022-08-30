@@ -146,6 +146,19 @@ struct CampaignView: View {
                     }
                     .id("Milestones")
                     
+                    if initialCampaign?.user.name == "Relay FM" {
+                        GroupBox {
+                            HStack(alignment: .top) {
+                                Image(systemName: "info.circle")
+                                    .padding(.top, 2)
+                                Text("These milestones are achieved when the overall fundraiser total reaches the specified amount, not this specific campaign.")
+                                    .font(.caption)
+                                    .multilineTextAlignment(.leading)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                    }
+                    
                     ForEach(milestones, id: \.id) { milestone in
                         let reached = milestoneReached(for: milestone)
                         HStack(alignment: .top) {
