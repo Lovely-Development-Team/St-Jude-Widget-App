@@ -353,6 +353,8 @@ struct CampaignView: View {
                 await updateCampaignFromAPI(for: relayCampaign)
             }
             
+            await fetch()
+            
         } else if let initialCampaign = initialCampaign {
             
             await updateCampaignFromAPI(for: initialCampaign, updateLocalCampaignState: true)
