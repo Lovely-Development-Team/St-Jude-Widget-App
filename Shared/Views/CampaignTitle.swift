@@ -12,6 +12,7 @@ struct CampaignTitle: View {
     @Environment(\.widgetFamily) private var family
     
     let name: String
+    var showingTwoMilestones: Bool = false
     
     var titleFont: Font {
         switch family {
@@ -20,7 +21,11 @@ struct CampaignTitle: View {
         case .systemMedium:
             return .title2
         default:
-            return .largeTitle
+            if showingTwoMilestones {
+                return .title2
+            } else {
+                return .largeTitle
+            }
         }
     }
     
