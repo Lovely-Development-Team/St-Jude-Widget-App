@@ -62,7 +62,7 @@ struct EntryView: View {
         
         VStack(alignment: .leading, spacing: 5) {
            
-            CampaignTitle(name: campaign.name)
+            CampaignTitle(name: campaign.name, showingTwoMilestones: showMilestones)
              
             Spacer()
             
