@@ -98,11 +98,11 @@ struct CampaignList: View {
                 
                 if let fundraisingEvent = fundraisingEvent {
                     NavigationLink(destination: CampaignView(fundraisingEvent: fundraisingEvent), tag: fundraisingEvent.id, selection: $selectedCampaignId) {
-                        FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true)
+                        FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
                             .padding()
                     }
                 } else {
-                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false)
+                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false, showShareSheet: .constant(false))
                         .padding()
                 }
                 
