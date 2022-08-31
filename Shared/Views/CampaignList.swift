@@ -44,6 +44,7 @@ struct CampaignList: View {
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byStarred
     @State private var compactListMode: Bool = false
     @State private var selectedCampaignId: UUID? = nil
+    @State private var showEasterEggSheet: Bool = false
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -180,6 +181,26 @@ struct CampaignList: View {
                     }
                     .padding(.horizontal)
                     
+                    Button(action: {
+                        showEasterEggSheet = true
+                    }, label: {
+                        HStack {
+                            Text("App from the Lovely Developers")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Image("l2culogosvg")
+                                .renderingMode(.template)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.secondary)
+                                .frame(height: 15)
+                                .accessibility(hidden: true)
+    
+                        }
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    .padding()
+                    
                 } else {
                     
                     ProgressView()
@@ -219,6 +240,11 @@ struct CampaignList: View {
             Task {
                 await refresh()
             }
+        }
+        .sheet(isPresented: $showEasterEggSheet) {
+            EasterEggView()
+                .background(Color.secondarySystemBackground)
+                .edgesIgnoringSafeArea(.all)
         }
         .navigationTitle("Relay FM for St. Jude 2022")
         .onOpenURL { url in
