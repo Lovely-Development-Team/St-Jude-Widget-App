@@ -13,6 +13,8 @@ struct FundraiserListItem: View {
     let sortOrder: FundraiserSortOrder
     var showDisclosureIndicator: Bool = true
     var compact: Bool = false
+    var showShareIcon: Bool = false
+    @Binding var showShareSheet: Bool
     
     var disclosureIndicatorIcon: String {
         if campaign.isStarred {
@@ -88,6 +90,14 @@ struct FundraiserListItem: View {
                             Spacer()
                             Image(systemName: disclosureIndicatorIcon)
                                 .foregroundColor(.secondary)
+                        } else if showShareIcon {
+                            Spacer()
+                            Button(action: {
+                                showShareSheet = true
+                            }) {
+                                Label("Share", systemImage: "square.and.arrow.up")
+                                    .labelStyle(.iconOnly)
+                            }
                         }
                     }
                     Text(campaign.totalRaised.description(showFullCurrencySymbol: false))
@@ -114,8 +124,8 @@ struct FundraiserListItem: View {
 struct FundraiserListItem_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            FundraiserListItem(campaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), description: "I'm fundraising for St. Jude Children's Research Hospital."), fundraiserId: UUID()), sortOrder: .byName)
-            FundraiserListItem(campaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), description: "I'm fundraising for St. Jude Children's Research Hospital."), fundraiserId: UUID()), sortOrder: .byName, compact: true)
+            FundraiserListItem(campaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), description: "I'm fundraising for St. Jude Children's Research Hospital."), fundraiserId: UUID()), sortOrder: .byName, showShareSheet: .constant(false))
+            FundraiserListItem(campaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), description: "I'm fundraising for St. Jude Children's Research Hospital."), fundraiserId: UUID()), sortOrder: .byName, compact: true, showShareSheet: .constant(false))
         }
         .padding()
     }
