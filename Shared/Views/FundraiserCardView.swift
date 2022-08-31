@@ -11,6 +11,8 @@ struct FundraiserCardView: View {
     
     let fundraisingEvent: FundraisingEvent?
     let showDisclosureIndicator: Bool
+    var showShareIcon: Bool = false
+    @Binding var showShareSheet: Bool
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -49,6 +51,14 @@ struct FundraiserCardView: View {
                     Spacer()
                     Image(systemName: "chevron.right")
                         .opacity(0.8)
+                } else if showShareIcon {
+                    Spacer()
+                    Button(action: {
+                        showShareSheet = true
+                    }) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                            .labelStyle(.iconOnly)
+                    }
                 }
             }
             Text(fundraisingEvent?.cause.name ?? "St. Jude Children's Research Hospital")

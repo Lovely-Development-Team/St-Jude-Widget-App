@@ -65,7 +65,7 @@ struct CampaignView: View {
             ScrollViewReader { scrollViewReader in
                 
                 if let fundraisingEvent = fundraisingEvent {
-                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false)
+                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                 } else if let initialCampaign = initialCampaign {
                     
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
