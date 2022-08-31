@@ -43,6 +43,7 @@ struct ShareCampaignView: View {
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: useTrueBlackBackground, appearance: appearance)
             .frame(width: 350, height: 350)
+            .clipShape(RoundedRectangle(cornerRadius: 25))
     }
     
     @ViewBuilder
@@ -65,7 +66,7 @@ struct ShareCampaignView: View {
             .padding()
             .sheet(item: $presentSystemShareSheet) { image in
                 if let image = image {
-                    ShareSheetView(activityItems: [image.image])
+                    ShareSheetView(activityItems: [image.image.pngData()])
                 } else {
                     Text("No image generated.")
                 }
