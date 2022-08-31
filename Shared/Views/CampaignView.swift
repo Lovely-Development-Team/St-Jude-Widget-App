@@ -111,15 +111,29 @@ struct CampaignView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 
-                Link("Visit the \(fundraisingEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .padding(.horizontal, 20)
-                    .background(Color.accentColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .padding(.top)
+                ZStack(alignment: .trailing) {
+                    
+                    Link("Visit the \(fundraisingEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .padding(.horizontal, 20)
+                        .background(Color.accentColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        .padding(.top)
+                    
+                    if let campaign = initialCampaign, campaign.user.username == "TheLovelyDevelopers" {
+                        Image("Team_Logo_F")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
+                            .rotationEffect(.degrees(-30))
+                            .offset(x: 40)
+                            .offset(y: 5)
+                    }
+                    
+                }
                 
                 Text(description)
                     .font(.caption)
