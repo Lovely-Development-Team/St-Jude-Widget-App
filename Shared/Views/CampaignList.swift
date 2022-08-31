@@ -173,7 +173,7 @@ struct CampaignList: View {
                         
                         ForEach(sortedCampaigns, id: \.id) { campaign in
                             NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                                FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode)
+                                FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
                             }
                             .padding(.top)
                         }

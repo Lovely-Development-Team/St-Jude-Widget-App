@@ -37,6 +37,12 @@
 		5EE0EC1228BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
 		5EE0EC1328BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
 		5EE0EC1428BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */; };
+		5EE0EC1628BF96B20053C9D1 /* ShareCampaignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC1528BF96B20053C9D1 /* ShareCampaignView.swift */; };
+		5EE0EC1728BF96B20053C9D1 /* ShareCampaignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC1528BF96B20053C9D1 /* ShareCampaignView.swift */; };
+		5EE0EC1928BF9FEC0053C9D1 /* View+asImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC1828BF9FEC0053C9D1 /* View+asImage.swift */; };
+		5EE0EC1A28BF9FEC0053C9D1 /* View+asImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC1828BF9FEC0053C9D1 /* View+asImage.swift */; };
+		5EE0EC1C28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC1B28BFA00E0053C9D1 /* ShareSheetView.swift */; };
+		5EE0EC1D28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE0EC1B28BFA00E0053C9D1 /* ShareSheetView.swift */; };
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
@@ -340,6 +346,9 @@
 		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
 		5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraiserCardView.swift; sourceTree = "<group>"; };
 		5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetAppearance+Colors.swift"; sourceTree = "<group>"; };
+		5EE0EC1528BF96B20053C9D1 /* ShareCampaignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCampaignView.swift; sourceTree = "<group>"; };
+		5EE0EC1828BF9FEC0053C9D1 /* View+asImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+asImage.swift"; sourceTree = "<group>"; };
+		5EE0EC1B28BFA00E0053C9D1 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
 		5EF748C626DF748F008174DF /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
 		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
@@ -654,6 +663,7 @@
 				5E253D9628B64DE300CF024F /* FundraiserListItem.swift */,
 				5E482E4F28B7B03C00131DE1 /* CampaignView.swift */,
 				5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */,
+				5EE0EC1528BF96B20053C9D1 /* ShareCampaignView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -676,6 +686,7 @@
 				5E366E1328B8FC41001BA937 /* UserDefaults+CampaignList.swift */,
 				63E19D5726E22D78009F318F /* Color.swift */,
 				63D0CD1B28B4E8AB0073957E /* Sequence.swift */,
+				5EE0EC1828BF9FEC0053C9D1 /* View+asImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -736,6 +747,7 @@
 				5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */,
 				5EF748C626DF748F008174DF /* Notifications.swift */,
 				DE0F34BC26DA692C00F268C9 /* DeviceType.swift */,
+				5EE0EC1B28BFA00E0053C9D1 /* ShareSheetView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1072,6 +1084,7 @@
 				63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */,
 				5EE0EC1028BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				630DD48526E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
+				5EE0EC1C28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */,
 				6357658626D256C9004F04DE /* Model.swift in Sources */,
 				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
 				5EF748CD26DF749A008174DF /* NotificationSettings.swift in Sources */,
@@ -1098,8 +1111,10 @@
 				63D0CD1028B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63ACEFFB26D3C7ED00F98023 /* ProgressBar.swift in Sources */,
 				63E19D5E26E2339C009F318F /* SystemSettings.swift in Sources */,
+				5EE0EC1628BF96B20053C9D1 /* ShareCampaignView.swift in Sources */,
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
 				5EF748C926DF748F008174DF /* Notifications.swift in Sources */,
+				5EE0EC1928BF9FEC0053C9D1 /* View+asImage.swift in Sources */,
 				D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */,
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
@@ -1139,6 +1154,7 @@
 				63E19D6126E234CA009F318F /* SystemSettings.swift in Sources */,
 				63D0CCFF28B117390073957E /* Campaign.swift in Sources */,
 				63D0CD1D28B4E8AB0073957E /* Sequence.swift in Sources */,
+				5EE0EC1D28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */,
 				5EE0EC0E28BD5A320053C9D1 /* FundraiserCardView.swift in Sources */,
 				63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */,
 				63A6F9A326D64D0C00095ACB /* Model.swift in Sources */,
@@ -1147,8 +1163,10 @@
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,
 				5E180C1C28B7F18F00F10BE5 /* Milestone.swift in Sources */,
+				5EE0EC1728BF96B20053C9D1 /* ShareCampaignView.swift in Sources */,
 				5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
+				5EE0EC1A28BF9FEC0053C9D1 /* View+asImage.swift in Sources */,
 				63D0CD1128B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
 				638AEFE826D7965500BC6AB9 /* CurrencyHelpers.swift in Sources */,
@@ -1483,6 +1501,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "St-Jude--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Relay for St. Jude";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save Campaign Image";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1519,6 +1538,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "St-Jude--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Relay for St. Jude";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save Campaign Image";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

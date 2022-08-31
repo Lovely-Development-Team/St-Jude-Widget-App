@@ -20,6 +20,8 @@ struct CampaignView: View {
     @State private var milestones: [Milestone] = []
     @State private var rewards: [Reward] = []
     
+    @State private var showShareView: Bool = false
+    
     @StateObject private var apiClient = ApiClient.shared
     
     init(initialCampaign: Campaign) {
@@ -66,7 +68,7 @@ struct CampaignView: View {
                     FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false)
                 } else if let initialCampaign = initialCampaign {
                     
-                    FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false)
+                    FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                     
                 }
                     
@@ -274,6 +276,13 @@ struct CampaignView: View {
                 await refresh()
             }
             
+        }
+        .sheet(isPresented: $showShareView) {
+            if let fundraisingEvent = fundraisingEvent {
+                ShareCampaignView(fundraisingEvent: fundraisingEvent)
+            } else if let campaign = initialCampaign {
+                ShareCampaignView(campaign: campaign)
+            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
