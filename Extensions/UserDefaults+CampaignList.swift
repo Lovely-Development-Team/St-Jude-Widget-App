@@ -29,7 +29,11 @@ extension UserDefaults {
     
     var shareScreenshotInitialAppearance: WidgetAppearance {
         get {
-            WidgetAppearance(rawValue: integer(forKey: Self.shareScreenshotInitialAppearanceKey)) ?? .stjude
+            var intValue = integer(forKey: Self.shareScreenshotInitialAppearanceKey)
+            if intValue == 0 {
+                intValue = WidgetAppearance.stjude.rawValue
+            }
+            return WidgetAppearance(rawValue: intValue) ?? .stjude
         }
         set {
             set(newValue.rawValue, forKey: Self.shareScreenshotInitialAppearanceKey)
