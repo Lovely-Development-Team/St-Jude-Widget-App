@@ -11,6 +11,8 @@ extension UserDefaults {
     static let campaignListSortOrderKey = "campaignListSortOrder"
     static let campaignListCompactViewKey = "campaignListCompactView"
     
+    static let shareScreenshotInitialAppearanceKey = "shareScreenshotInitialAppearance"
+    
     var campaignListSortOrder: FundraiserSortOrder {
         get {
             FundraiserSortOrder(rawValue: integer(forKey: Self.campaignListSortOrderKey)) ?? .byStarred
@@ -24,4 +26,14 @@ extension UserDefaults {
         get { bool(forKey: Self.campaignListCompactViewKey) }
         set { set(newValue, forKey: Self.campaignListCompactViewKey) }
     }
+    
+    var shareScreenshotInitialAppearance: WidgetAppearance {
+        get {
+            WidgetAppearance(rawValue: integer(forKey: Self.shareScreenshotInitialAppearanceKey)) ?? .stjude
+        }
+        set {
+            set(newValue.rawValue, forKey: Self.shareScreenshotInitialAppearanceKey)
+        }
+    }
+    
 }

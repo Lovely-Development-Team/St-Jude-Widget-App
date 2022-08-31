@@ -14,6 +14,8 @@ struct ImageToShare: Identifiable {
 
 struct ShareCampaignView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var fundraisingEvent: FundraisingEvent?
     @State private var campaign: Campaign?
     @State private var widgetData: TiltifyWidgetData = sampleCampaign
@@ -91,10 +93,23 @@ struct ShareCampaignView: View {
                     }
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Text("Done")
+                    }
+                }
+            }
             .navigationTitle("Preview")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .onChange(of: appearance) { newValue in
+            UserDefaults.shared.shareScreenshotInitialAppearance = newValue
+        }
         .onAppear {
+            appearance = UserDefaults.shared.shareScreenshotInitialAppearance
             Task {
                 if let campaign = campaign {
                     do {
