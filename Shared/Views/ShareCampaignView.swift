@@ -25,7 +25,6 @@ struct ShareCampaignView: View {
     @State private var preferFutureMilestones: Bool = true
     @State private var showFullCurrencySymbol: Bool = false
     @State private var showMainGoalPercentage: Bool = false
-    @State private var useTrueBlackBackground: Bool = false
     @State private var appearance: WidgetAppearance = .stjude
     
     @State private var presentSystemShareSheet: ImageToShare? = nil
@@ -41,8 +40,8 @@ struct ShareCampaignView: View {
     }
     
     var entryView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, useTrueBlackBackground: useTrueBlackBackground, appearance: appearance)
-            .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 350)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance)
+            .frame(width: 350, height: 350)
             .clipShape(RoundedRectangle(cornerRadius: 25))
     }
     
@@ -89,12 +88,13 @@ struct ShareCampaignView: View {
                     }
                     Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation())
                     Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation())
-                    Toggle("Use True Black Background", isOn: $useTrueBlackBackground.animation())
                     Picker("Appearance", selection: $appearance.animation()) {
                         Text("Relay FM").tag(WidgetAppearance.relay)
                         Text("Relay FM (Inverted)").tag(WidgetAppearance.relayinverted)
+                        Text("Relay FM (True Black)").tag(WidgetAppearance.relaytrueblack)
                         Text("St. Jude").tag(WidgetAppearance.stjude)
                         Text("St. Jude (Inverted)").tag(WidgetAppearance.stjudeinverted)
+                        Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
                     }
                 }
             }

@@ -56,13 +56,9 @@ struct WidgetEntryView : View {
     var shouldShowMilestonePercentage: Bool {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
-
-    var shouldUseTrueBlackBackground: Bool {
-        entry.configuration.useTrueBlackBackground?.boolValue == true
-    }
     
     var body: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, useTrueBlackBackground: shouldUseTrueBlackBackground, appearance: entry.configuration.appearance)
+        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
             .widgetURL(URL(string: entry.campaign.widgetURL)!)
     }
 }

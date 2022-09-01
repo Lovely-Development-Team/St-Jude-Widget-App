@@ -435,54 +435,6 @@
 				<dict>
 					<key>INIntentParameterConfigurable</key>
 					<true/>
-					<key>INIntentParameterDisplayName</key>
-					<string>Use True Black Background</string>
-					<key>INIntentParameterDisplayNameID</key>
-					<string>LuRnDT</string>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>7</integer>
-					<key>INIntentParameterMetadata</key>
-					<dict>
-						<key>INIntentParameterMetadataFalseDisplayName</key>
-						<string>false</string>
-						<key>INIntentParameterMetadataFalseDisplayNameID</key>
-						<string>3D2vLC</string>
-						<key>INIntentParameterMetadataTrueDisplayName</key>
-						<string>true</string>
-						<key>INIntentParameterMetadataTrueDisplayNameID</key>
-						<string>FMYIOM</string>
-					</dict>
-					<key>INIntentParameterName</key>
-					<string>useTrueBlackBackground</string>
-					<key>INIntentParameterPromptDialogs</key>
-					<array>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Configuration</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Use true black background?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>zk8keT</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Primary</string>
-						</dict>
-					</array>
-					<key>INIntentParameterSupportsResolution</key>
-					<true/>
-					<key>INIntentParameterTag</key>
-					<integer>10</integer>
-					<key>INIntentParameterType</key>
-					<string>Boolean</string>
-				</dict>
-				<dict>
-					<key>INIntentParameterConfigurable</key>
-					<true/>
 					<key>INIntentParameterCustomDisambiguation</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
@@ -490,7 +442,7 @@
 					<key>INIntentParameterDisplayNameID</key>
 					<string>ICOwju</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>8</integer>
+					<integer>7</integer>
 					<key>INIntentParameterEnumType</key>
 					<string>WidgetAppearance</string>
 					<key>INIntentParameterEnumTypeNamespace</key>
@@ -844,54 +796,6 @@
 				<dict>
 					<key>INIntentParameterConfigurable</key>
 					<true/>
-					<key>INIntentParameterDisplayName</key>
-					<string>Use True Black Background</string>
-					<key>INIntentParameterDisplayNameID</key>
-					<string>9y9GU2</string>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>6</integer>
-					<key>INIntentParameterMetadata</key>
-					<dict>
-						<key>INIntentParameterMetadataFalseDisplayName</key>
-						<string>false</string>
-						<key>INIntentParameterMetadataFalseDisplayNameID</key>
-						<string>3D2vLC</string>
-						<key>INIntentParameterMetadataTrueDisplayName</key>
-						<string>true</string>
-						<key>INIntentParameterMetadataTrueDisplayNameID</key>
-						<string>FMYIOM</string>
-					</dict>
-					<key>INIntentParameterName</key>
-					<string>useTrueBlackBackground</string>
-					<key>INIntentParameterPromptDialogs</key>
-					<array>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Configuration</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Use true black background?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>zk8keT</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Primary</string>
-						</dict>
-					</array>
-					<key>INIntentParameterSupportsResolution</key>
-					<true/>
-					<key>INIntentParameterTag</key>
-					<integer>10</integer>
-					<key>INIntentParameterType</key>
-					<string>Boolean</string>
-				</dict>
-				<dict>
-					<key>INIntentParameterConfigurable</key>
-					<true/>
 					<key>INIntentParameterCustomDisambiguation</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
@@ -899,7 +803,7 @@
 					<key>INIntentParameterDisplayNameID</key>
 					<string>tXQNNI</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>7</integer>
+					<integer>6</integer>
 					<key>INIntentParameterEnumType</key>
 					<string>WidgetAppearance</string>
 					<key>INIntentParameterEnumTypeNamespace</key>
