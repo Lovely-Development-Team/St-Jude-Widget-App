@@ -16,7 +16,6 @@ struct EntryView: View {
     let showFullCurrencySymbol: Bool
     let showGoalPercentage: Bool
     let showMilestonePercentage: Bool
-    let useTrueBlackBackground: Bool
     let appearance: WidgetAppearance
     var forceHidePreviousMilestone: Bool = false
 
@@ -137,19 +136,19 @@ struct EntryView: View {
 struct EntryViewPreview: PreviewProvider {
     static var previews: some View {
         Group {
-            EntryView(campaign: .constant(sampleCampaignSingleMilestone), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .relayinverted)
+            EntryView(campaign: .constant(sampleCampaignSingleMilestone), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .relayinverted)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
-            EntryView(campaign: .constant(sampleCampaignTwoMilestones), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .stjude)
+            EntryView(campaign: .constant(sampleCampaignTwoMilestones), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .stjude)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
-            EntryView(campaign: .constant(sampleCampaignThreeMilestones), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .stjude)
+            EntryView(campaign: .constant(sampleCampaignThreeMilestones), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .stjude)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
-            EntryView(campaign: .constant(sampleCampaign), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .stjude)
+            EntryView(campaign: .constant(sampleCampaign), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .stjude)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
-            EntryView(campaign: .constant(sampleCampaign), showMilestones: true, preferFutureMilestones: false, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .stjude)
+            EntryView(campaign: .constant(sampleCampaign), showMilestones: true, preferFutureMilestones: false, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .stjude)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
         }

@@ -27,10 +27,6 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
         return .success(with: intent.showGoalPercentage?.boolValue ?? true)
     }
     
-    func resolveUseTrueBlackBackground(for intent: ConfigurationIntent) async -> INBooleanResolutionResult {
-        return .success(with: intent.useTrueBlackBackground?.boolValue ?? false)
-    }
-    
     func resolveCampaign(for intent: ConfigurationIntent) async -> INWidgetCampaignResolutionResult {
         guard let campaign = intent.campaign else {
             return .notRequired()
