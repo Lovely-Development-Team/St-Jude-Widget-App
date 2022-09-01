@@ -21,6 +21,7 @@ struct CampaignView: View {
     @State private var rewards: [Reward] = []
     
     @State private var showShareView: Bool = false
+    @State private var showSupporterSheet: Bool = false
     
     @State private var animate = false
     @State private var animationType: Animation? = .none
@@ -266,10 +267,29 @@ struct CampaignView: View {
                                     )
                                     .cornerRadius(5)
                                 }
-                                Text(reward.description)
-                                    .font(.caption)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                VStack {
+                                    Text(reward.description)
+                                        .font(.caption)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    
+                                    
+                                    if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name == "App Supporter" {
+                                        Button(action: {
+                                            showSupporterSheet = true
+                                        }, label: {
+                                            Text("Supporters")
+                                                .font(.headline)
+                                                .foregroundColor(.white)
+                                                .padding(5)
+                                                .padding(.horizontal, 10)
+                                                .background(Color.accentColor)
+                                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        })
+                                    }
+                                }
                             }
+                            
                         }
                         .padding(.vertical, 8)
                         Divider()
@@ -319,6 +339,9 @@ struct CampaignView: View {
             } else if let campaign = initialCampaign {
                 ShareCampaignView(campaign: campaign)
             }
+        }
+        .sheet(isPresented: $showSupporterSheet) {
+            SupporterView()
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
