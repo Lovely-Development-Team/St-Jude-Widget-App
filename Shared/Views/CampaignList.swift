@@ -45,6 +45,7 @@ struct CampaignList: View {
     @State private var compactListMode: Bool = false
     @State private var selectedCampaignId: UUID? = nil
     @State private var showEasterEggSheet: Bool = false
+    @State private var showAboutSheet: Bool = false
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -245,6 +246,21 @@ struct CampaignList: View {
             EasterEggView()
                 .background(Color.secondarySystemBackground)
                 .edgesIgnoringSafeArea(.all)
+        }
+        .sheet(isPresented: $showAboutSheet) {
+            NavigationView {
+                AboutView()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showAboutSheet = true
+                }) {
+                    Label("About", systemImage: "info.circle")
+                        .labelStyle(.iconOnly)
+                }
+            }
         }
         .navigationTitle("Relay FM for St. Jude 2022")
         .onOpenURL { url in
