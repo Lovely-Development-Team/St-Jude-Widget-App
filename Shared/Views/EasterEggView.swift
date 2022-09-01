@@ -163,8 +163,6 @@ struct EasterEggView: View {
         .accessibility(label: accessibilityLabel)
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
-                .background(Color.secondarySystemBackground)
-                .edgesIgnoringSafeArea(.all)
         }
     }
 }
