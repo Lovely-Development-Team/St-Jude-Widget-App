@@ -53,8 +53,8 @@ struct CampaignView: View {
         }
     }
     
-    var description: String {
-        fundraisingEvent?.description ?? initialCampaign?.description ?? ""
+    var description: LocalizedStringKey {
+        LocalizedStringKey(fundraisingEvent?.description ?? initialCampaign?.description ?? "")
     }
     
     func milestoneReached(for milestone: Milestone) -> Bool {
