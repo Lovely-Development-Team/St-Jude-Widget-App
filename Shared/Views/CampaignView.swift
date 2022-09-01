@@ -22,6 +22,12 @@ struct CampaignView: View {
     
     @State private var showShareView: Bool = false
     
+    @State private var animate = false
+    @State private var animationType: Animation? = .none
+    #if !os(macOS)
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    #endif
+    
     @StateObject private var apiClient = ApiClient.shared
     
     init(initialCampaign: Campaign) {
@@ -124,13 +130,29 @@ struct CampaignView: View {
                         .padding(.top)
                     
                     if let campaign = initialCampaign, campaign.user.username == "TheLovelyDevelopers" {
-                        Image("Team_Logo_F")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .rotationEffect(.degrees(-30))
-                            .offset(x: 40)
-                            .offset(y: 5)
+                        Button(action: {
+                            withAnimation {
+                                #if !os(macOS)
+                                bounceHaptics.impactOccurred()
+                                #endif
+                                self.animate.toggle()
+                                self.animationType = .default
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.animate.toggle()
+                            }
+                        }) {
+                            Image("Team_Logo_F")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                                .rotationEffect(.degrees(-30))
+                                .offset(x: 40)
+                                .offset(y: 5)
+                                .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
+                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                     
                 }
