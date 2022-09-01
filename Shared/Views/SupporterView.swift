@@ -31,6 +31,13 @@ class FetchSupporters: ObservableObject {
 struct SupporterView: View {
     @StateObject var fetch = FetchSupporters()
     
+    @State private var animate = false
+    @State private var animationType: Animation? = .none
+    @State private var showSupporterSheet: Bool = false
+    #if !os(macOS)
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    #endif
+    
     var body: some View {
         let supporters = fetch.supporters
         VStack {
@@ -58,11 +65,27 @@ struct SupporterView: View {
                                 .padding(4)
                         }
                     }
-                    Image("Team_Logo_F")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 200)
-                        .padding()
+                    Button(action: {
+                        withAnimation {
+                            #if !os(macOS)
+                            bounceHaptics.impactOccurred()
+                            #endif
+                            self.animate.toggle()
+                            self.animationType = .default
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.animate.toggle()
+                        }
+                    }) {
+                        Image("Team_Logo_F")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 200)
+                            .padding()
+                            .offset(x: 0, y: animate ? -5 : 0)
+                            .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
             } else {
                 ProgressView()
