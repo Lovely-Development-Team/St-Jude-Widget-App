@@ -15,6 +15,19 @@ struct TiltifyRequest: Codable {
     let query: String
 }
 
+
+struct TiltifyGetCampaignsRequestVariables: Codable {
+    let publicId: String
+    let offset: Int
+}
+
+struct TiltifyGetCampaignsRequest: Codable {
+    let operationName: String
+    let variables: TiltifyGetCampaignsRequestVariables
+    let query: String
+}
+
+
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
     static let backgroundSessionIdentifier = "FetchCampaignBackgroundSession"
@@ -91,6 +104,56 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
         let body = TiltifyRequest(operationName: "get_campaign_by_vanity_and_slug",
                                   variables: ["vanity": "@\(vanity)", "slug": slug],
                                   query: queryString)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
+    func buildCampaignsForCauseRequest(offsetBy offset: Int) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let queryString = """
+query get_campaigns_by_fundraising_event_id($publicId: String!, $offset: Int) {
+  fundraisingEvent(publicId: $publicId) {
+    publishedCampaigns(limit: 20, offset: $offset) {
+      pagination {
+        hasNextPage
+        limit
+        offset
+        total
+      }
+      edges {
+        node {
+          publicId
+          name
+          description
+          slug
+          live
+          user {
+            username
+            slug
+            avatar {
+              alt
+              src
+            }
+          }
+          totalAmountRaised {
+            value
+            currency
+          }
+          goal {
+            value
+            currency
+          }
+        }
+      }
+    }
+  }
+}
+"""
+        let body = TiltifyGetCampaignsRequest(operationName: "get_campaigns_by_fundraising_event_id",
+                                              variables: TiltifyGetCampaignsRequestVariables(publicId: "8f4e607c-a117-4c11-9172-23d19c1be96c", offset: offset),
+                                              query: queryString)
         request.httpBody = try jsonEncoder.encode(body)
         return request
     }
@@ -225,6 +288,40 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
     func fetchCause() async throws -> TiltifyCauseResponse {
         return try await withCheckedThrowingContinuation { continuation in
             _ = fetchCause { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    func fetchCampaignsForCause(offsetBy offset: Int, completion: @escaping (Result<TiltifyCampaignsForCauseResponse, Error>) -> ()) -> URLSessionDataTask? {
+        do {
+            let request = try buildCampaignsForCauseRequest(offsetBy: offset)
+            let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = data else {
+                    completion(.failure(TiltifyError.noData))
+                    return
+                }
+                completion(Result {
+                    let payload = try JSONDecoder().decode(TiltifyCampaignsForCauseResponse.self, from: data)
+                    return payload
+                })
+                return
+            }
+            dataTask.resume()
+            return dataTask
+        } catch {
+            completion(.failure(error))
+            return nil
+        }
+    }
+    
+    func fetchCampaignsForCause(offsetBy offset: Int) async throws -> TiltifyCampaignsForCauseResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            _ = fetchCampaignsForCause(offsetBy: offset) { result in
                 continuation.resume(with: result)
             }
         }

@@ -253,3 +253,28 @@ struct TiltifyCauseData: Codable {
 struct TiltifyCauseResponse: Codable {
     let data: TiltifyCauseData
 }
+
+
+struct TiltifyCampaignsForCausePagination: Codable {
+    let hasNextPage: Bool
+    let limit: Int
+    let offset: Int
+    let total: Int
+}
+
+struct TiltifyCampaignsForCausePublishedCampaigns: Codable {
+    let edges: [TiltifyPublishedCampaign]
+    let pagination: TiltifyCampaignsForCausePagination
+}
+
+struct TiltifyCampaignsForCauseFundraisingEvent: Codable {
+    let publishedCampaigns: TiltifyCampaignsForCausePublishedCampaigns
+}
+
+struct TiltifyCampaignsForCauseData: Codable {
+    let fundraisingEvent: TiltifyCampaignsForCauseFundraisingEvent
+}
+
+struct TiltifyCampaignsForCauseResponse: Codable {
+    let data: TiltifyCampaignsForCauseData
+}

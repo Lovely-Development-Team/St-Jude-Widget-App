@@ -224,6 +224,7 @@ struct CampaignList: View {
             UserDefaults.shared.campaignListCompactView = newValue
         }
         .onAppear {
+                        
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
             compactListMode = UserDefaults.shared.campaignListCompactView
             
@@ -297,14 +298,36 @@ struct CampaignList: View {
         }
         
         if let fundraisingEvent = fundraisingEvent {
-            var apiCampaigns: [UUID: Campaign] = response.data.fundraisingEvent.publishedCampaigns.edges.reduce(into: [:]) { partialResult, campaign in
-                partialResult.updateValue(Campaign(from: campaign.node, fundraiserId: apiEvent.id), forKey: campaign.node.publicId)
-            }
+            
+            var allApiCampaigns: [UUID: Campaign] = [:]
+            
+            var offset: Int = 0
+            var hasNextPage: Bool = true
+            repeat {
+                let causeCampaignsResponse: TiltifyCampaignsForCauseResponse
+                do {
+                    dataLogger.notice("Fetching campaigns (offset=\(offset))")
+                    causeCampaignsResponse = try await apiClient.fetchCampaignsForCause(offsetBy: offset)
+                } catch {
+                    dataLogger.error("Fetching campaigns for cause failed: \(error.localizedDescription)")
+                    return
+                }
+                dataLogger.notice("Got response with \(causeCampaignsResponse.data.fundraisingEvent.publishedCampaigns.edges.count) campaigns")
+                offset += causeCampaignsResponse.data.fundraisingEvent.publishedCampaigns.pagination.limit
+                hasNextPage = causeCampaignsResponse.data.fundraisingEvent.publishedCampaigns.pagination.hasNextPage
+                
+                var apiCampaigns: [UUID: Campaign] = causeCampaignsResponse.data.fundraisingEvent.publishedCampaigns.edges.reduce(into: [:]) { partialResult, campaign in
+                    partialResult.updateValue(Campaign(from: campaign.node, fundraiserId: apiEvent.id), forKey: campaign.node.publicId)
+                }
+                allApiCampaigns = allApiCampaigns.merging(apiCampaigns) { (_, new) in new }
+                
+            } while hasNextPage
+                        
             do {
                 // For each campaign from the database...
                 for dbCampaign in try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent) {
-                    if let apiCampaign = apiCampaigns[dbCampaign.id] {
-                        apiCampaigns.removeValue(forKey: dbCampaign.id)
+                    if let apiCampaign = allApiCampaigns[dbCampaign.id] {
+                        allApiCampaigns.removeValue(forKey: dbCampaign.id)
                         // Update it from the API if it exists...
                         let updateCampaign = dbCampaign.isStarred ? apiCampaign.setStar(to: true) : apiCampaign
                         do {
@@ -323,7 +346,7 @@ struct CampaignList: View {
                     }
                 }
                 // For each new campaign in the API, save it to the database
-                for apiCampaign in apiCampaigns.values {
+                for apiCampaign in allApiCampaigns.values {
                     do {
                         try await AppDatabase.shared.saveCampaign(apiCampaign)
                     } catch {
@@ -333,6 +356,7 @@ struct CampaignList: View {
             } catch {
                 dataLogger.error("Failed to fetch stored campaigns: \(error.localizedDescription)")
             }
+            
         }
         
         await fetch()
