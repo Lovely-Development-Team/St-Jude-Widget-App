@@ -31,6 +31,8 @@ extension WidgetAppearance {
         switch self {
         case .relay:
             return Self.relayYellow
+        case .relaytrueblack:
+            return Self.relayYellow
         case .relayinverted:
             return Self.relayBlueLight
         case .stjudeinverted:
@@ -42,6 +44,10 @@ extension WidgetAppearance {
     
     var backgroundColors: [Color] {
         switch self {
+        case .relaytrueblack:
+            return [Color.black]
+        case .stjudetrueblack:
+            return [Color.black]
         case .relay:
             return [
                 Self.relayBlueDark,
