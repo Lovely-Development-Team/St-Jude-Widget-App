@@ -65,6 +65,26 @@
 					<key>INEnumValueName</key>
 					<string>stjudeinverted</string>
 				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Relay FM (True Black)</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>0Nwb1h</string>
+					<key>INEnumValueIndex</key>
+					<integer>5</integer>
+					<key>INEnumValueName</key>
+					<string>relaytrueblack</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>St. Jude (True Black)</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>WA5aXq</string>
+					<key>INEnumValueIndex</key>
+					<integer>6</integer>
+					<key>INEnumValueName</key>
+					<string>stjudetrueblack</string>
+				</dict>
 			</array>
 		</dict>
 	</array>

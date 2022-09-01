@@ -47,15 +47,15 @@ struct EntryView: View {
     }
     
     var backgroundColors: [Color] {
-        if useTrueBlackBackground {
-            return [Color.black]
-        } else {
-            return appearance.backgroundColors
-        }
+        return appearance.backgroundColors
     }
     
     var fillColor: Color {
         return appearance.fillColor
+    }
+    
+    var foregroundColor: Color {
+        return appearance.foregroundColor
     }
     
     var body: some View {
@@ -127,7 +127,7 @@ struct EntryView: View {
             }
             
         }
-        .foregroundColor(appearance.foregroundColor)
+        .foregroundColor(foregroundColor)
         .frame(maxWidth: .infinity)
         .padding()
         .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
@@ -137,7 +137,7 @@ struct EntryView: View {
 struct EntryViewPreview: PreviewProvider {
     static var previews: some View {
         Group {
-            EntryView(campaign: .constant(sampleCampaignSingleMilestone), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: false, appearance: .stjude)
+            EntryView(campaign: .constant(sampleCampaignSingleMilestone), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .relayinverted)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
             EntryView(campaign: .constant(sampleCampaignTwoMilestones), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, useTrueBlackBackground: true, appearance: .stjude)
