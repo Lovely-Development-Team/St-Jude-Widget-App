@@ -15,7 +15,7 @@ extension View {
         let view = controller.view
         let targetSize = controller.view.intrinsicContentSize
         view?.bounds = CGRect(origin: CGPoint(x: 0, y: 0), size: targetSize)
-        view?.backgroundColor = .clear
+        //view?.backgroundColor = .clear
 
         let format = UIGraphicsImageRendererFormat()
         format.scale = 3 // Ensures 3x-scale images. You can customise this however you like.
