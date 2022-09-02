@@ -57,8 +57,35 @@ struct FundraisingWidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
-    var body: some View {
+    var entryView: some View {
         EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
             .widgetURL(URL(string: entry.campaign.widgetURL)!)
+    }
+    
+    var body: some View {
+        if #available(iOSApplicationExtension 16.0, *) {
+            if family == .accessoryInline || family == .accessoryRectangular {
+                Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+            } else if family == .accessoryCircular {
+                ZStack {
+                    ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true, circleStrokeWidth: 6)
+                    Text(entry.campaign.shortPercentageReachedDescription ?? "0%")
+                    VStack {
+                        Spacer()
+                        Image("l2culogosvg")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.secondary)
+                            .frame(height: 15)
+                            .accessibility(hidden: true)
+                    }
+                }
+            } else {
+                entryView
+            }
+        } else {
+            entryView
+        }
     }
 }

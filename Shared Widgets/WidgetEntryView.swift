@@ -57,8 +57,22 @@ struct WidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
-    var body: some View {
+    var entryView: some View {
         EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
             .widgetURL(URL(string: entry.campaign.widgetURL)!)
+    }
+    
+    var body: some View {
+        if #available(iOSApplicationExtension 16.0, *) {
+            if family == .accessoryInline {
+                Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+            } else if family == .accessoryCircular {
+                ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true)
+            } else {
+                entryView
+            }
+        } else {
+            entryView
+        }
     }
 }
