@@ -53,8 +53,13 @@ struct CampaignView: View {
         }
     }
     
-    var description: LocalizedStringKey {
-        LocalizedStringKey(fundraisingEvent?.description ?? initialCampaign?.description ?? "")
+    var description: AttributedString {
+        let descr = fundraisingEvent?.description ?? initialCampaign?.description ?? ""
+        do {
+            return try AttributedString(markdown: descr)
+        } catch {
+            return AttributedString(descr)
+        }
     }
     
     func milestoneReached(for milestone: Milestone) -> Bool {
