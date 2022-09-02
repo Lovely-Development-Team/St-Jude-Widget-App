@@ -12,6 +12,7 @@ extension UserDefaults {
     static let campaignListCompactViewKey = "campaignListCompactView"
     
     static let shareScreenshotInitialAppearanceKey = "shareScreenshotInitialAppearance"
+    static let shareScreenshotClipCornersKey = "shareScreenshotClipCorners"
     
     var campaignListSortOrder: FundraiserSortOrder {
         get {
@@ -38,6 +39,11 @@ extension UserDefaults {
         set {
             set(newValue.rawValue, forKey: Self.shareScreenshotInitialAppearanceKey)
         }
+    }
+    
+    var shareScreenshotClipCorners: Bool {
+        get { bool(forKey: Self.shareScreenshotClipCornersKey) }
+        set { set(newValue, forKey: Self.shareScreenshotClipCornersKey) }
     }
     
 }

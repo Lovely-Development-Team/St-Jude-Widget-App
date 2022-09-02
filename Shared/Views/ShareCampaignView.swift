@@ -26,6 +26,7 @@ struct ShareCampaignView: View {
     @State private var showFullCurrencySymbol: Bool = false
     @State private var showMainGoalPercentage: Bool = false
     @State private var appearance: WidgetAppearance = .stjude
+    @State private var clipCorners: Bool = false
     
     @State private var presentSystemShareSheet: ImageToShare? = nil
     
@@ -42,14 +43,14 @@ struct ShareCampaignView: View {
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance)
             .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 350)
-            .clipShape(RoundedRectangle(cornerRadius: 25))
+            .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 25 : 0)))
     }
     
     @ViewBuilder
     var headerView: some View {
         VStack(spacing: 0) {
             entryView
-                .cornerRadius(25)
+                .cornerRadius((clipCorners ? 25 : 0))
             Button(action: {
                 presentSystemShareSheet = ImageToShare(id: UUID(), image: entryView.asImage)
             }) {
@@ -80,7 +81,7 @@ struct ShareCampaignView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: headerView.textCase(nil)) {
+                Section(header: headerView.textCase(nil), footer: Text("Some popular social media platforms such as Discord may not display rounded corners as intended.")) {
                     Toggle("Show Milestones", isOn: $showMilestones.animation())
                     if showMilestones {
                         Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
@@ -96,6 +97,8 @@ struct ShareCampaignView: View {
                         Text("St. Jude (Inverted)").tag(WidgetAppearance.stjudeinverted)
                         Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
                     }
+                    Toggle("Rounded Corners", isOn: $clipCorners.animation())
+                    
                 }
             }
             .toolbar {
@@ -113,8 +116,12 @@ struct ShareCampaignView: View {
         .onChange(of: appearance) { newValue in
             UserDefaults.shared.shareScreenshotInitialAppearance = newValue
         }
+        .onChange(of: clipCorners) { newValue in
+            UserDefaults.shared.shareScreenshotClipCorners = newValue
+        }
         .onAppear {
             appearance = UserDefaults.shared.shareScreenshotInitialAppearance
+            clipCorners = UserDefaults.shared.shareScreenshotClipCorners
             Task {
                 if let campaign = campaign {
                     do {
