@@ -81,6 +81,13 @@ struct TiltifyWidgetData {
         formatter.maximumFractionDigits = 1
         return formatter
     }()
+    let shortPercentageFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 0
+        return formatter
+    }()
     
     init(from campaign: TiltifyCampaign) {
         self.id = campaign.publicId
@@ -192,6 +199,12 @@ struct TiltifyWidgetData {
             return nil
         }
         return percentageFormatter.string(from: percentageReached as NSNumber)
+    }
+    var shortPercentageReachedDescription: String? {
+        guard let percentageReached = percentageReached else {
+            return nil
+        }
+        return shortPercentageFormatter.string(from: percentageReached as NSNumber)
     }
     
     static func previousMilestone(at totalRaised: Double, in milestones: [Milestone]) -> Milestone? {

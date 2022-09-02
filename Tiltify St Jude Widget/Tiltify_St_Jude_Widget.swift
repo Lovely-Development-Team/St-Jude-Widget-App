@@ -53,6 +53,35 @@ struct FundraisingEventWidget: Widget {
     let kind: String = "FundraisingEvent"
     @StateObject private var apiClient = ApiClient.shared
     
+    var supportedFamilies: [WidgetFamily] {
+        if #available(iOSApplicationExtension 16.0, *) {
+            return [
+                .systemSmall,
+                .systemMedium,
+                .systemLarge,
+                .systemExtraLarge,
+                .accessoryInline,
+                .accessoryRectangular,
+                .accessoryCircular
+            ]
+        } else {
+            if #available(iOSApplicationExtension 15.0, *) {
+                return [
+                    .systemSmall,
+                    .systemMedium,
+                    .systemLarge,
+                    .systemExtraLarge
+                ]
+            } else {
+                return [
+                    .systemSmall,
+                    .systemMedium,
+                    .systemLarge
+                ]
+            }
+        }
+    }
+    
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: FundraisingEventConfigurationIntent.self, provider: FundraisingProvider()) { entry in
             FundraisingWidgetEntryView(entry: entry)
@@ -64,6 +93,7 @@ struct FundraisingEventWidget: Widget {
             // Access the background session to make sure it is initialised
             _ = apiClient.backgroundURLSession
         }
+        .supportedFamilies(supportedFamilies)
     }
 }
 
