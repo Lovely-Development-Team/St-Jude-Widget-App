@@ -81,7 +81,7 @@ struct ShareCampaignView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: headerView.textCase(nil), footer: Text("Some popular social media platforms such as Discord may not display rounded corners as intended.")) {
+                Section(header: headerView.textCase(nil), footer: Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")) {
                     Toggle("Show Milestones", isOn: $showMilestones.animation())
                     if showMilestones {
                         Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
