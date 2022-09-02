@@ -124,7 +124,33 @@ struct CampaignView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 
                 ZStack(alignment: .trailing) {
-                    
+                    if (initialCampaign?.user.username == "Relay FM" || fundraisingEvent != nil) {
+                        HStack {
+                            Button(action: {
+                                withAnimation {
+#if !os(macOS)
+                                    bounceHaptics.impactOccurred()
+#endif
+                                    self.animate.toggle()
+                                    self.animationType = .default
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    self.animate.toggle()
+                                }
+                            }) {
+                                Image("XRayMan")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 80, height: 80)
+                                    .offset(x: -18)
+                                    .offset(y: 5)
+                                    .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
+                                    .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                            }
+                                .buttonStyle(PlainButtonStyle())
+                            Spacer()
+                        }
+                    }
                     Link("Visit the \(fundraisingEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
                         .font(.headline)
                         .foregroundColor(.white)
@@ -160,7 +186,33 @@ struct CampaignView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
-                    
+                    if (initialCampaign?.user.username == "Relay FM" || fundraisingEvent != nil) {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation {
+#if !os(macOS)
+                                    bounceHaptics.impactOccurred()
+#endif
+                                    self.animate.toggle()
+                                    self.animationType = .default
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    self.animate.toggle()
+                                }
+                            }) {
+                                Image("MrYellow")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 80, height: 80)
+                                    .offset(x: 15)
+                                    .offset(y: 5)
+                                    .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
+                                    .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
                 }
                 
                 Text(description)
