@@ -47,6 +47,8 @@ struct CampaignList: View {
     @State private var showEasterEggSheet: Bool = false
     @State private var showAboutSheet: Bool = false
     
+    @State private var searchText = ""
+    
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
             return c1.id.uuidString < c2.id.uuidString
@@ -155,7 +157,7 @@ struct CampaignList: View {
                     }
                 }
                 .padding(.horizontal)
-                
+               
                 if campaigns.count != 0 {
                     
                     if selectedCampaignId != nil {
@@ -163,24 +165,31 @@ struct CampaignList: View {
                         /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
                         /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
                         /// trigger on the widget tap instead
-                        ForEach(sortedCampaigns, id: \.id) { campaign in
-                            NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
-                                EmptyView()
+                            ForEach(sortedCampaigns, id: \.id) { campaign in
+                                NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
+                                    EmptyView()
+                                }
+                                
                             }
-                        }
+
+
                     }
+
                     
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                         
-                        ForEach(sortedCampaigns, id: \.id) { campaign in
+                        ForEach(searchResults, id: \.id) { campaign in
                             NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
                             }
                             .padding(.top)
+
                         }
+
                         
                     }
                     .padding(.horizontal)
+
                     
                     Button(action: {
                         showEasterEggSheet = true
@@ -254,7 +263,7 @@ struct CampaignList: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     showAboutSheet = true
                 }) {
@@ -264,6 +273,7 @@ struct CampaignList: View {
             }
         }
         .navigationTitle("Relay FM for St. Jude 2022")
+        .searchable(text: $searchText, placement: .toolbar)
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value
@@ -378,6 +388,14 @@ struct CampaignList: View {
             dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
         }
     }
+    
+    var searchResults: [Campaign] {
+            if searchText.isEmpty {
+                return sortedCampaigns
+            } else {
+                return sortedCampaigns.filter { $0.title.lowercased().contains(searchText.lowercased()) || $0.user.username.lowercased().contains(searchText.lowercased()) }
+            }
+        }
     
 }
 
