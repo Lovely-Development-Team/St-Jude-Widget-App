@@ -24,6 +24,8 @@ struct CampaignView: View {
     @State private var showSupporterSheet: Bool = false
     
     @State private var animate = false
+    @State private var animateMyke = false
+    @State private var animateStephen = false
     @State private var animationType: Animation? = .none
     #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
@@ -131,11 +133,11 @@ struct CampaignView: View {
 #if !os(macOS)
                                     bounceHaptics.impactOccurred()
 #endif
-                                    self.animate.toggle()
+                                    self.animateMyke.toggle()
                                     self.animationType = .default
                                 }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    self.animate.toggle()
+                                    self.animateMyke.toggle()
                                 }
                             }) {
                                 Image("XRayMan")
@@ -144,8 +146,8 @@ struct CampaignView: View {
                                     .frame(width: 80, height: 80)
                                     .offset(x: -18)
                                     .offset(y: 5)
-                                    .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
-                                    .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                                    .rotationEffect(.degrees(animateMyke ? 5 : 0), anchor: .bottomLeading)
+                                    .animation(animateMyke ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                             }
                                 .buttonStyle(PlainButtonStyle())
                             Spacer()
@@ -186,6 +188,88 @@ struct CampaignView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
+                    if let campaign = initialCampaign, campaign.user.username == "supermrssoup" {
+                        Button(action: {
+                            withAnimation {
+                                #if !os(macOS)
+                                bounceHaptics.impactOccurred()
+                                #endif
+                                self.animate.toggle()
+                                self.animationType = .default
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.animate.toggle()
+                            }
+                        }) {
+                            Image("unicorn")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                                .offset(x: 40)
+                                .offset(y: 5)
+                                .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
+                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                                
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                    }
+                    if let campaign = initialCampaign, campaign.user.username == "mvo" {
+                        HStack {
+                        Button(action: {
+                            withAnimation {
+                                #if !os(macOS)
+                                bounceHaptics.impactOccurred()
+                                #endif
+                                self.animate.toggle()
+                                self.animationType = .default
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.animate.toggle()
+                            }
+                        }) {
+                            Image("jonycube")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                                .rotationEffect(.degrees(-20))
+                                .offset(x: -40)
+                                .offset(y: 5)
+                                .rotationEffect(.degrees(animate ? 5 : 0), anchor: .bottomLeading)
+                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                            Spacer()
+                        }
+                    }
+                    if let campaign = initialCampaign, campaign.user.username == "jbiatek" {
+                        HStack {
+                        Button(action: {
+                            withAnimation {
+                                #if !os(macOS)
+                                bounceHaptics.impactOccurred()
+                                #endif
+                                self.animate.toggle()
+                                self.animationType = .default
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.animate.toggle()
+                            }
+                        }) {
+                            Image("weirdfish")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60, height: 60)
+                                .rotationEffect(.degrees(-30))
+                                .offset(x: -40)
+                                .offset(y: 5)
+                                .rotationEffect(.degrees(animate ? 5 : 0), anchor: .bottomLeading)
+                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                            Spacer()
+                        }
+                    }
                     if (initialCampaign?.user.username == "Relay FM" || fundraisingEvent != nil) {
                         HStack {
                             Spacer()
@@ -194,11 +278,11 @@ struct CampaignView: View {
 #if !os(macOS)
                                     bounceHaptics.impactOccurred()
 #endif
-                                    self.animate.toggle()
+                                    self.animateStephen.toggle()
                                     self.animationType = .default
                                 }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    self.animate.toggle()
+                                    self.animateStephen.toggle()
                                 }
                             }) {
                                 Image("MrYellow")
@@ -207,8 +291,8 @@ struct CampaignView: View {
                                     .frame(width: 80, height: 80)
                                     .offset(x: 15)
                                     .offset(y: 5)
-                                    .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
-                                    .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                                    .rotationEffect(.degrees(animateStephen ? -5 : 0), anchor: .bottomTrailing)
+                                    .animation(animateStephen ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
