@@ -152,32 +152,6 @@ struct CampaignView: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         .padding(.top)
                     
-                    if let campaign = initialCampaign, campaign.user.username == "mvo" {
-                        HStack {
-                            Image("jonycube")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 80, height: 80)
-                                .rotationEffect(.degrees(-20))
-                                .offset(x: -40)
-                                .offset(y: 5)
-                                .tapToWobble()
-                            Spacer()
-                        }
-                    }
-                    if let campaign = initialCampaign, campaign.user.username == "jbiatek" {
-                        HStack {
-                            Image("weirdfish")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 60, height: 60)
-                                .rotationEffect(.degrees(-30))
-                                .offset(x: -40)
-                                .offset(y: 5)
-                                .tapToWobble()
-                            Spacer()
-                        }
-                    }
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 
