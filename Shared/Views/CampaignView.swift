@@ -125,34 +125,23 @@ struct CampaignView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 
-                ZStack(alignment: .trailing) {
-                    if (initialCampaign?.user.username == "Relay FM" || fundraisingEvent != nil) {
-                        HStack {
-                            Button(action: {
-                                withAnimation {
-#if !os(macOS)
-                                    bounceHaptics.impactOccurred()
-#endif
-                                    self.animateMyke.toggle()
-                                    self.animationType = .default
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    self.animateMyke.toggle()
-                                }
-                            }) {
-                                Image("XRayMan")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 80)
-                                    .offset(x: -18)
-                                    .offset(y: 5)
-                                    .rotationEffect(.degrees(animateMyke ? 5 : 0), anchor: .bottomLeading)
-                                    .animation(animateMyke ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                ZStack {
+                
+                    if let egg = easterEggDirectory[initialCampaign?.id ?? fundraisingEvent?.id ?? UUID()] {
+                        if let left = egg.left {
+                            HStack {
+                                left
+                                Spacer()
                             }
-                                .buttonStyle(PlainButtonStyle())
-                            Spacer()
+                        }
+                        if let right = egg.right {
+                            HStack {
+                                Spacer()
+                                right
+                            }
                         }
                     }
+                    
                     Link("Visit the \(fundraisingEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
                         .font(.headline)
                         .foregroundColor(.white)
@@ -163,71 +152,8 @@ struct CampaignView: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         .padding(.top)
                     
-                    if let campaign = initialCampaign, campaign.user.username == "TheLovelyDevelopers" {
-                        Button(action: {
-                            withAnimation {
-                                #if !os(macOS)
-                                bounceHaptics.impactOccurred()
-                                #endif
-                                self.animate.toggle()
-                                self.animationType = .default
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.animate.toggle()
-                            }
-                        }) {
-                            Image("Team_Logo_F")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 80, height: 80)
-                                .rotationEffect(.degrees(-30))
-                                .offset(x: 40)
-                                .offset(y: 5)
-                                .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
-                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    if let campaign = initialCampaign, campaign.user.username == "supermrssoup" {
-                        Button(action: {
-                            withAnimation {
-                                #if !os(macOS)
-                                bounceHaptics.impactOccurred()
-                                #endif
-                                self.animate.toggle()
-                                self.animationType = .default
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.animate.toggle()
-                            }
-                        }) {
-                            Image("unicorn")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 80, height: 80)
-                                .offset(x: 40)
-                                .offset(y: 5)
-                                .rotationEffect(.degrees(animate ? -5 : 0), anchor: .bottomTrailing)
-                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                                
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        
-                    }
                     if let campaign = initialCampaign, campaign.user.username == "mvo" {
                         HStack {
-                        Button(action: {
-                            withAnimation {
-                                #if !os(macOS)
-                                bounceHaptics.impactOccurred()
-                                #endif
-                                self.animate.toggle()
-                                self.animationType = .default
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.animate.toggle()
-                            }
-                        }) {
                             Image("jonycube")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -235,27 +161,12 @@ struct CampaignView: View {
                                 .rotationEffect(.degrees(-20))
                                 .offset(x: -40)
                                 .offset(y: 5)
-                                .rotationEffect(.degrees(animate ? 5 : 0), anchor: .bottomLeading)
-                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                                .tapToWobble()
                             Spacer()
                         }
                     }
                     if let campaign = initialCampaign, campaign.user.username == "jbiatek" {
                         HStack {
-                        Button(action: {
-                            withAnimation {
-                                #if !os(macOS)
-                                bounceHaptics.impactOccurred()
-                                #endif
-                                self.animate.toggle()
-                                self.animationType = .default
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.animate.toggle()
-                            }
-                        }) {
                             Image("weirdfish")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -263,41 +174,12 @@ struct CampaignView: View {
                                 .rotationEffect(.degrees(-30))
                                 .offset(x: -40)
                                 .offset(y: 5)
-                                .rotationEffect(.degrees(animate ? 5 : 0), anchor: .bottomLeading)
-                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                                .tapToWobble()
                             Spacer()
-                        }
-                    }
-                    if (initialCampaign?.user.username == "Relay FM" || fundraisingEvent != nil) {
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                withAnimation {
-#if !os(macOS)
-                                    bounceHaptics.impactOccurred()
-#endif
-                                    self.animateStephen.toggle()
-                                    self.animationType = .default
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    self.animateStephen.toggle()
-                                }
-                            }) {
-                                Image("MrYellow")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 80)
-                                    .offset(x: 15)
-                                    .offset(y: 5)
-                                    .rotationEffect(.degrees(animateStephen ? -5 : 0), anchor: .bottomTrailing)
-                                    .animation(animateStephen ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                            }
-                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
                 
                 Text(description)
                     .font(.caption)
@@ -550,6 +432,8 @@ struct CampaignView: View {
                 dataLogger.error("Updating stored fundraiser failed: \(error.localizedDescription)")
             }
             
+            dataLogger.info("Campaign UUID: \(fundraisingEvent.id.uuidString)")
+            
             var relayCampaign: Campaign? = nil
             
             do {
@@ -567,6 +451,8 @@ struct CampaignView: View {
             await fetch()
             
         } else if let initialCampaign = initialCampaign {
+            
+            dataLogger.info("Campaign UUID: \(initialCampaign.id.uuidString)")
             
             await updateCampaignFromAPI(for: initialCampaign, updateLocalCampaignState: true)
             await fetch()
