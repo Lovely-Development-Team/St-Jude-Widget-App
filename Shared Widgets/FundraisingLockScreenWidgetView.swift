@@ -37,52 +37,35 @@ struct FundraisingLockScreenWidgetView : View {
         }
     }
     
-    var shouldShouldFullCurrencySymbol: Bool {
-        entry.configuration.showFullCurrencySymbol?.boolValue == false
+    var shouldShowGoalPercentage: Bool {
+        entry.configuration.showGoalPercentage?.boolValue == true
     }
     
-    var entryView: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: false, preferFutureMilestones: false, showFullCurrencySymbol: shouldShouldFullCurrencySymbol, showGoalPercentage: false, showMilestonePercentage: false, appearance: .relay)
-            .widgetURL(URL(string: entry.campaign.widgetURL)!)
+    var shouldShouldFullCurrencySymbol: Bool {
+        entry.configuration.showFullCurrencySymbol?.boolValue == true
+    }
+
+    var accessoryInlineText: String {
+        var amount = entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol)
+        if shouldShowGoalPercentage {
+            amount = "\(amount) • \(entry.campaign.shortPercentageReachedDescription ?? "0%")"
+        }
+        return amount
+    }
+    
+    var accessoryInlineLabel: String {
+        entry.campaign.percentageReached ?? 0 >= 1 ? "flag.checkered" : ""
     }
     
     var body: some View {
         if #available(iOSApplicationExtension 16.0, *) {
             switch family {
             case .accessoryRectangular:
-                VStack(spacing: 2) {
-                    Text(entry.campaign.name)
-                        .font(.system(.body, design: .rounded))
-                        .minimumScaleFactor(0.2)
-                        .lineLimit(1)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    Spacer()
-                    Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol))
-                        .font(.system(.headline, design: .rounded))
-                        .minimumScaleFactor(0.2)
-                        .lineLimit(1)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white)
-                        .frame(height: 8)
-                }
+                LockScreenRectangularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
             case .accessoryCircular:
-                ZStack {
-                    ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true, circleStrokeWidth: 6)
-                    Text(entry.campaign.shortPercentageReachedDescription ?? "0%")
-                        .font(.system(.headline, design: .rounded))
-                    VStack {
-                        Spacer()
-                        Image("l2culogosvg")
-                            .renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.secondary)
-                            .frame(height: 15)
-                            .accessibility(hidden: true)
-                    }
-                }
+                LockScreenCircularView(campaign: entry.campaign, shouldShowGoalPercentage: shouldShowGoalPercentage)
             default:
-                Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol))
+                LockScreenInlineView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
             }
         } else {
             Text("Not available")

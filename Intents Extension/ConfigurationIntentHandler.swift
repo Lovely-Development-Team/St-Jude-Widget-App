@@ -34,7 +34,6 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
         return .success(with: campaign)
     }
     
-    
     func provideCampaignOptionsCollection(for intent: ConfigurationIntent) async throws -> INObjectCollection<INWidgetCampaign> {
         guard let event = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
             return INObjectCollection(items: [])
