@@ -47,6 +47,7 @@ struct CampaignList: View {
     @State private var showEasterEggSheet: Bool = false
     @State private var showAboutSheet: Bool = false
     
+    @State private var showSearchBar: Bool = false
     @State private var searchText = ""
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
@@ -94,134 +95,153 @@ struct CampaignList: View {
         }
     }
     
+    var searchResults: [Campaign] {
+        let query = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        if query.isEmpty {
+            return sortedCampaigns
+        } else {
+            return sortedCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
+        }
+    }
+    
     var body: some View {
         
         ScrollView {
-            VStack(spacing: 0) {
-                
-                if let fundraisingEvent = fundraisingEvent {
-                    NavigationLink(destination: CampaignView(fundraisingEvent: fundraisingEvent), tag: fundraisingEvent.id, selection: $selectedCampaignId) {
-                        FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
+            ScrollViewReader { scrollViewReader in
+                VStack(spacing: 0) {
+                    
+                    if let fundraisingEvent = fundraisingEvent {
+                        NavigationLink(destination: CampaignView(fundraisingEvent: fundraisingEvent), tag: fundraisingEvent.id, selection: $selectedCampaignId) {
+                            FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
+                                .padding()
+                        }
+                    } else {
+                        FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false, showShareSheet: .constant(false))
                             .padding()
                     }
-                } else {
-                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false, showShareSheet: .constant(false))
-                        .padding()
-                }
-                
-                Link("Visit the event!", destination: URL(string: "https://stjude.org/relay")!)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .padding(.horizontal, 20)
-                    .background(Color.accentColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .padding(.bottom)
-                
-                HStack {
-                    Text("Fundraisers")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    if campaigns.count != 0 {
-                        Text("\(campaigns.count)")
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(
-                            Color.secondarySystemBackground
-                                .cornerRadius(15)
-                        )
-                    }
-                    Spacer()
-                    Menu {
-                        ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                    
+                    Link("Visit the event!", destination: URL(string: "https://stjude.org/relay")!)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .padding(.horizontal, 20)
+                        .background(Color.accentColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        .padding(.bottom)
+                    
+                    HStack {
+                        Text("Fundraisers")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        if campaigns.count != 0 {
+                            Text("\(campaigns.count)")
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(
+                                    Color.secondarySystemBackground
+                                        .cornerRadius(15)
+                                )
+                        }
+                        Spacer()
+                        Menu {
+                            ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                                Button(action: {
+                                    withAnimation {
+                                        fundraiserSortOrder = order
+                                    }
+                                }) {
+                                    Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                }
+                            }
+                            Divider()
                             Button(action: {
                                 withAnimation {
-                                    fundraiserSortOrder = order
+                                    compactListMode.toggle()
                                 }
                             }) {
-                                Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
                             }
+                        } label: {
+                            Image(systemName: "slider.horizontal.3")
                         }
-                        Divider()
                         Button(action: {
                             withAnimation {
-                                compactListMode.toggle()
+                                showSearchBar = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                }
                             }
                         }) {
-                            Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
+                            Label("Search", systemImage: "magnifyingglass")
+                                .labelStyle(.iconOnly)
                         }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
                     }
-                }
-                .padding(.horizontal)
-               
-                if campaigns.count != 0 {
+                    .padding(.horizontal)
                     
-                    if selectedCampaignId != nil {
-                        /// In order to open a selected campaign when a widget is tapped, the corresponding
-                        /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
-                        /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
-                        /// trigger on the widget tap instead
+                    if campaigns.count != 0 {
+                        
+                        if showSearchBar {
+                            SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
+                                .padding(.horizontal, 8)
+                                .id("SEARCH_BAR")
+                        }
+                        
+                        if selectedCampaignId != nil {
+                            /// In order to open a selected campaign when a widget is tapped, the corresponding
+                            /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
+                            /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
+                            /// trigger on the widget tap instead
                             ForEach(sortedCampaigns, id: \.id) { campaign in
                                 NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
                                     EmptyView()
                                 }
+                            }
+                        }
+                        
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                            ForEach(searchResults, id: \.id) { campaign in
+                                NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
+                                    FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
+                                }
+                                .padding(.top)
+                            }
+                        }
+                        .padding(.horizontal)
+                        
+                        Button(action: {
+                            showEasterEggSheet = true
+                        }, label: {
+                            HStack {
+                                Text("App from the Lovely Developers")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                Image("l2culogosvg")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.secondary)
+                                    .frame(height: 15)
+                                    .accessibility(hidden: true)
                                 
                             }
-
-
-                    }
-
-                    
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        .padding()
                         
-                        ForEach(searchResults, id: \.id) { campaign in
-                            NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                                FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
-                            }
-                            .padding(.top)
-
-                        }
-
+                    } else {
+                        
+                        ProgressView()
+                            .padding(.top, 40)
+                            .padding(.bottom, 10)
+                        Text("Loading ...")
+                            .padding(.bottom, 40)
                         
                     }
-                    .padding(.horizontal)
-
-                    
-                    Button(action: {
-                        showEasterEggSheet = true
-                    }, label: {
-                        HStack {
-                            Text("App from the Lovely Developers")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Image("l2culogosvg")
-                                .renderingMode(.template)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.secondary)
-                                .frame(height: 15)
-                                .accessibility(hidden: true)
-    
-                        }
-                    })
-                    .buttonStyle(PlainButtonStyle())
-                    .padding()
-                    
-                } else {
-                    
-                    ProgressView()
-                        .padding(.top, 40)
-                        .padding(.bottom, 10)
-                    Text("Loading ...")
-                        .padding(.bottom, 40)
-                    
                 }
+                .padding(.bottom)
             }
-            .padding(.bottom)
         }
         .refreshable {
             await refresh()
@@ -233,7 +253,7 @@ struct CampaignList: View {
             UserDefaults.shared.campaignListCompactView = newValue
         }
         .onAppear {
-                        
+            
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
             compactListMode = UserDefaults.shared.campaignListCompactView
             
@@ -263,7 +283,7 @@ struct CampaignList: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     showAboutSheet = true
                 }) {
@@ -273,7 +293,7 @@ struct CampaignList: View {
             }
         }
         .navigationTitle("Relay FM for St. Jude 2022")
-        .searchable(text: $searchText, placement: .toolbar)
+        //        .searchable(text: $searchText, placement: .toolbar)
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value
@@ -332,7 +352,7 @@ struct CampaignList: View {
                 allApiCampaigns = allApiCampaigns.merging(apiCampaigns) { (_, new) in new }
                 
             } while hasNextPage
-                        
+            
             do {
                 // For each campaign from the database...
                 for dbCampaign in try await AppDatabase.shared.fetchAllCampaigns(for: fundraisingEvent) {
@@ -388,14 +408,6 @@ struct CampaignList: View {
             dataLogger.error("Failed to fetch stored fundraiser: \(error.localizedDescription)")
         }
     }
-    
-    var searchResults: [Campaign] {
-            if searchText.isEmpty {
-                return sortedCampaigns
-            } else {
-                return sortedCampaigns.filter { $0.title.lowercased().contains(searchText.lowercased()) || $0.user.username.lowercased().contains(searchText.lowercased()) }
-            }
-        }
     
 }
 
