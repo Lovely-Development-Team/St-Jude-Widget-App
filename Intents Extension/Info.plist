@@ -14,6 +14,7 @@
 			<array>
 				<string>ConfigurationIntent</string>
 				<string>FundraisingEventConfigurationIntent</string>
+				<string>FundraisingEventLockScreenConfigurationIntent</string>
 				<string>GetAmountRaisedIntent</string>
 				<string>GetGoalIntent</string>
 				<string>GetNextMilestoneIntent</string>

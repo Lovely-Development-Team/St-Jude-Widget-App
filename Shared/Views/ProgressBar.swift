@@ -11,9 +11,9 @@ struct ProgressBar: View {
     @Binding var value: Float
     
 #if os(iOS)
-    let foregroundColour = Color(UIColor.systemGray)
+    var barColour = Color(UIColor.systemGray).opacity(0.3)
 #else
-    let foregroundColour = Color(NSColor.systemGray)
+    var barColour = Color(NSColor.systemGray).opacity(0.3)
 #endif
     
     let fillColor: Color
@@ -24,8 +24,7 @@ struct ProgressBar: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
-                    .opacity(0.3)
-                    .foregroundColor(foregroundColour)
+                    .foregroundColor(barColour)
                 Rectangle().frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width), height: geometry.size.height)
                     .foregroundColor(fillColor)
             }.clipShape(Capsule())
@@ -37,7 +36,7 @@ struct ProgressBar: View {
             Circle()
                 .trim(from: 0, to: 0.75)
                 .stroke(
-                    foregroundColour,
+                    barColour,
                     style: StrokeStyle(
                         lineWidth: circleStrokeWidth,
                         lineCap: .round
