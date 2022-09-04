@@ -22,7 +22,7 @@ struct LockScreenInlineView: View {
     }
     
     var accessoryInlineLabel: String {
-        campaign.percentageReached ?? 0 >= 1 ? "flag.checkered" : ""
+        campaign.percentageReached ?? 0 <= 1 ? "party.popper" : ""
     }
     
     var body: some View {
