@@ -16,15 +16,17 @@ struct LockScreenCircularView: View {
         ZStack {
             ProgressBar(value: .constant(Float(campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true, circleStrokeWidth: 6)
             if shouldShowGoalPercentage {
-                if campaign.percentageReached ?? 0 <= 1 {
+                if campaign.percentageReached ?? 0 >= 1 {
                     Image(systemName: "party.popper.fill")
                 } else {
                     Text(campaign.shortPercentageReachedDescription ?? "0%")
                         .font(.system(.headline, design: .rounded))
                 }
             }
-//                    VStack {
-//                        Spacer()
+                    VStack {
+                        Spacer()
+                        Image(systemName: "dollarsign")
+                            .font(.system(.caption, design: .rounded))
 //                        Image("l2culogosvg")
 //                            .renderingMode(.template)
 //                            .resizable()
@@ -32,7 +34,7 @@ struct LockScreenCircularView: View {
 //                            .foregroundColor(.secondary)
 //                            .frame(height: 15)
 //                            .accessibility(hidden: true)
-//                    }
+                    }
         }
     }
 }

@@ -22,7 +22,7 @@ struct LockScreenInlineView: View {
     }
     
     var accessoryInlineLabel: String {
-        campaign.percentageReached ?? 0 <= 1 ? "party.popper.fill" : ""
+        campaign.percentageReached ?? 0 >= 1 ? "party.popper.fill" : ""
     }
     
     var body: some View {
