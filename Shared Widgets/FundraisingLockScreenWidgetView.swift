@@ -48,9 +48,24 @@ struct FundraisingLockScreenWidgetView : View {
     
     var body: some View {
         if #available(iOSApplicationExtension 16.0, *) {
-            if family == .accessoryInline || family == .accessoryRectangular {
-                Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol))
-            } else if family == .accessoryCircular {
+            switch family {
+            case .accessoryRectangular:
+                VStack(spacing: 2) {
+                    Text(entry.campaign.name)
+                        .font(.system(.body, design: .rounded))
+                        .minimumScaleFactor(0.2)
+                        .lineLimit(1)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                    Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol))
+                        .font(.system(.headline, design: .rounded))
+                        .minimumScaleFactor(0.2)
+                        .lineLimit(1)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white)
+                        .frame(height: 8)
+                }
+            case .accessoryCircular:
                 ZStack {
                     ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true, circleStrokeWidth: 6)
                     Text(entry.campaign.shortPercentageReachedDescription ?? "0%")
@@ -66,11 +81,11 @@ struct FundraisingLockScreenWidgetView : View {
                             .accessibility(hidden: true)
                     }
                 }
-            } else {
-                entryView
+            default:
+                Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol))
             }
         } else {
-            entryView
+            Text("Not available")
         }
     }
 }
