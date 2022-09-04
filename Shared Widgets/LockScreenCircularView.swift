@@ -16,8 +16,8 @@ struct LockScreenCircularView: View {
         ZStack {
             ProgressBar(value: .constant(Float(campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true, circleStrokeWidth: 6)
             if shouldShowGoalPercentage {
-                if campaign.percentageReached ?? 0 >= 1 {
-                    Image(systemName: "flag.checkered")
+                if campaign.percentageReached ?? 0 <= 1 {
+                    Image(systemName: "party.popper.fill")
                 } else {
                     Text(campaign.shortPercentageReachedDescription ?? "0%")
                         .font(.system(.headline, design: .rounded))
