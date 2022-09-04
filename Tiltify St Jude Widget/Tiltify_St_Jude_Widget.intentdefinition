@@ -93,7 +93,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21F79</string>
+	<string>21G83</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>14A5294e</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -878,6 +878,91 @@
 			<string>Fundraising Event Configuration</string>
 			<key>INIntentTitleID</key>
 			<string>wmYg4d</string>
+			<key>INIntentType</key>
+			<string>Custom</string>
+			<key>INIntentVerb</key>
+			<string>View</string>
+		</dict>
+		<dict>
+			<key>INIntentCategory</key>
+			<string>information</string>
+			<key>INIntentDescription</key>
+			<string>Widget configuration</string>
+			<key>INIntentDescriptionID</key>
+			<string>TRgdJF</string>
+			<key>INIntentEligibleForWidgets</key>
+			<true/>
+			<key>INIntentIneligibleForSuggestions</key>
+			<true/>
+			<key>INIntentLastParameterTag</key>
+			<integer>2</integer>
+			<key>INIntentName</key>
+			<string>FundraisingEventLockScreenConfiguration</string>
+			<key>INIntentParameters</key>
+			<array>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Show Full Currency Symbol</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>WbyPuH</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>false</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>GIM8u4</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>true</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>hoooC7</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>showFullCurrencySymbol</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterTag</key>
+					<integer>2</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
+			</array>
+			<key>INIntentResponse</key>
+			<dict>
+				<key>INIntentResponseCodes</key>
+				<array>
+					<dict>
+						<key>INIntentResponseCodeName</key>
+						<string>success</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+					</dict>
+				</array>
+			</dict>
+			<key>INIntentTitle</key>
+			<string>Fundraising Event Lock Screen Configuration</string>
+			<key>INIntentTitleID</key>
+			<string>37F9lO</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
 			<key>INIntentVerb</key>

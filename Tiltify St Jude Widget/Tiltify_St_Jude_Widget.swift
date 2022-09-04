@@ -9,6 +9,23 @@ import WidgetKit
 import SwiftUI
 import Intents
 
+struct FundraisingLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
+    let apiClient = ApiClient.shared
+    
+    func placeholder(in context: Context) -> FundraisingLockScreenEventEntry {
+        return fetchPlaceholder(in: context)
+    }
+    
+    func getSnapshot(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (FundraisingLockScreenEventEntry) -> Void) {
+        fetchSnapshot(for: configuration, in: context, completion: completion)
+    }
+    
+    func getTimeline(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingLockScreenEventEntry>) -> Void) {
+        fetchTimeline(for: configuration, in: context, completion: completion)
+    }
+    
+}
+
 struct FundraisingProvider: IntentTimelineProvider, WidgetDataProviding {
     let apiClient = ApiClient.shared
     
@@ -45,42 +62,45 @@ struct Provider: IntentTimelineProvider, WidgetDataProviding {
 struct TiltifyStJudeWidgets: WidgetBundle {
    var body: some Widget {
        FundraisingEventWidget()
+       FundraisingLockScreenWidget()
        Tiltify_St_Jude_Widget()
    }
 }
 
-struct FundraisingEventWidget: Widget {
-    let kind: String = "FundraisingEvent"
+struct FundraisingLockScreenWidget: Widget {
+    let kind: String = "FundraisingLockScreenWidget"
     @StateObject private var apiClient = ApiClient.shared
     
     var supportedFamilies: [WidgetFamily] {
         if #available(iOSApplicationExtension 16.0, *) {
             return [
-                .systemSmall,
-                .systemMedium,
-                .systemLarge,
-                .systemExtraLarge,
                 .accessoryInline,
                 .accessoryRectangular,
                 .accessoryCircular
             ]
         } else {
-            if #available(iOSApplicationExtension 15.0, *) {
-                return [
-                    .systemSmall,
-                    .systemMedium,
-                    .systemLarge,
-                    .systemExtraLarge
-                ]
-            } else {
-                return [
-                    .systemSmall,
-                    .systemMedium,
-                    .systemLarge
-                ]
-            }
+            return []
         }
     }
+    
+    var body: some WidgetConfiguration {
+        IntentConfiguration(kind: kind, intent: FundraisingEventLockScreenConfigurationIntent.self, provider: FundraisingLockScreenProvider()) { entry in
+            FundraisingLockScreenWidgetView(entry: entry)
+        }
+        .configurationDisplayName("Relay FM for St. Jude")
+        .description("Displays the current status of the overall fundraising event.")
+        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+            apiClient.backgroundCompletionHandler = completion
+            // Access the background session to make sure it is initialised
+            _ = apiClient.backgroundURLSession
+        }
+        .supportedFamilies(supportedFamilies)
+    }
+}
+
+struct FundraisingEventWidget: Widget {
+    let kind: String = "FundraisingEvent"
+    @StateObject private var apiClient = ApiClient.shared
     
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: FundraisingEventConfigurationIntent.self, provider: FundraisingProvider()) { entry in
@@ -93,7 +113,6 @@ struct FundraisingEventWidget: Widget {
             // Access the background session to make sure it is initialised
             _ = apiClient.backgroundURLSession
         }
-        .supportedFamilies(supportedFamilies)
     }
 }
 

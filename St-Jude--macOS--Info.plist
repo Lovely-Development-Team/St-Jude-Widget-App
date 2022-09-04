@@ -6,6 +6,7 @@
 	<array>
 		<string>ConfigurationIntent</string>
 		<string>FundraisingEventConfigurationIntent</string>
+		<string>FundraisingEventLockScreenConfigurationIntent</string>
 	</array>
 </dict>
 </plist>

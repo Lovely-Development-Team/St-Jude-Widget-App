@@ -120,6 +120,7 @@ extension WidgetDataProviding {
 }
 
 extension WidgetDataProviding {
+    
     private func fetchFundraisingEvent(completion: @escaping (Result<TiltifyCauseResponse, Error>) -> ()) {
         _ = apiClient.fetchCause(completion: completion)
     }
@@ -134,6 +135,18 @@ extension WidgetDataProviding {
             }
         }
         return FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: sampleCampaign)
+    }
+    
+    internal func fetchPlaceholder(in context: Context) -> FundraisingLockScreenEventEntry {
+        if let data = UserDefaults.shared.data(forKey: "relayData") {
+            do {
+                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                return FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: campaign)
+            } catch {
+                dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
+            }
+        }
+        return FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: sampleCampaign)
     }
     
     internal func fetchSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
@@ -151,6 +164,27 @@ extension WidgetDataProviding {
                 Task {
                     let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
                     let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
+                    completion(entry)
+                }
+            }
+        }
+    }
+    
+    internal func fetchSnapshot(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (FundraisingLockScreenEventEntry) -> ()) {
+        self.fetchFundraisingEvent { result in
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
+                Task {
+                    if let fundraisingEvent = await fetchStoredDataForFundraisingEvent() {
+                        completion(FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: fundraisingEvent))
+                    }
+                }
+                break
+            case .success(let response):
+                Task {
+                    let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
+                    let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
                     completion(entry)
                 }
             }
@@ -181,4 +215,30 @@ extension WidgetDataProviding {
             }
         }
     }
+    
+    internal func fetchTimeline(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingLockScreenEventEntry>) -> ()) {
+        self.fetchFundraisingEvent { result in
+            Task {
+                switch result {
+                case .failure(let error):
+                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                    if let campaign = await fetchStoredDataForFundraisingEvent() {
+                        completion(Timeline(entries: [FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)], policy: .atEnd))
+                        return
+                    } else {
+                        let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: sampleCampaign)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
+                    }
+                case .success(let response):
+                    Task {
+                        let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
+                        let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                    }
+                }
+            }
+        }
+    }
+    
 }
