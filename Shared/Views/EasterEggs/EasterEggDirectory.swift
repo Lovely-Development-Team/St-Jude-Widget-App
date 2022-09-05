@@ -81,9 +81,9 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 80, height: 80)
                 .rotationEffect(.degrees(-20))
+                .tapToWobble(degrees: -720, anchor: .center)
                 .offset(x: -40)
                 .offset(y: 5)
-                .tapToWobble()
         ),
         right: nil
     )
