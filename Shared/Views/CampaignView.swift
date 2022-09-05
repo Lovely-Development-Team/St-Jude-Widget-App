@@ -23,13 +23,7 @@ struct CampaignView: View {
     @State private var showShareView: Bool = false
     @State private var showSupporterSheet: Bool = false
     
-    @State private var animate = false
-    @State private var animateMyke = false
-    @State private var animateStephen = false
-    @State private var animationType: Animation? = .none
-    #if !os(macOS)
-    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
-    #endif
+    @State private var isRefreshing: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
@@ -87,7 +81,7 @@ struct CampaignView: View {
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                     
                 }
-                    
+                
                 LazyVGrid(columns: [GridItem(.flexible()),
                                     GridItem(.flexible())]) {
                     Button(action: {
@@ -125,10 +119,10 @@ struct CampaignView: View {
                     }
                     .disabled(rewards.isEmpty)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 
                 ZStack {
-                
+                    
                     if let egg = easterEggDirectory[initialCampaign?.id ?? fundraisingEvent?.id ?? UUID()] {
                         if let left = egg.left {
                             HStack {
@@ -228,7 +222,7 @@ struct CampaignView: View {
                             .fontWeight(.bold)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.top, milestones.isEmpty ? 0 : 10)
-            
+                        
                         Text("\(rewards.count)")
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 8)
@@ -361,13 +355,22 @@ struct CampaignView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    isRefreshing = true
                     Task {
                         await refresh()
+                        isRefreshing = false
                     }
                 }) {
-                    Label("Refresh", systemImage: "arrow.counterclockwise")
+                    ZStack {
+                        if isRefreshing {
+                            ProgressView()
+                        }
+                        Label("Refresh", systemImage: "arrow.counterclockwise")
+                            .opacity(isRefreshing ? 0 : 1)
+                    }
                 }
                 .keyboardShortcut("r")
+                .disabled(isRefreshing)
             }
         }
         .navigationTitle(navigationTitle)
