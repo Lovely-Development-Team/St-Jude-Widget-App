@@ -298,6 +298,16 @@ struct CampaignList: View {
                         .labelStyle(.iconOnly)
                 }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    Task {
+                        await refresh()
+                    }
+                }) {
+                    Label("Refresh", systemImage: "arrow.counterclockwise")
+                }
+                .keyboardShortcut("r")
+            }
         }
         .navigationTitle("Relay FM for St. Jude 2022")
         //        .searchable(text: $searchText, placement: .toolbar)

@@ -359,6 +359,16 @@ struct CampaignView: View {
                 .opacity(fundraisingEvent == nil ? 1 : 0)
                 .disabled(fundraisingEvent != nil)
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    Task {
+                        await refresh()
+                    }
+                }) {
+                    Label("Refresh", systemImage: "arrow.counterclockwise")
+                }
+                .keyboardShortcut("r")
+            }
         }
         .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
