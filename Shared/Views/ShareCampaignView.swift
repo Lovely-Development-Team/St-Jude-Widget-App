@@ -27,6 +27,7 @@ struct ShareCampaignView: View {
     @State private var showMainGoalPercentage: Bool = false
     @State private var appearance: WidgetAppearance = .stjude
     @State private var clipCorners: Bool = false
+    @State private var mvoMode: Bool = false
     
     @State private var presentSystemShareSheet: ImageToShare? = nil
     
@@ -41,7 +42,7 @@ struct ShareCampaignView: View {
     }
     
     var entryView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, mvoMode: mvoMode)
             .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 350)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 25 : 0)))
     }
@@ -51,6 +52,11 @@ struct ShareCampaignView: View {
         VStack(spacing: 0) {
             entryView
                 .cornerRadius((clipCorners ? 25 : 0))
+                .onTapGesture(count: 2) {
+                    withAnimation {
+                        mvoMode.toggle()
+                    }
+                }
             Button(action: {
                 presentSystemShareSheet = ImageToShare(id: UUID(), image: entryView.asImage)
             }) {
@@ -97,8 +103,8 @@ struct ShareCampaignView: View {
                         Text("St. Jude (Inverted)").tag(WidgetAppearance.stjudeinverted)
                         Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
                     }
+//                    Toggle("MVO Mode", isOn: $mvoMode.animation())
                     Toggle("Rounded Corners", isOn: $clipCorners.animation())
-                    
                 }
             }
             .toolbar {
