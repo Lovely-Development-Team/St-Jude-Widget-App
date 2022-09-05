@@ -13,10 +13,12 @@ struct CampaignViewEasterEgg {
     let right: AnyView?
 }
 
+let mykeImages = ["myke_dance_01", "myke_dance_02", "myke_dance_03", "myke_dance_04", "myke_dance_05", "myke_dance_06", "myke_dance_07", "myke_dance_08", "myke_dance_09", "myke_dance_10"]
+let stephenImages = ["stephen_swing_01", "stephen_swing_02", "stephen_swing_03", "stephen_swing_04", "stephen_swing_05", "stephen_swing_06", "stephen_swing_07", "stephen_swing_08", "stephen_swing_09", "stephen_swing_10"]
+
 let xRayManAndMrYellow = CampaignViewEasterEgg(
     left: AnyView(
-        Image("XRayMan")
-            .resizable()
+        AnimatedImage(imageNames: mykeImages)
             .aspectRatio(contentMode: .fit)
             .frame(width: 80, height: 80)
             .offset(x: -18)
@@ -24,8 +26,7 @@ let xRayManAndMrYellow = CampaignViewEasterEgg(
             .tapToWobble(degrees: 5, anchor: .bottom)
     ),
     right: AnyView(
-        Image("MrYellow")
-            .resizable()
+        AnimatedImage(imageNames: stephenImages)
             .aspectRatio(contentMode: .fit)
             .frame(width: 80, height: 80)
             .offset(x: 15)
@@ -53,7 +54,9 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
     // Kathy
     UUID(uuidString: "DA41C497-DA79-4586-A802-03D0FB058F84")!: CampaignViewEasterEgg(
         left: nil,
-        right: AnyView(UnicornView())
+        right: AnyView(
+            UnicornView()
+        )
     ),
     // Relay
     UUID(uuidString: "8A17EE82-B90A-4ABA-A22F-E8CC7E8CF410")!: xRayManAndMrYellow,
