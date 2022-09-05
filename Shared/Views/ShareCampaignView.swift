@@ -52,11 +52,6 @@ struct ShareCampaignView: View {
         VStack(spacing: 0) {
             entryView
                 .cornerRadius((clipCorners ? 25 : 0))
-                .onTapGesture(count: 2) {
-                    withAnimation {
-                        mvoMode.toggle()
-                    }
-                }
             Button(action: {
                 presentSystemShareSheet = ImageToShare(id: UUID(), image: entryView.asImage)
             }) {
@@ -103,7 +98,7 @@ struct ShareCampaignView: View {
                         Text("St. Jude (Inverted)").tag(WidgetAppearance.stjudeinverted)
                         Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
                     }
-//                    Toggle("MVO Mode", isOn: $mvoMode.animation())
+                    Toggle("MVO Mode", isOn: $mvoMode.animation())
                     Toggle("Rounded Corners", isOn: $clipCorners.animation())
                 }
             }

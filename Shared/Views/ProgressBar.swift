@@ -19,17 +19,21 @@ struct ProgressBar: View {
     let fillColor: Color
     
     var mvoMode: Bool = false
+    var mvoModeString: String {
+        var result = ""
+        for i in 1...15 {
+            result += (Float(i) / Float(15)) < value ? "🟩" : "⬜️"
+        }
+        return result
+    }
     
     var body: some View {
         GeometryReader { geometry in
             if mvoMode {
-                HStack(spacing: 2) {
-                    ForEach(1...15, id: \.self) { index in
-                        Rectangle()
-                            .fill((Float(index) / Float(15)) < value ? fillColor : foregroundColour)
-                            .frame(height: geometry.size.width / 15)
-                    }
-                }
+                Text(mvoModeString)
+                    .font(.largeTitle)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.2)
             } else {
                 ZStack(alignment: .leading) {
                     Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
