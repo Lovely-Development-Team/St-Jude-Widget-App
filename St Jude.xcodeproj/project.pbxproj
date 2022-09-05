@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16AF570728C63180006B9530 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 16AF570628C63180006B9530 /* Kingfisher */; };
 		5E1705C428C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C528C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C728C32F5D00E70019 /* TapToWobble.swift */; };
@@ -468,6 +469,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16AF570728C63180006B9530 /* Kingfisher in Frameworks */,
 				63D0CD2628B63C500073957E /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -827,6 +829,7 @@
 			name = "St Jude (iOS)";
 			packageProductDependencies = (
 				63D0CD2528B63C500073957E /* GRDB */,
+				16AF570628C63180006B9530 /* Kingfisher */,
 			);
 			productName = "St Nude (iOS)";
 			productReference = 6357653426D1A73E004F04DE /* St Jude.app */;
@@ -983,6 +986,7 @@
 			mainGroup = 6357652726D1A73B004F04DE;
 			packageReferences = (
 				63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+				16AF570528C63180006B9530 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 6357653526D1A73E004F04DE /* Products */;
 			projectDirPath = "";
@@ -1966,6 +1970,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		16AF570528C63180006B9530 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/groue/GRDB.swift.git";
@@ -1977,6 +1989,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		16AF570628C63180006B9530 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16AF570528C63180006B9530 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		63D0CD2528B63C500073957E /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */;
