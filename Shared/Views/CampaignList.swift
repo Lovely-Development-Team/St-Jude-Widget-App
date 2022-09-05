@@ -50,6 +50,8 @@ struct CampaignList: View {
     @State private var showSearchBar: Bool = false
     @State private var searchText = ""
     
+    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
             return c1.id.uuidString < c2.id.uuidString
@@ -245,6 +247,11 @@ struct CampaignList: View {
         }
         .refreshable {
             await refresh()
+        }
+        .onReceive(timer) { _ in
+            Task {
+                await refresh()
+            }
         }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
