@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct LockScreenInlineView: View {
     
@@ -33,6 +34,11 @@ struct LockScreenInlineView: View {
 
 struct LockScreenInlineView_Previews: PreviewProvider {
     static var previews: some View {
-        LockScreenInlineView(campaign: sampleCampaign)
+        if #available(iOSApplicationExtension 16.0, *) {
+            LockScreenInlineView(campaign: sampleCampaign)
+                .previewContext(WidgetPreviewContext(family: .accessoryInline))
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

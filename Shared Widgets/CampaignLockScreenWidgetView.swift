@@ -63,7 +63,7 @@ struct CampaignLockScreenWidgetView : View {
             case .accessoryRectangular:
                 LockScreenRectangularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
             case .accessoryCircular:
-                LockScreenCircularView(campaign: entry.campaign, shouldShowGoalPercentage: shouldShowGoalPercentage)
+                LockScreenCircularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
             default:
                 LockScreenInlineView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
             }

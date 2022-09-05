@@ -6,35 +6,46 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct LockScreenCircularView: View {
     
     let campaign: TiltifyWidgetData
+    var shouldShowFullCurrencySymbol: Bool = false
     var shouldShowGoalPercentage: Bool = false
     
     var body: some View {
         ZStack {
-            ProgressBar(value: .constant(Float(campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true, circleStrokeWidth: 6)
-            if shouldShowGoalPercentage {
+            if #available(iOSApplicationExtension 16.0, *) {
+                Gauge(value: campaign.percentageReached ?? 0, in: 0...1) {
+                }
+                .gaugeStyle(.accessoryCircularCapacity)
                 if campaign.percentageReached ?? 0 >= 1 {
                     Image(systemName: "party.popper.fill")
                 } else {
-                    Text(campaign.shortPercentageReachedDescription ?? "0%")
-                        .font(.system(.headline, design: .rounded))
+                    Group {
+                        if shouldShowGoalPercentage {
+                            Text((campaign.shortPercentageReachedDescription ?? "0"))
+                        } else {
+                            if shouldShowFullCurrencySymbol {
+                                VStack(spacing: 0) {
+                                    Text("USD")
+                                        .font(.system(.footnote, design: .rounded))
+                                        .fontWeight(.bold)
+                                    Text(campaign.raisedShortRepresentation(showFullCurrencySymbol: true))
+                                }
+                                .padding(.top, -6)
+                            } else {
+                                Text("\(campaign.raisedShortRepresentation(showFullCurrencySymbol: false))")
+                            }
+                        }
+                    }
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .fontWeight(.bold)
+                    .padding(.horizontal, 8)
                 }
             }
-                    VStack {
-                        Spacer()
-                        Image(systemName: "dollarsign")
-                            .font(.system(.caption, design: .rounded))
-//                        Image("l2culogosvg")
-//                            .renderingMode(.template)
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .foregroundColor(.secondary)
-//                            .frame(height: 15)
-//                            .accessibility(hidden: true)
-                    }
         }
         .widgetURL(URL(string: campaign.widgetURL)!)
     }
@@ -42,6 +53,11 @@ struct LockScreenCircularView: View {
 
 struct LockScreenCircularView_Previews: PreviewProvider {
     static var previews: some View {
-        LockScreenCircularView(campaign: sampleCampaign)
+        if #available(iOSApplicationExtension 16.0, *) {
+            LockScreenCircularView(campaign: sampleCampaign, shouldShowFullCurrencySymbol: false)
+                .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

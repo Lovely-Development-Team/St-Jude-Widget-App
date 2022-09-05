@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct LockScreenRectangularView: View {
     
@@ -37,6 +38,11 @@ struct LockScreenRectangularView: View {
 
 struct LockScreenRectangularView_Previews: PreviewProvider {
     static var previews: some View {
-        LockScreenRectangularView(campaign: sampleCampaign)
+        if #available(iOSApplicationExtension 16.0, *) {
+            LockScreenRectangularView(campaign: sampleCampaign, shouldShowGoalPercentage: true)
+                .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

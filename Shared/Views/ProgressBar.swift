@@ -34,7 +34,7 @@ struct ProgressBar: View {
     var circleProgressBar: some View {
         ZStack {
             Circle()
-                .trim(from: 0, to: 0.75)
+//                .trim(from: 0, to: 0.9)
                 .stroke(
                     barColour,
                     style: StrokeStyle(
@@ -43,7 +43,7 @@ struct ProgressBar: View {
                     )
                 )
             Circle()
-                .trim(from: 0, to: CGFloat(value) * 0.75)
+                .trim(from: 0, to: CGFloat(value))
                 .stroke(
                     fillColor,
                     style: StrokeStyle(
@@ -52,7 +52,7 @@ struct ProgressBar: View {
                     )
                 )
         }
-        .rotationEffect(.degrees(90 + 45))
+        .rotationEffect(.degrees(-90))
         .padding(circleStrokeWidth / 2)
     }
     
