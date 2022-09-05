@@ -27,6 +27,7 @@ struct LockScreenInlineView: View {
     
     var body: some View {
         Label(accessoryInlineText, systemImage: accessoryInlineLabel)
+            .widgetURL(URL(string: campaign.widgetURL)!)
     }
 }
 

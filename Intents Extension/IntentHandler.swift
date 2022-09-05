@@ -25,6 +25,8 @@ class IntentHandler: INExtension {
             return ListMilestonesIntentHandler()
         case is ConfigurationIntent:
             return ConfigurationIntentHandler()
+        case is CampaignLockScreenConfigurationIntent:
+            return CampaignConfigurationIntentHandler()
         default:
             return self
         }

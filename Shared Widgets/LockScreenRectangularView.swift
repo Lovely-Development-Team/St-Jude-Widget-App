@@ -31,6 +31,7 @@ struct LockScreenRectangularView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             }
         }
+        .widgetURL(URL(string: campaign.widgetURL)!)
     }
 }
 
