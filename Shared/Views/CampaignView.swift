@@ -31,6 +31,8 @@ struct CampaignView: View {
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     #endif
     
+    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    
     @StateObject private var apiClient = ApiClient.shared
     
     init(initialCampaign: Campaign) {
@@ -300,6 +302,11 @@ struct CampaignView: View {
         }
         .refreshable {
             await refresh()
+        }
+        .onReceive(timer) { _ in
+            Task {
+                await refresh()
+            }
         }
         .onAppear {
             
