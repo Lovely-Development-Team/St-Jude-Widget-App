@@ -4,6 +4,7 @@
 <dict>
 	<key>NSUserActivityTypes</key>
 	<array>
+		<string>CampaignLockScreenConfigurationIntent</string>
 		<string>ConfigurationIntent</string>
 		<string>FundraisingEventConfigurationIntent</string>
 		<string>FundraisingEventLockScreenConfigurationIntent</string>

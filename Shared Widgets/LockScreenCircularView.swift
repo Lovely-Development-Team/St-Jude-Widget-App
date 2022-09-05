@@ -36,6 +36,7 @@ struct LockScreenCircularView: View {
 //                            .accessibility(hidden: true)
                     }
         }
+        .widgetURL(URL(string: campaign.widgetURL)!)
     }
 }
 

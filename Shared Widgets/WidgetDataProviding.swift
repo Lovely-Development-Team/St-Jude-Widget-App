@@ -55,7 +55,6 @@ extension WidgetDataProviding {
         _ = apiClient.fetchCampaign(vanity: vanity ?? "relay-fm", slug: slug ?? "relay-fm-for-st-jude-2022", completion: completion)
     }
     
-    
     internal func fetchPlaceholder(in context: Context) -> SimpleEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
@@ -66,6 +65,18 @@ extension WidgetDataProviding {
             }
         }
         return SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
+    }
+    
+    internal func fetchPlaceholder(in context: Context) -> CampaignLockScreenEventEntry {
+        if let data = UserDefaults.shared.data(forKey: "relayData") {
+            do {
+                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                return CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: campaign)
+            } catch {
+                dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
+            }
+        }
+        return CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
     }
     
     internal func fetchSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -91,6 +102,29 @@ extension WidgetDataProviding {
         }
     }
     
+    internal func fetchSnapshot(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (CampaignLockScreenEventEntry) -> ()) {
+        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
+                Task {
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        completion(CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign))
+                        return
+                    }
+                    completion(CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: campaign))
+                }
+                break
+            case .success(let response):
+                let campaign: TiltifyWidgetData = TiltifyWidgetData(from:response.data.campaign)
+                let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)
+                storeData(campaign)
+                completion(entry)
+            }
+        }
+    }
+    
     internal func fetchTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
             Task {
@@ -109,6 +143,33 @@ extension WidgetDataProviding {
                 case .success(let response):
                     let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
                     let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
+                    storeData(campaign)
+                    entries.append(entry)
+                }
+                let timeline = Timeline(entries: entries, policy: .atEnd)
+                completion(timeline)
+            }
+        }
+    }
+    
+    internal func fetchTimeline(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<CampaignLockScreenEventEntry>) -> ()) {
+        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
+            Task {
+                var entries: [CampaignLockScreenEventEntry] = []
+                switch result {
+                case .failure(let error):
+                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        let entry = CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
+                    }
+                    entries.append(CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign))
+                    break
+                case .success(let response):
+                    let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                    let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)
                     storeData(campaign)
                     entries.append(entry)
                 }

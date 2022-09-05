@@ -9,6 +9,23 @@ import WidgetKit
 import SwiftUI
 import Intents
 
+struct CampaignLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
+    let apiClient = ApiClient.shared
+    
+    func placeholder(in context: Context) -> CampaignLockScreenEventEntry {
+        return fetchPlaceholder(in: context)
+    }
+    
+    func getSnapshot(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (CampaignLockScreenEventEntry) -> Void) {
+        fetchSnapshot(for: configuration, in: context, completion: completion)
+    }
+    
+    func getTimeline(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<CampaignLockScreenEventEntry>) -> Void) {
+        fetchTimeline(for: configuration, in: context, completion: completion)
+    }
+    
+}
+
 struct FundraisingLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
     let apiClient = ApiClient.shared
     
@@ -64,7 +81,40 @@ struct TiltifyStJudeWidgets: WidgetBundle {
        FundraisingEventWidget()
        FundraisingLockScreenWidget()
        Tiltify_St_Jude_Widget()
+       CampaignLockScreenWidget()
    }
+}
+
+struct CampaignLockScreenWidget: Widget {
+    let kind: String = "CampaignLockScreenWidget"
+    @StateObject private var apiClient = ApiClient.shared
+    
+    var supportedFamilies: [WidgetFamily] {
+        if #available(iOSApplicationExtension 16.0, *) {
+            return [
+                .accessoryInline,
+                .accessoryRectangular,
+                .accessoryCircular
+            ]
+        } else {
+            return []
+        }
+    }
+    
+    var body: some WidgetConfiguration {
+        IntentConfiguration(kind: kind, intent: CampaignLockScreenConfigurationIntent.self, provider: CampaignLockScreenProvider()) { entry in
+            CampaignLockScreenWidgetView(entry: entry)
+        }
+        .configurationDisplayName("Individual Fundraiser")
+        .description("Displays the current status of the overall fundraising event.")
+        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+            apiClient.backgroundCompletionHandler = completion
+            // Access the background session to make sure it is initialised
+            _ = apiClient.backgroundURLSession
+        }
+        .supportedFamilies(supportedFamilies)
+    }
+    
 }
 
 struct FundraisingLockScreenWidget: Widget {
