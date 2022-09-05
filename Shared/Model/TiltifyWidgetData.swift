@@ -244,6 +244,40 @@ struct TiltifyWidgetData {
         return description
     }
     
+    func raisedShortRepresentation(showFullCurrencySymbol: Bool = false) -> String {
+        guard let totalRaised = totalRaised else {
+            return "?"
+        }
+        
+        let originalSymbol = currencyFormatter.currencySymbol
+        let originalCode = currencyFormatter.currencyCode
+        currencyFormatter.currencyCode = "USD"
+        
+        if !showFullCurrencySymbol {
+            currencyFormatter.currencySymbol = "$"
+        } else {
+            currencyFormatter.currencySymbol = ""
+        }
+        
+        let result: String
+        
+        if totalRaised < 1000 {
+            result = currencyFormatter.string(from: totalRaised as NSNumber) ?? "?"
+        } else if totalRaised < 1000000 {
+            currencyFormatter.maximumFractionDigits = 1
+            let newNumber = currencyFormatter.string(from: (totalRaised / 1000) as NSNumber) ?? "?"
+            result = "\(newNumber)k"
+        } else {
+            currencyFormatter.maximumFractionDigits = 1
+            let newNumber = currencyFormatter.string(from: (totalRaised / 1000000) as NSNumber) ?? "?"
+            result = "\(newNumber)m"
+        }
+        
+        currencyFormatter.currencySymbol = originalSymbol
+        currencyFormatter.currencyCode = originalCode
+        return result
+    }
+    
     var widgetURL: String {
         "relay-fm-for-st-jude://campaign?id=\(id)"
     }
