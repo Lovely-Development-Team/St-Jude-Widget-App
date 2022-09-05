@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import BackgroundTasks
+import Kingfisher
 
 enum ActiveSheet: Identifiable {
     case notifications, egg
@@ -95,19 +96,14 @@ struct ContentView: View {
                 ForEach(widgetData.rewards, id: \.id) { reward in
                     HStack {
                         if let url = URL(string: reward.imageSrc ?? "") {
-                            AsyncImage(
-                                url: url,
-                                content: { image in
-                                    image.resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 45, height: 45)
-                                },
-                                placeholder: {
+                            KFImage.url(url)
+                                .resizable()
+                                .placeholder {
                                     ProgressView()
                                         .frame(width: 45, height: 45)
-                                }
-                            )
-                            .cornerRadius(5)
+                                }.aspectRatio(contentMode: .fit)
+                                .frame(width: 45, height: 45)
+                                .cornerRadius(5)
                         }
                         VStack {
                             HStack {

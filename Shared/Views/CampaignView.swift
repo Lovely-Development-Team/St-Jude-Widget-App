@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GRDB
+import Kingfisher
 
 struct CampaignView: View {
     
@@ -246,19 +247,14 @@ struct CampaignView: View {
                             }
                             HStack(alignment: .top) {
                                 if let url = URL(string: reward.imageSrc ?? "") {
-                                    AsyncImage(
-                                        url: url,
-                                        content: { image in
-                                            image.resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 45, height: 45)
-                                        },
-                                        placeholder: {
+                                    KFImage.url(url)
+                                        .resizable()
+                                        .placeholder {
                                             ProgressView()
                                                 .frame(width: 45, height: 45)
-                                        }
-                                    )
-                                    .cornerRadius(5)
+                                        }.aspectRatio(contentMode: .fit)
+                                        .frame(width: 45, height: 45)
+                                        .cornerRadius(5)
                                 }
                                 VStack {
                                     Text(reward.description)

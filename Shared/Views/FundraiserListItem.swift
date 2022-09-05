@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FundraiserListItem: View {
     
@@ -26,19 +27,15 @@ struct FundraiserListItem: View {
     @ViewBuilder
     func image(size: CGFloat = 45) -> some View {
         if let url = URL(string: campaign.avatar?.src ?? "") {
-            AsyncImage(
-                url: url,
-                content: { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: size, height: size)
-                },
-                placeholder: {
+            KFImage.url(url)
+                .resizable()
+                .placeholder {
                     ProgressView()
                         .frame(width: size, height: size)
                 }
-            )
-            .cornerRadius(5)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: size, height: size)
+                .cornerRadius(5)
         } else {
             EmptyView()
         }
