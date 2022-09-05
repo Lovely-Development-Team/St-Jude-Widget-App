@@ -50,6 +50,8 @@ struct CampaignList: View {
     @State private var showSearchBar: Bool = false
     @State private var searchText = ""
     
+    @State private var isRefreshing: Bool = false
+    
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
@@ -290,7 +292,7 @@ struct CampaignList: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     showAboutSheet = true
                 }) {
@@ -300,17 +302,25 @@ struct CampaignList: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    isRefreshing = true
                     Task {
                         await refresh()
+                        isRefreshing = false
                     }
                 }) {
-                    Label("Refresh", systemImage: "arrow.counterclockwise")
+                    ZStack {
+                        if isRefreshing {
+                            ProgressView()
+                        }
+                        Label("Refresh", systemImage: "arrow.counterclockwise")
+                            .opacity(isRefreshing ? 0 : 1)
+                    }
                 }
                 .keyboardShortcut("r")
+                .disabled(isRefreshing)
             }
         }
         .navigationTitle("Relay FM for St. Jude 2022")
-        //        .searchable(text: $searchText, placement: .toolbar)
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value

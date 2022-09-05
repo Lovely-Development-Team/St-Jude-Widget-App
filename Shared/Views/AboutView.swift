@@ -19,6 +19,7 @@ struct AboutView: View {
                 GroupBox {
                     Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for pediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
                 }
+                .padding(.top, -40)
                 .padding(.top)
                 Text("Every year throughout the month of September, Relay FM raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -60,7 +61,6 @@ struct AboutView: View {
                     Spacer()
                 }
             }
-            .offset(y: -40)
             .padding(.horizontal)
             .padding(.bottom)
         }
