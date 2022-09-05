@@ -174,7 +174,9 @@ struct CampaignList: View {
                             withAnimation {
                                 showSearchBar = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                    withAnimation {
+                                        scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                    }
                                 }
                             }
                         }) {
