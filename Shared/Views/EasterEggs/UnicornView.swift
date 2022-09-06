@@ -13,18 +13,19 @@ struct UnicornView: View {
     
     var body: some View {
         HStack {
-            Rectangle()
-                .fill(.clear)
-                .frame(height: 80)
             if appear {
                 Image("unicorn")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                     .frame(height: 80)
-                    .offset(x: 40)
+                    .offset(x: -40)
                     .offset(y: 5)
-                    .transition(.move(edge: .trailing))
+                    .transition(.move(edge: .leading))
             }
+            Rectangle()
+                .fill(.clear)
+                .frame(height: 80)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
