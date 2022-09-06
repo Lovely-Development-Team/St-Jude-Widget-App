@@ -207,6 +207,7 @@ struct CampaignList: View {
                                     HStack {
                                         Image(systemName: "shuffle")
                                         Text("Discover a random fundraiser")
+                                            .multilineTextAlignment(.leading)
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                         Image(systemName: "chevron.right")
                                             .foregroundColor(.secondary)
