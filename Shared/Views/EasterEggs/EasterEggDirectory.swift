@@ -27,7 +27,7 @@ let xRayManAndMrYellow = CampaignViewEasterEgg(
             .offset(y: 5)
     ),
     right: AnyView(
-        AnimatedImage(imageNames: stephenImages)
+        AnimatedImage(imageNames: stephenImages, interval: 0.1)
             .aspectRatio(contentMode: .fit)
             .frame(width: 80, height: 80)
             .offset(x: 15)
