@@ -9,12 +9,22 @@ import SwiftUI
 
 struct AnimatedImage: View {
     @State private var image: Image?
+    @State private var imageIndex: Int = 0
     let imageNames: [String]
     @State private var tapped: Bool = false
+    
+    var interval: CGFloat = 0.06
     
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
 #endif
+    
+    var staticImage: Image {
+        if imageIndex < self.imageNames.count {
+            return Image(self.imageNames[imageIndex])
+        }
+        return Image(self.imageNames.first!)
+    }
     
     var body: some View {
         Group {
@@ -23,7 +33,7 @@ struct AnimatedImage: View {
                     .resizable()
                     .scaledToFit()
             } else {
-                Image(self.imageNames.first!)
+                staticImage
                     .resizable()
                     .scaledToFit()
             }
@@ -40,10 +50,9 @@ struct AnimatedImage: View {
     }
     
     private func animate() {
-        var imageIndex: Int = 0
         var timerLoops: Int = 50
         
-        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { timer in
             if imageIndex < self.imageNames.count {
                 self.image = Image(self.imageNames[imageIndex])
                 imageIndex += 1
