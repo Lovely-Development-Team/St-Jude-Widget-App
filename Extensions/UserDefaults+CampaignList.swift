@@ -16,7 +16,7 @@ extension UserDefaults {
     
     var campaignListSortOrder: FundraiserSortOrder {
         get {
-            FundraiserSortOrder(rawValue: integer(forKey: Self.campaignListSortOrderKey)) ?? .byStarred
+            FundraiserSortOrder(rawValue: integer(forKey: Self.campaignListSortOrderKey)) ?? .byName
         }
         set {
             set(newValue.rawValue, forKey: Self.campaignListSortOrderKey)
