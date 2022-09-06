@@ -17,8 +17,10 @@ struct LockScreenRectangularView: View {
     var body: some View {
         VStack(spacing: 4) {
             Spacer()
+                .frame(minHeight: 0, maxHeight: .infinity)
             Text(campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol))
-                .font(.system(.headline, design: .rounded))
+                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .scaledToFill()
                 .minimumScaleFactor(0.2)
                 .lineLimit(1)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -27,7 +29,6 @@ struct LockScreenRectangularView: View {
             if shouldShowGoalPercentage, let percentage = campaign.shortPercentageReachedDescription {
                 Text("\(percentage) of \(campaign.goalDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol))")
                     .font(.caption)
-                    .minimumScaleFactor(0.5)
                     .lineLimit(1)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             }
