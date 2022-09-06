@@ -124,16 +124,6 @@ struct CampaignList: View {
                             .padding()
                     }
                     
-                    Link("Visit the event!", destination: URL(string: "https://stjude.org/relay")!)
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .padding(.horizontal, 20)
-                        .background(Color.accentColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .padding(.bottom)
-                    
                     HStack {
                         Text("Fundraisers")
                             .font(.title)
@@ -149,18 +139,6 @@ struct CampaignList: View {
                                 )
                         }
                         Spacer()
-                        Button(action: {
-                            while true {
-                                if let random = campaigns.randomElement(), random.id != RELAY_FUNDRAISER_ID {
-                                    selectedCampaignId = random.id
-                                    break
-                                }
-                            }
-                        }) {
-                            Label("Random Fundraiser", systemImage: "shuffle")
-                                .labelStyle(.iconOnly)
-                        }
-                        .disabled(campaigns.isEmpty)
                         Menu {
                             ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
                                 Button(action: {
@@ -206,6 +184,8 @@ struct CampaignList: View {
                                 .id("SEARCH_BAR")
                         }
                         
+                        
+                        
                         if selectedCampaignId != nil {
                             /// In order to open a selected campaign when a widget is tapped, the corresponding
                             /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
@@ -219,6 +199,28 @@ struct CampaignList: View {
                         }
                         
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                            
+                            Button(action: {
+                                while true {
+                                    if let random = campaigns.randomElement(), random.id != RELAY_FUNDRAISER_ID {
+                                        selectedCampaignId = random.id
+                                        break
+                                    }
+                                }
+                            }) {
+                                GroupBox {
+                                    HStack {
+                                        Image(systemName: "shuffle")
+                                        Text("Discover a random fundraiser")
+                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .foregroundColor(.primary)
+                                }
+                            }
+                            .padding(.top)
+                            
                             ForEach(searchResults, id: \.id) { campaign in
                                 NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                                     FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
