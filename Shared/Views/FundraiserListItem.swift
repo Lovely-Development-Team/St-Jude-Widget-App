@@ -52,7 +52,7 @@ struct FundraiserListItem: View {
                         if showDisclosureIndicator {
                             Spacer()
                             Image(systemName: disclosureIndicatorIcon)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         }
                     }
                     HStack {
@@ -86,7 +86,7 @@ struct FundraiserListItem: View {
                         if showDisclosureIndicator {
                             Spacer()
                             Image(systemName: disclosureIndicatorIcon)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         } else if showShareIcon {
                             Spacer()
                             Button(action: {
