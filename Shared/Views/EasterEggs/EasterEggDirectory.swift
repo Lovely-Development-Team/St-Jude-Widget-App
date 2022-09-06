@@ -23,7 +23,6 @@ let xRayManAndMrYellow = CampaignViewEasterEgg(
             .frame(width: 80, height: 80)
             .offset(x: -18)
             .offset(y: 5)
-            .tapToWobble(degrees: 5, anchor: .bottom)
     ),
     right: AnyView(
         AnimatedImage(imageNames: stephenImages)
@@ -31,7 +30,6 @@ let xRayManAndMrYellow = CampaignViewEasterEgg(
             .frame(width: 80, height: 80)
             .offset(x: 15)
             .offset(y: 5)
-            .tapToWobble(anchor: .bottom)
     )
 )
 
