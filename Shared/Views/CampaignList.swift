@@ -149,6 +149,18 @@ struct CampaignList: View {
                                 )
                         }
                         Spacer()
+                        Button(action: {
+                            while true {
+                                if let random = campaigns.randomElement(), random.id != RELAY_FUNDRAISER_ID {
+                                    selectedCampaignId = random.id
+                                    break
+                                }
+                            }
+                        }) {
+                            Label("Random Fundraiser", systemImage: "shuffle")
+                                .labelStyle(.iconOnly)
+                        }
+                        .disabled(campaigns.isEmpty)
                         Menu {
                             ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
                                 Button(action: {

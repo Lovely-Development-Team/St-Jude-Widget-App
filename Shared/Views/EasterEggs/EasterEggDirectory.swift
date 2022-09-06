@@ -16,6 +16,8 @@ struct CampaignViewEasterEgg {
 let mykeImages = ["myke_dance_01", "myke_dance_02", "myke_dance_03", "myke_dance_04", "myke_dance_05", "myke_dance_06", "myke_dance_07", "myke_dance_08", "myke_dance_09", "myke_dance_10"]
 let stephenImages = ["stephen_swing_01", "stephen_swing_02", "stephen_swing_03", "stephen_swing_04", "stephen_swing_05", "stephen_swing_06", "stephen_swing_07", "stephen_swing_08", "stephen_swing_09", "stephen_swing_10"]
 
+let RELAY_FUNDRAISER_ID = UUID(uuidString: "8A17EE82-B90A-4ABA-A22F-E8CC7E8CF410")!
+
 let xRayManAndMrYellow = CampaignViewEasterEgg(
     left: AnyView(
         AnimatedImage(imageNames: mykeImages)
@@ -51,13 +53,20 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
     ),
     // Kathy
     UUID(uuidString: "DA41C497-DA79-4586-A802-03D0FB058F84")!: CampaignViewEasterEgg(
-        left: nil,
+        left: AnyView(UnicornView()),
         right: AnyView(
-            UnicornView()
+            Image("unicorn-left")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 80)
+                .rotationEffect(.degrees(15))
+                .tapToWobble(anchor: .center)
+                .offset(x: 35)
+                .offset(y: 5)
         )
     ),
     // Relay
-    UUID(uuidString: "8A17EE82-B90A-4ABA-A22F-E8CC7E8CF410")!: xRayManAndMrYellow,
+    RELAY_FUNDRAISER_ID: xRayManAndMrYellow,
     // Main Campaign
     UUID(uuidString: "8F4E607C-A117-4C11-9172-23D19C1BE96C")!: xRayManAndMrYellow,
     // Viticci
