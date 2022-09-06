@@ -9,7 +9,6 @@ import SwiftUI
 import GRDB
 
 enum FundraiserSortOrder: Int, CaseIterable {
-    case byStarred
     case byName
     case byAmountRaised
     case byGoal
@@ -17,8 +16,6 @@ enum FundraiserSortOrder: Int, CaseIterable {
     
     var description: String {
         switch self {
-        case .byStarred:
-            return "Starred"
         case .byName:
             return "Name"
         case .byAmountRaised:
@@ -41,7 +38,7 @@ struct CampaignList: View {
     @State private var fundraisingEventCancellable: DatabaseCancellable?
     @State private var fetchCampaignsTask: Task<(), Never>?
     
-    @State private var fundraiserSortOrder: FundraiserSortOrder = .byStarred
+    @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
     @State private var selectedCampaignId: UUID? = nil
     @State private var showEasterEggSheet: Bool = false
@@ -63,6 +60,12 @@ struct CampaignList: View {
     
     var sortedCampaigns: [Campaign] {
         return campaigns.sorted { c1, c2 in
+            if c1.isStarred && !c2.isStarred {
+                return true
+            }
+            if c2.isStarred && !c1.isStarred {
+                return false
+            }
             switch fundraiserSortOrder {
             case .byAmountRaised:
                 let v1 = c1.totalRaised.numericalValue
@@ -85,14 +88,6 @@ struct CampaignList: View {
                     return compareNames(c1: c1, c2: c2)
                 }
                 return v1 > v2
-            case .byStarred:
-                if c1.isStarred && !c2.isStarred {
-                    return true
-                }
-                if c2.isStarred && !c1.isStarred {
-                    return false
-                }
-                return compareNames(c1: c1, c2: c2)
             default:
                 return compareNames(c1: c1, c2: c2)
             }
