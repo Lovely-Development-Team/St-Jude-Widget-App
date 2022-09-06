@@ -43,6 +43,8 @@
 		5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C526DCC01B002892CC /* UIApplication.swift */; };
 		5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
 		5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */; };
+		5E56A7A328C73D4B00B0DD59 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E56A7A228C73D4B00B0DD59 /* AnimatedImage.swift */; };
+		5E56A7A428C73D4B00B0DD59 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E56A7A228C73D4B00B0DD59 /* AnimatedImage.swift */; };
 		5E7C2FF928C521BB00A9B0D5 /* UnicornView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C2FF828C521BB00A9B0D5 /* UnicornView.swift */; };
 		5E7C2FFA28C521BB00A9B0D5 /* UnicornView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C2FF828C521BB00A9B0D5 /* UnicornView.swift */; };
 		5E7C2FFC28C5403600A9B0D5 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C2FFB28C5403600A9B0D5 /* SearchBar.swift */; };
@@ -379,6 +381,7 @@
 		5E482E4F28B7B03C00131DE1 /* CampaignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignView.swift; sourceTree = "<group>"; };
 		5E49D6C526DCC01B002892CC /* UIApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
+		5E56A7A228C73D4B00B0DD59 /* AnimatedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		5E7C2FF828C521BB00A9B0D5 /* UnicornView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicornView.swift; sourceTree = "<group>"; };
 		5E7C2FFB28C5403600A9B0D5 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		5E7C2FFE28C5FF5300A9B0D5 /* CampaignLockScreenEventEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignLockScreenEventEntry.swift; sourceTree = "<group>"; };
@@ -544,6 +547,7 @@
 		5E1705C628C32EE200E70019 /* EasterEggs */ = {
 			isa = PBXGroup;
 			children = (
+				5E56A7A228C73D4B00B0DD59 /* AnimatedImage.swift */,
 				5E1705C728C32F5D00E70019 /* TapToWobble.swift */,
 				5E1705CA28C332AA00E70019 /* EasterEggDirectory.swift */,
 				5E7C2FF828C521BB00A9B0D5 /* UnicornView.swift */,
@@ -1149,6 +1153,7 @@
 				5E1705CB28C332AA00E70019 /* EasterEggDirectory.swift in Sources */,
 				6348F9FC26D6C9970031697F /* Intents.intentdefinition in Sources */,
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
+				5E56A7A328C73D4B00B0DD59 /* AnimatedImage.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
 				63D0CD0A28B267A60073957E /* FundraisingEvent.swift in Sources */,
@@ -1251,6 +1256,7 @@
 				5EE0EC1728BF96B20053C9D1 /* ShareCampaignView.swift in Sources */,
 				5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
+				5E56A7A428C73D4B00B0DD59 /* AnimatedImage.swift in Sources */,
 				5EE0EC1A28BF9FEC0053C9D1 /* View+asImage.swift in Sources */,
 				63D0CD1128B269490073957E /* FundraisingEventCampaign.swift in Sources */,
 				63A6F9A926D64E8200095ACB /* CampaignTitle.swift in Sources */,
