@@ -7,6 +7,8 @@
 
 import Foundation
 
+let RELAY_FUNDRAISER_ID = UUID(uuidString: "8A17EE82-B90A-4ABA-A22F-E8CC7E8CF410")!
+
 struct TiltifyWidgetData {
     let id: UUID
     let name: String
