@@ -324,7 +324,7 @@ struct CampaignList: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Label("Refresh", systemImage: "arrow.counterclockwise")
+                        Label("Refresh", systemImage: "arrow.clockwise")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }
