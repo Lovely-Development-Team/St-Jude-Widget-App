@@ -9,52 +9,120 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>wAvlGo</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>20G95</string>
+	<string>21G83</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>13A5212g</string>
+	<string>14A5294g</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>13.0</string>
+	<string>14.0</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
 			<key>INIntentCategory</key>
-			<string>information</string>
+			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDescription</key>
-			<string>Get Amount Raised</string>
+			<string>Get details of an individual fundraiser</string>
 			<key>INIntentDescriptionID</key>
-			<string>6QiOGL</string>
+			<string>sklTQA</string>
+			<key>INIntentLastParameterTag</key>
+			<integer>2</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
-				<key></key>
+				<key>campaign</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the current amount raised</string>
+					<string>Get fundraiser details for ${campaign}</string>
 					<key>INIntentParameterCombinationTitleID</key>
-					<string>RuOONP</string>
+					<string>h5sLMM</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
 					<true/>
 				</dict>
 			</dict>
 			<key>INIntentName</key>
-			<string>GetAmountRaised</string>
+			<string>GetFundraiser</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
-				<key></key>
+				<key>campaign</key>
 				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
+					<key>INIntentParameterCombinationIsLinked</key>
 					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the current amount raised</string>
+					<string>Get fundraiser details for ${campaign}</string>
 					<key>INIntentParameterCombinationTitleID</key>
-					<string>3g1aie</string>
+					<string>eGcmeE</string>
 				</dict>
 			</dict>
+			<key>INIntentParameters</key>
+			<array>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterCustomDisambiguation</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Campaign</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>LEHpFi</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterName</key>
+					<string>campaign</string>
+					<key>INIntentParameterObjectType</key>
+					<string>ShortcutCampaign</string>
+					<key>INIntentParameterObjectTypeNamespace</key>
+					<string>wAvlGo</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>There are ${count} options matching ‘${campaign}’.</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>hbvRHu</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>DisambiguationIntroduction</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Just to confirm, you wanted ‘${campaign}’?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>I1oVFS</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Confirmation</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsDynamicEnumeration</key>
+					<true/>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterSupportsSearch</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>2</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
+				</dict>
+			</array>
 			<key>INIntentResponse</key>
 			<dict>
 				<key>INIntentResponseCodes</key>
@@ -71,65 +139,61 @@
 					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>3</integer>
+				<integer>2</integer>
 				<key>INIntentResponseOutput</key>
-				<string>amountRaised</string>
+				<string>fundraiser</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
 						<key>INIntentResponseParameterDisplayName</key>
-						<string>Amount Raised</string>
+						<string>Fundraiser</string>
 						<key>INIntentResponseParameterDisplayNameID</key>
-						<string>0E7TSl</string>
+						<string>08oQyx</string>
 						<key>INIntentResponseParameterDisplayPriority</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterName</key>
-						<string>amountRaised</string>
+						<string>fundraiser</string>
 						<key>INIntentResponseParameterObjectType</key>
-						<string>Amount</string>
+						<string>ShortcutCampaignDetails</string>
 						<key>INIntentResponseParameterObjectTypeNamespace</key>
 						<string>wAvlGo</string>
 						<key>INIntentResponseParameterTag</key>
-						<integer>3</integer>
+						<integer>2</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>Object</string>
 					</dict>
 				</array>
 			</dict>
 			<key>INIntentTitle</key>
-			<string>Get Amount Raised</string>
+			<string>Get Fundraiser</string>
 			<key>INIntentTitleID</key>
-			<string>vlL2Vy</string>
+			<string>nzsTzp</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
 			<key>INIntentVerb</key>
-			<string>View</string>
+			<string>Do</string>
 		</dict>
 		<dict>
 			<key>INIntentCategory</key>
-			<string>information</string>
+			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDescription</key>
-			<string>Get Goal</string>
+			<string>Get details of the main Relay FM for St. Jude fundraising event</string>
 			<key>INIntentDescriptionID</key>
-			<string>ZR64bL</string>
+			<string>YQ3UQ1</string>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
 				<key></key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the fundraising goal</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>3V3GUf</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
 					<true/>
 				</dict>
 			</dict>
 			<key>INIntentName</key>
-			<string>GetGoal</string>
+			<string>GetMainFundraisingEvent</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
 				<key></key>
@@ -138,10 +202,6 @@
 					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the fundraising goal</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>cO0NId</string>
 				</dict>
 			</dict>
 			<key>INIntentResponse</key>
@@ -160,348 +220,39 @@
 					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>3</integer>
+				<integer>2</integer>
 				<key>INIntentResponseOutput</key>
-				<string>currentGoal</string>
+				<string>event</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
 						<key>INIntentResponseParameterDisplayName</key>
-						<string>Current Goal</string>
+						<string>Event</string>
 						<key>INIntentResponseParameterDisplayNameID</key>
-						<string>1DImHY</string>
+						<string>Cs0Guq</string>
 						<key>INIntentResponseParameterDisplayPriority</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterName</key>
-						<string>currentGoal</string>
+						<string>event</string>
 						<key>INIntentResponseParameterObjectType</key>
-						<string>Amount</string>
+						<string>ShortcutCampaignDetails</string>
 						<key>INIntentResponseParameterObjectTypeNamespace</key>
 						<string>wAvlGo</string>
 						<key>INIntentResponseParameterTag</key>
-						<integer>3</integer>
+						<integer>2</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>Object</string>
 					</dict>
 				</array>
 			</dict>
 			<key>INIntentTitle</key>
-			<string>Get Goal</string>
+			<string>Get Main Fundraising Event</string>
 			<key>INIntentTitleID</key>
-			<string>lerbZ2</string>
+			<string>YDJf0W</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
 			<key>INIntentVerb</key>
-			<string>View</string>
-		</dict>
-		<dict>
-			<key>INIntentCategory</key>
-			<string>information</string>
-			<key>INIntentConfigurable</key>
-			<true/>
-			<key>INIntentDescription</key>
-			<string>Get Previous Milestones</string>
-			<key>INIntentDescriptionID</key>
-			<string>zTsBGt</string>
-			<key>INIntentManagedParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the previous (completed) milestone</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>uciiVE</string>
-					<key>INIntentParameterCombinationUpdatesLinked</key>
-					<true/>
-				</dict>
-			</dict>
-			<key>INIntentName</key>
-			<string>GetPreviousMilestone</string>
-			<key>INIntentParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<true/>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the previous (completed) milestone</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>0VOHJc</string>
-				</dict>
-			</dict>
-			<key>INIntentResponse</key>
-			<dict>
-				<key>INIntentResponseCodes</key>
-				<array>
-					<dict>
-						<key>INIntentResponseCodeName</key>
-						<string>success</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeName</key>
-						<string>failure</string>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeConciseFormatString</key>
-						<string>Received bad value from the API</string>
-						<key>INIntentResponseCodeConciseFormatStringID</key>
-						<string>dD2mxG</string>
-						<key>INIntentResponseCodeName</key>
-						<string>badApiResponse</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeConciseFormatString</key>
-						<string>Failed to find a milestone!</string>
-						<key>INIntentResponseCodeConciseFormatStringID</key>
-						<string>eflIZg</string>
-						<key>INIntentResponseCodeName</key>
-						<string>failedToFindMilestone</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-				</array>
-				<key>INIntentResponseLastParameterTag</key>
-				<integer>5</integer>
-				<key>INIntentResponseOutput</key>
-				<string>milestone</string>
-				<key>INIntentResponseParameters</key>
-				<array>
-					<dict>
-						<key>INIntentResponseParameterDisplayName</key>
-						<string>Milestone</string>
-						<key>INIntentResponseParameterDisplayNameID</key>
-						<string>OeW9pI</string>
-						<key>INIntentResponseParameterDisplayPriority</key>
-						<integer>1</integer>
-						<key>INIntentResponseParameterName</key>
-						<string>milestone</string>
-						<key>INIntentResponseParameterObjectType</key>
-						<string>Milestone</string>
-						<key>INIntentResponseParameterObjectTypeNamespace</key>
-						<string>wAvlGo</string>
-						<key>INIntentResponseParameterTag</key>
-						<integer>4</integer>
-						<key>INIntentResponseParameterType</key>
-						<string>Object</string>
-					</dict>
-				</array>
-			</dict>
-			<key>INIntentTitle</key>
-			<string>Get Previous Milestone</string>
-			<key>INIntentTitleID</key>
-			<string>bkFY5O</string>
-			<key>INIntentType</key>
-			<string>Custom</string>
-			<key>INIntentVerb</key>
-			<string>View</string>
-		</dict>
-		<dict>
-			<key>INIntentCategory</key>
-			<string>information</string>
-			<key>INIntentConfigurable</key>
-			<true/>
-			<key>INIntentDescription</key>
-			<string>Get Next Milestone</string>
-			<key>INIntentDescriptionID</key>
-			<string>DDy4C1</string>
-			<key>INIntentManagedParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the next (in progress) milestone</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>Dz8suj</string>
-					<key>INIntentParameterCombinationUpdatesLinked</key>
-					<true/>
-				</dict>
-			</dict>
-			<key>INIntentName</key>
-			<string>GetNextMilestone</string>
-			<key>INIntentParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<true/>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>Get the next (in progress) milestone</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>5VpYY6</string>
-				</dict>
-			</dict>
-			<key>INIntentResponse</key>
-			<dict>
-				<key>INIntentResponseCodes</key>
-				<array>
-					<dict>
-						<key>INIntentResponseCodeName</key>
-						<string>success</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeName</key>
-						<string>failure</string>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeConciseFormatString</key>
-						<string>Received bad value from the API</string>
-						<key>INIntentResponseCodeConciseFormatStringID</key>
-						<string>dD2mxG</string>
-						<key>INIntentResponseCodeName</key>
-						<string>badApiResponse</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeConciseFormatString</key>
-						<string>Failed to find a milestone!</string>
-						<key>INIntentResponseCodeConciseFormatStringID</key>
-						<string>eflIZg</string>
-						<key>INIntentResponseCodeName</key>
-						<string>failedToFindMilestone</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-				</array>
-				<key>INIntentResponseLastParameterTag</key>
-				<integer>5</integer>
-				<key>INIntentResponseOutput</key>
-				<string>milestone</string>
-				<key>INIntentResponseParameters</key>
-				<array>
-					<dict>
-						<key>INIntentResponseParameterDisplayName</key>
-						<string>Milestone</string>
-						<key>INIntentResponseParameterDisplayNameID</key>
-						<string>3WSbSP</string>
-						<key>INIntentResponseParameterDisplayPriority</key>
-						<integer>1</integer>
-						<key>INIntentResponseParameterName</key>
-						<string>milestone</string>
-						<key>INIntentResponseParameterObjectType</key>
-						<string>Milestone</string>
-						<key>INIntentResponseParameterObjectTypeNamespace</key>
-						<string>wAvlGo</string>
-						<key>INIntentResponseParameterTag</key>
-						<integer>4</integer>
-						<key>INIntentResponseParameterType</key>
-						<string>Object</string>
-					</dict>
-				</array>
-			</dict>
-			<key>INIntentTitle</key>
-			<string>Get Next Milestone</string>
-			<key>INIntentTitleID</key>
-			<string>8y3fQ1</string>
-			<key>INIntentType</key>
-			<string>Custom</string>
-			<key>INIntentVerb</key>
-			<string>View</string>
-		</dict>
-		<dict>
-			<key>INIntentCategory</key>
-			<string>information</string>
-			<key>INIntentConfigurable</key>
-			<true/>
-			<key>INIntentDescription</key>
-			<string>List Milestones</string>
-			<key>INIntentDescriptionID</key>
-			<string>HQ2TAR</string>
-			<key>INIntentManagedParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>List all milestones</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>u9type</string>
-					<key>INIntentParameterCombinationUpdatesLinked</key>
-					<true/>
-				</dict>
-			</dict>
-			<key>INIntentName</key>
-			<string>ListMilestones</string>
-			<key>INIntentParameterCombinations</key>
-			<dict>
-				<key></key>
-				<dict>
-					<key>INIntentParameterCombinationIsPrimary</key>
-					<true/>
-					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
-					<key>INIntentParameterCombinationTitle</key>
-					<string>List all milestones</string>
-					<key>INIntentParameterCombinationTitleID</key>
-					<string>d6UqFc</string>
-				</dict>
-			</dict>
-			<key>INIntentResponse</key>
-			<dict>
-				<key>INIntentResponseCodes</key>
-				<array>
-					<dict>
-						<key>INIntentResponseCodeName</key>
-						<string>success</string>
-						<key>INIntentResponseCodeSuccess</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>INIntentResponseCodeName</key>
-						<string>failure</string>
-					</dict>
-				</array>
-				<key>INIntentResponseLastParameterTag</key>
-				<integer>3</integer>
-				<key>INIntentResponseOutput</key>
-				<string>milestones</string>
-				<key>INIntentResponseParameters</key>
-				<array>
-					<dict>
-						<key>INIntentResponseParameterDisplayName</key>
-						<string>Milestones</string>
-						<key>INIntentResponseParameterDisplayNameID</key>
-						<string>piUeE6</string>
-						<key>INIntentResponseParameterDisplayPriority</key>
-						<integer>1</integer>
-						<key>INIntentResponseParameterName</key>
-						<string>milestones</string>
-						<key>INIntentResponseParameterObjectType</key>
-						<string>Milestone</string>
-						<key>INIntentResponseParameterObjectTypeNamespace</key>
-						<string>wAvlGo</string>
-						<key>INIntentResponseParameterSupportsMultipleValues</key>
-						<true/>
-						<key>INIntentResponseParameterTag</key>
-						<integer>3</integer>
-						<key>INIntentResponseParameterType</key>
-						<string>Object</string>
-					</dict>
-				</array>
-			</dict>
-			<key>INIntentTitle</key>
-			<string>List Milestones</string>
-			<key>INIntentTitleID</key>
-			<string>YiSh4x</string>
-			<key>INIntentType</key>
-			<string>Custom</string>
-			<key>INIntentVerb</key>
-			<string>View</string>
+			<string>Do</string>
 		</dict>
 	</array>
 	<key>INTypes</key>
@@ -729,6 +480,397 @@
 					<string>stringAmountValue</string>
 					<key>INTypePropertyTag</key>
 					<integer>102</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>INTypeDisplayName</key>
+			<string>Fundraiser</string>
+			<key>INTypeDisplayNameID</key>
+			<string>9dB0Oz</string>
+			<key>INTypeLastPropertyTag</key>
+			<integer>106</integer>
+			<key>INTypeName</key>
+			<string>ShortcutCampaign</string>
+			<key>INTypeProperties</key>
+			<array>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>1</integer>
+					<key>INTypePropertyName</key>
+					<string>identifier</string>
+					<key>INTypePropertyTag</key>
+					<integer>1</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>2</integer>
+					<key>INTypePropertyName</key>
+					<string>displayString</string>
+					<key>INTypePropertyTag</key>
+					<integer>2</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>3</integer>
+					<key>INTypePropertyName</key>
+					<string>pronunciationHint</string>
+					<key>INTypePropertyTag</key>
+					<integer>3</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>4</integer>
+					<key>INTypePropertyName</key>
+					<string>alternativeSpeakableMatches</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>4</integer>
+					<key>INTypePropertyType</key>
+					<string>SpeakableString</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Vanity</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>rIViBq</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>5</integer>
+					<key>INTypePropertyName</key>
+					<string>vanity</string>
+					<key>INTypePropertyTag</key>
+					<integer>100</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Slug</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>T3FJx3</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>6</integer>
+					<key>INTypePropertyName</key>
+					<string>slug</string>
+					<key>INTypePropertyTag</key>
+					<integer>101</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>INTypeDisplayName</key>
+			<string>Fundraising Campaign</string>
+			<key>INTypeDisplayNameID</key>
+			<string>P6ReaH</string>
+			<key>INTypeLastPropertyTag</key>
+			<integer>113</integer>
+			<key>INTypeName</key>
+			<string>ShortcutCampaignDetails</string>
+			<key>INTypeProperties</key>
+			<array>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>1</integer>
+					<key>INTypePropertyName</key>
+					<string>identifier</string>
+					<key>INTypePropertyTag</key>
+					<integer>1</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>2</integer>
+					<key>INTypePropertyName</key>
+					<string>displayString</string>
+					<key>INTypePropertyTag</key>
+					<integer>2</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>3</integer>
+					<key>INTypePropertyName</key>
+					<string>pronunciationHint</string>
+					<key>INTypePropertyTag</key>
+					<integer>3</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>4</integer>
+					<key>INTypePropertyName</key>
+					<string>alternativeSpeakableMatches</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>4</integer>
+					<key>INTypePropertyType</key>
+					<string>SpeakableString</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Name</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>hUJfT5</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>5</integer>
+					<key>INTypePropertyName</key>
+					<string>name</string>
+					<key>INTypePropertyTag</key>
+					<integer>102</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>User</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>O2i8kv</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>6</integer>
+					<key>INTypePropertyName</key>
+					<string>user</string>
+					<key>INTypePropertyTag</key>
+					<integer>103</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Goal</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>5lIrw8</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>7</integer>
+					<key>INTypePropertyName</key>
+					<string>goal</string>
+					<key>INTypePropertyObjectType</key>
+					<string>Amount</string>
+					<key>INTypePropertyObjectTypeNamespace</key>
+					<string>wAvlGo</string>
+					<key>INTypePropertyTag</key>
+					<integer>105</integer>
+					<key>INTypePropertyType</key>
+					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Amount Raised</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>eIJHW8</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>8</integer>
+					<key>INTypePropertyName</key>
+					<string>amountRaised</string>
+					<key>INTypePropertyObjectType</key>
+					<string>Amount</string>
+					<key>INTypePropertyObjectTypeNamespace</key>
+					<string>wAvlGo</string>
+					<key>INTypePropertyTag</key>
+					<integer>107</integer>
+					<key>INTypePropertyType</key>
+					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Milestones</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>2vmV7b</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>9</integer>
+					<key>INTypePropertyName</key>
+					<string>milestones</string>
+					<key>INTypePropertyObjectType</key>
+					<string>Milestone</string>
+					<key>INTypePropertyObjectTypeNamespace</key>
+					<string>wAvlGo</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>110</integer>
+					<key>INTypePropertyType</key>
+					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Rewards</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>c6QQ8l</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>10</integer>
+					<key>INTypePropertyName</key>
+					<string>rewards</string>
+					<key>INTypePropertyObjectType</key>
+					<string>ShortcutReward</string>
+					<key>INTypePropertyObjectTypeNamespace</key>
+					<string>wAvlGo</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>113</integer>
+					<key>INTypePropertyType</key>
+					<string>Object</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>INTypeDisplayName</key>
+			<string>Reward</string>
+			<key>INTypeDisplayNameID</key>
+			<string>3gJn6D</string>
+			<key>INTypeLastPropertyTag</key>
+			<integer>106</integer>
+			<key>INTypeName</key>
+			<string>ShortcutReward</string>
+			<key>INTypeProperties</key>
+			<array>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>1</integer>
+					<key>INTypePropertyName</key>
+					<string>identifier</string>
+					<key>INTypePropertyTag</key>
+					<integer>1</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>2</integer>
+					<key>INTypePropertyName</key>
+					<string>displayString</string>
+					<key>INTypePropertyTag</key>
+					<integer>2</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>3</integer>
+					<key>INTypePropertyName</key>
+					<string>pronunciationHint</string>
+					<key>INTypePropertyTag</key>
+					<integer>3</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>4</integer>
+					<key>INTypePropertyName</key>
+					<string>alternativeSpeakableMatches</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>4</integer>
+					<key>INTypePropertyType</key>
+					<string>SpeakableString</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Name</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>Dqh0NU</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>5</integer>
+					<key>INTypePropertyName</key>
+					<string>name</string>
+					<key>INTypePropertyTag</key>
+					<integer>100</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Reward Description</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>NiP6Pc</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>6</integer>
+					<key>INTypePropertyName</key>
+					<string>rewardDescription</string>
+					<key>INTypePropertyTag</key>
+					<integer>101</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Currency</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>KeqwOh</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>7</integer>
+					<key>INTypePropertyName</key>
+					<string>currency</string>
+					<key>INTypePropertyTag</key>
+					<integer>102</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Decimal Amount Value</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>bKqoaO</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>8</integer>
+					<key>INTypePropertyName</key>
+					<string>decimalAmountValue</string>
+					<key>INTypePropertyTag</key>
+					<integer>105</integer>
+					<key>INTypePropertyType</key>
+					<string>Decimal</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>String Amount Value</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>1HCY05</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>9</integer>
+					<key>INTypePropertyName</key>
+					<string>stringAmountValue</string>
+					<key>INTypePropertyTag</key>
+					<integer>106</integer>
 					<key>INTypePropertyType</key>
 					<string>String</string>
 				</dict>

@@ -144,6 +144,24 @@ func sortMilestones(_ milestoneA: TiltifyMilestone, _ milestoneB: TiltifyMilesto
     return milestoneAValue < milestoneBValue
 }
 
+func sortRewards(_ rewardA: TiltifyCampaignReward, _ rewardB: TiltifyCampaignReward) -> Bool {
+    let rewardADoubleValue = Double(rewardA.amount.value ?? "0")
+    let rewardBDoubleValue = Double(rewardB.amount.value ?? "0")
+    guard let rewardAValue = rewardADoubleValue else {
+        guard rewardBDoubleValue != nil else {
+            return false
+        }
+        return rewardA.name < rewardB.name
+    }
+    guard let rewardBValue = rewardBDoubleValue else {
+        return true
+    }
+    if rewardAValue == rewardBValue {
+        return rewardA.name < rewardB.name
+    }
+    return rewardAValue < rewardBValue
+}
+
 struct TiltifyUser: Codable, Hashable {
     let username: String
     let slug: String

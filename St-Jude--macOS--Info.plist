@@ -8,6 +8,8 @@
 		<string>ConfigurationIntent</string>
 		<string>FundraisingEventConfigurationIntent</string>
 		<string>FundraisingEventLockScreenConfigurationIntent</string>
+		<string>GetFundraiserIntent</string>
+		<string>GetMainFundraisingEventIntent</string>
 	</array>
 </dict>
 </plist>
