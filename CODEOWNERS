@@ -9,4 +9,5 @@
 
 *.swift                  @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
 *.xcodeproj/*            @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
+*.json                   @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
 CODEOWNERS               @dwrss @benbacardi @RosemaryOrchard @grey280 @koshakji @alexcfaber
