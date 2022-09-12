@@ -31,15 +31,15 @@ class NotificationSettingsController: ObservableObject {
     
     private var modifyingPublishers: Bool = false
     
-    init() {
-        self.showMilestones = UserDefaults.shared.showMilestoneNotification
-        self.showGoal = UserDefaults.shared.showGoalNotification
-        self.showSignificantAmounts = UserDefaults.shared.showSignificantAmountNotification
-        self.showMilestoneAdded = UserDefaults.shared.showMilestoneAddedNotification
+    init(id: UUID) {
+        self.showMilestones = false
+        self.showGoal = false
+        self.showSignificantAmounts = false
+        self.showMilestoneAdded = false
         
-        self.enableCustomAmountNotification = (UserDefaults.shared.double(forKey: "customNotificationAmount") != 0)
+        self.enableCustomAmountNotification = false
         if(self.enableCustomAmountNotification) {
-            self.customAmountInput = formatCurrency(from: UserDefaults.shared.double(forKey: "customNotificationAmount"), currency: "USD", showFullCurrencySymbol: false).1
+            self.customAmountInput = ""
         }
         
         self.setupPublishers()

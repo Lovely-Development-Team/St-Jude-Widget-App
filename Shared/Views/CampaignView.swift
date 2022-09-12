@@ -23,6 +23,7 @@ struct CampaignView: View {
     
     @State private var showShareView: Bool = false
     @State private var showSupporterSheet: Bool = false
+    @State private var showNotificaationSheet: Bool = false
     
     @State private var isRefreshing: Bool = false
     
@@ -337,7 +338,21 @@ struct CampaignView: View {
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
+        .sheet(isPresented: $showNotificaationSheet) {
+            if let fundraisingEvent = fundraisingEvent {
+                NotificationSettingsView(id: fundraisingEvent.id)
+            } else if let campaign = initialCampaign {
+                NotificationSettingsView(id: campaign.id)
+            }
+        }
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    showNotificaationSheet = true
+                }) {
+                    Label("Notificataions", systemImage: "bell")
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     Task {

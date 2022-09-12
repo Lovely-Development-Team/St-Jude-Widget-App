@@ -100,6 +100,17 @@ final class AppDatabase {
             
         }
         
+        migrator.registerMigration("createNotificationSettingsTable") { db in
+            try db.create(table: "notificationSettings") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("notifyOnGoalReached", .boolean).notNull().defaults(to: false)
+                t.column("notifyOnMilestonesReached", .boolean).notNull().defaults(to: false)
+                t.column("notifyOnNewMilestone", .boolean).notNull().defaults(to: false)
+                t.column("notifyOnNewReward", .boolean).notNull().defaults(to: false)
+                t.column("customNotificationAmount", .double)
+            }
+        }
+        
         return migrator
     }
 }
@@ -215,6 +226,18 @@ extension AppDatabase {
         }
     }
     
+    func fetchNotificationSettings(for id: UUID) async throws -> NotificationSettings {
+        try await dbWriter.read { db in
+            try NotificationSettings.all().filter(id: id).fetchOne(db) ?? NotificationSettings(id: id, notifyOnGoalReached: false, notifyOnMilestonesReached: false, notifyOnNewMilestone: false, notifyOnNewReward: false)
+        }
+    }
+    
+    func saveNotificationSettings(_ notificationSettings: NotificationSettings) async throws {
+        try await dbWriter.write { db in
+            try notificationSettings.saved(db)
+        }
+    }
+    
     /**
      If the campaign has any difference from the other campaign, executes an
      UPDATE statement so that those differences and only those difference are
@@ -244,6 +267,13 @@ extension AppDatabase {
     func updateReward(_ newReward: Reward, changesFrom oldReward: Reward) async throws -> Bool {
         try await dbWriter.write { db in
             try newReward.updateChanges(db, from: oldReward)
+        }
+    }
+    
+    @discardableResult
+    func updateNotificationSettings(_ newNotificationSettings: NotificationSettings, changesFrom oldNotificationSettings: NotificationSettings) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newNotificationSettings.updateChanges(db, from: oldNotificationSettings)
         }
     }
     

@@ -54,6 +54,11 @@
 		5E7C300228C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300128C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift */; };
 		5E7C300328C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300128C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift */; };
 		5E7C300528C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300428C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift */; };
+		5EC3B82828CE4012003E6CC6 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */; };
+		5EC3B82928CE4012003E6CC6 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */; };
+		5EC3B82A28CE4012003E6CC6 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */; };
+		5EC3B82B28CE4012003E6CC6 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */; };
+		5EC3B82C28CE4012003E6CC6 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */; };
 		5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
@@ -74,7 +79,7 @@
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
-		5EF748CD26DF749A008174DF /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748CC26DF749A008174DF /* NotificationSettings.swift */; };
+		5EF748CD26DF749A008174DF /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748CC26DF749A008174DF /* NotificationSettingsView.swift */; };
 		5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
@@ -133,8 +138,6 @@
 		6357655226D1A73E004F04DE /* Tests_macOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357655126D1A73E004F04DE /* Tests_macOSLaunchTests.swift */; };
 		6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652D26D1A73B004F04DE /* St_JudeApp.swift */; };
 		6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652D26D1A73B004F04DE /* St_JudeApp.swift */; };
-		6357655526D1A73E004F04DE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652E26D1A73B004F04DE /* ContentView.swift */; };
-		6357655626D1A73E004F04DE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357652E26D1A73B004F04DE /* ContentView.swift */; };
 		6357656E26D1AD25004F04DE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656D26D1AD24004F04DE /* WidgetKit.framework */; platformFilter = maccatalyst; };
 		6357657026D1AD25004F04DE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656F26D1AD25004F04DE /* SwiftUI.framework */; platformFilter = maccatalyst; };
 		6357657326D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357657226D1AD25004F04DE /* Tiltify_St_Jude_Widget.swift */; };
@@ -236,7 +239,7 @@
 		63E19D5626E22B41009F318F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5426E22B28009F318F /* BlurView.swift */; };
 		63E19D5826E22D78009F318F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
 		63E19D5926E22D7D009F318F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
-		63E19D5A26E230D7009F318F /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748CC26DF749A008174DF /* NotificationSettings.swift */; };
+		63E19D5A26E230D7009F318F /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748CC26DF749A008174DF /* NotificationSettingsView.swift */; };
 		63E19D5B26E230F4009F318F /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5126E114AF009F318F /* NotificationSettingsController.swift */; };
 		63E19D5C26E23154009F318F /* EasterEggView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D544692526DFE14D00EA04C9 /* EasterEggView.swift */; };
 		63E19D5E26E2339C009F318F /* SystemSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5D26E2339C009F318F /* SystemSettings.swift */; };
@@ -387,6 +390,7 @@
 		5E7C2FFE28C5FF5300A9B0D5 /* CampaignLockScreenEventEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignLockScreenEventEntry.swift; sourceTree = "<group>"; };
 		5E7C300128C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignLockScreenWidgetView.swift; sourceTree = "<group>"; };
 		5E7C300428C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignConfigurationIntentHandler.swift; sourceTree = "<group>"; };
+		5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
 		5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraiserCardView.swift; sourceTree = "<group>"; };
 		5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetAppearance+Colors.swift"; sourceTree = "<group>"; };
@@ -396,7 +400,7 @@
 		5EF748C626DF748F008174DF /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
 		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
-		5EF748CC26DF749A008174DF /* NotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
+		5EF748CC26DF749A008174DF /* NotificationSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		630DD48126E24A9200FE44E5 /* InAppSettingsToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppSettingsToggle.swift; sourceTree = "<group>"; };
 		630DD48426E253CF00FE44E5 /* SettingsDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDivider.swift; sourceTree = "<group>"; };
 		6348F9F626D6B5100031697F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -415,7 +419,6 @@
 		63574A4326D65DD300A2D495 /* St-Jude--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "St-Jude--macOS--Info.plist"; sourceTree = "<group>"; };
 		63574A4726D65E5C00A2D495 /* macOS WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "macOS WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		6357652D26D1A73B004F04DE /* St_JudeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_JudeApp.swift; sourceTree = "<group>"; };
-		6357652E26D1A73B004F04DE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6357653426D1A73E004F04DE /* St Jude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "St Jude.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357653A26D1A73E004F04DE /* St Jude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "St Jude.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357653F26D1A73E004F04DE /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -622,7 +625,6 @@
 				63ACEFE826D276A400F98023 /* Model */,
 				6357658126D252EE004F04DE /* Networking */,
 				6357652D26D1A73B004F04DE /* St_JudeApp.swift */,
-				6357652E26D1A73B004F04DE /* ContentView.swift */,
 				63ACF01226D4E6D800F98023 /* Refresh.swift */,
 				63A6F99226D634E300095ACB /* CurrencyHelpers.swift */,
 				63ACEFE926D296F100F98023 /* Loggers.swift */,
@@ -722,7 +724,7 @@
 				5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */,
 				630DD48126E24A9200FE44E5 /* InAppSettingsToggle.swift */,
 				630DD48426E253CF00FE44E5 /* SettingsDivider.swift */,
-				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
+				5EF748CC26DF749A008174DF /* NotificationSettingsView.swift */,
 				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 				5ED5638528AEBAC5004A65A5 /* CampaignList.swift */,
 				5E253D9628B64DE300CF024F /* FundraiserListItem.swift */,
@@ -787,6 +789,7 @@
 				63D0CD0F28B269490073957E /* FundraisingEventCampaign.swift */,
 				5E180C1A28B7F18F00F10BE5 /* Milestone.swift */,
 				5E180C2028B7F3F400F10BE5 /* Reward.swift */,
+				5EC3B82728CE4012003E6CC6 /* NotificationSettings.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -1139,6 +1142,7 @@
 				5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
+				5EC3B82C28CE4012003E6CC6 /* NotificationSettings.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
 				5EE0EC0B28BD57250053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
@@ -1166,8 +1170,7 @@
 				630DD48526E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
 				5EE0EC1C28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */,
 				6357658626D256C9004F04DE /* Model.swift in Sources */,
-				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
-				5EF748CD26DF749A008174DF /* NotificationSettings.swift in Sources */,
+				5EF748CD26DF749A008174DF /* NotificationSettingsView.swift in Sources */,
 				6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */,
 				5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */,
@@ -1187,6 +1190,7 @@
 				5E253D9728B64DE300CF024F /* FundraiserListItem.swift in Sources */,
 				5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63D0CCF728B108EF0073957E /* Persistence.swift in Sources */,
+				5EC3B82828CE4012003E6CC6 /* NotificationSettings.swift in Sources */,
 				63D0CCFE28B117390073957E /* Campaign.swift in Sources */,
 				5E366E1428B8FC41001BA937 /* UserDefaults+CampaignList.swift in Sources */,
 				6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
@@ -1212,7 +1216,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
 				63E19D5626E22B41009F318F /* BlurView.swift in Sources */,
 				63E19D5926E22D7D009F318F /* Color.swift in Sources */,
 				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
@@ -1220,10 +1223,11 @@
 				5EE0EC1128BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				5E180C2228B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
-				63E19D5A26E230D7009F318F /* NotificationSettings.swift in Sources */,
+				63E19D5A26E230D7009F318F /* NotificationSettingsView.swift in Sources */,
 				5E482E5128B7B03C00131DE1 /* CampaignView.swift in Sources */,
 				630DD48626E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
 				63E19D5B26E230F4009F318F /* NotificationSettingsController.swift in Sources */,
+				5EC3B82928CE4012003E6CC6 /* NotificationSettings.swift in Sources */,
 				63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */,
 				BA2A9C9B28C068CF001D66E1 /* SupporterView.swift in Sources */,
 				63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */,
@@ -1328,6 +1332,7 @@
 				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
+				5EC3B82A28CE4012003E6CC6 /* NotificationSettings.swift in Sources */,
 				DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */,
 				63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
 				63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */,
@@ -1347,6 +1352,7 @@
 				63A6F99126D6348A00095ACB /* ListMilestonesIntentHandler.swift in Sources */,
 				63BFF1AC26D5D3BE0023263D /* Loggers.swift in Sources */,
 				63A6F99A26D63B4100095ACB /* GetPreviousMilestoneIntentHandler.swift in Sources */,
+				5EC3B82B28CE4012003E6CC6 /* NotificationSettings.swift in Sources */,
 				63D0CD2F28B922B00073957E /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63D0CD0128B117390073957E /* Campaign.swift in Sources */,
 				5E180C2428B7F3F400F10BE5 /* Reward.swift in Sources */,
