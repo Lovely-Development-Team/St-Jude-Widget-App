@@ -10,7 +10,10 @@ import SwiftUI
 struct DonorList: View {
     
     let campaign: Campaign
-    let donations: [TiltifyDonorsForCampaignDonation]
+    @Binding var donations: [TiltifyDonorsForCampaignDonation]
+    @Binding var topDonor: TiltifyDonorsForCampaignDonation?
+    
+    @State private var isRefreshing: Bool = false
     
     var body: some View {
         ScrollView {
@@ -63,7 +66,44 @@ struct DonorList: View {
                 .padding(.horizontal)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    Task {
+                        await refresh()
+                    }
+                }) {
+                    ZStack {
+                        if isRefreshing {
+                            ProgressView()
+                        }
+                        Label("Refresh", systemImage: "arrow.clockwise")
+                            .opacity(isRefreshing ? 0 : 1)
+                    }
+                }
+            }
+        }
+        .refreshable {
+            await refresh()
+        }
         .navigationTitle("Recent Donations")
         .navigationBarTitleDisplayMode(.large)
     }
+    
+    func refresh() async {
+        if !isRefreshing {
+            isRefreshing = true
+            do {
+                let apiDonorsResponse = try await ApiClient.shared.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+                withAnimation {
+                    donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
+                    topDonor = apiDonorsResponse.data.campaign.topDonation
+                    isRefreshing = false
+                }
+            } catch {
+                dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+            }
+        }
+    }
+    
 }
