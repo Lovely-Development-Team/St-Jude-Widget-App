@@ -71,6 +71,7 @@ struct DonorList: View {
                 Button(action: {
                     Task {
                         await refresh()
+                        isRefreshing = false
                     }
                 }) {
                     ZStack {
@@ -85,6 +86,7 @@ struct DonorList: View {
         }
         .refreshable {
             await refresh()
+            isRefreshing = false
         }
         .navigationTitle("Recent Donations")
         .navigationBarTitleDisplayMode(.large)
