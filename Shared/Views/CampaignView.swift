@@ -646,14 +646,20 @@ struct CampaignView: View {
         
         do {
             dataLogger.notice("Fetching stored milestones for \(campaign.id)")
-            self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
+            let fetchedMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
+            withAnimation {
+                self.milestones = fetchedMilestones
+            }
             dataLogger.notice("Fetched stored milestones for \(campaign.id)")
         } catch {
             dataLogger.error("Failed to fetch stored milestones for \(campaign.id): \(error.localizedDescription)")
         }
         do {
             dataLogger.notice("Fetching stored rewards for \(campaign.id)")
-            self.rewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
+            let fetchedRewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
+            withAnimation {
+                self.rewards = fetchedRewards
+            }
             dataLogger.notice("Fetched stored rewards for \(campaign.id)")
         } catch {
             dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
