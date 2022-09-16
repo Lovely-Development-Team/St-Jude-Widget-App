@@ -278,3 +278,37 @@ struct TiltifyCampaignsForCauseData: Codable {
 struct TiltifyCampaignsForCauseResponse: Codable {
     let data: TiltifyCampaignsForCauseData
 }
+
+
+struct TiltifyDonorsForCampaignDonationIncentive: Codable {
+    let type: String
+}
+
+struct TiltifyDonorsForCampaignDonation: Codable {
+    let id: Int
+    let amount: TiltifyAmount
+    let donorName: String
+    let donorComment: String?
+    let incentives: [TiltifyDonorsForCampaignDonationIncentive]
+}
+
+struct TiltifyDonorsForCampaignDonationNode: Codable {
+    let node: TiltifyDonorsForCampaignDonation
+}
+
+struct TiltifyDonorsForCampaignDonations: Codable {
+    let edges: [TiltifyDonorsForCampaignDonationNode]
+}
+
+struct TiltifyDonorsForCampaignCampaign: Codable {
+    let donations: TiltifyDonorsForCampaignDonations
+    let topDonation: TiltifyDonorsForCampaignDonation?
+}
+
+struct TiltifyDonorsForCampaignData: Codable {
+    let campaign: TiltifyDonorsForCampaignCampaign
+}
+
+struct TiltifyDonorsForCampaignResponse: Codable {
+    let data: TiltifyDonorsForCampaignData
+}
