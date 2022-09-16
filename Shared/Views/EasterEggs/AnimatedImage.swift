@@ -14,6 +14,7 @@ struct AnimatedImage: View {
     @State private var tapped: Bool = false
     
     var interval: CGFloat = 0.06
+    var timerLoops: Int = 50
     
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
@@ -50,17 +51,17 @@ struct AnimatedImage: View {
     }
     
     private func animate() {
-        var timerLoops: Int = 50
+        var loopTimer = timerLoops
         
         Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { timer in
             if imageIndex < self.imageNames.count {
                 self.image = Image(self.imageNames[imageIndex])
                 imageIndex += 1
-                timerLoops -= 1
+                loopTimer -= 1
             }
             else {
                 imageIndex = 0
-                if timerLoops <= 0 {
+                if loopTimer <= 0 {
                     timer.invalidate()
                     tapped = false
                 }
