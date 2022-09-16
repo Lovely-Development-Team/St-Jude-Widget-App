@@ -20,7 +20,7 @@ let RELAY_FUNDRAISER_ID = UUID(uuidString: "8A17EE82-B90A-4ABA-A22F-E8CC7E8CF410
 
 let xRayManAndMrYellow = CampaignViewEasterEgg(
     left: AnyView(
-        AnimatedImage(imageNames: mykeImages)
+        AnimatedImage(imageNames: mykeImages, timerLoops: 70)
             .aspectRatio(contentMode: .fit)
             .frame(width: 80, height: 80)
             .offset(x: -18)
