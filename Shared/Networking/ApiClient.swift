@@ -43,6 +43,63 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         
     }
     
+    func buildDonorRequest(publicId: String) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let queryString = """
+query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
+  campaign(publicId: $publicId) {
+    topDonation {
+      id
+      amount {
+        currency
+        value
+      }
+      donorName
+      donorComment
+      completedAt
+      incentives {
+        type
+        id
+      }
+    }
+    donations(first: 50, after: $cursor) {
+      edges {
+        cursor
+        node {
+          id
+          amount {
+            value
+            currency
+          }
+          donorName
+          donorComment
+          completedAt
+          incentives {
+            type
+            id
+            name
+          }
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}
+"""
+        let body = TiltifyRequest(operationName: "get_previous_donations_by_campaign",
+                                  variables: ["publicId": publicId],
+                                  query: queryString)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
     func buildCampaignRequest(vanity: String, slug: String) throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -322,6 +379,40 @@ query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
     func fetchCampaignsForCause(offsetBy offset: Int) async throws -> TiltifyCampaignsForCauseResponse {
         return try await withCheckedThrowingContinuation { continuation in
             _ = fetchCampaignsForCause(offsetBy: offset) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    func fetchDonorsForCampaign(publicId: String, completion: @escaping (Result<TiltifyDonorsForCampaignResponse, Error>) -> ()) -> URLSessionDataTask? {
+        do {
+            let request = try buildDonorRequest(publicId: publicId)
+            let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = data else {
+                    completion(.failure(TiltifyError.noData))
+                    return
+                }
+                completion(Result {
+                    let payload = try JSONDecoder().decode(TiltifyDonorsForCampaignResponse.self, from: data)
+                    return payload
+                })
+                return
+            }
+            dataTask.resume()
+            return dataTask
+        } catch {
+            completion(.failure(error))
+            return nil
+        }
+    }
+    
+    func fetchDonorsForCampaign(publicId: String) async throws -> TiltifyDonorsForCampaignResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            _ = fetchDonorsForCampaign(publicId: publicId) { result in
                 continuation.resume(with: result)
             }
         }

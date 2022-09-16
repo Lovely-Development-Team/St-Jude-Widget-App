@@ -21,6 +21,9 @@ struct CampaignView: View {
     @State private var milestones: [Milestone] = []
     @State private var rewards: [Reward] = []
     
+    @State private var donations: [TiltifyDonorsForCampaignDonation] = []
+    @State private var topDonor: TiltifyDonorsForCampaignDonation? = nil
+    
     @State private var showShareView: Bool = false
     @State private var showSupporterSheet: Bool = false
     
@@ -157,6 +160,48 @@ struct CampaignView: View {
                     .multilineTextAlignment(.leading)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical)
+                
+                if let topDonor = topDonor {
+                    GroupBox {
+                        VStack(spacing: 5) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "crown")
+                                Text("Top Donor")
+                                    .textCase(.uppercase)
+                                Spacer()
+                            }
+                            .font(.caption)
+                            .foregroundColor(.accentColor)
+                            HStack(alignment: .top) {
+                                Text(topDonor.donorName)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.headline)
+                                Spacer()
+                                Text(topDonor.amount.description(showFullCurrencySymbol: false))
+                            }
+                            if let comment = topDonor.donorComment {
+                                Text(comment)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                    }
+                }
+                
+                if !donations.isEmpty, let campaign = initialCampaign {
+                    NavigationLink(destination: DonorList(campaign: campaign, donations: donations)) {
+                        GroupBox {
+                            HStack {
+                                Text("Recent Donations")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    .padding(.bottom)
+                }
                 
                 if !milestones.isEmpty {
                     
@@ -541,6 +586,17 @@ struct CampaignView: View {
         } catch {
             dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
         }
+        
+        do {
+            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+            withAnimation {
+                donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
+                topDonor = apiDonorsResponse.data.campaign.topDonation
+            }
+        } catch {
+            dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+        }
+        
     }
     
     /// Fetches the campaign data from GRDB
