@@ -190,7 +190,7 @@ struct CampaignView: View {
                 }
                 
                 if !donations.isEmpty, let campaign = initialCampaign {
-                    NavigationLink(destination: DonorList(campaign: campaign, donations: donations)) {
+                    NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
                         GroupBox {
                             HStack {
                                 Text("Recent Donations")
