@@ -30,16 +30,6 @@ struct DonorList: View {
             }
             .padding()
             
-//            Link("Visit the fundraiser", destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!)
-//                .font(.headline)
-//                .foregroundColor(.white)
-//                .padding(10)
-//                .padding(.horizontal, 20)
-//                .background(Color.accentColor)
-//                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-//                .padding(.top)
-            
             ForEach(donations, id: \.id) { donation in
                 GroupBox {
                     VStack(spacing: 5) {

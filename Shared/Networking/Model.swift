@@ -308,6 +308,14 @@ struct TiltifyDonorsForCampaignDonation: Codable {
     let donorName: String
     let donorComment: String?
     let incentives: [TiltifyDonorsForCampaignDonationIncentive]
+    let completedAt: String
+    
+    var donationDate: Date? {
+        let parsedCompletedAt = String(completedAt.split(separator: ".")[0]) + "Z"
+        let isoDateFormatter = ISO8601DateFormatter()
+        return isoDateFormatter.date(from: parsedCompletedAt)
+    }
+    
 }
 
 struct TiltifyDonorsForCampaignDonationNode: Codable {

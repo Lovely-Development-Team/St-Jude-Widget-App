@@ -198,9 +198,18 @@ struct CampaignView: View {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.secondary)
                             }
+                            
                         }
                     }
                     .padding(.bottom)
+                    
+                    if #available(iOS 16.0, *) {
+                        DonorChart(donations: donations, total: campaign.totalRaised)
+                            .frame(height: 80)
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                        
+                    }
                 }
                 
                 if !milestones.isEmpty {
