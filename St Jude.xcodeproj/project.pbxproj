@@ -59,6 +59,8 @@
 		5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */; };
 		5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */; };
 		5EC3B82428C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */; };
+		5EC5147B28D5AE8100CB00DC /* DonorChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5147A28D5AE8100CB00DC /* DonorChart.swift */; };
+		5EC5147C28D5AE8100CB00DC /* DonorChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5147A28D5AE8100CB00DC /* DonorChart.swift */; };
 		5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
@@ -391,6 +393,7 @@
 		5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraiserIntentHandler.swift; sourceTree = "<group>"; };
 		5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRewardExtension.swift; sourceTree = "<group>"; };
 		5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraisingEventIntentHandler.swift; sourceTree = "<group>"; };
+		5EC5147A28D5AE8100CB00DC /* DonorChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonorChart.swift; sourceTree = "<group>"; };
 		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
 		5EE0EC0C28BD5A320053C9D1 /* FundraiserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundraiserCardView.swift; sourceTree = "<group>"; };
 		5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetAppearance+Colors.swift"; sourceTree = "<group>"; };
@@ -732,6 +735,7 @@
 				5EE0EC1528BF96B20053C9D1 /* ShareCampaignView.swift */,
 				BA2A9C9928C068CF001D66E1 /* SupporterView.swift */,
 				5E1705C328C0C47000E70019 /* AboutView.swift */,
+				5EC5147A28D5AE8100CB00DC /* DonorChart.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1150,6 +1154,7 @@
 				63574A2826D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				5E1705CB28C332AA00E70019 /* EasterEggDirectory.swift in Sources */,
 				6348F9FC26D6C9970031697F /* Intents.intentdefinition in Sources */,
+				5EC5147B28D5AE8100CB00DC /* DonorChart.swift in Sources */,
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
 				5E56A7A328C73D4B00B0DD59 /* AnimatedImage.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
@@ -1242,6 +1247,7 @@
 				63D0CD1D28B4E8AB0073957E /* Sequence.swift in Sources */,
 				5EE0EC1D28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */,
 				5EE0EC0E28BD5A320053C9D1 /* FundraiserCardView.swift in Sources */,
+				5EC5147C28D5AE8100CB00DC /* DonorChart.swift in Sources */,
 				63A6F9A526D64D9000095ACB /* ApiClient.swift in Sources */,
 				5E1705CC28C332AA00E70019 /* EasterEggDirectory.swift in Sources */,
 				63A6F9A326D64D0C00095ACB /* Model.swift in Sources */,
