@@ -8,6 +8,11 @@
 import SwiftUI
 import Kingfisher
 
+struct ShareURL: Identifiable {
+    let id = UUID()
+    let url: URL
+}
+
 struct FundraiserListItem: View {
     
     let campaign: Campaign
@@ -16,6 +21,8 @@ struct FundraiserListItem: View {
     var compact: Bool = false
     var showShareIcon: Bool = false
     @Binding var showShareSheet: Bool
+    
+    @State var showShareLinkSheet: ShareURL? = nil
     
     var disclosureIndicatorIcon: String {
         if campaign.isStarred {
@@ -89,9 +96,23 @@ struct FundraiserListItem: View {
                                 .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         } else if showShareIcon {
                             Spacer()
-                            Button(action: {
-                                showShareSheet = true
-                            }) {
+                            Menu {
+                                Button(action: {
+                                    showShareSheet = true
+                                }) {
+                                    Label("Share Image", systemImage: "photo")
+                                }
+                                Button(action: {
+                                    showShareLinkSheet = ShareURL(url: campaign.url)
+                                }) {
+                                    Label("Share Fundraiser Link", systemImage: "link")
+                                }
+                                Button(action: {
+                                    showShareLinkSheet = ShareURL(url: campaign.directDonateURL)
+                                }) {
+                                    Label("Share Direct Donation Link", systemImage: "dollarsign")
+                                }
+                            } label: {
                                 Label("Share", systemImage: "square.and.arrow.up")
                                     .labelStyle(.iconOnly)
                             }
@@ -110,6 +131,13 @@ struct FundraiserListItem: View {
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.top, 2)
+                    }
+                }
+                .sheet(item: $showShareLinkSheet) { url in
+                    if let url = url {
+                        ShareSheetView(activityItems: [url.url])
+                    } else {
+                        EmptyView()
                     }
                 }
             }

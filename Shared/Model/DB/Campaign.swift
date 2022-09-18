@@ -54,6 +54,14 @@ struct Campaign: Identifiable, Hashable {
         username == "Relay FM" ? "Relay FM" : name
     }
     
+    var url: URL {
+        URL(string: "https://tiltify.com/@\(user.slug)/\(slug)")!
+    }
+    
+    var directDonateURL: URL {
+        URL(string: "https://donate.tiltify.com/@\(user.slug)/\(slug)")!
+    }
+    
 }
 
 extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {

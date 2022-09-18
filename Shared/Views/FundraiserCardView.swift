@@ -13,6 +13,7 @@ struct FundraiserCardView: View {
     let showDisclosureIndicator: Bool
     var showShareIcon: Bool = false
     @Binding var showShareSheet: Bool
+    @State var showShareLinkSheet: ShareURL? = nil
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -53,9 +54,23 @@ struct FundraiserCardView: View {
                         .opacity(0.8)
                 } else if showShareIcon {
                     Spacer()
-                    Button(action: {
-                        showShareSheet = true
-                    }) {
+                    Menu {
+                        Button(action: {
+                            showShareSheet = true
+                        }) {
+                            Label("Share Image", systemImage: "photo")
+                        }
+                        Button(action: {
+                            showShareLinkSheet = ShareURL(url: URL(string: "https://stjude.org/relay")!)
+                        }) {
+                            Label("Share Event Link", systemImage: "link")
+                        }
+                        Button(action: {
+                            showShareLinkSheet = ShareURL(url: URL(string: "https://donate.tiltify.com/@relay-fm/relay-fm-for-st-jude-2022")!)
+                        }) {
+                            Label("Share Direct Donation Link", systemImage: "dollarsign")
+                        }
+                    } label: {
                         Label("Share", systemImage: "square.and.arrow.up")
                             .labelStyle(.iconOnly)
                     }
@@ -87,5 +102,12 @@ struct FundraiserCardView: View {
         .padding()
         .background(fundraisingEvent?.colors.backgroundColor ?? Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .cornerRadius(10)
+        .sheet(item: $showShareLinkSheet) { url in
+            if let url = url {
+                ShareSheetView(activityItems: [url.url])
+            } else {
+                EmptyView()
+            }
+        }
     }
 }
