@@ -203,7 +203,7 @@ struct CampaignView: View {
                     }
                     .padding(.bottom)
                     
-                    if #available(iOS 16.0, *) {
+                    if #available(iOS 16.0, *), donations.count >= 4 {
                         DonorChart(donations: donations, total: campaign.totalRaised)
                             .frame(height: 80)
                             .padding(.horizontal)
