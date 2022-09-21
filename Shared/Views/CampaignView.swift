@@ -316,7 +316,7 @@ struct CampaignView: View {
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     
                                     
-                                    if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name == "App Supporter" {
+                                    if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
                                         Button(action: {
                                             showSupporterSheet = true
                                         }, label: {
@@ -535,6 +535,7 @@ struct CampaignView: View {
                 if let apiMilestone = apiMilestones[dbMilestone.id] {
                     apiMilestones.removeValue(forKey: dbMilestone.id)
                     // Update it from the API if it exists...
+                    dataLogger.debug("Updating Milestone \(apiMilestone.name)")
                     do {
                         try await AppDatabase.shared.updateMilestone(apiMilestone, changesFrom: dbMilestone)
                     } catch {
@@ -542,6 +543,7 @@ struct CampaignView: View {
                     }
                 } else {
                     // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Milestone \(dbMilestone.name)")
                     do {
                         try await AppDatabase.shared.deleteMilestone(dbMilestone)
                     } catch {
@@ -551,6 +553,7 @@ struct CampaignView: View {
             }
             // For each new milestone in the API, save it to the database
             for apiMilestone in apiMilestones.values {
+                dataLogger.debug("Creating Milestone: \(apiMilestone.name)")
                 do {
                     try await AppDatabase.shared.saveMilestone(apiMilestone)
                 } catch {
@@ -561,7 +564,9 @@ struct CampaignView: View {
             dataLogger.error("Failed to fetch stored milestones for \(campaign.id): \(error.localizedDescription)")
         }
         
-        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.reduce(into: [:]) { partialResult, reward in
+        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.filter {
+            $0.active
+        }.reduce(into: [:]) { partialResult, reward in
             partialResult.updateValue(Reward(from: reward, campaignId: campaign.id), forKey: reward.publicId)
         }
         do {
@@ -570,6 +575,7 @@ struct CampaignView: View {
                 if let apiReward = apiRewards[dbReward.id] {
                     apiRewards.removeValue(forKey: dbReward.id)
                     // Update it from the API if it exists...
+                    dataLogger.debug("Updating Reward \(apiReward.name)")
                     do {
                         try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
                     } catch {
@@ -577,6 +583,7 @@ struct CampaignView: View {
                     }
                 } else {
                     // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Reward \(dbReward.name)")
                     do {
                         try await AppDatabase.shared.deleteReward(dbReward)
                     } catch {
@@ -586,6 +593,7 @@ struct CampaignView: View {
             }
             // For each new reward in the API, save it to the database
             for apiReward in apiRewards.values {
+                dataLogger.debug("Adding Reward \(apiReward.name)")
                 do {
                     try await AppDatabase.shared.saveReward(apiReward)
                 } catch {

@@ -95,6 +95,7 @@ struct TiltifyCampaignReward: Codable {
     let description: String
     let amount: TiltifyAmount
     let image: TiltifyCampaignRewardImage?
+    let active: Bool
 }
 
 struct TiltifyCampaign: Codable {
