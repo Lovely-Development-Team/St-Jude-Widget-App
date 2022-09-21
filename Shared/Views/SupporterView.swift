@@ -45,7 +45,7 @@ struct SupporterView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.top)
-            Text("Our thanks to these awesome people for donating **$10** or more to our fundraiser!")
+            Text("Our thanks to these awesome people for donating to our fundraiser!")
                 .padding(.top, 2)
                 .padding(.bottom, 10)
                 .multilineTextAlignment(.center)
