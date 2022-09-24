@@ -79,6 +79,7 @@ struct TiltifyWidgetData {
     let percentageFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
+        formatter.roundingMode = .down
         formatter.minimumFractionDigits = 1
         formatter.maximumFractionDigits = 1
         return formatter
@@ -86,6 +87,7 @@ struct TiltifyWidgetData {
     let shortPercentageFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
+        formatter.roundingMode = .down
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 0
         return formatter
