@@ -41,6 +41,7 @@ struct FundraisingEvent: Identifiable, Hashable {
         }
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
+        formatter.roundingMode = .down
         formatter.minimumFractionDigits = 1
         formatter.maximumFractionDigits = 1
         return formatter.string(from: percentageReached as NSNumber)
