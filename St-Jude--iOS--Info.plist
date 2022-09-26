@@ -34,7 +34,5 @@
 	<array>
 		<string>fetch</string>
 	</array>
-	<key>LSMinimumSystemVersion</key>
-	<string>13.0</string>
 </dict>
 </plist>
