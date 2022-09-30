@@ -11,10 +11,9 @@ import GRDB
 enum FundraiserSortOrder: Int, CaseIterable {
     case byName
     case byAmountRaised
+    case byAmountRemaining
     case byGoal
     case byPercentage
-    case byPercentageRemaining
-    case byAmountRemaining
     
     var description: String {
         switch self {
@@ -26,8 +25,6 @@ enum FundraiserSortOrder: Int, CaseIterable {
             return "Goal"
         case .byPercentage:
             return "Percentage"
-        case .byPercentageRemaining:
-            return "Percentage Remaining"
         case .byAmountRemaining:
             return "Amount Remaining"
         }
@@ -94,20 +91,19 @@ struct CampaignList: View {
                     return compareNames(c1: c1, c2: c2)
                 }
                 return v1 > v2
-            case .byPercentageRemaining:
-                let v1 = 100 - (c1.percentageReached ?? 0)
-                let v2 = 100 - (c2.percentageReached ?? 0)
-                if v1 == v2 {
-                    return compareNames(c1: c1, c2: c2)
-                }
-                return v1 > v2
             case .byAmountRemaining:
-                let v1 = c1.goal.numericalValue - c1.totalRaised.numericalValue
-                let v2 = c2.goal.numericalValue - c2.totalRaised.numericalValue
+                var v1 = c1.goal.numericalValue - c1.totalRaised.numericalValue
+                var v2 = c2.goal.numericalValue - c2.totalRaised.numericalValue
+                if v1 <= 0 {
+                    v1 = .infinity
+                }
+                if v2 <= 0 {
+                    v2 = .infinity
+                }
                 if v1 == v2 {
                     return compareNames(c1: c1, c2: c2)
                 }
-                return v1 > v2
+                return v1 < v2
             default:
                 return compareNames(c1: c1, c2: c2)
             }
