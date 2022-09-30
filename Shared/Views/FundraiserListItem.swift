@@ -22,6 +22,8 @@ struct FundraiserListItem: View {
     var showShareIcon: Bool = false
     @Binding var showShareSheet: Bool
     
+    let sortOrdersShowingPercantage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
+    
     @State var showShareLinkSheet: ShareURL? = nil
     
     var disclosureIndicatorIcon: String {
@@ -63,10 +65,14 @@ struct FundraiserListItem: View {
                         }
                     }
                     HStack {
-                        if sortOrder == .byGoal || sortOrder == .byPercentage, let percentageReachedDesc = campaign.percentageReachedDescription {
+                        if sortOrdersShowingPercantage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
                             Text("\(percentageReachedDesc) of \(campaign.goal.description(showFullCurrencySymbol: false))")
                                 .foregroundColor(.secondary)
                                 .lineLimit(1)
+                        } else if sortOrder == .byAmountRemaining && campaign.goal.numericalValue - campaign.totalRaised.numericalValue > 0 {
+                                Text("\(campaign.amountRemainingDescription) until \(campaign.goal.description(showFullCurrencySymbol: false))")
+                                    .foregroundColor(.secondary)
+                                    .lineLimit(1)
                         } else {
                             Text(campaign.user.name)
                                 .foregroundColor(.secondary)
@@ -126,8 +132,14 @@ struct FundraiserListItem: View {
                         ProgressBar(value: .constant(Float(percentageReached)), fillColor: .accentColor)
                             .frame(height: 10)
                     }
-                    if sortOrder == .byGoal || sortOrder == .byPercentage, let percentageReachedDesc = campaign.percentageReachedDescription {
+                    if sortOrdersShowingPercantage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
                         Text("\(percentageReachedDesc) of \(campaign.goal.description(showFullCurrencySymbol: false))")
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.top, 2)
+                    }
+                    if sortOrder == .byAmountRemaining && campaign.goal.numericalValue - campaign.totalRaised.numericalValue > 0 {
+                        Text("\(campaign.amountRemainingDescription) until \(campaign.goal.description(showFullCurrencySymbol: false))")
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.top, 2)

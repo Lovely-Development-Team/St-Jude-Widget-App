@@ -51,6 +51,16 @@ struct Campaign: Identifiable, Hashable {
         return formatter.string(from: percentageReached as NSNumber)
     }
     
+    var amountRemainingDescription: String {
+        let value = max(goal.numericalValue - totalRaised.numericalValue, 0)
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.currencyCode = goal.currency
+        currencyFormatter.currencySymbol = "$"
+        let descriptionString = currencyFormatter.string(from: value as NSNumber) ?? "\(goal.currency) 0"
+        return descriptionString
+    }
+    
     var title: String {
         username == "Relay FM" ? "Relay FM" : name
     }
