@@ -15,6 +15,7 @@ struct AnimatedImage: View {
     
     var interval: CGFloat = 0.06
     var timerLoops: Int = 50
+    var animateForever: Bool = false
     
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
@@ -29,7 +30,7 @@ struct AnimatedImage: View {
     
     var body: some View {
         Group {
-            if let image = image, tapped {
+            if let image = image, (tapped || animateForever) {
                 image
                     .resizable()
                     .scaledToFit()
@@ -39,14 +40,21 @@ struct AnimatedImage: View {
                     .scaledToFit()
             }
         }
-        .onTapGesture {
-#if !os(macOS)
-            if !tapped {
-                bounceHaptics.impactOccurred()
+        .onAppear {
+            if animateForever {
+                self.animate()
             }
+        }
+        .onTapGesture {
+            if !animateForever {
+#if !os(macOS)
+                if !tapped {
+                    bounceHaptics.impactOccurred()
+                }
 #endif
-            tapped.toggle()
-            self.animate()
+                tapped.toggle()
+                self.animate()
+            }
         }
     }
     
@@ -57,16 +65,16 @@ struct AnimatedImage: View {
             if imageIndex < self.imageNames.count {
                 self.image = Image(self.imageNames[imageIndex])
                 imageIndex += 1
-                loopTimer -= 1
+                if !animateForever { loopTimer -= 1 }
             }
             else {
                 imageIndex = 0
-                if loopTimer <= 0 {
+                if !animateForever && loopTimer <= 0 {
                     timer.invalidate()
                     tapped = false
                 }
             }
-            if !tapped {
+            if !animateForever && !tapped {
                 timer.invalidate()
             }
         }
