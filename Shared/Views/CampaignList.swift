@@ -51,8 +51,12 @@ struct CampaignList: View {
     @State private var searchText = ""
     
     @State private var isRefreshing: Bool = false
+    @State private var campaignsHaveClosed: Bool = false
+    @State private var showStephen: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    let closingDate: Date? = Date(timeIntervalSince1970: 1664809200)
+    let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -133,6 +137,47 @@ struct CampaignList: View {
                     } else {
                         FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false, showShareSheet: .constant(false))
                             .padding()
+                    }
+                    
+                    if let closingDate = closingDate {
+                        VStack {
+                            if campaignsHaveClosed {
+                                Text("Fundraisers are now closed!")
+                                    .font(.title2)
+                                    .bold()
+                                    .multilineTextAlignment(.leading)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                HStack(alignment: .top) {
+                                    VStack {
+                                        Group {
+                                            Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
+                                        }
+                                        .multilineTextAlignment(.leading)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    }
+                                    if !showStephen {
+                                        AnimatedImage(imageNames: mykeImages, timerLoops: 70, animateForever: true)
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 60)
+                                    } else {
+                                        AnimatedImage(imageNames: stephenImages, interval: 0.1, animateForever: true)
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 70)
+                                    }
+                                }
+                            } else {
+                                Group {
+                                    Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
+                                }
+                                .font(.title2)
+                                .multilineTextAlignment(.leading)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.accentColor)
+                        .padding(.bottom)
                     }
                     
                     HStack {
@@ -283,6 +328,13 @@ struct CampaignList: View {
                 await refresh()
             }
         }
+        .onReceive(countdownTimer) { _ in
+            if let closingDate = closingDate {
+                withAnimation {
+                    campaignsHaveClosed = closingDate < Date()
+                }
+            }
+        }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
         }
@@ -291,6 +343,10 @@ struct CampaignList: View {
         }
         .onAppear {
             
+            if let closingDate = closingDate {
+                campaignsHaveClosed = closingDate < Date()
+            }
+            showStephen = Bool.random()
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
             compactListMode = UserDefaults.shared.campaignListCompactView
             
