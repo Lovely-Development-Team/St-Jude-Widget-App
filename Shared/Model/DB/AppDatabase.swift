@@ -100,6 +100,13 @@ final class AppDatabase {
             
         }
         
+        migrator.registerMigration("addNumericValues") { db in
+            try db.alter(table: "campaign") { t in
+                t.add(column: "goalNumericalValue", .double)
+                t.add(column: "totalRaisedNumericalValue", .double)
+            }
+        }
+        
         return migrator
     }
 }

@@ -22,10 +22,24 @@ struct Campaign: Identifiable, Hashable {
     var goal: TiltifyAmount {
         TiltifyAmount(currency: goalCurrency, value: goalValue)
     }
+    let goalNumericalValue: Double?
+    var goalNumerical: Double {
+        goalNumericalValue ?? 0
+    }
+    func goalDescription(showFullCurrencySymbol: Bool) -> String {
+        currencyDescription(showFullCurrencySymbol: showFullCurrencySymbol, value: goalNumerical, currency: goalCurrency)
+    }
     private let totalRaisedCurrency: String
     private let totalRaisedValue: String?
     var totalRaised: TiltifyAmount {
         TiltifyAmount(currency: totalRaisedCurrency, value: totalRaisedValue)
+    }
+    let totalRaisedNumericalValue: Double?
+    var totalRaisedNumerical: Double {
+        totalRaisedNumericalValue ?? 0
+    }
+    func totalRaisedDescription(showFullCurrencySymbol: Bool) -> String {
+        currencyDescription(showFullCurrencySymbol: showFullCurrencySymbol, value: totalRaisedNumerical, currency: totalRaisedCurrency)
     }
     private let username: String
     private let userSlug: String
@@ -52,12 +66,35 @@ struct Campaign: Identifiable, Hashable {
     }
     
     var amountRemainingDescription: String {
-        let value = max(goal.numericalValue - totalRaised.numericalValue, 0)
+        let value = max(goalNumerical - totalRaisedNumerical, 0)
         let currencyFormatter = NumberFormatter()
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = goal.currency
         currencyFormatter.currencySymbol = "$"
         let descriptionString = currencyFormatter.string(from: value as NSNumber) ?? "\(goal.currency) 0"
+        return descriptionString
+    }
+    
+    private func currencyDescription(showFullCurrencySymbol: Bool, value: Double, currency: String) -> String {
+        
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.currencyCode = currency
+        
+        let originalSymbol = currencyFormatter.currencySymbol
+        let originalCode = currencyFormatter.currencyCode
+        
+        currencyFormatter.currencyCode = "USD"
+        if !showFullCurrencySymbol {
+            currencyFormatter.currencySymbol = "$"
+        } else {
+            currencyFormatter.currencySymbol = "USD"
+        }
+        
+        let descriptionString = currencyFormatter.string(from: value as NSNumber) ?? "\(currency) 0"
+        currencyFormatter.currencySymbol = originalSymbol
+        currencyFormatter.currencyCode = originalCode
+        
         return descriptionString
     }
     
@@ -85,8 +122,10 @@ extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
         static let description = Column(CodingKeys.description)
         static let goalCurrency = Column(CodingKeys.goalCurrency)
         static let goalValue = Column(CodingKeys.goalValue)
+        static let goalNumericalValue = Column(CodingKeys.goalNumericalValue)
         static let totalRaisedCurrency = Column(CodingKeys.totalRaisedCurrency)
         static let totalRaisedValue = Column(CodingKeys.totalRaisedValue)
+        static let totalRaisedNumericalValue = Column(CodingKeys.totalRaisedNumericalValue)
         static let username = Column(CodingKeys.username)
         static let userSlug = Column(CodingKeys.userSlug)
         static let isStarred = Column(CodingKeys.isStarred)
@@ -118,8 +157,10 @@ extension Campaign {
         self.description = campaign.description
         self.goalCurrency = campaign.goal.currency
         self.goalValue = campaign.goal.value
+        self.goalNumericalValue = campaign.goal.numericalValue
         self.totalRaisedCurrency = campaign.totalAmountRaised.currency
         self.totalRaisedValue = campaign.totalAmountRaised.value
+        self.totalRaisedNumericalValue = campaign.totalAmountRaised.numericalValue
         self.username = campaign.user.username
         self.userSlug = campaign.user.slug
         self.isStarred = false
@@ -135,8 +176,10 @@ extension Campaign {
         self.description = campaign.description
         self.goalCurrency = campaign.goal.currency
         self.goalValue = campaign.goal.value
+        self.goalNumericalValue = campaign.goal.numericalValue
         self.totalRaisedCurrency = campaign.totalAmountRaised.currency
         self.totalRaisedValue = campaign.totalAmountRaised.value
+        self.totalRaisedNumericalValue = campaign.totalAmountRaised.numericalValue
         self.username = campaign.user.username
         self.userSlug = campaign.user.slug
         self.isStarred = false
@@ -152,8 +195,10 @@ extension Campaign {
                         description: campaign.description,
                         goalCurrency: campaign.goal.currency,
                         goalValue: campaign.goal.value,
+                        goalNumericalValue: campaign.goal.numericalValue,
                         totalRaisedCurrency: campaign.totalAmountRaised.currency,
                         totalRaisedValue: campaign.totalAmountRaised.value,
+                        totalRaisedNumericalValue: campaign.totalAmountRaised.numericalValue,
                         username: campaign.user.username,
                         userSlug: campaign.user.slug,
                         isStarred: self.isStarred,
@@ -169,8 +214,10 @@ extension Campaign {
                         description: campaign.description,
                         goalCurrency: campaign.goal.currency,
                         goalValue: campaign.goal.value,
+                        goalNumericalValue: campaign.goal.numericalValue,
                         totalRaisedCurrency: campaign.totalAmountRaised.currency,
                         totalRaisedValue: campaign.totalAmountRaised.value,
+                        totalRaisedNumericalValue: campaign.totalAmountRaised.numericalValue,
                         username: campaign.user.username,
                         userSlug: campaign.user.slug,
                         isStarred: self.isStarred,
@@ -186,8 +233,10 @@ extension Campaign {
                         description: self.description,
                         goalCurrency: self.goalCurrency,
                         goalValue: self.goalValue,
+                        goalNumericalValue: self.goalNumericalValue,
                         totalRaisedCurrency: self.totalRaisedCurrency,
                         totalRaisedValue: self.totalRaisedValue,
+                        totalRaisedNumericalValue: self.totalRaisedNumericalValue,
                         username: self.username,
                         userSlug: self.userSlug,
                         isStarred: isStarred,
