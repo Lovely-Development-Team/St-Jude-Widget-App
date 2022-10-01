@@ -66,11 +66,11 @@ struct FundraiserListItem: View {
                     }
                     HStack {
                         if sortOrdersShowingPercantage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
-                            Text("\(percentageReachedDesc) of \(campaign.goal.description(showFullCurrencySymbol: false))")
+                            Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
                                 .foregroundColor(.secondary)
                                 .lineLimit(1)
-                        } else if sortOrder == .byAmountRemaining && campaign.goal.numericalValue - campaign.totalRaised.numericalValue > 0 {
-                                Text("\(campaign.amountRemainingDescription) until \(campaign.goal.description(showFullCurrencySymbol: false))")
+                        } else if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
+                                Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
                                     .foregroundColor(.secondary)
                                     .lineLimit(1)
                         } else {
@@ -78,7 +78,7 @@ struct FundraiserListItem: View {
                                 .foregroundColor(.secondary)
                         }
                         Spacer()
-                        Text("\(campaign.totalRaised.description(showFullCurrencySymbol: false))")
+                        Text("\(campaign.totalRaisedDescription(showFullCurrencySymbol: false))")
                             .font(.headline)
                             .fontWeight(.bold)
                             .lineLimit(1)
@@ -124,7 +124,7 @@ struct FundraiserListItem: View {
                             }
                         }
                     }
-                    Text(campaign.totalRaised.description(showFullCurrencySymbol: false))
+                    Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
                         .font(.title)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -133,13 +133,13 @@ struct FundraiserListItem: View {
                             .frame(height: 10)
                     }
                     if sortOrdersShowingPercantage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
-                        Text("\(percentageReachedDesc) of \(campaign.goal.description(showFullCurrencySymbol: false))")
+                        Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.top, 2)
                     }
-                    if sortOrder == .byAmountRemaining && campaign.goal.numericalValue - campaign.totalRaised.numericalValue > 0 {
-                        Text("\(campaign.amountRemainingDescription) until \(campaign.goal.description(showFullCurrencySymbol: false))")
+                    if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
+                        Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.top, 2)

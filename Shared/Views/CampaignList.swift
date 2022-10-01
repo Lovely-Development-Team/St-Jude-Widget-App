@@ -71,15 +71,15 @@ struct CampaignList: View {
             }
             switch fundraiserSortOrder {
             case .byAmountRaised:
-                let v1 = c1.totalRaised.numericalValue
-                let v2 = c2.totalRaised.numericalValue
+                let v1 = c1.totalRaisedNumerical
+                let v2 = c2.totalRaisedNumerical
                 if v1 == v2 {
                     return compareNames(c1: c1, c2: c2)
                 }
                 return v1 > v2
             case .byGoal:
-                let v1 = c1.goal.numericalValue
-                let v2 = c2.goal.numericalValue
+                let v1 = c1.goalNumerical
+                let v2 = c2.goalNumerical
                 if v1 == v2 {
                     return compareNames(c1: c1, c2: c2)
                 }
@@ -92,8 +92,8 @@ struct CampaignList: View {
                 }
                 return v1 > v2
             case .byAmountRemaining:
-                var v1 = c1.goal.numericalValue - c1.totalRaised.numericalValue
-                var v2 = c2.goal.numericalValue - c2.totalRaised.numericalValue
+                var v1 = c1.goalNumerical - c1.totalRaisedNumerical
+                var v2 = c2.goalNumerical - c2.totalRaisedNumerical
                 if v1 <= 0 {
                     v1 = .infinity
                 }
