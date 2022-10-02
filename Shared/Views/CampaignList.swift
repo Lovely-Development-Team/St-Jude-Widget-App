@@ -55,7 +55,7 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = Date(timeIntervalSince1970: 1664809200)
+    let closingDate: Date? = Date(timeIntervalSince1970: 1664812800)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
