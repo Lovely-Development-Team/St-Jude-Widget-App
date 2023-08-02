@@ -146,11 +146,7 @@ struct FundraiserListItem: View {
                     }
                 }
                 .sheet(item: $showShareLinkSheet) { url in
-                    if let url = url {
-                        ShareSheetView(activityItems: [url.url])
-                    } else {
-                        EmptyView()
-                    }
+                    ShareSheetView(activityItems: [url.url])
                 }
             }
         }

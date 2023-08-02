@@ -42,7 +42,7 @@ struct FundraiserCardView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(fundraisingEvent?.name ?? "Relay FM for St. Jude 2022")
+                Text(fundraisingEvent?.name ?? "Relay FM for St. Jude 2023")
                     .multilineTextAlignment(.leading)
                     .font(.headline)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -103,11 +103,7 @@ struct FundraiserCardView: View {
         .background(fundraisingEvent?.colors.backgroundColor ?? Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .cornerRadius(10)
         .sheet(item: $showShareLinkSheet) { url in
-            if let url = url {
-                ShareSheetView(activityItems: [url.url])
-            } else {
-                EmptyView()
-            }
+            ShareSheetView(activityItems: [url.url])
         }
     }
 }

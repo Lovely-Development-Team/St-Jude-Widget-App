@@ -55,7 +55,7 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = Date(timeIntervalSince1970: 1664812800)
+    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1698710400)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
@@ -404,7 +404,7 @@ struct CampaignList: View {
                 .disabled(isRefreshing)
             }
         }
-        .navigationTitle("Relay FM for St. Jude 2022")
+        .navigationTitle("Relay FM for St. Jude 2023")
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value

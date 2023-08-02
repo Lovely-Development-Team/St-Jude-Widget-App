@@ -65,14 +65,10 @@ struct ShareCampaignView: View {
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
             .padding()
             .sheet(item: $presentSystemShareSheet) { image in
-                if let image = image {
-                    if let data = image.image.pngData() {
-                        ShareSheetView(activityItems: [data])
-                    } else {
-                        ShareSheetView(activityItems: [image.image])
-                    }
+                if let data = image.image.pngData() {
+                    ShareSheetView(activityItems: [data])
                 } else {
-                    Text("No image generated.")
+                    ShareSheetView(activityItems: [image.image])
                 }
             }
         }
