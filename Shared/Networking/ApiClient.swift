@@ -39,6 +39,17 @@ struct TiltifyGetCampaignsRequest: Codable {
     let query: String
 }
 
+struct TiltifyDonorsRequestVariables: Codable {
+    let publicId: String
+    let limit: Int
+}
+
+struct TiltifyDonorsRequest: Codable {
+    let operationName: String
+    let variables: TiltifyDonorsRequestVariables
+    let query: String
+}
+
 
 let TEAM_EVENT_VANITY = "+vtubers-for-st-jude"
 let TEAM_EVENT_SLUG = "-2023-06-01 12:35:51Z"
@@ -134,8 +145,8 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let body = TiltifyRequest(operationName: "get_previous_donations_by_campaign",
-                                  variables: ["publicId": publicId],
+        let body = TiltifyDonorsRequest(operationName: "get_previous_donations_by_campaign",
+                                  variables: TiltifyDonorsRequestVariables(publicId: publicId, limit: 25),
                                   query: DONOR_REQUEST_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request

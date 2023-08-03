@@ -258,7 +258,7 @@ query get_team_event_by_vanity_and_slug($vanity: String!, $slug: String!) {
 """
 
 let DONOR_REQUEST_QUERY = """
-query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
+query get_previous_donations_by_campaign($publicId: String!, $limit: Int!, $cursor: String) {
   campaign(publicId: $publicId) {
     topDonation {
       id
@@ -271,10 +271,11 @@ query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
       completedAt
       incentives {
         type
-        id
+        publicId
+        name
       }
     }
-    donations(first: 50, after: $cursor) {
+    donations(first: $limit, after: $cursor) {
       edges {
         cursor
         node {
@@ -286,11 +287,13 @@ query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
           donorName
           donorComment
           completedAt
+          matchCount
           incentives {
             type
-            id
+            publicId
             name
           }
+          isMatch
         }
       }
       pageInfo {
