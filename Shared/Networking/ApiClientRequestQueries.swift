@@ -305,23 +305,75 @@ query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
 """
 
 let CAMPAIGN_REQUEST_QUERY = """
-query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
+query get_campaign_by_vanity_and_slug($vanity: String!, $slug: String!) {
   campaign(vanity: $vanity, slug: $slug) {
     publicId
+    legacyCampaignId
     name
     slug
     status
+    showPolyline
+    membership {
+      id
+      status
+    }
     originalGoal {
       value
       currency
     }
-    user {
-      username
-      slug
+    region {
+      name
+    }
+    team {
+      id
       avatar {
+        src
         alt
+      }
+      name
+      slug
+    }
+    bonfireCampaign {
+      id
+      description
+      featuredItemImage {
         src
       }
+      featuredItemName
+      featuredItemPrice {
+        currency
+        value
+      }
+      url
+      products {
+        id
+        productType
+        sellingPrice {
+          value
+          currency
+        }
+      }
+    }
+    supportedTeamEvent {
+      publicId
+      team {
+        id
+        avatar {
+          src
+          alt
+        }
+        name
+        slug
+      }
+      avatar {
+        alt
+        height
+        width
+        src
+      }
+      name
+      slug
+      currentSlug
     }
     description
     totalAmountRaised {
@@ -332,28 +384,76 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
       currency
       value
     }
-    milestones {
+    avatar {
+      alt
+      height
+      width
+      src
+    }
+    user {
       id
+      username
+      slug
+      avatar {
+        src
+        alt
+      }
+    }
+    livestream {
+      type
+      channel
+    }
+    milestones {
+      publicId
       name
       amount {
         value
         currency
       }
     }
+    schedules {
+      publicId
+      name
+      description
+      startsAt
+      endsAt
+    }
     rewards {
       active
-      publicId
-      id
+      promoted
+      fulfillment
       amount {
-        value
         currency
+        value
       }
-      description
       name
-      quantity
-      remaining
       image {
         src
+      }
+      fairMarketValue {
+        currency
+        value
+      }
+      legal
+      description
+      publicId
+      startsAt
+      endsAt
+      quantity
+      remaining
+    }
+    challenges {
+      publicId
+      amount {
+        currency
+        value
+      }
+      name
+      active
+      endsAt
+      amountRaised {
+        currency
+        value
       }
     }
   }

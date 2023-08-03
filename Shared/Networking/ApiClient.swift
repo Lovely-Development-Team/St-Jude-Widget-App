@@ -94,12 +94,12 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         return request
     }
     
-    func fetchCampaignsForTeamEvent(limit: Int = 25, cursor: String? = nil) async -> TiltifySupportingCampaignsResponse? {
+    func fetchCampaignsForTeamEvent(limit: Int = 50, cursor: String? = nil) async -> TiltifySupportingCampaignsResponse? {
         do {
             let request = try buildCampaignsForTeamEventRequest(limit: limit, cursor: cursor)
             let (data, _) = try await URLSession.shared.data(for: request)
             let decoded = String(data: data, encoding: .utf8)!
-            dataLogger.debug("Campaigns: \(decoded)")
+//            dataLogger.debug("Campaigns: \(decoded)")
             let payload = try JSONDecoder().decode(TiltifySupportingCampaignsResponse.self, from: data)
             dataLogger.debug("Fetched: \(payload.data.teamEvent.supportingCampaigns.edges.count)")
             return payload
@@ -187,6 +187,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
                     completion(.failure(TiltifyError.noData))
                     return
                 }
+//                dataLogger.debug("BEN: \(String(data: data, encoding: .utf8)!)")
                 completion(Result {
                     let payload = try JSONDecoder().decode(TiltifyResponse.self, from: data)
                     return payload
