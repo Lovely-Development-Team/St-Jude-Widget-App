@@ -570,8 +570,11 @@ struct CampaignView: View {
             if let teamEvent = teamEvent {
                 dbMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: teamEvent)
             } else {
-                // TODO: Update for Campaign
-                dbMilestones = []
+                if let campaign = campaign {
+                    dbMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
+                } else {
+                    dbMilestones = []
+                }
             }
             // For each milestone from the database...
             for dbMilestone in dbMilestones {
@@ -610,114 +613,83 @@ struct CampaignView: View {
     }
     
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
-//        let response: TiltifyResponse
-//        do {
-//            response = try await apiClient.fetchCampaign(vanity: campaign.user.slug, slug: campaign.slug)
-//        } catch {
-//            dataLogger.error("Fetching campaign failed: \(error.localizedDescription)")
-//            return
-//        }
-//
-//        let apiCampaign = campaign.updated(fromCampaign: response.data.campaign, fundraiserId: campaign.fundraisingEventId)
-//        do {
-//            if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
-//                dataLogger.info("Updated stored campaign: \(apiCampaign.id)")
-//                if updateLocalCampaignState {
-//                    self.initialCampaign = apiCampaign
-//                }
-//            }
-//        } catch {
-//            dataLogger.error("Updating stored campaign failed: \(error.localizedDescription)")
-//        }
-//
-//        var apiMilestones: [UUID: Milestone] = response.data.campaign.milestones.reduce(into: [:]) { partialResult, ms in
-//            partialResult.updateValue(Milestone(from: ms, campaignId: campaign.id), forKey: ms.publicId)
-//        }
-//        do {
-//            // For each milestone from the database...
-//            for dbMilestone in try await AppDatabase.shared.fetchSortedMilestones(for: campaign) {
-//                if let apiMilestone = apiMilestones[dbMilestone.id] {
-//                    apiMilestones.removeValue(forKey: dbMilestone.id)
-//                    // Update it from the API if it exists...
-//                    dataLogger.debug("Updating Milestone \(apiMilestone.name)")
-//                    do {
-//                        try await AppDatabase.shared.updateMilestone(apiMilestone, changesFrom: dbMilestone)
-//                    } catch {
-//                        dataLogger.error("Failed to update Milestone \(apiMilestone.name): \(error.localizedDescription)")
-//                    }
-//                } else {
-//                    // Remove it from the database if it doesn't...
-//                    dataLogger.debug("Removing Milestone \(dbMilestone.name)")
-//                    do {
-//                        try await AppDatabase.shared.deleteMilestone(dbMilestone)
-//                    } catch {
-//                        dataLogger.error("Failed to delete Milestone \(dbMilestone.name): \(error.localizedDescription)")
-//                    }
-//                }
-//            }
-//            // For each new milestone in the API, save it to the database
-//            for apiMilestone in apiMilestones.values {
-//                dataLogger.debug("Creating Milestone: \(apiMilestone.name)")
-//                do {
-//                    try await AppDatabase.shared.saveMilestone(apiMilestone)
-//                } catch {
-//                    dataLogger.error("Failed to save Milestone \(apiMilestone.name): \(error.localizedDescription)")
-//                }
-//            }
-//        } catch {
-//            dataLogger.error("Failed to fetch stored milestones for \(campaign.id): \(error.localizedDescription)")
-//        }
-//
-//        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.filter {
-//            $0.active
-//        }.reduce(into: [:]) { partialResult, reward in
-//            partialResult.updateValue(Reward(from: reward, campaignId: campaign.id), forKey: reward.publicId)
-//        }
-//        do {
-//            // For each reward from the database...
-//            for dbReward in try await AppDatabase.shared.fetchSortedRewards(for: campaign) {
-//                if let apiReward = apiRewards[dbReward.id] {
-//                    apiRewards.removeValue(forKey: dbReward.id)
-//                    // Update it from the API if it exists...
-//                    dataLogger.debug("Updating Reward \(apiReward.name)")
-//                    do {
-//                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
-//                    } catch {
-//                        dataLogger.error("Failed to update Reward \(apiReward.name): \(error.localizedDescription)")
-//                    }
-//                } else {
-//                    // Remove it from the database if it doesn't...
-//                    dataLogger.debug("Removing Reward \(dbReward.name)")
-//                    do {
-//                        try await AppDatabase.shared.deleteReward(dbReward)
-//                    } catch {
-//                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
-//                    }
-//                }
-//            }
-//            // For each new reward in the API, save it to the database
-//            for apiReward in apiRewards.values {
-//                dataLogger.debug("Adding Reward \(apiReward.name)")
-//                do {
-//                    try await AppDatabase.shared.saveReward(apiReward)
-//                } catch {
-//                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
-//                }
-//            }
-//        } catch {
-//            dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
-//        }
-//
-//        do {
-//            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
-//            withAnimation {
-//                donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
-//                topDonor = apiDonorsResponse.data.campaign.topDonation
-//            }
-//        } catch {
-//            dataLogger.error("Failed to load donors: \(error.localizedDescription)")
-//        }
-//
+        
+        
+        
+        let response: TiltifyResponse
+        do {
+            response = try await apiClient.fetchCampaign(vanity: campaign.user.slug, slug: campaign.slug)
+        } catch {
+            dataLogger.error("\(campaign.id) Fetching campaign failed: \(error.localizedDescription)")
+            return
+        }
+        
+        let apiCampaign = campaign.updated(fromCampaign: response.data.campaign)
+        do {
+            if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
+                dataLogger.info("\(campaign.id) Updated stored campaign: \(apiCampaign.id)")
+                if updateLocalCampaignState {
+                    self.initialCampaign = apiCampaign
+                }
+            }
+        } catch {
+            dataLogger.error("\(campaign.id) Updating stored campaign failed: \(error.localizedDescription)")
+        }
+        
+        dataLogger.debug("\(campaign.id) Updating campaign from the API!")
+        
+        await updateMilestonesInDatabase(forCampaign: apiCampaign, with: response.data.campaign.milestones)
+
+        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.filter {
+            $0.active
+        }.reduce(into: [:]) { partialResult, reward in
+            partialResult.updateValue(Reward(from: reward, campaignId: campaign.id), forKey: reward.publicId)
+        }
+        do {
+            // For each reward from the database...
+            for dbReward in try await AppDatabase.shared.fetchSortedRewards(for: campaign) {
+                if let apiReward = apiRewards[dbReward.id] {
+                    apiRewards.removeValue(forKey: dbReward.id)
+                    // Update it from the API if it exists...
+                    dataLogger.debug("Updating Reward \(apiReward.name)")
+                    do {
+                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
+                    } catch {
+                        dataLogger.error("Failed to update Reward \(apiReward.name): \(error.localizedDescription)")
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Reward \(dbReward.name)")
+                    do {
+                        try await AppDatabase.shared.deleteReward(dbReward)
+                    } catch {
+                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            // For each new reward in the API, save it to the database
+            for apiReward in apiRewards.values {
+                dataLogger.debug("Adding Reward \(apiReward.name)")
+                do {
+                    try await AppDatabase.shared.saveReward(apiReward)
+                } catch {
+                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
+        }
+
+        do {
+            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+            withAnimation {
+                donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
+                topDonor = apiDonorsResponse.data.campaign.topDonation
+            }
+        } catch {
+            dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+        }
+
     }
     
     /// Fetches the campaign data from GRDB
