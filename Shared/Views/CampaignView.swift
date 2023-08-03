@@ -72,7 +72,7 @@ struct CampaignView: View {
     }
     
     var description: AttributedString {
-        let descr = fundraisingEvent?.description ?? initialCampaign?.description ?? ""
+        let descr = fundraisingEvent?.description ?? teamEvent?.description ?? initialCampaign?.description ?? ""
         do {
             return try AttributedString(markdown: descr)
         } catch {
@@ -85,6 +85,8 @@ struct CampaignView: View {
             return milestone.amount.value <= fundraisingEvent.amountRaised.numericalValue
         } else if let initialCampaign = initialCampaign {
             return milestone.amount.value <= initialCampaign.totalRaised.numericalValue
+        } else if let teamEvent = teamEvent {
+            return milestone.amount.value <= teamEvent.totalRaised.numericalValue
         }
         return false
     }
@@ -141,7 +143,7 @@ struct CampaignView: View {
                     }
                     .disabled(rewards.isEmpty)
                 }
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 
                 ZStack {
                     
