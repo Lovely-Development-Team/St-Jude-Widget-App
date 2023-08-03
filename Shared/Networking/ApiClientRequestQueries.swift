@@ -470,6 +470,7 @@ query get_supporting_campaigns_by_team_event_asc($vanity: String!, $slug: String
         node {
           publicId
           name
+          description
           user {
             id
             username

@@ -164,7 +164,7 @@ extension Campaign {
         self.id = campaign.publicId
         self.name = campaign.name
         self.slug = campaign.slug
-        self.avatar = campaign.user.avatar
+        self.avatar = campaign.avatar ?? campaign.user.avatar
         self.status = nil
         self.description = campaign.description
         self.goalCurrency = campaign.goal.currency
@@ -182,7 +182,7 @@ extension Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
-                        avatar: campaign.user.avatar,
+                        avatar: campaign.avatar ?? campaign.user.avatar,
                         status: self.status,
                         description: campaign.description,
                         goalCurrency: campaign.goal.currency,
@@ -200,7 +200,7 @@ extension Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
-                        avatar: campaign.user.avatar,
+                        avatar: campaign.avatar ?? campaign.user.avatar,
                         status: self.status,
                         description: campaign.description,
                         goalCurrency: campaign.goal.currency,
