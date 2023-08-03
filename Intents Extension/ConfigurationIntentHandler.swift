@@ -35,10 +35,10 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
     }
     
     func provideCampaignOptionsCollection(for intent: ConfigurationIntent) async throws -> INObjectCollection<INWidgetCampaign> {
-        guard let event = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
-            return INObjectCollection(items: [])
-        }
-        let campaigns = try await AppDatabase.shared.fetchAllCampaigns(for: event)
+//        guard let event = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
+//            return INObjectCollection(items: [])
+//        }
+        let campaigns = try await AppDatabase.shared.fetchAllCampaigns()
         let widgetCampaigns = campaigns.sorted { c1, c2 in
             if c1.isStarred && !c2.isStarred {
                 return true

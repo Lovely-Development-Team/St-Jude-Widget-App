@@ -73,8 +73,8 @@ struct TiltifyAmount: Codable {
 
 struct TiltifyMilestone: Codable {
     let amount: TiltifyAmount
-    let id: Int
     let name: String
+    let publicId: UUID
 }
 
 struct TiltifyAvatar: Codable, Hashable {
@@ -184,7 +184,8 @@ struct TiltifyCauseCampaign: Codable {
     let goal: TiltifyAmount
     let totalAmountRaised: TiltifyAmount
     let user: TiltifyUser
-    let description: String
+    let avatar: TiltifyAvatar?
+    let description: String?
 }
 
 struct TiltifyPublishedCampaign: Codable {
@@ -339,4 +340,53 @@ struct TiltifyDonorsForCampaignData: Codable {
 
 struct TiltifyDonorsForCampaignResponse: Codable {
     let data: TiltifyDonorsForCampaignData
+}
+
+
+
+struct TiltifyTeamEvent: Codable {
+    let publicId: UUID
+    let goal: TiltifyAmount
+    let milestones: [TiltifyMilestone]
+    let slug: String
+    let description: String
+    let totalAmountRaised: TiltifyAmount
+    let name: String
+}
+
+struct TiltifyTeamEventData: Codable {
+    let teamEvent: TiltifyTeamEvent
+}
+
+struct TiltifyTeamEventResponse: Codable {
+    let data: TiltifyTeamEventData
+}
+
+struct TiltifySupportingCampaignsPageInfo: Codable {
+    let endCursor: String
+    let startCursor: String
+    let hasNextPage: Bool
+    let hasPreviousPage: Bool
+}
+
+struct TiltifySupportingCampaignNode: Codable {
+    let cursor: String
+    let node: TiltifyCauseCampaign
+}
+
+struct TiltifySupportingCampaigns: Codable {
+    let edges: [TiltifySupportingCampaignNode]
+    let pageInfo: TiltifySupportingCampaignsPageInfo
+}
+
+struct TiltifySupportingCampaignsTeamEvent: Codable {
+    let supportingCampaigns: TiltifySupportingCampaigns
+}
+
+struct TiltifySupportingCampaignsData: Codable {
+    let teamEvent: TiltifySupportingCampaignsTeamEvent
+}
+
+struct TiltifySupportingCampaignsResponse: Codable {
+    let data: TiltifySupportingCampaignsData
 }

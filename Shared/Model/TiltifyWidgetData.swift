@@ -195,6 +195,34 @@ struct TiltifyWidgetData {
         self.rewards = []
     }
     
+    init(from teamEvent: TeamEvent) async {
+        self.id = teamEvent.id
+        self.name = teamEvent.name
+        self.description = teamEvent.description
+        self.currencyCode = teamEvent.totalRaised.currency
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        currencyFormatter = formatter
+        self.totalRaisedRaw = teamEvent.totalRaised.value ?? "0"
+        self.goalRaw = teamEvent.goal.value ?? "0"
+//        do {
+//            if let campaign = try await AppDatabase.shared.fetchRelayCampaign() {
+//                self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
+//            } else {
+//                self.milestones = []
+//            }
+//        } catch {
+//            dataLogger.notice("Failed to fetch milestones: \(error.localizedDescription)")
+//            self.milestones = []
+//        }
+        self.milestones = []
+        self.previousMilestone = Self.previousMilestone(at: teamEvent.totalRaised.numericalValue, in: self.milestones)
+        self.nextMilestone = Self.nextMilestone(at: teamEvent.totalRaised.numericalValue, in: self.milestones)
+        self.futureMilestones = Self.futureMilestones(at: teamEvent.totalRaised.numericalValue, in: self.milestones)
+        self.rewards = []
+    }
+    
     var percentageReached: Double? {
         return calcPercentage(goal: goalRaw, total: totalRaisedRaw)
     }

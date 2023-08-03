@@ -35,10 +35,22 @@ final class AppDatabase {
         migrator.eraseDatabaseOnSchemaChange = true
         #endif
         
-        migrator.registerMigration("createInitialTables") { db in
-            // Create a table
-            // See https://github.com/groue/GRDB.swift#create-tables
+        migrator.registerMigration("createInitialTables2023") { db in
             
+            // New version of fundraisingEvent
+            try db.create(table: "teamEvent") { t in
+                t.column("publicId", .blob).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("description", .blob).notNull()
+                t.column("goalCurrency", .text).notNull()
+                t.column("goalValue", .text).notNull()
+                t.column("goalNumericalValue", .double).notNull()
+                t.column("totalRaisedCurrency", .text).notNull()
+                t.column("totalRaisedValue", .text).notNull()
+                t.column("totalRaisedNumericalValue", .double).notNull()
+            }
+            
+            // Not needed in 2023
             try db.create(table: "fundraisingEvent") { t in
                 t.column("id", .blob).primaryKey()
                 t.column("name", .text).notNull()
@@ -68,20 +80,19 @@ final class AppDatabase {
                 t.column("totalRaisedValue", .text).notNull()
                 t.column("username", .text).notNull()
                 t.column("userSlug", .text).notNull()
-                t.column("fundraisingEventId", .blob).notNull().references("fundraisingEvent")
+                t.column("isStarred", .boolean).defaults(to: false)
+                t.column("goalNumericalValue", .double)
+                t.column("totalRaisedNumericalValue", .double)
                 t.uniqueKey(["slug", "userSlug"])
             }
             
-        }
-        
-        migrator.registerMigration("createMilestoneAndRewardTables") { db in
-            
             try db.create(table: "milestone") { t in
-                t.column("id", .integer).primaryKey()
+                t.column("publicId", .blob).primaryKey()
                 t.column("name", .text).notNull()
                 t.column("amountCurrency", .text).notNull()
                 t.column("amountValue", .double).notNull()
-                t.column("campaignId", .blob).notNull().references("campaign")
+                t.column("campaignId", .blob).references("campaign")
+                t.column("teamEventId", .blob).references("teamEvent")
             }
             
             try db.create(table: "reward") { t in
@@ -94,17 +105,6 @@ final class AppDatabase {
                 t.column("campaignId", .blob).notNull().references("campaign")
             }
             
-            try db.alter(table: "campaign") { t in
-                t.add(column: "isStarred", .boolean).defaults(to: false)
-            }
-            
-        }
-        
-        migrator.registerMigration("addNumericValues") { db in
-            try db.alter(table: "campaign") { t in
-                t.add(column: "goalNumericalValue", .double)
-                t.add(column: "totalRaisedNumericalValue", .double)
-            }
         }
         
         return migrator
@@ -112,6 +112,41 @@ final class AppDatabase {
 }
 
 extension AppDatabase {
+    
+    // MARK: 2023
+    
+    @discardableResult
+    func saveTeamEvent(_ event: TeamEvent) async throws -> TeamEvent {
+        try await dbWriter.write { db in
+            try event.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func updateTeamEvent(_ newEvent: TeamEvent, changesFrom oldEvent: TeamEvent) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newEvent.updateChanges(db, from: oldEvent)
+        }
+    }
+    
+    private func fetchTeamEvent(using db: Database) throws -> TeamEvent? {
+        try TeamEvent.all().fetchOne(db)
+    }
+    
+    func fetchTeamEvent() throws -> TeamEvent? {
+        try dbWriter.read { db in
+            try self.fetchTeamEvent(using: db)
+        }
+    }
+    
+    func fetchTeamEvent() async throws -> TeamEvent? {
+        try await dbWriter.read { db in
+            try self.fetchTeamEvent(using: db)
+        }
+    }
+    
+    // MARK: 2022
+    
     func saveFundraisingEvent(_ event: FundraisingEvent) async throws -> FundraisingEvent {
         try await dbWriter.write { db in
             try event.saved(db)
@@ -154,9 +189,9 @@ extension AppDatabase {
         try await fetchFundraisingEvent(with: "relay-fm-for-st-jude-2022", forCause: "st-jude-children-s-research-hospital")
     }
     
-    func fetchAllCampaigns(for event: FundraisingEvent) async throws -> [Campaign] {
+    func fetchAllCampaigns() async throws -> [Campaign] {
         try await dbWriter.read { db in
-            try event.campaigns.fetchAll(db)
+            try Campaign.fetchAll(db)
         }
     }
     
@@ -179,13 +214,15 @@ extension AppDatabase {
             try campaign.delete(db)
         }
     }
-    
+
+    @discardableResult
     func saveCampaign(_ campaign: Campaign) async throws -> Campaign {
         try await dbWriter.write { db in
             try campaign.saved(db)
         }
     }
-    
+
+    @discardableResult
     func saveMilestone(_ milestone: Milestone) async throws -> Milestone {
         try await dbWriter.write { db in
             try milestone.saved(db)
@@ -204,6 +241,13 @@ extension AppDatabase {
         }
     }
     
+    func fetchSortedMilestones(for teamEvent: TeamEvent) async throws -> [Milestone] {
+        try await dbWriter.read { db in
+            try teamEvent.milestones.order(Column("amountValue").asc).fetchAll(db)
+        }
+    }
+    
+    @discardableResult
     func saveReward(_ reward: Reward) async throws -> Reward {
         try await dbWriter.write { db in
             try reward.saved(db)
@@ -257,6 +301,17 @@ extension AppDatabase {
 }
 
 extension AppDatabase {
+    
+    // MARK: 2023
+    
+    func observeTeamEventObservation() -> ValueObservation<ValueReducers.Fetch<TeamEvent?>> {
+        ValueObservation.trackingConstantRegion { db in
+            try AppDatabase.shared.fetchTeamEvent()
+        }
+    }
+    
+    // MARK: 2022
+    
     func observeRelayFundraisingEventObservation() -> ValueObservation<ValueReducers.Fetch<FundraisingEvent?>> {
         ValueObservation.trackingConstantRegion { db in
             try AppDatabase.shared.fetchRelayFundraisingEvent(using: db)

@@ -290,6 +290,12 @@ struct ContentView: View {
     }
     
     func refresh() {
+        
+        Task {
+            dataLogger.debug("Fetching Team Event")
+            await apiClient.fetchTeamEvent()
+        }
+        
         guard refreshInProgress == false else {
             dataLogger.notice("Refresh already in progress. Not refreshing.")
             return
