@@ -15,6 +15,18 @@ struct TiltifyRequest: Codable {
     let query: String
 }
 
+struct TiltifyCampaignsForTeamEventRequestVariables: Codable {
+    let vanity: String
+    let slug: String
+    let limit: Int
+    var cursor: String? = nil
+}
+
+struct TiltifyCampaignsForTeamEventRequest: Codable {
+    let operationName: String
+    let variables: TiltifyCampaignsForTeamEventRequestVariables
+    let query: String
+}
 
 struct TiltifyGetCampaignsRequestVariables: Codable {
     let publicId: String
@@ -27,6 +39,9 @@ struct TiltifyGetCampaignsRequest: Codable {
     let query: String
 }
 
+
+let TEAM_EVENT_VANITY = "+vtubers-for-st-jude"
+let TEAM_EVENT_SLUG = "-2023-06-01 12:35:51Z"
 
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
@@ -43,59 +58,85 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         
     }
     
+    // MARK: 2023 Methods
+    
+    func buildTeamEventRequest() throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let body = TiltifyRequest(operationName: "get_team_event_by_vanity_and_slug",
+                                  variables: ["vanity": TEAM_EVENT_VANITY, "slug": TEAM_EVENT_SLUG],
+                                  query: TEAM_EVENT_REQUEST_QUERY)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
+    func fetchTeamEvent() async -> TiltifyTeamEvent? {
+        do {
+            let request = try buildTeamEventRequest()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let payload = try JSONDecoder().decode(TiltifyTeamEventResponse.self, from: data)
+            return payload.data.teamEvent
+        } catch {
+            dataLogger.debug("Fetching Team Event failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+    func buildCampaignsForTeamEventRequest(limit: Int, cursor: String? = nil) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let body = TiltifyCampaignsForTeamEventRequest(operationName: "get_supporting_campaigns_by_team_event_asc",
+                                                       variables: TiltifyCampaignsForTeamEventRequestVariables(vanity: TEAM_EVENT_VANITY, slug: TEAM_EVENT_SLUG, limit: limit, cursor: cursor),
+                                  query: CAMPAIGNS_FOR_TEAM_EVENT_QUERY)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
+    func fetchCampaignsForTeamEvent(limit: Int = 25, cursor: String? = nil) async -> TiltifySupportingCampaignsResponse? {
+        do {
+            let request = try buildCampaignsForTeamEventRequest(limit: limit, cursor: cursor)
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let decoded = String(data: data, encoding: .utf8)!
+            dataLogger.debug("Campaigns: \(decoded)")
+            let payload = try JSONDecoder().decode(TiltifySupportingCampaignsResponse.self, from: data)
+            dataLogger.debug("Fetched: \(payload.data.teamEvent.supportingCampaigns.edges.count)")
+            return payload
+        } catch {
+            dataLogger.debug("Fetching campaigns for team event failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+    func fetchCampaignsForTeamEvent() async -> [TiltifyCauseCampaign] {
+        var cursor: String? = nil
+        var campaigns: [TiltifyCauseCampaign] = []
+        while true {
+            if let result = await fetchCampaignsForTeamEvent(cursor: cursor) {
+                campaigns += result.data.teamEvent.supportingCampaigns.edges.map { $0.node }
+                if result.data.teamEvent.supportingCampaigns.pageInfo.hasNextPage {
+                    cursor = result.data.teamEvent.supportingCampaigns.pageInfo.endCursor
+                } else {
+                    break
+                }
+            } else {
+                break
+            }
+        }
+        dataLogger.debug("Found \(campaigns.count) campaigns")
+        return campaigns
+    }
+    
+    // MARK: 2022 Methods
+    
     func buildDonorRequest(publicId: String) throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let queryString = """
-query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
-  campaign(publicId: $publicId) {
-    topDonation {
-      id
-      amount {
-        currency
-        value
-      }
-      donorName
-      donorComment
-      completedAt
-      incentives {
-        type
-        id
-      }
-    }
-    donations(first: 50, after: $cursor) {
-      edges {
-        cursor
-        node {
-          id
-          amount {
-            value
-            currency
-          }
-          donorName
-          donorComment
-          completedAt
-          incentives {
-            type
-            id
-            name
-          }
-        }
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        hasPreviousPage
-      }
-    }
-  }
-}
-"""
         let body = TiltifyRequest(operationName: "get_previous_donations_by_campaign",
                                   variables: ["publicId": publicId],
-                                  query: queryString)
+                                  query: DONOR_REQUEST_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request
     }
@@ -104,64 +145,9 @@ query get_previous_donations_by_campaign($publicId: String!, $cursor: String) {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let queryString = """
-query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
-  campaign(vanity: $vanity, slug: $slug) {
-    publicId
-    name
-    slug
-    status
-    originalGoal {
-      value
-      currency
-    }
-    user {
-      username
-      slug
-      avatar {
-        alt
-        src
-      }
-    }
-    description
-    totalAmountRaised {
-      currency
-      value
-    }
-    goal {
-      currency
-      value
-    }
-    milestones {
-      id
-      name
-      amount {
-        value
-        currency
-      }
-    }
-    rewards {
-      active
-      publicId
-      id
-      amount {
-        value
-        currency
-      }
-      description
-      name
-      quantity
-      remaining
-      image {
-        src
-      }
-    }
-  }
-}
-"""
         let body = TiltifyRequest(operationName: "get_campaign_by_vanity_and_slug",
                                   variables: ["vanity": "@\(vanity)", "slug": slug],
-                                  query: queryString)
+                                  query: CAMPAIGN_REQUEST_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request
     }
@@ -170,48 +156,9 @@ query get_campaign_by_vanity_and_slug($vanity: String, $slug: String) {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let queryString = """
-query get_campaigns_by_fundraising_event_id($publicId: String!, $offset: Int) {
-  fundraisingEvent(publicId: $publicId) {
-    publishedCampaigns(limit: 20, offset: $offset) {
-      pagination {
-        hasNextPage
-        limit
-        offset
-        total
-      }
-      edges {
-        node {
-          publicId
-          name
-          description
-          slug
-          live
-          user {
-            username
-            slug
-            avatar {
-              alt
-              src
-            }
-          }
-          totalAmountRaised {
-            value
-            currency
-          }
-          goal {
-            value
-            currency
-          }
-        }
-      }
-    }
-  }
-}
-"""
         let body = TiltifyGetCampaignsRequest(operationName: "get_campaigns_by_fundraising_event_id",
                                               variables: TiltifyGetCampaignsRequestVariables(publicId: "8f4e607c-a117-4c11-9172-23d19c1be96c", offset: offset),
-                                              query: queryString)
+                                              query: CAMPAIGNS_FOR_CAUSE_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request
     }
@@ -220,65 +167,9 @@ query get_campaigns_by_fundraising_event_id($publicId: String!, $offset: Int) {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let queryString = """
-query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!) {
-  cause(slug: $causeSlug) {
-    publicId
-    name
-    slug
-  }
-  fundraisingEvent(slug: $feSlug, causeSlug: $causeSlug) {
-    publicId
-    name
-    slug
-    description
-    status
-    publishedCampaignsCount
-    amountRaised {
-      currency
-      value
-    }
-    goal {
-      currency
-      value
-    }
-    colors {
-      highlight
-      background
-    }
-    publishedCampaigns {
-      edges {
-        node {
-          publicId
-          name
-          description
-          slug
-          live
-          user {
-            username
-            slug
-            avatar {
-              alt
-              src
-            }
-          }
-          totalAmountRaised {
-            value
-            currency
-          }
-          goal {
-            value
-            currency
-          }
-        }
-      }
-    }
-  }
-}
-"""
         let body = TiltifyRequest(operationName: "get_cause_and_fe_by_slug",
                                   variables: ["causeSlug": "st-jude-children-s-research-hospital", "feSlug": "relay-fm-for-st-jude-2022"],
-                                  query: queryString)
+                                  query: CAUSE_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request
     }

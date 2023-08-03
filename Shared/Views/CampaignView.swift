@@ -11,6 +11,12 @@ import Kingfisher
 
 struct CampaignView: View {
     
+    // MARK: 2023
+    @State private var teamEvent: TeamEvent?
+    @State private var teamEventObservation: ValueObservation<ValueReducers.Fetch<TeamEvent?>>?
+    
+    // MARK: 2022
+    
     @State private var campaignObservation: ValueObservation<ValueReducers.Fetch<Campaign?>>?
     @State private var fundraisingEventObservation: ValueObservation<ValueReducers.Fetch<FundraisingEvent?>>?
     @State private var campaignCancellable: DatabaseCancellable?
@@ -36,6 +42,7 @@ struct CampaignView: View {
     init(initialCampaign: Campaign) {
         _fundraisingEvent = State(wrappedValue: nil)
         _initialCampaign = State(wrappedValue: initialCampaign)
+        _teamEvent = State(wrappedValue: nil)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
         _fundraisingEventObservation = State(wrappedValue: nil)
     }
@@ -43,8 +50,17 @@ struct CampaignView: View {
     init(fundraisingEvent: FundraisingEvent) {
         _initialCampaign = State(wrappedValue: initialCampaign)
         _fundraisingEvent = State(wrappedValue: fundraisingEvent)
+        _teamEvent = State(wrappedValue: nil)
         _campaignObservation = State(wrappedValue: nil)
         _fundraisingEventObservation = State(wrappedValue: AppDatabase.shared.observeRelayFundraisingEventObservation())
+    }
+    
+    init(teamEvent: TeamEvent) {
+        _initialCampaign = State(wrappedValue: initialCampaign)
+        _fundraisingEvent = State(wrappedValue: fundraisingEvent)
+        _teamEvent = State(wrappedValue: teamEvent)
+        _campaignObservation = State(wrappedValue: nil)
+        _teamEventObservation = State(wrappedValue: AppDatabase.shared.observeTeamEventObservation())
     }
     
     var fundraiserURL: URL {
@@ -84,6 +100,8 @@ struct CampaignView: View {
                     
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                     
+                } else if let teamEvent = teamEvent {
+                    TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                 }
                 
                 LazyVGrid(columns: [GridItem(.flexible()),
@@ -127,7 +145,7 @@ struct CampaignView: View {
                 
                 ZStack {
                     
-                    if let egg = easterEggDirectory[initialCampaign?.id ?? fundraisingEvent?.id ?? UUID()] {
+                    if let egg = easterEggDirectory[initialCampaign?.id ?? fundraisingEvent?.id ?? teamEvent?.id ?? UUID()] {
                         if let left = egg.left {
                             HStack {
                                 left
@@ -373,6 +391,15 @@ struct CampaignView: View {
                         await fetch()
                     }
                 }
+            } else if let teamEventObservation = teamEventObservation {
+                campaignCancellable = AppDatabase.shared.start(observation: teamEventObservation) { error in
+                    dataLogger.error("Error observing stored team event: \(error.localizedDescription)")
+                } onChange: { event in
+                    fetchTask?.cancel()
+                    fetchTask = Task {
+                        await fetch()
+                    }
+                }
             }
             
             // New API fetch
@@ -386,6 +413,8 @@ struct CampaignView: View {
                 ShareCampaignView(fundraisingEvent: fundraisingEvent)
             } else if let campaign = initialCampaign {
                 ShareCampaignView(campaign: campaign)
+            } else if let teamEvent = teamEvent {
+                ShareCampaignView(teamEvent: teamEvent)
             }
         }
         .sheet(isPresented: $showSupporterSheet) {
@@ -400,8 +429,8 @@ struct CampaignView: View {
                 }) {
                     Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "star.fill" : "star")
                 }
-                .opacity(fundraisingEvent == nil ? 1 : 0)
-                .disabled(fundraisingEvent != nil)
+                .opacity(initialCampaign != nil ? 1 : 0)
+                .disabled(fundraisingEvent != nil || teamEvent != nil)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -434,6 +463,9 @@ struct CampaignView: View {
         }
         if let fundraisingEvent = fundraisingEvent {
             return fundraisingEvent.name
+        }
+        if let teamEvent = teamEvent {
+            return teamEvent.name
         }
         return "Campaign"
     }
@@ -494,6 +526,28 @@ struct CampaignView: View {
             
             await fetch()
             
+        } else if let existingTeamEvent = teamEvent {
+            
+            if let apiEventData = await apiClient.fetchTeamEvent() {
+                dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.name)")
+                let apiEvent = TeamEvent(from: apiEventData)
+                do {
+                    teamEvent = apiEvent
+                    if try await AppDatabase.shared.updateTeamEvent(apiEvent, changesFrom: existingTeamEvent) {
+                        dataLogger.info("[CampignView] Updated team event \(apiEvent.name) (id: \(apiEvent.id)")
+                    }
+                } catch {
+                    dataLogger.error("[CampignView] Updating stored team event failed: \(error.localizedDescription)")
+                }
+                
+                await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.milestones)
+                
+            } else {
+                dataLogger.debug("[CampignView] Could not update team event")
+            }
+            
+            await fetch()
+            
         } else if let initialCampaign = initialCampaign {
             
             dataLogger.info("Campaign UUID: \(initialCampaign.id.uuidString)")
@@ -505,41 +559,30 @@ struct CampaignView: View {
         
     }
     
-    func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
-        let response: TiltifyResponse
-        do {
-            response = try await apiClient.fetchCampaign(vanity: campaign.user.slug, slug: campaign.slug)
-        } catch {
-            dataLogger.error("Fetching campaign failed: \(error.localizedDescription)")
-            return
+    func updateMilestonesInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiMilestones: [TiltifyMilestone]) async {
+        
+        var keyedApiMilestones: [UUID: Milestone] = apiMilestones.reduce(into: [:]) { partialResult, ms in
+            partialResult.updateValue(Milestone(from: ms, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: ms.publicId)
         }
         
-        let apiCampaign = campaign.updated(fromCampaign: response.data.campaign, fundraiserId: campaign.fundraisingEventId)
         do {
-            if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
-                dataLogger.info("Updated stored campaign: \(apiCampaign.id)")
-                if updateLocalCampaignState {
-                    self.initialCampaign = apiCampaign
-                }
+            let dbMilestones: [Milestone]
+            if let teamEvent = teamEvent {
+                dbMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: teamEvent)
+            } else {
+                // TODO: Update for Campaign
+                dbMilestones = []
             }
-        } catch {
-            dataLogger.error("Updating stored campaign failed: \(error.localizedDescription)")
-        }
-        
-        var apiMilestones: [Int: Milestone] = response.data.campaign.milestones.reduce(into: [:]) { partialResult, ms in
-            partialResult.updateValue(Milestone(from: ms, campaignId: campaign.id), forKey: ms.id)
-        }
-        do {
             // For each milestone from the database...
-            for dbMilestone in try await AppDatabase.shared.fetchSortedMilestones(for: campaign) {
-                if let apiMilestone = apiMilestones[dbMilestone.id] {
-                    apiMilestones.removeValue(forKey: dbMilestone.id)
+            for dbMilestone in dbMilestones {
+                if let apiMilestone = keyedApiMilestones[dbMilestone.id] {
                     // Update it from the API if it exists...
+                    keyedApiMilestones.removeValue(forKey: dbMilestone.id)
                     dataLogger.debug("Updating Milestone \(apiMilestone.name)")
                     do {
                         try await AppDatabase.shared.updateMilestone(apiMilestone, changesFrom: dbMilestone)
                     } catch {
-                        dataLogger.error("Failed to update Milestone \(apiMilestone.name): \(error.localizedDescription)")
+                        dataLogger.error("Failed to update Milestone: \(apiMilestone.name): \(error.localizedDescription)")
                     }
                 } else {
                     // Remove it from the database if it doesn't...
@@ -552,7 +595,7 @@ struct CampaignView: View {
                 }
             }
             // For each new milestone in the API, save it to the database
-            for apiMilestone in apiMilestones.values {
+            for apiMilestone in keyedApiMilestones.values {
                 dataLogger.debug("Creating Milestone: \(apiMilestone.name)")
                 do {
                     try await AppDatabase.shared.saveMilestone(apiMilestone)
@@ -561,65 +604,126 @@ struct CampaignView: View {
                 }
             }
         } catch {
-            dataLogger.error("Failed to fetch stored milestones for \(campaign.id): \(error.localizedDescription)")
+            dataLogger.debug("Failed to update Milestones: \(error.localizedDescription)")
         }
         
-        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.filter {
-            $0.active
-        }.reduce(into: [:]) { partialResult, reward in
-            partialResult.updateValue(Reward(from: reward, campaignId: campaign.id), forKey: reward.publicId)
-        }
-        do {
-            // For each reward from the database...
-            for dbReward in try await AppDatabase.shared.fetchSortedRewards(for: campaign) {
-                if let apiReward = apiRewards[dbReward.id] {
-                    apiRewards.removeValue(forKey: dbReward.id)
-                    // Update it from the API if it exists...
-                    dataLogger.debug("Updating Reward \(apiReward.name)")
-                    do {
-                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
-                    } catch {
-                        dataLogger.error("Failed to update Reward \(apiReward.name): \(error.localizedDescription)")
-                    }
-                } else {
-                    // Remove it from the database if it doesn't...
-                    dataLogger.debug("Removing Reward \(dbReward.name)")
-                    do {
-                        try await AppDatabase.shared.deleteReward(dbReward)
-                    } catch {
-                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
-                    }
-                }
-            }
-            // For each new reward in the API, save it to the database
-            for apiReward in apiRewards.values {
-                dataLogger.debug("Adding Reward \(apiReward.name)")
-                do {
-                    try await AppDatabase.shared.saveReward(apiReward)
-                } catch {
-                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
-                }
-            }
-        } catch {
-            dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
-        }
-        
-        do {
-            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
-            withAnimation {
-                donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
-                topDonor = apiDonorsResponse.data.campaign.topDonation
-            }
-        } catch {
-            dataLogger.error("Failed to load donors: \(error.localizedDescription)")
-        }
-        
+    }
+    
+    func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
+//        let response: TiltifyResponse
+//        do {
+//            response = try await apiClient.fetchCampaign(vanity: campaign.user.slug, slug: campaign.slug)
+//        } catch {
+//            dataLogger.error("Fetching campaign failed: \(error.localizedDescription)")
+//            return
+//        }
+//
+//        let apiCampaign = campaign.updated(fromCampaign: response.data.campaign, fundraiserId: campaign.fundraisingEventId)
+//        do {
+//            if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
+//                dataLogger.info("Updated stored campaign: \(apiCampaign.id)")
+//                if updateLocalCampaignState {
+//                    self.initialCampaign = apiCampaign
+//                }
+//            }
+//        } catch {
+//            dataLogger.error("Updating stored campaign failed: \(error.localizedDescription)")
+//        }
+//
+//        var apiMilestones: [UUID: Milestone] = response.data.campaign.milestones.reduce(into: [:]) { partialResult, ms in
+//            partialResult.updateValue(Milestone(from: ms, campaignId: campaign.id), forKey: ms.publicId)
+//        }
+//        do {
+//            // For each milestone from the database...
+//            for dbMilestone in try await AppDatabase.shared.fetchSortedMilestones(for: campaign) {
+//                if let apiMilestone = apiMilestones[dbMilestone.id] {
+//                    apiMilestones.removeValue(forKey: dbMilestone.id)
+//                    // Update it from the API if it exists...
+//                    dataLogger.debug("Updating Milestone \(apiMilestone.name)")
+//                    do {
+//                        try await AppDatabase.shared.updateMilestone(apiMilestone, changesFrom: dbMilestone)
+//                    } catch {
+//                        dataLogger.error("Failed to update Milestone \(apiMilestone.name): \(error.localizedDescription)")
+//                    }
+//                } else {
+//                    // Remove it from the database if it doesn't...
+//                    dataLogger.debug("Removing Milestone \(dbMilestone.name)")
+//                    do {
+//                        try await AppDatabase.shared.deleteMilestone(dbMilestone)
+//                    } catch {
+//                        dataLogger.error("Failed to delete Milestone \(dbMilestone.name): \(error.localizedDescription)")
+//                    }
+//                }
+//            }
+//            // For each new milestone in the API, save it to the database
+//            for apiMilestone in apiMilestones.values {
+//                dataLogger.debug("Creating Milestone: \(apiMilestone.name)")
+//                do {
+//                    try await AppDatabase.shared.saveMilestone(apiMilestone)
+//                } catch {
+//                    dataLogger.error("Failed to save Milestone \(apiMilestone.name): \(error.localizedDescription)")
+//                }
+//            }
+//        } catch {
+//            dataLogger.error("Failed to fetch stored milestones for \(campaign.id): \(error.localizedDescription)")
+//        }
+//
+//        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.filter {
+//            $0.active
+//        }.reduce(into: [:]) { partialResult, reward in
+//            partialResult.updateValue(Reward(from: reward, campaignId: campaign.id), forKey: reward.publicId)
+//        }
+//        do {
+//            // For each reward from the database...
+//            for dbReward in try await AppDatabase.shared.fetchSortedRewards(for: campaign) {
+//                if let apiReward = apiRewards[dbReward.id] {
+//                    apiRewards.removeValue(forKey: dbReward.id)
+//                    // Update it from the API if it exists...
+//                    dataLogger.debug("Updating Reward \(apiReward.name)")
+//                    do {
+//                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
+//                    } catch {
+//                        dataLogger.error("Failed to update Reward \(apiReward.name): \(error.localizedDescription)")
+//                    }
+//                } else {
+//                    // Remove it from the database if it doesn't...
+//                    dataLogger.debug("Removing Reward \(dbReward.name)")
+//                    do {
+//                        try await AppDatabase.shared.deleteReward(dbReward)
+//                    } catch {
+//                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
+//                    }
+//                }
+//            }
+//            // For each new reward in the API, save it to the database
+//            for apiReward in apiRewards.values {
+//                dataLogger.debug("Adding Reward \(apiReward.name)")
+//                do {
+//                    try await AppDatabase.shared.saveReward(apiReward)
+//                } catch {
+//                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
+//                }
+//            }
+//        } catch {
+//            dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
+//        }
+//
+//        do {
+//            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+//            withAnimation {
+//                donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
+//                topDonor = apiDonorsResponse.data.campaign.topDonation
+//            }
+//        } catch {
+//            dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+//        }
+//
     }
     
     /// Fetches the campaign data from GRDB
     func fetch() async {
         
-        if let fundraisingEvent = fundraisingEvent {
+        if fundraisingEvent != nil {
             
             do {
                 dataLogger.notice("Fetching stored fundraising event")
@@ -643,6 +747,18 @@ struct CampaignView: View {
                 await fetchRewardsAndMilestones(for: relayCampaign)
             }
             
+        } else if let teamEvent = teamEvent {
+            
+            do {
+                dataLogger.notice("Fetching stored team event")
+                self.teamEvent = try await AppDatabase.shared.fetchTeamEvent()
+                dataLogger.notice("Fetched stored team event")
+            } catch {
+                dataLogger.error("Failed to fetch stored team event: \(error.localizedDescription)")
+            }
+            
+            await fetchRewardsAndMilestones(for: teamEvent)
+            
         } else if let initialCampaign = initialCampaign {
             
             do {
@@ -657,6 +773,19 @@ struct CampaignView: View {
             
         }
         
+    }
+    
+    func fetchRewardsAndMilestones(for teamEvent: TeamEvent) async {
+        do {
+            dataLogger.notice("Fetching stored milestones for team event")
+            let fetchedMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: teamEvent)
+            withAnimation {
+                self.milestones = fetchedMilestones
+            }
+            dataLogger.notice("Fetched stored milestones for team event")
+        } catch {
+            dataLogger.error("Failed to fetch stored milestones for team event: \(error.localizedDescription)")
+        }
     }
     
     func fetchRewardsAndMilestones(for campaign: Campaign) async {
@@ -689,7 +818,7 @@ struct CampaignView: View {
 struct CampaignView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CampaignView(initialCampaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), description: "I'm fundraising for St. Jude Children's Research Hospital."), fundraiserId: UUID()))
+            CampaignView(initialCampaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")))
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Label("Back", systemImage: "chevron.left")

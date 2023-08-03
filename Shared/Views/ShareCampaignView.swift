@@ -16,6 +16,11 @@ struct ShareCampaignView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    // MARK: 2023
+    @State private var teamEvent: TeamEvent?
+    
+    // MARK: 2022
+    
     @State private var fundraisingEvent: FundraisingEvent?
     @State private var campaign: Campaign?
     @State private var widgetData: TiltifyWidgetData = sampleCampaign
@@ -31,13 +36,21 @@ struct ShareCampaignView: View {
     @State private var presentSystemShareSheet: ImageToShare? = nil
     
     init(fundraisingEvent: FundraisingEvent) {
+        self._teamEvent = State(wrappedValue: nil)
         self._fundraisingEvent = State(wrappedValue: fundraisingEvent)
         self._campaign = State(wrappedValue: nil)
     }
     
     init(campaign: Campaign) {
+        self._teamEvent = State(wrappedValue: nil)
         self._fundraisingEvent = State(wrappedValue: nil)
         self._campaign = State(wrappedValue: campaign)
+    }
+    
+    init(teamEvent: TeamEvent) {
+        self._teamEvent = State(wrappedValue: teamEvent)
+        self._fundraisingEvent = State(wrappedValue: nil)
+        self._campaign = State(wrappedValue: nil)
     }
     
     var entryView: some View {
@@ -127,6 +140,8 @@ struct ShareCampaignView: View {
                     }
                 } else if let fundraisingEvent = fundraisingEvent {
                     widgetData = await TiltifyWidgetData(from: fundraisingEvent)
+                } else if let teamEvent = teamEvent {
+                    widgetData = await TiltifyWidgetData(from: teamEvent)
                 }
             }
         }

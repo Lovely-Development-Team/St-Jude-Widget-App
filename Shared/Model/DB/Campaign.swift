@@ -47,7 +47,6 @@ struct Campaign: Identifiable, Hashable {
         TiltifyUser(username: username, slug: userSlug, avatar: avatar)
     }
     var isStarred: Bool
-    let fundraisingEventId: UUID
     
     var percentageReached: Double? {
         return calcPercentage(goal: goal.value ?? "0", total: totalRaised.value ?? "0")
@@ -131,11 +130,6 @@ extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
         static let isStarred = Column(CodingKeys.isStarred)
     }
     
-    static let fundraisingEvent = belongsTo(FundraisingEvent.self)
-    var fundraisingEvent: QueryInterfaceRequest<FundraisingEvent> {
-        request(for: Campaign.fundraisingEvent)
-    }
-    
     static let milestones = hasMany(Milestone.self)
     var milestones: QueryInterfaceRequest<Milestone> {
         request(for: Campaign.milestones)
@@ -148,7 +142,25 @@ extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
 }
 
 extension Campaign {
-    init(from campaign: TiltifyCauseCampaign, fundraiserId: UUID) {
+    init(from campaign: TiltifyCauseCampaign) {
+        self.id = campaign.publicId
+        self.name = campaign.name
+        self.slug = campaign.slug
+        self.avatar = campaign.avatar ?? campaign.user.avatar
+        self.status = nil
+        self.description = campaign.description
+        self.goalCurrency = campaign.goal.currency
+        self.goalValue = campaign.goal.value
+        self.goalNumericalValue = campaign.goal.numericalValue
+        self.totalRaisedCurrency = campaign.totalAmountRaised.currency
+        self.totalRaisedValue = campaign.totalAmountRaised.value
+        self.totalRaisedNumericalValue = campaign.totalAmountRaised.numericalValue
+        self.username = campaign.user.username
+        self.userSlug = campaign.user.slug
+        self.isStarred = false
+    }
+    
+    init(from campaign: TiltifyCampaign) {
         self.id = campaign.publicId
         self.name = campaign.name
         self.slug = campaign.slug
@@ -164,29 +176,9 @@ extension Campaign {
         self.username = campaign.user.username
         self.userSlug = campaign.user.slug
         self.isStarred = false
-        self.fundraisingEventId = fundraiserId
     }
     
-    init(from campaign: TiltifyCampaign, fundraiserId: UUID) {
-        self.id = campaign.publicId
-        self.name = campaign.name
-        self.slug = campaign.slug
-        self.avatar = campaign.user.avatar
-        self.status = nil
-        self.description = campaign.description
-        self.goalCurrency = campaign.goal.currency
-        self.goalValue = campaign.goal.value
-        self.goalNumericalValue = campaign.goal.numericalValue
-        self.totalRaisedCurrency = campaign.totalAmountRaised.currency
-        self.totalRaisedValue = campaign.totalAmountRaised.value
-        self.totalRaisedNumericalValue = campaign.totalAmountRaised.numericalValue
-        self.username = campaign.user.username
-        self.userSlug = campaign.user.slug
-        self.isStarred = false
-        self.fundraisingEventId = fundraiserId
-    }
-    
-    func updated(fromCauseCampaign campaign: TiltifyCauseCampaign, fundraiserId: UUID) -> Campaign {
+    func updated(fromCauseCampaign campaign: TiltifyCauseCampaign) -> Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
@@ -201,11 +193,10 @@ extension Campaign {
                         totalRaisedNumericalValue: campaign.totalAmountRaised.numericalValue,
                         username: campaign.user.username,
                         userSlug: campaign.user.slug,
-                        isStarred: self.isStarred,
-                        fundraisingEventId: fundraiserId)
+                        isStarred: self.isStarred)
     }
     
-    func updated(fromCampaign campaign: TiltifyCampaign, fundraiserId: UUID) -> Campaign {
+    func updated(fromCampaign campaign: TiltifyCampaign) -> Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
@@ -220,8 +211,7 @@ extension Campaign {
                         totalRaisedNumericalValue: campaign.totalAmountRaised.numericalValue,
                         username: campaign.user.username,
                         userSlug: campaign.user.slug,
-                        isStarred: self.isStarred,
-                        fundraisingEventId: fundraiserId)
+                        isStarred: self.isStarred)
     }
     
     func setStar(to isStarred: Bool) -> Campaign {
@@ -239,8 +229,7 @@ extension Campaign {
                         totalRaisedNumericalValue: self.totalRaisedNumericalValue,
                         username: self.username,
                         userSlug: self.userSlug,
-                        isStarred: isStarred,
-                        fundraisingEventId: self.fundraisingEventId)
+                        isStarred: isStarred)
     }
     
 }

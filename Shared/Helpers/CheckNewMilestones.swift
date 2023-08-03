@@ -10,7 +10,7 @@ import Foundation
 func checkNewMilestones(for widgetData: TiltifyWidgetData) {
     if(!UserDefaults.shared.showMilestoneAddedNotification) { return }
     
-    let cachedMilestoneIDs = UserDefaults.shared.object(forKey: "cachedMilestoneIDs") as? [Int] ?? []
+    let cachedMilestoneIDs = UserDefaults.shared.object(forKey: "cachedMilestoneIDs") as? [UUID] ?? []
     
     let currentIDs = (widgetData.milestones.map({$0.id}))
     

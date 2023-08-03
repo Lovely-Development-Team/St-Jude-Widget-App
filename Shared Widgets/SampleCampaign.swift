@@ -11,12 +11,12 @@ let sampleUser = TiltifyUser(username: "Relay FM", slug: "relay-fm", avatar: nil
 
 let sampleCampaign = TiltifyWidgetData(from: TiltifyCampaign(publicId: UUID(), avatar: nil, goal: TiltifyAmount(currency: "USD", value: "494840.18"), milestones: [], slug: "relay-st-jude-21", status: "published", team: nil, user: sampleUser, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "494732.32"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []))
 
-let sampleCampaignSingleMilestone = TiltifyWidgetData(from: TiltifyCampaign(publicId: UUID(), avatar: nil,goal: TiltifyAmount(currency: "USD", value: "333333.33"), milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), id: 1, name: "A milestone!")], slug: "relay-st-jude-21", status: "published", team: nil, user: sampleUser, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []))
+let sampleCampaignSingleMilestone = TiltifyWidgetData(from: TiltifyCampaign(publicId: UUID(), avatar: nil,goal: TiltifyAmount(currency: "USD", value: "333333.33"), milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), name: "A milestone!", publicId: UUID())], slug: "relay-st-jude-21", status: "published", team: nil, user: sampleUser, description: ". . .", totalAmountRaised: TiltifyAmount(currency: "USD", value: "19065.66"), name: "Relay FM for St. Jude 2022", originalGoal: TiltifyAmount(currency: "USD", value: "100"), rewards: []))
 
 
 let sampleCampaignTwoMilestones = TiltifyWidgetData(from: TiltifyCampaign(publicId: UUID(), avatar: nil,
                                                                           goal: TiltifyAmount(currency: "USD", value: "404404.40"),
-                                                                          milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), id: 1, name: "A milestone!"), TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "100000"), id: 1, name: "A future milestone!")],
+                                                                          milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), name: "A milestone!", publicId: UUID()), TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "100000"), name: "A future milestone!", publicId: UUID())],
                                                                           slug: "relay-st-jude-21",
                                                                           status: "published",
                                                                           team: nil,
@@ -27,7 +27,7 @@ let sampleCampaignTwoMilestones = TiltifyWidgetData(from: TiltifyCampaign(public
 
 let sampleCampaignThreeMilestones = TiltifyWidgetData(from: TiltifyCampaign(publicId: UUID(), avatar: nil,
                                                                           goal: TiltifyAmount(currency: "USD", value: "333333.33"),
-                                                                          milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), id: 1, name: "A milestone!"), TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "100000"), id: 1, name: "A future milestone!"), TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "150000"), id: 1, name: "A future milestone!")],
+                                                                            milestones: [TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "10000"), name: "A milestone!", publicId: UUID()), TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "100000"), name: "A future milestone!", publicId: UUID()), TiltifyMilestone(amount: TiltifyAmount(currency: "USD", value: "150000"), name: "A future milestone!", publicId: UUID())],
                                                                           slug: "relay-st-jude-21",
                                                                           status: "published",
                                                                           team: nil,
