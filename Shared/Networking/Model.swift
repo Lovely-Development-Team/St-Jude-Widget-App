@@ -89,7 +89,6 @@ struct TiltifyCampaignRewardImage: Codable {
 }
 
 struct TiltifyCampaignReward: Codable {
-    let id: Int
     let publicId: UUID
     let name: String
     let description: String
@@ -348,6 +347,7 @@ struct TiltifyTeamEvent: Codable {
     let publicId: UUID
     let goal: TiltifyAmount
     let milestones: [TiltifyMilestone]
+    let rewards: [TiltifyCampaignReward]
     let slug: String
     let description: String
     let totalAmountRaised: TiltifyAmount
