@@ -543,6 +543,7 @@ struct CampaignView: View {
                 }
                 
                 await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.milestones)
+                await self.updateRewardsInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.rewards)
                 
             } else {
                 dataLogger.debug("[CampignView] Could not update team event")
@@ -614,9 +615,60 @@ struct CampaignView: View {
         
     }
     
+    func updateRewardsInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiRewards: [TiltifyCampaignReward]) async {
+        
+        var keyedApiRewards: [UUID: Reward] = apiRewards.reduce(into: [:]) { partialResult, reward in
+            partialResult.updateValue(Reward(from: reward, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: reward.publicId)
+        }
+        
+        do {
+            let dbRewards: [Reward]
+            if let teamEvent = teamEvent {
+                dbRewards = try await AppDatabase.shared.fetchSortedRewards(for: teamEvent)
+            } else {
+                if let campaign = campaign {
+                    dbRewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
+                } else {
+                    dbRewards = []
+                }
+            }
+            // For each reward from the database...
+            for dbReward in dbRewards {
+                if let apiReward = keyedApiRewards[dbReward.id] {
+                    // Update it from the API if it exists...
+                    keyedApiRewards.removeValue(forKey: dbReward.id)
+                    dataLogger.debug("Updating Reward \(apiReward.name)")
+                    do {
+                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
+                    } catch {
+                        dataLogger.error("Failed to update Reward: \(apiReward.name): \(error.localizedDescription)")
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Reward \(dbReward.name)")
+                    do {
+                        try await AppDatabase.shared.deleteReward(dbReward)
+                    } catch {
+                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            // For each new reward in the API, save it to the database
+            for apiReward in keyedApiRewards.values {
+                dataLogger.debug("Creating Reward: \(apiReward.name)")
+                do {
+                    try await AppDatabase.shared.saveReward(apiReward)
+                } catch {
+                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            dataLogger.debug("Failed to update Rewards: \(error.localizedDescription)")
+        }
+        
+    }
+    
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
-        
-        
         
         let response: TiltifyResponse
         do {
@@ -641,48 +693,10 @@ struct CampaignView: View {
         dataLogger.debug("\(campaign.id) Updating campaign from the API!")
         
         await updateMilestonesInDatabase(forCampaign: apiCampaign, with: response.data.campaign.milestones)
-
-        var apiRewards: [UUID: Reward] = response.data.campaign.rewards.filter {
-            $0.active
-        }.reduce(into: [:]) { partialResult, reward in
-            partialResult.updateValue(Reward(from: reward, campaignId: campaign.id), forKey: reward.publicId)
-        }
-        do {
-            // For each reward from the database...
-            for dbReward in try await AppDatabase.shared.fetchSortedRewards(for: campaign) {
-                if let apiReward = apiRewards[dbReward.id] {
-                    apiRewards.removeValue(forKey: dbReward.id)
-                    // Update it from the API if it exists...
-                    dataLogger.debug("Updating Reward \(apiReward.name)")
-                    do {
-                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
-                    } catch {
-                        dataLogger.error("Failed to update Reward \(apiReward.name): \(error.localizedDescription)")
-                    }
-                } else {
-                    // Remove it from the database if it doesn't...
-                    dataLogger.debug("Removing Reward \(dbReward.name)")
-                    do {
-                        try await AppDatabase.shared.deleteReward(dbReward)
-                    } catch {
-                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
-                    }
-                }
-            }
-            // For each new reward in the API, save it to the database
-            for apiReward in apiRewards.values {
-                dataLogger.debug("Adding Reward \(apiReward.name)")
-                do {
-                    try await AppDatabase.shared.saveReward(apiReward)
-                } catch {
-                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
-                }
-            }
-        } catch {
-            dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
-        }
+        await updateRewardsInDatabase(forCampaign: apiCampaign, with: response.data.campaign.rewards)
 
         do {
+            dataLogger.debug("Fetching donors for \(campaign.id)")
             let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
             withAnimation {
                 donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }

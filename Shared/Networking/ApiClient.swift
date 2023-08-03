@@ -198,7 +198,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
                     completion(.failure(TiltifyError.noData))
                     return
                 }
-//                dataLogger.debug("BEN: \(String(data: data, encoding: .utf8)!)")
+                dataLogger.debug("BEN: \(String(data: data, encoding: .utf8)!)")
                 completion(Result {
                     let payload = try JSONDecoder().decode(TiltifyResponse.self, from: data)
                     return payload

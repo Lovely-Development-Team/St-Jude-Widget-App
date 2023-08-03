@@ -110,6 +110,11 @@ extension TeamEvent: Codable, FetchableRecord, MutablePersistableRecord {
     var milestones: QueryInterfaceRequest<Milestone> {
         request(for: TeamEvent.milestones)
     }
+    
+    static let rewards = hasMany(Reward.self)
+    var rewards: QueryInterfaceRequest<Reward> {
+        request(for: TeamEvent.rewards)
+    }
 }
 
 extension TeamEvent {

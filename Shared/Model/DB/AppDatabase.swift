@@ -96,13 +96,14 @@ final class AppDatabase {
             }
             
             try db.create(table: "reward") { t in
-                t.column("id", .blob).primaryKey()
+                t.column("publicId", .blob).primaryKey()
                 t.column("name", .text).notNull()
                 t.column("description", .blob).notNull()
                 t.column("amountCurrency", .text).notNull()
                 t.column("amountValue", .double).notNull()
                 t.column("imageSrc", .text)
-                t.column("campaignId", .blob).notNull().references("campaign")
+                t.column("campaignId", .blob).references("campaign")
+                t.column("teamEventId", .blob).references("teamEvent")
             }
             
         }
@@ -263,6 +264,12 @@ extension AppDatabase {
     func fetchSortedRewards(for campaign: Campaign) async throws -> [Reward] {
         try await dbWriter.read { db in
             try campaign.rewards.order(Column("amountValue").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchSortedRewards(for teamEvent: TeamEvent) async throws -> [Reward] {
+        try await dbWriter.read { db in
+            try teamEvent.rewards.order(Column("amountValue").asc).fetchAll(db)
         }
     }
     
