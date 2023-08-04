@@ -41,7 +41,7 @@ struct ShareCampaignView: View {
     }
     
     var entryView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
             .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 350)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 25 : 0)))
     }
