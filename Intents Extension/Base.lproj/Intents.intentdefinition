@@ -9,11 +9,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>wAvlGo</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21G83</string>
+	<string>22F82</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>14A5294g</string>
+	<string>14E222a</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>14.0</string>
+	<string>14.3</string>
 	<key>INIntents</key>
 	<array>
 		<dict>

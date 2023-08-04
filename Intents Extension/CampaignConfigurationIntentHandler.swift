@@ -23,9 +23,6 @@ class CampaignConfigurationIntentHandler: NSObject, CampaignLockScreenConfigurat
     }
     
     func provideCampaignOptionsCollection(for intent: CampaignLockScreenConfigurationIntent) async throws -> INObjectCollection<INWidgetCampaign> {
-//        guard let event = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
-//            return INObjectCollection(items: [])
-//        }
         let campaigns = try await AppDatabase.shared.fetchAllCampaigns()
         let widgetCampaigns = campaigns.sorted { c1, c2 in
             if c1.isStarred && !c2.isStarred {

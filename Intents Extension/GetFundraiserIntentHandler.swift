@@ -54,9 +54,6 @@ class GetFundraiserIntentHandler: NSObject, GetFundraiserIntentHandling {
     }
     
     func provideCampaignOptionsCollection(for intent: GetFundraiserIntent, searchTerm: String?) async throws -> INObjectCollection<ShortcutCampaign> {
-//        guard let event = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
-//            return INObjectCollection(items: [])
-//        }
         let campaigns = try await AppDatabase.shared.fetchAllCampaigns()
         let widgetCampaigns = campaigns.sorted { c1, c2 in
             if c1.isStarred && !c2.isStarred {
