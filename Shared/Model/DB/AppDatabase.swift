@@ -49,24 +49,7 @@ final class AppDatabase {
                 t.column("totalRaisedValue", .text).notNull()
                 t.column("totalRaisedNumericalValue", .double).notNull()
             }
-            
-            // Not needed in 2023
-            try db.create(table: "fundraisingEvent") { t in
-                t.column("id", .blob).primaryKey()
-                t.column("name", .text).notNull()
-                t.column("slug", .text).notNull()
-                t.column("amountRaisedCurrency", .text).notNull()
-                t.column("amountRaisedValue", .text)
-                t.column("colors", .text).notNull()
-                t.column("description", .text)
-                t.column("goalCurrency", .text).notNull()
-                t.column("goalValue", .text).notNull()
-                t.column("causePublicId", .numeric).notNull().unique()
-                t.column("causeName", .text).notNull()
-                t.column("causeSlug", .text).notNull()
-                t.uniqueKey(["slug", "causeSlug"])
-            }
-            
+                        
             try db.create(table: "campaign") { t in
                 t.column("id", .blob).primaryKey()
                 t.column("name", .text).notNull()
@@ -146,50 +129,6 @@ extension AppDatabase {
         }
     }
     
-    // MARK: 2022
-    
-    func saveFundraisingEvent(_ event: FundraisingEvent) async throws -> FundraisingEvent {
-        try await dbWriter.write { db in
-            try event.saved(db)
-        }
-    }
-    
-    /**
-     If the event has any difference from the other event, executes an
-     UPDATE statement so that those differences and only those difference are
-     saved in the database.
-     - parameter newEvent: The latest version of the event.
-     - parameter oldEvent: The event to compare against..
-     - returns: Whether the event had changes.
-     - throws: A DatabaseError is thrown whenever an SQLite error occurs.
-     PersistenceError.recordNotFound is thrown if the primary key does not
-     match any row in the database and record could not be updated.
-     */
-    @discardableResult
-    func updateFundraisingEvent(_ newEvent: FundraisingEvent, changesFrom oldEvent: FundraisingEvent) async throws -> Bool {
-        try await dbWriter.write { db in
-            try newEvent.updateChanges(db, from: oldEvent)
-        }
-    }
-    
-    private func fetchFundraisingEvent(using db: Database, with slug: String, forCause causeSlug: String) throws -> FundraisingEvent? {
-        try FundraisingEvent.all().filter(slug: slug, causeSlug: causeSlug).fetchOne(db)
-    }
-    
-    func fetchFundraisingEvent(with slug: String, forCause causeSlug: String) async throws -> FundraisingEvent? {
-        try await dbWriter.read { db in
-            try self.fetchFundraisingEvent(using: db, with: slug, forCause: causeSlug)
-        }
-    }
-    
-    private func fetchRelayFundraisingEvent(using db: Database) throws -> FundraisingEvent? {
-        try fetchFundraisingEvent(using: db, with: "relay-fm-for-st-jude-2022", forCause: "st-jude-children-s-research-hospital")
-    }
-    
-    func fetchRelayFundraisingEvent() async throws -> FundraisingEvent? {
-        try await fetchFundraisingEvent(with: "relay-fm-for-st-jude-2022", forCause: "st-jude-children-s-research-hospital")
-    }
-    
     func fetchAllCampaigns() async throws -> [Campaign] {
         try await dbWriter.read { db in
             try Campaign.fetchAll(db)
@@ -210,7 +149,8 @@ extension AppDatabase {
         try await fetchCampaign(with: UUID(uuidString: "8a17ee82-b90a-4aba-a22f-e8cc7e8cf410")!)
     }
     
-    func deleteCampaign(_ campaign: Campaign) async throws {
+    @discardableResult
+    func deleteCampaign(_ campaign: Campaign) async throws -> Bool {
         try await dbWriter.write { db in
             try campaign.delete(db)
         }
@@ -230,7 +170,8 @@ extension AppDatabase {
         }
     }
     
-    func deleteMilestone(_ milestone: Milestone) async throws {
+    @discardableResult
+    func deleteMilestone(_ milestone: Milestone) async throws -> Bool {
         try await dbWriter.write { db in
             try milestone.delete(db)
         }
@@ -255,7 +196,8 @@ extension AppDatabase {
         }
     }
     
-    func deleteReward(_ reward: Reward) async throws {
+    @discardableResult
+    func deleteReward(_ reward: Reward) async throws -> Bool {
         try await dbWriter.write { db in
             try reward.delete(db)
         }
@@ -314,14 +256,6 @@ extension AppDatabase {
     func observeTeamEventObservation() -> ValueObservation<ValueReducers.Fetch<TeamEvent?>> {
         ValueObservation.trackingConstantRegion { db in
             try AppDatabase.shared.fetchTeamEvent()
-        }
-    }
-    
-    // MARK: 2022
-    
-    func observeRelayFundraisingEventObservation() -> ValueObservation<ValueReducers.Fetch<FundraisingEvent?>> {
-        ValueObservation.trackingConstantRegion { db in
-            try AppDatabase.shared.fetchRelayFundraisingEvent(using: db)
         }
     }
     

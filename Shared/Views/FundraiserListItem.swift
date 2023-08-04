@@ -22,7 +22,7 @@ struct FundraiserListItem: View {
     var showShareIcon: Bool = false
     @Binding var showShareSheet: Bool
     
-    let sortOrdersShowingPercantage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
+    let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
     
     @State var showShareLinkSheet: ShareURL? = nil
     
@@ -65,7 +65,7 @@ struct FundraiserListItem: View {
                         }
                     }
                     HStack {
-                        if sortOrdersShowingPercantage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
+                        if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
                             Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
                                 .foregroundColor(.secondary)
                                 .lineLimit(1)
@@ -132,7 +132,7 @@ struct FundraiserListItem: View {
                         ProgressBar(value: .constant(Float(percentageReached)), fillColor: .accentColor)
                             .frame(height: 10)
                     }
-                    if sortOrdersShowingPercantage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
+                    if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
                         Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
