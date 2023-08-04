@@ -27,20 +27,6 @@ extension WidgetDataProviding {
         }
     }
     
-    internal func fetchStoredDataForFundraisingEvent() async -> TiltifyWidgetData? {
-        do {
-            dataLogger.notice("Attempting to fetch stored data")
-            guard let fundraisingEvent = try await AppDatabase.shared.fetchRelayFundraisingEvent() else {
-                dataLogger.notice("No stored data found")
-                return nil
-            }
-            return try await TiltifyWidgetData(from: fundraisingEvent)
-        } catch {
-            dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
     internal func storeData(_ data: TiltifyWidgetData) {
         do {
             UserDefaults.shared.set(try apiClient.jsonEncoder.encode(data), forKey: "relayData")
@@ -182,10 +168,6 @@ extension WidgetDataProviding {
 
 extension WidgetDataProviding {
     
-    private func fetchFundraisingEvent(completion: @escaping (Result<TiltifyCauseResponse, Error>) -> ()) {
-        _ = apiClient.fetchCause(completion: completion)
-    }
-    
     internal func fetchPlaceholder(in context: Context) -> FundraisingEventEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
@@ -211,92 +193,82 @@ extension WidgetDataProviding {
     }
     
     internal func fetchSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
-        self.fetchFundraisingEvent { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                Task {
-                    if let fundraisingEvent = await fetchStoredDataForFundraisingEvent() {
-                        completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: fundraisingEvent))
+        Task {
+            if let teamEvent = await apiClient.fetchTeamEvent() {
+                completion(FundraisingEventEntry(date: Date(), configuration: configuration, campaign: await TiltifyWidgetData(from: TeamEvent(from: teamEvent))))
+            } else {
+                do {
+                    if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
+                        completion(FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: await TiltifyWidgetData(from: teamEvent)))
                     }
-                }
-                break
-            case .success(let response):
-                Task {
-                    let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
-                    let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
-                    completion(entry)
+                } catch {
+                    dataLogger.error("Could not fetch stored team event")
                 }
             }
         }
     }
     
     internal func fetchSnapshot(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (FundraisingLockScreenEventEntry) -> ()) {
-        self.fetchFundraisingEvent { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                Task {
-                    if let fundraisingEvent = await fetchStoredDataForFundraisingEvent() {
-                        completion(FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: fundraisingEvent))
+        Task {
+            if let teamEvent = await apiClient.fetchTeamEvent() {
+                completion(FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: await TiltifyWidgetData(from: TeamEvent(from: teamEvent))))
+            } else {
+                do {
+                    if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
+                        completion(FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: await TiltifyWidgetData(from: teamEvent)))
                     }
-                }
-                break
-            case .success(let response):
-                Task {
-                    let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
-                    let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
-                    completion(entry)
+                } catch {
+                    dataLogger.error("Could not fetch stored team event")
                 }
             }
         }
     }
     
     internal func fetchTimeline(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingEventEntry>) -> ()) {
-        self.fetchFundraisingEvent { result in
-            Task {
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    if let campaign = await fetchStoredDataForFundraisingEvent() {
-                        completion(Timeline(entries: [FundraisingEventEntry(date: Date(), configuration: configuration, campaign: campaign)], policy: .atEnd))
-                        return
+        Task {
+            if let teamEvent = await apiClient.fetchTeamEvent() {
+                let widgetData = await TiltifyWidgetData(from: TeamEvent(from: teamEvent))
+                let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                completion(Timeline(entries: [entry], policy: .atEnd))
+            } else {
+                do {
+                    if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
+                        let widgetData = await TiltifyWidgetData(from: teamEvent)
+                        let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
                     } else {
                         let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: sampleCampaign)
                         completion(Timeline(entries: [entry], policy: .atEnd))
-                        return
                     }
-                case .success(let response):
-                    Task {
-                        let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
-                        let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
-                        completion(Timeline(entries: [entry], policy: .atEnd))
-                    }
+                } catch {
+                    dataLogger.error("Could not fetch stored team event")
+                    let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: sampleCampaign)
+                    completion(Timeline(entries: [entry], policy: .atEnd))
                 }
             }
         }
     }
     
     internal func fetchTimeline(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingLockScreenEventEntry>) -> ()) {
-        self.fetchFundraisingEvent { result in
-            Task {
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    if let campaign = await fetchStoredDataForFundraisingEvent() {
-                        completion(Timeline(entries: [FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)], policy: .atEnd))
-                        return
+        Task {
+            if let teamEvent = await apiClient.fetchTeamEvent() {
+                let widgetData = await TiltifyWidgetData(from: TeamEvent(from: teamEvent))
+                let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                completion(Timeline(entries: [entry], policy: .atEnd))
+            } else {
+                do {
+                    if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
+                        let widgetData = await TiltifyWidgetData(from: teamEvent)
+                        let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
                     } else {
                         let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: sampleCampaign)
                         completion(Timeline(entries: [entry], policy: .atEnd))
-                        return
                     }
-                case .success(let response):
-                    Task {
-                        let fundraisingEvent = await TiltifyWidgetData(from: response.data.fundraisingEvent)
-                        let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: fundraisingEvent)
-                        completion(Timeline(entries: [entry], policy: .atEnd))
-                    }
+                } catch {
+                    dataLogger.error("Could not fetch stored team event")
+                    let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: sampleCampaign)
+                    completion(Timeline(entries: [entry], policy: .atEnd))
                 }
             }
         }
