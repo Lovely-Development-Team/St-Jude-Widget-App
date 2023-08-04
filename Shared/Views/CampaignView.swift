@@ -18,12 +18,10 @@ struct CampaignView: View {
     // MARK: 2022
     
     @State private var campaignObservation: ValueObservation<ValueReducers.Fetch<Campaign?>>?
-    @State private var fundraisingEventObservation: ValueObservation<ValueReducers.Fetch<FundraisingEvent?>>?
     @State private var campaignCancellable: DatabaseCancellable?
     @State private var fetchTask: Task<(), Never>?
     
     @State private var initialCampaign: Campaign?
-    @State private var fundraisingEvent: FundraisingEvent?
     @State private var milestones: [Milestone] = []
     @State private var rewards: [Reward] = []
     
@@ -40,26 +38,14 @@ struct CampaignView: View {
     @StateObject private var apiClient = ApiClient.shared
     
     init(initialCampaign: Campaign) {
-        _fundraisingEvent = State(wrappedValue: nil)
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: nil)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
-        _fundraisingEventObservation = State(wrappedValue: nil)
-    }
-    
-    init(fundraisingEvent: FundraisingEvent) {
-        _initialCampaign = State(wrappedValue: initialCampaign)
-        _fundraisingEvent = State(wrappedValue: fundraisingEvent)
-        _teamEvent = State(wrappedValue: nil)
-        _campaignObservation = State(wrappedValue: nil)
-        _fundraisingEventObservation = State(wrappedValue: AppDatabase.shared.observeRelayFundraisingEventObservation())
     }
     
     init(teamEvent: TeamEvent) {
         _initialCampaign = State(wrappedValue: initialCampaign)
-        _fundraisingEvent = State(wrappedValue: fundraisingEvent)
         _teamEvent = State(wrappedValue: teamEvent)
-        _campaignObservation = State(wrappedValue: nil)
         _teamEventObservation = State(wrappedValue: AppDatabase.shared.observeTeamEventObservation())
     }
     
@@ -72,7 +58,7 @@ struct CampaignView: View {
     }
     
     var description: AttributedString {
-        let descr = fundraisingEvent?.description ?? teamEvent?.description ?? initialCampaign?.description ?? ""
+        let descr = teamEvent?.description ?? initialCampaign?.description ?? ""
         do {
             return try AttributedString(markdown: descr)
         } catch {
@@ -81,9 +67,7 @@ struct CampaignView: View {
     }
     
     func milestoneReached(for milestone: Milestone) -> Bool {
-        if let fundraisingEvent = fundraisingEvent {
-            return milestone.amount.value <= fundraisingEvent.amountRaised.numericalValue
-        } else if let initialCampaign = initialCampaign {
+        if let initialCampaign = initialCampaign {
             return milestone.amount.value <= initialCampaign.totalRaised.numericalValue
         } else if let teamEvent = teamEvent {
             return milestone.amount.value <= teamEvent.totalRaised.numericalValue
@@ -96,12 +80,8 @@ struct CampaignView: View {
             
             ScrollViewReader { scrollViewReader in
                 
-                if let fundraisingEvent = fundraisingEvent {
-                    FundraiserCardView(fundraisingEvent: fundraisingEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                } else if let initialCampaign = initialCampaign {
-                    
+                if let initialCampaign = initialCampaign {
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                    
                 } else if let teamEvent = teamEvent {
                     TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                 }
@@ -147,7 +127,7 @@ struct CampaignView: View {
                 
                 ZStack {
                     
-                    if let egg = easterEggDirectory[initialCampaign?.id ?? fundraisingEvent?.id ?? teamEvent?.id ?? UUID()] {
+                    if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
                         if let left = egg.left {
                             HStack {
                                 left
@@ -162,7 +142,7 @@ struct CampaignView: View {
                         }
                     }
                     
-                    Link("Visit the \(fundraisingEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
+                    Link("Visit the \(teamEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding(10)
@@ -375,16 +355,7 @@ struct CampaignView: View {
         .onAppear {
             
             // Campaign change watch
-            if let fundraisingEventObservation = fundraisingEventObservation {
-                campaignCancellable = AppDatabase.shared.start(observation: fundraisingEventObservation) { error in
-                    dataLogger.error("Error observing stored fundraising event: \(error.localizedDescription)")
-                } onChange: { event in
-                    fetchTask?.cancel()
-                    fetchTask = Task {
-                        await fetch()
-                    }
-                }
-            } else if let campaignObservation = campaignObservation {
+            if let campaignObservation = campaignObservation {
                 campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
                     dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
                 } onChange: { event in
@@ -411,9 +382,7 @@ struct CampaignView: View {
             
         }
         .sheet(isPresented: $showShareView) {
-            if let fundraisingEvent = fundraisingEvent {
-                ShareCampaignView(fundraisingEvent: fundraisingEvent)
-            } else if let campaign = initialCampaign {
+            if let campaign = initialCampaign {
                 ShareCampaignView(campaign: campaign)
             } else if let teamEvent = teamEvent {
                 ShareCampaignView(teamEvent: teamEvent)
@@ -432,7 +401,7 @@ struct CampaignView: View {
                     Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "star.fill" : "star")
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)
-                .disabled(fundraisingEvent != nil || teamEvent != nil)
+                .disabled(teamEvent != nil)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -463,9 +432,6 @@ struct CampaignView: View {
         if let initialCampaign = initialCampaign {
             return initialCampaign.name
         }
-        if let fundraisingEvent = fundraisingEvent {
-            return fundraisingEvent.name
-        }
         if let teamEvent = teamEvent {
             return teamEvent.name
         }
@@ -489,46 +455,7 @@ struct CampaignView: View {
     /// Fetch data from the API, save it to the database
     func refresh() async {
         
-        if let fundraisingEvent = fundraisingEvent {
-            
-            let response: TiltifyCauseResponse
-            do {
-                response = try await apiClient.fetchCause()
-            } catch {
-                dataLogger.error("Fetching cause failed: \(error.localizedDescription)")
-                return
-            }
-            let apiEvent = FundraisingEvent(from: response.data)
-            do {
-                // Always saving the new event would work fine, but only the amount raised is likely to change regularly,
-                // so it's more efficient to update if we have an existing event
-                if try await AppDatabase.shared.updateFundraisingEvent(apiEvent, changesFrom: fundraisingEvent) {
-                    dataLogger.info("Updated fundraising event '\(apiEvent.name)' (id: \(apiEvent.id)")
-                }
-                self.fundraisingEvent = apiEvent
-            } catch {
-                dataLogger.error("Updating stored fundraiser failed: \(error.localizedDescription)")
-            }
-            
-            dataLogger.info("Campaign UUID: \(fundraisingEvent.id.uuidString)")
-            
-            var relayCampaign: Campaign? = nil
-            
-            do {
-                dataLogger.notice("Fetching Relay campaign")
-                relayCampaign = try await AppDatabase.shared.fetchRelayCampaign()
-                dataLogger.notice("Fetched Relay campaign")
-            } catch {
-                dataLogger.error("Failed to fetch Relay campaign: \(error.localizedDescription)")
-            }
-            
-            if let relayCampaign = relayCampaign {
-                await updateCampaignFromAPI(for: relayCampaign)
-            }
-            
-            await fetch()
-            
-        } else if let existingTeamEvent = teamEvent {
+        if let existingTeamEvent = teamEvent {
             
             if let apiEventData = await apiClient.fetchTeamEvent() {
                 dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.name)")
@@ -710,33 +637,7 @@ struct CampaignView: View {
     
     /// Fetches the campaign data from GRDB
     func fetch() async {
-        
-        if fundraisingEvent != nil {
-            
-            do {
-                dataLogger.notice("Fetching stored fundraising event")
-                self.fundraisingEvent = try await AppDatabase.shared.fetchRelayFundraisingEvent()
-                dataLogger.notice("Fetched stored fundraising event")
-            } catch {
-                dataLogger.error("Failed to fetch stored fundraising event: \(error.localizedDescription)")
-            }
-            
-            var relayCampaign: Campaign? = nil
-            
-            do {
-                dataLogger.notice("Fetching Relay campaign")
-                relayCampaign = try await AppDatabase.shared.fetchRelayCampaign()
-                dataLogger.notice("Fetched Relay campaign")
-            } catch {
-                dataLogger.error("Failed to fetch Relay campaign: \(error.localizedDescription)")
-            }
-            
-            if let relayCampaign = relayCampaign {
-                await fetchRewardsAndMilestones(for: relayCampaign)
-            }
-            
-        } else if let teamEvent = teamEvent {
-            
+        if let teamEvent = teamEvent {
             do {
                 dataLogger.notice("Fetching stored team event")
                 self.teamEvent = try await AppDatabase.shared.fetchTeamEvent()
@@ -744,11 +645,8 @@ struct CampaignView: View {
             } catch {
                 dataLogger.error("Failed to fetch stored team event: \(error.localizedDescription)")
             }
-            
             await fetchRewardsAndMilestones(for: teamEvent)
-            
         } else if let initialCampaign = initialCampaign {
-            
             do {
                 dataLogger.notice("Fetching stored campaign: \(initialCampaign.id)")
                 self.initialCampaign = try await AppDatabase.shared.fetchCampaign(with: initialCampaign.id)
@@ -756,11 +654,8 @@ struct CampaignView: View {
             } catch {
                 dataLogger.error("Failed to fetch stored campaign \(initialCampaign.id): \(error.localizedDescription)")
             }
-            
             await fetchRewardsAndMilestones(for: initialCampaign)
-            
         }
-        
     }
     
     func fetchRewardsAndMilestones(for teamEvent: TeamEvent) async {

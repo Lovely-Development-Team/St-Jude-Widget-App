@@ -140,61 +140,7 @@ struct TiltifyWidgetData {
         }
         self.rewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
     }
-    
-    init(from fundraisingEvent: TiltifyFundraisingEvent) async {
-        self.id = fundraisingEvent.publicId
-        self.name = fundraisingEvent.name
-        self.description = fundraisingEvent.description
-        self.currencyCode = fundraisingEvent.amountRaised.currency
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = currencyCode
-        currencyFormatter = formatter
-        self.totalRaisedRaw = fundraisingEvent.amountRaised.value ?? "0"
-        self.goalRaw = fundraisingEvent.goal.value ?? "0"
-        do {
-            if let campaign = try await AppDatabase.shared.fetchRelayCampaign() {
-                self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
-            } else {
-                self.milestones = []
-            }
-        } catch {
-            dataLogger.notice("Failed to fetch milestones: \(error.localizedDescription)")
-            self.milestones = []
-        }
-        self.previousMilestone = Self.previousMilestone(at: fundraisingEvent.amountRaised.numericalValue, in: self.milestones)
-        self.nextMilestone = Self.nextMilestone(at: fundraisingEvent.amountRaised.numericalValue, in: self.milestones)
-        self.futureMilestones = Self.futureMilestones(at: fundraisingEvent.amountRaised.numericalValue, in: self.milestones)
-        self.rewards = []
-    }
-    
-    init(from fundraisingEvent: FundraisingEvent) async {
-        self.id = fundraisingEvent.id
-        self.name = fundraisingEvent.name
-        self.description = fundraisingEvent.description
-        self.currencyCode = fundraisingEvent.amountRaised.currency
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = currencyCode
-        currencyFormatter = formatter
-        self.totalRaisedRaw = fundraisingEvent.amountRaised.value ?? "0"
-        self.goalRaw = fundraisingEvent.goal.value ?? "0"
-        do {
-            if let campaign = try await AppDatabase.shared.fetchRelayCampaign() {
-                self.milestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
-            } else {
-                self.milestones = []
-            }
-        } catch {
-            dataLogger.notice("Failed to fetch milestones: \(error.localizedDescription)")
-            self.milestones = []
-        }
-        self.previousMilestone = Self.previousMilestone(at: fundraisingEvent.amountRaised.numericalValue, in: self.milestones)
-        self.nextMilestone = Self.nextMilestone(at: fundraisingEvent.amountRaised.numericalValue, in: self.milestones)
-        self.futureMilestones = Self.futureMilestones(at: fundraisingEvent.amountRaised.numericalValue, in: self.milestones)
-        self.rewards = []
-    }
-    
+           
     init(from teamEvent: TeamEvent) async {
         self.id = teamEvent.id
         self.name = teamEvent.name
