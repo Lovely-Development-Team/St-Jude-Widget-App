@@ -15,6 +15,16 @@ struct LockScreenCircularView: View {
     var shouldShowGoalPercentage: Bool = false
     
     var body: some View {
+        if #available(iOS 17.0, *) {
+            content
+                .containerBackground(.clear, for: .widget)
+        } else {
+            content
+        }
+    }
+    
+    @ViewBuilder
+    var content: some View {
         ZStack {
             if #available(iOSApplicationExtension 16.0, *) {
                 Gauge(value: campaign.percentageReached ?? 0, in: 0...1) {

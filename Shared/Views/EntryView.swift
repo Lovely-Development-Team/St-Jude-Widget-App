@@ -18,6 +18,7 @@ struct EntryView: View {
     let showMilestonePercentage: Bool
     let appearance: WidgetAppearance
     var forceHidePreviousMilestone: Bool = false
+    var useNormalBackgroundOniOS17: Bool = false
 
     
     var showTwoMilestones: Bool {
@@ -58,6 +59,26 @@ struct EntryView: View {
     }
     
     var body: some View {
+        Group {
+            if #available(iOS 17.0, *) {
+                if useNormalBackgroundOniOS17 {
+                    content
+                        .padding()
+                        .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+                } else {
+                    content
+                        .containerBackground(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                }
+            } else {
+                content
+                    .padding()
+                    .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var content: some View {
         
         VStack(alignment: .leading, spacing: 5) {
            
@@ -127,8 +148,6 @@ struct EntryView: View {
         }
         .foregroundColor(foregroundColor)
         .frame(maxWidth: .infinity)
-        .padding()
-        .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
     }
 }
 

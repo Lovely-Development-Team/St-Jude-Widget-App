@@ -15,6 +15,16 @@ struct LockScreenRectangularView: View {
     var shouldShowGoalPercentage: Bool = false
     
     var body: some View {
+        if #available(iOS 17.0, *) {
+            content
+                .containerBackground(.clear, for: .widget)
+        } else {
+            content
+        }
+    }
+    
+    @ViewBuilder
+    var content: some View {
         VStack(spacing: 4) {
             Spacer()
                 .frame(minHeight: 0, maxHeight: .infinity)

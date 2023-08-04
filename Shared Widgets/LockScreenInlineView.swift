@@ -27,6 +27,16 @@ struct LockScreenInlineView: View {
     }
     
     var body: some View {
+        if #available(iOS 17.0, *) {
+            content
+                .containerBackground(.clear, for: .widget)
+        } else {
+            content
+        }
+    }
+    
+    @ViewBuilder
+    var content: some View {
         Label(accessoryInlineText, systemImage: accessoryInlineLabel)
             .widgetURL(URL(string: campaign.widgetURL)!)
     }
