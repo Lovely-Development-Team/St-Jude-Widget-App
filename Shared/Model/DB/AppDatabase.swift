@@ -106,6 +106,17 @@ extension AppDatabase {
         }
     }
     
+    /**
+    If the event has any difference from the other event, executes an
+    UPDATE statement so that those differences and only those difference are
+    saved in the database.
+    - parameter newEvent: The latest version of the event.
+    - parameter oldEvent: The event to compare against..
+    - returns: Whether the event had changes.
+    - throws: A DatabaseError is thrown whenever an SQLite error occurs.
+    PersistenceError.recordNotFound is thrown if the primary key does not
+    match any row in the database and record could not be updated.
+    */
     @discardableResult
     func updateTeamEvent(_ newEvent: TeamEvent, changesFrom oldEvent: TeamEvent) async throws -> Bool {
         try await dbWriter.write { db in
