@@ -440,8 +440,6 @@ struct CampaignList: View {
     
     func refresh() async {
         
-        self.isLoading = true
-        
         if let apiEventData = await apiClient.fetchTeamEvent() {
             dataLogger.debug("API fetched TeamEvent: \(apiEventData.name)")
             let apiEvent = TeamEvent(from: apiEventData)
