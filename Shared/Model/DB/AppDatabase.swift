@@ -35,7 +35,85 @@ final class AppDatabase {
         migrator.eraseDatabaseOnSchemaChange = true
         #endif
         
+        migrator.registerMigration("createInitialTables") { db in
+            // Create a table
+            // See https://github.com/groue/GRDB.swift#create-tables
+            
+            try db.create(table: "fundraisingEvent") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("slug", .text).notNull()
+                t.column("amountRaisedCurrency", .text).notNull()
+                t.column("amountRaisedValue", .text)
+                t.column("colors", .text).notNull()
+                t.column("description", .text)
+                t.column("goalCurrency", .text).notNull()
+                t.column("goalValue", .text).notNull()
+                t.column("causePublicId", .numeric).notNull().unique()
+                t.column("causeName", .text).notNull()
+                t.column("causeSlug", .text).notNull()
+                t.uniqueKey(["slug", "causeSlug"])
+            }
+            
+            try db.create(table: "campaign") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("slug", .text).notNull()
+                t.column("avatar", .text)
+                t.column("status", .text)
+                t.column("description", .blob)
+                t.column("goalCurrency", .text).notNull()
+                t.column("goalValue", .text).notNull()
+                t.column("totalRaisedCurrency", .text).notNull()
+                t.column("totalRaisedValue", .text).notNull()
+                t.column("username", .text).notNull()
+                t.column("userSlug", .text).notNull()
+                t.column("fundraisingEventId", .blob).notNull().references("fundraisingEvent")
+                t.uniqueKey(["slug", "userSlug"])
+            }
+            
+        }
+        
+        migrator.registerMigration("createMilestoneAndRewardTables") { db in
+            
+            try db.create(table: "milestone") { t in
+                t.column("id", .integer).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("amountCurrency", .text).notNull()
+                t.column("amountValue", .double).notNull()
+                t.column("campaignId", .blob).notNull().references("campaign")
+            }
+            
+            try db.create(table: "reward") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("description", .blob).notNull()
+                t.column("amountCurrency", .text).notNull()
+                t.column("amountValue", .double).notNull()
+                t.column("imageSrc", .text)
+                t.column("campaignId", .blob).notNull().references("campaign")
+            }
+            
+            try db.alter(table: "campaign") { t in
+                t.add(column: "isStarred", .boolean).defaults(to: false)
+            }
+            
+        }
+        
+        migrator.registerMigration("addNumericValues") { db in
+            try db.alter(table: "campaign") { t in
+                t.add(column: "goalNumericalValue", .double)
+                t.add(column: "totalRaisedNumericalValue", .double)
+            }
+        }
+        
         migrator.registerMigration("createInitialTables2023") { db in
+            
+            // Drop existing tables
+            try db.drop(table: "fundraisingEvent")
+            try db.drop(table: "campaign")
+            try db.drop(table: "milestone")
+            try db.drop(table: "reward")
             
             // New version of fundraisingEvent
             try db.create(table: "teamEvent") { t in
