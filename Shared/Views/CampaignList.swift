@@ -54,6 +54,7 @@ struct CampaignList: View {
     @State private var searchText = ""
     
     @State private var isRefreshing: Bool = false
+    @State private var isLoading: Bool = true
     @State private var campaignsHaveClosed: Bool = false
     @State private var showStephen: Bool = false
     
@@ -312,11 +313,32 @@ struct CampaignList: View {
                         
                     } else {
                         
-                        ProgressView()
-                            .padding(.top, 40)
-                            .padding(.bottom, 10)
-                        Text("Loading ...")
-                            .padding(.bottom, 40)
+                        if isLoading {
+                            
+                            ProgressView()
+                                .padding(.top, 40)
+                                .padding(.bottom, 10)
+                            Text("Loading ...")
+                                .padding(.bottom, 40)
+                            
+                        } else {
+                            
+                            Image(systemName: "exclamationmark.triangle")
+                                .padding(.top, 40)
+                                .padding(.bottom, 10)
+                            Text("No fundraisers yet")
+                            
+                            Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-fm/relay-fm-for-st-jude-2023/start/cause-summary")!)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .padding(.horizontal, 20)
+                                .background(Color.accentColor)
+                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                .padding()
+                            
+                        }
                         
                     }
                 }
@@ -418,6 +440,8 @@ struct CampaignList: View {
     
     func refresh() async {
         
+        self.isLoading = true
+        
         if let apiEventData = await apiClient.fetchTeamEvent() {
             dataLogger.debug("API fetched TeamEvent: \(apiEventData.name)")
             let apiEvent = TeamEvent(from: apiEventData)
@@ -478,6 +502,8 @@ struct CampaignList: View {
         }
         
         await fetch()
+        
+        self.isLoading = false
         
     }
     
