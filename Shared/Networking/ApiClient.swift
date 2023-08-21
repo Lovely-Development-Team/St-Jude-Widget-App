@@ -51,8 +51,8 @@ struct TiltifyDonorsRequest: Codable {
 }
 
 
-let TEAM_EVENT_VANITY = "+vtubers-for-st-jude"
-let TEAM_EVENT_SLUG = "-2023-06-01 12:35:51Z"
+let TEAM_EVENT_VANITY = "+relay-fm"
+let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
 
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
