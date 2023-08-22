@@ -160,7 +160,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
     }
     
     @available(*, renamed: "fetchCampaign()")
-    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm-for-st-jude-2022", completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
+    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm", completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
         do {
             let request = try buildCampaignRequest(vanity: vanity, slug: slug)
             let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -185,7 +185,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         }
     }
     
-    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm-for-st-jude-2022") async throws -> TiltifyResponse {
+    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm") async throws -> TiltifyResponse {
         return try await withCheckedThrowingContinuation { continuation in
             _ = fetchCampaign(vanity: vanity, slug: slug) { result in
                 continuation.resume(with: result)

@@ -39,23 +39,23 @@ struct AboutView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 Text("This app was developed by a group of friends from around the world, who came together thanks to Relay FM's membership program.")
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                Text("Our thanks go to everybody who donates to St. Jude via our fundraiser:")
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                Button(action: {
-                    showSupporterSheet = true
-                }) {
-                    Text("Supporters")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .padding(.horizontal, 20)
-                        .background(Color.accentColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                }
+//                Text("Our thanks go to everybody who donates to St. Jude via our fundraiser:")
+//                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+//                Button(action: {
+//                    showSupporterSheet = true
+//                }) {
+//                    Text("Supporters")
+//                        .font(.headline)
+//                        .foregroundColor(.white)
+//                        .padding(10)
+//                        .padding(.horizontal, 20)
+//                        .background(Color.accentColor)
+//                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+//                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+//                }
                 HStack {
-                    Spacer()
-                    Link("tildy.dev/stjude", destination: URL(string: "https://tildy.dev/stjude")!)
+//                    Spacer()
+//                    Link("tildy.dev/stjude", destination: URL(string: "https://tildy.dev/stjude")!)
                     Spacer()
                     Link("tildy.dev", destination: URL(string: "https://tildy.dev")!)
                     Spacer()

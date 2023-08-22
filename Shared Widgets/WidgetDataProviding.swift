@@ -38,7 +38,7 @@ extension WidgetDataProviding {
 
 extension WidgetDataProviding {
     private func fetchCampaign(vanity: String?, slug: String?, completion: @escaping (Result<TiltifyResponse, Error>) -> ()) {
-        _ = apiClient.fetchCampaign(vanity: vanity ?? "relay-fm", slug: slug ?? "relay-fm-for-st-jude-2022", completion: completion)
+        _ = apiClient.fetchCampaign(vanity: vanity ?? "relay-fm", slug: slug ?? "relay-fm", completion: completion)
     }
     
     internal func fetchPlaceholder(in context: Context) -> SimpleEntry {
