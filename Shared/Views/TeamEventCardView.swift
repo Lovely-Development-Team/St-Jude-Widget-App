@@ -66,7 +66,7 @@ struct TeamEventCardView: View {
                             Label("Share Event Link", systemImage: "link")
                         }
                         Button(action: {
-                            showShareLinkSheet = ShareURL(url: URL(string: "https://donate.tiltify.com/@relay-fm/relay-fm-for-st-jude-2022")!)
+                            showShareLinkSheet = ShareURL(url: URL(string: "https://tiltify.com/@relay-fm/relay-fm")!)
                         }) {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
