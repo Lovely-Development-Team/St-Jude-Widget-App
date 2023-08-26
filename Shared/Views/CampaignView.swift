@@ -86,6 +86,12 @@ struct CampaignView: View {
                     TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                 }
                 
+                #if DEBUG
+                if let initialCampaign = initialCampaign {
+                    Text("\(initialCampaign.id)")
+                }
+                #endif
+                
                 LazyVGrid(columns: [GridItem(.flexible()),
                                     GridItem(.flexible())]) {
                     Button(action: {
