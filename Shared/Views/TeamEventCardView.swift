@@ -98,9 +98,10 @@ struct TeamEventCardView: View {
                     .redacted(reason: .placeholder)
             }
         }
-        .foregroundColor(.white)
+        .foregroundColor(.black)
         .padding()
-        .background(Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
+        .background(LinearGradient(colors: WidgetAppearance.relayinverted.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
+//        .background(Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .cornerRadius(10)
         .sheet(item: $showShareLinkSheet) { url in
             ShareSheetView(activityItems: [url.url])

@@ -17,16 +17,16 @@ struct AboutView: View {
                 .aspectRatio(contentMode: .fit)
             Group {
                 GroupBox {
-                    Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for pediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
+                    Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
                 }
-                .padding(.top, -40)
-                .padding(.top)
+                .padding(.top, -180)
                 Text("Every year throughout the month of September, Relay FM raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                Link(destination: URL(string: "https://512pixels.net/2022/08/relay-st-jude-2022/")!) {
+                Link(destination: URL(string: "https://512pixels.net/2023/08/relay-fm-st-jude-2023/")!) {
                     Text("Read Stephen's post")
                         .font(.headline)
-                        .foregroundColor(.white)
+//                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(10)
                         .padding(.horizontal, 20)
                         .background(Color.accentColor)
@@ -64,20 +64,22 @@ struct AboutView: View {
             .padding(.horizontal)
             .padding(.bottom)
         }
+        .background(.black)
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Done")
-                }
-            }
-        }
-        .navigationTitle("About Relay FM for St. Jude")
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(action: {
+//                    presentationMode.wrappedValue.dismiss()
+//                }) {
+//                    Text("Done")
+//                }
+//            }
+//        }
+//        .navigationTitle("About Relay FM for St. Jude")
         .navigationBarTitleDisplayMode(.inline)
+        .preferredColorScheme(.dark)
     }
 }
 
