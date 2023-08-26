@@ -675,6 +675,16 @@ struct CampaignView: View {
         } catch {
             dataLogger.error("Failed to fetch stored milestones for team event: \(error.localizedDescription)")
         }
+        do {
+            dataLogger.notice("Fetching stored rewards for team event")
+            let fetchedRewards = try await AppDatabase.shared.fetchSortedRewards(for: teamEvent)
+            withAnimation {
+                self.rewards = fetchedRewards
+            }
+            dataLogger.notice("Fetched stored rewards for team event")
+        } catch {
+            dataLogger.error("Failed to fetch stored rewards for team event: \(error.localizedDescription)")
+        }
     }
     
     func fetchRewardsAndMilestones(for campaign: Campaign) async {
