@@ -10,20 +10,24 @@ import WidgetKit
 
 struct LockScreenInlineView: View {
     
-    let campaign: TiltifyWidgetData
+    let campaign: TiltifyWidgetData?
     var shouldShowFullCurrencySymbol: Bool = false
     var shouldShowGoalPercentage: Bool = false
     
     var accessoryInlineText: String {
-        var amount = campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol)
-        if shouldShowGoalPercentage {
-            amount = "\(amount) • \(campaign.shortPercentageReachedDescription ?? "0%")"
+        if let campaign = campaign {
+            var amount = campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol)
+            if shouldShowGoalPercentage {
+                amount = "\(amount) • \(campaign.shortPercentageReachedDescription ?? "0%")"
+            }
+            return amount
+        } else {
+            return ""
         }
-        return amount
     }
     
     var accessoryInlineLabel: String {
-        campaign.percentageReached ?? 0 >= 1 ? "party.popper.fill" : ""
+        campaign?.percentageReached ?? 0 >= 1 ? "party.popper.fill" : ""
     }
     
     var body: some View {
@@ -37,8 +41,12 @@ struct LockScreenInlineView: View {
     
     @ViewBuilder
     var content: some View {
-        Label(accessoryInlineText, systemImage: accessoryInlineLabel)
-            .widgetURL(URL(string: campaign.widgetURL)!)
+        if let campaign = campaign {
+            Label(accessoryInlineText, systemImage: accessoryInlineLabel)
+                .widgetURL(URL(string: campaign.widgetURL)!)
+        } else {
+            Label("Choose a fundraiser", systemImage: accessoryInlineLabel)
+        }
     }
 }
 

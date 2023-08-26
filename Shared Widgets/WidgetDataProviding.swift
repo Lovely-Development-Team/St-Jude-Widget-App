@@ -112,56 +112,70 @@ extension WidgetDataProviding {
     }
     
     internal func fetchTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
-        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
-            Task {
-                var entries: [SimpleEntry] = []
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                          let campaign = await fetchStoredData(for: campaignId) else {
-                        let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
-                        completion(Timeline(entries: [entry], policy: .atEnd))
-                        return
+        if let campaign = configuration.campaign {
+            self.fetchCampaign(vanity: campaign.vanity, slug: campaign.slug) { result in
+                Task {
+                    var entries: [SimpleEntry] = []
+                    switch result {
+                    case .failure(let error):
+                        dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                        guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                              let campaign = await fetchStoredData(for: campaignId) else {
+                            let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
+                            completion(Timeline(entries: [entry], policy: .atEnd))
+                            return
+                        }
+                        entries.append(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
+                        break
+                    case .success(let response):
+                        let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                        let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
+                        storeData(campaign)
+                        entries.append(entry)
                     }
-                    entries.append(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
-                    break
-                case .success(let response):
-                    let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                    let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
-                    storeData(campaign)
-                    entries.append(entry)
+                    let timeline = Timeline(entries: entries, policy: .atEnd)
+                    completion(timeline)
                 }
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
             }
+        } else {
+            let timeline = Timeline(entries: [
+                SimpleEntry(date: Date(), configuration: configuration, campaign: nil)
+            ], policy: .atEnd)
+            completion(timeline)
         }
     }
     
     internal func fetchTimeline(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<CampaignLockScreenEventEntry>) -> ()) {
-        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
-            Task {
-                var entries: [CampaignLockScreenEventEntry] = []
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                          let campaign = await fetchStoredData(for: campaignId) else {
-                        let entry = CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
-                        completion(Timeline(entries: [entry], policy: .atEnd))
-                        return
+        if let campaign = configuration.campaign {
+            self.fetchCampaign(vanity: campaign.vanity, slug: campaign.slug) { result in
+                Task {
+                    var entries: [CampaignLockScreenEventEntry] = []
+                    switch result {
+                    case .failure(let error):
+                        dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                        guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                              let campaign = await fetchStoredData(for: campaignId) else {
+                            let entry = CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
+                            completion(Timeline(entries: [entry], policy: .atEnd))
+                            return
+                        }
+                        entries.append(CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign))
+                        break
+                    case .success(let response):
+                        let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                        let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)
+                        storeData(campaign)
+                        entries.append(entry)
                     }
-                    entries.append(CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign))
-                    break
-                case .success(let response):
-                    let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                    let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)
-                    storeData(campaign)
-                    entries.append(entry)
+                    let timeline = Timeline(entries: entries, policy: .atEnd)
+                    completion(timeline)
                 }
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
             }
+        } else {
+            let timeline = Timeline(entries: [
+                CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: nil)
+            ], policy: .atEnd)
+            completion(timeline)
         }
     }
 }
