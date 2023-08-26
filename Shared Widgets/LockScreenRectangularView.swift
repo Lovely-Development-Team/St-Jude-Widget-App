@@ -10,7 +10,7 @@ import WidgetKit
 
 struct LockScreenRectangularView: View {
     
-    let campaign: TiltifyWidgetData
+    let campaign: TiltifyWidgetData?
     var shouldShowFullCurrencySymbol: Bool = false
     var shouldShowGoalPercentage: Bool = false
     
@@ -24,26 +24,35 @@ struct LockScreenRectangularView: View {
     }
     
     @ViewBuilder
-    var content: some View {
+    var rawContent: some View {
         VStack(spacing: 4) {
             Spacer()
                 .frame(minHeight: 0, maxHeight: .infinity)
-            Text(campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol))
+            Text(campaign?.totalRaisedDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol) ?? "Choose a fundraiser")
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .scaledToFill()
                 .minimumScaleFactor(0.2)
                 .lineLimit(1)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            ProgressBar(value: .constant(Float(campaign.percentageReached ?? 0)), fillColor: .white)
+            ProgressBar(value: .constant(Float(campaign?.percentageReached ?? 0)), fillColor: .white)
                 .frame(height: 6)
-            if shouldShowGoalPercentage, let percentage = campaign.shortPercentageReachedDescription {
+            if shouldShowGoalPercentage, let campaign = campaign, let percentage = campaign.shortPercentageReachedDescription {
                 Text("\(percentage) of \(campaign.goalDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol))")
                     .font(.caption)
                     .lineLimit(1)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             }
         }
-        .widgetURL(URL(string: campaign.widgetURL)!)
+    }
+    
+    @ViewBuilder
+    var content: some View {
+        if let campaign = campaign {
+            rawContent
+                .widgetURL(URL(string: campaign.widgetURL)!)
+        } else {
+            rawContent
+        }
     }
 }
 

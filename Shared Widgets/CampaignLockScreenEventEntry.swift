@@ -10,5 +10,5 @@ import WidgetKit
 struct CampaignLockScreenEventEntry: TimelineEntry {
     let date: Date
     let configuration: CampaignLockScreenConfigurationIntent
-    let campaign: TiltifyWidgetData
+    let campaign: TiltifyWidgetData?
 }

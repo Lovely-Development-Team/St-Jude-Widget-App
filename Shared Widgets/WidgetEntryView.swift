@@ -14,7 +14,7 @@ struct WidgetEntryView : View {
     var entry: Provider.Entry
     
     var showPreviousMilestone: Bool {
-        return isExtraLargeSize(family: family) || entry.campaign.nextMilestone == nil
+        return isExtraLargeSize(family: family) || entry.campaign?.nextMilestone == nil
     }
     
     var titleFont: Font {
@@ -57,17 +57,46 @@ struct WidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
+    @ViewBuilder
     var entryView: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
-            .widgetURL(URL(string: entry.campaign.widgetURL)!)
+        if let campaign = entry.campaign {
+            EntryView(campaign: .constant(campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
+                .widgetURL(URL(string: campaign.widgetURL)!)
+        } else {
+            if #available(iOS 17.0, *) {
+                placeholderView
+                    .containerBackground(LinearGradient(colors: entry.configuration.appearance.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+            } else {
+                placeholderView
+                    .padding()
+                    .background(LinearGradient(colors: entry.configuration.appearance.backgroundColors, startPoint: .bottom, endPoint: .top))
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var placeholderView: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            CampaignTitle(name: "Choose a fundraiser")
+            Spacer()
+            ProgressBar(value: .constant(0), fillColor: entry.configuration.appearance.fillColor)
+                .frame(height: 15)
+            Text("$123,400")
+                .redacted(reason: .placeholder)
+        }
+        .foregroundColor(entry.configuration.appearance.foregroundColor)
     }
     
     var body: some View {
         if #available(iOSApplicationExtension 16.0, *) {
             if family == .accessoryInline {
-                Text(entry.campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+                if let campaign = entry.campaign {
+                    Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+                } else {
+                    Text("Choose a fundraiser")
+                }
             } else if family == .accessoryCircular {
-                ProgressBar(value: .constant(Float(entry.campaign.percentageReached ?? 0)), fillColor: .white, circularShape: true)
+                ProgressBar(value: .constant(Float(entry.campaign?.percentageReached ?? 0)), fillColor: .white, circularShape: true)
             } else {
                 entryView
             }

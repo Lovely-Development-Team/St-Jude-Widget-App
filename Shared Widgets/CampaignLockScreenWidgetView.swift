@@ -14,7 +14,7 @@ struct CampaignLockScreenWidgetView : View {
     var entry: CampaignLockScreenProvider.Entry
     
     var showPreviousMilestone: Bool {
-        return isExtraLargeSize(family: family) || entry.campaign.nextMilestone == nil
+        return isExtraLargeSize(family: family) || entry.campaign?.nextMilestone == nil
     }
     
     var titleFont: Font {
@@ -46,15 +46,15 @@ struct CampaignLockScreenWidgetView : View {
     }
 
     var accessoryInlineText: String {
-        var amount = entry.campaign.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol)
+        var amount = entry.campaign?.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol) ?? "AMOUNT"
         if shouldShowGoalPercentage {
-            amount = "\(amount) • \(entry.campaign.shortPercentageReachedDescription ?? "0%")"
+            amount = "\(amount) • \(entry.campaign?.shortPercentageReachedDescription ?? "0%")"
         }
         return amount
     }
     
     var accessoryInlineLabel: String {
-        entry.campaign.percentageReached ?? 0 >= 1 ? "flag.checkered" : ""
+        entry.campaign?.percentageReached ?? 0 >= 1 ? "flag.checkered" : ""
     }
     
     var body: some View {
