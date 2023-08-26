@@ -150,7 +150,7 @@ struct CampaignView: View {
                     
                     Link("Visit the \(teamEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(10)
                         .padding(.horizontal, 20)
                         .background(Color.accentColor)
