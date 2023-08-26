@@ -8,6 +8,10 @@
 import SwiftUI
 import GRDB
 
+let HIDDEN_CAMPAIGN_IDS: Set<UUID> = [
+    UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb9066")!
+]
+
 enum FundraiserSortOrder: Int, CaseIterable {
     case byName
     case byAmountRaised
@@ -189,7 +193,7 @@ struct CampaignList: View {
                             .font(.title)
                             .fontWeight(.bold)
                         if campaigns.count != 0 {
-                            Text("\(campaigns.count)")
+                            Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
@@ -283,10 +287,12 @@ struct CampaignList: View {
                             .padding(.top)
                             
                             ForEach(searchResults, id: \.id) { campaign in
-                                NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                                    FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
+                                if !HIDDEN_CAMPAIGN_IDS.contains(campaign.id) {
+                                    NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
+                                        FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
+                                    }
+                                    .padding(.top)
                                 }
-                                .padding(.top)
                             }
                         }
                         .padding(.horizontal)
