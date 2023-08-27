@@ -20,8 +20,18 @@ extension WidgetAppearance {
     
     var foregroundColor: Color {
         switch self {
-        case .relayinverted:
-            return Self.relayBlueDark
+            
+        case .yellow:
+            return .black
+        case .red:
+            return .white
+        case .blue:
+            return .white
+        case .green:
+            return .white
+        case .purple:
+            return .white
+            
         default:
             return .white
         }
@@ -29,14 +39,25 @@ extension WidgetAppearance {
     
     var fillColor: Color {
         switch self {
+            
+        case .yellow:
+            return .black
+        case .red:
+            return .white
+        case .blue:
+            return .white
+        case .green:
+            return .white
+        case .purple:
+            return .white
+            
+            
+            
         case .relay:
             return Self.relayYellow
         case .relaytrueblack:
             return Self.relayYellow
-        case .relayinverted:
-            return Self.relayBlueLight
-        case .stjudeinverted:
-            return Self.stjudeBlueLight
+            
         default:
             return Self.stjudeRed
         }
@@ -44,6 +65,20 @@ extension WidgetAppearance {
     
     var backgroundColors: [Color] {
         switch self {
+            
+        case .yellow:
+            return [.brandYellow, .brandYellow.darker(by: 5)]
+        case .red:
+            return [.brandRed, .brandRed.darker(by: 5)]
+        case .blue:
+            return [.brandBlue, .brandBlue.darker(by: 5)]
+        case .green:
+            return [.brandGreen, .brandGreen.darker(by: 5)]
+        case .purple:
+            return [.brandPurple, .brandPurple.darker(by: 5)]
+            
+            
+            
         case .relaytrueblack:
             return [Color.black]
         case .stjudetrueblack:
@@ -52,14 +87,6 @@ extension WidgetAppearance {
             return [
                 Self.relayBlueDark,
                 Self.relayBlueLight
-            ]
-        case .relayinverted:
-            return [
-                Self.relayYellow
-            ]
-        case .stjudeinverted:
-            return [
-                Self.stjudeRed
             ]
         default:
             return [

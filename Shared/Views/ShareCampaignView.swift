@@ -25,7 +25,7 @@ struct ShareCampaignView: View {
     @State private var preferFutureMilestones: Bool = true
     @State private var showFullCurrencySymbol: Bool = false
     @State private var showMainGoalPercentage: Bool = false
-    @State private var appearance: WidgetAppearance = .stjude
+    @State private var appearance: WidgetAppearance = .yellow
     @State private var clipCorners: Bool = false
     
     @State private var presentSystemShareSheet: ImageToShare? = nil
@@ -43,14 +43,14 @@ struct ShareCampaignView: View {
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
             .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 350)
-            .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 25 : 0)))
+            .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
     }
     
     @ViewBuilder
     var headerView: some View {
         VStack(spacing: 0) {
             entryView
-                .cornerRadius((clipCorners ? 25 : 0))
+                .cornerRadius((clipCorners ? 15 : 0))
             Button(action: {
                 presentSystemShareSheet = ImageToShare(id: UUID(), image: entryView.asImage)
             }) {
@@ -87,11 +87,14 @@ struct ShareCampaignView: View {
                     Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation())
                     Picker("Appearance", selection: $appearance.animation()) {
                         Text("Relay FM").tag(WidgetAppearance.relay)
-                        Text("Relay FM (Inverted)").tag(WidgetAppearance.relayinverted)
-                        Text("Relay FM (True Black)").tag(WidgetAppearance.relaytrueblack)
                         Text("St. Jude").tag(WidgetAppearance.stjude)
-                        Text("St. Jude (Inverted)").tag(WidgetAppearance.stjudeinverted)
+                        Text("Relay FM (True Black)").tag(WidgetAppearance.relaytrueblack)
                         Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
+                        Text("Yellow").tag(WidgetAppearance.yellow)
+                        Text("Red").tag(WidgetAppearance.red)
+                        Text("Blue").tag(WidgetAppearance.blue)
+                        Text("Green").tag(WidgetAppearance.green)
+                        Text("Purple").tag(WidgetAppearance.purple)
                     }
                     Toggle("Rounded Corners", isOn: $clipCorners.animation())
                     

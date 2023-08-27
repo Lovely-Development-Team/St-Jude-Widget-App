@@ -90,6 +90,9 @@
 		5EE56C172A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE56C122A7BBF4F00FA71DF /* ApiClientRequestQueries.swift */; };
 		5EEB56872A9BDE07008AABF1 /* BrandShapeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB56862A9BDE07008AABF1 /* BrandShapeBackground.swift */; };
 		5EEB56882A9BDE07008AABF1 /* BrandShapeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB56862A9BDE07008AABF1 /* BrandShapeBackground.swift */; };
+		5EEB568A2A9BE897008AABF1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
+		5EEB568B2A9BE8F9008AABF1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
+		5EEB568C2A9BE8F9008AABF1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
@@ -1128,6 +1131,7 @@
 				63574A1C26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,
 				5E7C300328C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */,
 				6350A75E28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */,
+				5EEB568C2A9BE8F9008AABF1 /* Color.swift in Sources */,
 				5E1705D228C4D35E00E70019 /* FundraisingLockScreenEventEntry.swift in Sources */,
 				63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				5E1705D828C5075700E70019 /* LockScreenRectangularView.swift in Sources */,
@@ -1323,6 +1327,7 @@
 				638AEFEA26D7965A00BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				5E7C300228C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */,
 				6350A75D28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */,
+				5EEB568A2A9BE897008AABF1 /* Color.swift in Sources */,
 				5E1705D128C4D35E00E70019 /* FundraisingLockScreenEventEntry.swift in Sources */,
 				6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				5E1705D728C5075700E70019 /* LockScreenRectangularView.swift in Sources */,
@@ -1367,6 +1372,7 @@
 				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,
 				5EE56C162A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */,
 				63D0CCF428B102AA0073957E /* AppDatabase.swift in Sources */,
+				5EEB568B2A9BE8F9008AABF1 /* Color.swift in Sources */,
 				5E7C300528C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift in Sources */,
 				DE0F34C126DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63D0CD3128B9247D0073957E /* ConfigurationIntentHandler.swift in Sources */,
