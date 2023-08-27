@@ -85,8 +85,8 @@ struct TeamEventCardView: View {
                 .padding(.bottom, 20)
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
-                    /*mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)*/ // fundraisingEvent.colors.highlightColor)
-                    mainProgressBar(value: 0.5, color: appearance.fillColor)
+                    mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)
+//                    mainProgressBar(value: 0.5, color: appearance.fillColor)
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {
