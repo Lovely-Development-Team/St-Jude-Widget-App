@@ -128,7 +128,8 @@ struct CampaignList: View {
     }
     
     var body: some View {
-        
+        ZStack {
+            ShapesView()
         ScrollView {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
@@ -180,170 +181,177 @@ struct CampaignList: View {
                         }
                         .foregroundColor(.white)
                         .padding()
-                        .background(Color.accentColor)
+                        
                         .padding(.bottom)
                     }
-                    
-                    HStack {
-                        Text("Fundraisers")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        if campaigns.count != 0 {
-                            Text("\(campaigns.count)")
-                                .foregroundColor(.secondary)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(
-                                    Color.secondarySystemBackground
-                                        .cornerRadius(15)
-                                )
-                        }
-                        Spacer()
-                        Menu {
-                            ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                    VStack{
+                        HStack {
+                            Text("Fundraisers")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            if campaigns.count != 0 {
+                                Text("\(campaigns.count)")
+                                    .foregroundColor(.secondary)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(
+                                        Color.secondarySystemBackground
+                                            .cornerRadius(15)
+                                    )
+                            }
+                            Spacer()
+                            Menu {
+                                ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                                    Button(action: {
+                                        withAnimation {
+                                            fundraiserSortOrder = order
+                                        }
+                                    }) {
+                                        Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                    }
+                                }
+                                Divider()
                                 Button(action: {
                                     withAnimation {
-                                        fundraiserSortOrder = order
+                                        compactListMode.toggle()
                                     }
                                 }) {
-                                    Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                    Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
                                 }
+                            } label: {
+                                Image(systemName: "slider.horizontal.3")
                             }
-                            Divider()
                             Button(action: {
                                 withAnimation {
-                                    compactListMode.toggle()
-                                }
-                            }) {
-                                Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
-                            }
-                        } label: {
-                            Image(systemName: "slider.horizontal.3")
-                        }
-                        Button(action: {
-                            withAnimation {
-                                showSearchBar = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    withAnimation {
-                                        scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
-                                    }
-                                }
-                            }
-                        }) {
-                            Label("Search", systemImage: "magnifyingglass")
-                                .labelStyle(.iconOnly)
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    if campaigns.count != 0 {
-                        
-                        if showSearchBar {
-                            SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
-                                .padding(.horizontal, 8)
-                                .id("SEARCH_BAR")
-                        }
-                        
-                        
-                        
-                        if selectedCampaignId != nil {
-                            /// In order to open a selected campaign when a widget is tapped, the corresponding
-                            /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
-                            /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
-                            /// trigger on the widget tap instead
-                            ForEach(sortedCampaigns, id: \.id) { campaign in
-                                NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
-                                    EmptyView()
-                                }
-                            }
-                        }
-                        
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
-                            
-                            Button(action: {
-                                while true {
-                                    if let random = campaigns.randomElement(), random.id != RELAY_FUNDRAISER_ID {
-                                        selectedCampaignId = random.id
-                                        break
+                                    showSearchBar = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation {
+                                            scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                        }
                                     }
                                 }
                             }) {
-                                GroupBox {
-                                    HStack {
-                                        Image(systemName: "shuffle")
-                                        Text("Discover a random fundraiser")
-                                            .multilineTextAlignment(.leading)
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .foregroundColor(.primary)
-                                }
-                            }
-                            .padding(.top)
-                            
-                            ForEach(searchResults, id: \.id) { campaign in
-                                NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                                    FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
-                                }
-                                .padding(.top)
+                                Label("Search", systemImage: "magnifyingglass")
+                                    .labelStyle(.iconOnly)
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.top)
                         
-                        Button(action: {
-                            showEasterEggSheet = true
-                        }, label: {
-                            HStack {
-                                Text("App from the Lovely Developers")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                Image("l2culogosvg")
-                                    .renderingMode(.template)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.secondary)
-                                    .frame(height: 15)
-                                    .accessibility(hidden: true)
-                                
-                            }
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        .padding()
-                        
-                    } else {
-                        
-                        if isLoading {
+                        if campaigns.count != 0 {
                             
-                            ProgressView()
-                                .padding(.top, 40)
-                                .padding(.bottom, 10)
-                            Text("Loading ...")
-                                .padding(.bottom, 40)
+                            if showSearchBar {
+                                SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
+                                    .padding(.horizontal, 8)
+                                    .id("SEARCH_BAR")
+                            }
+                            
+                            
+                            
+                            if selectedCampaignId != nil {
+                                /// In order to open a selected campaign when a widget is tapped, the corresponding
+                                /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
+                                /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
+                                /// trigger on the widget tap instead
+                                ForEach(sortedCampaigns, id: \.id) { campaign in
+                                    NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
+                                        EmptyView()
+                                    }
+                                }
+                            }
+                            
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                                
+                                Button(action: {
+                                    while true {
+                                        if let random = campaigns.randomElement(), random.id != RELAY_FUNDRAISER_ID {
+                                            selectedCampaignId = random.id
+                                            break
+                                        }
+                                    }
+                                }) {
+                                    GroupBox {
+                                        HStack {
+                                            Image(systemName: "shuffle")
+                                            Text("Discover a random fundraiser")
+                                                .multilineTextAlignment(.leading)
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                            Image(systemName: "chevron.right")
+                                                .foregroundColor(.secondary)
+                                        }
+                                        .foregroundColor(.primary)
+                                    }
+                                }
+                                
+                                .padding(.top)
+                                
+                                ForEach(searchResults, id: \.id) { campaign in
+                                    NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
+                                        FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
+                                    }
+                                    
+                                    .padding(.top)
+                                }
+                            }
+                            .padding(.horizontal)
+                            
+                            Button(action: {
+                                showEasterEggSheet = true
+                            }, label: {
+                                HStack {
+                                    Text("App from the Lovely Developers")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                    Image("l2culogosvg")
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .foregroundColor(.secondary)
+                                        .frame(height: 15)
+                                        .accessibility(hidden: true)
+                                    
+                                }
+                            })
+                            .buttonStyle(PlainButtonStyle())
+                            .padding()
                             
                         } else {
                             
-                            Image(systemName: "exclamationmark.triangle")
-                                .padding(.top, 40)
-                                .padding(.bottom, 10)
-                            Text("No fundraisers yet")
-                            
-                            Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-fm/relay-fm-for-st-jude-2023/start/cause-summary")!)
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .padding(.horizontal, 20)
-                                .background(Color.accentColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                .padding()
+                            if isLoading {
+                                
+                                ProgressView()
+                                    .padding(.top, 40)
+                                    .padding(.bottom, 10)
+                                Text("Loading ...")
+                                    .padding(.bottom, 40)
+                                
+                            } else {
+                                
+                                Image(systemName: "exclamationmark.triangle")
+                                    .padding(.top, 40)
+                                    .padding(.bottom, 10)
+                                Text("No fundraisers yet")
+                                
+                                Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-fm/relay-fm-for-st-jude-2023/start/cause-summary")!)
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .padding(.horizontal, 20)
+                                    .background(Color.accentColor)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    .padding()
+                                
+                            }
                             
                         }
-                        
                     }
-                }
-                .padding(.bottom)
+                    
+                    }
+                    .padding(.bottom)
+                
             }
+        }
         }
         .refreshable {
             await refresh()
