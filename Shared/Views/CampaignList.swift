@@ -266,7 +266,7 @@ struct CampaignList: View {
                             
                             Button(action: {
                                 while true {
-                                    if let random = campaigns.randomElement(), random.id != RELAY_FUNDRAISER_ID {
+                                    if let random = campaigns.randomElement(), random.id != RELAY_CAMPAIGN {
                                         selectedCampaignId = random.id
                                         break
                                     }
@@ -351,6 +351,7 @@ struct CampaignList: View {
                 .padding(.bottom)
             }
         }
+        .background(BrandShapeBackground())
         .refreshable {
             await refresh()
         }
