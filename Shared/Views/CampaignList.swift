@@ -8,10 +8,6 @@
 import SwiftUI
 import GRDB
 
-let HIDDEN_CAMPAIGN_IDS: Set<UUID> = [
-    RELAY_CAMPAIGN
-]
-
 enum FundraiserSortOrder: Int, CaseIterable {
     case byName
     case byAmountRaised

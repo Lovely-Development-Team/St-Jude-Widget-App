@@ -36,7 +36,8 @@ class CampaignConfigurationIntentHandler: NSObject, CampaignLockScreenConfigurat
             }
             return c1.name.lowercased() < c2.name.lowercased()
         }
-        .map { campaign -> INWidgetCampaign in
+        .compactMap { campaign -> INWidgetCampaign? in
+            guard !HIDDEN_CAMPAIGN_IDS.contains(campaign.id) else { return nil }
             let prefix = campaign.isStarred ? "⭐️ " : ""
             let widgetCampaign = INWidgetCampaign(identifier: campaign.id.uuidString, display: "\(prefix) \(campaign.user.name) — \(campaign.title)")
             widgetCampaign.slug = campaign.slug

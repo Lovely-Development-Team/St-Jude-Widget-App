@@ -10,6 +10,10 @@ import GRDB
 
 let RELAY_CAMPAIGN: UUID = UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb9066")!
 
+let HIDDEN_CAMPAIGN_IDS: Set<UUID> = [
+    RELAY_CAMPAIGN
+]
+
 final class AppDatabase {
     /// Creates an `AppDatabase`, and make sure the database schema is ready.
     init(_ dbWriter: DatabaseWriter) throws {
