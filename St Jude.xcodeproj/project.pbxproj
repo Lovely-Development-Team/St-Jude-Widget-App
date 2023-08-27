@@ -246,6 +246,8 @@
 		BA2A9C9A28C068CF001D66E1 /* SupporterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2A9C9928C068CF001D66E1 /* SupporterView.swift */; };
 		BA2A9C9B28C068CF001D66E1 /* SupporterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2A9C9928C068CF001D66E1 /* SupporterView.swift */; };
 		D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D544692526DFE14D00EA04C9 /* EasterEggView.swift */; };
+		D598D6722A9B71F80046200C /* ShapesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D598D6712A9B71F80046200C /* ShapesView.swift */; };
+		D598D6732A9B71F80046200C /* ShapesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D598D6712A9B71F80046200C /* ShapesView.swift */; };
 		DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 		DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
 		DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0F34BC26DA692C00F268C9 /* DeviceType.swift */; };
@@ -477,6 +479,7 @@
 		BA2A9C9928C068CF001D66E1 /* SupporterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterView.swift; sourceTree = "<group>"; };
 		BAD9E11726DEFE41001BB7B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
 		D544692526DFE14D00EA04C9 /* EasterEggView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggView.swift; sourceTree = "<group>"; };
+		D598D6712A9B71F80046200C /* ShapesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapesView.swift; sourceTree = "<group>"; };
 		DE0F34BC26DA692C00F268C9 /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		DE9E595326D56EF90009C060 /* Tiltify St Jude WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tiltify St Jude WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		DE9E595426D57A840009C060 /* St-Jude--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "St-Jude--iOS--Info.plist"; sourceTree = "<group>"; };
@@ -729,6 +732,7 @@
 				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
 				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 				5ED5638528AEBAC5004A65A5 /* CampaignList.swift */,
+				D598D6712A9B71F80046200C /* ShapesView.swift */,
 				5E253D9628B64DE300CF024F /* FundraiserListItem.swift */,
 				5E482E4F28B7B03C00131DE1 /* CampaignView.swift */,
 				5EC5147728D50F7E00CB00DC /* DonorList.swift */,
@@ -1204,6 +1208,7 @@
 				5EF748C926DF748F008174DF /* Notifications.swift in Sources */,
 				BA2A9C9A28C068CF001D66E1 /* SupporterView.swift in Sources */,
 				5EE0EC1928BF9FEC0053C9D1 /* View+asImage.swift in Sources */,
+				D598D6722A9B71F80046200C /* ShapesView.swift in Sources */,
 				D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */,
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
@@ -1218,6 +1223,7 @@
 			files = (
 				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
 				63E19D5626E22B41009F318F /* BlurView.swift in Sources */,
+				D598D6732A9B71F80046200C /* ShapesView.swift in Sources */,
 				63E19D5926E22D7D009F318F /* Color.swift in Sources */,
 				5EE56C0E2A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
