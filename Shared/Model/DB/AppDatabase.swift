@@ -8,6 +8,8 @@
 import Foundation
 import GRDB
 
+let RELAY_CAMPAIGN: UUID = UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb9066")!
+
 final class AppDatabase {
     /// Creates an `AppDatabase`, and make sure the database schema is ready.
     init(_ dbWriter: DatabaseWriter) throws {
@@ -235,7 +237,7 @@ extension AppDatabase {
     }
     
     func fetchRelayCampaign() async throws -> Campaign? {
-        try await fetchCampaign(with: UUID(uuidString: "8a17ee82-b90a-4aba-a22f-e8cc7e8cf410")!)
+        try await fetchCampaign(with: RELAY_CAMPAIGN)
     }
     
     @discardableResult

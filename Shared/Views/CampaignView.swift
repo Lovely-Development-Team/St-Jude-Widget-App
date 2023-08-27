@@ -14,6 +14,7 @@ struct CampaignView: View {
     // MARK: 2023
     @State private var teamEvent: TeamEvent?
     @State private var teamEventObservation: ValueObservation<ValueReducers.Fetch<TeamEvent?>>?
+    @State private var relayCampaign: Campaign? = nil
     
     // MARK: 2022
     
@@ -150,7 +151,7 @@ struct CampaignView: View {
                     
                     Link("Visit the \(teamEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
                         .font(.headline)
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .padding(10)
                         .padding(.horizontal, 20)
                         .background(Color.accentColor)
@@ -195,7 +196,7 @@ struct CampaignView: View {
                     }
                 }
                 
-                if !donations.isEmpty, let campaign = initialCampaign {
+                if !donations.isEmpty, let campaign = initialCampaign ?? relayCampaign {
                     NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
                         GroupBox {
                             HStack {
@@ -477,6 +478,20 @@ struct CampaignView: View {
                 
                 await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.milestones)
                 await self.updateRewardsInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.rewards)
+
+                do {
+                    dataLogger.debug("Fetching donors for Relay campaign")
+                    relayCampaign = try await AppDatabase.shared.fetchRelayCampaign()
+                    if let campaign = relayCampaign {
+                        let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+                        withAnimation {
+                            donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
+                            topDonor = apiDonorsResponse.data.campaign.topDonation
+                        }
+                    }
+                } catch {
+                    dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+                }
                 
             } else {
                 dataLogger.debug("[CampignView] Could not update team event")
