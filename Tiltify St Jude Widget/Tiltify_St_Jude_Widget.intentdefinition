@@ -47,26 +47,6 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Relay FM (Inverted)</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>bM2SX7</string>
-					<key>INEnumValueIndex</key>
-					<integer>3</integer>
-					<key>INEnumValueName</key>
-					<string>relayinverted</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>St. Jude (Inverted)</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>Pid6QQ</string>
-					<key>INEnumValueIndex</key>
-					<integer>4</integer>
-					<key>INEnumValueName</key>
-					<string>stjudeinverted</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
 					<string>Relay FM (True Black)</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>0Nwb1h</string>
@@ -85,6 +65,56 @@
 					<key>INEnumValueName</key>
 					<string>stjudetrueblack</string>
 				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Yellow</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>XxkG1s</string>
+					<key>INEnumValueIndex</key>
+					<integer>7</integer>
+					<key>INEnumValueName</key>
+					<string>yellow</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Red</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>bI96uX</string>
+					<key>INEnumValueIndex</key>
+					<integer>8</integer>
+					<key>INEnumValueName</key>
+					<string>red</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Blue</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>nBKDjl</string>
+					<key>INEnumValueIndex</key>
+					<integer>9</integer>
+					<key>INEnumValueName</key>
+					<string>blue</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Green</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>gCSogJ</string>
+					<key>INEnumValueIndex</key>
+					<integer>10</integer>
+					<key>INEnumValueName</key>
+					<string>green</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Purple</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>zwAMex</string>
+					<key>INEnumValueIndex</key>
+					<integer>11</integer>
+					<key>INEnumValueName</key>
+					<string>purple</string>
+				</dict>
 			</array>
 		</dict>
 	</array>
@@ -93,11 +123,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21G83</string>
+	<string>22G74</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>14A5294e</string>
+	<string>15A5219j</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>14.0</string>
+	<string>15.0</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -1057,26 +1087,6 @@
 							<true/>
 							<key>INIntentParameterPromptDialogType</key>
 							<string>Primary</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>There are ${count} options matching ‘${campaign}’.</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>8N4WkY</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>DisambiguationIntroduction</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Just to confirm, you wanted ‘${campaign}’?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>sFoGBm</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Confirmation</string>
 						</dict>
 					</array>
 					<key>INIntentParameterSupportsDynamicEnumeration</key>

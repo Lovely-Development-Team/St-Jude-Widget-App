@@ -154,7 +154,7 @@ struct EntryView: View {
 struct EntryViewPreview: PreviewProvider {
     static var previews: some View {
         Group {
-            EntryView(campaign: .constant(sampleCampaignSingleMilestone), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .relayinverted)
+            EntryView(campaign: .constant(sampleCampaignSingleMilestone), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .red)
                 .frame(width: 300, height: 378)
                 .cornerRadius(15)
             EntryView(campaign: .constant(sampleCampaignTwoMilestones), showMilestones: true, preferFutureMilestones: true, showFullCurrencySymbol: false, showGoalPercentage: true, showMilestonePercentage: true, appearance: .stjude)

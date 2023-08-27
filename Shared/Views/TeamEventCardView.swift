@@ -12,6 +12,7 @@ struct TeamEventCardView: View {
     let teamEvent: TeamEvent?
     let showDisclosureIndicator: Bool
     var showShareIcon: Bool = false
+    var appearance: WidgetAppearance = .yellow
     @Binding var showShareSheet: Bool
     @State var showShareLinkSheet: ShareURL? = nil
     
@@ -84,23 +85,24 @@ struct TeamEventCardView: View {
                 .padding(.bottom, 20)
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
-                    mainProgressBar(value: Float(percentageReached), color: .accentColor) // fundraisingEvent.colors.highlightColor)
+                    /*mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)*/ // fundraisingEvent.colors.highlightColor)
+                    mainProgressBar(value: 0.5, color: appearance.fillColor)
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {
                     mainPercentageReached(Text("\(percentageReachedDesc) of \(teamEvent.goal.description(showFullCurrencySymbol: false))"))
                 }
             } else {
-                mainProgressBar(value: 0, color: .accentColor)
+                mainProgressBar(value: 0, color: appearance.fillColor)
                 mainAmountRaised(Text("PLACEHOLDER"))
                     .redacted(reason: .placeholder)
                 mainPercentageReached(Text("PLACEHOLDER"))
                     .redacted(reason: .placeholder)
             }
         }
-        .foregroundColor(.black)
+        .foregroundColor(appearance.foregroundColor)
         .padding()
-        .background(LinearGradient(colors: WidgetAppearance.relayinverted.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
 //        .background(Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .cornerRadius(10)
         .sheet(item: $showShareLinkSheet) { url in
