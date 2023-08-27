@@ -25,8 +25,7 @@ struct AboutView: View {
                 Link(destination: URL(string: "https://512pixels.net/2023/08/relay-fm-st-jude-2023/")!) {
                     Text("Read Stephen's post")
                         .font(.headline)
-//                        .foregroundColor(.white)
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .padding(10)
                         .padding(.horizontal, 20)
                         .background(Color.accentColor)

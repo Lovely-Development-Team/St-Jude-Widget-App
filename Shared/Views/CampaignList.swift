@@ -9,7 +9,7 @@ import SwiftUI
 import GRDB
 
 let HIDDEN_CAMPAIGN_IDS: Set<UUID> = [
-    UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb9066")!
+    RELAY_CAMPAIGN
 ]
 
 enum FundraiserSortOrder: Int, CaseIterable {
