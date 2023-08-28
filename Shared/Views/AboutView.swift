@@ -17,13 +17,14 @@ struct AboutView: View {
                 .aspectRatio(contentMode: .fit)
             ScrollView {
                 VStack(spacing: 20) {
-                    GroupBox {
-                        Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
-                    }
-                    .preferredColorScheme(.dark)
+                    Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
+                        .padding()
+                        .foregroundStyle(Color.white)
+                        .background(Color(red: 28 / 255, green: 28 / 255, blue: 30 / 255))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     Text("Every year throughout the month of September, Relay FM raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .preferredColorScheme(.dark)
+                        .foregroundStyle(.white)
                     Link(destination: URL(string: "https://512pixels.net/2023/08/relay-fm-st-jude-2023/")!) {
                         Text("Read Stephen's post")
                             .font(.headline)
@@ -35,14 +36,13 @@ struct AboutView: View {
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                     }
                     Divider()
-                        .preferredColorScheme(.dark)
                     Text("About the app")
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .preferredColorScheme(.dark)
+                        .foregroundStyle(.white)
                     Text("This app was developed by a group of friends from around the world, who came together thanks to Relay FM's membership program.")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .preferredColorScheme(.dark)
+                        .foregroundStyle(.white)
                     //                Text("Our thanks go to everybody who donates to St. Jude via our fundraiser:")
                     //                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     //                Button(action: {
@@ -62,7 +62,6 @@ struct AboutView: View {
                         Link("tildy.dev", destination: URL(string: "https://tildy.dev")!)
                         Spacer()
                     }
-                    .preferredColorScheme(.dark)
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
