@@ -151,6 +151,5 @@ struct FundraiserListItem: View {
             }
         }
         .foregroundColor(.primary)
-        .opacity(0.9)
     }
 }
