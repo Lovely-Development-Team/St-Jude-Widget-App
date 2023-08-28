@@ -68,6 +68,19 @@ struct AboutView: View {
             }
             .padding(.top, -180)
         }
+        .overlay(alignment: .topTrailing) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Image(systemName: "xmark")
+                    .foregroundStyle(Color.white)
+                    .padding([.all], 7)
+                    .background(Color.gray.opacity(0.75))
+                    .clipShape(Circle())
+                    .shadow(radius: 5)
+            })
+            .padding()
+        }
         .background(.black)
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
