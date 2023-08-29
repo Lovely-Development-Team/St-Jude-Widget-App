@@ -18,6 +18,32 @@ struct BrandShape: View {
     }
 }
 
+let BRAND_SHAPE_NUMBERS: [Int] = [
+    58,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    71,
+    72,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    111,
+    114,
+]
+
 struct BrandShapeBackground: View {
     var opacity: CGFloat = 0.3
     var body: some View {
