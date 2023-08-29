@@ -93,6 +93,8 @@
 		5EEB568A2A9BE897008AABF1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
 		5EEB568B2A9BE8F9008AABF1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
 		5EEB568C2A9BE8F9008AABF1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E19D5726E22D78009F318F /* Color.swift */; };
+		5EEB568E2A9DE3BA008AABF1 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB568D2A9DE3BA008AABF1 /* Leaderboard.swift */; };
+		5EEB568F2A9DE3BA008AABF1 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB568D2A9DE3BA008AABF1 /* Leaderboard.swift */; };
 		5EF748C926DF748F008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C726DF748F008174DF /* CheckNewMilestones.swift */; };
 		5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */; };
@@ -408,6 +410,7 @@
 		5EE56C0C2A7BA14D00FA71DF /* TeamEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEvent.swift; sourceTree = "<group>"; };
 		5EE56C122A7BBF4F00FA71DF /* ApiClientRequestQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClientRequestQueries.swift; sourceTree = "<group>"; };
 		5EEB56862A9BDE07008AABF1 /* BrandShapeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandShapeBackground.swift; sourceTree = "<group>"; };
+		5EEB568D2A9DE3BA008AABF1 /* Leaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
 		5EF748C626DF748F008174DF /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
 		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
@@ -744,6 +747,7 @@
 				5E1705C328C0C47000E70019 /* AboutView.swift */,
 				5EC5147A28D5AE8100CB00DC /* DonorChart.swift */,
 				5EEB56862A9BDE07008AABF1 /* BrandShapeBackground.swift */,
+				5EEB568D2A9DE3BA008AABF1 /* Leaderboard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1208,6 +1212,7 @@
 				5E7C2FFC28C5403600A9B0D5 /* SearchBar.swift in Sources */,
 				63E19D5E26E2339C009F318F /* SystemSettings.swift in Sources */,
 				5EE0EC1628BF96B20053C9D1 /* ShareCampaignView.swift in Sources */,
+				5EEB568E2A9DE3BA008AABF1 /* Leaderboard.swift in Sources */,
 				6357658326D25309004F04DE /* ApiClient.swift in Sources */,
 				5E7C2FF928C521BB00A9B0D5 /* UnicornView.swift in Sources */,
 				5EF748C926DF748F008174DF /* Notifications.swift in Sources */,
@@ -1232,6 +1237,7 @@
 				5EE56C0E2A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
 				5E366E1528B8FC41001BA937 /* UserDefaults+CampaignList.swift in Sources */,
+				5EEB568F2A9DE3BA008AABF1 /* Leaderboard.swift in Sources */,
 				5EE0EC1128BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				5E180C2228B7F3F400F10BE5 /* Reward.swift in Sources */,
 				63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */,

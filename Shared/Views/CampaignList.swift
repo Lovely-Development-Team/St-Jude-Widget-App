@@ -58,6 +58,8 @@ struct CampaignList: View {
     @State private var campaignsHaveClosed: Bool = false
     @State private var showStephen: Bool = false
     
+    @State private var showLeaderboard: Bool = false
+    
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     let closingDate: Date? = nil // Date(timeIntervalSince1970: 1698710400)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -199,6 +201,12 @@ struct CampaignList: View {
                                 )
                         }
                         Spacer()
+                        Button(action: {
+                            showLeaderboard = true
+                        }) {
+                            Label("Leaderboard", systemImage: "trophy")
+                                .labelStyle(.iconOnly)
+                        }
                         Menu {
                             ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
                                 Button(action: {
@@ -400,6 +408,14 @@ struct CampaignList: View {
         .sheet(isPresented: $showAboutSheet) {
             NavigationView {
                 AboutView()
+            }
+        }
+        .sheet(isPresented: $showLeaderboard) {
+            NavigationView {
+                Leaderboard(campaigns: $campaigns) { campaign in
+                    showLeaderboard = false
+                    selectedCampaignId = campaign.id
+                }
             }
         }
         .toolbar {
