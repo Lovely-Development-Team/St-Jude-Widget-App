@@ -19,6 +19,9 @@ struct ProgressBar: View {
     let fillColor: Color
     var circularShape: Bool = false
     var circleStrokeWidth: CGFloat = 30
+    var showDivider: Bool = false
+    var dividerColor: Color = .white
+    var dividerWidth: CGFloat = 1
     
     var longProgressBar: some View {
         GeometryReader { geometry in
@@ -27,6 +30,13 @@ struct ProgressBar: View {
                     .foregroundColor(barColour)
                 Rectangle().frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width), height: geometry.size.height)
                     .foregroundColor(fillColor)
+                if showDivider && value != 0 && value != 1 {
+                    Rectangle()
+                        .fill(dividerColor)
+                        .frame(width: dividerWidth)
+                        .offset(x: min(CGFloat(self.value)*geometry.size.width, geometry.size.width))
+                    
+                }
             }.clipShape(Capsule())
         }
     }
@@ -69,7 +79,7 @@ struct ProgressBar: View {
 struct ProgressBar_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ProgressBar(value: .constant(0.55), fillColor: .red)
+            ProgressBar(value: .constant(0.55), fillColor: .red, showDivider: true)
                 .frame(height: 30)
             ProgressBar(value: .constant(0.25), fillColor: .red, circularShape: true, circleStrokeWidth: 50)
         }
