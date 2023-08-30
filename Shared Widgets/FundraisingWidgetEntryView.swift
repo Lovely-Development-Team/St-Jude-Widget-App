@@ -57,9 +57,18 @@ struct FundraisingWidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
-    var entryView: some View {
+    var rawEntryView: some View {
         EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
-            .widgetURL(URL(string: entry.campaign.widgetURL)!)
+    }
+    
+    @ViewBuilder
+    var entryView: some View {
+        if entry.configuration.openFundraiserOnTap?.boolValue == true {
+            rawEntryView
+                .widgetURL(URL(string: entry.campaign.widgetURL)!)
+        } else {
+            rawEntryView
+        }
     }
     
     var body: some View {
