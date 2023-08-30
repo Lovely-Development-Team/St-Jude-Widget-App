@@ -38,8 +38,8 @@ struct Campaign: Identifiable, Hashable {
     var totalRaisedNumerical: Double {
         totalRaisedNumericalValue ?? 0
     }
-    func totalRaisedDescription(showFullCurrencySymbol: Bool) -> String {
-        currencyDescription(showFullCurrencySymbol: showFullCurrencySymbol, value: totalRaisedNumerical, currency: totalRaisedCurrency)
+    func totalRaisedDescription(showFullCurrencySymbol: Bool, trimDecimalPlaces: Bool = false) -> String {
+        currencyDescription(showFullCurrencySymbol: showFullCurrencySymbol, value: totalRaisedNumerical, currency: totalRaisedCurrency, trimDecimalPlaces: trimDecimalPlaces)
     }
     private let username: String
     private let userSlug: String
@@ -74,7 +74,7 @@ struct Campaign: Identifiable, Hashable {
         return descriptionString
     }
     
-    private func currencyDescription(showFullCurrencySymbol: Bool, value: Double, currency: String) -> String {
+    private func currencyDescription(showFullCurrencySymbol: Bool, value: Double, currency: String, trimDecimalPlaces: Bool = false) -> String {
         
         let currencyFormatter = NumberFormatter()
         currencyFormatter.numberStyle = .currency
@@ -93,6 +93,10 @@ struct Campaign: Identifiable, Hashable {
         let descriptionString = currencyFormatter.string(from: value as NSNumber) ?? "\(currency) 0"
         currencyFormatter.currencySymbol = originalSymbol
         currencyFormatter.currencyCode = originalCode
+        
+        if trimDecimalPlaces && descriptionString.hasSuffix("00") {
+            return String(descriptionString.dropLast(3))
+        }
         
         return descriptionString
     }
@@ -231,5 +235,129 @@ extension Campaign {
                         userSlug: self.userSlug,
                         isStarred: isStarred)
     }
+    
+}
+
+extension Campaign {
+    
+    func updateFromAPI() async -> Campaign? {
+        
+        dataLogger.debug("Updating \(self.id) from the API...")
+        
+        let response: TiltifyResponse
+        do {
+            response = try await ApiClient.shared.fetchCampaign(vanity: self.user.slug, slug: self.slug)
+        } catch {
+            dataLogger.error("\(self.id) Fetching campaign failed: \(error.localizedDescription)")
+            return nil
+        }
+        
+        let apiCampaign = self.updated(fromCampaign: response.data.campaign)
+        do {
+            if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: self) {
+                dataLogger.info("\(self.id) Updated stored campaign: \(apiCampaign.id)")
+                
+                await self.updateMilestonesInDatabase(with: response.data.campaign.milestones)
+                await self.updateRewardsInDatabase(with: response.data.campaign.rewards)
+                
+                return apiCampaign
+            }
+        } catch {
+            dataLogger.error("\(self.id) Updating stored campaign failed: \(error.localizedDescription)")
+        }
+        
+        return nil
+        
+    }
+    
+    func updateMilestonesInDatabase(with apiMilestones: [TiltifyMilestone]) async {
+        
+        var keyedApiMilestones: [UUID: Milestone] = apiMilestones.reduce(into: [:]) { partialResult, ms in
+            partialResult.updateValue(Milestone(from: ms, campaignId: self.id, teamEventId: nil), forKey: ms.publicId)
+        }
+        
+        do {
+            let dbMilestones: [Milestone] = try await AppDatabase.shared.fetchSortedMilestones(for: self)
+            // For each milestone from the database...
+            for dbMilestone in dbMilestones {
+                if let apiMilestone = keyedApiMilestones[dbMilestone.id] {
+                    // Update it from the API if it exists...
+                    keyedApiMilestones.removeValue(forKey: dbMilestone.id)
+                    dataLogger.debug("Updating Milestone \(apiMilestone.name)")
+                    do {
+                        try await AppDatabase.shared.updateMilestone(apiMilestone, changesFrom: dbMilestone)
+                    } catch {
+                        dataLogger.error("Failed to update Milestone: \(apiMilestone.name): \(error.localizedDescription)")
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Milestone \(dbMilestone.name)")
+                    do {
+                        try await AppDatabase.shared.deleteMilestone(dbMilestone)
+                    } catch {
+                        dataLogger.error("Failed to delete Milestone \(dbMilestone.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            // For each new milestone in the API, save it to the database
+            for apiMilestone in keyedApiMilestones.values {
+                dataLogger.debug("Creating Milestone: \(apiMilestone.name)")
+                do {
+                    try await AppDatabase.shared.saveMilestone(apiMilestone)
+                } catch {
+                    dataLogger.error("Failed to save Milestone \(apiMilestone.name): \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            dataLogger.debug("Failed to update Milestones: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    func updateRewardsInDatabase(with apiRewards: [TiltifyCampaignReward]) async {
+        
+        var keyedApiRewards: [UUID: Reward] = apiRewards.reduce(into: [:]) { partialResult, reward in
+            partialResult.updateValue(Reward(from: reward, campaignId: self.id, teamEventId: nil), forKey: reward.publicId)
+        }
+        
+        do {
+            let dbRewards: [Reward] = try await AppDatabase.shared.fetchSortedRewards(for: self)
+            // For each reward from the database...
+            for dbReward in dbRewards {
+                if let apiReward = keyedApiRewards[dbReward.id] {
+                    // Update it from the API if it exists...
+                    keyedApiRewards.removeValue(forKey: dbReward.id)
+                    dataLogger.debug("Updating Reward \(apiReward.name)")
+                    do {
+                        try await AppDatabase.shared.updateReward(apiReward, changesFrom: dbReward)
+                    } catch {
+                        dataLogger.error("Failed to update Reward: \(apiReward.name): \(error.localizedDescription)")
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Reward \(dbReward.name)")
+                    do {
+                        try await AppDatabase.shared.deleteReward(dbReward)
+                    } catch {
+                        dataLogger.error("Failed to delete Reward \(dbReward.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            // For each new reward in the API, save it to the database
+            for apiReward in keyedApiRewards.values {
+                dataLogger.debug("Creating Reward: \(apiReward.name)")
+                do {
+                    try await AppDatabase.shared.saveReward(apiReward)
+                } catch {
+                    dataLogger.error("Failed to save Reward \(apiReward.name): \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            dataLogger.debug("Failed to update Rewards: \(error.localizedDescription)")
+        }
+        
+    }
+    
+
     
 }
