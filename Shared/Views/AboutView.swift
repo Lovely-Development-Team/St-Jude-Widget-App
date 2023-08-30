@@ -65,6 +65,22 @@ struct AboutView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
+                .background {
+                    Color.black
+                        .mask {
+                            VStack(spacing: 0) {
+                                Rectangle()
+                                    .foregroundStyle(
+                                        LinearGradient(stops: [
+                                            .init(color: .clear, location: 0),
+                                            .init(color: .clear, location: 0.5),
+                                            .init(color: .black, location: 1)
+                                        ],startPoint: .top,endPoint: .bottom))
+                                    .frame(height: 200)
+                                Color.black
+                            }
+                        }
+                }
             }
             .padding(.top, -180)
         }
