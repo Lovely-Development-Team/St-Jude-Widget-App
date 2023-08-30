@@ -65,6 +65,7 @@ struct AboutView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
+                .padding(.top, 10)
                 .background {
                     Color.black
                         .mask {
@@ -82,7 +83,18 @@ struct AboutView: View {
                         }
                 }
             }
-            .padding(.top, -180)
+            .padding(.top, -190)
+            .mask {
+                VStack(spacing: 0) {
+                    LinearGradient(stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .black, location: 1)
+                    ], startPoint: .top, endPoint: .bottom)
+                    .frame(height: 10)
+                    Color.black
+                }
+                .padding(.top, -190)
+            }
         }
         .overlay(alignment: .topTrailing) {
             Button(action: {
