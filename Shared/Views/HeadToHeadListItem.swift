@@ -23,7 +23,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(WidgetAppearance.red.foregroundColor)
+                    .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                 Text("vs")
                     .bold()
                     .padding(.all, 4)
@@ -33,7 +33,7 @@ struct HeadToHeadListItem: View {
                         .bold()
                         .multilineTextAlignment(.center)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(WidgetAppearance.purple.foregroundColor)
+                        .foregroundColor(HEAD_TO_HEAD_COLOR_2.foregroundColor)
             }
             Image(systemName: "crown.fill")
                 .font(.system(size: 30))
@@ -44,8 +44,8 @@ struct HeadToHeadListItem: View {
         .padding()
         .background(
             HStack(spacing: 2) {
-                Color.brandRed
-                Color.brandPurple
+                HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
+                HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
             }
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
