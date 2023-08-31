@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.blue
+let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.red
 let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.purple
 
 struct HeadToHeadView: View {
@@ -92,15 +92,17 @@ struct HeadToHeadView: View {
             VStack {
                 if animateIn {
                     Text("Fundraiser")
+                        .padding(.top, 5)
                     Text("Head to Head!")
                 }
+//                Rectangle().fill(.white).frame(height: 2)
             }
             .font(.title)
             .bold()
-            .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
+//            .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
             .frame(minWidth: 0, maxWidth: .infinity)
             .frame(minHeight: 105)
-            .background(
+            .overlay(
                 HStack {
                     if animateIn {
                         Image("myke")
@@ -120,11 +122,12 @@ struct HeadToHeadView: View {
                             }
                         }
                         .offset(x: 0, y: animateMyke ? -5 : 0)
-                        .animation(animateMyke ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default)
+                        .animation(animateMyke ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default, value: animateMyke)
                         .background(
                             VStack {
                                 Spacer()
                                 Ellipse()
+                                    .fill(.black)
                                     .frame(height: 5)
                                     .blur(radius: 10)
                                     .opacity(0.8)
@@ -149,11 +152,12 @@ struct HeadToHeadView: View {
                             }
                         }
                         .offset(x: 0, y: animateStephen ? -5 : 0)
-                        .animation(animateStephen ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default)
+                        .animation(animateStephen ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default, value: animateStephen)
                         .background(
                             VStack {
                                 Spacer()
                                 Ellipse()
+                                    .fill(.black)
                                     .frame(height: 5)
                                     .blur(radius: 10)
                                     .opacity(0.8)
@@ -164,9 +168,10 @@ struct HeadToHeadView: View {
                 }
                 .padding()
             )
-            .padding(.top)
+//            .padding(.top)
             .zIndex(2)
-            .background(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+            .background(Color(uiColor: .systemBackground))
+//            .background(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
             ZStack {
                 VStack(spacing: 0) {
                     HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
@@ -263,22 +268,24 @@ struct HeadToHeadView: View {
                 .offset(y: 20)
                 .clipped()
             }
-            .padding(.bottom)
-            .edgesIgnoringSafeArea(.bottom)
+//            .border(.red)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+//            .padding(.bottom)
+//            .edgesIgnoringSafeArea(.bottom)
         }
+        .padding()
         .background(
 //            HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
 //            VStack(spacing: 0) {
 //                HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
 //                HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
 //            }
-            HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
+//            HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
         )
-        .tint(.white)
-        .toolbarBackground(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-        .edgesIgnoringSafeArea(.bottom)
+//        .toolbarBackground(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+//        .edgesIgnoringSafeArea(.bottom)
 //        .toolbar {
-//            ToolbarItem(placement: .topBarLeading) {
+//            ToolbarItem(placement: .topBarTrailing) {
 //                Button(action: {
 //                    presentationMode.wrappedValue.dismiss()
 //                }) {
@@ -288,10 +295,12 @@ struct HeadToHeadView: View {
 //                        Text("Back")
 //                    }
 //                }
-//                .foregroundStyle(Color.white)
+////                .foregroundStyle(Color.white)
 //            }
 //        }
 //        .navigationBarBackButtonHidden()
+//        .tint(.white)
+//        .toolbarColorScheme(.dark)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.easeOut) {
