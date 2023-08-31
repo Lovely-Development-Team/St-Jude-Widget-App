@@ -42,6 +42,7 @@ struct CampaignList: View {
     // MARK: 2022
     
     @State private var campaigns: [Campaign] = []
+    @State private var headToHeads: [HeadToHeadWithCampaigns] = []
     @StateObject private var apiClient = ApiClient.shared
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
@@ -59,6 +60,7 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     @State private var showLeaderboard: Bool = false
+    @State private var showHeadToHeadChoice: Campaign? = nil
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     let closingDate: Date? = nil // Date(timeIntervalSince1970: 1698710400)
@@ -126,6 +128,30 @@ struct CampaignList: View {
             return sortedCampaigns
         } else {
             return sortedCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
+        }
+    }
+    
+    @ViewBuilder
+    var headToHeadList: some View {
+        ForEach(headToHeads, id: \.headToHead.id) { headToHead in
+            NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
+                HeadToHeadListItem(headToHead: headToHead)
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            Task {
+                                do {
+                                    try await AppDatabase.shared.deleteHeadToHead(headToHead.headToHead)
+                                } catch {
+                                    dataLogger.error("Could not delete head to head: \(error.localizedDescription)")
+                                }
+                                await fetch()
+                            }
+                        } label: {
+                            Label("Remove Head to Head", systemImage: "trash")
+                        }
+                    }
+            }
+            .padding(.top)
         }
     }
     
@@ -252,8 +278,6 @@ struct CampaignList: View {
                                 .id("SEARCH_BAR")
                         }
                         
-                        
-                        
                         if selectedCampaignId != nil {
                             /// In order to open a selected campaign when a widget is tapped, the corresponding
                             /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
@@ -267,6 +291,10 @@ struct CampaignList: View {
                         }
                         
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                            
+                            if !showSearchBar {
+                                headToHeadList
+                            }
                             
                             Button(action: {
                                 while true {
@@ -294,6 +322,13 @@ struct CampaignList: View {
                                 if !HIDDEN_CAMPAIGN_IDS.contains(campaign.id) {
                                     NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                                         FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
+                                            .contextMenu {
+                                                Button(action: {
+                                                    showHeadToHeadChoice = campaign
+                                                }) {
+                                                    Label("Start Head to Head", systemImage: "trophy")
+                                                }
+                                            }
                                     }
                                     .padding(.top)
                                 }
@@ -418,6 +453,22 @@ struct CampaignList: View {
                 }
             }
         }
+        .sheet(item: $showHeadToHeadChoice) { firstCampaign in
+            NavigationView {
+                ChooseCampaignView() { otherCampaign in
+                    Task {
+                        let headToHead = HeadToHead(id: UUID(), campaignId1: firstCampaign.id, campaignId2: otherCampaign.id)
+                        do {
+                            try await AppDatabase.shared.saveHeadToHead(headToHead)
+                        } catch {
+                            dataLogger.error("Could not create Head to Head: \(error.localizedDescription)")
+                        }
+                        await fetch()
+                        selectedCampaignId = headToHead.id
+                    }
+                }
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
@@ -530,6 +581,12 @@ struct CampaignList: View {
             try Task.checkCancellation()
             campaigns = try await AppDatabase.shared.fetchAllCampaigns()
             dataLogger.notice("Fetched stored campaigns")
+            let fetchedHeadToHeads = try await AppDatabase.shared.fetchAllHeadToHeads()
+            withAnimation {
+                headToHeads = fetchedHeadToHeads
+            }
+            dataLogger.notice("Fetched stored head to heads")
+            
         } catch is CancellationError {
             dataLogger.info("Campaign fetch cancelled")
         }
