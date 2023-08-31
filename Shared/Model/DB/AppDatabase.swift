@@ -175,6 +175,14 @@ final class AppDatabase {
             
         }
         
+        migrator.registerMigration("createHeadToHeadTable") { db in
+            try db.create(table: "headToHead") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("campaignId1", .blob).references("campaign")
+                t.column("campaignId2", .blob).references("campaign")
+            }
+        }
+        
         return migrator
     }
 }
@@ -230,6 +238,12 @@ extension AppDatabase {
         }
     }
     
+    func fetchAllHeadToHeads() async throws -> [HeadToHeadWithCampaigns] {
+        try await dbWriter.read { db in
+            try HeadToHead.including(required: HeadToHead.campaign1).including(required: HeadToHead.campaign2).asRequest(of: HeadToHeadWithCampaigns.self).fetchAll(db)
+        }
+    }
+    
     private func fetchCampaign(using db: Database, with id: UUID) throws -> Campaign? {
         try Campaign.fetchOne(db, id: id)
     }
@@ -237,6 +251,16 @@ extension AppDatabase {
     func fetchCampaign(with id: UUID) async throws -> Campaign? {
         try await dbWriter.read { db in
             try Campaign.fetchOne(db, id: id)
+        }
+    }
+    
+    private func fetchHeadToHead(using db: Database, with id: UUID) throws -> HeadToHead? {
+        try HeadToHead.fetchOne(db, id: id)
+    }
+    
+    func fetchHeadToHead(with id: UUID) async throws -> HeadToHead? {
+        try await dbWriter.read { db in
+            try HeadToHead.fetchOne(db, id: id)
         }
     }
     
@@ -255,6 +279,20 @@ extension AppDatabase {
     func saveCampaign(_ campaign: Campaign) async throws -> Campaign {
         try await dbWriter.write { db in
             try campaign.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deleteHeadToHead(_ headToHead: HeadToHead) async throws -> Bool {
+        try await dbWriter.write { db in
+            try headToHead.delete(db)
+        }
+    }
+    
+    @discardableResult
+    func saveHeadToHead(_ headToHead: HeadToHead) async throws -> HeadToHead {
+        try await dbWriter.write { db in
+            try headToHead.saved(db)
         }
     }
 
