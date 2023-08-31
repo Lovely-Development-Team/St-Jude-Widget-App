@@ -8,6 +8,9 @@
 import SwiftUI
 import Kingfisher
 
+let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.blue
+let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.purple
+
 struct HeadToHeadView: View {
     @Environment(\.presentationMode) var presentationMode
 
@@ -55,7 +58,7 @@ struct HeadToHeadView: View {
     }
 
     @ViewBuilder
-    func campaignDetails(for campaign: Campaign, alignment: TextAlignment, color: Color) -> some View {
+    func campaignDetails(for campaign: Campaign, alignment: TextAlignment) -> some View {
         ZStack(alignment: alignment == .leading ? .topTrailing : .topLeading) {
             HStack(alignment: .top) {
                 if alignment == .leading {
@@ -76,6 +79,13 @@ struct HeadToHeadView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
         }
     }
+    
+    @State private var animateMyke = false
+    @State private var animateStephen = false
+    #if !os(macOS)
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    let selectionHaptics = UISelectionFeedbackGenerator()
+    #endif
 
     var body: some View {
         VStack(spacing: 0) {
@@ -87,7 +97,7 @@ struct HeadToHeadView: View {
             }
             .font(.title)
             .bold()
-            .foregroundColor(.white)
+            .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
             .frame(minWidth: 0, maxWidth: .infinity)
             .frame(minHeight: 105)
             .background(
@@ -96,48 +106,76 @@ struct HeadToHeadView: View {
                         Image("myke")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 110)
-                            .offset(y: 5)
-                            .background(
-                                VStack {
-                                    Spacer()
-                                    Ellipse()
-                                        .frame(height: 5)
-                                        .blur(radius: 10)
-                                        .opacity(0.8)
-                                }
-                            )
-                            .transition(.move(edge: .leading))
+                        .frame(height: 110)
+                        .offset(y: 5)
+                        .onTapGesture {
+                            withAnimation {
+                                #if !os(macOS)
+                                bounceHaptics.impactOccurred()
+                                #endif
+                                self.animateMyke.toggle()
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.animateMyke.toggle()
+                            }
+                        }
+                        .offset(x: 0, y: animateMyke ? -5 : 0)
+                        .animation(animateMyke ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default)
+                        .background(
+                            VStack {
+                                Spacer()
+                                Ellipse()
+                                    .frame(height: 5)
+                                    .blur(radius: 10)
+                                    .opacity(0.8)
+                            }
+                        )
+                        .transition(.move(edge: .leading))
                         Spacer()
                         Image("stephen")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 110)
-                            .offset(y: -20)
-                            .background(
-                                VStack {
-                                    Spacer()
-                                    Ellipse()
-                                        .frame(height: 5)
-                                        .blur(radius: 10)
-                                        .opacity(0.8)
-                                }
-                            )
-                            .transition(.move(edge: .trailing))
+                        .frame(height: 110)
+                        .offset(y: -20)
+                        .onTapGesture {
+                            withAnimation {
+                                #if !os(macOS)
+                                bounceHaptics.impactOccurred()
+                                #endif
+                                self.animateStephen.toggle()
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.animateStephen.toggle()
+                            }
+                        }
+                        .offset(x: 0, y: animateStephen ? -5 : 0)
+                        .animation(animateStephen ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default)
+                        .background(
+                            VStack {
+                                Spacer()
+                                Ellipse()
+                                    .frame(height: 5)
+                                    .blur(radius: 10)
+                                    .opacity(0.8)
+                            }
+                        )
+                        .transition(.move(edge: .trailing))
                     }
                 }
                 .padding()
             )
+            .padding(.top)
             .zIndex(2)
+            .background(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
             ZStack {
                 VStack(spacing: 0) {
-                    Color.brandRed
-                    Color.brandPurple
+                    HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
+                    HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
                 }
                 VStack(spacing: 0) {
                     ZStack {
                         VStack(spacing: 0) {
-                            Color.brandRed
+                            HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
                             Rectangle()
                                 .fill(Color.white)
                                 .frame(height: 1)
@@ -146,20 +184,20 @@ struct HeadToHeadView: View {
                             VStack(spacing: 0) {
                                 Spacer()
                                 if animateIn {
-                                    campaignDetails(for: campaign1, alignment: .leading, color: .brandRed)
-                                        .foregroundStyle(WidgetAppearance.red.foregroundColor)
+                                    campaignDetails(for: campaign1, alignment: .leading)
+                                        .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                         .padding(.bottom)
                                         .transition(.move(edge: .leading))
                                     HStack(alignment: .firstTextBaseline) {
                                         Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                             .font(.title)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(WidgetAppearance.red.foregroundColor)
+                                            .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                         Text(campaign1.user.username)
                                             .font(.caption)
                                         Spacer()
                                     }
-                                    .foregroundStyle(WidgetAppearance.red.foregroundColor)
+                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                     .transition(.move(edge: .leading))
                                 }
                             }
@@ -180,11 +218,11 @@ struct HeadToHeadView: View {
                             Rectangle()
                                 .fill(Color.white)
                                 .frame(height: 1)
-                            Color.brandPurple
+                            HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
                         }
                         ZStack(alignment: .topLeading) {
                             VStack(spacing: 0) {
-                                ProgressBar(value: .constant(progressBarValue), barColour: .brandPurple, fillColor: .accentColor, showDivider: true, dividerWidth: 2)
+                                ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
                                     .frame(height: 20)
                                     .overlay {
                                         Capsule().stroke(.white, style: StrokeStyle(lineWidth: 3))
@@ -199,10 +237,10 @@ struct HeadToHeadView: View {
                                             .fontWeight(.bold)
                                             .padding(.top)
                                     }
-                                    .foregroundStyle(WidgetAppearance.blue.foregroundColor)
+                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_2.foregroundColor)
                                     .transition(.move(edge: .trailing))
-                                    campaignDetails(for: campaign2, alignment: .trailing, color: .brandBlue)
-                                        .foregroundStyle(WidgetAppearance.blue.foregroundColor)
+                                    campaignDetails(for: campaign2, alignment: .trailing)
+                                        .foregroundStyle(HEAD_TO_HEAD_COLOR_2.foregroundColor)
                                         .padding(.top)
                                         .transition(.move(edge: .trailing))
                                 }
@@ -226,24 +264,34 @@ struct HeadToHeadView: View {
                 .clipped()
             }
             .padding(.bottom)
+            .edgesIgnoringSafeArea(.bottom)
         }
-        .background(Color.brandRed)
+        .background(
+//            HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
+//            VStack(spacing: 0) {
+//                HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
+//                HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
+//            }
+            HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
+        )
+        .tint(.white)
+        .toolbarBackground(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
         .edgesIgnoringSafeArea(.bottom)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                        Text("Back")
-                    }
-                }
-                .foregroundStyle(Color.white)
-            }
-        }
-        .navigationBarBackButtonHidden()
+//        .toolbar {
+//            ToolbarItem(placement: .topBarLeading) {
+//                Button(action: {
+//                    presentationMode.wrappedValue.dismiss()
+//                }) {
+//                    HStack {
+//                        Image(systemName: "chevron.left")
+//                            .bold()
+//                        Text("Back")
+//                    }
+//                }
+//                .foregroundStyle(Color.white)
+//            }
+//        }
+//        .navigationBarBackButtonHidden()
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 withAnimation(.easeOut) {

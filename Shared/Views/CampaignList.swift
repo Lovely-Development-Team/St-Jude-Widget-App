@@ -135,7 +135,7 @@ struct CampaignList: View {
     @ViewBuilder
     var headToHeadList: some View {
         ForEach(headToHeads, id: \.headToHead.id) { headToHead in
-            NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
+            NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2).tint(.white), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
                 HeadToHeadListItem(headToHead: headToHead)
                     .contextMenu {
                         Button(role: .destructive) {
@@ -152,6 +152,7 @@ struct CampaignList: View {
                         }
                     }
             }
+            .tint(.white)
             .padding(.top)
         }
     }
