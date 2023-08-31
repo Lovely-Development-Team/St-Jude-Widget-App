@@ -106,7 +106,7 @@ struct CampaignLockScreenWidget: Widget {
             CampaignLockScreenWidgetView(entry: entry)
         }
         .configurationDisplayName("Individual Fundraiser")
-        .description("Displays the current status of the overall fundraising event.")
+        .description("Displays the current status for a particular fundraiser.")
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion
             // Access the background session to make sure it is initialised
