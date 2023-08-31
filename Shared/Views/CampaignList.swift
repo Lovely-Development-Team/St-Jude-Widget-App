@@ -60,6 +60,7 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     @State private var showLeaderboard: Bool = false
+    @State private var showHeadToHeads: Bool = true
     @State private var showHeadToHeadChoice: Campaign? = nil
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
@@ -164,8 +165,8 @@ struct CampaignList: View {
                     if let teamEvent = teamEvent {
                         NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
-                                .padding()
                         }
+                        .padding()
                     } else {
                         TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
                             .padding()
@@ -210,6 +211,33 @@ struct CampaignList: View {
                         .padding()
                         .background(Color.accentColor)
                         .padding(.bottom)
+                    }
+                    
+                    if headToHeads.count > 0 {
+                        Button(action: {
+                            withAnimation {
+                                showHeadToHeads.toggle()
+                            }
+                        }) {
+                            HStack {
+                                Text("Head to Head")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .fullWidth()
+                                Spacer()
+                                Image(systemName: showHeadToHeads ? "chevron.down" : "chevron.right")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .buttonStyle(.plain)
+//                        .foregroundColor(.primary)
+                        .padding(.horizontal)
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                            if showHeadToHeads {
+                                headToHeadList
+                            }
+                        }
+                        .padding([.horizontal, .bottom])
                     }
                     
                     HStack {
@@ -291,10 +319,6 @@ struct CampaignList: View {
                         }
                         
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
-                            
-                            if !showSearchBar {
-                                headToHeadList
-                            }
                             
                             Button(action: {
                                 while true {
