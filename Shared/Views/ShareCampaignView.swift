@@ -42,17 +42,23 @@ struct ShareCampaignView: View {
     
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
-            .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 350)
+            .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 450)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
     }
     
     @ViewBuilder
+    @MainActor
     var headerView: some View {
         VStack(spacing: 0) {
             entryView
                 .cornerRadius((clipCorners ? 15 : 0))
             Button(action: {
-                presentSystemShareSheet = ImageToShare(id: UUID(), image: entryView.asImage)
+                    let renderer =  ImageRenderer(content: entryView)
+                    renderer.scale = 3.0
+                    if let image =  renderer.cgImage {
+                        presentSystemShareSheet = ImageToShare(id: UUID(), image: UIImage(cgImage: image))
+                    }
+                                
             }) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
