@@ -59,6 +59,22 @@ struct FundraisingProvider: IntentTimelineProvider, WidgetDataProviding {
     }
 }
 
+struct HeadToHeadProvider: IntentTimelineProvider, WidgetDataProviding {
+    let apiClient = ApiClient.shared
+
+    func placeholder(in context: Context) -> HeadToHeadEntry {
+        return fetchPlaceholder(in: context)
+    }
+    
+    func getSnapshot(for configuration: HeadToHeadConfigurationIntent, in context: Context, completion: @escaping (HeadToHeadEntry) -> Void) {
+        fetchSnapshot(for: configuration, in: context, completion: completion)
+    }
+    
+    func getTimeline(for configuration: HeadToHeadConfigurationIntent, in context: Context, completion: @escaping (Timeline<HeadToHeadEntry>) -> Void) {
+        fetchTimeline(for: configuration, in: context, completion: completion)
+    }
+}
+
 struct Provider: IntentTimelineProvider, WidgetDataProviding {
     let apiClient = ApiClient.shared
     
@@ -82,6 +98,7 @@ struct TiltifyStJudeWidgets: WidgetBundle {
        FundraisingLockScreenWidget()
        Tiltify_St_Jude_Widget()
        CampaignLockScreenWidget()
+       HeadToHeadWidget()
    }
 }
 
@@ -145,6 +162,24 @@ struct FundraisingLockScreenWidget: Widget {
             _ = apiClient.backgroundURLSession
         }
         .supportedFamilies(supportedFamilies)
+    }
+}
+
+struct HeadToHeadWidget: Widget {
+    let kind: String = "HeadToHead"
+    @StateObject private var apiClient = ApiClient.shared
+    
+    var body: some WidgetConfiguration {
+        IntentConfiguration(kind: kind, intent: HeadToHeadConfigurationIntent.self, provider: HeadToHeadProvider()) { entry in
+            HeadToHeadWidgetView(entry: entry)
+        }
+        .configurationDisplayName("Head To Head")
+        .description("Pit one campaign against another!")
+        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+            apiClient.backgroundCompletionHandler = completion
+            // Access the background session to make sure it is initialised
+            _ = apiClient.backgroundURLSession
+        }
     }
 }
 
