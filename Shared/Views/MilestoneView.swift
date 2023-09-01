@@ -19,6 +19,10 @@ struct LargeMilestoneTitle: View {
         }
         Text(name)
             .fontWeight(.bold)
+            .minimumScaleFactor(0.4)
+            .fixedSize(horizontal: false, vertical: true)
+            
+
     }
 }
 
