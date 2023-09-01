@@ -12,11 +12,16 @@ let RELAY_FUNDRAISER_ID = UUID(uuidString: "8A17EE82-B90A-4ABA-A22F-E8CC7E8CF410
 struct TiltifyWidgetData {
     let id: UUID
     let name: String
+    let username: String?
     let description: String
     private let totalRaisedRaw: String
     var totalRaised: Double? {
         Double(totalRaisedRaw)
     }
+    var totalRaisedNumerical: Double {
+        totalRaised ?? 0
+    }
+    
     func totalRaisedDescription(showFullCurrencySymbol: Bool) -> String {
         
         guard let totalRaised = totalRaised else {
@@ -72,6 +77,8 @@ struct TiltifyWidgetData {
     let nextMilestone: Milestone?
     let futureMilestones: [Milestone]
     
+    let avatarImageData: Data?
+    
     let rewards: [Reward]
     
     private let currencyCode: String
@@ -115,6 +122,18 @@ struct TiltifyWidgetData {
             self.futureMilestones = []
         }
         self.rewards = campaign.rewards.map { Reward(from: $0, campaignId: campaign.publicId) }
+        self.username = campaign.user.username
+        
+        do {
+            if let src = campaign.avatar?.src, let url = URL(string: src) {
+                self.avatarImageData = try Data(contentsOf: url)
+            } else {
+                self.avatarImageData = nil
+            }
+        } catch {
+            dataLogger.debug("Could not get avatar image data: \(error)")
+            self.avatarImageData = nil
+        }
     }
     
     init(from campaign: Campaign) async throws {
@@ -139,6 +158,8 @@ struct TiltifyWidgetData {
             self.futureMilestones = []
         }
         self.rewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
+        self.avatarImageData = nil
+        self.username = campaign.user.username
     }
            
     init(from teamEvent: TeamEvent) async {
@@ -162,6 +183,8 @@ struct TiltifyWidgetData {
         self.nextMilestone = Self.nextMilestone(at: teamEvent.totalRaised.numericalValue, in: self.milestones)
         self.futureMilestones = Self.futureMilestones(at: teamEvent.totalRaised.numericalValue, in: self.milestones)
         self.rewards = []
+        self.avatarImageData = nil
+        self.username = nil
     }
     
     var percentageReached: Double? {
@@ -302,6 +325,8 @@ extension TiltifyWidgetData: Codable {
         }
         self.rewards = try container.decode([Reward].self, forKey: .rewards)
         self.id = try container.decode(UUID.self, forKey: .publicId)
+        self.avatarImageData = nil
+        self.username = nil
     }
     
     func encode(to encoder: Encoder) throws {

@@ -5,6 +5,7 @@
 //  Created by Justin Hamilton on 8/31/23.
 //
 
+import UIKit
 import WidgetKit
 
 struct HeadToHeadEntry: TimelineEntry {
@@ -12,5 +13,4 @@ struct HeadToHeadEntry: TimelineEntry {
     let configuration: HeadToHeadConfigurationIntent
     let campaign1: TiltifyWidgetData?
     let campaign2: TiltifyWidgetData?
-    let testString: String
 }
