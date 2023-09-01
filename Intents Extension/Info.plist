@@ -18,6 +18,7 @@
 				<string>FundraisingEventLockScreenConfigurationIntent</string>
 				<string>GetFundraiserIntent</string>
 				<string>GetMainFundraisingEventIntent</string>
+				<string>HeadToHeadConfigurationIntent</string>
 			</array>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>

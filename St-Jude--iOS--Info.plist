@@ -29,6 +29,7 @@
 		<string>FundraisingEventLockScreenConfigurationIntent</string>
 		<string>GetFundraiserIntent</string>
 		<string>GetMainFundraisingEventIntent</string>
+		<string>HeadToHeadConfigurationIntent</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
