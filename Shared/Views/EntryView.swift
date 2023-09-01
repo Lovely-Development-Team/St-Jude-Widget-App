@@ -135,13 +135,13 @@ struct EntryView: View {
                 }
                 
                 if let milestone = campaign.nextMilestone {
-                    MilestoneView(title: "Next milestone", data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor)
+                    MilestoneView(title: "Upcoming milestones", data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor)
                 }
                 
                 if showTwoMilestones,
                    preferFutureMilestones && campaign.futureMilestones.count > 1,
                    1 < campaign.futureMilestones.endIndex {
-                    MilestoneView(title: "Upcoming milestone", data: campaign, milestone: campaign.futureMilestones[1], showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor)
+                    MilestoneView(data: campaign, milestone: campaign.futureMilestones[1], showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor)
                 }
             }
             
