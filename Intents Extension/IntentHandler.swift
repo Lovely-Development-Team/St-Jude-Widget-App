@@ -21,6 +21,8 @@ class IntentHandler: INExtension {
             return ConfigurationIntentHandler()
         case is CampaignLockScreenConfigurationIntent:
             return CampaignConfigurationIntentHandler()
+        case is HeadToHeadConfigurationIntent:
+            return HeadToHeadConfigurationIntentHandler()
         default:
             return self
         }
