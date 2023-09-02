@@ -34,22 +34,16 @@ struct HeadToHeadWidgetView: View {
     }
     
     var progressBarValue: Float {
-        guard let campaign1 = entry.campaign1, let campaign2 = entry.campaign2 else { return 0 }
-        
         let denominator = campaign1.totalRaisedNumerical + campaign2.totalRaisedNumerical
         guard denominator > 0 else { return 0.5 }
         return Float(campaign1.totalRaisedNumerical / denominator)
     }
 
     var highestTotal: Double {
-        guard let campaign1 = entry.campaign1, let campaign2 = entry.campaign2 else { return 0 }
-        
         return max(campaign1.totalRaisedNumerical, campaign2.totalRaisedNumerical)
     }
     
     var winner: TiltifyWidgetData {
-        guard let campaign1 = entry.campaign1, let campaign2 = entry.campaign2 else { return sampleCampaign }
-        
         if(campaign1.totalRaisedNumerical == highestTotal) {
             return campaign1
         }
@@ -58,8 +52,6 @@ struct HeadToHeadWidgetView: View {
     }
     
     var nonWinner: TiltifyWidgetData {
-        guard let campaign1 = entry.campaign1, let campaign2 = entry.campaign2 else { return sampleCampaign }
-        
         if(campaign1.totalRaisedNumerical == highestTotal) {
             return campaign2
         }
