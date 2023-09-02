@@ -25,6 +25,14 @@ struct HeadToHeadWidgetView: View {
         entry.campaign2 ?? sampleCampaign
     }
     
+    var showFullCurrencySymbol: Bool {
+        entry.configuration.showFullCurrencySymbol?.boolValue ?? false
+    }
+    
+    var showColorBackground: Bool {
+        entry.configuration.showColorBackground?.boolValue ?? true
+    }
+    
     var progressBarValue: Float {
         guard let campaign1 = entry.campaign1, let campaign2 = entry.campaign2 else { return 0 }
         
@@ -78,18 +86,22 @@ struct HeadToHeadWidgetView: View {
     func backgroundRectView(isHorizontal: Bool, isSkewed: Bool) -> some View {
         if(isHorizontal) {
             ZStack {
-                HStack(spacing:0) {
-                    Rectangle()
-                        .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-                    Rectangle()
-                        .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
-                }
-                ZStack {
+                if(showColorBackground) {
                     HStack(spacing:0) {
                         Rectangle()
                             .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
                         Rectangle()
                             .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                    }
+                }
+                ZStack {
+                    if(showColorBackground) {
+                        HStack(spacing:0) {
+                            Rectangle()
+                                .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                            Rectangle()
+                                .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                        }
                     }
                     Rectangle()
                         .fill(.white)
@@ -101,18 +113,22 @@ struct HeadToHeadWidgetView: View {
             }
         } else {
             ZStack {
-                VStack(spacing:0) {
-                    Rectangle()
-                        .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-                    Rectangle()
-                        .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
-                }
-                ZStack {
+                if(showColorBackground) {
                     VStack(spacing:0) {
                         Rectangle()
                             .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
                         Rectangle()
                             .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                    }
+                }
+                ZStack {
+                    if(showColorBackground) {
+                        VStack(spacing:0) {
+                            Rectangle()
+                                .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                            Rectangle()
+                                .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                        }
                     }
                     Rectangle()
                         .fill(.white)
@@ -126,7 +142,7 @@ struct HeadToHeadWidgetView: View {
     }
     
     var smallBackgroundColors: [Color] {
-        if(family != .systemSmall) {
+        if(family != .systemSmall || !showColorBackground) {
             return [.clear]
         }
         if(entry.campaign1?.id ?? nil == winner.id) {
@@ -238,7 +254,7 @@ extension HeadToHeadWidgetView {
                     .font(.headline)
                     .lineLimit(1)
             }
-            Text(winner.totalRaisedDescription(showFullCurrencySymbol: false))
+            Text(winner.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                 .font(.caption)
             ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
                 .frame(height: 15)
@@ -270,7 +286,7 @@ extension HeadToHeadWidgetView {
                         Text(campaign1.username ?? "Unknown")
                             .font(.headline)
                             .lineLimit(1)
-                        Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
+                        Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                             .font(.caption)
                     }
                     Spacer()
@@ -292,7 +308,7 @@ extension HeadToHeadWidgetView {
                             .font(.headline)
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
-                        Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
+                        Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                             .font(.caption)
                     }
                 }
@@ -326,7 +342,7 @@ extension HeadToHeadWidgetView {
                             }
                         }
                         HStack(alignment: .lastTextBaseline) {
-                            Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
+                            Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .lineLimit(1)
@@ -355,7 +371,7 @@ extension HeadToHeadWidgetView {
                                     .background(Circle().fill(.white).blur(radius: 30))
                             }
                             Spacer()
-                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
+                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .lineLimit(1)
@@ -412,7 +428,7 @@ extension HeadToHeadWidgetView {
                             Text(campaign1.name)
                                 .font(.body)
                             HStack {
-                                Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
+                                Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                     .font(.title)
                                     .fontWeight(.bold)
                             }
@@ -441,7 +457,7 @@ extension HeadToHeadWidgetView {
                             Text(campaign2.name)
                                 .font(.body)
                                 .multilineTextAlignment(.trailing)
-                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
+                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                 .font(.title)
                                 .fontWeight(.bold)
                         }
@@ -482,14 +498,14 @@ extension HeadToHeadWidgetView {
                 Text(winner.username ?? "Unknown")
                     .bold()
             }
-            Text(winner.totalRaisedDescription(showFullCurrencySymbol: false))
+            Text(winner.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
             ProgressBar(value: .constant(Float(progressBarValue)), fillColor: .white)
                 .frame(height: 6)
         }
     }
     
     var inlineTextString: String {
-        return "\(winner.totalRaisedDescription(showFullCurrencySymbol: false)) • \(winner.username ?? "Unknown")"
+        return "\(winner.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol)) • \(winner.username ?? "Unknown")"
     }
     
     @ViewBuilder
