@@ -140,6 +140,22 @@ struct HeadToHeadWidgetView: View {
         return UIImage(data: data)
     }
     
+    @ViewBuilder
+    func avatarImageView(for campaign: TiltifyWidgetData) -> some View {
+        if let image = avatarImage(for: campaign) {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(ContainerRelativeShape())
+        } else {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .imageScale(.large)
+                .clipShape(ContainerRelativeShape())
+        }
+    }
+    
     var body: some View {
         if #available(iOS 17.0, *) {
             content(for: family)
@@ -174,28 +190,19 @@ struct HeadToHeadWidgetView: View {
     var smallSizeContent: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                if let image = avatarImage(for: winner) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(ContainerRelativeShape())
-                        .overlay(alignment: .topLeading) {
-                            Image(systemName: "crown.fill")
-                                .font(.system(size: 20))
-                                .foregroundColor(.brandYellow)
-                                .rotationEffect(Angle(degrees: -10))
-                                .offset(CGSize(width: -10, height: -10))
-                        }
-                }
+                avatarImageView(for: winner)
+                    .overlay(alignment: .topLeading) {
+                        Image(systemName: "crown.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(.brandYellow)
+                            .rotationEffect(Angle(degrees: -10))
+                            .offset(CGSize(width: -10, height: -10))
+                    }
                 Spacer()
-                if let image = avatarImage(for: nonWinner) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .opacity(0.5)
-                        .scaleEffect(0.75)
-                }
+                avatarImageView(for: nonWinner)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .opacity(0.5)
+                    .scaleEffect(0.75)
             }
             Spacer()
             if let username = winner.username {
@@ -220,18 +227,13 @@ struct HeadToHeadWidgetView: View {
             HStack {
                 HStack {
                     VStack(alignment: .leading) {
-                        if let image = avatarImage(for: campaign1) {
-                            HStack(alignment: .top) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(ContainerRelativeShape())
-                                if(campaign1.id == winner.id) {
-                                    Image(systemName: "crown.fill")
-                                        .font(.system(size: 30))
-                                        .foregroundStyle(Color.brandYellow)
-                                        .background(Circle().fill(.white).blur(radius: 30))
-                                }
+                        HStack(alignment: .top) {
+                            avatarImageView(for: campaign1)
+                            if(campaign1.id == winner.id) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 30))
+                                    .foregroundStyle(Color.brandYellow)
+                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                         }
                         Text(campaign1.username ?? "Unknown")
@@ -246,19 +248,14 @@ struct HeadToHeadWidgetView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing) {
-                        if let image = avatarImage(for: campaign2) {
-                            HStack(alignment: .top) {
-                                if(campaign2.id == winner.id) {
-                                    Image(systemName: "crown.fill")
-                                        .font(.system(size: 30))
-                                        .foregroundStyle(Color.brandYellow)
-                                        .background(Circle().fill(.white).blur(radius: 30))
-                                }
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(ContainerRelativeShape())
+                        HStack(alignment: .top) {
+                            if(campaign2.id == winner.id) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 30))
+                                    .foregroundStyle(Color.brandYellow)
+                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
+                            avatarImageView(for: campaign2)
                         }
                         Text(campaign2.username ?? "Unknown")
                             .font(.headline)
@@ -285,23 +282,19 @@ struct HeadToHeadWidgetView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         HStack (alignment: .top) {
-                            if let image = avatarImage(for: campaign1) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(ContainerRelativeShape())
+                            avatarImageView(for: campaign1)
+                            VStack(alignment: .leading) {
+                                Text(campaign1.username ?? "Unknown")
+                                    .font(.title2)
+                                    .bold()
+                                Text(campaign1.name)
+                                    .font(.body)
                             }
-                            Text(campaign1.name)
-                                .font(.title2)
-                                .bold()
                         }
                         HStack(alignment: .lastTextBaseline) {
                             Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .lineLimit(1)
-                            Text(campaign1.username ?? "Unknown")
-                                .font(.caption)
                                 .lineLimit(1)
                             Spacer()
                             if(campaign1.id == winner.id) {
@@ -315,7 +308,7 @@ struct HeadToHeadWidgetView: View {
                     }
                     Spacer()
                 }
-                .padding(.bottom, 7)
+                .padding(.bottom)
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing) {
@@ -328,30 +321,26 @@ struct HeadToHeadWidgetView: View {
                                     .background(Circle().fill(.white).blur(radius: 30))
                             }
                             Spacer()
-                            Text(campaign2.username ?? "Unknown")
-                                .font(.caption)
-                                .multilineTextAlignment(.trailing)
-                                .lineLimit(1)
                             Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .lineLimit(1)
                         }
                         HStack (alignment: .bottom) {
-                            Text(campaign2.name)
-                                .font(.title2)
-                                .bold()
-                                .multilineTextAlignment(.trailing)
-                            if let image = avatarImage(for: campaign2) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(ContainerRelativeShape())
+                            VStack(alignment: .trailing) {
+                                Text(campaign2.username ?? "Unknown")
+                                    .font(.title2)
+                                    .bold()
+                                    .multilineTextAlignment(.trailing)
+                                Text(campaign2.name)
+                                    .font(.body)
+                                    .multilineTextAlignment(.trailing)
                             }
+                            avatarImageView(for: campaign2)
                         }
                     }
                 }
-                .padding(.top, 7)
+                .padding(.top)
             }
             ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
                 .frame(height: 15)
@@ -369,13 +358,8 @@ struct HeadToHeadWidgetView: View {
                     HStack {
                         VStack(alignment: .leading) {
                             HStack(alignment: .top) {
-                                if let image = avatarImage(for: campaign1) {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(ContainerRelativeShape())
-                                        .frame(maxHeight:100)
-                                }
+                                avatarImageView(for: campaign1)
+                                    .frame(maxHeight: 100)
                                 if(campaign1.id == winner.id) {
                                     Image(systemName: "crown.fill")
                                         .font(.system(size: 30))
@@ -385,10 +369,10 @@ struct HeadToHeadWidgetView: View {
                                 }
                             }
                             Spacer()
-                            Text(campaign1.name)
+                            Text(campaign1.username ?? "Unknown")
                                 .font(.title2)
                                 .bold()
-                            Text(campaign1.username ?? "Unknown")
+                            Text(campaign1.name)
                                 .font(.body)
                             HStack {
                                 Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
@@ -409,20 +393,15 @@ struct HeadToHeadWidgetView: View {
                                         .foregroundStyle(Color.brandYellow)
                                         .background(Circle().fill(.white).blur(radius: 30))
                                 }
-                                if let image = avatarImage(for: campaign2) {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(ContainerRelativeShape())
-                                        .frame(maxHeight:100)
-                                }
+                                avatarImageView(for: campaign2)
+                                    .frame(maxHeight: 100)
                             }
                             Spacer()
-                            Text(campaign2.name)
+                            Text(campaign2.username ?? "Unknown")
                                 .font(.title2)
                                 .bold()
                                 .multilineTextAlignment(.trailing)
-                            Text(campaign2.username ?? "Unknown")
+                            Text(campaign2.name)
                                 .font(.body)
                                 .multilineTextAlignment(.trailing)
                             Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
