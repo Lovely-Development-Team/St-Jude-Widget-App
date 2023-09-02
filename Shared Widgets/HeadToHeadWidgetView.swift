@@ -100,8 +100,8 @@ struct HeadToHeadWidgetView: View {
                         .frame(maxHeight:.infinity)
                         .frame(width:2)
                 }
-                .transformEffect(CGAffineTransform(a: 1, b: 0, c: isSkewed ? -0.15 : 0, d: 1, tx: 0, ty: 0))
-                .offset(x: isSkewed ? 20 : 0)
+                .scaleEffect(y: isSkewed ? 1.5 : 1)
+                .rotationEffect(Angle(degrees: isSkewed ? 15 : 0))
             }
         } else {
             ZStack {
@@ -127,8 +127,8 @@ struct HeadToHeadWidgetView: View {
                         .frame(maxWidth:.infinity)
                         .frame(height:2)
                 }
-                .transformEffect(CGAffineTransform(a: 1, b: isSkewed ? -0.15 : 0, c: 0, d: 1, tx: 0, ty: 0))
-                .offset(y: isSkewed ? 20 : 0)
+                .scaleEffect(x: isSkewed ? 1.5 : 1)
+                .rotationEffect(Angle(degrees: isSkewed ? 15 : 0))
             }
         }
     }
@@ -397,70 +397,68 @@ extension HeadToHeadWidgetView {
 extension HeadToHeadWidgetView {
     @ViewBuilder
     var extraLargeContent: some View {
-        ZStack {
-            VStack {
+        VStack {
+            HStack {
                 HStack {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            HStack(alignment: .top) {
-                                avatarImageView(for: campaign1)
-                                    .frame(maxHeight: 100)
-                                if(campaign1.id == winner.id) {
-                                    Image(systemName: "crown.fill")
-                                        .font(.system(size: 30))
-                                        .imageScale(.large)
-                                        .foregroundStyle(Color.brandYellow)
-                                        .background(Circle().fill(.white).blur(radius: 30))
-                                }
-                            }
-                            Spacer()
-                            Text(campaign1.username ?? "Unknown")
-                                .font(.title2)
-                                .bold()
-                            Text(campaign1.name)
-                                .font(.body)
-                            HStack {
-                                Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
-                                    .font(.title)
-                                    .fontWeight(.bold)
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .top) {
+                            avatarImageView(for: campaign1)
+                                .frame(maxHeight: 100)
+                            if(campaign1.id == winner.id) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
+                                    .foregroundStyle(Color.brandYellow)
+                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                         }
                         Spacer()
-                    }
-                    HStack {
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            HStack(alignment: .top) {
-                                if(campaign2.id == winner.id) {
-                                    Image(systemName: "crown.fill")
-                                        .font(.system(size: 30))
-                                        .imageScale(.large)
-                                        .foregroundStyle(Color.brandYellow)
-                                        .background(Circle().fill(.white).blur(radius: 30))
-                                }
-                                avatarImageView(for: campaign2)
-                                    .frame(maxHeight: 100)
-                            }
-                            Spacer()
-                            Text(campaign2.username ?? "Unknown")
-                                .font(.title2)
-                                .bold()
-                                .multilineTextAlignment(.trailing)
-                            Text(campaign2.name)
-                                .font(.body)
-                                .multilineTextAlignment(.trailing)
-                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                        Text(campaign1.username ?? "Unknown")
+                            .font(.title2)
+                            .bold()
+                        Text(campaign1.name)
+                            .font(.body)
+                        HStack {
+                            Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                 .font(.title)
                                 .fontWeight(.bold)
                         }
                     }
+                    Spacer()
                 }
-                ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
-                    .frame(height: 30)
-                    .overlay {
-                        Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                HStack {
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        HStack(alignment: .top) {
+                            if(campaign2.id == winner.id) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
+                                    .foregroundStyle(Color.brandYellow)
+                                    .background(Circle().fill(.white).blur(radius: 30))
+                            }
+                            avatarImageView(for: campaign2)
+                                .frame(maxHeight: 100)
+                        }
+                        Spacer()
+                        Text(campaign2.username ?? "Unknown")
+                            .font(.title2)
+                            .bold()
+                            .multilineTextAlignment(.trailing)
+                        Text(campaign2.name)
+                            .font(.body)
+                            .multilineTextAlignment(.trailing)
+                        Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                            .font(.title)
+                            .fontWeight(.bold)
                     }
+                }
             }
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+                .frame(height: 30)
+                .overlay {
+                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                }
         }
     }
 }
