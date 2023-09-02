@@ -17,6 +17,14 @@ struct HeadToHeadWidgetView: View {
     
     var entry: HeadToHeadProvider.Entry
     
+    var campaign1: TiltifyWidgetData {
+        entry.campaign1 ?? sampleCampaign
+    }
+    
+    var campaign2: TiltifyWidgetData {
+        entry.campaign2 ?? sampleCampaign
+    }
+    
     var progressBarValue: Float {
         guard let campaign1 = entry.campaign1, let campaign2 = entry.campaign2 else { return 0 }
         
@@ -55,7 +63,72 @@ struct HeadToHeadWidgetView: View {
         return highestTotal - campaign.totalRaisedNumerical
     }
     
-    var backgroundColors: [Color] {
+    @ViewBuilder
+    var backgroundView: some View {
+        if(family == .systemSmall) {
+            LinearGradient(colors: smallBackgroundColors, startPoint: .bottom, endPoint: .top)
+        } else if(family == .systemLarge) {
+            backgroundRectView(isHorizontal: false, isSkewed: false)
+        } else {
+            backgroundRectView(isHorizontal: true, isSkewed: true)
+        }
+    }
+    
+    @ViewBuilder
+    func backgroundRectView(isHorizontal: Bool, isSkewed: Bool) -> some View {
+        if(isHorizontal) {
+            ZStack {
+                HStack(spacing:0) {
+                    Rectangle()
+                        .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                    Rectangle()
+                        .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                }
+                ZStack {
+                    HStack(spacing:0) {
+                        Rectangle()
+                            .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                        Rectangle()
+                            .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                    }
+                    Rectangle()
+                        .fill(.white)
+                        .frame(maxHeight:.infinity)
+                        .frame(width:2)
+                }
+                .transformEffect(CGAffineTransform(a: 1, b: 0, c: isSkewed ? -0.15 : 0, d: 1, tx: 0, ty: 0))
+                .offset(x: isSkewed ? 20 : 0)
+            }
+        } else {
+            ZStack {
+                VStack(spacing:0) {
+                    Rectangle()
+                        .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                    Rectangle()
+                        .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                }
+                ZStack {
+                    VStack(spacing:0) {
+                        Rectangle()
+                            .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                        Rectangle()
+                            .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                    }
+                    Rectangle()
+                        .fill(.white)
+                        .frame(maxWidth:.infinity)
+                        .frame(height:2)
+                }
+                .transformEffect(CGAffineTransform(a: 1, b: isSkewed ? -0.15 : 0, c: 0, d: 1, tx: 0, ty: 0))
+                .offset(y: isSkewed ? 20 : 0)
+            }
+        }
+    }
+    
+    var smallBackgroundColors: [Color] {
+        if(family != .systemSmall) {
+            return [.clear]
+        }
         if(entry.campaign1?.id ?? nil == winner.id) {
             return HEAD_TO_HEAD_COLOR_1.backgroundColors
         }
@@ -70,10 +143,14 @@ struct HeadToHeadWidgetView: View {
     var body: some View {
         if #available(iOS 17.0, *) {
             content(for: family)
-                .containerBackground(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                .containerBackground(for: .widget, content: {
+                    backgroundView
+                })
         } else {
             content(for: family)
-                .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+                .background {
+                    backgroundView
+                }
         }
     }
     
@@ -82,6 +159,12 @@ struct HeadToHeadWidgetView: View {
         switch family {
         case .systemSmall:
             smallSizeContent
+        case .systemMedium:
+            mediumSizeContent
+        case .systemLarge:
+            largeSizeContent
+        case .systemExtraLarge:
+            extraLargeContent
         default:
             content
         }
@@ -129,6 +212,232 @@ struct HeadToHeadWidgetView: View {
                 }
         }
         .frame(maxWidth: .infinity)
+    }
+    
+    @ViewBuilder
+    var mediumSizeContent: some View {
+        VStack {
+            HStack {
+                HStack {
+                    VStack(alignment: .leading) {
+                        if let image = avatarImage(for: campaign1) {
+                            HStack(alignment: .top) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(ContainerRelativeShape())
+                                if(campaign1.id == winner.id) {
+                                    Image(systemName: "crown.fill")
+                                        .font(.system(size: 30))
+                                        .foregroundStyle(Color.brandYellow)
+                                        .background(Circle().fill(.white).blur(radius: 30))
+                                }
+                            }
+                        }
+                        Text(campaign1.username ?? "Unknown")
+                            .font(.headline)
+                            .lineLimit(1)
+                        Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
+                            .font(.caption)
+                    }
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                HStack {
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        if let image = avatarImage(for: campaign2) {
+                            HStack(alignment: .top) {
+                                if(campaign2.id == winner.id) {
+                                    Image(systemName: "crown.fill")
+                                        .font(.system(size: 30))
+                                        .foregroundStyle(Color.brandYellow)
+                                        .background(Circle().fill(.white).blur(radius: 30))
+                                }
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(ContainerRelativeShape())
+                            }
+                        }
+                        Text(campaign2.username ?? "Unknown")
+                            .font(.headline)
+                            .multilineTextAlignment(.trailing)
+                            .lineLimit(1)
+                        Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
+                            .font(.caption)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+            }
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+                .frame(height: 15)
+                .overlay {
+                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                }
+        }
+    }
+    
+    @ViewBuilder
+    var largeSizeContent: some View {
+        ZStack {
+            VStack {
+                HStack {
+                    VStack(alignment: .leading) {
+                        HStack (alignment: .top) {
+                            if let image = avatarImage(for: campaign1) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(ContainerRelativeShape())
+                            }
+                            Text(campaign1.name)
+                                .font(.title2)
+                                .bold()
+                        }
+                        HStack(alignment: .lastTextBaseline) {
+                            Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .lineLimit(1)
+                            Text(campaign1.username ?? "Unknown")
+                                .font(.caption)
+                                .lineLimit(1)
+                            Spacer()
+                            if(campaign1.id == winner.id) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
+                                    .foregroundStyle(Color.brandYellow)
+                                    .background(Circle().fill(.white).blur(radius: 30))
+                            }
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.bottom, 7)
+                HStack {
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        HStack(alignment: .lastTextBaseline) {
+                            if(campaign2.id == winner.id) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
+                                    .foregroundStyle(Color.brandYellow)
+                                    .background(Circle().fill(.white).blur(radius: 30))
+                            }
+                            Spacer()
+                            Text(campaign2.username ?? "Unknown")
+                                .font(.caption)
+                                .multilineTextAlignment(.trailing)
+                                .lineLimit(1)
+                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .lineLimit(1)
+                        }
+                        HStack (alignment: .bottom) {
+                            Text(campaign2.name)
+                                .font(.title2)
+                                .bold()
+                                .multilineTextAlignment(.trailing)
+                            if let image = avatarImage(for: campaign2) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(ContainerRelativeShape())
+                            }
+                        }
+                    }
+                }
+                .padding(.top, 7)
+            }
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+                .frame(height: 15)
+                .overlay {
+                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                }
+        }
+    }
+    
+    @ViewBuilder
+    var extraLargeContent: some View {
+        ZStack {
+            VStack {
+                HStack {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            HStack(alignment: .top) {
+                                if let image = avatarImage(for: campaign1) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(ContainerRelativeShape())
+                                        .frame(maxHeight:100)
+                                }
+                                if(campaign1.id == winner.id) {
+                                    Image(systemName: "crown.fill")
+                                        .font(.system(size: 30))
+                                        .imageScale(.large)
+                                        .foregroundStyle(Color.brandYellow)
+                                        .background(Circle().fill(.white).blur(radius: 30))
+                                }
+                            }
+                            Spacer()
+                            Text(campaign1.name)
+                                .font(.title2)
+                                .bold()
+                            Text(campaign1.username ?? "Unknown")
+                                .font(.body)
+                            HStack {
+                                Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false))
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                            }
+                        }
+                        Spacer()
+                    }
+                    HStack {
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            HStack(alignment: .top) {
+                                if(campaign2.id == winner.id) {
+                                    Image(systemName: "crown.fill")
+                                        .font(.system(size: 30))
+                                        .imageScale(.large)
+                                        .foregroundStyle(Color.brandYellow)
+                                        .background(Circle().fill(.white).blur(radius: 30))
+                                }
+                                if let image = avatarImage(for: campaign2) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(ContainerRelativeShape())
+                                        .frame(maxHeight:100)
+                                }
+                            }
+                            Spacer()
+                            Text(campaign2.name)
+                                .font(.title2)
+                                .bold()
+                                .multilineTextAlignment(.trailing)
+                            Text(campaign2.username ?? "Unknown")
+                                .font(.body)
+                                .multilineTextAlignment(.trailing)
+                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false))
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                    }
+                }
+                ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+                    .frame(height: 30)
+                    .overlay {
+                        Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                    }
+            }
+        }
     }
     
     @ViewBuilder
