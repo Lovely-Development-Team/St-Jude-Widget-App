@@ -181,11 +181,39 @@ struct HeadToHeadWidgetView: View {
             largeSizeContent
         case .systemExtraLarge:
             extraLargeContent
+        case .accessoryCircular:
+            circularLockScreenContent
+        case .accessoryRectangular:
+            rectangularLockScreenContent
+        case .accessoryInline:
+            inlineLockScreenContent
         default:
             content
         }
     }
     
+    @ViewBuilder
+    var content: some View {
+        VStack {
+            if let campaign1 = entry.campaign1, let image = avatarImage(for: campaign1) {
+                Image(uiImage: image)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+            }
+            Text(entry.campaign1?.name ?? "Unknown")
+            Text("VS")
+            if let campaign2 = entry.campaign2, let image = avatarImage(for: campaign2) {
+                Image(uiImage: image)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+            }
+            Text(entry.campaign2?.name ?? "Unknown")
+        }
+    }
+}
+
+// MARK: Small Widget
+extension HeadToHeadWidgetView {
     @ViewBuilder
     var smallSizeContent: some View {
         VStack(alignment: .leading) {
@@ -220,7 +248,10 @@ struct HeadToHeadWidgetView: View {
         }
         .frame(maxWidth: .infinity)
     }
-    
+}
+
+// MARK: Medium Widget
+extension HeadToHeadWidgetView {
     @ViewBuilder
     var mediumSizeContent: some View {
         VStack {
@@ -274,7 +305,10 @@ struct HeadToHeadWidgetView: View {
                 }
         }
     }
-    
+}
+
+// MARK: Large Widget
+extension HeadToHeadWidgetView {
     @ViewBuilder
     var largeSizeContent: some View {
         ZStack {
@@ -349,7 +383,10 @@ struct HeadToHeadWidgetView: View {
                 }
         }
     }
-    
+}
+
+// MARK: XL Widget
+extension HeadToHeadWidgetView {
     @ViewBuilder
     var extraLargeContent: some View {
         ZStack {
@@ -418,23 +455,48 @@ struct HeadToHeadWidgetView: View {
             }
         }
     }
+}
+
+// MARK: Lock Screen Widgets
+extension HeadToHeadWidgetView {
+    @ViewBuilder
+    var circularLockScreenContent: some View {
+        ZStack {
+            Gauge(value: progressBarValue, in: 0...1, label: {
+                Image(systemName: "crown.fill")
+                    .offset(y: 3)
+            }) {
+                avatarImageView(for: winner)
+                    .padding(6)
+            }
+            .gaugeStyle(.accessoryCircular)
+        }
+    }
     
     @ViewBuilder
-    var content: some View {
-        VStack {
-            if let campaign1 = entry.campaign1, let image = avatarImage(for: campaign1) {
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: 50, height: 50)
+    var rectangularLockScreenContent: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: "crown.fill")
+                    .aspectRatio(contentMode: .fit)
+                Text(winner.username ?? "Unknown")
+                    .bold()
             }
-            Text(entry.campaign1?.name ?? "Unknown")
-            Text("VS")
-            if let campaign2 = entry.campaign2, let image = avatarImage(for: campaign2) {
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-            }
-            Text(entry.campaign2?.name ?? "Unknown")
+            Text(winner.totalRaisedDescription(showFullCurrencySymbol: false))
+            ProgressBar(value: .constant(Float(progressBarValue)), fillColor: .white)
+                .frame(height: 6)
+        }
+    }
+    
+    var inlineTextString: String {
+        return "\(winner.totalRaisedDescription(showFullCurrencySymbol: false)) • \(winner.username ?? "Unknown")"
+    }
+    
+    @ViewBuilder
+    var inlineLockScreenContent: some View {
+        HStack {
+            Image(systemName: "crown.fill")
+            Text(inlineTextString)
         }
     }
 }
