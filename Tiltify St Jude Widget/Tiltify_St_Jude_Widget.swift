@@ -169,6 +169,27 @@ struct HeadToHeadWidget: Widget {
     let kind: String = "HeadToHead"
     @StateObject private var apiClient = ApiClient.shared
     
+    var supportedFamilies: [WidgetFamily] {
+        if #available(iOSApplicationExtension 16.0, *) {
+            return [
+                .systemSmall,
+                .systemMedium,
+                .systemLarge,
+                .systemExtraLarge,
+                .accessoryInline,
+                .accessoryRectangular,
+                .accessoryCircular
+            ]
+        } else {
+            return [
+                .systemSmall,
+                .systemMedium,
+                .systemLarge,
+                .systemExtraLarge
+            ]
+        }
+    }
+    
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: HeadToHeadConfigurationIntent.self, provider: HeadToHeadProvider()) { entry in
             HeadToHeadWidgetView(entry: entry)
@@ -180,6 +201,7 @@ struct HeadToHeadWidget: Widget {
             // Access the background session to make sure it is initialised
             _ = apiClient.backgroundURLSession
         }
+        .supportedFamilies(supportedFamilies)
     }
 }
 
