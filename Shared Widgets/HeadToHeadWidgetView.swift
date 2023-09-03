@@ -33,6 +33,10 @@ struct HeadToHeadWidgetView: View {
         entry.configuration.showColorBackground?.boolValue ?? true
     }
     
+    var openToHeadToHead: Bool {
+        entry.configuration.openToHeadToHead?.boolValue ?? true
+    }
+    
     var progressBarValue: Float {
         let denominator = campaign1.totalRaisedNumerical + campaign2.totalRaisedNumerical
         guard denominator > 0 else { return 0.5 }
@@ -174,7 +178,7 @@ struct HeadToHeadWidgetView: View {
     
     var headToHeadEnabled: Bool {
         // TODO: Add the milestone logic here
-        false
+        true
     }
     
     @ViewBuilder
@@ -219,7 +223,7 @@ struct HeadToHeadWidgetView: View {
     }
     
     var h2hWidgetUrl: URL? {
-        guard let urlString = entry.widgetUrlString, let url = URL(string: urlString) else { return nil }
+        guard let urlString = entry.widgetUrlString, let url = URL(string: urlString),  openToHeadToHead else { return nil }
         return url
     }
     
