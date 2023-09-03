@@ -76,6 +76,15 @@ struct CampaignView: View {
         return false
     }
     
+    var grandTotalRaised: String {
+        let result = PREVIOUS_TOTALS_RAISED.reduce(0) { $0 + $1.total } + (teamEvent?.totalRaisedNumerical ?? 0)
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.currencyCode = "USD"
+        currencyFormatter.currencySymbol = "$"
+        return currencyFormatter.string(from: result as NSNumber) ?? "USD 0"
+    }
+    
     var body: some View {
         ScrollView {
             
@@ -85,6 +94,22 @@ struct CampaignView: View {
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                 } else if let teamEvent = teamEvent {
                     TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
+                    Text("Annual Fundraising Totals")
+                        .fullWidth()
+                        .font(.headline)
+                        .padding(.top)
+                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
+                        .frame(height: 100)
+                        .padding(.bottom)
+                    HStack(alignment: .firstTextBaseline) {
+                        Text("Lifetime Total:")
+                        Text(grandTotalRaised)
+                            .fullWidth(alignment: .trailing)
+                            .font(.title2)
+                            .bold()
+                    }
+                    Divider()
+                        .padding(.bottom)
                 }
                 
                 #if DEBUG
