@@ -218,6 +218,11 @@ struct HeadToHeadWidgetView: View {
         }
     }
     
+    var h2hWidgetUrl: URL? {
+        guard let urlString = entry.widgetUrlString, let url = URL(string: urlString) else { return nil }
+        return url
+    }
+    
     var body: some View {
         if #available(iOS 17.0, *) {
             if(headToHeadEnabled) {
@@ -225,6 +230,7 @@ struct HeadToHeadWidgetView: View {
                     .containerBackground(for: .widget, content: {
                         backgroundView
                     })
+                    .widgetURL(h2hWidgetUrl)
             } else {
                 disabledContent
                     .containerBackground(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
@@ -236,6 +242,7 @@ struct HeadToHeadWidgetView: View {
                     .background {
                         backgroundView
                     }
+                    .widgetURL(h2hWidgetUrl)
             } else {
                 disabledContent
                     .background(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top))
