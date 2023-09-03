@@ -228,6 +228,7 @@ struct HeadToHeadWidgetView: View {
             } else {
                 disabledContent
                     .containerBackground(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                    .widgetURL(URL(string: "relay-fm-for-st-jude://campaign?id=65563296-EEC2-45D5-BB7B-E77203D6AB08")!)
             }
         } else {
             if(headToHeadEnabled) {
@@ -238,6 +239,7 @@ struct HeadToHeadWidgetView: View {
             } else {
                 disabledContent
                     .background(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top))
+                    .widgetURL(URL(string: "relay-fm-for-st-jude://campaign?id=65563296-EEC2-45D5-BB7B-E77203D6AB08")!)
             }
         }
     }
