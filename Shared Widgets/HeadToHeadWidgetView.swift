@@ -80,7 +80,7 @@ struct HeadToHeadWidgetView: View {
             LinearGradient(colors: smallBackgroundColors, startPoint: .bottom, endPoint: .top)
         } else if(family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
-        } else {
+        } else if(family == .systemExtraLarge) {
             backgroundRectView(isHorizontal: true, isSkewed: true)
         }
     }
@@ -182,15 +182,30 @@ struct HeadToHeadWidgetView: View {
     }
     
     @ViewBuilder
-    var disabledContent: some View {
+    var disabledBackground: some View {
+        if(!isLockScreen(family: family)) {
+            LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top)
+        }
+    }
+    
+    @ViewBuilder
+    func disabledContent(padded: Bool = false) -> some View {
         if(isLockScreen(family: family)) {
-            Image(systemName: "crown.fill")
             if(family == .accessoryCircular) {
-                    Text("Reach $500!")
-                    .multilineTextAlignment(.center)
+                Gauge(value: 0, label: {
+                    Image(systemName: "lock.fill")
+                })
+                .gaugeStyle(.accessoryCircularCapacity)
             } else {
-                Text("Reach $500 to unlock!")
-                    .multilineTextAlignment(.center)
+                Image(systemName: "lock.fill")
+                if(family == .accessoryInline) {
+                    Text("Get us to $500!")
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                } else {
+                    Text("Get TLD to $500 to unlock!")
+                        .multilineTextAlignment(.center)
+                }
             }
         } else {
             VStack {
@@ -215,10 +230,11 @@ struct HeadToHeadWidgetView: View {
                     .foregroundStyle(.white)
                     .font(.headline)
                     .multilineTextAlignment(.center)
-                Text("Reach $500 to unlock!")
+                Text("Get TLD to $500 to unlock!")
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
             }
+            .padding(padded ? .all : [])
         }
     }
     
@@ -236,36 +252,42 @@ struct HeadToHeadWidgetView: View {
                     })
                     .widgetURL(h2hWidgetUrl)
             } else {
-                disabledContent
-                    .containerBackground(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                disabledContent()
+                    .containerBackground(for: .widget, content: {
+                        disabledBackground
+                    })
                     .widgetURL(URL(string: "relay-fm-for-st-jude://campaign?id=65563296-EEC2-45D5-BB7B-E77203D6AB08")!)
             }
         } else {
             if(headToHeadEnabled) {
-                content(for: family)
+                content(for: family, padded: true)
                     .background {
                         backgroundView
                     }
                     .widgetURL(h2hWidgetUrl)
             } else {
-                disabledContent
-                    .background(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top))
+                disabledContent(padded: true)
+                    .background(disabledBackground)
                     .widgetURL(URL(string: "relay-fm-for-st-jude://campaign?id=65563296-EEC2-45D5-BB7B-E77203D6AB08")!)
             }
         }
     }
     
     @ViewBuilder
-    func content(for family: WidgetFamily) -> some View {
+    func content(for family: WidgetFamily, padded: Bool = false) -> some View {
         switch family {
         case .systemSmall:
             smallSizeContent
+                .padding(padded ? .all : [])
         case .systemMedium:
             mediumSizeContent
+                .padding(padded ? .all : [])
         case .systemLarge:
             largeSizeContent
+                .padding(padded ? .all : [])
         case .systemExtraLarge:
             extraLargeContent
+                .padding(padded ? .all : [])
         case .accessoryCircular:
             circularLockScreenContent
         case .accessoryRectangular:
