@@ -63,6 +63,13 @@ struct HeadToHeadWidgetView: View {
         return highestTotal - campaign.totalRaisedNumerical
     }
     
+    var labelColor: Color {
+        if(showColorBackground) {
+            return .white
+        }
+        return .label
+    }
+    
     @ViewBuilder
     var backgroundView: some View {
         if(family == .systemSmall) {
@@ -96,7 +103,7 @@ struct HeadToHeadWidgetView: View {
                         }
                     }
                     Rectangle()
-                        .fill(.white)
+                        .fill(labelColor)
                         .frame(maxHeight:.infinity)
                         .frame(width:2)
                 }
@@ -123,7 +130,7 @@ struct HeadToHeadWidgetView: View {
                         }
                     }
                     Rectangle()
-                        .fill(.white)
+                        .fill(labelColor)
                         .frame(maxWidth:.infinity)
                         .frame(height:2)
                 }
@@ -161,6 +168,7 @@ struct HeadToHeadWidgetView: View {
                 .aspectRatio(contentMode: .fit)
                 .imageScale(.large)
                 .clipShape(ContainerRelativeShape())
+                .foregroundStyle(labelColor)
         }
     }
     
@@ -243,15 +251,17 @@ extension HeadToHeadWidgetView {
             Spacer()
             if let username = winner.username {
                 Text(username)
+                    .foregroundStyle(labelColor)
                     .font(.headline)
                     .lineLimit(1)
             }
             Text(winner.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                .foregroundStyle(labelColor)
                 .font(.caption)
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
-                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                    Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
                 }
         }
         .frame(maxWidth: .infinity)
@@ -276,9 +286,11 @@ extension HeadToHeadWidgetView {
                             }
                         }
                         Text(campaign1.username ?? "Unknown")
+                            .foregroundStyle(labelColor)
                             .font(.headline)
                             .lineLimit(1)
                         Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                            .foregroundStyle(labelColor)
                             .font(.caption)
                     }
                     Spacer()
@@ -297,19 +309,21 @@ extension HeadToHeadWidgetView {
                             avatarImageView(for: campaign2)
                         }
                         Text(campaign2.username ?? "Unknown")
+                            .foregroundStyle(labelColor)
                             .font(.headline)
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
                         Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                            .foregroundStyle(labelColor)
                             .font(.caption)
                     }
                 }
                 .frame(maxWidth: .infinity)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
-                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                    Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
                 }
         }
     }
@@ -327,14 +341,17 @@ extension HeadToHeadWidgetView {
                             avatarImageView(for: campaign1)
                             VStack(alignment: .leading) {
                                 Text(campaign1.username ?? "Unknown")
+                                    .foregroundStyle(labelColor)
                                     .font(.title2)
                                     .bold()
                                 Text(campaign1.name)
+                                    .foregroundStyle(labelColor)
                                     .font(.body)
                             }
                         }
                         HStack(alignment: .lastTextBaseline) {
                             Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                                .foregroundStyle(labelColor)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .lineLimit(1)
@@ -364,6 +381,7 @@ extension HeadToHeadWidgetView {
                             }
                             Spacer()
                             Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                                .foregroundStyle(labelColor)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .lineLimit(1)
@@ -371,10 +389,12 @@ extension HeadToHeadWidgetView {
                         HStack (alignment: .bottom) {
                             VStack(alignment: .trailing) {
                                 Text(campaign2.username ?? "Unknown")
+                                    .foregroundStyle(labelColor)
                                     .font(.title2)
                                     .bold()
                                     .multilineTextAlignment(.trailing)
                                 Text(campaign2.name)
+                                    .foregroundStyle(labelColor)
                                     .font(.body)
                                     .multilineTextAlignment(.trailing)
                             }
@@ -384,10 +404,10 @@ extension HeadToHeadWidgetView {
                 }
                 .padding(.top)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
-                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                    Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
                 }
         }
     }
@@ -414,12 +434,15 @@ extension HeadToHeadWidgetView {
                         }
                         Spacer()
                         Text(campaign1.username ?? "Unknown")
+                            .foregroundStyle(labelColor)
                             .font(.title2)
                             .bold()
                         Text(campaign1.name)
+                            .foregroundStyle(labelColor)
                             .font(.body)
                         HStack {
                             Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                                .foregroundStyle(labelColor)
                                 .font(.title)
                                 .fontWeight(.bold)
                         }
@@ -442,22 +465,25 @@ extension HeadToHeadWidgetView {
                         }
                         Spacer()
                         Text(campaign2.username ?? "Unknown")
+                            .foregroundStyle(labelColor)
                             .font(.title2)
                             .bold()
                             .multilineTextAlignment(.trailing)
                         Text(campaign2.name)
+                            .foregroundStyle(labelColor)
                             .font(.body)
                             .multilineTextAlignment(.trailing)
                         Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                            .foregroundStyle(labelColor)
                             .font(.title)
                             .fontWeight(.bold)
                     }
                 }
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 30)
                 .overlay {
-                    Capsule().stroke(.white, style: StrokeStyle(lineWidth: 2))
+                    Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
                 }
         }
     }
