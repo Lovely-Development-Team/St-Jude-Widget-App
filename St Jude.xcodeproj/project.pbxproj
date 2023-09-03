@@ -126,6 +126,8 @@
 		5EF748D426DF74B6008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748D526DF74B7008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
 		5EF748D626DF74B7008174DF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF748C626DF748F008174DF /* Notifications.swift */; };
+		5EFB879C2AA492BE006E0D0E /* StJudeTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFB879B2AA492BE006E0D0E /* StJudeTotals.swift */; };
+		5EFB879D2AA492BE006E0D0E /* StJudeTotals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFB879B2AA492BE006E0D0E /* StJudeTotals.swift */; };
 		630DD48226E24A9200FE44E5 /* InAppSettingsToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630DD48126E24A9200FE44E5 /* InAppSettingsToggle.swift */; };
 		630DD48326E24B3100FE44E5 /* InAppSettingsToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630DD48126E24A9200FE44E5 /* InAppSettingsToggle.swift */; };
 		630DD48526E253CF00FE44E5 /* SettingsDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630DD48426E253CF00FE44E5 /* SettingsDivider.swift */; };
@@ -441,6 +443,7 @@
 		5EF748C726DF748F008174DF /* CheckNewMilestones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckNewMilestones.swift; sourceTree = "<group>"; };
 		5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSignificantAmounts.swift; sourceTree = "<group>"; };
 		5EF748CC26DF749A008174DF /* NotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
+		5EFB879B2AA492BE006E0D0E /* StJudeTotals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StJudeTotals.swift; sourceTree = "<group>"; };
 		630DD48126E24A9200FE44E5 /* InAppSettingsToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppSettingsToggle.swift; sourceTree = "<group>"; };
 		630DD48426E253CF00FE44E5 /* SettingsDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDivider.swift; sourceTree = "<group>"; };
 		6348F9F626D6B5100031697F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -779,6 +782,7 @@
 				5EEB56902A9E275C008AABF1 /* HeadToHeadView.swift */,
 				5EEB569E2AA090E7008AABF1 /* HeadToHeadListItem.swift */,
 				5EEB56A12AA0987C008AABF1 /* ChooseCampaignView.swift */,
+				5EFB879B2AA492BE006E0D0E /* StJudeTotals.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1231,6 +1235,7 @@
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */,
 				5EE56C132A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */,
+				5EFB879C2AA492BE006E0D0E /* StJudeTotals.swift in Sources */,
 				63D0CD1C28B4E8AB0073957E /* Sequence.swift in Sources */,
 				63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */,
 				5EE0EC0D28BD5A320053C9D1 /* TeamEventCardView.swift in Sources */,
@@ -1323,6 +1328,7 @@
 				5E7C2FFD28C5403600A9B0D5 /* SearchBar.swift in Sources */,
 				5EE0EC1728BF96B20053C9D1 /* ShareCampaignView.swift in Sources */,
 				5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
+				5EFB879D2AA492BE006E0D0E /* StJudeTotals.swift in Sources */,
 				5EF748CE26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				5E56A7A428C73D4B00B0DD59 /* AnimatedImage.swift in Sources */,
 				5EE0EC1A28BF9FEC0053C9D1 /* View+asImage.swift in Sources */,
@@ -1492,7 +1498,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1522,7 +1528,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1579,7 +1585,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1640,7 +1646,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1669,7 +1675,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1706,7 +1712,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1744,7 +1750,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1776,7 +1782,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1804,7 +1810,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1829,7 +1835,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1856,7 +1862,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1881,7 +1887,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1907,7 +1913,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
@@ -1937,7 +1943,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
@@ -1966,7 +1972,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Intents Extension/Info.plist";
@@ -1994,7 +2000,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Intents Extension/Info.plist";
