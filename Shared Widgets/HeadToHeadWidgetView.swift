@@ -172,17 +172,73 @@ struct HeadToHeadWidgetView: View {
         }
     }
     
+    var headToHeadEnabled: Bool {
+        // TODO: Add the milestone logic here
+        false
+    }
+    
+    @ViewBuilder
+    var disabledContent: some View {
+        if(isLockScreen(family: family)) {
+            Image(systemName: "crown.fill")
+            if(family == .accessoryCircular) {
+                    Text("Reach $500!")
+                    .multilineTextAlignment(.center)
+            } else {
+                Text("Reach $500 to unlock!")
+                    .multilineTextAlignment(.center)
+            }
+        } else {
+            VStack {
+                Spacer()
+                HStack {
+                    Image(.myke)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                    Spacer()
+                    Text("vs")
+                        .bold()
+                        .padding(.all, 4)
+                        .background(Circle().fill(Color.white))
+                        .foregroundColor(.black)
+                    Spacer()
+                    Image(.stephen)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+                Spacer()
+                Text("Head To Head")
+                    .foregroundStyle(.white)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                Text("Reach $500 to unlock!")
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.center)
+            }
+        }
+    }
+    
     var body: some View {
         if #available(iOS 17.0, *) {
-            content(for: family)
-                .containerBackground(for: .widget, content: {
-                    backgroundView
-                })
+            if(headToHeadEnabled) {
+                content(for: family)
+                    .containerBackground(for: .widget, content: {
+                        backgroundView
+                    })
+            } else {
+                disabledContent
+                    .containerBackground(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+            }
         } else {
-            content(for: family)
-                .background {
-                    backgroundView
-                }
+            if(headToHeadEnabled) {
+                content(for: family)
+                    .background {
+                        backgroundView
+                    }
+            } else {
+                disabledContent
+                    .background(LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top))
+            }
         }
     }
     

@@ -35,3 +35,16 @@ func isExtraLargeSize(family: WidgetFamily) -> Bool {
     return false
 }
 #endif
+
+#if os(iOS)
+func isLockScreen(family: WidgetFamily) -> Bool {
+    if #available(iOSApplicationExtension 16.0, *) {
+        if(family == .accessoryCircular ||
+           family == .accessoryRectangular ||
+           family == .accessoryInline) {
+            return true
+        }
+    }
+    return false
+}
+#endif
