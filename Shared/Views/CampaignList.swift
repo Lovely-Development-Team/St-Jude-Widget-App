@@ -228,8 +228,9 @@ struct CampaignList: View {
                                     .fontWeight(.bold)
                                     .fullWidth()
                                 Spacer()
-                                Image(systemName: showHeadToHeads ? "chevron.down" : "chevron.right")
+                                Image(systemName: "chevron.right")
                                     .foregroundStyle(.secondary)
+                                    .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
                             }
                         }
                         .buttonStyle(.plain)
@@ -357,22 +358,12 @@ struct CampaignList: View {
                                                         Label("Start Head to Head", systemImage: "trophy")
                                                     }
                                                 }
-                                                if campaign.isStarred {
-                                                    Button(action: {
-                                                        Task {
-                                                            await starOrUnstar(campaign: campaign)
-                                                        }
-                                                    }) {
-                                                        Label("Remove Star", systemImage: "star")
+                                                Button(action: {
+                                                    Task {
+                                                        await starOrUnstar(campaign: campaign)
                                                     }
-                                                } else {
-                                                    Button(action: {
-                                                        Task {
-                                                            await starOrUnstar(campaign: campaign)
-                                                        }
-                                                    }) {
-                                                        Label("Star", systemImage: "star.fill")
-                                                    }
+                                                }) {
+                                                    Label(campaign.isStarred ? "Remove Star" : "Star", systemImage: campaign.isStarred ? "star" : "star.fill")
                                                 }
                                             }
                                     }
@@ -493,7 +484,7 @@ struct CampaignList: View {
         }
         .sheet(isPresented: $showLeaderboard) {
             NavigationView {
-                Leaderboard(campaigns: $campaigns) { campaign in
+                Leaderboard(campaigns: campaigns) { campaign in
                     showLeaderboard = false
                     selectedCampaignId = campaign.id
                 }
