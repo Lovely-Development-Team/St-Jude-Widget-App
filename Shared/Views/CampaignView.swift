@@ -102,7 +102,7 @@ struct CampaignView: View {
                         .frame(height: 100)
                         .padding(.bottom)
                     HStack(alignment: .firstTextBaseline) {
-                        Text("Lifetime Total:")
+                        Text("Lifetime Total")
                         Text(grandTotalRaised)
                             .fullWidth(alignment: .trailing)
                             .font(.title2)
