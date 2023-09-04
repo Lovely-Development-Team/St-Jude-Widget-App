@@ -11,7 +11,7 @@ struct Leaderboard: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @Binding var campaigns: [Campaign]
+    var campaigns: [Campaign]
     var navigateTo: (_: Campaign) -> Void
     
     var sortedCampaigns: [Campaign] {
