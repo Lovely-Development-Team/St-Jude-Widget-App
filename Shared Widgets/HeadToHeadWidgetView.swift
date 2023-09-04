@@ -210,7 +210,7 @@ struct HeadToHeadWidgetView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Image(.myke)
+                    Image(.mykesmol)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                     Spacer()
@@ -220,7 +220,7 @@ struct HeadToHeadWidgetView: View {
                         .background(Circle().fill(Color.white))
                         .foregroundColor(.black)
                     Spacer()
-                    Image(.stephen)
+                    Image(.stephensmol)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 }
