@@ -291,13 +291,13 @@ extension WidgetDataProviding {
 
 extension WidgetDataProviding {
     internal func fetchPlaceholder(in context: Context) -> HeadToHeadEntry {
-        return HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+        return HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
     }
     
     internal func fetchSnapshot(for configuration: HeadToHeadConfigurationIntent, in context: Context, completion: @escaping (HeadToHeadEntry) -> ()) {
         
         guard let headToHead = configuration.headToHead, let campaign1 = headToHead.campaign1, let campaign2 = headToHead.campaign2 else {
-            let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+            let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: nil, campaign1: nil, campaign2: nil)
             completion(entry)
             return
         }
@@ -307,7 +307,7 @@ extension WidgetDataProviding {
                 switch result {
                 case .failure(let error):
                     dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                    let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+                    let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
                     completion(entry)
                     return
                 case .success(let response):
@@ -318,7 +318,7 @@ extension WidgetDataProviding {
                             switch result {
                             case .failure(let error):
                                 dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+                                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
                                 completion(entry)
                                 return
                             case .success(let response2):
@@ -339,7 +339,7 @@ extension WidgetDataProviding {
         
         guard let h2h = configuration.headToHead, let campaign1 = h2h.campaign1, let campaign2 = h2h.campaign2 else {
             let timeline = Timeline(entries: [
-                HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+                HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: nil, campaign1: nil, campaign2: nil)
             ], policy: .atEnd)
             completion(timeline)
             return
@@ -350,7 +350,7 @@ extension WidgetDataProviding {
                 switch result {
                 case .failure(let error):
                     dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+                    let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
                     completion(Timeline(entries: [entry], policy: .atEnd))
                     return
                 case .success(let response):
@@ -362,7 +362,7 @@ extension WidgetDataProviding {
                             switch result2 {
                             case .failure(let error):
                                 dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+                                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
                                 completion(Timeline(entries: [entry], policy: .atEnd))
                                 return
                             case .success(let response2):

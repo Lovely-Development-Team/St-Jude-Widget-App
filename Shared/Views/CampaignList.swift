@@ -603,11 +603,9 @@ struct CampaignList: View {
                     do {
                         dataLogger.notice("Updating \(apiCampaign.name) - \(apiCampaign.totalRaised.description(showFullCurrencySymbol: false))")
                         try await AppDatabase.shared.updateCampaign(updateCampaign, changesFrom: dbCampaign)
-                        
                         if apiCampaign.id == TLD_CAMPAIGN {
                             shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
                         }
-                        
                     } catch {
                         dataLogger.error("Failed to update campaign: \(updateCampaign.id) \(updateCampaign.name): \(error.localizedDescription)")
                     }
@@ -624,6 +622,9 @@ struct CampaignList: View {
             for apiCampaign in keyedApiCampaigns.values {
                 do {
                     try await AppDatabase.shared.saveCampaign(apiCampaign)
+                    if apiCampaign.id == TLD_CAMPAIGN {
+                        shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
+                    }
                 } catch {
                     dataLogger.error("Failed to save Campaign \(apiCampaign.id) \(apiCampaign.name): \(error.localizedDescription)")
                 }
