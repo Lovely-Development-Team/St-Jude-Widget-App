@@ -104,6 +104,7 @@ struct CampaignView: View {
                     HStack(alignment: .firstTextBaseline) {
                         Text("Lifetime Total")
                         Text(grandTotalRaised)
+                            .textSelection(.enabled)
                             .fullWidth(alignment: .trailing)
                             .font(.title2)
                             .bold()
