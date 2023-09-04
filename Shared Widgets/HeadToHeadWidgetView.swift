@@ -80,7 +80,7 @@ struct HeadToHeadWidgetView: View {
             LinearGradient(colors: smallBackgroundColors, startPoint: .bottom, endPoint: .top)
         } else if(family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
-        } else if(family == .systemExtraLarge) {
+        } else if(family == .systemExtraLarge || family == .systemMedium) {
             backgroundRectView(isHorizontal: true, isSkewed: true)
         }
     }
