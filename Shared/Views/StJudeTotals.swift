@@ -55,7 +55,7 @@ struct StJudeTotals: View {
             BarMark(x: .value("Year", total.year), y: .value("USD", total.total), width: 25)
                 .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
             RectangleMark(x: .value("Year", total.year), y: .value("USD", total.goal), height: 1)
-                .foregroundStyle(.gray)
+                .foregroundStyle(Color.brandPurple)
         }
         .chartYAxis {
             AxisMarks(

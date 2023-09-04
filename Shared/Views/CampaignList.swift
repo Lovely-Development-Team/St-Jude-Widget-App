@@ -63,6 +63,8 @@ struct CampaignList: View {
     @State private var showHeadToHeads: Bool = true
     @State private var showHeadToHeadChoice: Campaign? = nil
     
+    @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
+    
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     let closingDate: Date? = nil // Date(timeIntervalSince1970: 1698710400)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -348,10 +350,29 @@ struct CampaignList: View {
                                     NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                                         FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
                                             .contextMenu {
-                                                Button(action: {
-                                                    showHeadToHeadChoice = campaign
-                                                }) {
-                                                    Label("Start Head to Head", systemImage: "trophy")
+                                                if shouldShowHeadToHead {
+                                                    Button(action: {
+                                                        showHeadToHeadChoice = campaign
+                                                    }) {
+                                                        Label("Start Head to Head", systemImage: "trophy")
+                                                    }
+                                                }
+                                                if campaign.isStarred {
+                                                    Button(action: {
+                                                        Task {
+                                                            await starOrUnstar(campaign: campaign)
+                                                        }
+                                                    }) {
+                                                        Label("Remove Star", systemImage: "star")
+                                                    }
+                                                } else {
+                                                    Button(action: {
+                                                        Task {
+                                                            await starOrUnstar(campaign: campaign)
+                                                        }
+                                                    }) {
+                                                        Label("Star", systemImage: "star.fill")
+                                                    }
                                                 }
                                             }
                                     }
@@ -533,6 +554,18 @@ struct CampaignList: View {
         }
     }
     
+    func starOrUnstar(campaign: Campaign) async {
+        let newCampaign = campaign.setStar(to: !campaign.isStarred)
+        do {
+            if try await AppDatabase.shared.updateCampaign(newCampaign, changesFrom: campaign) {
+                dataLogger.info("Updated starring stored campaign: \(newCampaign.id)")
+            }
+        } catch {
+            dataLogger.error("Starring/unstarring stored campaign failed: \(error.localizedDescription)")
+        }
+        await fetch()
+    }
+    
     func refresh() async {
         
         if let apiEventData = await apiClient.fetchTeamEvent() {
@@ -570,6 +603,11 @@ struct CampaignList: View {
                     do {
                         dataLogger.notice("Updating \(apiCampaign.name) - \(apiCampaign.totalRaised.description(showFullCurrencySymbol: false))")
                         try await AppDatabase.shared.updateCampaign(updateCampaign, changesFrom: dbCampaign)
+                        
+                        if apiCampaign.id == TLD_CAMPAIGN {
+                            shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
+                        }
+                        
                     } catch {
                         dataLogger.error("Failed to update campaign: \(updateCampaign.id) \(updateCampaign.name): \(error.localizedDescription)")
                     }

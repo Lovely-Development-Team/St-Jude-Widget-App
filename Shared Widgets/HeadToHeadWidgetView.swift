@@ -177,8 +177,7 @@ struct HeadToHeadWidgetView: View {
     }
     
     var headToHeadEnabled: Bool {
-        // TODO: Add the milestone logic here
-        true
+        UserDefaults.shared.shouldShowHeadToHead
     }
     
     @ViewBuilder

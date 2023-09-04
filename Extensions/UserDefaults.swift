@@ -25,6 +25,13 @@ extension UserDefaults {
     static let enableCustomAmountNotificationKey = "enableCustomAmountNotification"
     static let customNotificationAmountKey = "customNotificationAmount"
     
+    static let shouldShowHeadToHeadKey = "shouldShowHeadToHead"
+    
+    @objc var shouldShowHeadToHead: Bool {
+        get { bool(forKey: Self.shouldShowHeadToHeadKey) }
+        set { set(newValue, forKey: Self.shouldShowHeadToHeadKey) }
+    }
+    
     @objc var relayData: Data? {
         get { data(forKey: "relayData") }
         set { set(newValue, forKey: "relayData") }

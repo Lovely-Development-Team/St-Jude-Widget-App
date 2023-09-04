@@ -9,6 +9,11 @@ import Foundation
 import GRDB
 
 let RELAY_CAMPAIGN: UUID = UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb9066")!
+let TLD_CAMPAIGN: UUID = UUID(uuidString: "65563296-EEC2-45D5-BB7B-E77203D6AB08")!
+
+struct TLDMilestones {
+    static let HeadToHead: Double = 350
+}
 
 let HIDDEN_CAMPAIGN_IDS: Set<UUID> = [
     RELAY_CAMPAIGN
