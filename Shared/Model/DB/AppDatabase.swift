@@ -12,7 +12,7 @@ let RELAY_CAMPAIGN: UUID = UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb906
 let TLD_CAMPAIGN: UUID = UUID(uuidString: "65563296-EEC2-45D5-BB7B-E77203D6AB08")!
 
 struct TLDMilestones {
-    static let HeadToHead: Double = 350
+    static let HeadToHead: Double = 500
 }
 
 let HIDDEN_CAMPAIGN_IDS: Set<UUID> = [
