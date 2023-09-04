@@ -166,7 +166,7 @@ struct FundraisingLockScreenWidget: Widget {
 }
 
 struct HeadToHeadWidget: Widget {
-    let kind: String = "HeadToHead"
+    let kind: String = "HeadToHeadWidget"
     @StateObject private var apiClient = ApiClient.shared
     
     var supportedFamilies: [WidgetFamily] {

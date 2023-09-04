@@ -177,7 +177,7 @@ struct HeadToHeadWidgetView: View {
     }
     
     var headToHeadEnabled: Bool {
-        UserDefaults.shared.shouldShowHeadToHead
+        entry.headToHeadEnabled
     }
     
     @ViewBuilder
