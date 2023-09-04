@@ -303,34 +303,30 @@ extension WidgetDataProviding {
         }
         
         self.fetchCampaign(vanity: campaign1.vanity, slug: campaign1.slug) { result in
-            Task {
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                    let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                    completion(entry)
-                    return
-                case .success(let response):
-                    let campaign1: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                    
-                    self.fetchCampaign(vanity: campaign2.vanity, slug: campaign2.slug, completion: { result2 in
-                        Task {
-                            switch result {
-                            case .failure(let error):
-                                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                                completion(entry)
-                                return
-                            case .success(let response2):
-                                let campaign2: TiltifyWidgetData = TiltifyWidgetData(from: response2.data.campaign)
-                                
-                                let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: headToHead.identifier ?? ""), campaign1: campaign1, campaign2: campaign2)
-                                
-                                completion(entry)
-                            }
-                        }
-                    })
-                }
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
+                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
+                completion(entry)
+                return
+            case .success(let response):
+                let campaign1: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                
+                self.fetchCampaign(vanity: campaign2.vanity, slug: campaign2.slug, completion: { result2 in
+                    switch result {
+                    case .failure(let error):
+                        dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
+                        let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
+                        completion(entry)
+                        return
+                    case .success(let response2):
+                        let campaign2: TiltifyWidgetData = TiltifyWidgetData(from: response2.data.campaign)
+                        
+                        let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: headToHead.identifier ?? ""), campaign1: campaign1, campaign2: campaign2)
+                        
+                        completion(entry)
+                    }
+                })
             }
         }
     }
@@ -346,38 +342,34 @@ extension WidgetDataProviding {
         }
         
         self.fetchCampaign(vanity: campaign1.vanity, slug: campaign1.slug) { result in
-            Task {
-                switch result {
-                case .failure(let error):
-                    dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                    let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                    completion(Timeline(entries: [entry], policy: .atEnd))
-                    return
-                case .success(let response):
-                    let campaign1: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+            switch result {
+            case .failure(let error):
+                dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
+                completion(Timeline(entries: [entry], policy: .atEnd))
+                return
+            case .success(let response):
+                let campaign1: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
+                
+                self.fetchCampaign(vanity: campaign2.vanity, slug: campaign2.slug, completion: { result2 in
+                    var entries: [HeadToHeadEntry] = []
+                    switch result2 {
+                    case .failure(let error):
+                        dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+                        let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
+                    case .success(let response2):
+                        let campaign2: TiltifyWidgetData = TiltifyWidgetData(from: response2.data.campaign)
+                        
+                        let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: h2h.identifier ?? ""), campaign1: campaign1, campaign2: campaign2)
+                        
+                        entries.append(entry)
+                    }
                     
-                    self.fetchCampaign(vanity: campaign2.vanity, slug: campaign2.slug, completion: { result2 in
-                        Task {
-                            var entries: [HeadToHeadEntry] = []
-                            switch result2 {
-                            case .failure(let error):
-                                dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                                let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                                completion(Timeline(entries: [entry], policy: .atEnd))
-                                return
-                            case .success(let response2):
-                                let campaign2: TiltifyWidgetData = TiltifyWidgetData(from: response2.data.campaign)
-                                
-                                let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: h2h.identifier ?? ""), campaign1: campaign1, campaign2: campaign2)
-                                
-                                entries.append(entry)
-                            }
-                            
-                            let timeline = Timeline(entries: entries, policy: .atEnd)
-                            completion(timeline)
-                        }
-                    })
-                }
+                    let timeline = Timeline(entries: entries, policy: .atEnd)
+                    completion(timeline)
+                })
             }
         }
     }
