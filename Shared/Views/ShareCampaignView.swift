@@ -123,11 +123,13 @@ struct ShareCampaignView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground)))
                 .padding(.horizontal, 12)
-                Spacer()
                 Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")
+//                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+//                    .border(Color.red)
                     .font(.caption)
-                    .padding(.horizontal)
+                    .multilineTextAlignment(.center)
                     .foregroundStyle(Color.secondary)
+                    .padding(.horizontal)
                 Spacer()
             }
             .toolbar {
