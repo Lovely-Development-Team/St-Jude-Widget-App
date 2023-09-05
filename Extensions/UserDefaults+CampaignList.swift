@@ -13,6 +13,11 @@ extension UserDefaults {
     
     static let shareScreenshotInitialAppearanceKey = "shareScreenshotInitialAppearance"
     static let shareScreenshotClipCornersKey = "shareScreenshotClipCorners"
+    static let shareScreenshotShowMilestonesKey = "shareScreenshotShowMilestones"
+    static let shareScreenshotShowMilestonePercentageKey = "shareScreenshotShowMilestonePercentage"
+    static let shareScreenshotPreferFutureMilestonesKey = "shareScreenshotPreferFutureMilestones"
+    static let shareScreenshotShowFullCurrencySymbolKey = "shareScreenshotShowFullCurrencySymbol"
+    static let shareScreenshotShowMainGoalPercentageKey = "shareScreenshotShowMainGoalPercentage"
     
     var campaignListSortOrder: FundraiserSortOrder {
         get {
