@@ -43,6 +43,7 @@ struct ShareCampaignView: View {
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
+            .frame(minHeight: 169) // Height a medium widget
     }
     
     @ViewBuilder

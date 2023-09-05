@@ -85,8 +85,6 @@ struct EntryView: View {
             CampaignTitle(name: campaign.name, showingTwoMilestones: showMilestones)
              
             Spacer()
-                .frame(minHeight: 10, idealHeight: 40, maxHeight: 65)
-                .fixedSize()
             
             if let percentageReached = campaign.percentageReached {
                 ProgressBar(value: .constant(Float(percentageReached)), fillColor: fillColor)
@@ -102,22 +100,22 @@ struct EntryView: View {
                         .lineLimit(1)
                         .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
                     
-                    if showGoalPercentage && family == .systemMedium && DeviceType.isInWidget() {
+                    if showGoalPercentage && DeviceType.isInWidget() && (family == .systemMedium || (family == .systemLarge && showMilestones)) {
                         VStack(alignment: .leading) {
-                            Text(campaign.percentageReachedDescription ?? "Unknown")
-                            Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                            Text("\(campaign.percentageReachedDescription ?? "Unknown") of")
+                            Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))
                         }
                         .font(.caption)
                     }
                     if #available(iOS 15.0, *), showGoalPercentage, isExtraLargeSize(family: family) && DeviceType.isInWidget() {
                             Spacer()
-                            Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
+                            Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))")
                     }
                 }
                 
                 if showGoalPercentage,
-                   family == .systemLarge || !DeviceType.isInWidget() {
-                    Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol))")
+                   (family == .systemLarge && !showMilestones) || !DeviceType.isInWidget() {
+                    Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))")
                 }
                 
                 if showGoalPercentage,
