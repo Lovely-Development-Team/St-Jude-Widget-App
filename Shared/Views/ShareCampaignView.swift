@@ -46,11 +46,13 @@ struct ShareCampaignView: View {
     @Environment(\.displayScale) var displayScale
     
     @MainActor func render() {
-        let renderer = ImageRenderer(content: entryView)
-        renderer.scale = displayScale
-        renderer.proposedSize = ProposedViewSize(imageSize)
-        if let uiImage = renderer.uiImage {
-            renderedImage = Image(uiImage: uiImage)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            let renderer = ImageRenderer(content: entryView)
+            renderer.scale = displayScale
+            renderer.proposedSize = ProposedViewSize(imageSize)
+            if let uiImage = renderer.uiImage {
+                renderedImage = Image(uiImage: uiImage)
+            }
         }
     }
     
@@ -170,21 +172,17 @@ struct ShareCampaignView: View {
         .onChange(of: widgetData) { _ in
             render()
         }
-        .onAppear {
-            appearance = UserDefaults.shared.shareScreenshotInitialAppearance
-            clipCorners = UserDefaults.shared.shareScreenshotClipCorners
-            Task {
-                if let campaign = campaign {
-                    do {
-                        widgetData = try await TiltifyWidgetData(from: campaign)
-                    } catch {
-                        dataLogger.error("Unable to create TiltifyWidgetData from Campaign: \(error.localizedDescription)")
-                    }
-                } else if let teamEvent = teamEvent {
-                    widgetData = await TiltifyWidgetData(from: teamEvent)
+        .task {
+            if let campaign = campaign {
+                do {
+                    widgetData = try await TiltifyWidgetData(from: campaign)
+                } catch {
+                    dataLogger.error("Unable to create TiltifyWidgetData from Campaign: \(error.localizedDescription)")
                 }
-                render()
+            } else if let teamEvent = teamEvent {
+                widgetData = await TiltifyWidgetData(from: teamEvent)
             }
+            render()
         }
     }
 }
