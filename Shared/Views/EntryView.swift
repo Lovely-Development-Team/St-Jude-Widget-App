@@ -101,7 +101,8 @@ struct EntryView: View {
                         .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
                     
                     if showGoalPercentage && DeviceType.isInWidget() && (family == .systemMedium || (family == .systemLarge && showMilestones)) {
-                        VStack(alignment: .leading) {
+                        Spacer()
+                        VStack(alignment: .trailing) {
                             Text("\(campaign.percentageReachedDescription ?? "Unknown") of")
                             Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))
                         }
