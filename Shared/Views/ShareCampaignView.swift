@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-struct ImageToShare: Identifiable {
-    let id: UUID
-    let image: UIImage
-}
-
 struct ShareCampaignView: View {
     
     @Environment(\.presentationMode) var presentationMode
@@ -20,15 +15,16 @@ struct ShareCampaignView: View {
     @State private var campaign: Campaign?
     @State private var widgetData: TiltifyWidgetData = sampleCampaign
     
-    @State private var showMilestones: Bool = false
-    @State private var showMilestonePercentage: Bool = false
-    @State private var preferFutureMilestones: Bool = true
-    @State private var showFullCurrencySymbol: Bool = false
-    @State private var showMainGoalPercentage: Bool = false
-    @State private var appearance: WidgetAppearance = .yellow
-    @State private var clipCorners: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotShowMilestonesKey, store: UserDefaults.shared) private var showMilestones: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotShowMilestonePercentageKey, store: UserDefaults.shared) private var showMilestonePercentage: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotPreferFutureMilestonesKey , store: UserDefaults.shared) private var preferFutureMilestones: Bool = true
+    @AppStorage(UserDefaults.shareScreenshotShowFullCurrencySymbolKey , store: UserDefaults.shared) private var showFullCurrencySymbol: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotShowMainGoalPercentageKey , store: UserDefaults.shared) private var showMainGoalPercentage: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotClipCornersKey, store: UserDefaults.shared) private var clipCorners: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotInitialAppearanceKey, store: UserDefaults.shared) private var appearance: WidgetAppearance = .yellow
     
-    @State private var presentSystemShareSheet: ImageToShare? = nil
+    @State private var renderedImage = Image(systemName: "photo")
+    @State private var imageSize: CGSize = .zero
     
     init(campaign: Campaign) {
         self._teamEvent = State(wrappedValue: nil)
@@ -43,7 +39,19 @@ struct ShareCampaignView: View {
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
-            .frame(minHeight: 169) // Height a medium widget
+            .frame(minHeight: 169) // Height of a medium widget
+            .dynamicTypeSize(.medium)
+    }
+    
+    @Environment(\.displayScale) var displayScale
+    
+    @MainActor func render() {
+        let renderer = ImageRenderer(content: entryView)
+        renderer.scale = displayScale
+        renderer.proposedSize = ProposedViewSize(imageSize)
+        if let uiImage = renderer.uiImage {
+            renderedImage = Image(uiImage: uiImage)
+        }
     }
     
     @ViewBuilder
@@ -51,33 +59,28 @@ struct ShareCampaignView: View {
     var headerView: some View {
         VStack(spacing: 0) {
             entryView
+                .background {
+                    GeometryReader { geo in
+                        Color.clear
+                            .onAppear {
+                                self.imageSize = geo.frame(in: .global).size
+                            }
+                            .onChange(of: geo.frame(in: .global).size) { newValue in
+                                self.imageSize = newValue
+                            }
+                    }
+                }
                 .cornerRadius((clipCorners ? 15 : 0))
                 .padding(.horizontal)
-            Button(action: {
-                let renderer =  ImageRenderer(content: entryView)
-                renderer.scale = 3.0
-                renderer.proposedSize = ProposedViewSize(width: 350, height: .infinity) //Set a width on the ImageRenderer view to match the preview
-                if let image =  renderer.cgImage {
-                    presentSystemShareSheet = ImageToShare(id: UUID(), image: UIImage(cgImage: image))
-                }
-            }) {
-                Label("Share", systemImage: "square.and.arrow.up")
-            }
-            .font(.headline)
-            .foregroundColor(.white)
-            .padding(10)
-            .padding(.horizontal, 20)
-            .background(Color.accentColor)
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-            .padding()
-            .sheet(item: $presentSystemShareSheet) { image in
-                if let data = image.image.pngData() {
-                    ShareSheetView(activityItems: [data])
-                } else {
-                    ShareSheetView(activityItems: [image.image])
-                }
-            }
+            ShareLink("Share", item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage))
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding(10)
+                .padding(.horizontal, 20)
+                .background(Color.accentColor)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                .padding()
         }
     }
     
@@ -137,11 +140,29 @@ struct ShareCampaignView: View {
             .navigationTitle("Preview")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .onChange(of: appearance) { newValue in
-            UserDefaults.shared.shareScreenshotInitialAppearance = newValue
+        .onChange(of: appearance) { _ in
+            render()
         }
-        .onChange(of: clipCorners) { newValue in
-            UserDefaults.shared.shareScreenshotClipCorners = newValue
+        .onChange(of: clipCorners) { _ in
+            render()
+        }
+        .onChange(of: showMilestones) { _ in
+            render()
+        }
+        .onChange(of: showMilestonePercentage) { _ in
+            render()
+        }
+        .onChange(of: preferFutureMilestones) { _ in
+            render()
+        }
+        .onChange(of: showFullCurrencySymbol) { _ in
+            render()
+        }
+        .onChange(of: showMainGoalPercentage) { _ in
+            render()
+        }
+        .onChange(of: widgetData) { _ in
+            render()
         }
         .onAppear {
             appearance = UserDefaults.shared.shareScreenshotInitialAppearance
@@ -156,6 +177,7 @@ struct ShareCampaignView: View {
                 } else if let teamEvent = teamEvent {
                     widgetData = await TiltifyWidgetData(from: teamEvent)
                 }
+                render()
             }
         }
     }
