@@ -55,7 +55,7 @@ struct TiltifyWidgetData {
     var goal: Double? {
         Double(goalRaw)
     }
-    func goalDescription(showFullCurrencySymbol: Bool) -> String {
+    func goalDescription(showFullCurrencySymbol: Bool, trimDecimalPlaces: Bool = false) -> String {
         guard let goal = goal else {
             return goalRaw
         }
@@ -70,6 +70,11 @@ struct TiltifyWidgetData {
         let descriptionString = currencyFormatter.string(from: goal as NSNumber) ?? goalRaw
         currencyFormatter.currencySymbol = originalSymbol
         currencyFormatter.currencyCode = originalCode
+        
+        if trimDecimalPlaces && descriptionString.hasSuffix("00") {
+            return String(descriptionString.dropLast(3))
+        }
+        
         return descriptionString
     }
     let milestones: [Milestone]
