@@ -78,7 +78,7 @@ struct ShareCampaignView: View {
                 .padding(10)
                 .padding(.horizontal, 20)
                 .background(Color.accentColor)
-                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 .padding()
         }
@@ -124,7 +124,13 @@ struct ShareCampaignView: View {
                     .padding(.leading)
                     .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
                     .padding(.horizontal)
-                    .padding(.bottom)
+                    Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .font(.caption)
+                        .multilineTextAlignment(.leading)
+                        .foregroundStyle(Color.secondary)
+                        .padding(.horizontal, 30)
+                        .padding(.bottom)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
