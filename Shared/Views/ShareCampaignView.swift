@@ -29,7 +29,7 @@ struct ShareCampaignView: View {
     @State private var clipCorners: Bool = false
     
     @State private var presentSystemShareSheet: ImageToShare? = nil
-        
+    
     init(campaign: Campaign) {
         self._teamEvent = State(wrappedValue: nil)
         self._campaign = State(wrappedValue: campaign)
@@ -83,25 +83,24 @@ struct ShareCampaignView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-            VStack {
-                headerView
                 VStack {
-                Group {
+                    headerView
                     VStack {
                         Toggle("Show Milestones", isOn: $showMilestones.animation()).padding(.top, 8).padding(.trailing)
-                        Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                        Divider().opacity(0.75)
                         if showMilestones {
                             Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation()).padding(.trailing)
-                            Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                            Divider().opacity(0.75)
                             Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation()).padding(.trailing)
-                            Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                            Divider().opacity(0.75)
                         }
                         Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation()).padding(.trailing)
-                        Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                        Divider().opacity(0.75)
                         Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation()).padding(.trailing)
-                        Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
-                    }
-                    HStack {
+                        Divider().opacity(0.75)
+                        Toggle("Rounded Corners", isOn: $clipCorners.animation()).padding(.trailing)
+                        Divider().opacity(0.75)
+                        HStack(alignment: .firstTextBaseline) {
                             Text("Appearance")
                             Spacer()
                             Picker("Appearance", selection: $appearance.animation()) {
@@ -116,31 +115,22 @@ struct ShareCampaignView: View {
                                 Text("Purple").tag(WidgetAppearance.purple)
                             }
                         }
-                    Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
-                    Toggle("Rounded Corners", isOn: $clipCorners.animation()).padding(.bottom, 8).padding(.trailing)
-                }
-                .padding(.leading)
-                }
-                .background(RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground)))
-                .padding(.horizontal, 12)
-                Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")
-//                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-//                    .border(Color.red)
-                    .font(.caption)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color.secondary)
+                        .padding(.bottom, 8)
+                    }
+                    .padding(.leading)
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
                     .padding(.horizontal)
-                Spacer()
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Done")
+                    .padding(.bottom)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Done")
+                        }
                     }
                 }
-            }
             }
             .background(Color.secondarySystemBackground)
             .navigationTitle("Preview")
