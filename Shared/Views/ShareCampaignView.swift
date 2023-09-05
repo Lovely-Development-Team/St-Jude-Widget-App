@@ -42,7 +42,6 @@ struct ShareCampaignView: View {
     
     var entryView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
-            .frame(minWidth: 350, maxWidth: 350, minHeight: 200, maxHeight: 450)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
     }
     
@@ -52,13 +51,14 @@ struct ShareCampaignView: View {
         VStack(spacing: 0) {
             entryView
                 .cornerRadius((clipCorners ? 15 : 0))
+                .padding(.horizontal)
             Button(action: {
-                    let renderer =  ImageRenderer(content: entryView)
-                    renderer.scale = 3.0
-                    if let image =  renderer.cgImage {
-                        presentSystemShareSheet = ImageToShare(id: UUID(), image: UIImage(cgImage: image))
-                    }
-                                
+                let renderer =  ImageRenderer(content: entryView)
+                renderer.scale = 3.0
+                renderer.proposedSize = ProposedViewSize(width: 350, height: .infinity) //Set a width on the ImageRenderer view to match the preview
+                if let image =  renderer.cgImage {
+                    presentSystemShareSheet = ImageToShare(id: UUID(), image: UIImage(cgImage: image))
+                }
             }) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
@@ -82,29 +82,53 @@ struct ShareCampaignView: View {
     
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: headerView.textCase(nil), footer: Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")) {
-                    Toggle("Show Milestones", isOn: $showMilestones.animation())
-                    if showMilestones {
-                        Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
-                        Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation())
+            ScrollView {
+            VStack {
+                headerView
+                VStack {
+                Group {
+                    VStack {
+                        Toggle("Show Milestones", isOn: $showMilestones.animation()).padding(.top, 8).padding(.trailing)
+                        Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                        if showMilestones {
+                            Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation()).padding(.trailing)
+                            Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                            Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation()).padding(.trailing)
+                            Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                        }
+                        Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation()).padding(.trailing)
+                        Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                        Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation()).padding(.trailing)
+                        Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
                     }
-                    Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation())
-                    Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation())
-                    Picker("Appearance", selection: $appearance.animation()) {
-                        Text("Relay FM").tag(WidgetAppearance.relay)
-                        Text("St. Jude").tag(WidgetAppearance.stjude)
-                        Text("Relay FM (True Black)").tag(WidgetAppearance.relaytrueblack)
-                        Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
-                        Text("Yellow").tag(WidgetAppearance.yellow)
-                        Text("Red").tag(WidgetAppearance.red)
-                        Text("Blue").tag(WidgetAppearance.blue)
-                        Text("Green").tag(WidgetAppearance.green)
-                        Text("Purple").tag(WidgetAppearance.purple)
-                    }
-                    Toggle("Rounded Corners", isOn: $clipCorners.animation())
-                    
+                    HStack {
+                            Text("Appearance")
+                            Spacer()
+                            Picker("Appearance", selection: $appearance.animation()) {
+                                Text("Relay FM").tag(WidgetAppearance.relay)
+                                Text("St. Jude").tag(WidgetAppearance.stjude)
+                                Text("Relay FM (True Black)").tag(WidgetAppearance.relaytrueblack)
+                                Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
+                                Text("Yellow").tag(WidgetAppearance.yellow)
+                                Text("Red").tag(WidgetAppearance.red)
+                                Text("Blue").tag(WidgetAppearance.blue)
+                                Text("Green").tag(WidgetAppearance.green)
+                                Text("Purple").tag(WidgetAppearance.purple)
+                            }
+                        }
+                    Rectangle().fill(Color.secondarySystemBackground).frame(height: 1)
+                    Toggle("Rounded Corners", isOn: $clipCorners.animation()).padding(.bottom, 8).padding(.trailing)
                 }
+                .padding(.leading)
+                }
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground)))
+                .padding(.horizontal, 12)
+                Spacer()
+                Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")
+                    .font(.caption)
+                    .padding(.horizontal)
+                    .foregroundStyle(Color.secondary)
+                Spacer()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -115,6 +139,8 @@ struct ShareCampaignView: View {
                     }
                 }
             }
+            }
+            .background(Color.secondarySystemBackground)
             .navigationTitle("Preview")
             .navigationBarTitleDisplayMode(.inline)
         }

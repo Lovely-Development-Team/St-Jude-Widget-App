@@ -85,6 +85,8 @@ struct EntryView: View {
             CampaignTitle(name: campaign.name, showingTwoMilestones: showMilestones)
              
             Spacer()
+                .frame(minHeight: 10, idealHeight: 40, maxHeight: 65)
+                .fixedSize()
             
             if let percentageReached = campaign.percentageReached {
                 ProgressBar(value: .constant(Float(percentageReached)), fillColor: fillColor)
