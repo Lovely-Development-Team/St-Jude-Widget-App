@@ -31,7 +31,9 @@ func getShortNumber(from number: Double) -> String {
 
 struct StJudeTotals: View {
     
-    var currentTotal: Double = 0
+    var currentTotal: Double = 293000
+    
+    @State private var lineGraph: Bool = false
         
     var totalRaised: [FundraisingDataPoint] {
         PREVIOUS_TOTALS_RAISED + [
@@ -52,10 +54,22 @@ struct StJudeTotals: View {
     
     var body: some View {
         Chart(totalRaised) { total in
-            BarMark(x: .value("Year", total.year), y: .value("USD", total.total), width: .ratio(0.6))
-                .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
-            RectangleMark(x: .value("Year", total.year), y: .value("USD", total.goal), height: 1)
-                .foregroundStyle(Color.brandPurple)
+            if lineGraph {
+                PointMark(x: .value("Year", total.year), y: .value("USD", total.goal))
+                    .foregroundStyle(Color.brandPurple)
+                    .opacity(0.75)
+                RectangleMark(x: .value("Year", total.year), y: .value("USD", total.goal), width: .ratio(0.2), height: 1)
+                    .foregroundStyle(Color.brandPurple)
+                    .opacity(0.75)
+                LineMark(x: .value("Year", total.year), y: .value("USD", total.total))
+                    .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
+                PointMark(x: .value("Year", total.year), y: .value("USD", total.total))
+            } else {
+                RectangleMark(x: .value("Year", total.year), y: .value("USD", total.goal), height: 1)
+                    .foregroundStyle(Color.brandPurple)
+                BarMark(x: .value("Year", total.year), y: .value("USD", total.total), width: .ratio(0.6))
+                    .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
+            }
         }
         .chartYAxis {
             AxisMarks(
@@ -68,9 +82,15 @@ struct StJudeTotals: View {
                 }
             }
         }
+        .onTapGesture {
+            withAnimation {
+                lineGraph.toggle()
+            }
+        }
     }
 }
 
 #Preview {
     StJudeTotals()
+        .frame(height: 150)
 }
