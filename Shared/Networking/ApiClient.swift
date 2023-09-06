@@ -71,6 +71,32 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
     
     // MARK: 2023 Methods
     
+    func buildScoreRequest() -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://ks6rcg8hq2.execute-api.us-east-1.amazonaws.com/api")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = "{\"function\": \"scan\"}".data(using: .utf8)
+        return request
+    }
+    
+    func fetchScore() async -> Score? {
+        do {
+            let request = buildScoreRequest()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let decoded = String(data: data, encoding: .utf8) {
+                dataLogger.debug("Score: \(decoded)")
+            } else {
+                dataLogger.debug("Score: not decodable")
+            }
+            let payload = try JSONDecoder().decode(ScoreData.self, from: data)
+            dataLogger.debug("Score: \(payload.Items)")
+            return Score.from(data: payload)
+        } catch {
+            dataLogger.error("Fetching score failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
     func buildTeamEventRequest() throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

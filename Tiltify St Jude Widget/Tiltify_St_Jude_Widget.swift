@@ -99,6 +99,7 @@ struct TiltifyStJudeWidgets: WidgetBundle {
        Tiltify_St_Jude_Widget()
        CampaignLockScreenWidget()
        HeadToHeadWidget()
+       ScoreWidget()
    }
 }
 
@@ -238,6 +239,46 @@ struct Tiltify_St_Jude_Widget: Widget {
             // Access the background session to make sure it is initialised
             _ = apiClient.backgroundURLSession
         }
+    }
+}
+
+
+struct ScoreEntryProvider: TimelineProvider {
+    func placeholder(in context: Context) -> ScoreEntry {
+        ScoreEntry(date: .now, score: Score(myke: .zero(person: "myke"), stephen: .zero(person: "stephen")))
+    }
+    
+    func getSnapshot(in context: Context, completion: @escaping (ScoreEntry) -> Void) {
+        Task {
+            if let score = await ApiClient.shared.fetchScore() {
+                completion(ScoreEntry(date: .now, score: score))
+            } else {
+                completion(ScoreEntry(date: .now, score: Score(myke: .zero(person: "myke"), stephen: .zero(person: "stephen"))))
+            }
+        }
+    }
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<ScoreEntry>) -> Void) {
+        Task {
+            let score: Score
+            if let apiScore = await ApiClient.shared.fetchScore() {
+                score = apiScore
+            } else {
+                score = Score(myke: .zero(person: "myke"), stephen: .zero(person: "stephen"))
+            }
+            completion(Timeline(entries: [ScoreEntry(date: .now, score: score)], policy: .atEnd))
+        }
+    }
+}
+
+struct ScoreWidget: Widget {
+    let kind: String = "ScoreWidget"
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: ScoreEntryProvider()) { entry in
+            ScoreEntryView(entry: entry)
+        }
+        .configurationDisplayName("Myke vs. Stephen")
+        .description("Keep track of their scores.")
     }
 }
 

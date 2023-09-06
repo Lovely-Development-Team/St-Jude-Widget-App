@@ -67,6 +67,10 @@
 		5EC5147928D50F7E00CB00DC /* DonorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5147728D50F7E00CB00DC /* DonorList.swift */; };
 		5EC5147B28D5AE8100CB00DC /* DonorChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5147A28D5AE8100CB00DC /* DonorChart.swift */; };
 		5EC5147C28D5AE8100CB00DC /* DonorChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5147A28D5AE8100CB00DC /* DonorChart.swift */; };
+		5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECEF0612AA8ABA900AD0117 /* ScoreEntry.swift */; };
+		5ECEF0632AA8ABA900AD0117 /* ScoreEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECEF0612AA8ABA900AD0117 /* ScoreEntry.swift */; };
+		5ECEF0652AA8ACFE00AD0117 /* ScoreEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECEF0642AA8ACFE00AD0117 /* ScoreEntryView.swift */; };
+		5ECEF0662AA8ACFE00AD0117 /* ScoreEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECEF0642AA8ACFE00AD0117 /* ScoreEntryView.swift */; };
 		5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5ED5638728AEBAC5004A65A5 /* CampaignList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5638528AEBAC5004A65A5 /* CampaignList.swift */; };
 		5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
@@ -427,6 +431,8 @@
 		5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraisingEventIntentHandler.swift; sourceTree = "<group>"; };
 		5EC5147728D50F7E00CB00DC /* DonorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonorList.swift; sourceTree = "<group>"; };
 		5EC5147A28D5AE8100CB00DC /* DonorChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonorChart.swift; sourceTree = "<group>"; };
+		5ECEF0612AA8ABA900AD0117 /* ScoreEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreEntry.swift; sourceTree = "<group>"; };
+		5ECEF0642AA8ACFE00AD0117 /* ScoreEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreEntryView.swift; sourceTree = "<group>"; };
 		5ED5638528AEBAC5004A65A5 /* CampaignList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignList.swift; sourceTree = "<group>"; };
 		5EE0EC0C28BD5A320053C9D1 /* TeamEventCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEventCardView.swift; sourceTree = "<group>"; };
 		5EE0EC0F28BE64DA0053C9D1 /* WidgetAppearance+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetAppearance+Colors.swift"; sourceTree = "<group>"; };
@@ -628,6 +634,8 @@
 				5E1705D928C507BA00E70019 /* LockScreenCircularView.swift */,
 				4301B7F72AA17E0B00B4F9DA /* HeadToHeadEntry.swift */,
 				4301B7F62AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift */,
+				5ECEF0612AA8ABA900AD0117 /* ScoreEntry.swift */,
+				5ECEF0642AA8ACFE00AD0117 /* ScoreEntryView.swift */,
 			);
 			path = "Shared Widgets";
 			sourceTree = "<group>";
@@ -1174,6 +1182,7 @@
 				4301B7F92AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
 				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
+				5ECEF0632AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
 				5E180C1F28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63574A3F26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				638AEFE926D7965600BC6AB9 /* CurrencyHelpers.swift in Sources */,
@@ -1182,6 +1191,7 @@
 				5E7C300328C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */,
 				6350A75E28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */,
 				5EEB568C2A9BE8F9008AABF1 /* Color.swift in Sources */,
+				5ECEF0662AA8ACFE00AD0117 /* ScoreEntryView.swift in Sources */,
 				5E1705D228C4D35E00E70019 /* FundraisingLockScreenEventEntry.swift in Sources */,
 				63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */,
 				5E1705D828C5075700E70019 /* LockScreenRectangularView.swift in Sources */,
@@ -1387,6 +1397,7 @@
 				4301B7F82AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
 				63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
+				5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
 				5EF748D526DF74B7008174DF /* Notifications.swift in Sources */,
 				5E180C1D28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
@@ -1395,6 +1406,7 @@
 				5E7C300228C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */,
 				6350A75D28BE0732000A986F /* FundraisingWidgetEntryView.swift in Sources */,
 				5EEB568A2A9BE897008AABF1 /* Color.swift in Sources */,
+				5ECEF0652AA8ACFE00AD0117 /* ScoreEntryView.swift in Sources */,
 				5E1705D128C4D35E00E70019 /* FundraisingLockScreenEventEntry.swift in Sources */,
 				6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				5E1705D728C5075700E70019 /* LockScreenRectangularView.swift in Sources */,
