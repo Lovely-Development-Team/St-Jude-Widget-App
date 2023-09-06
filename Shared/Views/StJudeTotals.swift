@@ -56,21 +56,22 @@ struct StJudeTotals: View {
             
             PointMark(x: .value("Year", total.year), y: .value("USD", total.goal))
                 .foregroundStyle(Color.brandPurple)
-                .opacity(lineGraph ? 0.75 : 0)
+                .opacity(0.75)
+                .symbolSize(lineGraph ? 50 : 0)
             RectangleMark(x: .value("Year", total.year), y: .value("USD", total.goal), width: .ratio(lineGraph ? 0.2 : 0), height: lineGraph ? 1 : 0)
                 .foregroundStyle(Color.brandPurple)
-                .opacity(0.75)
+                .opacity(1)
             LineMark(x: .value("Year", total.year), y: .value("USD", lineGraph ? total.total : 0))
                 .opacity(lineGraph ? 1 : 0)
                 .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
             PointMark(x: .value("Year", total.year), y: .value("USD", lineGraph ? total.total : 0))
-                .opacity(lineGraph ? 1 : 0)
+                .symbolSize(lineGraph ? 50 : 0)
             
+            BarMark(x: .value("Year", total.year), y: .value("USD", lineGraph ? 0 : total.total), width: .ratio(0.6))
+                .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
             RectangleMark(x: .value("Year", total.year), y: .value("USD", total.goal), width: .ratio(lineGraph ? 0 : 0.75), height: 1)
                 .foregroundStyle(Color.brandPurple)
                 .opacity(lineGraph ? 0 : 1)
-            BarMark(x: .value("Year", total.year), y: .value("USD", lineGraph ? 0 : total.total), width: .ratio(0.6))
-                .foregroundStyle(Color.accentColor.opacity(total.year == "2023" ? 1 : 0.5))
             
         }
         .chartYAxis {
@@ -93,7 +94,9 @@ struct StJudeTotals: View {
 }
 
 #Preview {
-    StJudeTotals()
-        .frame(height: 150)
-        .padding()
+    ScrollView {
+        StJudeTotals()
+            .frame(height: 150)
+            .padding()
+    }
 }
