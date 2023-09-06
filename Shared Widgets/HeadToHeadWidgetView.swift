@@ -186,6 +186,10 @@ struct HeadToHeadWidgetView: View {
         }
     }
     
+    var shouldHaveExtraPadding: Bool {
+        return !showsBackground && !isLockScreen(family: family)
+    }
+    
     var headToHeadEnabled: Bool {
         entry.headToHeadEnabled
     }
@@ -259,7 +263,7 @@ struct HeadToHeadWidgetView: View {
                     .containerBackground(for: .widget, content: {
                         backgroundView
                     })
-                    .padding(showsBackground ? [] : .all)
+                    .padding(shouldHaveExtraPadding ? .all : [])
                     .widgetURL(h2hWidgetUrl)
             } else {
                 disabledContent()
