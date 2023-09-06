@@ -95,4 +95,5 @@ struct StJudeTotals: View {
 #Preview {
     StJudeTotals()
         .frame(height: 150)
+        .padding()
 }
