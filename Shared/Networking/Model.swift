@@ -277,3 +277,37 @@ struct TiltifySupportingCampaignsData: Codable {
 struct TiltifySupportingCampaignsResponse: Codable {
     let data: TiltifySupportingCampaignsData
 }
+
+
+struct ScoreItem: Codable {
+    let score: Int
+    let person: String
+    
+    static func zero(person: String) -> ScoreItem {
+        return ScoreItem(score: 0, person: person)
+    }
+    
+}
+
+struct ScoreData: Codable {
+    let Items: [ScoreItem]
+}
+
+struct Score {
+    let myke: ScoreItem
+    let stephen: ScoreItem
+    
+    static func from(data: ScoreData) -> Score? {
+        var myke: ScoreItem? = nil
+        var stephen: ScoreItem? = nil
+        for item in data.Items {
+            let person = item.person.lowercased()
+            if person == "myke" { myke = item }
+            if person == "stephen" { stephen = item }
+        }
+        if let myke, let stephen {
+            return Score(myke: myke, stephen: stephen)
+        }
+        return nil
+    }
+}
