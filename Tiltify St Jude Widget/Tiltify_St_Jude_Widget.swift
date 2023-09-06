@@ -277,6 +277,7 @@ struct ScoreWidget: Widget {
         StaticConfiguration(kind: kind, provider: ScoreEntryProvider()) { entry in
             ScoreEntryView(entry: entry)
         }
+        .contentMarginsDisabled()
         .configurationDisplayName("Myke vs. Stephen")
         .description("Keep track of their scores.")
     }
