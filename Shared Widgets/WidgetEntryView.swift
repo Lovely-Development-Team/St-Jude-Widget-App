@@ -10,6 +10,7 @@ import WidgetKit
 
 struct WidgetEntryView : View {
     @Environment(\.widgetFamily) var family
+    @Environment(\.showsWidgetContainerBackground) var showsBackground
     
     var entry: Provider.Entry
     
@@ -66,6 +67,7 @@ struct WidgetEntryView : View {
             if #available(iOS 17.0, *) {
                 placeholderView
                     .containerBackground(LinearGradient(colors: entry.configuration.appearance.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                    .padding(showsBackground ? [] : .all)
             } else {
                 placeholderView
                     .padding()

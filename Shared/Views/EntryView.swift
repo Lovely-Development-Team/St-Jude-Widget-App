@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EntryView: View {
     @Environment(\.widgetFamily) var family
+    @Environment(\.showsWidgetContainerBackground) var showsBackground
+    @Environment(\.widgetRenderingMode) var renderingMode
     
     @Binding var campaign: TiltifyWidgetData
     let showMilestones: Bool
@@ -51,7 +53,7 @@ struct EntryView: View {
     }
     
     var fillColor: Color {
-        return appearance.fillColor
+        return renderingMode == .vibrant ? .white : appearance.fillColor
     }
     
     var foregroundColor: Color {
@@ -68,6 +70,7 @@ struct EntryView: View {
                 } else {
                     content
                         .containerBackground(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                        .padding(showsBackground ? [] : .all)
                 }
             } else {
                 content

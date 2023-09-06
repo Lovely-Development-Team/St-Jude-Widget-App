@@ -14,6 +14,8 @@ let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.purple
 
 struct HeadToHeadWidgetView: View {
     @Environment(\.widgetFamily) var family
+    @Environment(\.showsWidgetContainerBackground) var showsBackground
+    @Environment(\.widgetRenderingMode) var renderingMode
     
     var entry: HeadToHeadProvider.Entry
     
@@ -35,6 +37,14 @@ struct HeadToHeadWidgetView: View {
     
     var openToHeadToHead: Bool {
         entry.configuration.openToHeadToHead?.boolValue ?? true
+    }
+    
+    var progressBarFillColor: Color {
+        return renderingMode == .vibrant ? .white : HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
+    }
+    
+    var progressBarBackgroundColor: Color {
+        return renderingMode == .vibrant ? .black : HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
     }
     
     var progressBarValue: Float {
@@ -249,6 +259,7 @@ struct HeadToHeadWidgetView: View {
                     .containerBackground(for: .widget, content: {
                         backgroundView
                     })
+                    .padding(showsBackground ? [] : .all)
                     .widgetURL(h2hWidgetUrl)
             } else {
                 disabledContent()
@@ -361,7 +372,7 @@ extension HeadToHeadWidgetView {
                     .font(.caption)
                     .redacted(reason: .placeholder)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
                     Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
@@ -448,7 +459,7 @@ extension HeadToHeadWidgetView {
                 }
                 .frame(maxWidth: .infinity)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
                     Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
@@ -576,7 +587,7 @@ extension HeadToHeadWidgetView {
                 }
                 .padding(.top)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
                     Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
@@ -688,7 +699,7 @@ extension HeadToHeadWidgetView {
                     }
                 }
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerColor: labelColor, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2)
                 .frame(height: 30)
                 .overlay {
                     Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
