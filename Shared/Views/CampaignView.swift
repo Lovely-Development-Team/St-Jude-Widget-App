@@ -76,13 +76,16 @@ struct CampaignView: View {
         return false
     }
     
-    var grandTotalRaised: String {
-        let result = PREVIOUS_TOTALS_RAISED.reduce(0) { $0 + $1.total } + (teamEvent?.totalRaisedNumerical ?? 0)
+    var grandTotalRaised: Double {
+        PREVIOUS_TOTALS_RAISED.reduce(0) { $0 + $1.total } + (teamEvent?.totalRaisedNumerical ?? 0)
+    }
+    
+    var grandTotalRaisedDescription: String {
         let currencyFormatter = NumberFormatter()
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = "USD"
         currencyFormatter.currencySymbol = "$"
-        return currencyFormatter.string(from: result as NSNumber) ?? "USD 0"
+        return currencyFormatter.string(from: grandTotalRaised as NSNumber) ?? "USD 0"
     }
     
     var body: some View {
@@ -94,23 +97,33 @@ struct CampaignView: View {
                     FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                 } else if let teamEvent = teamEvent {
                     TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                    Text("Annual Fundraising Totals")
-                        .fullWidth()
-                        .font(.headline)
-                        .padding(.top)
-                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
-                        .frame(height: 150)
-                        .padding(.bottom)
-                    HStack(alignment: .firstTextBaseline) {
-                        Text("Lifetime Total")
-                        Text(grandTotalRaised)
-                            .textSelection(.enabled)
-                            .fullWidth(alignment: .trailing)
-                            .font(.title2)
-                            .bold()
+//                    Text("Annual Fundraising Totals")
+//                        .fullWidth()
+//                        .font(.headline)
+//                        .padding(.top)
+//                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
+//                        .frame(height: 150)
+//                        .padding(.bottom)
+                    GroupBox {
+                        VStack {
+                            HStack(spacing: 4) {
+                                if grandTotalRaised >= 2500000 {
+                                    Image(systemName: "party.popper.fill")
+                                }
+                                Text("Lifetime Total")
+                                    .textCase(.uppercase)
+                                Spacer()
+                            }
+                            .font(.caption)
+                            .foregroundColor(.accentColor)
+                            Text(grandTotalRaisedDescription)
+                                .textSelection(.enabled)
+                                .fullWidth()
+                                .font(.title)
+                                .bold()
+                        }
                     }
-                    Divider()
-                        .padding(.bottom)
+                    .padding(.vertical, 8)
                 }
                 
                 #if DEBUG
