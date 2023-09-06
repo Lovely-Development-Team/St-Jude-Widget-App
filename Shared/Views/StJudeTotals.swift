@@ -29,6 +29,10 @@ func getShortNumber(from number: Double) -> String {
 }
 
 struct StJudeTotals: View {
+
+    #if !os(macOS)
+    let haptics = UIImpactFeedbackGenerator(style: .light)
+    #endif
     
     var currentTotal: Double = 293000
     
@@ -89,6 +93,9 @@ struct StJudeTotals: View {
             withAnimation {
                 lineGraph.toggle()
             }
+            #if !os(macOS)
+            haptics.impactOccurred()
+            #endif
         }
     }
 }
