@@ -99,7 +99,7 @@ struct CampaignView: View {
                         .font(.headline)
                         .padding(.top)
                     StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
-                        .frame(height: 100)
+                        .frame(height: 150)
                         .padding(.bottom)
                     HStack(alignment: .firstTextBaseline) {
                         Text("Lifetime Total")
