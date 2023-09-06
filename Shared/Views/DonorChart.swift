@@ -16,6 +16,10 @@ struct DonorChartValue: Identifiable {
 
 struct DonorChart: View {
     
+    #if !os(macOS)
+    let haptics = UIImpactFeedbackGenerator(style: .light)
+    #endif
+    
     let donations: [TiltifyDonorsForCampaignDonation]
     let total: TiltifyAmount
     
@@ -47,6 +51,9 @@ struct DonorChart: View {
             //            .chartXAxis(.hidden)
             .onTapGesture {
                 showDonationValues.toggle()
+                #if !os(macOS)
+                haptics.impactOccurred()
+                #endif
             }
             .onAppear {
                 calculateChartValues()
