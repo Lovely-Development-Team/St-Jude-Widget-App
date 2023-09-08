@@ -67,7 +67,7 @@ struct WidgetEntryView : View {
             if #available(iOS 17.0, *) {
                 placeholderView
                     .containerBackground(LinearGradient(colors: entry.configuration.appearance.backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
-                    .padding(showsBackground ? [] : .all)
+                    .padding(showsBackground ? [] : .all, 5)
             } else {
                 placeholderView
                     .padding()

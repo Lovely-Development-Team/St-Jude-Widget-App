@@ -70,7 +70,7 @@ struct EntryView: View {
                 } else {
                     content
                         .containerBackground(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
-                        .padding(showsBackground ? [] : .all)
+                        .padding(showsBackground ? [] : .all, 5)
                 }
             } else {
                 content

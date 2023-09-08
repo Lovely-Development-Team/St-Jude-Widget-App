@@ -175,7 +175,7 @@ struct HeadToHeadWidgetView: View {
             Image(uiImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .clipShape(ContainerRelativeShape())
+                .clipShape(RoundedRectangle(cornerRadius: 5))
         } else {
             Image(systemName: "person.circle.fill")
                 .resizable()
@@ -263,8 +263,9 @@ struct HeadToHeadWidgetView: View {
                     .containerBackground(for: .widget, content: {
                         backgroundView
                     })
-                    .padding(shouldHaveExtraPadding ? .all : [])
+                    .padding(shouldHaveExtraPadding ? .all : [], 5)
                     .widgetURL(h2hWidgetUrl)
+                    .containerShape(.rect)
             } else {
                 disabledContent()
                     .containerBackground(for: .widget, content: {
@@ -340,13 +341,6 @@ extension HeadToHeadWidgetView {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 avatarImageView(for: winner ?? sampleCampaign)
-                    .overlay(alignment: .topLeading) {
-                        Image(systemName: "crown.fill")
-                            .font(.system(size: 20))
-                            .foregroundColor(.brandYellow)
-                            .rotationEffect(Angle(degrees: -10))
-                            .offset(CGSize(width: -10, height: -10))
-                    }
                 Spacer()
                 avatarImageView(for: nonWinner ?? sampleCampaign)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -722,6 +716,7 @@ extension HeadToHeadWidgetView {
                     .offset(y: 3)
             }) {
                 avatarImageView(for: winner ?? sampleCampaign)
+                    .clipShape(Circle())
                     .padding(6)
             }
             .gaugeStyle(.accessoryCircular)
