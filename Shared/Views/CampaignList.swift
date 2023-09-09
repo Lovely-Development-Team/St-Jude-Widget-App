@@ -216,17 +216,30 @@ struct CampaignList: View {
                         .padding(.bottom)
                     }
                     
-                    if headToHeads.count > 0 {
+//                    if headToHeads.count > 0 {
                         Button(action: {
                             withAnimation {
                                 showHeadToHeads.toggle()
                             }
                         }) {
                             HStack {
-                                Text("Head to Head")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .fullWidth()
+                                    Text("Head to Head")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    if headToHeads.count > 0 {
+                                        Button(action: {
+                                            // TODO: add h2h picker
+                                        }) {
+                                            Label("Add Head to Head", systemImage: "plus").labelStyle(.iconOnly)
+                                        }
+                                        .foregroundStyle(Color.white)
+                                        .padding(.horizontal, 4)
+                                        .padding(.vertical, 4)
+                                        .background(
+                                            Color.brandBlue
+                                                .cornerRadius(15)
+                                        )
+                                    }
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .foregroundStyle(.secondary)
@@ -236,13 +249,32 @@ struct CampaignList: View {
                         .buttonStyle(.plain)
 //                        .foregroundColor(.primary)
                         .padding(.horizontal)
+                    if headToHeads.count == 0 {
+                        VStack {
+                            Button("Add a Head to Head +") {
+                                // TODO: add h2h picker
+                            }
+                            .foregroundStyle(Color.primary)
+                            .fullWidth(alignment: .center)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 15).fill(Color.brandBlue.opacity(0.2))
+                            )
+                            .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
+                                )
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 5)
+                    }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             if showHeadToHeads {
                                 headToHeadList
                             }
                         }
                         .padding([.horizontal, .bottom])
-                    }
+//                    }
                     
                     HStack {
                         Text("Fundraisers")
