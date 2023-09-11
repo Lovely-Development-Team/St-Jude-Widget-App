@@ -256,6 +256,15 @@ struct CampaignView: View {
                             .padding(.bottom)
                         
                     }
+                    
+                    if teamEvent != nil {
+                        Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
+                            .font(.caption)
+                            .fullWidth()
+                            .foregroundStyle(.secondary)
+                            .padding(.bottom)
+                    }
+                    
                 }
                 
                 if !milestones.isEmpty {
