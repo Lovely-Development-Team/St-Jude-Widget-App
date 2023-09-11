@@ -36,7 +36,7 @@ let xRayManAndMrYellow = CampaignViewEasterEgg(
 
 let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
     // Tildy
-    UUID(uuidString: "55F13472-5101-4490-ADA2-F0C995989672")!: CampaignViewEasterEgg(
+    TLD_CAMPAIGN: CampaignViewEasterEgg(
         left: nil,
         right: AnyView(
             Image("Team_Logo_F")
@@ -50,7 +50,7 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
         )
     ),
     // Kathy
-    UUID(uuidString: "DA41C497-DA79-4586-A802-03D0FB058F84")!: CampaignViewEasterEgg(
+    UUID(uuidString: "96DA85C6-8E24-4757-811B-F8CDE9EB402E")!: CampaignViewEasterEgg(
         left: AnyView(UnicornView()),
         right: AnyView(
             Image("unicorn-left")
@@ -64,25 +64,25 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
         )
     ),
     // Relay
-    RELAY_FUNDRAISER_ID: xRayManAndMrYellow,
+//    RELAY_FUNDRAISER_ID: xRayManAndMrYellow,
     // Main Campaign
     UUID(uuidString: "8F4E607C-A117-4C11-9172-23D19C1BE96C")!: xRayManAndMrYellow,
     // Viticci
-    UUID(uuidString: "A4C28DED-BDFB-4CAA-8CA5-3D04447FF8CB")!: CampaignViewEasterEgg(
-        left: AnyView(
-            Image("weirdfish")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 60, height: 60)
-                .rotationEffect(.degrees(-30))
-                .offset(x: -30)
-                .offset(y: 5)
-                .tapToWobble(anchor: .center)
-        ),
-        right: nil
-    ),
+//    UUID(uuidString: "A4C28DED-BDFB-4CAA-8CA5-3D04447FF8CB")!: CampaignViewEasterEgg(
+//        left: AnyView(
+//            Image("weirdfish")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 60, height: 60)
+//                .rotationEffect(.degrees(-30))
+//                .offset(x: -30)
+//                .offset(y: 5)
+//                .tapToWobble(anchor: .center)
+//        ),
+//        right: nil
+//    ),
     // MVO
-    UUID(uuidString: "1392EA16-1BD0-4F87-BA40-02F2CB8C1019")!: CampaignViewEasterEgg(
+    UUID(uuidString: "1DB7C0E6-63ED-4E50-B876-05E630C941CF")!: CampaignViewEasterEgg(
         left: AnyView(
             Image("jonycube")
                 .resizable()
@@ -92,6 +92,17 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
                 .tapToWobble(degrees: -720, anchor: .center)
                 .offset(x: -40)
                 .offset(y: 5)
+        ),
+        right: nil
+    ),
+    UUID(uuidString: "583538BF-DCB3-4C7E-A5FA-7EE82AA4EF5D")!: CampaignViewEasterEgg(left: AnyView(
+        Image(.officialHistorianLogo)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 80, height: 80)
+            .tapToWobble(anchor: .center)
+            .offset(x: -10)
+            .offset(y: 5)
         ),
         right: nil
     )
