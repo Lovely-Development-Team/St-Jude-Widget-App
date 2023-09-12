@@ -59,25 +59,28 @@ struct HeadToHeadView: View {
 
     @ViewBuilder
     func campaignDetails(for campaign: Campaign, alignment: TextAlignment) -> some View {
-        ZStack(alignment: alignment == .leading ? .topTrailing : .topLeading) {
-            HStack(alignment: .top) {
-                if alignment == .leading {
-                    image(for: campaign)
-                } else {
-                    Spacer()
+        NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
+            ZStack(alignment: alignment == .leading ? .topTrailing : .topLeading) {
+                HStack(alignment: .top) {
+                    if alignment == .leading {
+                        image(for: campaign)
+                    } else {
+                        Spacer()
+                    }
+                    Text(campaign.title)
+                        .multilineTextAlignment(alignment)
+                        .font(.title2)
+                        .bold()
+                    if alignment == .trailing {
+                        image(for: campaign)
+                    } else {
+                        Spacer()
+                    }
                 }
-                Text(campaign.title)
-                    .multilineTextAlignment(alignment)
-                    .font(.title2)
-                    .bold()
-                if alignment == .trailing {
-                    image(for: campaign)
-                } else {
-                    Spacer()
-                }
+                .frame(minWidth: 0, maxWidth: .infinity)
             }
-            .frame(minWidth: 0, maxWidth: .infinity)
         }
+        
     }
     
     @State private var animateMyke = false
