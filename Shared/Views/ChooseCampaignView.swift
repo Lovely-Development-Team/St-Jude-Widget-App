@@ -14,6 +14,7 @@ struct ChooseCampaignView: View {
     @State private var campaigns: [Campaign] = []
     
     @State private var searchText: String = ""
+    var otherCampaign: Campaign? = nil
     
     var filteredCampaigns: [Campaign] {
         let query = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
@@ -22,6 +23,13 @@ struct ChooseCampaignView: View {
         } else {
             return campaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
         }
+    }
+    
+    var titleText: String {
+        if otherCampaign != nil {
+            return "Choose a contender!"
+        }
+        return "Choose a campaign"
     }
     
     var done: (_: Campaign) -> Void
@@ -49,7 +57,7 @@ struct ChooseCampaignView: View {
             }
         }
         .searchable(text: $searchText)
-        .navigationTitle("Choose a Fundraiser")
+        .navigationTitle(titleText)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
