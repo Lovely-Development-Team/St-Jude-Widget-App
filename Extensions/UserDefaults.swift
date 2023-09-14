@@ -26,10 +26,16 @@ extension UserDefaults {
     static let customNotificationAmountKey = "customNotificationAmount"
     
     static let shouldShowHeadToHeadKey = "shouldShowHeadToHead"
+    static let expandHeadToHeadSectionKey = "expandHeadToHeadSection"
     
     @objc var shouldShowHeadToHead: Bool {
         get { bool(forKey: Self.shouldShowHeadToHeadKey) }
         set { set(newValue, forKey: Self.shouldShowHeadToHeadKey) }
+    }
+    
+    @objc var expandHeadToHeadSection: Bool {
+        get { bool(forKey: Self.expandHeadToHeadSectionKey) }
+        set { set(newValue, forKey: Self.expandHeadToHeadSectionKey) }
     }
     
     @objc var relayData: Data? {

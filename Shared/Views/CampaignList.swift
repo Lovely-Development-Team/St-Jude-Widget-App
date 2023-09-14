@@ -62,6 +62,7 @@ struct CampaignList: View {
     @State private var showLeaderboard: Bool = false
     @State private var showHeadToHeads: Bool = true
     @State private var showHeadToHeadChoice: Campaign? = nil
+    @State private var startHeadToHead: Bool = false
     
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
@@ -216,26 +217,56 @@ struct CampaignList: View {
                         .padding(.bottom)
                     }
                     
-                    if headToHeads.count > 0 {
-                        Button(action: {
-                            withAnimation {
-                                showHeadToHeads.toggle()
-                            }
-                        }) {
-                            HStack {
-                                Text("Head to Head")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .fullWidth()
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundStyle(.secondary)
-                                    .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
-                            }
+                    Button(action: {
+                        withAnimation {
+                            showHeadToHeads.toggle()
                         }
-                        .buttonStyle(.plain)
-//                        .foregroundColor(.primary)
-                        .padding(.horizontal)
+                    }) {
+                        HStack {
+                            Text("Head to Head")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            if headToHeads.count > 0 {
+                                Button(action: {
+                                    startHeadToHead = true
+                                }) {
+                                    Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
+                                }
+                                .foregroundStyle(Color.white)
+                                .padding(.horizontal, 4)
+                                .padding(.vertical, 4)
+                                .background(
+                                    Color.brandBlue
+                                        .cornerRadius(15)
+                                )
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.secondary)
+                                .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal)
+                    if headToHeads.count == 0 {
+                         VStack {
+                             Button("Add a Head to Head +") {
+                                 startHeadToHead = true
+                             }
+                             .foregroundStyle(Color.primary)
+                             .fullWidth(alignment: .center)
+                             .padding()
+                             .background(
+                                 RoundedRectangle(cornerRadius: 15).fill(Color.brandBlue.opacity(0.2))
+                             )
+                             .overlay(
+                                     RoundedRectangle(cornerRadius: 15)
+                                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
+                                 )
+                         }
+                         .padding([.horizontal, .bottom])
+                         .padding(.top, 5)
+                    } else {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             if showHeadToHeads {
                                 headToHeadList
@@ -243,7 +274,6 @@ struct CampaignList: View {
                         }
                         .padding([.horizontal, .bottom])
                     }
-                    
                     HStack {
                         Text("Fundraisers")
                             .font(.title)
@@ -449,12 +479,16 @@ struct CampaignList: View {
         .onChange(of: compactListMode) { newValue in
             UserDefaults.shared.campaignListCompactView = newValue
         }
+        .onChange(of: showHeadToHeads) { newValue in
+            UserDefaults.shared.expandHeadToHeadSection = newValue
+        }
         .onAppear {
             
             if let closingDate = closingDate {
                 campaignsHaveClosed = closingDate < Date()
             }
             showStephen = Bool.random()
+            showHeadToHeads = UserDefaults.shared.expandHeadToHeadSection
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
             compactListMode = UserDefaults.shared.campaignListCompactView
             
@@ -490,9 +524,16 @@ struct CampaignList: View {
                 }
             }
         }
+        .sheet(isPresented: $startHeadToHead) {
+            NavigationView {
+                ChooseCampaignView() { campaign in
+                    showHeadToHeadChoice = campaign
+                }
+            }
+        }
         .sheet(item: $showHeadToHeadChoice) { firstCampaign in
             NavigationView {
-                ChooseCampaignView() { otherCampaign in
+                ChooseCampaignView(otherCampaign: firstCampaign) { otherCampaign in
                     Task {
                         let headToHead = HeadToHead(id: UUID(), campaignId1: firstCampaign.id, campaignId2: otherCampaign.id)
                         do {
