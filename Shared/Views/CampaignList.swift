@@ -64,6 +64,8 @@ struct CampaignList: View {
     @State private var showHeadToHeadChoice: Campaign? = nil
     @State private var startHeadToHead: Bool = false
     
+    @State private var showRandomPickerView: Bool = false
+    
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
@@ -364,12 +366,13 @@ struct CampaignList: View {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             
                             Button(action: {
-                                while true {
-                                    if let random = campaigns.randomElement(), random.id != RELAY_CAMPAIGN {
-                                        selectedCampaignId = random.id
-                                        break
-                                    }
-                                }
+//                                while true {
+//                                    if let random = campaigns.randomElement(), random.id != RELAY_CAMPAIGN {
+//                                        selectedCampaignId = random.id
+//                                        break
+//                                    }
+//                                }
+                                self.showRandomPickerView = true
                             }) {
                                 GroupBox {
                                     HStack {
@@ -514,6 +517,11 @@ struct CampaignList: View {
                 await refresh()
             }
             
+        }
+        .sheet(isPresented: $showRandomPickerView) {
+            RandomCampaignPickerView(isPresented: $showRandomPickerView, 
+                                     campaignChoiceID: $selectedCampaignId,
+                                     allCampaigns: campaigns)
         }
         .sheet(isPresented: $showEasterEggSheet) {
             EasterEggView()
