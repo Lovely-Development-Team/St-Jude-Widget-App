@@ -10,6 +10,7 @@ import SwiftUI
 struct ChooseCampaignView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismissSearch) private var dismissSearch
     
     @State private var campaigns: [Campaign] = []
     
@@ -37,6 +38,8 @@ struct ChooseCampaignView: View {
     var body: some View {
         List(filteredCampaigns, id: \.self) { campaign in
             Button(action: {
+                dismissSearch()
+                searchText = ""
                 presentationMode.wrappedValue.dismiss()
                 done(campaign)
             }) {

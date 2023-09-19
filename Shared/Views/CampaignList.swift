@@ -138,7 +138,7 @@ struct CampaignList: View {
     @ViewBuilder
     var headToHeadList: some View {
         ForEach(headToHeads, id: \.headToHead.id) { headToHead in
-            NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2).tint(.white), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
+            NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2).tint(.white)) {
                 HeadToHeadListItem(headToHead: headToHead)
                     .contextMenu {
                         Button(role: .destructive) {
@@ -249,31 +249,34 @@ struct CampaignList: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal)
                     if headToHeads.count == 0 {
-                         VStack {
-                             Button("Add a Head to Head +") {
-                                 startHeadToHead = true
-                             }
-                             .foregroundStyle(Color.primary)
-                             .fullWidth(alignment: .center)
-                             .padding()
-                             .background(
-                                 RoundedRectangle(cornerRadius: 15).fill(Color.brandBlue.opacity(0.2))
-                             )
-                             .overlay(
-                                     RoundedRectangle(cornerRadius: 15)
-                                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
-                                 )
-                         }
-                         .padding([.horizontal, .bottom])
-                         .padding(.top, 5)
+                        if showHeadToHeads {
+                            VStack {
+                                Button("Add a Head to Head") {
+                                    startHeadToHead = true
+                                }
+                                .foregroundStyle(Color.primary)
+                                .fullWidth(alignment: .center)
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
+                                )
+                            }
+                            .padding(.horizontal)
+                            .padding(.top, 5)
+                        }
                     } else {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             if showHeadToHeads {
                                 headToHeadList
                             }
                         }
-                        .padding([.horizontal, .bottom])
+                        .padding(.horizontal)
                     }
+                    
                     HStack {
                         Text("Fundraisers")
                             .font(.title)
@@ -331,6 +334,7 @@ struct CampaignList: View {
                         }
                     }
                     .padding(.horizontal)
+                    .padding(.top)
                     
                     if campaigns.count != 0 {
                         
@@ -340,7 +344,7 @@ struct CampaignList: View {
                                 .id("SEARCH_BAR")
                         }
                         
-                        if selectedCampaignId != nil {
+//                        if selectedCampaignId != nil {
                             /// In order to open a selected campaign when a widget is tapped, the corresponding
                             /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
                             /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
@@ -350,7 +354,12 @@ struct CampaignList: View {
                                     EmptyView()
                                 }
                             }
-                        }
+                            ForEach(headToHeads, id: \.headToHead.id) { headToHead in
+                                NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
+                                    EmptyView()
+                                }
+                            }
+//                        }
                         
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             
