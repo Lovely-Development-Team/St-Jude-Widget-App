@@ -14,6 +14,11 @@
 		4301B7FD2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4301B7FC2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
 		439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
+		43E555372AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
+		43E555382AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
+		43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
+		43E5553A2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
+		43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		5E1705C428C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C528C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C728C32F5D00E70019 /* TapToWobble.swift */; };
@@ -405,6 +410,7 @@
 		4301B7F72AA17E0B00B4F9DA /* HeadToHeadEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadEntry.swift; sourceTree = "<group>"; };
 		4301B7FC2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadConfigurationIntentHandler.swift; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		43E555362AB91BF6006EC83F /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
 		5E1705C328C0C47000E70019 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		5E1705C728C32F5D00E70019 /* TapToWobble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToWobble.swift; sourceTree = "<group>"; };
 		5E1705CA28C332AA00E70019 /* EasterEggDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggDirectory.swift; sourceTree = "<group>"; };
@@ -593,6 +599,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43E555352AB91BF6006EC83F /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				43E555362AB91BF6006EC83F /* drumroll.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		5E1705C628C32EE200E70019 /* EasterEggs */ = {
 			isa = PBXGroup;
 			children = (
@@ -668,6 +682,7 @@
 		6357652C26D1A73B004F04DE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				43E555352AB91BF6006EC83F /* Sounds */,
 				63E19D5026E1143C009F318F /* Controller */,
 				DE0F34BD26DA694100F268C9 /* Helpers */,
 				6348F9F626D6B5100031697F /* Assets.xcassets */,
@@ -1106,6 +1121,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9FB26D6B5100031697F /* Assets.xcassets in Resources */,
 				63574A1A26D6590000A2D495 /* Assets.xcassets in Resources */,
 			);
@@ -1115,6 +1131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E555372AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
 				439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 			);
@@ -1124,6 +1141,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E555382AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
 				439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 			);
@@ -1147,6 +1165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F926D6B5100031697F /* Assets.xcassets in Resources */,
 				6357657626D1AD28004F04DE /* Assets.xcassets in Resources */,
 			);
@@ -1157,6 +1176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6348F9FA26D6B5100031697F /* Assets.xcassets in Resources */,
+				43E5553A2AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
