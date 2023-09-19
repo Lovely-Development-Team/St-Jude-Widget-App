@@ -245,7 +245,7 @@ struct Tiltify_St_Jude_Widget: Widget {
 
 struct ScoreEntryProvider: TimelineProvider {
     func placeholder(in context: Context) -> ScoreEntry {
-        ScoreEntry(date: .now, score: Score(myke: .zero(person: "myke"), stephen: .zero(person: "stephen")))
+        ScoreEntry(date: .now, score: Score(myke: .zero, stephen: .zero))
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ScoreEntry) -> Void) {
@@ -253,7 +253,7 @@ struct ScoreEntryProvider: TimelineProvider {
             if let score = await ApiClient.shared.fetchScore() {
                 completion(ScoreEntry(date: .now, score: score))
             } else {
-                completion(ScoreEntry(date: .now, score: Score(myke: .zero(person: "myke"), stephen: .zero(person: "stephen"))))
+                completion(ScoreEntry(date: .now, score: Score(myke: .zero, stephen: .zero)))
             }
         }
     }
@@ -264,7 +264,7 @@ struct ScoreEntryProvider: TimelineProvider {
             if let apiScore = await ApiClient.shared.fetchScore() {
                 score = apiScore
             } else {
-                score = Score(myke: .zero(person: "myke"), stephen: .zero(person: "stephen"))
+                score = Score(myke: .zero, stephen: .zero)
             }
             completion(Timeline(entries: [ScoreEntry(date: .now, score: score)], policy: .atEnd))
         }
@@ -273,6 +273,28 @@ struct ScoreEntryProvider: TimelineProvider {
 
 struct ScoreWidget: Widget {
     let kind: String = "ScoreWidget"
+    
+    var supportedFamilies: [WidgetFamily] {
+        if #available(iOSApplicationExtension 16.0, *) {
+            return [
+                .systemSmall,
+                .systemMedium,
+                .systemLarge,
+                .systemExtraLarge,
+                .accessoryInline,
+                .accessoryRectangular,
+                .accessoryCircular
+            ]
+        } else {
+            return [
+                .systemSmall,
+                .systemMedium,
+                .systemLarge,
+                .systemExtraLarge
+            ]
+        }
+    }
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: ScoreEntryProvider()) { entry in
             ScoreEntryView(entry: entry)
@@ -280,6 +302,7 @@ struct ScoreWidget: Widget {
         .contentMarginsDisabled()
         .configurationDisplayName("Myke vs. Stephen")
         .description("Keep track of their scores.")
+        .supportedFamilies(supportedFamilies)
     }
 }
 
