@@ -43,6 +43,7 @@ struct ScoreEntryView: View {
                     .aspectRatio(contentMode: .fit)
                     .padding(family == .systemLarge ? 10 : 0)
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
             GridRow {
                 Text(formatNumber(entry.score.myke.score))
                     .minimumScaleFactor(0.5)
@@ -58,10 +59,11 @@ struct ScoreEntryView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .padding()
         .background {
-            Image(.bannerBackground)
+            Image(.bannersmol)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
         }
+        .background(.black)
     }
     
     @ViewBuilder
@@ -92,12 +94,22 @@ struct ScoreEntryView: View {
     
     @ViewBuilder
     var lockScreenCircular: some View {
-        VStack {
-            Text(formatNumber(entry.score.myke.score))
-            Text(formatNumber(entry.score.stephen.score))
+        Gauge(value: entry.score.myke.score, in: 0...(entry.score.stephen.score + entry.score.myke.score)) {
+            Text("L")
+        } currentValueLabel: {
+            VStack(spacing: -2) {
+                Text(formatNumber(entry.score.myke.score))
+                Text(formatNumber(entry.score.stephen.score))
+            }
+            .font(.caption)
+            .bold()
+        } minimumValueLabel: {
+            Text("M")
+        } maximumValueLabel: {
+            Text("S")
         }
-        .font(.system(.body, design: .rounded))
-        .bold()
+        .gaugeStyle(.accessoryCircular)
+        .font(.system(.caption, design: .rounded))
     }
     
     @ViewBuilder
@@ -117,10 +129,9 @@ struct ScoreEntryView: View {
     var body: some View {
         if #available(iOS 17.0, *) {
             content
-                .containerBackground(.black, for: .widget)
+                .containerBackground(.clear, for: .widget)
         } else {
             content
-                .background(.black)
         }
     }
 }
@@ -128,6 +139,6 @@ struct ScoreEntryView: View {
 struct CampaignList_Previews: PreviewProvider {
     static var previews: some View {
         ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-            .previewContext(WidgetPreviewContext(family: .accessoryInline))
+            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }
