@@ -38,7 +38,7 @@ struct RandomCampaignPickerView: View {
     }
     
     func playAnimation() {
-        withAnimation(.timingCurve(0.37, 0.25, 0.25, 0.91, duration: animationDuration)) {
+        withAnimation(.timingCurve(0.37, 0, 0.25, 1, duration: animationDuration)) {
             
             let segmentWidth = 360.0 / Double(wedgeCount)
             
