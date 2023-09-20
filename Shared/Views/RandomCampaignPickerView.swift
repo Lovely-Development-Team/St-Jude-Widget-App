@@ -131,6 +131,7 @@ struct RandomCampaignPickerView: View {
                         Button(action: spinAgain, label: {
                             Text("Spin Again")
                         })
+                        .padding(.bottom)
                     }
                 }
             }
