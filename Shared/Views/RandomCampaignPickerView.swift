@@ -189,6 +189,7 @@ struct WheelWedgeView: View {
                     if(shouldFlip && isTimeToFlip) {
                         VStack {
                             image()
+                                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                                 .padding()
                                 .padding()
                             Spacer()
