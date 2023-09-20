@@ -26,6 +26,7 @@ struct RandomCampaignPickerView: View {
         
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 #endif
     
     func getRandomCampaign() -> Campaign {
@@ -38,8 +39,23 @@ struct RandomCampaignPickerView: View {
     
     func playAnimation() {
         withAnimation(.easeInOut(duration: animationDuration)) {
-            let angleDegrees = Int(wheelRotation.degrees) + (180 * Int.random(in: 5..<10))
-            indexToFlip = (angleDegrees % 360 == 0) ? 0 : 7
+            
+            let segmentWidth = 360.0 / Double(wedgeCount)
+            
+            // Pick a random number of segments to move round the wheel
+            let numberOfSegmentsToSpin = Int.random(in: 0...14)
+            
+            // Spin four times round the wheel, then the previous random number
+            let angleDegrees = wheelRotation.degrees + (segmentWidth * Double((4 * wedgeCount) + numberOfSegmentsToSpin))
+            
+            // Clockwise spinning makes the numbers go in reverse, so subtract the number of segments we're moving by
+            // from the current segment, handling the wraparound below zero
+            var newSegmentIndex = indexToFlip - numberOfSegmentsToSpin
+            if newSegmentIndex < 0 {
+                newSegmentIndex = wedgeCount + newSegmentIndex
+            }
+            
+            indexToFlip = newSegmentIndex
             wheelRotation = Angle(degrees: Double(angleDegrees))
         }
         
@@ -106,7 +122,7 @@ struct RandomCampaignPickerView: View {
                             campaignChoiceID = chosenCampaign?.id
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
-                            Text("Visit this fundraiser!")
+                            Text("View this fundraiser")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding(10)
@@ -134,6 +150,7 @@ struct RandomCampaignPickerView: View {
             }
             .frame(width: wheelRadius*2, height: wheelRadius*2)
             .clipShape(Circle())
+            .background(Color.black.clipShape(Circle()))
             .shadow(radius: 10)
             .overlay {
                 ZStack {
@@ -159,12 +176,31 @@ struct RandomCampaignPickerView: View {
                 }
             }
         }
+        .overlay(alignment: .bottomLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Image(systemName: "xmark")
+                    .foregroundStyle(Color.white)
+                    .padding(7)
+                    .background(Color.gray.opacity(0.5))
+                    .clipShape(Circle())
+                    .shadow(radius: 5)
+            })
+        }
         .padding()
         .onAppear {
             chosenCampaign = getRandomCampaign()
             playAnimation()
             SoundEffectHelper.shared.playDrumrollSoundEffect()
         }
+#if !os(macOS)
+        .onReceive(timer) { _ in
+            if !animationFinished && !isResetting {
+                bounceHaptics.impactOccurred()
+            }
+        }
+#endif
     }
 }
 
