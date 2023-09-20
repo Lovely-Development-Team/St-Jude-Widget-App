@@ -32,4 +32,9 @@ class SoundEffectHelper {
         drumrollAudioPlayer?.currentTime = 0.0
         drumrollAudioPlayer?.play()
     }
+    
+    func stop() {
+        drumrollAudioPlayer?.stop()
+    }
+    
 }
