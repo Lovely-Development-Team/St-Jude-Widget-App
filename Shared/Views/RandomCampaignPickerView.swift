@@ -38,7 +38,7 @@ struct RandomCampaignPickerView: View {
     }
     
     func playAnimation() {
-        withAnimation(.easeInOut(duration: animationDuration)) {
+        withAnimation(.timingCurve(0.37, 0.25, 0.25, 0.91, duration: animationDuration)) {
             
             let segmentWidth = 360.0 / Double(wedgeCount)
             
@@ -188,6 +188,14 @@ struct RandomCampaignPickerView: View {
                     .shadow(radius: 5)
             })
         }
+        .background {
+            GeometryReader { geo in
+                Color.clear.preference(key: Self.WidthPreferenceKey.self, value: geo.size.width)
+            }
+        }
+        .onPreferenceChange(Self.WidthPreferenceKey.self) { value in
+            self.wheelRadius = min((1.5 * value) / 2.0, 300)
+        }
         .padding()
         .onAppear {
             chosenCampaign = getRandomCampaign()
@@ -201,6 +209,15 @@ struct RandomCampaignPickerView: View {
             }
         }
 #endif
+    }
+}
+
+private extension RandomCampaignPickerView {
+    struct WidthPreferenceKey: PreferenceKey {
+        static let defaultValue: CGFloat = 0
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value = max(value, nextValue())
+        }
     }
 }
 

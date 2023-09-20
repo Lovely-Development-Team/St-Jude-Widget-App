@@ -16,18 +16,20 @@ class SoundEffectHelper {
     func setupDrumrollSoundEffect() {
         do {
             if let url = Bundle.main.url(forResource: "drumroll", withExtension: "mp3") {
+                let audioSession = AVAudioSession.sharedInstance()
+                try audioSession.setActive(false)
+                try audioSession.setCategory(.ambient)
                 drumrollAudioPlayer = try AVAudioPlayer(contentsOf: url)
                 drumrollAudioPlayer?.prepareToPlay()
             }
         } catch {
-            print(error)
+            print("SoundEffectHelper: \(error.localizedDescription)")
         }
     }
     
     func playDrumrollSoundEffect() {
         drumrollAudioPlayer?.stop()
         drumrollAudioPlayer?.currentTime = 0.0
-        drumrollAudioPlayer?.prepareToPlay()
         drumrollAudioPlayer?.play()
     }
 }
