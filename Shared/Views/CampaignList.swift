@@ -366,12 +366,6 @@ struct CampaignList: View {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             
                             Button(action: {
-//                                while true {
-//                                    if let random = campaigns.randomElement(), random.id != RELAY_CAMPAIGN {
-//                                        selectedCampaignId = random.id
-//                                        break
-//                                    }
-//                                }
                                 self.showRandomPickerView = true
                             }) {
                                 GroupBox {
