@@ -10,7 +10,8 @@ import Kingfisher
 import AVKit
 
 struct RandomCampaignPickerView: View {
-    @Binding var isPresented: Bool
+    @Environment(\.presentationMode) var presentationMode
+    
     @Binding var campaignChoiceID: UUID?
     @State var allCampaigns: [Campaign]
     @State var chosenCampaign: Campaign?
@@ -22,7 +23,7 @@ struct RandomCampaignPickerView: View {
     @State private var indexToFlip: Int = 0
     @State private var animationFinished: Bool = false
     @State private var isResetting: Bool = false
-    
+        
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
 #endif
@@ -43,9 +44,8 @@ struct RandomCampaignPickerView: View {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+animationDuration, execute: {
-            campaignChoiceID = chosenCampaign?.id
 #if !os(macOS)
-            bounceHaptics.impactOccurred()
+            bounceHaptics.impactOccurred(intensity: 1)
 #endif
             withAnimation(.spring()) {
                 animationFinished = true
@@ -64,6 +64,19 @@ struct RandomCampaignPickerView: View {
         return wheelCircumference / Double(wedgeCount)
     }
     
+    func spinAgain() {
+        withAnimation(.easeInOut(duration: 1.0).speed(1.5)) {
+            animationFinished = false
+            isResetting = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0, execute: {
+            isResetting = false
+            chosenCampaign = getRandomCampaign()
+            playAnimation()
+            SoundEffectHelper.shared.playDrumrollSoundEffect()
+        })
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Image(.confetti)
@@ -71,12 +84,10 @@ struct RandomCampaignPickerView: View {
                 .scaleEffect(animationFinished ? CGSize(width: 3.0, height: 1.0) : .zero)
                 .opacity(animationFinished || isResetting ? 0 : 1)
             VStack {
-                Text("Random Fundraiser")
+                Text("Wheel of Fundraisers")
                     .font(.largeTitle)
                     .bold()
-                if(!animationFinished) {
-                    Spacer()
-                }
+                Spacer()
                 if let campaign = chosenCampaign, animationFinished {
                     VStack {
                         Spacer()
@@ -84,6 +95,7 @@ struct RandomCampaignPickerView: View {
                             .lineLimit(3)
                             .multilineTextAlignment(.center)
                             .font(.title)
+                            .bold()
                         Text(campaign.user.username)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
@@ -91,9 +103,10 @@ struct RandomCampaignPickerView: View {
                             .italic()
                             .foregroundStyle(.secondary)
                         Button(action: {
-                            isPresented = false
+                            campaignChoiceID = chosenCampaign?.id
+                            presentationMode.wrappedValue.dismiss()
                         }, label: {
-                            Text("Visit This Campaign!")
+                            Text("Visit this fundraiser!")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding(10)
@@ -102,18 +115,7 @@ struct RandomCampaignPickerView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         })
                         Spacer()
-                        Button(action: {
-                            withAnimation(.easeInOut(duration: 1.0)) {
-                                animationFinished = false
-                                isResetting = true
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now()+1.0, execute: {
-                                isResetting = false
-                                chosenCampaign = getRandomCampaign()
-                                playAnimation()
-                                SoundEffectHelper.shared.playDrumrollSoundEffect()
-                            })
-                        }, label: {
+                        Button(action: spinAgain, label: {
                             Text("Spin Again")
                         })
                     }
@@ -121,16 +123,18 @@ struct RandomCampaignPickerView: View {
             }
             .padding([.bottom], wheelRadius*1.25)
         }
+        .background(BrandShapeBackground())
         .overlay(alignment:.bottom) {
             WheelLayout(radius: wheelRadius) {
                 ForEach(0..<wedgeCount) { index in
-                    WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, shouldFlip: index == indexToFlip)
+                    WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, campaignChoiceID: $campaignChoiceID, shouldFlip: index == indexToFlip)
                         .frame(width: sectionWidth, height: wheelRadius)
                         .rotationEffect(Angle(degrees: (360/Double(wedgeCount))*Double(index)))
                 }
             }
             .frame(width: wheelRadius*2, height: wheelRadius*2)
             .clipShape(Circle())
+            .shadow(radius: 10)
             .overlay {
                 ZStack {
                     Image(.fullSizeAppIcon)
@@ -149,6 +153,11 @@ struct RandomCampaignPickerView: View {
             }
             .rotationEffect(wheelRotation)
             .padding([.bottom], -wheelRadius*(animationFinished ? 0.8 : 0.9))
+            .onTapGesture {
+                if animationFinished {
+                    spinAgain()
+                }
+            }
         }
         .padding()
         .onAppear {
@@ -156,14 +165,15 @@ struct RandomCampaignPickerView: View {
             playAnimation()
             SoundEffectHelper.shared.playDrumrollSoundEffect()
         }
-        .interactiveDismissDisabled()
     }
 }
 
 struct WheelWedgeView: View {
+    @Environment(\.presentationMode) var presentationMode
     var index: Int
     @Binding var isTimeToFlip: Bool
     @Binding var campaign: Campaign?
+    @Binding var campaignChoiceID: UUID?
     var shouldFlip: Bool
     
     @ViewBuilder
@@ -176,14 +186,26 @@ struct WheelWedgeView: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 .cornerRadius(5)
+                .onTapGesture {
+                    campaignChoiceID = campaign.id
+                    presentationMode.wrappedValue.dismiss()
+                }
         } else {
             EmptyView()
         }
     }
     
+    let colors: [Color] = [
+        .brandRed,
+        .brandYellow,
+        .brandBlue,
+        .brandGreen,
+        .brandPurple,
+    ]
+    
     var body: some View {
         Triangle()
-            .foregroundStyle(index % 2 == 0 ? WidgetAppearance.stjudeRed : WidgetAppearance.relayYellow)
+            .foregroundStyle(colors[index % colors.count])
             .overlay {
                 ZStack {
                     if(shouldFlip && isTimeToFlip) {

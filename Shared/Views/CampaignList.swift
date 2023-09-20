@@ -370,8 +370,8 @@ struct CampaignList: View {
                             }) {
                                 GroupBox {
                                     HStack {
-                                        Image(systemName: "shuffle")
-                                        Text("Discover a random fundraiser")
+                                        Image(systemName: "arrow.triangle.2.circlepath")
+                                        Text("Spin the Wheel of Fundraisers!")
                                             .multilineTextAlignment(.leading)
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                         Image(systemName: "chevron.right")
@@ -513,8 +513,7 @@ struct CampaignList: View {
             
         }
         .sheet(isPresented: $showRandomPickerView) {
-            RandomCampaignPickerView(isPresented: $showRandomPickerView, 
-                                     campaignChoiceID: $selectedCampaignId,
+            RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
                                      allCampaigns: campaigns)
         }
         .sheet(isPresented: $showEasterEggSheet) {
