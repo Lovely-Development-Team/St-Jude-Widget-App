@@ -6,95 +6,50 @@
 //
 
 import SwiftUI
+import Kingfisher
 import AVKit
 
 struct RandomCampaignPickerView: View {
     @Binding var isPresented: Bool
     @Binding var campaignChoiceID: UUID?
     @State var allCampaigns: [Campaign]
+    @State var chosenCampaign: Campaign?
     
-    @State private var displayedCampaigns: [Campaign] = []
-    
-    @State private var animationTimer: Timer? = nil
-    
-    @State private var animationDuration: Double = 0.75
-    
-    @State private var listAlignment: Alignment = .top
-    
-    @State private var totalAnimationLength: Double = 3.0
-    
-    @State private var audioPlayer: AVAudioPlayer? = nil
+    @State private var animationDuration: Double = 2.25
     
     @State private var wheelRotation: Angle = .degrees(0)
     
-    func playSoundEffect() {
-        do {
-            if let url = Bundle.main.url(forResource: "drumroll", withExtension: "mp3") {
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer!.prepareToPlay()
-                audioPlayer!.play()
-            }
-        } catch {
-            print(error)
-        }
-    }
+    @State private var indexToFlip: Int = 0
+    @State private var animationFinished: Bool = false
+    @State private var isResetting: Bool = false
     
-    var linearLoopCount: Int {
-        return Int((totalAnimationLength - (animationDuration * 2)) / animationDuration)
-    }
+#if !os(macOS)
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+#endif
     
     func getRandomCampaign() -> Campaign {
         while true {
-            if let random = allCampaigns.randomElement(), random.id != RELAY_CAMPAIGN, !displayedCampaigns.contains(where: { $0.id == random.id }) {
+            if let random = allCampaigns.randomElement(), random.id != RELAY_CAMPAIGN {
                 return random
             }
         }
     }
     
-    func getRandomCampaigns() -> [Campaign] {
-        if let lastCampaign = displayedCampaigns.last {
-            let newRandomCampaigns = (0..<4).map { _ in
-                return getRandomCampaign()
-            }
-            
-            var newDisplayedCampaigns = [lastCampaign]
-            newDisplayedCampaigns.append(contentsOf: newRandomCampaigns)
-            
-            return newDisplayedCampaigns
-        } else {
-            return (0..<5).map { _ in
-                return getRandomCampaign()
-            }
-        }
-    }
-     
-    @State var animationLoopIndex: Int = 0
-    
-    func tickTimer() {
-        displayedCampaigns = getRandomCampaigns()
-        animationLoopIndex+=1
-        
-        var animation: Animation = .linear(duration: animationDuration)
-        
-        if(animationLoopIndex == 1) {
-            animation = Animation.timingCurve(0.25, 0, 0.5, 0.5, duration: animationDuration)
-//            animation = .easeIn(duration: animationDuration)
-        } else if(animationLoopIndex == linearLoopCount+2) {
-            animation = Animation.timingCurve(0.25, 0.25, 0.5, 1, duration: animationDuration)
-//            animation = .easeOut(duration: animationDuration)
-            animationTimer?.invalidate()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+animationDuration, execute: {
-                campaignChoiceID = displayedCampaigns.last!.id
-//                isPresented = false
-            })
+    func playAnimation() {
+        withAnimation(.easeInOut(duration: animationDuration)) {
+            let angleDegrees = Int(wheelRotation.degrees) + (180 * Int.random(in: 5..<10))
+            indexToFlip = (angleDegrees % 360 == 0) ? 0 : 7
+            wheelRotation = Angle(degrees: Double(angleDegrees))
         }
         
-//        listAlignment = .top
-        wheelRotation = .degrees(0)
-        withAnimation(animation, {
-            wheelRotation = .degrees(360)
-//            listAlignment = .bottom
+        DispatchQueue.main.asyncAfter(deadline: .now()+animationDuration, execute: {
+            campaignChoiceID = chosenCampaign?.id
+#if !os(macOS)
+            bounceHaptics.impactOccurred()
+#endif
+            withAnimation(.spring()) {
+                animationFinished = true
+            }
         })
     }
     
@@ -110,16 +65,66 @@ struct RandomCampaignPickerView: View {
     }
     
     var body: some View {
-        VStack {
-            Spacer()
-            Text("fundraiser title")
-                .font(.largeTitle)
-            Text("fundraiser username")
-                .font(.subheadline)
-            Spacer()
+        ZStack(alignment: .bottom) {
+            Image(.confetti)
+                .resizable()
+                .scaleEffect(animationFinished ? CGSize(width: 3.0, height: 1.0) : .zero)
+                .opacity(animationFinished || isResetting ? 0 : 1)
+            VStack {
+                Text("Random Fundraiser")
+                    .font(.largeTitle)
+                    .bold()
+                if(!animationFinished) {
+                    Spacer()
+                }
+                if let campaign = chosenCampaign, animationFinished {
+                    VStack {
+                        Spacer()
+                        Text(campaign.title)
+                            .lineLimit(3)
+                            .multilineTextAlignment(.center)
+                            .font(.title)
+                        Text(campaign.user.username)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                            .font(.headline)
+                            .italic()
+                            .foregroundStyle(.secondary)
+                        Button(action: {
+                            isPresented = false
+                        }, label: {
+                            Text("Visit This Campaign!")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .padding(.horizontal, 20)
+                                .background(Color.accentColor)
+                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        })
+                        Spacer()
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 1.0)) {
+                                animationFinished = false
+                                isResetting = true
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now()+1.0, execute: {
+                                isResetting = false
+                                chosenCampaign = getRandomCampaign()
+                                playAnimation()
+                                SoundEffectHelper.shared.playDrumrollSoundEffect()
+                            })
+                        }, label: {
+                            Text("Spin Again")
+                        })
+                    }
+                }
+            }
+            .padding([.bottom], wheelRadius*1.25)
+        }
+        .overlay(alignment:.bottom) {
             WheelLayout(radius: wheelRadius) {
                 ForEach(0..<wedgeCount) { index in
-                    WheelWedgeView(index: index)
+                    WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, shouldFlip: index == indexToFlip)
                         .frame(width: sectionWidth, height: wheelRadius)
                         .rotationEffect(Angle(degrees: (360/Double(wedgeCount))*Double(index)))
                 }
@@ -128,7 +133,7 @@ struct RandomCampaignPickerView: View {
             .clipShape(Circle())
             .overlay {
                 ZStack {
-                    Image(uiImage: UIImage(named: "AppIcon")!)
+                    Image(.fullSizeAppIcon)
                         .resizable()
                         .frame(width: wheelRadius/5, height: wheelRadius/5)
                         .overlay {
@@ -143,12 +148,13 @@ struct RandomCampaignPickerView: View {
                 }
             }
             .rotationEffect(wheelRotation)
-            .padding([.bottom], -wheelRadius*0.9)
+            .padding([.bottom], -wheelRadius*(animationFinished ? 0.8 : 0.9))
         }
+        .padding()
         .onAppear {
-            playSoundEffect()
-            tickTimer()
-            animationTimer = Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: true, block: {_ in tickTimer() })
+            chosenCampaign = getRandomCampaign()
+            playAnimation()
+            SoundEffectHelper.shared.playDrumrollSoundEffect()
         }
         .interactiveDismissDisabled()
     }
@@ -156,24 +162,44 @@ struct RandomCampaignPickerView: View {
 
 struct WheelWedgeView: View {
     var index: Int
+    @Binding var isTimeToFlip: Bool
+    @Binding var campaign: Campaign?
+    var shouldFlip: Bool
+    
+    @ViewBuilder
+    func image() -> some View {
+        if let campaign = campaign, let url = URL(string: campaign.avatar?.src ?? "") {
+            KFImage.url(url)
+                .resizable()
+                .placeholder {
+                    ProgressView()
+                }
+                .aspectRatio(contentMode: .fit)
+                .cornerRadius(5)
+        } else {
+            EmptyView()
+        }
+    }
     
     var body: some View {
         Triangle()
             .foregroundStyle(index % 2 == 0 ? WidgetAppearance.stjudeRed : WidgetAppearance.relayYellow)
             .overlay {
                 ZStack {
-                    VStack {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding()
-                            .padding([.leading, .trailing])
-                        Spacer()
+                    if(shouldFlip && isTimeToFlip) {
+                        VStack {
+                            image()
+                                .padding()
+                                .padding()
+                            Spacer()
+                        }
                     }
                     Triangle()
                         .stroke(.black, lineWidth: 2)
                 }
             }
+            .rotation3DEffect(.degrees(shouldFlip && isTimeToFlip ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+            .animation(.easeInOut, value: isTimeToFlip)
     }
 }
 
@@ -198,6 +224,8 @@ struct WheelLayout: Layout {
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let angle: Double = (2 * Double.pi) / Double(subviews.count)
+        
+        // apple sample code is the best thank you big tim
         
         for (index, subview) in subviews.enumerated() {
             // Find a vector with an appropriate size and rotation.
