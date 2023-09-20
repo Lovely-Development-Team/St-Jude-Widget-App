@@ -19,6 +19,8 @@
 		43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43E5553A2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
+		43F8A6132ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
+		43F8A6142ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
 		5E1705C428C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C528C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C728C32F5D00E70019 /* TapToWobble.swift */; };
@@ -411,6 +413,7 @@
 		4301B7FC2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadConfigurationIntentHandler.swift; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43E555362AB91BF6006EC83F /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
+		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
 		5E1705C328C0C47000E70019 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		5E1705C728C32F5D00E70019 /* TapToWobble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToWobble.swift; sourceTree = "<group>"; };
 		5E1705CA28C332AA00E70019 /* EasterEggDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggDirectory.swift; sourceTree = "<group>"; };
@@ -895,6 +898,7 @@
 				5EE0EC1B28BFA00E0053C9D1 /* ShareSheetView.swift */,
 				5E7C2FFB28C5403600A9B0D5 /* SearchBar.swift */,
 				5EEB56A42AA09DF1008AABF1 /* TextHelpers.swift */,
+				43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1251,6 +1255,7 @@
 				5EEB56A52AA09DF1008AABF1 /* TextHelpers.swift in Sources */,
 				5E180C1B28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */,
+				43F8A6132ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */,
 				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */,
 				63E19D5226E114AF009F318F /* NotificationSettingsController.swift in Sources */,
@@ -1375,6 +1380,7 @@
 				5EF748D426DF74B6008174DF /* Notifications.swift in Sources */,
 				5EE56C142A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */,
 				5E49D6CA26DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
+				43F8A6142ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */,
 				63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */,
 				630DD48326E24B3100FE44E5 /* InAppSettingsToggle.swift in Sources */,
 			);
