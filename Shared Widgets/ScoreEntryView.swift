@@ -68,8 +68,8 @@ struct ScoreEntryView: View {
     
     @ViewBuilder
     var lockScreenInline: some View {
-        Text(formatNumber(entry.score.myke.score)) + Text(" • ") +
-            Text(formatNumber(entry.score.stephen.score))
+        Text(Image(systemName: "m.circle")) + Text(" ") + Text(formatNumber(entry.score.myke.score)) + Text("  ") + Text(Image(systemName: "s.circle")) + Text(" ") +
+        Text(formatNumber(entry.score.stephen.score))
     }
     
     @ViewBuilder
