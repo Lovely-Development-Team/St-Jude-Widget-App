@@ -21,6 +21,8 @@
 		43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43F8A6132ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
 		43F8A6142ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
+		43F8A6162ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */; };
+		43F8A6172ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */; };
 		5E1705C428C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C528C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C728C32F5D00E70019 /* TapToWobble.swift */; };
@@ -414,6 +416,7 @@
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43E555362AB91BF6006EC83F /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
+		43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView.swift; sourceTree = "<group>"; };
 		5E1705C328C0C47000E70019 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		5E1705C728C32F5D00E70019 /* TapToWobble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToWobble.swift; sourceTree = "<group>"; };
 		5E1705CA28C332AA00E70019 /* EasterEggDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggDirectory.swift; sourceTree = "<group>"; };
@@ -813,6 +816,7 @@
 				5EEB569E2AA090E7008AABF1 /* HeadToHeadListItem.swift */,
 				5EEB56A12AA0987C008AABF1 /* ChooseCampaignView.swift */,
 				5EFB879B2AA492BE006E0D0E /* StJudeTotals.swift */,
+				43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1279,6 +1283,7 @@
 				5EFB879C2AA492BE006E0D0E /* StJudeTotals.swift in Sources */,
 				63D0CD1C28B4E8AB0073957E /* Sequence.swift in Sources */,
 				63ACEFFA26D3C77600F98023 /* MilestoneView.swift in Sources */,
+				43F8A6162ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */,
 				5EE0EC0D28BD5A320053C9D1 /* TeamEventCardView.swift in Sources */,
 				5EEB56992A9F95BB008AABF1 /* HeadToHead.swift in Sources */,
 				63ACEFEA26D296F100F98023 /* Loggers.swift in Sources */,
@@ -1345,6 +1350,7 @@
 				5EC5147928D50F7E00CB00DC /* DonorList.swift in Sources */,
 				DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,
+				43F8A6172ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */,
 				63D0CCF228B102AA0073957E /* AppDatabase.swift in Sources */,
 				5EF748D126DF74B2008174DF /* CheckSignificantAmounts.swift in Sources */,
 				63D0CCF828B108EF0073957E /* Persistence.swift in Sources */,
