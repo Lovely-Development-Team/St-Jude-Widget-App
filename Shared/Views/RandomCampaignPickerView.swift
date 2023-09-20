@@ -100,9 +100,6 @@ struct RandomCampaignPickerView: View {
                 .scaleEffect(animationFinished ? CGSize(width: 3.0, height: 1.0) : .zero)
                 .opacity(animationFinished || isResetting ? 0 : 1)
             VStack {
-                Text("Wheel of Fundraisers")
-                    .font(.largeTitle)
-                    .bold()
                 Spacer()
                 if let campaign = chosenCampaign, animationFinished {
                     VStack {
@@ -175,18 +172,6 @@ struct RandomCampaignPickerView: View {
                     spinAgain()
                 }
             }
-        }
-        .overlay(alignment: .bottomLeading) {
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Image(systemName: "xmark")
-                    .foregroundStyle(Color.white)
-                    .padding(7)
-                    .background(Color.gray.opacity(0.5))
-                    .clipShape(Circle())
-                    .shadow(radius: 5)
-            })
         }
         .background {
             GeometryReader { geo in

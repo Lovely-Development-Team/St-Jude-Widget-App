@@ -512,9 +512,23 @@ struct CampaignList: View {
             }
             
         }
-        .sheet(isPresented: $showRandomPickerView) {
-            RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
-                                     allCampaigns: campaigns)
+        .sheet(isPresented: $showRandomPickerView, onDismiss: {
+            SoundEffectHelper.shared.stop()
+        }) {
+            NavigationStack {
+                RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
+                                         allCampaigns: campaigns)
+                .navigationTitle("Wheel of Fundraisers")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Done") {
+                            showRandomPickerView = false
+                        }
+                        .animation(.linear(duration: 0))
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showEasterEggSheet) {
             EasterEggView()
