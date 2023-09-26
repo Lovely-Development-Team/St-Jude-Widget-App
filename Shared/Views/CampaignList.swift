@@ -32,12 +32,41 @@ enum FundraiserSortOrder: Int, CaseIterable {
     
 }
 
+enum CampaignListSheet: Identifiable {
+    case aboutScreen
+    case leaderBoard
+    case randomPicker
+    case easterEgg
+    case startHeadToHead
+    case continueHeadToHead(campaign: Campaign)
+    
+    var id: String {
+        switch self {
+        case .aboutScreen:
+            return "aboutScreen"
+        case .leaderBoard:
+            return "leaderBoard"
+        case .randomPicker:
+            return "randomPicker"
+        case .easterEgg:
+            return "easterEgg"
+        case .startHeadToHead:
+            return "startHeadToHead"
+        case let .continueHeadToHead(campaign):
+            return "continueHeadToHead:\(campaign.id.uuidString)"
+        }
+    }
+    
+}
+
 struct CampaignList: View {
     
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
     @State private var teamEventObservation = AppDatabase.shared.observeTeamEventObservation()
     @State private var teamEventCancellable: DatabaseCancellable?
+    
+    @State private var showSheet: CampaignListSheet? = nil
     
     // MARK: 2022
     
@@ -48,8 +77,6 @@ struct CampaignList: View {
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
     @State private var selectedCampaignId: UUID? = nil
-    @State private var showEasterEggSheet: Bool = false
-    @State private var showAboutSheet: Bool = false
     
     @State private var showSearchBar: Bool = false
     @State private var searchText = ""
@@ -59,12 +86,7 @@ struct CampaignList: View {
     @State private var campaignsHaveClosed: Bool = false
     @State private var showStephen: Bool = false
     
-    @State private var showLeaderboard: Bool = false
     @State private var showHeadToHeads: Bool = true
-    @State private var showHeadToHeadChoice: Campaign? = nil
-    @State private var startHeadToHead: Bool = false
-    
-    @State private var showRandomPickerView: Bool = false
     
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
@@ -230,7 +252,7 @@ struct CampaignList: View {
                                 .fontWeight(.bold)
                             if headToHeads.count > 0 {
                                 Button(action: {
-                                    startHeadToHead = true
+                                    showSheet = .startHeadToHead
                                 }) {
                                     Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
                                 }
@@ -254,7 +276,7 @@ struct CampaignList: View {
                         if showHeadToHeads {
                             VStack {
                                 Button("Add a Head to Head") {
-                                    startHeadToHead = true
+                                    showSheet = .startHeadToHead
                                 }
                                 .foregroundStyle(Color.primary)
                                 .fullWidth(alignment: .center)
@@ -295,7 +317,7 @@ struct CampaignList: View {
                         }
                         Spacer()
                         Button(action: {
-                            showLeaderboard = true
+                            showSheet = .leaderBoard
                         }) {
                             Label("Leaderboard", systemImage: "trophy")
                                 .labelStyle(.iconOnly)
@@ -366,7 +388,7 @@ struct CampaignList: View {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             
                             Button(action: {
-                                self.showRandomPickerView = true
+                                showSheet = .randomPicker
                             }) {
                                 GroupBox {
                                     HStack {
@@ -389,7 +411,7 @@ struct CampaignList: View {
                                             .contextMenu {
                                                 if shouldShowHeadToHead {
                                                     Button(action: {
-                                                        showHeadToHeadChoice = campaign
+                                                        showSheet = .continueHeadToHead(campaign: campaign)
                                                     }) {
                                                         Label("Start Head to Head", systemImage: "trophy")
                                                     }
@@ -410,7 +432,7 @@ struct CampaignList: View {
                         .padding(.horizontal)
                         
                         Button(action: {
-                            showEasterEggSheet = true
+                            showSheet = .easterEgg
                         }, label: {
                             HStack {
                                 Text("App from the Lovely Developers")
@@ -512,61 +534,59 @@ struct CampaignList: View {
             }
             
         }
-        .sheet(isPresented: $showRandomPickerView, onDismiss: {
+        .sheet(item: $showSheet, onDismiss: {
             SoundEffectHelper.shared.stop()
-        }) {
-            NavigationStack {
-                RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
-                                         allCampaigns: campaigns)
-                .navigationTitle("Wheel of Fundraisers")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button("Done") {
-                            showRandomPickerView = false
-                        }
-                        .animation(.linear(duration: 0))
+        }) { sheet in
+            switch sheet {
+            case .aboutScreen:
+                NavigationView {
+                    AboutView()
+                }
+            case .leaderBoard:
+                NavigationView {
+                    Leaderboard(campaigns: campaigns) { campaign in
+                        showSheet = nil
+                        selectedCampaignId = campaign.id
                     }
                 }
-            }
-        }
-        .sheet(isPresented: $showEasterEggSheet) {
-            EasterEggView()
-                .background(Color.secondarySystemBackground)
-                .edgesIgnoringSafeArea(.all)
-        }
-        .sheet(isPresented: $showAboutSheet) {
-            NavigationView {
-                AboutView()
-            }
-        }
-        .sheet(isPresented: $showLeaderboard) {
-            NavigationView {
-                Leaderboard(campaigns: campaigns) { campaign in
-                    showLeaderboard = false
-                    selectedCampaignId = campaign.id
-                }
-            }
-        }
-        .sheet(isPresented: $startHeadToHead) {
-            NavigationView {
-                ChooseCampaignView() { campaign in
-                    showHeadToHeadChoice = campaign
-                }
-            }
-        }
-        .sheet(item: $showHeadToHeadChoice) { firstCampaign in
-            NavigationView {
-                ChooseCampaignView(otherCampaign: firstCampaign) { otherCampaign in
-                    Task {
-                        let headToHead = HeadToHead(id: UUID(), campaignId1: firstCampaign.id, campaignId2: otherCampaign.id)
-                        do {
-                            try await AppDatabase.shared.saveHeadToHead(headToHead)
-                        } catch {
-                            dataLogger.error("Could not create Head to Head: \(error.localizedDescription)")
+            case .randomPicker:
+                NavigationStack {
+                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
+                                             allCampaigns: campaigns)
+                    .navigationTitle("Wheel of Fundraisers")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Done") {
+                                showSheet = nil
+                            }
+                            .animation(.linear(duration: 0))
                         }
-                        await fetch()
-                        selectedCampaignId = headToHead.id
+                    }
+                }
+            case .easterEgg:
+                EasterEggView()
+                    .background(Color.secondarySystemBackground)
+                    .edgesIgnoringSafeArea(.all)
+            case .startHeadToHead:
+                NavigationView {
+                    ChooseCampaignView() { campaign in
+                        showSheet = .continueHeadToHead(campaign: campaign)
+                    }
+                }
+            case let .continueHeadToHead(firstCampaign):
+                NavigationView {
+                    ChooseCampaignView(otherCampaign: firstCampaign) { otherCampaign in
+                        Task {
+                            let headToHead = HeadToHead(id: UUID(), campaignId1: firstCampaign.id, campaignId2: otherCampaign.id)
+                            do {
+                                try await AppDatabase.shared.saveHeadToHead(headToHead)
+                            } catch {
+                                dataLogger.error("Could not create Head to Head: \(error.localizedDescription)")
+                            }
+                            await fetch()
+                            selectedCampaignId = headToHead.id
+                        }
                     }
                 }
             }
@@ -574,7 +594,7 @@ struct CampaignList: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    showAboutSheet = true
+                    showSheet = .aboutScreen
                 }) {
                     Label("About", systemImage: "info.circle")
                         .labelStyle(.iconOnly)
@@ -606,11 +626,7 @@ struct CampaignList: View {
                 result[item.name] = item.value
             }), let id = queryComponents["id"] {
                 selectedCampaignId = UUID(uuidString: id)
-                showRandomPickerView = false
-                showHeadToHeadChoice = nil
-                startHeadToHead = false
-                showLeaderboard = false
-                showEasterEggSheet = false
+                showSheet = nil
             }
         }
     }
