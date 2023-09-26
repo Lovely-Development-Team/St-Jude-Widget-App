@@ -606,6 +606,11 @@ struct CampaignList: View {
                 result[item.name] = item.value
             }), let id = queryComponents["id"] {
                 selectedCampaignId = UUID(uuidString: id)
+                showRandomPickerView = false
+                showHeadToHeadChoice = nil
+                startHeadToHead = false
+                showLeaderboard = false
+                showEasterEggSheet = false
             }
         }
     }
