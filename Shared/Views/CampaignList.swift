@@ -91,7 +91,7 @@ struct CampaignList: View {
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1698710400)
+    let closingDate: Date? = Date(timeIntervalSince1970: 1696644050)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
@@ -216,15 +216,11 @@ struct CampaignList: View {
                                         .multilineTextAlignment(.leading)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     }
-                                    if !showStephen {
-                                        AnimatedImage(imageNames: mykeImages, timerLoops: 70, animateForever: true)
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 60)
-                                    } else {
-                                        AnimatedImage(imageNames: stephenImages, interval: 0.1, animateForever: true)
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 70)
-                                    }
+                                    Image(showStephen ? .stephen : .myke)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 60)
+                                        .tapToWobble(anchor: .center)
                                 }
                             } else {
                                 Group {
