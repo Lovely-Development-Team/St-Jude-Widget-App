@@ -227,7 +227,8 @@ struct CampaignList: View {
                                     Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
                                 }
                                 .font(.title2)
-                                .multilineTextAlignment(.leading)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             }
                         }
