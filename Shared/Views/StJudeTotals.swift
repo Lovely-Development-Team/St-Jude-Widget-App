@@ -20,6 +20,7 @@ let PREVIOUS_TOTALS_RAISED: [FundraisingDataPoint] = [
     .init(year: "2020", goal: 315000, total: 484000),
     .init(year: "2021", goal: 333333.33, total: 701220.26),
     .init(year: "2022", goal: 494840.18, total: 706397.1),
+    .init(year: "2023", goal: 293000, total: 775375.54),
 ]
 
 func getShortNumber(from number: Double) -> String {
@@ -40,7 +41,7 @@ struct StJudeTotals: View {
     
     var totalRaised: [FundraisingDataPoint] {
         PREVIOUS_TOTALS_RAISED + [
-            .init(year: "2023", goal: 293000, total: currentTotal)
+            .init(year: "2024", goal: 293000, total: currentTotal)
         ]
     }
     
