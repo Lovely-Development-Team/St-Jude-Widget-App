@@ -91,7 +91,8 @@ struct CampaignList: View {
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = Date(timeIntervalSince1970: 1696644050)
+    // 7th of October 2AM GMT 2024
+    let closingDate: Date? = Date(timeIntervalSince1970: 1728266450)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
@@ -465,7 +466,7 @@ struct CampaignList: View {
                                 .padding(.bottom, 10)
                             Text("No fundraisers yet")
                             
-                            Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-fm/relay-fm-for-st-jude-2023/start/cause-summary")!)
+                            Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-for-st-jude/relay-for-st-jude-2024/start/cause-summary")!)
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding(10)
@@ -617,7 +618,7 @@ struct CampaignList: View {
                 .disabled(isRefreshing)
             }
         }
-        .navigationTitle("Relay FM for St. Jude 2023")
+        .navigationTitle("Relay for St. Jude 2024")
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value

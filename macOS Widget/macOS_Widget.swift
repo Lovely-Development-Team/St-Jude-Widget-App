@@ -34,8 +34,8 @@ struct macOS_Widget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             WidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Relay FM for St. Jude")
-        .description("Displays the current Relay FM for St. Jude fundraising status.")
+        .configurationDisplayName("Relay for St. Jude")
+        .description("Displays the current Relay for St. Jude fundraising status.")
     }
 }
 

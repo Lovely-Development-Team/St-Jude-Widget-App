@@ -39,7 +39,7 @@ struct AboutView: View {
                             .init(color: backgroundColor, location: 1)
                         ], startPoint: .top, endPoint: .bottom))
                     VStack(spacing: 20) {
-                        Text("Every year throughout the month of September, Relay FM raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
+                        Text("Every year throughout the month of September, Relay raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .foregroundStyle(.white)
                         Link(destination: URL(string: "https://512pixels.net/2023/08/relay-fm-st-jude-2023/")!) {
@@ -57,7 +57,7 @@ struct AboutView: View {
                             .font(.headline)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .foregroundStyle(.white)
-                        Text("This app was developed by a group of friends from around the world, who came together thanks to Relay FM's membership program.")
+                        Text("This app was developed by a group of friends from around the world, who came together thanks to Relay's membership program.")
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .foregroundStyle(.white)
                         Text("Our thanks go to everybody who donates to St. Jude via our fundraiser:")

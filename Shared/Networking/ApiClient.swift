@@ -51,8 +51,8 @@ struct TiltifyDonorsRequest: Codable {
 }
 
 
-let TEAM_EVENT_VANITY = "+relay-fm"
-let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
+let TEAM_EVENT_VANITY = "+relay-for-st-jude"
+let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
 
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
@@ -183,7 +183,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
     }
     
     @available(*, renamed: "fetchCampaign()")
-    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm", completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
+    func fetchCampaign(vanity: String = "relay-for-st-jude", slug: String = "relay-for-st-jude", completion: @escaping (Result<TiltifyResponse, Error>) -> ()) -> URLSessionDataTask? {
         do {
             let request = try buildCampaignRequest(vanity: vanity, slug: slug)
             let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -208,7 +208,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         }
     }
     
-    func fetchCampaign(vanity: String = "relay-fm", slug: String = "relay-fm") async throws -> TiltifyResponse {
+    func fetchCampaign(vanity: String = "relay-for-st-jude", slug: String = "relay-for-st-jude") async throws -> TiltifyResponse {
         return try await withCheckedThrowingContinuation { continuation in
             _ = fetchCampaign(vanity: vanity, slug: slug) { result in
                 continuation.resume(with: result)
