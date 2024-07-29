@@ -34,39 +34,39 @@ let xRayManAndMrYellow = CampaignViewEasterEgg(
 )
 
 
-let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
+let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [:]
     // Tildy
-    TLD_CAMPAIGN: CampaignViewEasterEgg(
-        left: nil,
-        right: AnyView(
-            Image("Team_Logo_F")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 80)
-                .rotationEffect(.degrees(-30))
-                .offset(x: 40)
-                .offset(y: 5)
-                .tapToWobble(anchor: .bottomTrailing)
-        )
-    ),
+//    TLD_CAMPAIGN: CampaignViewEasterEgg(
+//        left: nil,
+//        right: AnyView(
+//            Image("Team_Logo_F")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(height: 80)
+//                .rotationEffect(.degrees(-30))
+//                .offset(x: 40)
+//                .offset(y: 5)
+//                .tapToWobble(anchor: .bottomTrailing)
+//        )
+//    ),
     // Kathy
-    UUID(uuidString: "96DA85C6-8E24-4757-811B-F8CDE9EB402E")!: CampaignViewEasterEgg(
-        left: AnyView(UnicornView()),
-        right: AnyView(
-            Image("unicorn-left")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 80)
-                .rotationEffect(.degrees(15))
-                .tapToWobble(anchor: .center)
-                .offset(x: 35)
-                .offset(y: 5)
-        )
-    ),
+//    UUID(uuidString: "96DA85C6-8E24-4757-811B-F8CDE9EB402E")!: CampaignViewEasterEgg(
+//        left: AnyView(UnicornView()),
+//        right: AnyView(
+//            Image("unicorn-left")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(height: 80)
+//                .rotationEffect(.degrees(15))
+//                .tapToWobble(anchor: .center)
+//                .offset(x: 35)
+//                .offset(y: 5)
+//        )
+//    ),
     // Relay
 //    RELAY_FUNDRAISER_ID: xRayManAndMrYellow,
     // Main Campaign
-    UUID(uuidString: "8F4E607C-A117-4C11-9172-23D19C1BE96C")!: xRayManAndMrYellow,
+//    UUID(uuidString: "8F4E607C-A117-4C11-9172-23D19C1BE96C")!: xRayManAndMrYellow,
     // Viticci
 //    UUID(uuidString: "A4C28DED-BDFB-4CAA-8CA5-3D04447FF8CB")!: CampaignViewEasterEgg(
 //        left: AnyView(
@@ -82,28 +82,28 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [
 //        right: nil
 //    ),
     // MVO
-    UUID(uuidString: "1DB7C0E6-63ED-4E50-B876-05E630C941CF")!: CampaignViewEasterEgg(
-        left: AnyView(
-            Image("jonycube")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
-                .rotationEffect(.degrees(-20))
-                .tapToWobble(degrees: -720, anchor: .center)
-                .offset(x: -40)
-                .offset(y: 5)
-        ),
-        right: nil
-    ),
-    UUID(uuidString: "583538BF-DCB3-4C7E-A5FA-7EE82AA4EF5D")!: CampaignViewEasterEgg(left: AnyView(
-        Image(.officialHistorianLogo)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 80, height: 80)
-            .tapToWobble(anchor: .center)
-            .offset(x: -10)
-            .offset(y: 5)
-        ),
-        right: nil
-    )
-]
+//    UUID(uuidString: "1DB7C0E6-63ED-4E50-B876-05E630C941CF")!: CampaignViewEasterEgg(
+//        left: AnyView(
+//            Image("jonycube")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 80, height: 80)
+//                .rotationEffect(.degrees(-20))
+//                .tapToWobble(degrees: -720, anchor: .center)
+//                .offset(x: -40)
+//                .offset(y: 5)
+//        ),
+//        right: nil
+//    ),
+//    UUID(uuidString: "583538BF-DCB3-4C7E-A5FA-7EE82AA4EF5D")!: CampaignViewEasterEgg(left: AnyView(
+//        Image(.officialHistorianLogo)
+//            .resizable()
+//            .aspectRatio(contentMode: .fit)
+//            .frame(width: 80, height: 80)
+//            .tapToWobble(anchor: .center)
+//            .offset(x: -10)
+//            .offset(y: 5)
+//        ),
+//        right: nil
+//    )
+//]
