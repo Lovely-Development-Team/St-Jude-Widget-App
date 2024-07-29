@@ -91,9 +91,8 @@ struct CampaignList: View {
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    // 7th of October 2AM GMT 2024
-    let closingDate: Date? = Date(timeIntervalSince1970: 1728266450)
-    let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728266450)
+    // let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -303,6 +302,7 @@ struct CampaignList: View {
                         Text("Fundraisers")
                             .font(.title)
                             .fontWeight(.bold)
+                        Spacer()
                         if campaigns.count != 0 {
                             Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
                                 .foregroundColor(.secondary)
@@ -312,47 +312,46 @@ struct CampaignList: View {
                                     Color.secondarySystemBackground
                                         .cornerRadius(15)
                                 )
-                        }
-                        Spacer()
-                        Button(action: {
-                            showSheet = .leaderBoard
-                        }) {
-                            Label("Leaderboard", systemImage: "trophy")
-                                .labelStyle(.iconOnly)
-                        }
-                        Menu {
-                            ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                            Button(action: {
+                                showSheet = .leaderBoard
+                            }) {
+                                Label("Leaderboard", systemImage: "trophy")
+                                    .labelStyle(.iconOnly)
+                            }
+                            Menu {
+                                ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                                    Button(action: {
+                                        withAnimation {
+                                            fundraiserSortOrder = order
+                                        }
+                                    }) {
+                                        Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                    }
+                                }
+                                Divider()
                                 Button(action: {
                                     withAnimation {
-                                        fundraiserSortOrder = order
+                                        compactListMode.toggle()
                                     }
                                 }) {
-                                    Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                    Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
                                 }
+                            } label: {
+                                Image(systemName: "slider.horizontal.3")
                             }
-                            Divider()
                             Button(action: {
                                 withAnimation {
-                                    compactListMode.toggle()
-                                }
-                            }) {
-                                Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
-                            }
-                        } label: {
-                            Image(systemName: "slider.horizontal.3")
-                        }
-                        Button(action: {
-                            withAnimation {
-                                showSearchBar = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    withAnimation {
-                                        scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                    showSearchBar = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation {
+                                            scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                        }
                                     }
                                 }
+                            }) {
+                                Label("Search", systemImage: "magnifyingglass")
+                                    .labelStyle(.iconOnly)
                             }
-                        }) {
-                            Label("Search", systemImage: "magnifyingglass")
-                                .labelStyle(.iconOnly)
                         }
                     }
                     .padding(.horizontal)
@@ -483,7 +482,7 @@ struct CampaignList: View {
                 .padding(.bottom)
             }
         }
-        .background(BrandShapeBackground())
+//        .background(BrandShapeBackground())
         .refreshable {
             await refresh()
         }
@@ -492,13 +491,13 @@ struct CampaignList: View {
                 await refresh()
             }
         }
-        .onReceive(countdownTimer) { _ in
-            if let closingDate = closingDate {
-                withAnimation {
-                    campaignsHaveClosed = closingDate < Date()
-                }
-            }
-        }
+//        .onReceive(countdownTimer) { _ in
+//            if let closingDate = closingDate {
+//                withAnimation {
+//                    campaignsHaveClosed = closingDate < Date()
+//                }
+//            }
+//        }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
         }
