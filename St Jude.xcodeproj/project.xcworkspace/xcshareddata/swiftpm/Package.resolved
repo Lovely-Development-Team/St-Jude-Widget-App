@@ -1,4 +1,5 @@
 {
+  "originHash" : "3d7ae16105f2a04f6379ed10efdbe584fe87a50cb2e952820b9e9ee92a9f6f3e",
   "pins" : [
     {
       "identity" : "grdb.swift",
@@ -19,5 +20,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

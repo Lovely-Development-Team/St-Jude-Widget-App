@@ -58,11 +58,11 @@ struct ScoreEntryView: View {
         .foregroundColor(.white)
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .padding()
-        .background {
-            Image(.bannersmol)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        }
+//        .background {
+//            Image(.bannersmol)
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//        }
         .background(.black)
     }
     
