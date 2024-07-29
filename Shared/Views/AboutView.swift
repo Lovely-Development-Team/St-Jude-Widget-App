@@ -15,12 +15,12 @@ struct AboutView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                Image(.bannerBackground)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                Spacer()
-            }
+//            VStack {
+//                Image(.bannerBackground)
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                Spacer()
+//            }
             ScrollView {
                 VStack(spacing:0) {
                     Image(.bannerForeground)
