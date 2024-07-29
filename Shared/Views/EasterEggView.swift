@@ -138,7 +138,7 @@ struct EasterEggView: View {
 //            })
             Spacer()
             Section{
-                Text("L2CU drawing by rhl_. \nRelay FM for St. Jude crafted with care by The Lovely Developers. ")
+                Text("L2CU drawing by rhl_. \nRelay for St. Jude crafted with care by The Lovely Developers. ")
                     .font(.caption)
                     .multilineTextAlignment(.center)
                     .allowsTightening(true)

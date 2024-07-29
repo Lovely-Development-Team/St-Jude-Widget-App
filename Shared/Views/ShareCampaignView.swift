@@ -110,9 +110,9 @@ struct ShareCampaignView: View {
                             Text("Appearance")
                             Spacer()
                             Picker("Appearance", selection: $appearance.animation()) {
-                                Text("Relay FM").tag(WidgetAppearance.relay)
+                                Text("Relay").tag(WidgetAppearance.relay)
                                 Text("St. Jude").tag(WidgetAppearance.stjude)
-                                Text("Relay FM (True Black)").tag(WidgetAppearance.relaytrueblack)
+                                Text("Relay (True Black)").tag(WidgetAppearance.relaytrueblack)
                                 Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
                                 Text("Yellow").tag(WidgetAppearance.yellow)
                                 Text("Red").tag(WidgetAppearance.red)

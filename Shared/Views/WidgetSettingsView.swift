@@ -73,7 +73,7 @@ struct WidgetSettingsView: View {
                         }
                     )
                     .accessibility(hidden: true)
-                Text("Relay FM for St. Jude")
+                Text("Relay for St. Jude")
                     .font(.headline)
                 Spacer()
                 Button(action: {
@@ -88,7 +88,7 @@ struct WidgetSettingsView: View {
             }
             
             ScrollView(showsIndicators: false) {
-                Text("Displays the current Relay FM for St. Jude fundraising status.")
+                Text("Displays the current Relay for St. Jude fundraising status.")
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .allowsTightening(true)

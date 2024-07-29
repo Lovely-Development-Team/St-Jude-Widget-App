@@ -155,7 +155,7 @@ struct FundraisingLockScreenWidget: Widget {
         IntentConfiguration(kind: kind, intent: FundraisingEventLockScreenConfigurationIntent.self, provider: FundraisingLockScreenProvider()) { entry in
             FundraisingLockScreenWidgetView(entry: entry)
         }
-        .configurationDisplayName("Relay FM for St. Jude")
+        .configurationDisplayName("Relay for St. Jude")
         .description("Displays the current status of the overall fundraising event.")
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion
@@ -214,7 +214,7 @@ struct FundraisingEventWidget: Widget {
         IntentConfiguration(kind: kind, intent: FundraisingEventConfigurationIntent.self, provider: FundraisingProvider()) { entry in
             FundraisingWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Relay FM for St. Jude")
+        .configurationDisplayName("Relay for St. Jude")
         .description("Displays the current status of the overall fundraising event.")
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion

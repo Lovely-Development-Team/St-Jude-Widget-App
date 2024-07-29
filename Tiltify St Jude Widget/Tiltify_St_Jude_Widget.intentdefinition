@@ -27,7 +27,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Relay FM</string>
+					<string>Relay</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>TJZigT</string>
 					<key>INEnumValueIndex</key>
@@ -47,7 +47,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Relay FM (True Black)</string>
+					<string>Relay (True Black)</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>0Nwb1h</string>
 					<key>INEnumValueIndex</key>
@@ -123,11 +123,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>22F66</string>
+	<string>23F79</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>15A5229h</string>
+	<string>15F31d</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>15.0</string>
+	<string>15.4</string>
 	<key>INIntents</key>
 	<array>
 		<dict>

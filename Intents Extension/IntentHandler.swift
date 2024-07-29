@@ -1,6 +1,6 @@
 //
 //  IntentHandler.swift
-//  Relay FM for St. Jude
+//  Relay for St. Jude
 //
 //  Created by David on 25/08/2021.
 //

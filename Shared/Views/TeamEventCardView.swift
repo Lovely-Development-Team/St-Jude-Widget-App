@@ -43,7 +43,7 @@ struct TeamEventCardView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(teamEvent?.name ?? "Relay FM for St. Jude 2023")
+                Text(teamEvent?.name ?? "Relay for St. Jude 2024")
                     .multilineTextAlignment(.leading)
                     .font(.headline)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
