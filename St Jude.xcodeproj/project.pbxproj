@@ -59,14 +59,8 @@
 		430E7A3A2C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */; };
 		430E7A3D2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
 		430E7A3E2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
-		430E7A3F2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
-		430E7A402C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
-		430E7A412C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
 		430E7A422C6064BC005E1973 /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
 		430E7A432C6064BC005E1973 /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
-		430E7A442C6064BC005E1973 /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
-		430E7A452C6064BC005E1973 /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
-		430E7A462C6064BC005E1973 /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
 		430E7A482C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
 		430E7A492C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
 		430E7A4A2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
@@ -1326,7 +1320,6 @@
 				5E1705D528C506E000E70019 /* LockScreenInlineView.swift in Sources */,
 				430E7A272C60649C005E1973 /* FontHelpers.swift in Sources */,
 				4301B7F92AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
-				430E7A462C6064BC005E1973 /* AdaptiveImage.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
 				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
 				5ECEF0632AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
@@ -1360,7 +1353,6 @@
 				5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
-				430E7A412C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				5EE56C112A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
@@ -1572,7 +1564,6 @@
 				5E1705D428C506E000E70019 /* LockScreenInlineView.swift in Sources */,
 				430E7A252C60649C005E1973 /* FontHelpers.swift in Sources */,
 				4301B7F82AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
-				430E7A442C6064BC005E1973 /* AdaptiveImage.swift in Sources */,
 				63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
@@ -1606,7 +1597,6 @@
 				63574A2F26D6598700A2D495 /* WidgetDataProviding.swift in Sources */,
 				5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
-				430E7A3F2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */,
 				DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */,
 				5EE56C0F2A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
@@ -1633,13 +1623,11 @@
 				5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */,
 				63D0CD2F28B922B00073957E /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63D0CD0128B117390073957E /* Campaign.swift in Sources */,
-				430E7A452C6064BC005E1973 /* AdaptiveImage.swift in Sources */,
 				430E7A4B2C6064C3005E1973 /* EasterEggImage.swift in Sources */,
 				5E180C2428B7F3F400F10BE5 /* Reward.swift in Sources */,
 				430E7A262C60649C005E1973 /* FontHelpers.swift in Sources */,
 				5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */,
 				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
-				430E7A402C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */,
 				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,
 				5EE56C162A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */,
 				63D0CCF428B102AA0073957E /* AppDatabase.swift in Sources */,
