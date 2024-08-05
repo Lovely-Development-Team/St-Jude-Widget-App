@@ -44,19 +44,10 @@
 		430E7A272C60649C005E1973 /* FontHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A182C60649C005E1973 /* FontHelpers.swift */; };
 		430E7A2C2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
 		430E7A2D2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
-		430E7A2E2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
-		430E7A2F2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
-		430E7A302C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
 		430E7A312C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A292C6064A6005E1973 /* BlockGroupBoxStyle.swift */; };
 		430E7A322C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A292C6064A6005E1973 /* BlockGroupBoxStyle.swift */; };
-		430E7A332C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A292C6064A6005E1973 /* BlockGroupBoxStyle.swift */; };
-		430E7A342C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A292C6064A6005E1973 /* BlockGroupBoxStyle.swift */; };
-		430E7A352C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A292C6064A6005E1973 /* BlockGroupBoxStyle.swift */; };
 		430E7A362C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */; };
 		430E7A372C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */; };
-		430E7A382C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */; };
-		430E7A392C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */; };
-		430E7A3A2C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */; };
 		430E7A3D2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
 		430E7A3E2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */; };
 		430E7A422C6064BC005E1973 /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
@@ -1311,7 +1302,6 @@
 				6350A75B28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				4301B7FB2AA17E0B00B4F9DA /* HeadToHeadEntry.swift in Sources */,
 				63D0CD0228B117390073957E /* Campaign.swift in Sources */,
-				430E7A302C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
 				5E1705CF28C4AAB700E70019 /* FundraisingLockScreenWidgetView.swift in Sources */,
 				63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */,
 				5EE0EC1428BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
@@ -1334,8 +1324,6 @@
 				5ECEF0662AA8ACFE00AD0117 /* ScoreEntryView.swift in Sources */,
 				5E1705D228C4D35E00E70019 /* FundraisingLockScreenEventEntry.swift in Sources */,
 				63574A2B26D6596100A2D495 /* SampleCampaign.swift in Sources */,
-				430E7A352C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */,
-				430E7A3A2C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */,
 				5E1705D828C5075700E70019 /* LockScreenRectangularView.swift in Sources */,
 				63574A3226D659DA00A2D495 /* Loggers.swift in Sources */,
 				5EF748D326DF74B3008174DF /* CheckSignificantAmounts.swift in Sources */,
@@ -1555,7 +1543,6 @@
 				6350A75A28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				4301B7FA2AA17E0B00B4F9DA /* HeadToHeadEntry.swift in Sources */,
 				5E180C2328B7F3F400F10BE5 /* Reward.swift in Sources */,
-				430E7A2E2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
 				5E1705CE28C4AAB700E70019 /* FundraisingLockScreenWidgetView.swift in Sources */,
 				63D0CD0028B117390073957E /* Campaign.swift in Sources */,
 				5EE0EC1228BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
@@ -1578,8 +1565,6 @@
 				5ECEF0652AA8ACFE00AD0117 /* ScoreEntryView.swift in Sources */,
 				5E1705D128C4D35E00E70019 /* FundraisingLockScreenEventEntry.swift in Sources */,
 				6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
-				430E7A332C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */,
-				430E7A382C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */,
 				5E1705D728C5075700E70019 /* LockScreenRectangularView.swift in Sources */,
 				63574A3926D65A4A00A2D495 /* SimpleEntry.swift in Sources */,
 				63ACEFEB26D2973E00F98023 /* Loggers.swift in Sources */,
@@ -1617,9 +1602,7 @@
 				5EE56C102A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63D0CD1F28B4E8AB0073957E /* Sequence.swift in Sources */,
 				4301B7FD2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift in Sources */,
-				430E7A2F2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
 				63BFF1AC26D5D3BE0023263D /* Loggers.swift in Sources */,
-				430E7A342C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */,
 				5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */,
 				63D0CD2F28B922B00073957E /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
 				63D0CD0128B117390073957E /* Campaign.swift in Sources */,
@@ -1639,7 +1622,6 @@
 				5E180C1E28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63BFF1AA26D5D3AB0023263D /* ApiClient.swift in Sources */,
 				430E7A1C2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
-				430E7A392C6064A6005E1973 /* PlainGroupBoxStyle.swift in Sources */,
 				5EE0EC1328BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				63A6F99826D6382100095ACB /* INAmountExtension.swift in Sources */,
 				430E7A212C60649C005E1973 /* ImageHelpers.swift in Sources */,
