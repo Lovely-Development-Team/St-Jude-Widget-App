@@ -31,6 +31,10 @@
 		<string>GetMainFundraisingEventIntent</string>
 		<string>HeadToHeadConfigurationIntent</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Krungthep.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

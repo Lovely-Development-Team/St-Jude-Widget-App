@@ -37,7 +37,7 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
         )
         
         Task {
-            SoundEffectHelper.shared.setupDrumrollSoundEffect()
+            SoundEffectHelper.shared.setup()
         }
         initNotificationCenter()
         

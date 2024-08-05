@@ -60,6 +60,7 @@ enum CampaignListSheet: Identifiable {
 }
 
 struct CampaignList: View {
+    @Environment(\.colorScheme) var colorScheme
     
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
@@ -184,302 +185,408 @@ struct CampaignList: View {
         }
     }
     
-    var body: some View {
-        
-        ScrollView {
-            ScrollViewReader { scrollViewReader in
-                VStack(spacing: 0) {
+    @ViewBuilder
+    var topView: some View {
+        VStack {
+            if let teamEvent = teamEvent {
+                NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
+                    TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
+                }
+                .buttonStyle(BlockButtonStyle(tint: .brandYellow))
+                .padding()
+            } else {
+                TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
+                    .padding()
+            }
+            VStack(spacing: 0) {
+                HStack(alignment: .bottom) {
+                    Spacer()
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .bush, dark: .bushNight)
+                        .imageAtScale(scale: Double.spriteScale)
+                    Spacer()
+                    EasterEggImage(content: {
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .stephen16BitScale)
+                            .imageAtScale(scale: Double.spriteScale)
+                    }, onTap: {
+                        SoundEffectHelper.shared.play(.joe)
+                    })
                     
-                    if let teamEvent = teamEvent {
-                        NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
-                            TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
-                        }
-                        .padding()
-                    } else {
-                        TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
-                            .padding()
-                    }
+                    Spacer()
+                    EasterEggImage(content: {
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .myke16BitScale)
+                            .imageAtScale(scale: Double.spriteScale)
+                    }, onTap: {
+                        SoundEffectHelper.shared.play(.honk)
+                    })
+                    Spacer()
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .flower, dark: .flowerNight)
+                        .imageAtScale(scale: Double.spriteScale)
+                    Spacer()
                     
-                    if let closingDate = closingDate {
+                }
+                AdaptiveImage(colorScheme: self.colorScheme, light: .groundRepeatable, dark: .groundRepeatableNight)
+                    .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
+                    .animation(.none, value: UUID())
+            }
+        }
+        .background(alignment: .bottom) {
+            ZStack(alignment: .bottom) {
+                Color.skyBackground
+                AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
+                    .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
+                    .animation(.none, value: UUID())
+            }
+            .mask {
+                LinearGradient(stops: [
+                    .init(color: .clear, location: 0),
+                    .init(color: .white, location: 0.25),
+                    .init(color: .white, location: 1)
+                ], startPoint: .top, endPoint: .bottom)
+            }
+        }
+        .clipped()
+    }
+    
+    @ViewBuilder 
+    var countdownView: some View {
+        if let closingDate = closingDate {
+            VStack {
+                if campaignsHaveClosed {
+                    Text("Fundraisers are now closed!")
+                        .font(.title2)
+                        .bold()
+                        .multilineTextAlignment(.leading)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    HStack(alignment: .top) {
                         VStack {
-                            if campaignsHaveClosed {
-                                Text("Fundraisers are now closed!")
-                                    .font(.title2)
-                                    .bold()
-                                    .multilineTextAlignment(.leading)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                HStack(alignment: .top) {
-                                    VStack {
-                                        Group {
-                                            Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
-                                        }
-                                        .multilineTextAlignment(.leading)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                    }
-                                    Image(showStephen ? .stephen : .myke)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 60)
-                                        .tapToWobble(anchor: .center)
-                                }
-                            } else {
-                                Group {
-                                    Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
-                                }
-                                .font(.title2)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            Group {
+                                Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
                             }
+                            .multilineTextAlignment(.leading)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         }
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.accentColor)
-                        .padding(.bottom)
+                        Image(showStephen ? .stephen : .myke)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 60)
+                            .tapToWobble(anchor: .center)
                     }
-                    
-                    Button(action: {
-                        withAnimation {
-                            showHeadToHeads.toggle()
-                        }
-                    }) {
-                        HStack {
-                            Text("Head to Head")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            if headToHeads.count > 0 {
-                                Button(action: {
-                                    showSheet = .startHeadToHead
-                                }) {
-                                    Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
-                                }
-                                .foregroundStyle(Color.white)
-                                .padding(.horizontal, 4)
-                                .padding(.vertical, 4)
-                                .background(
-                                    Color.brandBlue
-                                        .cornerRadius(15)
-                                )
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.secondary)
-                                .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
-                        }
+                } else {
+                    Group {
+                        Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
                     }
-                    .buttonStyle(.plain)
-                    .padding(.horizontal)
-                    if headToHeads.count == 0 {
-                        if showHeadToHeads {
-                            VStack {
-                                Button("Add a Head to Head") {
-                                    showSheet = .startHeadToHead
-                                }
-                                .foregroundStyle(Color.primary)
-                                .fullWidth(alignment: .center)
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
-                                )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
-                                )
+                    .font(.title2)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .foregroundColor(.white)
+            .padding()
+            .background(Color.accentColor)
+            .padding(.bottom)
+        }
+    }
+    
+    @ViewBuilder
+    var headToHeadListView: some View {
+        GroupBox {
+            VStack {
+                Button(action: {
+                    withAnimation {
+                        showHeadToHeads.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("Head to Head")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        if headToHeads.count > 0 {
+                            Button(action: {
+                                showSheet = .startHeadToHead
+                            }) {
+                                Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
                             }
-                            .padding(.horizontal)
-                            .padding(.top, 5)
+                            .foregroundStyle(Color.white)
+//                            .padding(.horizontal, 4)
+//                            .padding(.vertical, 4)
+                            .background(
+                                Color.brandBlue
+                                    .cornerRadius(15)
+                            )
                         }
-                    } else {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
-                            if showHeadToHeads {
-                                headToHeadList
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.secondary)
+                            .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
+                    }
+                }
+                .buttonStyle(.plain)
+//                .padding(.horizontal)
+                if headToHeads.count == 0 {
+                    if showHeadToHeads {
+                        VStack {
+                            Button("Add a Head to Head") {
+                                showSheet = .startHeadToHead
                             }
+                            .foregroundStyle(Color.primary)
+                            .fullWidth(alignment: .center)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
+                            )
                         }
                         .padding(.horizontal)
+                        .padding(.top, 5)
                     }
-                    
-                    HStack {
-                        Text("Fundraisers")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        Spacer()
-                        if campaigns.count != 0 {
-                            Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
-                                .foregroundColor(.secondary)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(
-                                    Color.secondarySystemBackground
-                                        .cornerRadius(15)
-                                )
-                            Button(action: {
-                                showSheet = .leaderBoard
-                            }) {
-                                Label("Leaderboard", systemImage: "trophy")
-                                    .labelStyle(.iconOnly)
-                            }
-                            Menu {
-                                ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
-                                    Button(action: {
-                                        withAnimation {
-                                            fundraiserSortOrder = order
-                                        }
-                                    }) {
-                                        Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
-                                    }
-                                }
-                                Divider()
-                                Button(action: {
-                                    withAnimation {
-                                        compactListMode.toggle()
-                                    }
-                                }) {
-                                    Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
-                                }
-                            } label: {
-                                Image(systemName: "slider.horizontal.3")
-                            }
+                } else {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                        if showHeadToHeads {
+                            headToHeadList
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+            .padding()
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(tint: .secondarySystemBackground))
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    func fundraiserListView(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
+        if campaigns.count != 0 {
+            GroupBox {
+                HStack {
+                    Text("Fundraisers")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            Color.secondarySystemBackground
+                                .cornerRadius(15)
+                        )
+                    Button(action: {
+                        showSheet = .leaderBoard
+                    }) {
+                        Label("Leaderboard", systemImage: "trophy")
+                            .labelStyle(.iconOnly)
+                    }
+                    Menu {
+                        ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
                             Button(action: {
                                 withAnimation {
-                                    showSearchBar = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                        withAnimation {
-                                            scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                    fundraiserSortOrder = order
+                                }
+                            }) {
+                                Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                            }
+                        }
+                        Divider()
+                        Button(action: {
+                            withAnimation {
+                                compactListMode.toggle()
+                            }
+                        }) {
+                            Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                    }
+                    Button(action: {
+                        withAnimation {
+                            showSearchBar = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                withAnimation {
+                                    scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                }
+                            }
+                        }
+                    }) {
+                        Label("Search", systemImage: "magnifyingglass")
+                            .labelStyle(.iconOnly)
+                    }
+                }
+                .padding()
+            }
+            .groupBoxStyle(BlockGroupBoxStyle(tint: .secondarySystemBackground))
+            .padding(.horizontal)
+        }
+        
+        if campaigns.count != 0 {
+            
+            if showSearchBar {
+                SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
+                    .padding(.horizontal, 8)
+                    .id("SEARCH_BAR")
+            }
+            
+            //                        if selectedCampaignId != nil {
+            /// In order to open a selected campaign when a widget is tapped, the corresponding
+            /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
+            /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
+            /// trigger on the widget tap instead
+            ForEach(sortedCampaigns, id: \.id) { campaign in
+                NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
+                    EmptyView()
+                }
+            }
+            ForEach(headToHeads, id: \.headToHead.id) { headToHead in
+                NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
+                    EmptyView()
+                }
+            }
+            //                        }
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                
+                Button(action: {
+                    showSheet = .randomPicker
+                }) {
+                    GroupBox {
+                        HStack {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                            Text("Spin the Wheel of Fundraisers!")
+                                .multilineTextAlignment(.leading)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.secondary)
+                        }
+                        .foregroundColor(.primary)
+                    }
+                }
+                .padding(.top)
+                
+                ForEach(searchResults, id: \.id) { campaign in
+                    if !HIDDEN_CAMPAIGN_IDS.contains(campaign.id) {
+                        NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
+                            FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
+                                .contextMenu {
+                                    if shouldShowHeadToHead {
+                                        Button(action: {
+                                            showSheet = .continueHeadToHead(campaign: campaign)
+                                        }) {
+                                            Label("Start Head to Head", systemImage: "trophy")
                                         }
                                     }
+                                    Button(action: {
+                                        Task {
+                                            await starOrUnstar(campaign: campaign)
+                                        }
+                                    }) {
+                                        Label(campaign.isStarred ? "Remove Star" : "Star", systemImage: campaign.isStarred ? "star" : "star.fill")
+                                    }
                                 }
-                            }) {
-                                Label("Search", systemImage: "magnifyingglass")
-                                    .labelStyle(.iconOnly)
-                            }
                         }
+                        .padding(.top)
                     }
-                    .padding(.horizontal)
-                    .padding(.top)
-                    
-                    if campaigns.count != 0 {
-                        
-                        if showSearchBar {
-                            SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
-                                .padding(.horizontal, 8)
-                                .id("SEARCH_BAR")
-                        }
-                        
-//                        if selectedCampaignId != nil {
-                            /// In order to open a selected campaign when a widget is tapped, the corresponding
-                            /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
-                            /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
-                            /// trigger on the widget tap instead
-                            ForEach(sortedCampaigns, id: \.id) { campaign in
-                                NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
-                                    EmptyView()
-                                }
-                            }
-                            ForEach(headToHeads, id: \.headToHead.id) { headToHead in
-                                NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
-                                    EmptyView()
-                                }
-                            }
-//                        }
-                        
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
-                            
-                            Button(action: {
-                                showSheet = .randomPicker
-                            }) {
-                                GroupBox {
-                                    HStack {
-                                        Image(systemName: "arrow.triangle.2.circlepath")
-                                        Text("Spin the Wheel of Fundraisers!")
-                                            .multilineTextAlignment(.leading)
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .foregroundColor(.primary)
-                                }
-                            }
-                            .padding(.top)
-                            
-                            ForEach(searchResults, id: \.id) { campaign in
-                                if !HIDDEN_CAMPAIGN_IDS.contains(campaign.id) {
-                                    NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                                        FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showShareSheet: .constant(false))
-                                            .contextMenu {
-                                                if shouldShowHeadToHead {
-                                                    Button(action: {
-                                                        showSheet = .continueHeadToHead(campaign: campaign)
-                                                    }) {
-                                                        Label("Start Head to Head", systemImage: "trophy")
-                                                    }
-                                                }
-                                                Button(action: {
-                                                    Task {
-                                                        await starOrUnstar(campaign: campaign)
-                                                    }
-                                                }) {
-                                                    Label(campaign.isStarred ? "Remove Star" : "Star", systemImage: campaign.isStarred ? "star" : "star.fill")
-                                                }
-                                            }
-                                    }
-                                    .padding(.top)
-                                }
-                            }
-                        }
-                        .padding(.horizontal)
-                        
-                        Button(action: {
-                            showSheet = .easterEgg
-                        }, label: {
-                            HStack {
-                                Text("App from the Lovely Developers")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                Image("l2culogosvg")
-                                    .renderingMode(.template)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.secondary)
-                                    .frame(height: 15)
-                                    .accessibility(hidden: true)
-                                
-                            }
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        .padding()
-                        
-                    } else {
-                        
-                        if isLoading {
-                            
+                }
+            }
+            .padding(.horizontal)
+        } else {
+            Group {
+                if isLoading {
+                    GroupBox {
+                        VStack {
                             ProgressView()
                                 .padding(.top, 40)
                                 .padding(.bottom, 10)
                             Text("Loading ...")
                                 .padding(.bottom, 40)
-                            
-                        } else {
-                            
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle(tint: .secondarySystemBackground))
+                    
+                } else {
+                    GroupBox {
+                        VStack {
                             Image(systemName: "exclamationmark.triangle")
                                 .padding(.top, 40)
                                 .padding(.bottom, 10)
+                                .foregroundStyle(.white)
                             Text("No fundraisers yet")
+                                .foregroundStyle(.white)
                             
                             Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-for-st-jude/relay-for-st-jude-2024/start/cause-summary")!)
                                 .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .padding(.horizontal, 20)
-                                .background(Color.accentColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+//                                .padding(10)
+                            //                            .padding(.horizontal, 20)
+                                .buttonStyle(BlockButtonStyle(tint: .white))
+                            //                                    .background(Color.accentColor)
+                            //                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                .padding()
-                            
+                                .padding([.bottom, .horizontal])
                         }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle(tint: .brandRed))
+                }
+            }
+            .padding(.horizontal)
+            
+        }
+    }
+    
+    @ViewBuilder 
+    var easterEggView: some View {
+        Button(action: {
+            showSheet = .easterEgg
+        }, label: {
+            HStack {
+                Text("App from the Lovely Developers")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Image("l2culogosvg")
+                    .renderingMode(.template)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(.secondary)
+                    .frame(height: 15)
+                    .accessibility(hidden: true)
+                
+            }
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(BlockButtonStyle(tint: .secondarySystemBackground))
+        .padding(.horizontal)
+    }
+    
+    var body: some View {
+        ScrollView {
+            ScrollViewReader { scrollViewReader in
+                VStack(spacing: 0) {
+                    topView
+                    countdownView
+                    
+                    VStack() {
+                        headToHeadListView
+                            .padding(.top)
+                        fundraiserListView(scrollViewReader: scrollViewReader)
+                        easterEggView
                         
                     }
+                    .padding(.bottom)
+                    .background(alignment: .top) {
+                        GeometryReader { geometry in
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+                                .tiledImageAtScale(scale: Double.spriteScale)
+                                .frame(height:geometry.size.height + 1000)
+                                .animation(.none, value: UUID())
+                        }
+                    }
                 }
-                .padding(.bottom)
             }
         }
 //        .background(BrandShapeBackground())

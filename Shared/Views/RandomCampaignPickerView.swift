@@ -89,7 +89,7 @@ struct RandomCampaignPickerView: View {
             isResetting = false
             chosenCampaign = getRandomCampaign()
             playAnimation()
-            SoundEffectHelper.shared.playDrumrollSoundEffect()
+            SoundEffectHelper.shared.play(.drumroll)
         })
     }
     
@@ -186,7 +186,7 @@ struct RandomCampaignPickerView: View {
         .onAppear {
             chosenCampaign = getRandomCampaign()
             playAnimation()
-            SoundEffectHelper.shared.playDrumrollSoundEffect()
+            SoundEffectHelper.shared.play(.drumroll)
         }
 #if !os(macOS)
         .onReceive(timer) { _ in

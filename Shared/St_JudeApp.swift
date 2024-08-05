@@ -28,6 +28,7 @@ struct St_JudeApp: App {
                     .navigationBarTitleDisplayMode(.inline)
             }
             .navigationViewStyle(.stack)
+            .environment(\.font, Font.body)
         }
     }
 }

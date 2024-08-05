@@ -120,5 +120,6 @@ extension Color {
     static let brandBlue = from256bit(red: 81, green: 184, blue: 212)
     static let brandGreen = from256bit(red: 120, green: 184, blue: 86)
     static let brandPurple = from256bit(red: 104, green: 54, blue: 139)
+    static let skyBackground = Color("sky-background")
     
 }
