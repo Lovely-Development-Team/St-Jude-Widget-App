@@ -15,6 +15,7 @@ struct TeamEventCardView: View {
     var appearance: WidgetAppearance = .yellow
     @Binding var showShareSheet: Bool
     @State var showShareLinkSheet: ShareURL? = nil
+    @State var showBackground: Bool = true
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -40,7 +41,8 @@ struct TeamEventCardView: View {
             .opacity(0.8)
     }
     
-    var body: some View {
+    @ViewBuilder
+    var contents: some View {
         VStack(spacing: 0) {
             HStack {
                 Text(teamEvent?.name ?? "Relay for St. Jude 2024")
@@ -86,7 +88,7 @@ struct TeamEventCardView: View {
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
                     mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)
-//                    mainProgressBar(value: 0.5, color: appearance.fillColor)
+                    //                    mainProgressBar(value: 0.5, color: appearance.fillColor)
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {
@@ -101,10 +103,22 @@ struct TeamEventCardView: View {
             }
         }
         .foregroundColor(appearance.foregroundColor)
-        .padding()
-        .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
+    }
+    
+    var body: some View {
+        Group {
+            if(self.showBackground) {
+                GroupBox {
+                    self.contents
+                        .padding()
+                }
+                .groupBoxStyle(BlockGroupBoxStyle(tint: .brandYellow))
+            } else {
+                self.contents
+            }
+        }
+//        .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
 //        .background(Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
-        .cornerRadius(10)
         .sheet(item: $showShareLinkSheet) { url in
             ShareSheetView(activityItems: [url.url])
         }
