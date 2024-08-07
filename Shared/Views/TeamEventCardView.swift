@@ -53,7 +53,7 @@ struct TeamEventCardView: View {
                 
                 if showDisclosureIndicator {
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    Image("pixel-chevron-right")
                         .opacity(0.8)
                 } else if showShareIcon {
                     Spacer()
@@ -110,7 +110,6 @@ struct TeamEventCardView: View {
             if(self.showBackground) {
                 GroupBox {
                     self.contents
-                        .padding()
                 }
                 .groupBoxStyle(BlockGroupBoxStyle(tint: .brandYellow))
             } else {

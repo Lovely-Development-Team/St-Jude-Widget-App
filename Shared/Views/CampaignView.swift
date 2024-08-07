@@ -10,6 +10,7 @@ import GRDB
 import Kingfisher
 
 struct CampaignView: View {
+    @Environment(\.colorScheme) var colorScheme
     
     // MARK: 2023
     @State private var teamEvent: TeamEvent?
@@ -88,189 +89,226 @@ struct CampaignView: View {
         return currencyFormatter.string(from: grandTotalRaised as NSNumber) ?? "USD 0"
     }
     
-    var body: some View {
-        ScrollView {
-            
-            ScrollViewReader { scrollViewReader in
-                
-                if let initialCampaign = initialCampaign {
-                    FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                } else if let teamEvent = teamEvent {
-                    TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-//                    Text("Annual Fundraising Totals")
-//                        .fullWidth()
-//                        .font(.headline)
-//                        .padding(.top)
-//                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
-//                        .frame(height: 150)
-//                        .padding(.bottom)
-                    GroupBox {
-                        VStack {
-                            HStack(spacing: 4) {
-                                if grandTotalRaised >= 2500000 {
-                                    Image(systemName: "party.popper.fill")
+    @ViewBuilder
+    func topView(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
+        Group {
+            VStack {
+                Group {
+                    VStack {
+                        if let initialCampaign = initialCampaign {
+                            FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
+                        } else if let teamEvent = teamEvent {
+                            TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
+                            //                    Text("Annual Fundraising Totals")
+                            //                        .fullWidth()
+                            //                        .font(.headline)
+                            //                        .padding(.top)
+                            //                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
+                            //                        .frame(height: 150)
+                            //                        .padding(.bottom)
+                            GroupBox {
+                                VStack {
+                                    HStack(spacing: 4) {
+                                        if grandTotalRaised >= 2500000 {
+                                            Image(systemName: "party.popper.fill")
+                                        }
+                                        Text("Lifetime Total")
+                                            .textCase(.uppercase)
+                                        Spacer()
+                                    }
+                                    .font(.caption)
+                                    .foregroundColor(.accentColor)
+                                    Text(grandTotalRaisedDescription)
+                                        .textSelection(.enabled)
+                                        .fullWidth()
+                                        .font(.title)
+                                        .bold()
                                 }
-                                Text("Lifetime Total")
-                                    .textCase(.uppercase)
-                                Spacer()
                             }
-                            .font(.caption)
-                            .foregroundColor(.accentColor)
-                            Text(grandTotalRaisedDescription)
-                                .textSelection(.enabled)
-                                .fullWidth()
-                                .font(.title)
-                                .bold()
+                            .groupBoxStyle(BlockGroupBoxStyle())
+                            .padding(.vertical, 8)
+                        }
+                        
+#if DEBUG
+                        if let initialCampaign = initialCampaign {
+                            GroupBox {
+                                Text("\(initialCampaign.id)")
+                            }
+                            .groupBoxStyle(BlockGroupBoxStyle())
+                        }
+#endif
+                        
+                        LazyVGrid(columns: [GridItem(.flexible()),
+                                            GridItem(.flexible())]) {
+                            Button(action: {
+                                withAnimation {
+                                    scrollViewReader.scrollTo("Milestones", anchor: .top)
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "flag")
+                                    Spacer()
+                                    Text("\(milestones.count) Milestones")
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    Spacer()
+                                }
+                                .frame(minHeight: 0, maxHeight: .infinity)
+                            }
+                            .buttonStyle(BlockButtonStyle())
+                            .disabled(milestones.isEmpty)
+                            Button(action: {
+                                withAnimation {
+                                    scrollViewReader.scrollTo("Rewards", anchor: .top)
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "rosette")
+                                    Spacer()
+                                    Text("\(rewards.count) Rewards")
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    Spacer()
+                                }
+                                .frame(minHeight: 0, maxHeight: .infinity)
+                            }
+                            .buttonStyle(BlockButtonStyle())
+                            .disabled(rewards.isEmpty)
+                        }
+                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        
+                        ZStack {
+                            
+                            if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
+                                if let left = egg.left {
+                                    HStack {
+                                        left
+                                        Spacer()
+                                    }
+                                }
+                                if let right = egg.right {
+                                    HStack {
+                                        Spacer()
+                                        right
+                                    }
+                                }
+                            }
+                            
+                            Link("Visit the \(teamEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                .frame(maxWidth: .infinity)
+                                .padding(.horizontal)
+                            //                .padding(10)
+                            //                .padding(.horizontal, 20)
+                            //                .background(Color.accentColor)
+                            //                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                            //                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            //                .padding(.top)
+                            
                         }
                     }
-                    .padding(.vertical, 8)
                 }
+                .padding()
                 
-                #if DEBUG
-                if let initialCampaign = initialCampaign {
-                    Text("\(initialCampaign.id)")
-                }
-                #endif
-                
-                LazyVGrid(columns: [GridItem(.flexible()),
-                                    GridItem(.flexible())]) {
-                    Button(action: {
-                        withAnimation {
-                            scrollViewReader.scrollTo("Milestones", anchor: .top)
-                        }
-                    }) {
-                        GroupBox {
-                            HStack {
-                                Image(systemName: "flag")
-                                Spacer()
-                                Text("\(milestones.count) Milestones")
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                Spacer()
-                            }
-                            .frame(minHeight: 0, maxHeight: .infinity)
-                        }
-                    }
-                    .disabled(milestones.isEmpty)
-                    Button(action: {
-                        withAnimation {
-                            scrollViewReader.scrollTo("Rewards", anchor: .top)
-                        }
-                    }) {
-                        GroupBox {
-                            HStack {
-                                Image(systemName: "rosette")
-                                Spacer()
-                                Text("\(rewards.count) Rewards")
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                Spacer()
-                            }
-                            .frame(minHeight: 0, maxHeight: .infinity)
-                        }
-                    }
-                    .disabled(rewards.isEmpty)
-                }
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                
-                ZStack {
-                    
-                    if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
-                        if let left = egg.left {
-                            HStack {
-                                left
-                                Spacer()
-                            }
-                        }
-                        if let right = egg.right {
-                            HStack {
-                                Spacer()
-                                right
-                            }
-                        }
-                    }
-                    
-                    Link("Visit the \(teamEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .padding(.horizontal, 20)
-                        .background(Color.accentColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .padding(.top)
-                    
-                }
-                .frame(minWidth: 0, maxWidth: .infinity)
-                
+                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                    .tiledImageAtScale(axis: .horizontal)
+            }
+            .frame(minWidth: 0, maxWidth: .infinity)
+        }
+        .background(alignment: .bottom) {
+            ZStack(alignment: .bottom) {
+                Color.skyBackground
+                AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
+                    .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
+                    .animation(.none, value: UUID())
+            }
+            .mask {
+                LinearGradient(stops: [
+                    .init(color: .clear, location: 0),
+                    .init(color: .white, location: 0.25),
+                    .init(color: .white, location: 1)
+                ], startPoint: .top, endPoint: .bottom)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func contents(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
+        VStack {
+            GroupBox {
                 Text(description)
                     .font(.caption)
                     .multilineTextAlignment(.leading)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical)
-                
-                if let topDonor = topDonor {
+            }
+            .groupBoxStyle(BlockGroupBoxStyle())
+            
+            if let topDonor = topDonor {
+                GroupBox {
+                    VStack(spacing: 5) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "crown")
+                            Text("Top Donor")
+                                .textCase(.uppercase)
+                            Spacer()
+                        }
+                        .font(.caption)
+                        .foregroundColor(.accentColor)
+                        HStack(alignment: .top) {
+                            Text(topDonor.donorName)
+                                .multilineTextAlignment(.leading)
+                                .font(.headline)
+                            Spacer()
+                            Text(topDonor.amount.description(showFullCurrencySymbol: false))
+                        }
+                        if let comment = topDonor.donorComment {
+                            Text(comment)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                }
+                .groupBoxStyle(BlockGroupBoxStyle())
+            }
+            
+            if !donations.isEmpty, let campaign = initialCampaign ?? relayCampaign {
+                NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
                     GroupBox {
-                        VStack(spacing: 5) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "crown")
-                                Text("Top Donor")
-                                    .textCase(.uppercase)
-                                Spacer()
-                            }
-                            .font(.caption)
-                            .foregroundColor(.accentColor)
-                            HStack(alignment: .top) {
-                                Text(topDonor.donorName)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.headline)
-                                Spacer()
-                                Text(topDonor.amount.description(showFullCurrencySymbol: false))
-                            }
-                            if let comment = topDonor.donorComment {
-                                Text(comment)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            }
+                        HStack {
+                            Text("Recent Donations")
+                            Spacer()
+                            Image("pixel-chevron-right")
+                                .foregroundColor(.secondary)
                         }
-                    }
-                }
-                
-                if !donations.isEmpty, let campaign = initialCampaign ?? relayCampaign {
-                    NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
-                        GroupBox {
-                            HStack {
-                                Text("Recent Donations")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.secondary)
-                            }
-                            
-                        }
-                    }
-                    .padding(.bottom)
-                    
-                    if #available(iOS 16.0, *), donations.count >= 4 {
-                        DonorChart(donations: donations, total: campaign.totalRaised)
-                            .frame(height: 80)
-                            .padding(.horizontal)
-                            .padding(.bottom)
                         
                     }
-                    
-                    if teamEvent != nil {
-                        Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
-                            .font(.caption)
-                            .fullWidth()
-                            .foregroundStyle(.secondary)
-                            .padding(.bottom)
-                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                }
+                .padding(.bottom)
+                
+                if #available(iOS 16.0, *), donations.count >= 4 {
+                    DonorChart(donations: donations, total: campaign.totalRaised)
+                        .frame(height: 80)
+                        .padding(.horizontal)
+                        .padding(.bottom)
                     
                 }
                 
-                if !milestones.isEmpty {
-                    
+                if teamEvent != nil {
+                    Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
+                        .font(.caption)
+                        .fullWidth()
+                        .foregroundStyle(.secondary)
+                        .padding(.bottom)
+                }
+                
+            }
+            
+            if !milestones.isEmpty {
+                
+                GroupBox {
                     HStack {
-                        
                         Text("Milestones")
                             .font(.title)
                             .fontWeight(.bold)
@@ -288,22 +326,26 @@ struct CampaignView: View {
                             )
                         
                     }
-                    .id("Milestones")
-                    
-                    if initialCampaign?.user.name == "Relay FM" {
-                        GroupBox {
-                            HStack(alignment: .top) {
-                                Image(systemName: "info.circle")
-                                    .padding(.top, 2)
-                                Text("These milestones are achieved when the overall fundraiser total reaches the specified amount, not this specific campaign.")
-                                    .font(.caption)
-                                    .multilineTextAlignment(.leading)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            }
+                }
+                .groupBoxStyle(BlockGroupBoxStyle())
+                .id("Milestones")
+                
+                if initialCampaign?.user.name == "Relay FM" {
+                    GroupBox {
+                        HStack(alignment: .top) {
+                            Image(systemName: "info.circle")
+                                .padding(.top, 2)
+                            Text("These milestones are achieved when the overall fundraiser total reaches the specified amount, not this specific campaign.")
+                                .font(.caption)
+                                .multilineTextAlignment(.leading)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         }
                     }
-                    
-                    ForEach(milestones, id: \.id) { milestone in
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                }
+                
+                ForEach(milestones, id: \.id) { milestone in
+                    GroupBox {
                         let reached = milestoneReached(for: milestone)
                         HStack(alignment: .top) {
                             if reached {
@@ -317,21 +359,21 @@ struct CampaignView: View {
                                 .foregroundColor(.accentColor)
                                 .opacity(reached ? 0.75 : 1)
                         }
-                        .padding(.vertical, 8)
-                        Divider()
                     }
-                    
+                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
                 
-                if !rewards.isEmpty {
-                    
+            }
+            
+            if !rewards.isEmpty {
+                
+                GroupBox {
                     HStack {
-                        
                         Text("Rewards")
                             .font(.title)
                             .fontWeight(.bold)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, milestones.isEmpty ? 0 : 10)
+                        //                        .padding(.top, milestones.isEmpty ? 0 : 10)
                         
                         Text("\(rewards.count)")
                             .foregroundColor(.secondary)
@@ -343,9 +385,12 @@ struct CampaignView: View {
                             )
                         
                     }
-                    .id("Rewards")
-                    
-                    ForEach(rewards, id: \.id) { reward in
+                }
+                .groupBoxStyle(BlockGroupBoxStyle())
+                .id("Rewards")
+                
+                ForEach(rewards, id: \.id) { reward in
+                    GroupBox {
                         VStack(alignment: .leading) {
                             HStack(alignment: .top) {
                                 Text(reward.name)
@@ -389,15 +434,31 @@ struct CampaignView: View {
                             }
                             
                         }
-                        .padding(.vertical, 8)
-                        Divider()
                     }
-                    
+                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
                 
             }
-            .padding()
-            
+        }
+        .padding(.top)
+    }
+    
+    var body: some View {
+        ScrollView {
+            ScrollViewReader { scrollViewReader in
+                VStack(spacing:0) {
+                    self.topView(scrollViewReader: scrollViewReader)
+                    self.contents(scrollViewReader:scrollViewReader)
+                        .padding(.horizontal)
+                        .background {
+                            GeometryReader { geometry in
+                                AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                                    .tiledImageAtScale(scale: Double.spriteScale)
+                                    .frame(height: geometry.size.height+1000)
+                            }
+                        }
+                }
+            }
         }
         .refreshable {
             await refresh()

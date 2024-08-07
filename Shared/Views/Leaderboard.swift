@@ -35,7 +35,7 @@ struct Leaderboard: View {
                         Text(campaign.user.name)
                         Spacer()
                         if offset == 0 {
-                            Image(systemName: "trophy.fill")
+                            Image("pixel-trophy")
                                 .foregroundStyle(Color.brandYellow)
                         } else if campaign.isStarred {
                             Image(systemName: "star.fill")

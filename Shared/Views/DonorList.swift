@@ -27,6 +27,7 @@ struct DonorList: View {
                             .foregroundColor(.secondary)
                     }
                 }
+                .groupBoxStyle(BlockGroupBoxStyle())
             }
             .padding()
             
@@ -53,6 +54,7 @@ struct DonorList: View {
                         }
                     }
                 }
+                .groupBoxStyle(BlockGroupBoxStyle())
                 .padding(.horizontal)
             }
         }
