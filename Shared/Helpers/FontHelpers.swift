@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// If you get errors about this file when running a preview, just comment out this file
+
 extension Font {
     /// A font with the large title text style.
     public static var largeTitle: Font {
@@ -64,6 +66,6 @@ extension Font {
     }
     
     public static var customFontName: String {
-        return "Krungthep"
+        return "ChicagoFLF"
     }
 }

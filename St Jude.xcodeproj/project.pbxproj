@@ -22,11 +22,6 @@
 		430E7A0C2C606481005E1973 /* joe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A042C606481005E1973 /* joe.mp3 */; };
 		430E7A0D2C606481005E1973 /* joe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A042C606481005E1973 /* joe.mp3 */; };
 		430E7A0E2C606481005E1973 /* joe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A042C606481005E1973 /* joe.mp3 */; };
-		430E7A112C606489005E1973 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A0F2C606489005E1973 /* Krungthep.ttf */; };
-		430E7A122C606489005E1973 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A0F2C606489005E1973 /* Krungthep.ttf */; };
-		430E7A132C606489005E1973 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A0F2C606489005E1973 /* Krungthep.ttf */; };
-		430E7A142C606489005E1973 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A0F2C606489005E1973 /* Krungthep.ttf */; };
-		430E7A152C606489005E1973 /* Krungthep.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430E7A0F2C606489005E1973 /* Krungthep.ttf */; };
 		430E7A192C60649C005E1973 /* DoubleHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A162C60649C005E1973 /* DoubleHelpers.swift */; };
 		430E7A1A2C60649C005E1973 /* DoubleHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A162C60649C005E1973 /* DoubleHelpers.swift */; };
 		430E7A1B2C60649C005E1973 /* DoubleHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A162C60649C005E1973 /* DoubleHelpers.swift */; };
@@ -57,6 +52,8 @@
 		430E7A4A2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
 		430E7A4B2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
 		430E7A4C2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
+		43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
+		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
 		439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
 		43E555372AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
@@ -460,7 +457,6 @@
 		4301B7FC2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadConfigurationIntentHandler.swift; sourceTree = "<group>"; };
 		430E7A032C606481005E1973 /* honk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = honk.mp3; sourceTree = "<group>"; };
 		430E7A042C606481005E1973 /* joe.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = joe.mp3; sourceTree = "<group>"; };
-		430E7A0F2C606489005E1973 /* Krungthep.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Krungthep.ttf; sourceTree = "<group>"; };
 		430E7A162C60649C005E1973 /* DoubleHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleHelpers.swift; sourceTree = "<group>"; };
 		430E7A172C60649C005E1973 /* ImageHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelpers.swift; sourceTree = "<group>"; };
 		430E7A182C60649C005E1973 /* FontHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontHelpers.swift; sourceTree = "<group>"; };
@@ -470,6 +466,7 @@
 		430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaledNinePartImage.swift; sourceTree = "<group>"; };
 		430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdaptiveImage.swift; sourceTree = "<group>"; };
 		430E7A472C6064C3005E1973 /* EasterEggImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasterEggImage.swift; sourceTree = "<group>"; };
+		43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ChicagoFLF.ttf; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43E555362AB91BF6006EC83F /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
@@ -665,7 +662,7 @@
 		430E7A102C606489005E1973 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				430E7A0F2C606489005E1973 /* Krungthep.ttf */,
+				43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1217,7 +1214,6 @@
 				43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9FB26D6B5100031697F /* Assets.xcassets in Resources */,
 				430E7A092C606481005E1973 /* honk.mp3 in Resources */,
-				430E7A152C606489005E1973 /* Krungthep.ttf in Resources */,
 				63574A1A26D6590000A2D495 /* Assets.xcassets in Resources */,
 				430E7A0E2C606481005E1973 /* joe.mp3 in Resources */,
 			);
@@ -1229,8 +1225,8 @@
 			files = (
 				43E555372AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
+				43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				430E7A052C606481005E1973 /* honk.mp3 in Resources */,
-				430E7A112C606489005E1973 /* Krungthep.ttf in Resources */,
 				439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 				430E7A0A2C606481005E1973 /* joe.mp3 in Resources */,
 			);
@@ -1242,8 +1238,8 @@
 			files = (
 				43E555382AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
+				43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				430E7A062C606481005E1973 /* honk.mp3 in Resources */,
-				430E7A122C606489005E1973 /* Krungthep.ttf in Resources */,
 				439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 				430E7A0B2C606481005E1973 /* joe.mp3 in Resources */,
 			);
@@ -1270,7 +1266,6 @@
 				43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F926D6B5100031697F /* Assets.xcassets in Resources */,
 				430E7A072C606481005E1973 /* honk.mp3 in Resources */,
-				430E7A132C606489005E1973 /* Krungthep.ttf in Resources */,
 				6357657626D1AD28004F04DE /* Assets.xcassets in Resources */,
 				430E7A0C2C606481005E1973 /* joe.mp3 in Resources */,
 			);
@@ -1283,7 +1278,6 @@
 				6348F9FA26D6B5100031697F /* Assets.xcassets in Resources */,
 				43E5553A2AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				430E7A082C606481005E1973 /* honk.mp3 in Resources */,
-				430E7A142C606489005E1973 /* Krungthep.ttf in Resources */,
 				430E7A0D2C606481005E1973 /* joe.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

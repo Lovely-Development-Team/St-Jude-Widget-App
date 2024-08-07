@@ -37,7 +37,20 @@ struct ProgressBar: View {
                         .offset(x: min(CGFloat(self.value)*geometry.size.width, geometry.size.width))
                     
                 }
-            }.clipShape(Capsule())
+            }
+            .mask {
+//                Capsule()
+                HStack(spacing:0) {
+                    Rectangle()
+                        .frame(width: round(10*Double.spriteScale),
+                               height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                    Rectangle()
+                        .frame(width: geometry.size.width-round(((2*10)*Double.spriteScale)))
+                    Rectangle()
+                        .frame(width: round(10*Double.spriteScale),
+                               height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                }
+            }
         }
     }
     

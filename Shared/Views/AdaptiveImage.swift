@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AdaptiveImage: View {
-    @State var colorScheme: ColorScheme
+    var colorScheme: ColorScheme
     @State var light: ImageResource
     @State var dark: ImageResource? = nil
     
@@ -26,11 +26,62 @@ struct AdaptiveImage: View {
 }
 
 extension AdaptiveImage {
-    func imageAtScale(scale: Double = 1.0) -> some View {
+    func imageAtScale(scale: Double = .spriteScale) -> some View {
         Image.imageAtScale(resource: self.currentImage, scale: scale)
     }
     
-    func tiledImageAtScale(scale: Double = 1.0, axis: Axis? = nil) -> some View {
+    func tiledImageAtScale(scale: Double = .spriteScale, axis: Axis? = nil) -> some View {
         Image.tiledImageAtScale(resource: self.currentImage, scale: scale, axis: axis)
+    }
+}
+
+extension AdaptiveImage {
+    @ViewBuilder
+    static func background(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .background, dark: .backgroundNight)
+    }
+    @ViewBuilder
+    static func backgroundStripe(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripe, dark: .backgroundStripeNight)
+    }
+    @ViewBuilder
+    static func bush(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .bush, dark: .bushNight)
+    }
+    @ViewBuilder
+    static func cloud(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .cloud, dark: .cloudNight)
+    }
+    @ViewBuilder
+    static func flower(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .flower, dark: .flowerNight)
+    }
+    @ViewBuilder
+    static func groundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .groundRepeatable, dark: .groundRepeatableNight)
+    }
+    @ViewBuilder
+    static func ground(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .ground, dark: .groundNight)
+    }
+    @ViewBuilder
+    static func groundSlope(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .groundSlope, dark: .groundSlopeNight)
+    }
+    @ViewBuilder
+    static func myke(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .myke16BitScale, dark: .myke16BitScaleNight)
+    }
+    @ViewBuilder
+    static func skyRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
+    }
+    @ViewBuilder
+    static func stephen(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .stephen16BitScale, dark: .stephen16BitScaleNight)
+    }
+    @ViewBuilder
+    static func undergroundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
     }
 }

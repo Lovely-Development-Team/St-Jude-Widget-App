@@ -20,6 +20,7 @@ struct FundraiserListItem: View {
     var showDisclosureIndicator: Bool = true
     var compact: Bool = false
     var showShareIcon: Bool = false
+    var showBackground: Bool = true
     @Binding var showShareSheet: Bool
     
     let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
@@ -44,14 +45,29 @@ struct FundraiserListItem: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
-                .cornerRadius(5)
+//                .cornerRadius(5)
+                .mask {
+                    GeometryReader { geometry in
+                        HStack(spacing:0) {
+                            Rectangle()
+                                .frame(width: round(10*Double.spriteScale),
+                                       height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                            Rectangle()
+                                .frame(width: geometry.size.width-round(((2*10)*Double.spriteScale)))
+                            Rectangle()
+                                .frame(width: round(10*Double.spriteScale),
+                                       height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                        }
+                    }
+                }
         } else {
             EmptyView()
         }
     }
     
-    var body: some View {
-        GroupBox {
+    @ViewBuilder
+    var contents: some View {
+        Group {
             if compact {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
@@ -70,9 +86,9 @@ struct FundraiserListItem: View {
                                 .foregroundColor(.secondary)
                                 .lineLimit(1)
                         } else if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
-                                Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
-                                    .foregroundColor(.secondary)
-                                    .lineLimit(1)
+                            Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
                         } else {
                             Text(campaign.user.name)
                                 .foregroundColor(.secondary)
@@ -150,6 +166,16 @@ struct FundraiserListItem: View {
                 }
             }
         }
-        .foregroundColor(.primary)
+    }
+    
+    var body: some View {
+        if(self.showBackground) {
+            GroupBox {
+                self.contents
+            }
+                .groupBoxStyle(BlockGroupBoxStyle())
+        } else {
+            self.contents
+        }
     }
 }
