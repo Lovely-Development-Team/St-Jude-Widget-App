@@ -27,12 +27,21 @@ struct FundraiserListItem: View {
     
     @State var showShareLinkSheet: ShareURL? = nil
     
-    var disclosureIndicatorIcon: String {
-        if campaign.isStarred {
-            return "star.fill"
+    @ViewBuilder
+    var disclosureIndicator: some View {
+        if(campaign.isStarred) {
+            Image(systemName: "star.fill")
+        } else {
+            Image(.pixelChevronRight)
         }
-        return "chevron.right"
     }
+    
+//    var disclosureIndicatorIcon: String {
+//        if campaign.isStarred {
+//            return "star.fill"
+//        }
+//        return "chevron.right"
+//    }
     
     @ViewBuilder
     func image(size: CGFloat = 45) -> some View {
@@ -46,20 +55,7 @@ struct FundraiserListItem: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
 //                .cornerRadius(5)
-                .mask {
-                    GeometryReader { geometry in
-                        HStack(spacing:0) {
-                            Rectangle()
-                                .frame(width: round(10*Double.spriteScale),
-                                       height: geometry.size.height - round(((2*10)*Double.spriteScale)))
-                            Rectangle()
-                                .frame(width: geometry.size.width-round(((2*10)*Double.spriteScale)))
-                            Rectangle()
-                                .frame(width: round(10*Double.spriteScale),
-                                       height: geometry.size.height - round(((2*10)*Double.spriteScale)))
-                        }
-                    }
-                }
+                .modifier(PixelRounding())
         } else {
             EmptyView()
         }
@@ -76,7 +72,8 @@ struct FundraiserListItem: View {
                             .font(.headline)
                         if showDisclosureIndicator {
                             Spacer()
-                            Image(systemName: disclosureIndicatorIcon)
+//                            Image(systemName: disclosureIndicatorIcon)
+                            self.disclosureIndicator
                                 .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         }
                     }
@@ -114,7 +111,8 @@ struct FundraiserListItem: View {
                         }
                         if showDisclosureIndicator {
                             Spacer()
-                            Image(systemName: disclosureIndicatorIcon)
+//                            Image(systemName: disclosureIndicatorIcon)
+                            self.disclosureIndicator
                                 .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         } else if showShareIcon {
                             Spacer()

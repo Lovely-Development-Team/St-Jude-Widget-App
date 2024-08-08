@@ -10,6 +10,7 @@ import SwiftUI
 struct BlockButtonStyle: ButtonStyle {
     @State var tint: Color = .secondarySystemBackground
     @State var padding: Bool = true
+    @State var disabled: Bool = false
     
     func makeBody(configuration: Configuration) -> some View {
         Group {
@@ -24,16 +25,21 @@ struct BlockButtonStyle: ButtonStyle {
                     .animation(.none, value: UUID())
             }
         }
+        .opacity(self.disabled ? 0.5 : 1.0)
         .background {
             Group {
-                if(configuration.isPressed) {
-                    BlockView(tint: self.tint, isPressed: true)
+                if(self.disabled) {
+                    BlockView(tint: self.tint)
                 } else {
-                    BlockView(tint: self.tint, isPressed: false)
+                    if(configuration.isPressed) {
+                        BlockView(tint: self.tint, isPressed: true)
+                    } else {
+                        BlockView(tint: self.tint, isPressed: false)
+                    }
                 }
             }
             .compositingGroup()
-            .shadow(color: .black.opacity(configuration.isPressed ? 0 : 0.5), radius: 0, x: 10 * Double.spriteScale, y: 10 * Double.spriteScale)
+            .shadow(color: self.disabled ? .clear : .black.opacity(configuration.isPressed ? 0 : 0.5), radius: 0, x: 10 * Double.spriteScale, y: 10 * Double.spriteScale)
             .animation(.none, value: UUID())
         }
     }

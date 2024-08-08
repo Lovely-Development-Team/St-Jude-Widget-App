@@ -182,8 +182,8 @@ struct CampaignList: View {
                         }
                     }
             }
-            .tint(.white)
-            .padding(.top)
+//            .tint(.white)
+//            .padding(.top)
         }
     }
     
@@ -312,12 +312,15 @@ struct CampaignList: View {
                                 Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
                             }
                             .foregroundStyle(Color.white)
-//                            .padding(.horizontal, 4)
-//                            .padding(.vertical, 4)
-                            .background(
-                                Color.brandBlue
-                                    .cornerRadius(15)
-                            )
+                            .padding(.horizontal, 4)
+                            .padding(.vertical, 4)
+                            .aspectRatio(1.0, contentMode: .fit)
+                            .background {
+                                GeometryReader { geometry in
+                                    Color.brandBlue
+                                        .modifier(PixelRounding(geometry: geometry))
+                                }
+                            }
                         }
                         Spacer()
                         Image("pixel-chevron-right")
@@ -329,11 +332,14 @@ struct CampaignList: View {
                 if headToHeads.count == 0 {
                     if showHeadToHeads {
                         VStack {
-                            Button("Add a Head to Head") {
+                            Button(action: {
                                 showSheet = .startHeadToHead
-                            }
-                            .buttonStyle(BlockButtonStyle(tint: .brandBlue.lighter()))
-                            .foregroundStyle(Color.black)
+                            }, label: {
+                                Text("Add a Head to Head")
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            })
+                            .buttonStyle(BlockButtonStyle(tint: .brandBlue))
+                            .foregroundStyle(Color.white)
 //                            .fullWidth(alignment: .center)
 //                            .padding()
 //                            .background(
@@ -344,16 +350,16 @@ struct CampaignList: View {
 //                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
 //                            )
                         }
-                        .padding(.horizontal)
-                        .padding(.top, 5)
+//                        .padding(.horizontal)
+//                        .padding(.top, 5)
                     }
                 } else {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
-                        if showHeadToHeads {
+                    if showHeadToHeads {
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
                             headToHeadList
                         }
                     }
-                    .padding(.horizontal)
+//                    .padding(.horizontal)
                 }
             }
         }
@@ -476,8 +482,10 @@ struct CampaignList: View {
                                     .foregroundStyle(.white)
                                 Text("No fundraisers yet")
                                     .foregroundStyle(.white)
-                                
-                                Link("Be the first and create your own!", destination: URL(string: "https://tiltify.com/+relay-for-st-jude/relay-for-st-jude-2024/start/cause-summary")!)
+                                Link(destination: URL(string: "https://tiltify.com/+relay-for-st-jude/relay-for-st-jude-2024/start/cause-summary")!, label: {
+                                    Text("Be the first and create your own!")
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                })
                                     .font(.headline)
                                     .multilineTextAlignment(.center)
                                     .foregroundColor(.black)
@@ -486,8 +494,7 @@ struct CampaignList: View {
                                     .buttonStyle(BlockButtonStyle(tint: .white))
                                 //                                    .background(Color.accentColor)
                                 //                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                    .padding([.bottom, .horizontal])
+//                                    .padding([.bottom, .horizontal])
                             }
                             .frame(maxWidth: .infinity)
                         }

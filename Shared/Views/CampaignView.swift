@@ -126,13 +126,16 @@ struct CampaignView: View {
                                 }
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())
-                            .padding(.vertical, 8)
+//                            .padding(.vertical, 8)
                         }
                         
 #if DEBUG
                         if let initialCampaign = initialCampaign {
                             GroupBox {
                                 Text("\(initialCampaign.id)")
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())
                         }
@@ -148,7 +151,8 @@ struct CampaignView: View {
                                 HStack {
                                     Image(systemName: "flag")
                                     Spacer()
-                                    Text("\(milestones.count) Milestones")
+                                    Text("^[\(milestones.count) Milestone](inflect:true)")
+//                                    Text("\(milestones.count) Milestones")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                     Spacer()
                                 }
@@ -164,7 +168,8 @@ struct CampaignView: View {
                                 HStack {
                                     Image(systemName: "rosette")
                                     Spacer()
-                                    Text("\(rewards.count) Rewards")
+//                                    Text("\(rewards.count) Rewards")
+                                    Text("^[\(rewards.count) Reward](inflect:true)")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                     Spacer()
                                 }
@@ -176,7 +181,6 @@ struct CampaignView: View {
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         
                         ZStack {
-                            
                             if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
                                 if let left = egg.left {
                                     HStack {
@@ -192,12 +196,13 @@ struct CampaignView: View {
                                 }
                             }
                             
-                            Link("Visit the \(teamEvent == nil ? "fundraiser" : "event")!", destination: fundraiserURL)
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                                .frame(maxWidth: .infinity)
-                                .padding(.horizontal)
+                            Link(destination: fundraiserURL, label: {
+                                Text("Visit the \(teamEvent == nil ? "fundraiser" : "event")!")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            })
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                             //                .padding(10)
                             //                .padding(.horizontal, 20)
                             //                .background(Color.accentColor)

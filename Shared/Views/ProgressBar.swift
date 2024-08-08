@@ -38,19 +38,7 @@ struct ProgressBar: View {
                     
                 }
             }
-            .mask {
-//                Capsule()
-                HStack(spacing:0) {
-                    Rectangle()
-                        .frame(width: round(10*Double.spriteScale),
-                               height: geometry.size.height - round(((2*10)*Double.spriteScale)))
-                    Rectangle()
-                        .frame(width: geometry.size.width-round(((2*10)*Double.spriteScale)))
-                    Rectangle()
-                        .frame(width: round(10*Double.spriteScale),
-                               height: geometry.size.height - round(((2*10)*Double.spriteScale)))
-                }
-            }
+            .modifier(PixelRounding(geometry: geometry))
         }
     }
     
