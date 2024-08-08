@@ -40,7 +40,6 @@ struct EasterEggView: View {
     }
     
     var body: some View {
-        
         #if os(macOS)
         HStack {
             Spacer()

@@ -56,6 +56,11 @@
 		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
 		439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
+		4397FD632C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
+		4397FD642C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
+		4397FD652C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
+		4397FD662C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
+		4397FD672C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		43E555372AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43E555382AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
@@ -468,6 +473,7 @@
 		430E7A472C6064C3005E1973 /* EasterEggImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasterEggImage.swift; sourceTree = "<group>"; };
 		43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ChicagoFLF.ttf; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4397FD612C64FF8000C0591B /* PixelRounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelRounding.swift; sourceTree = "<group>"; };
 		43E555362AB91BF6006EC83F /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
 		43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView.swift; sourceTree = "<group>"; };
@@ -677,6 +683,14 @@
 			path = Styles;
 			sourceTree = "<group>";
 		};
+		4397FD622C64FF8000C0591B /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				4397FD612C64FF8000C0591B /* PixelRounding.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		43E555352AB91BF6006EC83F /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -763,6 +777,7 @@
 		6357652C26D1A73B004F04DE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				4397FD622C64FF8000C0591B /* Modifiers */,
 				430E7A2B2C6064A6005E1973 /* Styles */,
 				430E7A102C606489005E1973 /* Fonts */,
 				43E555352AB91BF6006EC83F /* Sounds */,
@@ -1336,6 +1351,7 @@
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
+				4397FD672C64FF8000C0591B /* PixelRounding.swift in Sources */,
 				5EE56C112A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63574A3126D659D300A2D495 /* ApiClient.swift in Sources */,
 				5EE0EC0B28BD57250053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
@@ -1384,6 +1400,7 @@
 				5E1705C428C0C47000E70019 /* AboutView.swift in Sources */,
 				5E482E5028B7B03C00131DE1 /* CampaignView.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				4397FD632C64FF8000C0591B /* PixelRounding.swift in Sources */,
 				63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */,
 				5EE56C132A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */,
 				5EFB879C2AA492BE006E0D0E /* StJudeTotals.swift in Sources */,
@@ -1432,6 +1449,7 @@
 			files = (
 				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
 				430E7A1A2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
+				4397FD642C64FF8000C0591B /* PixelRounding.swift in Sources */,
 				63E19D5626E22B41009F318F /* BlurView.swift in Sources */,
 				430E7A3E2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */,
 				5EEB56922A9E275C008AABF1 /* HeadToHeadView.swift in Sources */,
@@ -1577,6 +1595,7 @@
 				5EF748CF26DF74AF008174DF /* CheckNewMilestones.swift in Sources */,
 				63ACEFF526D3C65700F98023 /* ProgressBar.swift in Sources */,
 				DE0F34C026DA6A8D00F268C9 /* DeviceType.swift in Sources */,
+				4397FD652C64FF8000C0591B /* PixelRounding.swift in Sources */,
 				5EE56C0F2A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
 				63ACEFEF26D3B51900F98023 /* TiltifyWidgetData.swift in Sources */,
 				63ACF00026D3CCA700F98023 /* EntryView.swift in Sources */,
@@ -1619,6 +1638,7 @@
 				5EE0EC1328BE64DA0053C9D1 /* WidgetAppearance+Colors.swift in Sources */,
 				63A6F99826D6382100095ACB /* INAmountExtension.swift in Sources */,
 				430E7A212C60649C005E1973 /* ImageHelpers.swift in Sources */,
+				4397FD662C64FF8000C0591B /* PixelRounding.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
