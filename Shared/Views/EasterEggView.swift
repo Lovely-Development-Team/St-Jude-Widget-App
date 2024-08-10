@@ -131,39 +131,42 @@ struct EasterEggView: View {
             VStack {
                 GroupBox {
                     VStack {
-                        Text("Love our apps?  Support our fundraiser!")
+                        Text("Love our apps? \n Support our fundraiser!")
                             .allowsTightening(true)
-                        //                        .padding(.top, 10)
-                        //                        .padding(.bottom, -20)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
                         Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
                             Text("tildy.dev/stjude")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         })
-                        //                        .padding(.top, -5)
-                        //                        .padding(.bottom, 10)
-//                            .foregroundColor(.blue)
-//                            .buttonStyle(PlainButtonStyle())
                         .buttonStyle(BlockButtonStyle(tint: .accentColor))
                     }
                 }
                 .groupBoxStyle(BlockGroupBoxStyle())
-                Button(action: {
-                    showSupporterSheet = true
-                }, label: {
-                    Text("Supporters")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-//                        .padding(10)
-//                        .padding(.horizontal, 20)
-//                        .background(Color.accentColor)
-//                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-//                        .padding(.bottom)
-                })
-                .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                GroupBox {
+                    VStack{
+                        Text("Supporters")
+                            .font(.title3)
+                            .allowsTightening(true)
+                        Text("Our thanks to these awesome people for donating to our fundraiser!")
+                            .font(.body)
+                            .allowsTightening(true)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Button(action: {
+                            showSupporterSheet = true
+                        }, label: {
+                            Text("Supporters")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        })
+                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    }
+                }
+                .groupBoxStyle(BlockGroupBoxStyle())
                 GroupBox {
                     VStack {
                         Text("L2CU drawing by rhl_. \nRelay for St. Jude crafted with care by The Lovely Developers. ")
@@ -172,6 +175,7 @@ struct EasterEggView: View {
                             .allowsTightening(true)
                             .minimumScaleFactor(0.7)
                             .foregroundColor(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                         Button(action: {
                             openURL(URL(string: "https://tildy.dev")!)
                         }, label: {
@@ -180,11 +184,6 @@ struct EasterEggView: View {
                                 .foregroundColor(.white)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         })
-                        //                    .padding(.top, 5.0)
-                        //                    .padding(.bottom, 10)
-                        //                    .font(.body)
-                        //                    .foregroundColor(.blue)
-                        //                    .buttonStyle(PlainButtonStyle())
                         .buttonStyle(BlockButtonStyle(tint: .accentColor))
                     }
                 }

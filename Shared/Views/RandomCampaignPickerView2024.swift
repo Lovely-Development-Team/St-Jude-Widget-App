@@ -228,16 +228,6 @@ struct RandomCampaignPickerView2024: View {
                                                     FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showBackground: false, showShareSheet: self.$showShareSheet)
                                                 })
                                                 .buttonStyle(BlockButtonStyle())
-                                                Button(action: {
-                                                    self.campaignChoiceID = self.chosenCampaign?.id
-                                                    self.dismiss()
-                                                }, label: {
-                                                    Text("View This Campaign")
-                                                        .font(.headline)
-                                                        .foregroundStyle(.white)
-                                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                                })
-                                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                             }
                                         } else {
                                             GroupBox {
