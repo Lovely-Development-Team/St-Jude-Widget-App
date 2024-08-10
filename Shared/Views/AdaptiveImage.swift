@@ -22,6 +22,7 @@ struct AdaptiveImage: View {
     
     var body: some View {
         Image(currentImage)
+            .animation(.none, value: UUID())
     }
 }
 
@@ -83,5 +84,9 @@ extension AdaptiveImage {
     @ViewBuilder
     static func undergroundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+    }
+    @ViewBuilder
+    static func questionBox(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .questionBox, dark: .questionBoxNight)
     }
 }

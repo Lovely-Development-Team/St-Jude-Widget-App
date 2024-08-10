@@ -448,7 +448,7 @@ struct CampaignList: View {
                     HStack {
                         Image("pixel-refresh")
                             .imageScale(.large)
-                        Text("Spin the Wheel of Fundraisers!")
+                        Text("[2024 random fundraiser title]!")
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         Image("pixel-chevron-right")
@@ -603,7 +603,7 @@ struct CampaignList: View {
                         widgetCompatibilityView
                     }
                     .padding(.bottom)
-                    .background(alignment: .top) {
+                    .background {
                         GeometryReader { geometry in
                             AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
                                 .tiledImageAtScale(scale: Double.spriteScale)
@@ -680,9 +680,10 @@ struct CampaignList: View {
                 }
             case .randomPicker:
                 NavigationStack {
-                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
-                                             allCampaigns: campaigns)
-                    .navigationTitle("Wheel of Fundraisers")
+                    RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: campaigns)
+//                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
+//                                             allCampaigns: campaigns)
+                    .navigationTitle("[2024 random fundraiser title]")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {

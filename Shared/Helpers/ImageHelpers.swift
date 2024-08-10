@@ -34,6 +34,7 @@ extension Image {
                 .resizable(resizingMode: .tile)
                 .frame(alignment: .center)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .animation(.none, value: UUID())
         }
         
         switch axis {
@@ -42,11 +43,13 @@ extension Image {
                     .resizable(resizingMode: .tile)
                     .frame(height: floor(imageSize.height * scale), alignment: .center)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .animation(.none, value: UUID())
         case .vertical:
             return Image(uiImage:newImage)
                     .resizable(resizingMode: .tile)
                     .frame(width: floor(imageSize.width * scale), alignment: .center)
                     .frame(maxHeight: .infinity, alignment: .topLeading)
+                    .animation(.none, value: UUID())
         }
 
     }

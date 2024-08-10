@@ -457,9 +457,10 @@ struct CampaignView: View {
                         .padding(.horizontal)
                         .background {
                             GeometryReader { geometry in
-                                AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                                AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
                                     .tiledImageAtScale(scale: Double.spriteScale)
-                                    .frame(height: geometry.size.height+1000)
+                                    .frame(height:geometry.size.height + 1000)
+                                    .animation(.none, value: UUID())
                             }
                         }
                 }

@@ -105,9 +105,10 @@ struct AboutView: View {
                     .padding(.bottom, 60)
                     .background {
                         GeometryReader { geometry in
-                            AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
-                                .tiledImageAtScale()
-                                .frame(height: geometry.size.height+1000)
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+                                .tiledImageAtScale(scale: Double.spriteScale)
+                                .frame(height:geometry.size.height + 1000)
+                                .animation(.none, value: UUID())
                         }
                     }
                 }
