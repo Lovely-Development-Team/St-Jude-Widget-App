@@ -52,6 +52,12 @@
 		430E7A4A2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
 		430E7A4B2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
 		430E7A4C2C6064C3005E1973 /* EasterEggImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A472C6064C3005E1973 /* EasterEggImage.swift */; };
+		4314971B2C6716AB001312AB /* RandomCampaignPickerView2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */; };
+		4314971C2C6716AB001312AB /* RandomCampaignPickerView2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */; };
+		4314971E2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */; };
+		4314971F2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */; };
+		431497212C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
+		431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
 		43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
@@ -471,6 +477,9 @@
 		430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaledNinePartImage.swift; sourceTree = "<group>"; };
 		430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdaptiveImage.swift; sourceTree = "<group>"; };
 		430E7A472C6064C3005E1973 /* EasterEggImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasterEggImage.swift; sourceTree = "<group>"; };
+		4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView2024.swift; sourceTree = "<group>"; };
+		4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressAndHoldButtonStyle.swift; sourceTree = "<group>"; };
+		431497202C6716D8001312AB /* UndegroundBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndegroundBackground.swift; sourceTree = "<group>"; };
 		43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ChicagoFLF.ttf; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4397FD612C64FF8000C0591B /* PixelRounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelRounding.swift; sourceTree = "<group>"; };
@@ -678,6 +687,7 @@
 			children = (
 				430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */,
 				430E7A292C6064A6005E1973 /* BlockGroupBoxStyle.swift */,
+				4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */,
 				430E7A2A2C6064A6005E1973 /* PlainGroupBoxStyle.swift */,
 			);
 			path = Styles;
@@ -687,6 +697,7 @@
 			isa = PBXGroup;
 			children = (
 				4397FD612C64FF8000C0591B /* PixelRounding.swift */,
+				431497202C6716D8001312AB /* UndegroundBackground.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -909,6 +920,7 @@
 				5EEB56A12AA0987C008AABF1 /* ChooseCampaignView.swift */,
 				5EFB879B2AA492BE006E0D0E /* StJudeTotals.swift */,
 				43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */,
+				4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */,
 				430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */,
 				430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */,
 			);
@@ -1369,6 +1381,7 @@
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
 				5E56A7A328C73D4B00B0DD59 /* AnimatedImage.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
+				431497212C6716D8001312AB /* UndegroundBackground.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
 				5EEB56A52AA09DF1008AABF1 /* TextHelpers.swift in Sources */,
 				430E7A2C2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
@@ -1378,6 +1391,7 @@
 				5ED5638628AEBAC5004A65A5 /* CampaignList.swift in Sources */,
 				43F8A6132ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */,
 				430E7A3D2C6064BC005E1973 /* ScaledNinePartImage.swift in Sources */,
+				4314971B2C6716AB001312AB /* RandomCampaignPickerView2024.swift in Sources */,
 				430E7A312C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */,
 				5E49D6C926DCC03E002892CC /* WidgetSettingsView.swift in Sources */,
 				5EF748CA26DF748F008174DF /* CheckNewMilestones.swift in Sources */,
@@ -1437,6 +1451,7 @@
 				D544692626DFE14D00EA04C9 /* EasterEggView.swift in Sources */,
 				63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */,
 				63ACF00126D3CD0200F98023 /* EntryView.swift in Sources */,
+				4314971E2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */,
 				5EEB569F2AA090E7008AABF1 /* HeadToHeadListItem.swift in Sources */,
 				DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63D0CCF128B102AA0073957E /* AppDatabase.swift in Sources */,
@@ -1448,6 +1463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
+				431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */,
 				430E7A1A2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
 				4397FD642C64FF8000C0591B /* PixelRounding.swift in Sources */,
 				63E19D5626E22B41009F318F /* BlurView.swift in Sources */,
@@ -1479,6 +1495,7 @@
 				5EC5147928D50F7E00CB00DC /* DonorList.swift in Sources */,
 				DE0F34BF26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63A6F9A226D64D0400095ACB /* Loggers.swift in Sources */,
+				4314971C2C6716AB001312AB /* RandomCampaignPickerView2024.swift in Sources */,
 				430E7A322C6064A6005E1973 /* BlockGroupBoxStyle.swift in Sources */,
 				43F8A6172ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */,
 				63D0CCF228B102AA0073957E /* AppDatabase.swift in Sources */,
@@ -1506,6 +1523,7 @@
 				5EEB56A02AA090E7008AABF1 /* HeadToHeadListItem.swift in Sources */,
 				5E180C1C28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				5E7C2FFD28C5403600A9B0D5 /* SearchBar.swift in Sources */,
+				4314971F2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */,
 				430E7A432C6064BC005E1973 /* AdaptiveImage.swift in Sources */,
 				5EE0EC1728BF96B20053C9D1 /* ShareCampaignView.swift in Sources */,
 				5EE0EC0A28BD56D90053C9D1 /* Tiltify_St_Jude_Widget.intentdefinition in Sources */,
