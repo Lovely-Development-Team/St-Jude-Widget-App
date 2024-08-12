@@ -62,8 +62,6 @@ struct RandomCampaignPickerView2024: View {
         
         self.spriteOffset = max(minBound, min(maxBound, desiredPosition))
         
-//        self.spriteOffset = max(0, min(containerGeometry.size.width-30-(16 * 10 * Double.spriteScale), self.spriteOffset + increment))
-        
         self.currentBoxUnder = nil
         
         for element in self.boxXArr.sorted(by: {$0.value > $1.value}) {
@@ -79,33 +77,35 @@ struct RandomCampaignPickerView2024: View {
         }
     }
     
+    func activateBox(_ currentBox: Int, withDelay delay: Bool = false) {
+        self.showingResult = false
+        self.resultOpacity = false
+        DispatchQueue.main.asyncAfter(deadline: .now()+(delay ? self.animationDuration/2 : 0)) {
+            self.resultOffset = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+(delay ? self.animationDuration : 0)) {
+            withAnimation(.none) {
+                self.chosenCampaign = self.getRandomCampaign()
+            }
+            self.showingResult = true
+            self.hitArr[currentBox] = true
+            self.resultOpacity = true
+            self.resultOffset = true
+            DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
+                self.hitArr = (0..<self.numBoxes).map { _ in return false }
+            }
+        }
+    }
+    
     func jump(containerGeometry: GeometryProxy) {
         withAnimation {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             self.jumping = true
             if let currentBox = self.currentBoxUnder {
-                self.showingResult = false
-                self.resultOpacity = false
-                DispatchQueue.main.asyncAfter(deadline: .now()+(self.animationDuration/2)) {
-                    self.resultOffset = false
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
-                    withAnimation(.none) {
-                        self.chosenCampaign = self.getRandomCampaign()
-                    }
-                    self.showingResult = true
-                    self.jumping = false
-                    self.hitArr[currentBox] = true
-                    self.resultOpacity = true
-                    self.resultOffset = true
-                    DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
-                        self.hitArr = (0..<self.numBoxes).map { _ in return false }
-                    }
-                }
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
-                    self.jumping = false
-                }
+                self.activateBox(currentBox)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
+                self.jumping = false
             }
         }
     }
@@ -283,24 +283,32 @@ struct RandomCampaignPickerView2024: View {
                                             if(!self.hitArr.isEmpty) {
                                                 ForEach(0..<self.numBoxes) { i in
                                                     Spacer()
-                                                    AdaptiveImage.questionBox(colorScheme: self.colorScheme)
-                                                        .imageAtScale()
-                                                        .offset(y: self.hitArr[i] ? -10 : 0)
-                                                        .animation(.easeOut(duration: self.animationDuration), value: self.hitArr)
-                                                        .background {
-                                                            GeometryReader { geometry in
-                                                                let boxX =  geometry.frame(in: .global).origin.x
-                                                                if let storedX = self.boxXArr[i] {
-                                                                    if(boxX != storedX) {
+                                                    Button(action: {
+                                                        withAnimation {
+                                                            self.activateBox(i, withDelay: false)
+                                                            self.spriteOffset = self.boxXArr[i] ?? self.spriteOffset
+                                                            
+                                                        }
+                                                    }) {
+                                                        AdaptiveImage.questionBox(colorScheme: self.colorScheme)
+                                                            .imageAtScale()
+                                                            .offset(y: self.hitArr[i] ? -10 : 0)
+                                                            .animation(.easeOut(duration: self.animationDuration), value: self.hitArr)
+                                                            .background {
+                                                                GeometryReader { geometry in
+                                                                    let boxX =  geometry.frame(in: .global).origin.x
+                                                                    if let storedX = self.boxXArr[i] {
+                                                                        if(boxX != storedX) {
+                                                                            self.boxXArr[i] = boxX
+                                                                        }
+                                                                    } else {
                                                                         self.boxXArr[i] = boxX
                                                                     }
-                                                                } else {
-                                                                    self.boxXArr[i] = boxX
+                                                                    
+                                                                    return Color.clear
                                                                 }
-                                                                
-                                                                return Color.clear
                                                             }
-                                                        }
+                                                    }
                                                 }
                                                 Spacer()
                                             }
