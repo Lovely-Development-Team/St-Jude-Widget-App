@@ -39,12 +39,30 @@ struct RandomCampaignPickerView2024: View {
     @State var boxXArr: [Int: Double] = [:]
     @State var currentBoxUnder: Int? = nil
     
+    @State var spriteImage: AdaptiveImage = .stephen(colorScheme: .light)
+    @State var isMyke: Bool = false
+    
     func getRandomCampaign() -> Campaign? {
         return allCampaigns.filter({$0.id != RELAY_CAMPAIGN}).randomElement()
     }
     
     func moveSprite(containerGeometry: GeometryProxy, by increment: Double) {
-        self.spriteOffset = max(0, min(containerGeometry.size.width-30-(16 * 10 * Double.spriteScale), self.spriteOffset + increment))
+        
+        let desiredPosition = self.spriteOffset + increment
+        let minBound: Double
+        let maxBound: Double
+        
+        if isMyke {
+            minBound = -(containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale))
+            maxBound = 0
+        } else {
+            minBound = 0
+            maxBound = containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale)
+        }
+        
+        self.spriteOffset = max(minBound, min(maxBound, desiredPosition))
+        
+//        self.spriteOffset = max(0, min(containerGeometry.size.width-30-(16 * 10 * Double.spriteScale), self.spriteOffset + increment))
         
         self.currentBoxUnder = nil
         
@@ -96,13 +114,14 @@ struct RandomCampaignPickerView2024: View {
     func controllerView(containerGeometry: GeometryProxy) -> some View {
         HStack {
             Rectangle()
+                .fill(.clear)
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 150)
                 .overlay(alignment: .center) {
                     GeometryReader { geometry in
                         ZStack(alignment: .center) {
                             Rectangle()
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.clear)
                                 .frame(width: geometry.size.width / 3)
                                 .overlay {
                                     VStack {
@@ -110,57 +129,65 @@ struct RandomCampaignPickerView2024: View {
                                             print("up")
                                         }, label: {
                                             Rectangle()
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(.clear)
                                                 .overlay {
-                                                    Image(systemName: "chevron.up")
+                                                    Image("pixel-chevron-right")
+                                                        .foregroundStyle(.white)
+                                                        .rotationEffect(.degrees(-90))
                                                 }
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(PlainButtonStyle())
+                                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                         Spacer()
                                         Button(action: {
                                             print("down")
                                         }, label: {
                                             Rectangle()
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(.clear)
                                                 .overlay {
-                                                    Image(systemName: "chevron.down")
+                                                    Image("pixel-chevron-right")
+                                                        .foregroundStyle(.white)
+                                                        .rotationEffect(.degrees(90))
+                                                        .scaleEffect(x: -1, y: 1)
                                                 }
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(PlainButtonStyle())
+                                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                     }
                                 }
                             Rectangle()
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.clear)
                                 .frame(height: geometry.size.height / 3)
                                 .overlay {
                                     HStack {
                                         Button(action: {}, label: {
                                             Rectangle()
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(.clear)
                                                 .overlay {
-                                                    Image(systemName: "chevron.left")
+                                                    Image("pixel-chevron-right")
+                                                        .foregroundStyle(.white)
+                                                        .scaleEffect(x: -1, y: 1)
                                                 }
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(PressAndHoldButtonStyle(action: {
+                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
                                         }))
                                         Spacer()
                                         Button(action: {}, label: {
                                             Rectangle()
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(.clear)
                                                 .overlay {
-                                                    Image(systemName: "chevron.right")
+                                                    Image("pixel-chevron-right")
+                                                        .foregroundStyle(.white)
                                                 }
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(PressAndHoldButtonStyle(action: {
+                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
                                         }))
                                     }
@@ -171,6 +198,7 @@ struct RandomCampaignPickerView2024: View {
                 }
             Spacer()
             Rectangle()
+                .fill(.clear)
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 150)
                 .overlay {
@@ -181,26 +209,30 @@ struct RandomCampaignPickerView2024: View {
                                 self.jump(containerGeometry: containerGeometry)
                             }, label: {
                                 Rectangle()
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.clear)
                                     .aspectRatio(contentMode: .fit)
                                     .overlay {
                                         Text("A")
+                                            .font(.title)
+                                            .foregroundStyle(.white)
                                     }
                             })
-                            .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                         }
                         HStack(spacing: 0) {
                             Button(action: {
                                 self.dismiss()
                             }, label: {
                                 Rectangle()
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.clear)
                                     .aspectRatio(contentMode: .fit)
                                     .overlay {
                                         Text("B")
+                                            .font(.title)
+                                            .foregroundStyle(.white)
                                     }
                             })
-                            .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                             Spacer()
                         }
                     }
@@ -246,7 +278,7 @@ struct RandomCampaignPickerView2024: View {
                             Rectangle()
                                 .foregroundStyle(.clear)
                                 .overlay(alignment: .bottom) {
-                                    VStack(alignment: .leading) {
+                                    VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 0) {
                                             if(!self.hitArr.isEmpty) {
                                                 ForEach(0..<self.numBoxes) { i in
@@ -275,8 +307,8 @@ struct RandomCampaignPickerView2024: View {
                                         }
                                         Rectangle()
                                             .foregroundStyle(.clear)
-                                            .overlay(alignment: self.jumping ? .topLeading : .bottomLeading) {
-                                                AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                                            .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
+                                                spriteImage
                                                     .imageAtScale()
                                                     .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
                                                     .background {
@@ -321,6 +353,13 @@ struct RandomCampaignPickerView2024: View {
         }
         .onAppear {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
+            if Bool.random() {
+                self.spriteImage = AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                self.isMyke = false
+            } else {
+                self.spriteImage = AdaptiveImage.myke(colorScheme: self.colorScheme)
+                self.isMyke = true
+            }
         }
     }
 }

@@ -12,16 +12,39 @@ struct BlockButtonStyle: ButtonStyle {
     @State var padding: Bool = true
     @State var disabled: Bool = false
     
+    @State var usingPressAndHoldGesture: Bool = false
+    @State var timer: Timer?
+    var action: (() -> Void)? = nil
+    @State var pressing: Bool = false
+    var timerDuration: Double = 0.05
+    
+    func gesture() -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                if(!self.pressing) {
+                    self.pressing = true
+                    self.timer = Timer.scheduledTimer(withTimeInterval: self.timerDuration, repeats: true, block: { _ in
+                        self.action?()
+                    })
+                }
+            }
+            .onEnded { value in
+                self.pressing = false
+                self.timer?.invalidate()
+                self.timer = nil
+            }
+    }
+    
     func makeBody(configuration: Configuration) -> some View {
         Group {
             if(self.padding) {
                 configuration.label
-                    .offset(x: configuration.isPressed ? 10 * Double.spriteScale : 0, y: configuration.isPressed ? 10 * Double.spriteScale : 0)
+                    .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
                     .animation(.none, value: UUID())
                     .padding()
             } else {
                 configuration.label
-                    .offset(x: configuration.isPressed ? 10 * Double.spriteScale : 0, y: configuration.isPressed ? 10 * Double.spriteScale : 0)
+                    .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
                     .animation(.none, value: UUID())
             }
         }
@@ -31,7 +54,7 @@ struct BlockButtonStyle: ButtonStyle {
                 if(self.disabled) {
                     BlockView(tint: self.tint)
                 } else {
-                    if(configuration.isPressed) {
+                    if(configuration.isPressed || self.pressing) {
                         BlockView(tint: self.tint, isPressed: true)
                     } else {
                         BlockView(tint: self.tint, isPressed: false)
@@ -42,5 +65,6 @@ struct BlockButtonStyle: ButtonStyle {
             .shadow(color: self.disabled ? .clear : .black.opacity(configuration.isPressed ? 0 : 0.5), radius: 0, x: 10 * Double.spriteScale, y: 10 * Double.spriteScale)
             .animation(.none, value: UUID())
         }
+        .gesture(usingPressAndHoldGesture ? self.gesture() : nil)
     }
 }
