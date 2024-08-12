@@ -742,7 +742,7 @@ struct CampaignList: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Label("Refresh", systemImage: "arrow.clockwise")
+                        Image("pixel-refresh")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }
