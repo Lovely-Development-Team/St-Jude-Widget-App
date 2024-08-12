@@ -422,18 +422,17 @@ struct CampaignView: View {
                                     
                                     
                                     if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
-                                        Button(action: {
-                                            showSupporterSheet = true
-                                        }, label: {
-                                            Text("Supporters")
-                                                .font(.headline)
-                                                .foregroundColor(.white)
-                                                .padding(5)
-                                                .padding(.horizontal, 10)
-                                                .background(Color.accentColor)
-                                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        })
+                                        HStack {
+                                            Button(action: {
+                                                showSupporterSheet = true
+                                            }, label: {
+                                                Text("Supporters")
+                                                    .font(.headline)
+                                                    .foregroundColor(.white)
+                                            })
+                                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                            Spacer()
+                                        }
                                     }
                                 }
                             }
