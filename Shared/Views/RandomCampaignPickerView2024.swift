@@ -77,7 +77,7 @@ struct RandomCampaignPickerView2024: View {
         }
     }
     
-    func activateBox(_ currentBox: Int, withDelay delay: Bool = false) {
+    func activateBox(_ currentBox: Int, withDelay delay: Bool = true) {
         self.showingResult = false
         self.resultOpacity = false
         DispatchQueue.main.asyncAfter(deadline: .now()+(delay ? self.animationDuration/2 : 0)) {
@@ -97,7 +97,7 @@ struct RandomCampaignPickerView2024: View {
         }
     }
     
-    func jump(containerGeometry: GeometryProxy) {
+    func jump() {
         withAnimation {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             self.jumping = true
@@ -206,7 +206,7 @@ struct RandomCampaignPickerView2024: View {
                         HStack(spacing: 0) {
                             Spacer()
                             Button(action: {
-                                self.jump(containerGeometry: containerGeometry)
+                                self.jump()
                             }, label: {
                                 Rectangle()
                                     .foregroundStyle(.clear)
@@ -285,9 +285,10 @@ struct RandomCampaignPickerView2024: View {
                                                     Spacer()
                                                     Button(action: {
                                                         withAnimation {
-                                                            self.activateBox(i, withDelay: false)
+                                                            self.currentBoxUnder = i
+                                                            self.activateBox(i)
                                                             self.spriteOffset = self.boxXArr[i] ?? self.spriteOffset
-                                                            
+                                                            self.jump()
                                                         }
                                                     }) {
                                                         AdaptiveImage.questionBox(colorScheme: self.colorScheme)
