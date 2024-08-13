@@ -323,13 +323,11 @@ struct CampaignView: View {
                         }
                         .id("Milestones")
                         ForEach(milestones, id: \.id) { milestone in
-                            //                    GroupBox {
                             let reached = milestoneReached(for: milestone)
                             HStack(alignment: .top) {
-                                if reached {
-                                    Image(.checkmarkSealFillPixel)
-                                        .foregroundColor(.green)
-                                }
+                                Image(.checkmarkSealFillPixel)
+                                    .foregroundColor(reached ? .green : .secondary)
+                                    .opacity(reached ? 1 : 0.25)
                                 Text("\(milestone.name)")
                                     .foregroundColor(reached ? .secondary : .primary)
                                 Spacer()
@@ -363,7 +361,6 @@ struct CampaignView: View {
                         }
                         .id("Rewards")
                         ForEach(rewards, id: \.id) { reward in
-                            //                GroupBox {
                             VStack(alignment: .leading) {
                                 HStack(alignment: .top) {
                                     Text(reward.name)
