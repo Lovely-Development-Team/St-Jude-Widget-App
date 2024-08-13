@@ -439,7 +439,6 @@ struct CampaignList: View {
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         Image("pixel-chevron-right")
-                            .foregroundColor(.secondary)
                     }
                     .foregroundColor(.black)
                 }
