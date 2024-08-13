@@ -42,6 +42,8 @@ struct RandomCampaignPickerView2024: View {
     @State var spriteImage: AdaptiveImage = .stephen(colorScheme: .light)
     @State var isMyke: Bool = false
     
+    @State private var justinAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
+    
     func getRandomCampaign() -> Campaign? {
         return allCampaigns.filter({$0.id != RELAY_CAMPAIGN}).randomElement()
     }
@@ -78,6 +80,8 @@ struct RandomCampaignPickerView2024: View {
     }
     
     func activateBox(_ currentBox: Int, withDelay delay: Bool = true) {
+        guard !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay else { return }
+        self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         self.showingResult = false
         self.resultOpacity = false
         SoundEffectHelper.shared.play(.jump)
@@ -94,6 +98,7 @@ struct RandomCampaignPickerView2024: View {
             self.resultOffset = true
             DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
                 self.hitArr = (0..<self.numBoxes).map { _ in return false }
+                self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay = false
             }
         }
     }
@@ -285,24 +290,26 @@ struct RandomCampaignPickerView2024: View {
                                                 ForEach(0..<self.numBoxes) { i in
                                                     Spacer()
                                                     Button(action: {
-                                                        withAnimation {
-                                                            self.currentBoxUnder = i
-                                                            self.activateBox(i)
-                                                            
-                                                            var boxOffsetIndex = i
-                                                            var offsetMultiplier = 1.0
-                                                            var adjustOffset = 0.0
-                                                            
-                                                            if isMyke {
-                                                                boxOffsetIndex = self.numBoxes - (i + 1)
-                                                                offsetMultiplier = -1
-                                                                adjustOffset = Double.stephenWidth / 3
+                                                        if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
+                                                            withAnimation {
+                                                                self.currentBoxUnder = i
+                                                                self.activateBox(i)
+                                                                
+                                                                var boxOffsetIndex = i
+                                                                var offsetMultiplier = 1.0
+                                                                var adjustOffset = 0.0
+                                                                
+                                                                if isMyke {
+                                                                    boxOffsetIndex = self.numBoxes - (i + 1)
+                                                                    offsetMultiplier = -1
+                                                                    adjustOffset = Double.stephenWidth / 3
+                                                                }
+                                                                
+                                                                if let newOffset = self.boxXArr[boxOffsetIndex] {
+                                                                    self.spriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                                                }
+                                                                self.jump()
                                                             }
-                                                            
-                                                            if let newOffset = self.boxXArr[boxOffsetIndex] {
-                                                                self.spriteOffset = (newOffset * offsetMultiplier) + adjustOffset
-                                                            }
-                                                            self.jump()
                                                         }
                                                     }) {
                                                         AdaptiveImage.questionBox(colorScheme: self.colorScheme)
