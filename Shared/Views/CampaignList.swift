@@ -435,9 +435,7 @@ struct CampaignList: View {
                     showSheet = .randomPicker
                 }) {
                     HStack {
-                        Image("pixel-refresh")
-                            .imageScale(.large)
-                        Text("[2024 random fundraiser title]!")
+                        Text("Play for a random Fundraiser!")
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         Image("pixel-chevron-right")
@@ -672,7 +670,7 @@ struct CampaignList: View {
                     RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: campaigns)
 //                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
 //                                             allCampaigns: campaigns)
-                    .navigationTitle("[2024 random fundraiser title]")
+                    .navigationTitle("Pick a block!")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
