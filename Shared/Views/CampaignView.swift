@@ -126,7 +126,7 @@ struct CampaignView: View {
                                 }
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())
-//                            .padding(.vertical, 8)
+                            //                            .padding(.vertical, 8)
                         }
                         
 #if DEBUG
@@ -149,18 +149,14 @@ struct CampaignView: View {
                                 }
                             }) {
                                 HStack {
-//                                    Image(systemName: "flag")
-//                                    Spacer()
                                     Text("^[\(milestones.count) Milestone](inflect:true)")
                                         .multilineTextAlignment(.center)
-                                        .opacity(milestones.isEmpty ? 0.5 : 1)
-//                                    Text("\(milestones.count) Milestones")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                     Spacer()
                                 }
                                 .frame(minHeight: 0, maxHeight: .infinity)
                             }
-                            .buttonStyle(BlockButtonStyle())
+                            .buttonStyle(BlockButtonStyle(disabled: milestones.isEmpty))
                             .disabled(milestones.isEmpty)
                             Button(action: {
                                 withAnimation {
@@ -168,18 +164,14 @@ struct CampaignView: View {
                                 }
                             }) {
                                 HStack {
-//                                    Image(systemName: "rosette")
-//                                    Spacer()
-//                                    Text("\(rewards.count) Rewards")
                                     Text("^[\(rewards.count) Reward](inflect:true)")
                                         .multilineTextAlignment(.center)
-                                        .opacity(rewards.isEmpty ? 0.5 : 1)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                     Spacer()
                                 }
                                 .frame(minHeight: 0, maxHeight: .infinity)
                             }
-                            .buttonStyle(BlockButtonStyle())
+                            .buttonStyle(BlockButtonStyle(disabled: rewards.isEmpty))
                             .disabled(rewards.isEmpty)
                         }
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -596,7 +588,7 @@ struct CampaignView: View {
                 
                 await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.milestones)
                 await self.updateRewardsInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.rewards)
-
+                
                 do {
                     dataLogger.debug("Fetching donors for Relay campaign")
                     relayCampaign = try await AppDatabase.shared.fetchRelayCampaign()
@@ -760,7 +752,7 @@ struct CampaignView: View {
         
         await updateMilestonesInDatabase(forCampaign: apiCampaign, with: response.data.campaign.milestones)
         await updateRewardsInDatabase(forCampaign: apiCampaign, with: response.data.campaign.rewards)
-
+        
         do {
             dataLogger.debug("Fetching donors for \(campaign.id)")
             let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
@@ -771,7 +763,7 @@ struct CampaignView: View {
         } catch {
             dataLogger.error("Failed to load donors: \(error.localizedDescription)")
         }
-
+        
     }
     
     /// Fetches the campaign data from GRDB
