@@ -18,6 +18,11 @@ extension WidgetAppearance {
     static let stjudeBlueLight = Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255)
     static let stjudeRed = Color(red: 195 / 255, green: 18 / 255, blue: 53 / 255)
     
+    // 2024
+    
+    static let stephenYellow = Color(red: 255 / 255, green: 186 / 255, blue: 4 / 255)
+    static let mykeBlue = Color(red: 3 / 255, green: 84 / 255, blue: 208 / 255)
+    
     var foregroundColor: Color {
         switch self {
             
@@ -67,11 +72,11 @@ extension WidgetAppearance {
         switch self {
             
         case .yellow:
-            return [.brandYellow, .brandYellow.darker(by: 5)]
+            return [Self.stephenYellow, Self.stephenYellow.darker(by: 5)]
         case .red:
             return [.brandRed, .brandRed.darker(by: 5)]
         case .blue:
-            return [.brandBlue, .brandBlue.darker(by: 5)]
+            return [Self.mykeBlue, Self.mykeBlue.darker(by: 5)]
         case .green:
             return [.brandGreen, .brandGreen.darker(by: 5)]
         case .purple:
