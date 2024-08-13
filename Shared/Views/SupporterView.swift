@@ -97,10 +97,8 @@ struct SupporterView: View {
                                 self.animate.toggle()
                             }
                         }) {
-                            Image("Team_Logo_F")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: 200)
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight, dark: .l2CuPixelNight)
+                                .imageAtScale(scale: .spriteScale * 2)
                                 .padding()
                                 .offset(x: 0, y: animate ? -5 : 0)
                                 .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)

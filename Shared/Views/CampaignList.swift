@@ -60,6 +60,12 @@ enum CampaignListSheet: Identifiable {
 }
 
 struct CampaignList: View {
+        
+    init() {
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .headline).pointSize) ?? UIFont.systemFont(ofSize: 20)]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)  ?? UIFont.systemFont(ofSize: 20)]
+    }
+    
     @Environment(\.colorScheme) var colorScheme
     
     // MARK: 2024
@@ -709,8 +715,7 @@ struct CampaignList: View {
                 Button(action: {
                     showSheet = .aboutScreen
                 }) {
-                    Label("About", systemImage: "info.circle")
-                        .labelStyle(.iconOnly)
+                    Image("info.button.pixel")
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
