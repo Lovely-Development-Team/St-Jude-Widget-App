@@ -287,7 +287,20 @@ struct RandomCampaignPickerView2024: View {
                                                         withAnimation {
                                                             self.currentBoxUnder = i
                                                             self.activateBox(i)
-                                                            self.spriteOffset = self.boxXArr[i] ?? self.spriteOffset
+                                                            
+                                                            var boxOffsetIndex = i
+                                                            var offsetMultiplier = 1.0
+                                                            var adjustOffset = 0.0
+                                                            
+                                                            if isMyke {
+                                                                boxOffsetIndex = self.numBoxes - (i + 1)
+                                                                offsetMultiplier = -1
+                                                                adjustOffset = Double.stephenWidth / 3
+                                                            }
+                                                            
+                                                            if let newOffset = self.boxXArr[boxOffsetIndex] {
+                                                                self.spriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                                            }
                                                             self.jump()
                                                         }
                                                     }) {
