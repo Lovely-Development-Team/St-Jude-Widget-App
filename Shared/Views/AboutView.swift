@@ -110,7 +110,13 @@ struct AboutView: View {
 
 struct AboutViewHeader: View {
     @Environment(\.colorScheme) var colorScheme
-    @State var cloudMoved: Bool = false
+    @State private var cloudMoved: Bool = false
+    @State private var cloudOffset: CGFloat = 200
+    @State private var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @State private var flowers: [CGFloat] = []
+#if !os(macOS)
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+#endif
     var body: some View {
         VStack {
             Image(.bannerForeground)
@@ -120,22 +126,44 @@ struct AboutViewHeader: View {
             AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
                 .tiledImageAtScale(axis: .horizontal)
         }
+        .onReceive(timer) { _ in
+            withAnimation {
+                self.cloudOffset -= 1
+            }
+        }
         .background {
             ZStack(alignment: .bottom) {
                 Color.skyBackground
                 AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
                     .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
                     .animation(.none, value: UUID())
-                AdaptiveImage.cloud(colorScheme: self.colorScheme)
-                    .imageAtScale(scale: Double.spriteScale)
-                    .offset(y: -(Double.spriteScale * 450))
-                    .offset(x: cloudMoved ? -1000 : 200)
-            }
-            .onAppear {
-                withAnimation(.linear(duration: 250)) {
-                    cloudMoved = true
+                ForEach(flowers, id: \.self) { flowerOffset in
+                    AdaptiveImage.flower(colorScheme: self.colorScheme)
+                        .imageAtScale(scale: Double.spriteScale)
+                        .transition(.move(edge: .bottom))
+                        .offset(x: flowerOffset, y: -20)
                 }
             }
         }
+        .overlay {
+            ZStack(alignment: .bottom) {
+                AdaptiveImage.cloud(colorScheme: self.colorScheme)
+                    .imageAtScale(scale: Double.spriteScale)
+                    .offset(y: -Double.spriteScale * 50)
+                    .offset(x: cloudOffset)
+                    .onTapGesture {
+#if !os(macOS)
+                        bounceHaptics.impactOccurred()
+#endif
+                        withAnimation {
+                            self.flowers.append(self.cloudOffset)
+                        }
+                    }
+            }
+        }
     }
+}
+
+#Preview {
+    AboutView()
 }

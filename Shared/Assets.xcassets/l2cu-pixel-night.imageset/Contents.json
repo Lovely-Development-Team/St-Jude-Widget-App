@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "l2cu-pixel-night.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
