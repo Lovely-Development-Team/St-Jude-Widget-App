@@ -192,7 +192,7 @@ struct TiltifyDonorsForCampaignDonationIncentive: Codable {
 }
 
 struct TiltifyDonorsForCampaignDonation: Codable {
-    let id: Int
+    let id: UUID
     let amount: TiltifyAmount
     let donorName: String
     let donorComment: String?

@@ -19,16 +19,14 @@ struct DonorList: View {
         ScrollView {
             
             Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!) {
-                GroupBox {
                     HStack {
                         Text("View all donors on Tiltify")
                         Spacer()
                         Image(systemName: "safari")
                             .foregroundColor(.secondary)
                     }
-                }
-                .groupBoxStyle(BlockGroupBoxStyle())
             }
+            .buttonStyle(BlockButtonStyle())
             .padding()
             
             ForEach(donations, id: \.id) { donation in
@@ -40,7 +38,7 @@ struct DonorList: View {
                                 .font(.headline)
                             Spacer()
                             if !donation.incentives.isEmpty {
-                                Image(systemName: "star")
+                                Image(.heartPixel)
                                     .foregroundColor(.secondary)
                             }
                             Text(donation.amount.description(showFullCurrencySymbol: false))
@@ -70,7 +68,7 @@ struct DonorList: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Label("Refresh", systemImage: "arrow.clockwise")
+                        Image(.pixelRefresh)
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }

@@ -248,7 +248,7 @@ struct CampaignView: View {
                 GroupBox {
                     VStack(spacing: 5) {
                         HStack(spacing: 4) {
-                            Image(systemName: "crown")
+                            Image(.crownPixel)
                             Text("Top Donor")
                                 .textCase(.uppercase)
                             Spacer()
@@ -275,26 +275,21 @@ struct CampaignView: View {
             
             if !donations.isEmpty, let campaign = initialCampaign ?? relayCampaign {
                 NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
-                    GroupBox {
+                    VStack {
                         HStack {
                             Text("Recent Donations")
                             Spacer()
                             Image("pixel-chevron-right")
                                 .foregroundColor(.secondary)
                         }
-                        
+                        if #available(iOS 16.0, *), donations.count >= 4 {
+                            DonorChart(donations: donations, total: campaign.totalRaised)
+                                .frame(height: 80)
+                        }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
+                .buttonStyle(BlockButtonStyle())
                 .padding(.bottom)
-                
-                if #available(iOS 16.0, *), donations.count >= 4 {
-                    DonorChart(donations: donations, total: campaign.totalRaised)
-                        .frame(height: 80)
-                        .padding(.horizontal)
-                        .padding(.bottom)
-                    
-                }
                 
                 if teamEvent != nil {
                     Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
