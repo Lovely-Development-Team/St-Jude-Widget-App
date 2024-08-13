@@ -149,9 +149,11 @@ struct CampaignView: View {
                                 }
                             }) {
                                 HStack {
-                                    Image(systemName: "flag")
-                                    Spacer()
+//                                    Image(systemName: "flag")
+//                                    Spacer()
                                     Text("^[\(milestones.count) Milestone](inflect:true)")
+                                        .multilineTextAlignment(.center)
+                                        .opacity(milestones.isEmpty ? 0.5 : 1)
 //                                    Text("\(milestones.count) Milestones")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                     Spacer()
@@ -166,10 +168,12 @@ struct CampaignView: View {
                                 }
                             }) {
                                 HStack {
-                                    Image(systemName: "rosette")
-                                    Spacer()
+//                                    Image(systemName: "rosette")
+//                                    Spacer()
 //                                    Text("\(rewards.count) Rewards")
                                     Text("^[\(rewards.count) Reward](inflect:true)")
+                                        .multilineTextAlignment(.center)
+                                        .opacity(rewards.isEmpty ? 0.5 : 1)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                     Spacer()
                                 }
@@ -313,7 +317,7 @@ struct CampaignView: View {
             if !milestones.isEmpty {
                 
                 GroupBox {
-                    HStack {
+                    HStack(alignment: .firstTextBaseline) {
                         Text("Milestones")
                             .font(.title)
                             .fontWeight(.bold)
@@ -373,7 +377,7 @@ struct CampaignView: View {
             if !rewards.isEmpty {
                 
                 GroupBox {
-                    HStack {
+                    HStack(alignment: .firstTextBaseline) {
                         Text("Rewards")
                             .font(.title)
                             .fontWeight(.bold)
@@ -519,7 +523,7 @@ struct CampaignView: View {
                         await starOrUnstar()
                     }
                 }) {
-                    Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "star.fill" : "star")
+                    Label("Starred", image: initialCampaign?.isStarred ?? false ? "star.fill.pixel" : "star.pixel")
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)
                 .disabled(teamEvent != nil)
@@ -536,7 +540,7 @@ struct CampaignView: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Label("Refresh", systemImage: "arrow.clockwise")
+                        Image("pixel-refresh")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }

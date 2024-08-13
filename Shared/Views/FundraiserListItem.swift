@@ -30,7 +30,7 @@ struct FundraiserListItem: View {
     @ViewBuilder
     var disclosureIndicator: some View {
         if(campaign.isStarred) {
-            Image(systemName: "star.fill")
+            Image(.starFillPixel)
         } else {
             Image(.pixelChevronRight)
         }
@@ -133,7 +133,7 @@ struct FundraiserListItem: View {
                                     Label("Share Direct Donation Link", systemImage: "dollarsign")
                                 }
                             } label: {
-                                Label("Share", systemImage: "square.and.arrow.up")
+                                Label("Share", image: "share.pixel")
                                     .labelStyle(.iconOnly)
                             }
                         }
