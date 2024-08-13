@@ -110,7 +110,7 @@ struct CampaignView: View {
                                 VStack {
                                     HStack(spacing: 4) {
                                         if grandTotalRaised >= 2500000 {
-                                            Image(systemName: "party.popper.fill")
+                                            Image(.partyPopperFillPixel)
                                         }
                                         Text("Lifetime Total")
                                             .textCase(.uppercase)
@@ -358,7 +358,7 @@ struct CampaignView: View {
                         let reached = milestoneReached(for: milestone)
                         HStack(alignment: .top) {
                             if reached {
-                                Image(systemName: "checkmark.seal.fill")
+                                Image(.checkmarkSealFillPixel)
                                     .foregroundColor(.green)
                             }
                             Text("\(milestone.name)")
@@ -523,7 +523,7 @@ struct CampaignView: View {
                         await starOrUnstar()
                     }
                 }) {
-                    Label("Starred", image: initialCampaign?.isStarred ?? false ? "star.fill.pixel" : "star.pixel")
+                    Label("Starred", image: initialCampaign?.isStarred ?? false ? "heart.fill.pixel" : "heart.pixel")
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)
                 .disabled(teamEvent != nil)
