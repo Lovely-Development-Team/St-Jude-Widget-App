@@ -19,35 +19,43 @@ struct HeadToHeadListItem: View {
     var body: some View {
         ZStack(alignment: leading ? .topLeading : .topTrailing) {
             HStack {
-                Text(headToHead.campaign1.name)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
-                Text("vs")
-                    .bold()
-                    .padding(.all, 4)
-                    .background(Circle().fill(Color.white))
-                    .foregroundColor(.black)
+                    Text(headToHead.campaign1.name)
+                        .bold()
+                        .multilineTextAlignment(.center)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
+                GroupBox {
+                    Text("vs")
+                        .bold()
+                        .padding(8)
+                        .foregroundColor(.white)
+                }
+                .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, padding: false))
                     Text(headToHead.campaign2.name)
                         .bold()
                         .multilineTextAlignment(.center)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(HEAD_TO_HEAD_COLOR_2.foregroundColor)
+                        .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
             }
-            Image(systemName: "crown.fill")
-                .font(.system(size: 30))
-                .foregroundColor(.brandYellow)
-                .offset(x: leading ? -23 : 23, y: -35)
-                .rotationEffect(.degrees(leading ? -10 : 10))
+            
+            Image(.rCoin3000Px)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40)
+                .offset(x: leading ? -23 : 23, y: -25)
         }
         .padding()
         .background(
-            HStack(spacing: 2) {
-                HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
-                HEAD_TO_HEAD_COLOR_2.backgroundColors[0]
+            HStack(spacing: 4) {
+                GroupBox {
+                    Rectangle().fill(.clear)
+                }
+                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
+                GroupBox {
+                    Rectangle().fill(.clear)
+                }
+                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 10 : 5)))
             }
-            .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
         )
     }

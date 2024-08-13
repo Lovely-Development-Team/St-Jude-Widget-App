@@ -344,7 +344,7 @@ struct CampaignList: View {
                     }
                 } else {
                     if showHeadToHeads {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 0) {
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 10) {
                             headToHeadList
                         }
                     }

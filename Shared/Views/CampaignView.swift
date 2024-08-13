@@ -444,7 +444,7 @@ struct CampaignView: View {
                 
             }
         }
-        .padding(.top)
+        .padding(.vertical)
     }
     
     var body: some View {
