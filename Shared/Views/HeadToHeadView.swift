@@ -231,15 +231,6 @@ struct HeadToHeadView: View {
             }
             .padding()
             .frame(minWidth: 0, maxWidth: .infinity)
-            //            .background {
-            //                VStack() {
-            //                    GroupBox { Rectangle().fill(.clear) }
-            //                        .groupBoxStyle(BlockGroupBoxStyle())
-            //                    GroupBox { Rectangle().fill(.clear) }
-            //                        .groupBoxStyle(BlockGroupBoxStyle())
-            //                }
-            //                .padding()
-            //            }
             .background {
                 GeometryReader { geometry in
                     AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
