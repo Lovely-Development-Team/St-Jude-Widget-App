@@ -249,8 +249,13 @@ struct CampaignView: View {
                     VStack(spacing: 5) {
                         HStack(spacing: 4) {
                             Image(.crownPixel)
-                            Text("Top Donor")
-                                .textCase(.uppercase)
+                            if donations.count == 1 {
+                                Text("Top and only Donor")
+                                    .textCase(.uppercase)
+                            } else {
+                                Text("Top Donor")
+                                    .textCase(.uppercase)
+                            }
                             Spacer()
                         }
                         .font(.caption)
@@ -273,7 +278,7 @@ struct CampaignView: View {
                 .groupBoxStyle(BlockGroupBoxStyle())
             }
             
-            if !donations.isEmpty, let campaign = initialCampaign ?? relayCampaign {
+            if donations.count > 1, let campaign = initialCampaign ?? relayCampaign {
                 NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
                     VStack {
                         HStack {
