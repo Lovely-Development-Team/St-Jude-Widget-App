@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct BlockButtonStyle: ButtonStyle {
-    @State var tint: Color = .secondarySystemBackground
-    @State var padding: Bool = true
-    @State var disabled: Bool = false
+    var tint: Color = .secondarySystemBackground
+    var padding: Bool = true
+    var disabled: Bool = false
     
-    @State var usingPressAndHoldGesture: Bool = false
+    var usingPressAndHoldGesture: Bool = false
     @State var timer: Timer?
     var action: (() -> Void)? = nil
     @State var pressing: Bool = false
