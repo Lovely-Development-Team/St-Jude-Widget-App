@@ -80,6 +80,7 @@ struct RandomCampaignPickerView2024: View {
     func activateBox(_ currentBox: Int, withDelay delay: Bool = true) {
         self.showingResult = false
         self.resultOpacity = false
+        SoundEffectHelper.shared.play(.jump)
         DispatchQueue.main.asyncAfter(deadline: .now()+(delay ? self.animationDuration/2 : 0)) {
             self.resultOffset = false
         }

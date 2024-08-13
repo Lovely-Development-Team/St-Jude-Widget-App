@@ -15,6 +15,7 @@ class SoundEffectHelper {
         case drumroll = "drumroll"
         case joe = "joe"
         case honk = "honk"
+        case jump = "jump"
         
         var soundEffectPlayer: SoundEffectPlayer {
             return SoundEffectPlayer(soundEffect: self)
