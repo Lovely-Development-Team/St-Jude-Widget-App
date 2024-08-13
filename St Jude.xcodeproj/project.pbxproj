@@ -124,6 +124,8 @@
 		5E7C300228C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300128C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift */; };
 		5E7C300328C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300128C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift */; };
 		5E7C300528C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300428C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift */; };
+		5E9921542C6B5DDC0048B92D /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E9921532C6B5DDC0048B92D /* jump.mp3 */; };
+		5E9921552C6B5DDC0048B92D /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E9921532C6B5DDC0048B92D /* jump.mp3 */; };
 		5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */; };
 		5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */; };
 		5EC3B82428C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */; };
@@ -510,6 +512,7 @@
 		5E7C2FFE28C5FF5300A9B0D5 /* CampaignLockScreenEventEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignLockScreenEventEntry.swift; sourceTree = "<group>"; };
 		5E7C300128C5FF7C00A9B0D5 /* CampaignLockScreenWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignLockScreenWidgetView.swift; sourceTree = "<group>"; };
 		5E7C300428C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignConfigurationIntentHandler.swift; sourceTree = "<group>"; };
+		5E9921532C6B5DDC0048B92D /* jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jump.mp3; sourceTree = "<group>"; };
 		5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraiserIntentHandler.swift; sourceTree = "<group>"; };
 		5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRewardExtension.swift; sourceTree = "<group>"; };
 		5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraisingEventIntentHandler.swift; sourceTree = "<group>"; };
@@ -711,6 +714,7 @@
 				43E555362AB91BF6006EC83F /* drumroll.mp3 */,
 				430E7A032C606481005E1973 /* honk.mp3 */,
 				430E7A042C606481005E1973 /* joe.mp3 */,
+				5E9921532C6B5DDC0048B92D /* jump.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -1258,6 +1262,7 @@
 				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
 				43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				430E7A052C606481005E1973 /* honk.mp3 in Resources */,
+				5E9921542C6B5DDC0048B92D /* jump.mp3 in Resources */,
 				439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 				430E7A0A2C606481005E1973 /* joe.mp3 in Resources */,
 			);
@@ -1271,6 +1276,7 @@
 				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
 				43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				430E7A062C606481005E1973 /* honk.mp3 in Resources */,
+				5E9921552C6B5DDC0048B92D /* jump.mp3 in Resources */,
 				439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 				430E7A0B2C606481005E1973 /* joe.mp3 in Resources */,
 			);
