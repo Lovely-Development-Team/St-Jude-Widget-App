@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		430035C82C6ADCE300F5AA29 /* RandomLandscapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430035C72C6ADCE300F5AA29 /* RandomLandscapeView.swift */; };
+		430035C92C6ADCE300F5AA29 /* RandomLandscapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430035C72C6ADCE300F5AA29 /* RandomLandscapeView.swift */; };
 		4301B7F82AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4301B7F62AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift */; };
 		4301B7F92AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4301B7F62AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift */; };
 		4301B7FA2AA17E0B00B4F9DA /* HeadToHeadEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4301B7F72AA17E0B00B4F9DA /* HeadToHeadEntry.swift */; };
@@ -463,6 +465,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		430035C72C6ADCE300F5AA29 /* RandomLandscapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomLandscapeView.swift; sourceTree = "<group>"; };
 		4301B7F62AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadWidgetView.swift; sourceTree = "<group>"; };
 		4301B7F72AA17E0B00B4F9DA /* HeadToHeadEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadEntry.swift; sourceTree = "<group>"; };
 		4301B7FC2AA17E3200B4F9DA /* HeadToHeadConfigurationIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadToHeadConfigurationIntentHandler.swift; sourceTree = "<group>"; };
@@ -923,6 +926,7 @@
 				4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */,
 				430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */,
 				430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */,
+				430035C72C6ADCE300F5AA29 /* RandomLandscapeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1385,6 +1389,7 @@
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
 				5EEB56A52AA09DF1008AABF1 /* TextHelpers.swift in Sources */,
 				430E7A2C2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
+				430035C82C6ADCE300F5AA29 /* RandomLandscapeView.swift in Sources */,
 				430E7A1E2C60649C005E1973 /* ImageHelpers.swift in Sources */,
 				430E7A422C6064BC005E1973 /* AdaptiveImage.swift in Sources */,
 				5E180C1B28B7F18F00F10BE5 /* Milestone.swift in Sources */,
@@ -1473,6 +1478,7 @@
 				63E19D5926E22D7D009F318F /* Color.swift in Sources */,
 				5EEB56A32AA0987C008AABF1 /* ChooseCampaignView.swift in Sources */,
 				5EE56C0E2A7BA14D00FA71DF /* TeamEvent.swift in Sources */,
+				430035C92C6ADCE300F5AA29 /* RandomLandscapeView.swift in Sources */,
 				63A6F9AB26D64ED400095ACB /* MilestoneView.swift in Sources */,
 				5E366E1528B8FC41001BA937 /* UserDefaults+CampaignList.swift in Sources */,
 				5EEB568F2A9DE3BA008AABF1 /* Leaderboard.swift in Sources */,
