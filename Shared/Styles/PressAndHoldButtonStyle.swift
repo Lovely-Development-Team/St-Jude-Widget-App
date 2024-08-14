@@ -20,6 +20,7 @@ struct PressAndHoldButtonStyle: ButtonStyle {
             .onChanged { value in
                 if(!self.pressing) {
                     self.pressing = true
+                    self.action()
                     self.timer = Timer.scheduledTimer(withTimeInterval: self.timerDuration, repeats: true, block: { _ in
                         self.action()
                     })

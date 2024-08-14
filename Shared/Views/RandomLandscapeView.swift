@@ -19,8 +19,12 @@ enum LandscapeElement: Int, CaseIterable, Identifiable {
     case flower
     case empty
     
-    static func random() -> LandscapeElement {
-        return self.allCases.filter({$0 != .myke && $0 != .stephen})
+    static func random(isMainScreen: Bool = true) -> LandscapeElement {
+        if(isMainScreen) {
+            return self.allCases.filter({$0 != .myke && $0 != .stephen})
+                .randomElement()!
+        }
+        return self.allCases.filter({$0 != .myke && $0 != .stephen && $0 != .coin})
             .randomElement()!
     }
     
@@ -46,6 +50,9 @@ enum LandscapeElement: Int, CaseIterable, Identifiable {
                 .imageAtScale()
         case .flower:
             AdaptiveImage.flower(colorScheme: colorScheme)
+                .imageAtScale()
+        case .coin:
+            AdaptiveImage.coin(colorScheme: colorScheme)
                 .imageAtScale()
         default:
             EmptyView()
@@ -113,7 +120,7 @@ struct RandomLandscapeData {
                 return .stephen
             }
             
-            return .random()
+            return .random(isMainScreen: self.isForMainScreen)
         }
         
         self.elevatedElements = (0..<self.numElevatedElements).map { i in
@@ -125,7 +132,7 @@ struct RandomLandscapeData {
                 return .stephen
             }
             
-            return .random()
+            return .random(isMainScreen: self.isForMainScreen)
         }
         self.backgroundBlockType = Bool.random()
         self.backgroundBlockColor = Color.randomBrandedColor

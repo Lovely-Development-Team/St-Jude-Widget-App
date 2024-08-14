@@ -14,6 +14,8 @@ struct RandomCampaignPickerView2024: View {
     @Environment(\.dismiss) var dismiss
     @Namespace var namespace
     
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
+    
     @Binding var campaignChoiceID: UUID?
     @State var allCampaigns: [Campaign]
     @State var chosenCampaign: Campaign? = nil
@@ -41,6 +43,8 @@ struct RandomCampaignPickerView2024: View {
     
     @State var spriteImage: AdaptiveImage = .stephen(colorScheme: .light)
     @State var isMyke: Bool = false
+    // false = left, true = right
+    @State var direction = true
     
     @State private var justinAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
@@ -48,33 +52,35 @@ struct RandomCampaignPickerView2024: View {
         return allCampaigns.filter({$0.id != RELAY_CAMPAIGN}).randomElement()
     }
     
-    func moveSprite(containerGeometry: GeometryProxy, by increment: Double) {
-        
-        let desiredPosition = self.spriteOffset + increment
-        let minBound: Double
-        let maxBound: Double
-        
-        if isMyke {
-            minBound = -(containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale))
-            maxBound = 0
-        } else {
-            minBound = 0
-            maxBound = containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale)
-        }
-        
-        self.spriteOffset = max(minBound, min(maxBound, desiredPosition))
-        
-        self.currentBoxUnder = nil
-        
-        for element in self.boxXArr.sorted(by: {$0.value > $1.value}) {
-            let index = element.key
-            let spriteMaxX = self.spriteX + Double.stephenWidth
-            let boxX = element.value
-            let boxMaxX = boxX+Double.questionBoxWidth
+    func moveSprite(containerGeometry: GeometryProxy, by increment: Double, manual: Bool = true) {
+        withAnimation(manual ? .easeInOut(duration: 0.1) : .default) {
+            direction = increment > 0
+            let desiredPosition = self.spriteOffset + increment
+            let minBound: Double
+            let maxBound: Double
             
-            if(spriteMaxX > boxX && self.spriteX < boxMaxX) {
-                currentBoxUnder = index
-                break
+            if isMyke {
+                minBound = -(containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale))
+                maxBound = 0
+            } else {
+                minBound = 0
+                maxBound = containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale)
+            }
+            
+            self.spriteOffset = max(minBound, min(maxBound, desiredPosition))
+            
+            self.currentBoxUnder = nil
+            
+            for element in self.boxXArr.sorted(by: {$0.value > $1.value}) {
+                let index = element.key
+                let spriteMaxX = self.spriteX + Double.stephenWidth
+                let boxX = element.value
+                let boxMaxX = boxX+Double.questionBoxWidth
+                
+                if(spriteMaxX > boxX && self.spriteX < boxMaxX) {
+                    currentBoxUnder = index
+                    break
+                }
             }
         }
     }
@@ -249,6 +255,7 @@ struct RandomCampaignPickerView2024: View {
     var body: some View {
         GeometryReader { mainGeometry in
             VStack(spacing:0) {
+                RandomLandscapeView(data: self.$landscapeData) {
                 Rectangle()
                     .foregroundStyle(.clear)
                     .overlay {
@@ -293,7 +300,6 @@ struct RandomCampaignPickerView2024: View {
                                                         if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
                                                             withAnimation {
                                                                 self.currentBoxUnder = i
-                                                                self.activateBox(i)
                                                                 
                                                                 var boxOffsetIndex = i
                                                                 var offsetMultiplier = 1.0
@@ -306,9 +312,13 @@ struct RandomCampaignPickerView2024: View {
                                                                 }
                                                                 
                                                                 if let newOffset = self.boxXArr[boxOffsetIndex] {
-                                                                    self.spriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                                                    let newSpriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                                                    self.moveSprite(containerGeometry: mainGeometry, by: newSpriteOffset-self.spriteOffset, manual: false)
                                                                 }
-                                                                self.jump()
+                                                                DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
+                                                                    self.activateBox(i)
+                                                                    self.jump()
+                                                                }
                                                             }
                                                         }
                                                     }) {
@@ -340,6 +350,7 @@ struct RandomCampaignPickerView2024: View {
                                             .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
                                                 spriteImage
                                                     .imageAtScale()
+                                                    .scaleEffect(x: self.direction ? (isMyke ? -1 : 1) : (isMyke ? 1 : -1))
                                                     .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
                                                     .background {
                                                         GeometryReader { geometry in
@@ -362,8 +373,7 @@ struct RandomCampaignPickerView2024: View {
                         AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
                             .tiledImageAtScale(axis: .horizontal)
                     }
-                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                    .tiledImageAtScale(axis: .horizontal)
+            }
                 VStack {
                     self.controllerView(containerGeometry: mainGeometry)
                 }
@@ -389,6 +399,7 @@ struct RandomCampaignPickerView2024: View {
             } else {
                 self.spriteImage = AdaptiveImage.myke(colorScheme: self.colorScheme)
                 self.isMyke = true
+                self.direction = false
             }
         }
     }
