@@ -15,6 +15,8 @@ struct HeadToHeadView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
+    
     @State var campaign1: Campaign
     @State var campaign2: Campaign
     
@@ -94,70 +96,70 @@ struct HeadToHeadView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack {
-                if animateIn {
-                    Text("Fundraiser")
-                        .padding(.top, 5)
-                    Text("Head to Head!")
-                }
-            }
-            .font(.title)
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .frame(minHeight: 105)
-            .padding()
-            .background {
-                ZStack(alignment: .bottom) {
-                    Color.skyBackground
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
-                        .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                        .animation(.none, value: UUID())
-                    HStack {
-                        if animateIn {
-                            AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                                .imageAtScale(scale: .spriteScale)
-                                .onTapGesture {
-                                    withAnimation {
-#if !os(macOS)
-                                        bounceHaptics.impactOccurred()
-#endif
-                                        self.animateStephen.toggle()
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        self.animateStephen.toggle()
-                                    }
-                                }
-                                .offset(x: 0, y: animateStephen ? -5 : 0)
-                                .transition(.move(edge: .leading))
-                            Spacer()
-                            AdaptiveImage.myke(colorScheme: self.colorScheme)
-                                .imageAtScale(scale: .spriteScale)
-                                .onTapGesture {
-                                    withAnimation {
-#if !os(macOS)
-                                        bounceHaptics.impactOccurred()
-#endif
-                                        self.animateMyke.toggle()
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        self.animateMyke.toggle()
-                                    }
-                                }
-                                .offset(x: 0, y: animateMyke ? -5 : 0)
-                                .transition(.move(edge: .trailing))
-                        }
+            RandomLandscapeView(data: self.$landscapeData) {
+                VStack {
+                    if animateIn {
+                        Text("Fundraiser")
+                            .padding(.top, 5)
+                        Text("Head to Head!")
                     }
-                    .padding(.horizontal)
                 }
-                .mask {
-                    LinearGradient(stops: [
-                        .init(color: .clear, location: 0),
-                        .init(color: .white, location: 0.25),
-                        .init(color: .white, location: 1)
-                    ], startPoint: .top, endPoint: .bottom)
+                .font(.title)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(minHeight: 105)
+                .padding()
+                .background {
+                    ZStack(alignment: .bottom) {
+                        Color.skyBackground
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
+                            .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
+                            .animation(.none, value: UUID())
+                        HStack {
+                            if animateIn {
+                                AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                                    .imageAtScale(scale: .spriteScale)
+                                    .onTapGesture {
+                                        withAnimation {
+#if !os(macOS)
+                                            bounceHaptics.impactOccurred()
+#endif
+                                            self.animateStephen.toggle()
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            self.animateStephen.toggle()
+                                        }
+                                    }
+                                    .offset(x: 0, y: animateStephen ? -5 : 0)
+                                    .transition(.move(edge: .leading))
+                                Spacer()
+                                AdaptiveImage.myke(colorScheme: self.colorScheme)
+                                    .imageAtScale(scale: .spriteScale)
+                                    .onTapGesture {
+                                        withAnimation {
+#if !os(macOS)
+                                            bounceHaptics.impactOccurred()
+#endif
+                                            self.animateMyke.toggle()
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            self.animateMyke.toggle()
+                                        }
+                                    }
+                                    .offset(x: 0, y: animateMyke ? -5 : 0)
+                                    .transition(.move(edge: .trailing))
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .mask {
+                        LinearGradient(stops: [
+                            .init(color: .clear, location: 0),
+                            .init(color: .white, location: 0.25),
+                            .init(color: .white, location: 1)
+                        ], startPoint: .top, endPoint: .bottom)
+                    }
                 }
             }
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
             VStack {
                 ZStack(alignment: .topTrailing) {
                     if animateIn {

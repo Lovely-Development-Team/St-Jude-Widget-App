@@ -97,4 +97,8 @@ extension AdaptiveImage {
     static func questionBox(colorScheme: ColorScheme) -> AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .questionBox, dark: .questionBoxNight)
     }
+    @ViewBuilder
+    static func coin(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .coin)
+    }
 }

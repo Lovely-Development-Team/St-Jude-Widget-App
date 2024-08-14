@@ -114,6 +114,7 @@ struct AboutViewHeader: View {
     @State private var cloudOffset: CGFloat = 200
     @State private var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @State private var flowers: [CGFloat] = []
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
 #endif
@@ -123,8 +124,7 @@ struct AboutViewHeader: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.bottom)
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
+            RandomLandscapeView(data: self.$landscapeData) {}
         }
         .onReceive(timer) { _ in
             withAnimation {

@@ -35,6 +35,7 @@ struct SupporterView: View {
     @State private var animate = false
     @State private var animationType: Animation? = .none
     @State private var showSupporterSheet: Bool = false
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     #endif
@@ -62,14 +63,13 @@ struct SupporterView: View {
                     .padding(.bottom, 30)
                 }
                 .padding()
+                RandomLandscapeView(data: self.$landscapeData) {}
                 .background {
                     ZStack(alignment: .bottom) {
                         Color.skyBackground
                         AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
                             .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
                             .animation(.none, value: UUID())
-                        AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                            .tiledImageAtScale(axis: .horizontal)
                     }
                 }
                 VStack {

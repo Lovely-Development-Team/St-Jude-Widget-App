@@ -12,6 +12,9 @@ import Kingfisher
 struct CampaignView: View {
     @Environment(\.colorScheme) var colorScheme
     
+    // MARK: 2024
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
+    
     // MARK: 2023
     @State private var teamEvent: TeamEvent?
     @State private var teamEventObservation: ValueObservation<ValueReducers.Fetch<TeamEvent?>>?
@@ -211,8 +214,7 @@ struct CampaignView: View {
                 }
                 .padding()
                 
-                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                    .tiledImageAtScale(axis: .horizontal)
+                RandomLandscapeView(data: self.$landscapeData) {}
             }
             .frame(minWidth: 0, maxWidth: .infinity)
         }

@@ -645,7 +645,7 @@ struct CampaignList: View {
                 await fetch()
             }
             Task {
-                await refresh()
+                await refresh(generateLandscape: false)
             }
             
         }
@@ -827,7 +827,9 @@ struct CampaignList: View {
         
         await fetch()
         
-        self.landscapeData.generate()
+        if(generateLandscape) {
+            self.landscapeData.generate()
+        }
         self.isLoading = false
         
     }

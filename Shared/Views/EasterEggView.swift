@@ -12,6 +12,7 @@ struct EasterEggView: View {
     @Environment(\.openURL) var openURL
     @Environment(\.presentationMode) private var presentationMode
     
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     @State private var animate = false
     @State private var animationType: Animation? = .none
     @State private var showSupporterSheet: Bool = false
@@ -80,26 +81,27 @@ struct EasterEggView: View {
             .groupBoxStyle(BlockGroupBoxStyle())
             .padding()
             Spacer()
-            Button(action: {
-                withAnimation {
-                    #if !os(macOS)
-                    bounceHaptics.impactOccurred()
-                    #endif
-                    self.animate.toggle()
-                    self.animationType = .default
+            
+            RandomLandscapeView(data: self.$landscapeData) {
+                Button(action: {
+                    withAnimation {
+#if !os(macOS)
+                        bounceHaptics.impactOccurred()
+#endif
+                        self.animate.toggle()
+                        self.animationType = .default
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.animate.toggle()
+                    }
+                }) {
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                        .imageAtScale(scale: .spriteScale * 2)
+                        .accessibility(hidden: true)
+                        .offset(x: 0, y: animate ? -5 : 0)
+                        .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.animate.toggle()
-                }
-            }) {
-                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
-                    .imageAtScale(scale: .spriteScale * 2)
-                    .accessibility(hidden: true)
-                    .offset(x: 0, y: animate ? -5 : 0)
-                    .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
             }
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
         }
         .background(alignment: .bottom) {
             AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
