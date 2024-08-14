@@ -42,8 +42,16 @@ extension AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .background, dark: .backgroundNight)
     }
     @ViewBuilder
+    static func backgroundTall(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .backgroundTall, dark: .backgroundTallNight)
+    }
+    @ViewBuilder
     static func backgroundStripe(colorScheme: ColorScheme) -> AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripe, dark: .backgroundStripeNight)
+    }
+    @ViewBuilder
+    static func backgroundStripeTall(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripeTall, dark: .backgroundStripeTallNight)
     }
     @ViewBuilder
     static func bush(colorScheme: ColorScheme) -> AdaptiveImage {

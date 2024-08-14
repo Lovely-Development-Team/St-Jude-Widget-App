@@ -62,6 +62,9 @@ enum CampaignListSheet: Identifiable {
 struct CampaignList: View {
     @Environment(\.colorScheme) var colorScheme
     
+    // MARK: 2024
+    @State private var landscapeData = RandomLandscapeData()
+    
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
     @State private var teamEventObservation = AppDatabase.shared.observeTeamEventObservation()
@@ -192,46 +195,26 @@ struct CampaignList: View {
         VStack(spacing: 0) {
             Group {
                 VStack {
-                    if let teamEvent = teamEvent {
-                        NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
-                            TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
-                        }
-                        .buttonStyle(BlockButtonStyle(tint: .brandYellow))
-                        .padding()
-                    } else {
-                        TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
+                    Group {
+                        if let teamEvent = teamEvent {
+                            NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
+                                TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
+                            }
+                            .buttonStyle(BlockButtonStyle(tint: .brandYellow))
                             .padding()
+                        } else {
+                            TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
+                                .padding()
+                        }
                     }
-                    HStack(alignment: .bottom) {
-                        Spacer()
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .bush, dark: .bushNight)
-                            .imageAtScale(scale: Double.spriteScale)
-                        Spacer()
-                        EasterEggImage(content: {
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .stephen16BitScale)
-                                .imageAtScale(scale: Double.spriteScale)
-                        }, onTap: {
-                            SoundEffectHelper.shared.play(.joe)
-                        })
-                        
-                        Spacer()
-                        EasterEggImage(content: {
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .myke16BitScale)
-                                .imageAtScale(scale: Double.spriteScale)
-                        }, onTap: {
-                            SoundEffectHelper.shared.play(.honk)
-                        })
-                        Spacer()
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .flower, dark: .flowerNight)
-                            .imageAtScale(scale: Double.spriteScale)
-                        Spacer()
+                    .zIndex(1)
+                    RandomLandscapeView(data: self.$landscapeData) {
+                        EmptyView()
                     }
+                        .zIndex(0)
                 }
             }
             .frame(maxWidth: self.stretchedContentMaxWidth)
-            AdaptiveImage(colorScheme: self.colorScheme, light: .groundRepeatable, dark: .groundRepeatableNight)
-                .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                .animation(.none, value: UUID())
         }
         .frame(maxWidth: .infinity)
         .background(alignment: .bottom) {
@@ -620,7 +603,7 @@ struct CampaignList: View {
         }
         .onReceive(timer) { _ in
             Task {
-                await refresh()
+                await refresh(generateLandscape: false)
             }
         }
 //        .onReceive(countdownTimer) { _ in
@@ -773,7 +756,7 @@ struct CampaignList: View {
         await fetch()
     }
     
-    func refresh() async {
+    func refresh(generateLandscape: Bool = true) async {
         
         if let apiEventData = await apiClient.fetchTeamEvent() {
             dataLogger.debug("API fetched TeamEvent: \(apiEventData.name)")
@@ -842,6 +825,7 @@ struct CampaignList: View {
         
         await fetch()
         
+        self.landscapeData.generate()
         self.isLoading = false
         
     }
