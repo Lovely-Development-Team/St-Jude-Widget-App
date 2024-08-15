@@ -42,7 +42,9 @@ struct RandomCampaignPickerView2024: View {
     @State var currentBoxUnder: Int? = nil
     
     @State var spriteImage: AdaptiveImage = .stephen(colorScheme: .light)
+    @State var animationImages: [AdaptiveImage] = AdaptiveImage.stephenWalkCycle(colorScheme: .light)
     @State var isMyke: Bool = false
+    @State private var isMoving: Bool = false
     // false = left, true = right
     @State var direction = true
     
@@ -73,7 +75,7 @@ struct RandomCampaignPickerView2024: View {
             
             for element in self.boxXArr.sorted(by: {$0.value > $1.value}) {
                 let index = element.key
-                let spriteMaxX = self.spriteX + Double.stephenWidth
+                let spriteMaxX = self.spriteX + Double.hostSpriteWidth
                 let boxX = element.value
                 let boxMaxX = boxX+Double.questionBoxWidth
                 
@@ -185,9 +187,13 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, action: {
+                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
+                                                self.isMoving = true
+                                            }, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
-                                        }))
+                                            }, onEnd: {
+                                                self.isMoving = false
+                                            }))
                                         Spacer()
                                         Button(action: {}, label: {
                                             Rectangle()
@@ -199,9 +205,13 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, action: {
+                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
+                                                self.isMoving = true
+                                            }, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
-                                        }))
+                                            }, onEnd: {
+                                                self.isMoving = false
+                                            }))
                                     }
                                 }
                         }
@@ -308,7 +318,7 @@ struct RandomCampaignPickerView2024: View {
                                                                 if isMyke {
                                                                     boxOffsetIndex = self.numBoxes - (i + 1)
                                                                     offsetMultiplier = -1
-                                                                    adjustOffset = Double.stephenWidth / 3
+                                                                    adjustOffset = Double.hostSpriteWidth / 3
                                                                 }
                                                                 
                                                                 if let newOffset = self.boxXArr[boxOffsetIndex] {
@@ -348,9 +358,8 @@ struct RandomCampaignPickerView2024: View {
                                         Rectangle()
                                             .foregroundStyle(.clear)
                                             .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
-                                                spriteImage
-                                                    .imageAtScale()
-                                                    .scaleEffect(x: self.direction ? (isMyke ? -1 : 1) : (isMyke ? 1 : -1))
+                                                AnimatedAdaptiveImage(idleImage: self.$spriteImage, images: self.$animationImages, animating: self.$isMoving)
+                                                    .scaleEffect(x: self.direction ? -1 : 1)
                                                     .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
                                                     .background {
                                                         GeometryReader { geometry in
@@ -395,9 +404,11 @@ struct RandomCampaignPickerView2024: View {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             if Bool.random() {
                 self.spriteImage = AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                self.animationImages = AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
                 self.isMyke = false
             } else {
                 self.spriteImage = AdaptiveImage.myke(colorScheme: self.colorScheme)
+                self.animationImages = AdaptiveImage.mykeWalkCycle(colorScheme: self.colorScheme)
                 self.isMyke = true
                 self.direction = false
             }

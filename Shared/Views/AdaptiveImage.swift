@@ -79,7 +79,7 @@ extension AdaptiveImage {
     }
     @ViewBuilder
     static func myke(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .myke16BitScale, dark: .myke16BitScaleNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .mykeIdle)
     }
     @ViewBuilder
     static func skyRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
@@ -87,7 +87,7 @@ extension AdaptiveImage {
     }
     @ViewBuilder
     static func stephen(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .stephen16BitScale, dark: .stephen16BitScaleNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .stephenIdle)
     }
     @ViewBuilder
     static func undergroundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
@@ -100,5 +100,21 @@ extension AdaptiveImage {
     @ViewBuilder
     static func coin(colorScheme: ColorScheme) -> AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .coin)
+    }
+    static func mykeWalkCycle(colorScheme: ColorScheme) -> [AdaptiveImage] {
+        return [
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk1),
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk2),
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk3),
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk4)
+        ]
+    }
+    static func stephenWalkCycle(colorScheme: ColorScheme) -> [AdaptiveImage] {
+        return [
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk1),
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk2),
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk3),
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk4)
+        ]
     }
 }

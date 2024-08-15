@@ -14,7 +14,9 @@ struct BlockButtonStyle: ButtonStyle {
     
     var usingPressAndHoldGesture: Bool = false
     @State var timer: Timer?
+    var onStart: (() -> Void)? = nil
     var action: (() -> Void)? = nil
+    var onEnd: (() -> Void)? = nil
     @State var pressing: Bool = false
     var timerDuration: Double = 0.05
     
@@ -22,6 +24,8 @@ struct BlockButtonStyle: ButtonStyle {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 if(!self.pressing) {
+                    self.onStart?()
+                    self.action?()
                     self.pressing = true
                     self.timer = Timer.scheduledTimer(withTimeInterval: self.timerDuration, repeats: true, block: { _ in
                         self.action?()
@@ -32,6 +36,7 @@ struct BlockButtonStyle: ButtonStyle {
                 self.pressing = false
                 self.timer?.invalidate()
                 self.timer = nil
+                self.onEnd?()
             }
     }
     
