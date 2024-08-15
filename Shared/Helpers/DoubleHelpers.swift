@@ -10,5 +10,5 @@ import Foundation
 extension Double {
     static var spriteScale = 0.25
     static var questionBoxWidth = (10 * 24) * Double.spriteScale
-    static var stephenWidth = (10 * 16) * Double.spriteScale
+    static var hostSpriteWidth = (10 * 18) * Double.spriteScale
 }
