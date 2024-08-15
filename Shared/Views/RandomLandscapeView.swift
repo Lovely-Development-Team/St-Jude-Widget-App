@@ -42,6 +42,7 @@ enum LandscapeElement: Int, CaseIterable, Identifiable {
             EasterEggImage(content: {
                 AdaptiveImage.stephen(colorScheme: colorScheme)
                     .imageAtScale()
+                    .scaleEffect(x: -1)
             }, onTap: {
                 SoundEffectHelper.shared.play(.joe)
             })

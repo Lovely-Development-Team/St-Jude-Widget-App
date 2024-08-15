@@ -118,6 +118,7 @@ struct HeadToHeadView: View {
                             if animateIn {
                                 AdaptiveImage.stephen(colorScheme: self.colorScheme)
                                     .imageAtScale(scale: .spriteScale)
+                                    .scaleEffect(x: -1)
                                     .onTapGesture {
                                         withAnimation {
 #if !os(macOS)
