@@ -518,7 +518,7 @@ struct CampaignList: View {
                                     await starOrUnstar(campaign: campaign)
                                 }
                             }) {
-                                Label(campaign.isStarred ? "Remove Star" : "Star", systemImage: campaign.isStarred ? "star" : "star.fill")
+                                Label(campaign.isStarred ? "Unfavourite" : "Favourite", image: campaign.isStarred ? "heart.pixel" : "heart.fill.pixel")
                             }
                         }
                         //                        .padding(.top)
