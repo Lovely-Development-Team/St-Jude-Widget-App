@@ -54,7 +54,7 @@ struct HeadToHeadView: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
-                    .cornerRadius(5)
+                .cornerRadius(5)
                 .modifier(PixelRounding())
         } else {
             EmptyView()
@@ -75,6 +75,7 @@ struct HeadToHeadView: View {
                         .multilineTextAlignment(alignment)
                         .font(.title2)
                         .bold()
+                        .foregroundColor(.primary)
                     if alignment == .trailing {
                         image(for: campaign)
                     } else {
@@ -106,7 +107,7 @@ struct HeadToHeadView: View {
                 }
                 .font(.title)
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(minHeight: 105)
+                .frame(minHeight: 140)
                 .padding()
                 .background {
                     ZStack(alignment: .bottom) {
@@ -114,43 +115,6 @@ struct HeadToHeadView: View {
                         AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
                             .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
                             .animation(.none, value: UUID())
-                        HStack {
-                            if animateIn {
-                                AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                                    .imageAtScale(scale: .spriteScale)
-                                    .scaleEffect(x: -1)
-                                    .onTapGesture {
-                                        withAnimation {
-#if !os(macOS)
-                                            bounceHaptics.impactOccurred()
-#endif
-                                            self.animateStephen.toggle()
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                            self.animateStephen.toggle()
-                                        }
-                                    }
-                                    .offset(x: 0, y: animateStephen ? -5 : 0)
-                                    .transition(.move(edge: .leading))
-                                Spacer()
-                                AdaptiveImage.myke(colorScheme: self.colorScheme)
-                                    .imageAtScale(scale: .spriteScale)
-                                    .onTapGesture {
-                                        withAnimation {
-#if !os(macOS)
-                                            bounceHaptics.impactOccurred()
-#endif
-                                            self.animateMyke.toggle()
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                            self.animateMyke.toggle()
-                                        }
-                                    }
-                                    .offset(x: 0, y: animateMyke ? -5 : 0)
-                                    .transition(.move(edge: .trailing))
-                            }
-                        }
-                        .padding(.horizontal)
                     }
                     .mask {
                         LinearGradient(stops: [
@@ -161,24 +125,61 @@ struct HeadToHeadView: View {
                     }
                 }
             }
+            .overlay(alignment: .bottom) {
+                    HStack {
+                        if animateIn {
+                            AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                                .imageAtScale(scale: .spriteScale)
+                                .scaleEffect(x: -1)
+                                .onTapGesture {
+                                    withAnimation {
+#if !os(macOS)
+                                        bounceHaptics.impactOccurred()
+#endif
+                                        self.animateStephen.toggle()
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        self.animateStephen.toggle()
+                                    }
+                                }
+                                .offset(x: 0, y: animateStephen ? -5 : 0)
+                                .transition(.move(edge: .leading))
+                            Spacer()
+                            AdaptiveImage.myke(colorScheme: self.colorScheme)
+                                .imageAtScale(scale: .spriteScale)
+                                .onTapGesture {
+                                    withAnimation {
+#if !os(macOS)
+                                        bounceHaptics.impactOccurred()
+#endif
+                                        self.animateMyke.toggle()
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        self.animateMyke.toggle()
+                                    }
+                                }
+                                .offset(x: 0, y: animateMyke ? -5 : 0)
+                                .transition(.move(edge: .trailing))
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, Double.spriteScale * 80)
+            }
             VStack {
                 ZStack(alignment: .topTrailing) {
                     if animateIn {
                         GroupBox {
                             VStack(spacing: 0) {
                                 campaignDetails(for: campaign1, alignment: .leading)
-                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                     .transition(.move(edge: .leading))
                                 HStack(alignment: .firstTextBaseline) {
                                     Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                         .font(.title)
                                         .fontWeight(.bold)
-                                        .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                     Text(campaign1.user.username)
                                         .font(.caption)
                                     Spacer()
                                 }
-                                .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                 .transition(.move(edge: .leading))
                             }
                         }
@@ -212,10 +213,8 @@ struct HeadToHeadView: View {
                                         .font(.title)
                                         .fontWeight(.bold)
                                 }
-                                .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                 .transition(.move(edge: .trailing))
                                 campaignDetails(for: campaign2, alignment: .trailing)
-                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.foregroundColor)
                                     .padding(.top)
                                     .transition(.move(edge: .trailing))
                             }
@@ -244,11 +243,11 @@ struct HeadToHeadView: View {
             }
         }
         .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            withAnimation(.easeOut) {
-            animateIn = true
-                            }
-                        }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation(.easeOut) {
+                    animateIn = true
+                }
+            }
         }
         .task {
             await refresh()
