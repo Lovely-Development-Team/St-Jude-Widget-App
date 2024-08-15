@@ -176,20 +176,20 @@ struct CampaignList: View {
         ForEach(headToHeads, id: \.headToHead.id) { headToHead in
             NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2).tint(.white)) {
                 HeadToHeadListItem(headToHead: headToHead)
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            Task {
-                                do {
-                                    try await AppDatabase.shared.deleteHeadToHead(headToHead.headToHead)
-                                } catch {
-                                    dataLogger.error("Could not delete head to head: \(error.localizedDescription)")
-                                }
-                                await fetch()
-                            }
-                        } label: {
-                            Label("Remove Head to Head", systemImage: "trash")
+            }
+            .contextMenu {
+                Button(role: .destructive) {
+                    Task {
+                        do {
+                            try await AppDatabase.shared.deleteHeadToHead(headToHead.headToHead)
+                        } catch {
+                            dataLogger.error("Could not delete head to head: \(error.localizedDescription)")
                         }
+                        await fetch()
                     }
+                } label: {
+                    Label("Remove Head to Head", systemImage: "trash")
+                }
             }
 //            .tint(.white)
 //            .padding(.top)
@@ -435,6 +435,7 @@ struct CampaignList: View {
                     showSheet = .randomPicker
                 }) {
                     HStack {
+                        Image("pixel-question")
                         Text("Play for a random Fundraiser!")
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)

@@ -15,7 +15,7 @@ struct PixelRounding: ViewModifier {
             if let geometry = self.geometry {
                 content
                     .mask {
-                        HStack(spacing:0) {
+                        HStack(spacing:-1) {
                             Rectangle()
                                 .frame(width: round(10*Double.spriteScale),
                                        height: geometry.size.height - round(((2*10)*Double.spriteScale)))
@@ -30,7 +30,7 @@ struct PixelRounding: ViewModifier {
                 content
                     .mask {
                         GeometryReader { geometry in
-                            HStack(spacing:0) {
+                            HStack(spacing:-1) {
                                 Rectangle()
                                     .frame(width: round(10*Double.spriteScale),
                                            height: geometry.size.height - round(((2*10)*Double.spriteScale)))

@@ -23,7 +23,6 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
             .background {
                 BlockView(tint: self.tint)
                     .compositingGroup()
-//                    .shadow(color: .black.opacity(0.5), radius: 0, x: 10 * Double.spriteScale, y: 10 * Double.spriteScale)
             }
     }
 }

@@ -24,44 +24,29 @@ struct ScaledNinePartImage: View {
     @State private var spacing: CGFloat = -1
     
     var body: some View {
-//        Grid(horizontalSpacing: self.spacing, verticalSpacing: self.spacing) {
-//            GridRow {
-//                Image.imageAtScale(resource: self.topLeft, scale: self.scale)
-//                Image.tiledImageAtScale(resource: self.top, scale: self.scale, axis: .horizontal)
-//                Image.imageAtScale(resource: self.topRight, scale: self.scale)
-//            }
-//            GridRow {
-//                Image.tiledImageAtScale(resource: self.left, scale: self.scale, axis: .vertical)
-//                Image.tiledImageAtScale(resource: self.center, scale: self.scale)
-//                Image.tiledImageAtScale(resource: self.right, scale: self.scale, axis: .vertical)
-//            }
-//            GridRow {
-//                Image.imageAtScale(resource: self.bottomLeft, scale: self.scale)
-//                Image.tiledImageAtScale(resource: self.bottom, scale: self.scale, axis: .horizontal)
-//                Image.imageAtScale(resource: self.bottomRight, scale: self.scale)
-//            }
-//        }
-        VStack(spacing:self.spacing) {
-            HStack(spacing:self.spacing) {
-                Image.imageAtScale(resource: self.topLeft, scale: self.scale)
-                Image.tiledImageAtScale(resource: self.top, scale: self.scale, axis: .horizontal)
-                Image.imageAtScale(resource: self.topRight, scale: self.scale)
+        Group {
+            VStack(spacing:self.spacing) {
+                HStack(spacing:self.spacing) {
+                    Image.imageAtScale(resource: self.topLeft, scale: self.scale)
+                    Image.tiledImageAtScale(resource: self.top, scale: self.scale, axis: .horizontal)
+                    Image.imageAtScale(resource: self.topRight, scale: self.scale)
+                }
+                HStack(spacing:self.spacing) {
+                    Image.tiledImageAtScale(resource: self.left, scale: self.scale, axis: .vertical)
+                    Spacer()
+                    Image.tiledImageAtScale(resource: self.right, scale: self.scale, axis: .vertical)
+                }
+                HStack(spacing:self.spacing) {
+                    Image.imageAtScale(resource: self.bottomLeft, scale: self.scale)
+                    Image.tiledImageAtScale(resource: self.bottom, scale: self.scale, axis: .horizontal)
+                    Image.imageAtScale(resource: self.bottomRight, scale: self.scale)
+                }
             }
-            HStack(spacing:self.spacing) {
-                Image.tiledImageAtScale(resource: self.left, scale: self.scale, axis: .vertical)
-                Spacer()
-                Image.tiledImageAtScale(resource: self.right, scale: self.scale, axis: .vertical)
+            .overlay {
+                Image.tiledImageAtScale(resource: self.center, scale: self.scale)
+                    .clipShape(RoundedRectangle(cornerRadius: (60 * self.scale)))
+                    .padding((60 * self.scale) / 2)
             }
-            HStack(spacing:self.spacing) {
-                Image.imageAtScale(resource: self.bottomLeft, scale: self.scale)
-                Image.tiledImageAtScale(resource: self.bottom, scale: self.scale, axis: .horizontal)
-                Image.imageAtScale(resource: self.bottomRight, scale: self.scale)
-            }
-        }
-        .overlay {
-            Image.tiledImageAtScale(resource: self.center, scale: self.scale)
-                .clipShape(RoundedRectangle(cornerRadius: (60 * self.scale)))
-                .padding((60 * self.scale) / 2)
         }
     }
 }
