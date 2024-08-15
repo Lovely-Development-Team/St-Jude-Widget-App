@@ -538,12 +538,9 @@ struct CampaignList: View {
                 Text("App from the Lovely Developers")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                Image("l2culogosvg")
-                    .renderingMode(.template)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                Image(.l2CuHeadPixel)
+                    .font(.caption)
                     .foregroundColor(.secondary)
-                    .frame(height: 15)
                     .accessibility(hidden: true)
                 
             }
