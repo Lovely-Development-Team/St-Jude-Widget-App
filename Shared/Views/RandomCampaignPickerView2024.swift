@@ -115,11 +115,13 @@ struct RandomCampaignPickerView2024: View {
         withAnimation {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             self.jumping = true
+            self.spriteImage = AdaptiveImage(colorScheme: self.colorScheme, light: self.isMyke ? .mykeWalk1 : .stephenWalk1)
             if let currentBox = self.currentBoxUnder {
                 self.activateBox(currentBox)
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
                 self.jumping = false
+                self.spriteImage = self.isMyke ? .myke(colorScheme: self.colorScheme) : .stephen(colorScheme: self.colorScheme)
             }
         }
     }
@@ -323,10 +325,12 @@ struct RandomCampaignPickerView2024: View {
                                                                 
                                                                 if let newOffset = self.boxXArr[boxOffsetIndex] {
                                                                     let newSpriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                                                    self.isMoving = true
                                                                     self.moveSprite(containerGeometry: mainGeometry, by: newSpriteOffset-self.spriteOffset, manual: false)
                                                                 }
                                                                 DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
                                                                     self.activateBox(i)
+                                                                    self.isMoving = false
                                                                     self.jump()
                                                                 }
                                                             }
