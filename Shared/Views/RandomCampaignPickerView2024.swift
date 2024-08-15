@@ -190,12 +190,12 @@ struct RandomCampaignPickerView2024: View {
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
                                         .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
-                                                self.isMoving = true
-                                            }, action: {
+                                            self.isMoving = true
+                                        }, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
-                                            }, onEnd: {
-                                                self.isMoving = false
-                                            }))
+                                        }, onEnd: {
+                                            self.isMoving = false
+                                        }))
                                         Spacer()
                                         Button(action: {}, label: {
                                             Rectangle()
@@ -208,12 +208,12 @@ struct RandomCampaignPickerView2024: View {
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
                                         .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
-                                                self.isMoving = true
-                                            }, action: {
+                                            self.isMoving = true
+                                        }, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
-                                            }, onEnd: {
-                                                self.isMoving = false
-                                            }))
+                                        }, onEnd: {
+                                            self.isMoving = false
+                                        }))
                                     }
                                 }
                         }
@@ -268,125 +268,125 @@ struct RandomCampaignPickerView2024: View {
         GeometryReader { mainGeometry in
             VStack(spacing:0) {
                 RandomLandscapeView(data: self.$landscapeData) {
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .overlay {
-                        VStack(spacing:0) {
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .overlay(alignment: .center) {
-                                    Group {
-                                        if let campaign = self.chosenCampaign {
-                                            VStack {
-                                                Button(action: {
-                                                    self.campaignChoiceID = self.chosenCampaign?.id
-                                                    self.dismiss()
-                                                }, label: {
-                                                    FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showBackground: false, showShareSheet: self.$showShareSheet)
-                                                })
-                                                .buttonStyle(BlockButtonStyle())
-                                            }
-                                        } else {
-                                            GroupBox {
-                                                Text("No campaigns to choose from")
-                                                    .font(.headline)
-                                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                            }
-                                            .groupBoxStyle(BlockGroupBoxStyle())
-                                        }
-                                    }
-                                    .opacity(self.resultOpacity ? 1.0 : 0.0)
-                                    .offset(y: self.resultOffset ? 0 : 20)
-                                    .animation(.easeOut(duration: self.animationDuration), value: self.resultOffset)
-                                    .animation(.easeInOut(duration: self.animationDuration/2), value: self.resultOpacity)
-                                }
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .overlay(alignment: .bottom) {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        HStack(spacing: 0) {
-                                            if(!self.hitArr.isEmpty) {
-                                                ForEach(0..<self.numBoxes) { i in
-                                                    Spacer()
+                    Rectangle()
+                        .foregroundStyle(.clear)
+                        .overlay {
+                            VStack(spacing:0) {
+                                Rectangle()
+                                    .foregroundStyle(.clear)
+                                    .overlay(alignment: .center) {
+                                        Group {
+                                            if let campaign = self.chosenCampaign {
+                                                VStack {
                                                     Button(action: {
-                                                        if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
-                                                            withAnimation {
-                                                                self.currentBoxUnder = i
-                                                                
-                                                                var boxOffsetIndex = i
-                                                                var offsetMultiplier = 1.0
-                                                                var adjustOffset = 0.0
-                                                                
-                                                                if isMyke {
-                                                                    boxOffsetIndex = self.numBoxes - (i + 1)
-                                                                    offsetMultiplier = -1
-                                                                    adjustOffset = Double.hostSpriteWidth / 3
-                                                                }
-                                                                
-                                                                if let newOffset = self.boxXArr[boxOffsetIndex] {
-                                                                    let newSpriteOffset = (newOffset * offsetMultiplier) + adjustOffset
-                                                                    self.isMoving = true
-                                                                    self.moveSprite(containerGeometry: mainGeometry, by: newSpriteOffset-self.spriteOffset, manual: false)
-                                                                }
-                                                                DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
-                                                                    self.activateBox(i)
-                                                                    self.isMoving = false
-                                                                    self.jump()
-                                                                }
-                                                            }
-                                                        }
-                                                    }) {
-                                                        AdaptiveImage.questionBox(colorScheme: self.colorScheme)
-                                                            .imageAtScale()
-                                                            .offset(y: self.hitArr[i] ? -10 : 0)
-                                                            .animation(.easeOut(duration: self.animationDuration), value: self.hitArr)
-                                                            .background {
-                                                                GeometryReader { geometry in
-                                                                    let boxX =  geometry.frame(in: .global).origin.x
-                                                                    if let storedX = self.boxXArr[i] {
-                                                                        if(boxX != storedX) {
-                                                                            self.boxXArr[i] = boxX
-                                                                        }
-                                                                    } else {
-                                                                        self.boxXArr[i] = boxX
+                                                        self.campaignChoiceID = self.chosenCampaign?.id
+                                                        self.dismiss()
+                                                    }, label: {
+                                                        FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showBackground: false, showShareSheet: self.$showShareSheet)
+                                                    })
+                                                    .buttonStyle(BlockButtonStyle())
+                                                }
+                                            } else {
+                                                GroupBox {
+                                                    Text("No campaigns to choose from")
+                                                        .font(.headline)
+                                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                                }
+                                                .groupBoxStyle(BlockGroupBoxStyle())
+                                            }
+                                        }
+                                        .opacity(self.resultOpacity ? 1.0 : 0.0)
+                                        .offset(y: self.resultOffset ? 0 : 20)
+                                        .animation(.easeOut(duration: self.animationDuration), value: self.resultOffset)
+                                        .animation(.easeInOut(duration: self.animationDuration/2), value: self.resultOpacity)
+                                    }
+                                Rectangle()
+                                    .foregroundStyle(.clear)
+                                    .overlay(alignment: .bottom) {
+                                        VStack(alignment: .leading, spacing: 0) {
+                                            HStack(spacing: 0) {
+                                                if(!self.hitArr.isEmpty) {
+                                                    ForEach(0..<self.numBoxes) { i in
+                                                        Spacer()
+                                                        Button(action: {
+                                                            if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
+                                                                withAnimation {
+                                                                    self.currentBoxUnder = i
+                                                                    
+                                                                    var boxOffsetIndex = i
+                                                                    var offsetMultiplier = 1.0
+                                                                    var adjustOffset = 0.0
+                                                                    
+                                                                    if isMyke {
+                                                                        boxOffsetIndex = self.numBoxes - (i + 1)
+                                                                        offsetMultiplier = -1
+                                                                        adjustOffset = Double.hostSpriteWidth / 3
                                                                     }
                                                                     
-                                                                    return Color.clear
+                                                                    if let newOffset = self.boxXArr[boxOffsetIndex] {
+                                                                        let newSpriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                                                        self.isMoving = true
+                                                                        self.moveSprite(containerGeometry: mainGeometry, by: newSpriteOffset-self.spriteOffset, manual: false)
+                                                                    }
+                                                                    DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
+                                                                        self.activateBox(i)
+                                                                        self.isMoving = false
+                                                                        self.jump()
+                                                                    }
                                                                 }
                                                             }
-                                                    }
-                                                }
-                                                Spacer()
-                                            }
-                                        }
-                                        Rectangle()
-                                            .foregroundStyle(.clear)
-                                            .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
-                                                AnimatedAdaptiveImage(idleImage: self.$spriteImage, images: self.$animationImages, animating: self.$isMoving)
-                                                    .scaleEffect(x: self.direction ? -1 : 1)
-                                                    .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
-                                                    .background {
-                                                        GeometryReader { geometry in
-                                                            self.spriteX = geometry.frame(in: .global).origin.x
-                                                            return Color.clear
+                                                        }) {
+                                                            AdaptiveImage.questionBox(colorScheme: self.colorScheme)
+                                                                .imageAtScale()
+                                                                .offset(y: self.hitArr[i] ? -10 : 0)
+                                                                .animation(.easeOut(duration: self.animationDuration), value: self.hitArr)
+                                                                .background {
+                                                                    GeometryReader { geometry in
+                                                                        let boxX =  geometry.frame(in: .global).origin.x
+                                                                        if let storedX = self.boxXArr[i] {
+                                                                            if(boxX != storedX) {
+                                                                                self.boxXArr[i] = boxX
+                                                                            }
+                                                                        } else {
+                                                                            self.boxXArr[i] = boxX
+                                                                        }
+                                                                        
+                                                                        return Color.clear
+                                                                    }
+                                                                }
                                                         }
                                                     }
-                                                    .offset(x: self.spriteOffset)
+                                                    Spacer()
+                                                }
                                             }
-                                        
+                                            Rectangle()
+                                                .foregroundStyle(.clear)
+                                                .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
+                                                    AnimatedAdaptiveImage(idleImage: self.$spriteImage, images: self.$animationImages, animating: self.$isMoving)
+                                                        .scaleEffect(x: self.direction ? -1 : 1)
+                                                        .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
+                                                        .background {
+                                                            GeometryReader { geometry in
+                                                                self.spriteX = geometry.frame(in: .global).origin.x
+                                                                return Color.clear
+                                                            }
+                                                        }
+                                                        .offset(x: self.spriteOffset)
+                                                }
+                                            
+                                        }
                                     }
-                                }
-                                .frame(maxHeight: 200)
+                                    .frame(maxHeight: 200)
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                    }
-                    .animation(.easeOut(duration: self.animationDuration), value: self.jumping)
-                    .frame(maxHeight: .infinity)
-                    .background(alignment: .bottom) {
-                        AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
-                            .tiledImageAtScale(axis: .horizontal)
-                    }
-            }
+                        .animation(.easeOut(duration: self.animationDuration), value: self.jumping)
+                        .frame(maxHeight: .infinity)
+                        .background(alignment: .bottom) {
+                            AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
+                                .tiledImageAtScale(axis: .horizontal)
+                        }
+                }
                 VStack {
                     self.controllerView(containerGeometry: mainGeometry)
                 }
