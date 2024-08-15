@@ -30,40 +30,94 @@ struct ScoreEntryView: View {
         return str.trimmingCharacters(in: .init(charactersIn: "0")).trimmingCharacters(in: .init(charactersIn: "."))
     }
     
+    var spriteScaleModifier: Double {
+        switch family {
+        case .systemLarge:
+            return 1.3
+        case .systemSmall:
+            return 0.8
+        default:
+            return 1
+        }
+    }
+    
+    var scorePadding: Double {
+        switch family {
+        case .systemMedium:
+            return 10
+        default:
+            return 20
+        }
+    }
+    
+    var scorePaddingBottom: Double {
+        switch family {
+        case .systemLarge:
+            return 40
+        case .systemMedium:
+            return 5
+        default:
+            return 10
+        }
+    }
+    
+    var scoreFont: Font {
+        switch family {
+        case .systemLarge:
+            return .largeTitle
+        default:
+            return .title
+        }
+    }
+    
     @ViewBuilder
     var homeScreenWidget: some View {
-        Grid {
-            GridRow {
-                Image(.mykehead)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(family == .systemLarge ? 10 : 0)
-                Image(.stephenhead)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(family == .systemLarge ? 10 : 0)
+        ZStack {
+            ZStack(alignment: .bottom) {
+                Color.skyBackground.preferredColorScheme(.light)
+                AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
+                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
+                    .animation(.none, value: UUID())
             }
-            .frame(minWidth: 0, maxWidth: .infinity)
-            GridRow {
-                Text(formatNumber(entry.score.myke.score))
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
-                Text(formatNumber(entry.score.stephen.score))
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
+            VStack(spacing: 0) {
+                Spacer()
+                Grid(verticalSpacing: 0) {
+                    GridRow {
+                        VStack {
+                            Spacer()
+                            Text(formatNumber(entry.score.stephen.score))
+                                .minimumScaleFactor(0.5)
+                                .multilineTextAlignment(.center)
+                                .lineLimit(1)
+                            Spacer()
+                        }
+                        VStack {
+                            Spacer()
+                            Text(formatNumber(entry.score.myke.score))
+                                .minimumScaleFactor(0.5)
+                                .multilineTextAlignment(.center)
+                                .lineLimit(1)
+                            Spacer()
+                        }
+                    }
+                    .bold()
+                    .font(scoreFont)
+                    .foregroundStyle(Color.white)
+                    GridRow {
+                        AdaptiveImage.stephen(colorScheme: .light)
+                            .imageAtScale(scale: .spriteScale * spriteScaleModifier)
+                            .scaleEffect(x: -1)
+                        AdaptiveImage.myke(colorScheme: .light)
+                            .imageAtScale(scale: .spriteScale * spriteScaleModifier)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                }
+                .padding(.horizontal, scorePadding)
+                AdaptiveImage.groundRepeatable(colorScheme: .light)
+                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
             }
         }
-        .font(.system(.largeTitle, design: .rounded))
-        .bold()
-        .foregroundColor(.white)
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-        .padding()
-//        .background {
-//            Image(.bannersmol)
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//        }
-        .background(.black)
+        .dynamicTypeSize(.medium)
     }
     
     @ViewBuilder
@@ -130,15 +184,23 @@ struct ScoreEntryView: View {
         if #available(iOS 17.0, *) {
             content
                 .containerBackground(.clear, for: .widget)
+                .environment(\.font, Font.body)
         } else {
             content
+                .environment(\.font, Font.body)
         }
     }
 }
 
 struct CampaignList_Previews: PreviewProvider {
     static var previews: some View {
+//        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
+//            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+//        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
+//            .previewContext(WidgetPreviewContext(family: .accessoryInline))
+//        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
+//            .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
         ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

@@ -117,6 +117,9 @@
 		5E56A7A428C73D4B00B0DD59 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E56A7A228C73D4B00B0DD59 /* AnimatedImage.swift */; };
 		5E5814AB2C6E39C70044662C /* AnimatedAdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5814AA2C6E39C40044662C /* AnimatedAdaptiveImage.swift */; };
 		5E5814AC2C6E39C70044662C /* AnimatedAdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5814AA2C6E39C40044662C /* AnimatedAdaptiveImage.swift */; };
+		5E5814AD2C6E46490044662C /* AdaptiveImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A3C2C6064BC005E1973 /* AdaptiveImage.swift */; };
+		5E5814AE2C6E48960044662C /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
+		5E5814AF2C6E48970044662C /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		5E7C2FF928C521BB00A9B0D5 /* UnicornView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C2FF828C521BB00A9B0D5 /* UnicornView.swift */; };
 		5E7C2FFA28C521BB00A9B0D5 /* UnicornView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C2FF828C521BB00A9B0D5 /* UnicornView.swift */; };
 		5E7C2FFC28C5403600A9B0D5 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C2FFB28C5403600A9B0D5 /* SearchBar.swift */; };
@@ -1252,6 +1255,7 @@
 			files = (
 				43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9FB26D6B5100031697F /* Assets.xcassets in Resources */,
+				5E5814AF2C6E48970044662C /* ChicagoFLF.ttf in Resources */,
 				430E7A092C606481005E1973 /* honk.mp3 in Resources */,
 				63574A1A26D6590000A2D495 /* Assets.xcassets in Resources */,
 				430E7A0E2C606481005E1973 /* joe.mp3 in Resources */,
@@ -1306,6 +1310,7 @@
 			files = (
 				43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F926D6B5100031697F /* Assets.xcassets in Resources */,
+				5E5814AE2C6E48960044662C /* ChicagoFLF.ttf in Resources */,
 				430E7A072C606481005E1973 /* honk.mp3 in Resources */,
 				6357657626D1AD28004F04DE /* Assets.xcassets in Resources */,
 				430E7A0C2C606481005E1973 /* joe.mp3 in Resources */,
@@ -1599,6 +1604,7 @@
 				5E1705D428C506E000E70019 /* LockScreenInlineView.swift in Sources */,
 				430E7A252C60649C005E1973 /* FontHelpers.swift in Sources */,
 				4301B7F82AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
+				5E5814AD2C6E46490044662C /* AdaptiveImage.swift in Sources */,
 				63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
