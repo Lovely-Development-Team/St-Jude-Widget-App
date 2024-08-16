@@ -85,25 +85,6 @@ struct SupporterView: View {
                             }
                         }
                         .groupBoxStyle(BlockGroupBoxStyle())
-                        Button(action: {
-                            withAnimation {
-#if !os(macOS)
-                                bounceHaptics.impactOccurred()
-#endif
-                                self.animate.toggle()
-                                self.animationType = .default
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.animate.toggle()
-                            }
-                        }) {
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
-                                .imageAtScale(scale: .spriteScale * 2)
-                                .padding()
-                                .offset(x: 0, y: animate ? -5 : 0)
-                                .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                        }
-                        .buttonStyle(PlainButtonStyle())
                         //                    }
                     } else {
                         GroupBox {
@@ -115,6 +96,25 @@ struct SupporterView: View {
                         }
                         .groupBoxStyle(BlockGroupBoxStyle())
                     }
+                    Button(action: {
+                        withAnimation {
+#if !os(macOS)
+                            bounceHaptics.impactOccurred()
+#endif
+                            self.animate.toggle()
+                            self.animationType = .default
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.animate.toggle()
+                        }
+                    }) {
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                            .imageAtScale(scale: .spriteScale * 2)
+                            .padding()
+                            .offset(x: 0, y: animate ? -5 : 0)
+                            .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                     Spacer()
                 }
                 .padding()
