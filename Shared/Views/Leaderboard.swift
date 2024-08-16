@@ -38,10 +38,11 @@ struct Leaderboard: View {
                             Image("pixel-trophy")
                                 .foregroundStyle(Color.brandYellow)
                         } else if campaign.isStarred {
-                            Image(systemName: "star.fill")
+                            Image("heart.fill.pixel")
                         }
                         Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
                             .monospacedDigit()
+                            .foregroundColor(.accentColor)
                     }
                     .foregroundColor(.primary)
                 }
