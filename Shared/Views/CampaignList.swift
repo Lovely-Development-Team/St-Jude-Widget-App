@@ -60,13 +60,14 @@ enum CampaignListSheet: Identifiable {
 }
 
 struct CampaignList: View {
-        
+    
     init() {
         UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .headline).pointSize) ?? UIFont.systemFont(ofSize: 20)]
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)  ?? UIFont.systemFont(ofSize: 20)]
     }
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
     // MARK: 2024
     @State private var landscapeData = RandomLandscapeData()
@@ -191,8 +192,8 @@ struct CampaignList: View {
                     Label("Remove Head to Head", systemImage: "trash")
                 }
             }
-//            .tint(.white)
-//            .padding(.top)
+            //            .tint(.white)
+            //            .padding(.top)
         }
     }
     
@@ -217,7 +218,7 @@ struct CampaignList: View {
                     RandomLandscapeView(data: self.$landscapeData) {
                         EmptyView()
                     }
-                        .zIndex(0)
+                    .zIndex(0)
                 }
             }
             .frame(maxWidth: self.stretchedContentMaxWidth)
@@ -240,7 +241,7 @@ struct CampaignList: View {
         }
     }
     
-    @ViewBuilder 
+    @ViewBuilder
     var countdownView: some View {
         if let closingDate = closingDate {
             VStack {
@@ -329,18 +330,18 @@ struct CampaignList: View {
                             })
                             .buttonStyle(BlockButtonStyle(tint: .brandBlue))
                             .foregroundStyle(Color.white)
-//                            .fullWidth(alignment: .center)
-//                            .padding()
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
-//                            )
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 10)
-//                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
-//                            )
+                            //                            .fullWidth(alignment: .center)
+                            //                            .padding()
+                            //                            .background(
+                            //                                RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
+                            //                            )
+                            //                            .overlay(
+                            //                                RoundedRectangle(cornerRadius: 10)
+                            //                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
+                            //                            )
                         }
-//                        .padding(.horizontal)
-//                        .padding(.top, 5)
+                        //                        .padding(.horizontal)
+                        //                        .padding(.top, 5)
                     }
                 } else {
                     if showHeadToHeads {
@@ -348,7 +349,7 @@ struct CampaignList: View {
                             headToHeadList
                         }
                     }
-//                    .padding(.horizontal)
+                    //                    .padding(.horizontal)
                 }
             }
         }
@@ -361,66 +362,130 @@ struct CampaignList: View {
     func fundraiserHeaderView(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
         Group {
             if campaigns.count != 0 {
-            GroupBox {
-                HStack {
-                    Text("Fundraisers")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    Spacer()
-                    Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(
-                            Color.secondarySystemBackground
-                                .cornerRadius(15)
-                        )
-                    Button(action: {
-                        showSheet = .leaderBoard
-                    }) {
-                        Label("Leaderboard", image: "pixel-trophy")
-                            .labelStyle(.iconOnly)
+                if dynamicTypeSize >= .xLarge {
+                    GroupBox {
+                        VStack(spacing: 0) {
+                            HStack {
+                                Text("Fundraisers")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            HStack {
+                                Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
+                                    .foregroundColor(.secondary)
+                                    .background(
+                                        Color.secondarySystemBackground
+                                            .cornerRadius(15)
+                                    )
+                                Spacer()
+                                Button(action: {
+                                    showSheet = .leaderBoard
+                                }) {
+                                    Label("Leaderboard", image: "pixel-trophy")
+                                        .labelStyle(.iconOnly)
+                                }
+                                Menu {
+                                    ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                                        Button(action: {
+                                            withAnimation {
+                                                fundraiserSortOrder = order
+                                            }
+                                        }) {
+                                            Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                        }
+                                    }
+                                    Divider()
+                                    Button(action: {
+                                        withAnimation {
+                                            compactListMode.toggle()
+                                        }
+                                    }) {
+                                        Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
+                                    }
+                                } label: {
+                                    Image("pixel-settings")
+                                }
+                                Button(action: {
+                                    withAnimation {
+                                        showSearchBar = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            withAnimation {
+                                                scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                            }
+                                        }
+                                    }
+                                }) {
+                                    Label("Search", image: "pixel-magnify")
+                                        .labelStyle(.iconOnly)
+                                }
+                            }
+                        }
                     }
-                    Menu {
-                        ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .padding(.horizontal)
+                } else {
+                    GroupBox {
+                        HStack {
+                            Text("Fundraisers")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(
+                                    Color.secondarySystemBackground
+                                        .cornerRadius(15)
+                                )
+                            Button(action: {
+                                showSheet = .leaderBoard
+                            }) {
+                                Label("Leaderboard", image: "pixel-trophy")
+                                    .labelStyle(.iconOnly)
+                            }
+                            Menu {
+                                ForEach(FundraiserSortOrder.allCases, id: \.self) { order in
+                                    Button(action: {
+                                        withAnimation {
+                                            fundraiserSortOrder = order
+                                        }
+                                    }) {
+                                        Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                    }
+                                }
+                                Divider()
+                                Button(action: {
+                                    withAnimation {
+                                        compactListMode.toggle()
+                                    }
+                                }) {
+                                    Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
+                                }
+                            } label: {
+                                Image("pixel-settings")
+                            }
                             Button(action: {
                                 withAnimation {
-                                    fundraiserSortOrder = order
+                                    showSearchBar = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation {
+                                            scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
+                                        }
+                                    }
                                 }
                             }) {
-                                Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                Label("Search", image: "pixel-magnify")
+                                    .labelStyle(.iconOnly)
                             }
                         }
-                        Divider()
-                        Button(action: {
-                            withAnimation {
-                                compactListMode.toggle()
-                            }
-                        }) {
-                            Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
-                        }
-                    } label: {
-                        Image("pixel-settings")
                     }
-                    Button(action: {
-                        withAnimation {
-                            showSearchBar = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                withAnimation {
-                                    scrollViewReader.scrollTo("SEARCH_BAR", anchor: .top)
-                                }
-                            }
-                        }
-                    }) {
-                        Label("Search", image: "pixel-magnify")
-                            .labelStyle(.iconOnly)
-                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .padding(.horizontal)
                 }
             }
-            .groupBoxStyle(BlockGroupBoxStyle())
-            .padding(.horizontal)
-        }
-        
+            
             if campaigns.count != 0 {
                 
                 if showSearchBar {
@@ -473,15 +538,15 @@ struct CampaignList: View {
                                     Text("Be the first and create your own!")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
-                                    .font(.headline)
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.black)
+                                .font(.headline)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
                                 //                                .padding(10)
                                 //                            .padding(.horizontal, 20)
-                                    .buttonStyle(BlockButtonStyle(tint: .white))
+                                .buttonStyle(BlockButtonStyle(tint: .white))
                                 //                                    .background(Color.accentColor)
                                 //                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//                                    .padding([.bottom, .horizontal])
+                                //                                    .padding([.bottom, .horizontal])
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -529,7 +594,7 @@ struct CampaignList: View {
         }
     }
     
-    @ViewBuilder 
+    @ViewBuilder
     var easterEggView: some View {
         Button(action: {
             showSheet = .easterEgg
@@ -598,7 +663,7 @@ struct CampaignList: View {
                 }
             }
         }
-//        .background(BrandShapeBackground())
+        //        .background(BrandShapeBackground())
         .refreshable {
             await refresh()
         }
@@ -607,13 +672,13 @@ struct CampaignList: View {
                 await refresh(generateLandscape: false)
             }
         }
-//        .onReceive(countdownTimer) { _ in
-//            if let closingDate = closingDate {
-//                withAnimation {
-//                    campaignsHaveClosed = closingDate < Date()
-//                }
-//            }
-//        }
+        //        .onReceive(countdownTimer) { _ in
+        //            if let closingDate = closingDate {
+        //                withAnimation {
+        //                    campaignsHaveClosed = closingDate < Date()
+        //                }
+        //            }
+        //        }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
         }
@@ -665,18 +730,18 @@ struct CampaignList: View {
             case .randomPicker:
                 NavigationStack {
                     RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: campaigns)
-//                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
-//                                             allCampaigns: campaigns)
-                    .navigationTitle("Pick a block!")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("Done") {
-                                showSheet = nil
+                    //                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
+                    //                                             allCampaigns: campaigns)
+                        .navigationTitle("Pick a block!")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button("Done") {
+                                    showSheet = nil
+                                }
+                                .animation(.linear(duration: 0))
                             }
-                            .animation(.linear(duration: 0))
                         }
-                    }
                 }
             case .easterEgg:
                 EasterEggView()
