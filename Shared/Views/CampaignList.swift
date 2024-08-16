@@ -215,13 +215,13 @@ struct CampaignList: View {
                         }
                     }
                     .zIndex(1)
+                    .frame(maxWidth: self.stretchedContentMaxWidth)
                     RandomLandscapeView(data: self.$landscapeData) {
                         EmptyView()
                     }
                     .zIndex(0)
                 }
             }
-            .frame(maxWidth: self.stretchedContentMaxWidth)
         }
         .frame(maxWidth: .infinity)
         .background(alignment: .bottom) {
@@ -556,7 +556,6 @@ struct CampaignList: View {
                 .padding(.horizontal)
             }
         }
-        .frame(maxWidth: self.stretchedContentMaxWidth)
     }
     
     @ViewBuilder
