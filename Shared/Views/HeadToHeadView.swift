@@ -96,36 +96,37 @@ struct HeadToHeadView: View {
 #endif
     
     var body: some View {
-        VStack(spacing: 0) {
-            RandomLandscapeView(data: self.$landscapeData) {
-                VStack {
-                    if animateIn {
-                        Text("Fundraiser")
-                            .padding(.top, 5)
-                        Text("Head to Head!")
+        ScrollView {
+            VStack(spacing: 0) {
+                RandomLandscapeView(data: self.$landscapeData) {
+                    VStack {
+                        if animateIn {
+                            Text("Fundraiser")
+                                .padding(.top, 5)
+                            Text("Head to Head!")
+                        }
+                    }
+                    .font(.title)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .frame(minHeight: 140)
+                    .padding()
+                    .background {
+                        ZStack(alignment: .bottom) {
+                            Color.skyBackground
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
+                                .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
+                                .animation(.none, value: UUID())
+                        }
+                        .mask {
+                            LinearGradient(stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .white, location: 0.25),
+                                .init(color: .white, location: 1)
+                            ], startPoint: .top, endPoint: .bottom)
+                        }
                     }
                 }
-                .font(.title)
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(minHeight: 140)
-                .padding()
-                .background {
-                    ZStack(alignment: .bottom) {
-                        Color.skyBackground
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                            .animation(.none, value: UUID())
-                    }
-                    .mask {
-                        LinearGradient(stops: [
-                            .init(color: .clear, location: 0),
-                            .init(color: .white, location: 0.25),
-                            .init(color: .white, location: 1)
-                        ], startPoint: .top, endPoint: .bottom)
-                    }
-                }
-            }
-            .overlay(alignment: .bottom) {
+                .overlay(alignment: .bottom) {
                     HStack {
                         if animateIn {
                             AdaptiveImage.stephen(colorScheme: self.colorScheme)
@@ -164,81 +165,82 @@ struct HeadToHeadView: View {
                     }
                     .padding(.horizontal)
                     .padding(.bottom, Double.spriteScale * 80)
-            }
-            VStack {
-                ZStack(alignment: .topTrailing) {
-                    if animateIn {
-                        GroupBox {
-                            VStack(spacing: 0) {
-                                campaignDetails(for: campaign1, alignment: .leading)
+                }
+                VStack {
+                    ZStack(alignment: .topTrailing) {
+                        if animateIn {
+                            GroupBox {
+                                VStack(spacing: 0) {
+                                    campaignDetails(for: campaign1, alignment: .leading)
+                                        .transition(.move(edge: .leading))
+                                    HStack(alignment: .firstTextBaseline) {
+                                        Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                        Text(campaign1.user.username)
+                                            .font(.caption)
+                                        Spacer()
+                                    }
                                     .transition(.move(edge: .leading))
-                                HStack(alignment: .firstTextBaseline) {
-                                    Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                    Text(campaign1.user.username)
-                                        .font(.caption)
-                                    Spacer()
                                 }
-                                .transition(.move(edge: .leading))
                             }
+                            .groupBoxStyle(BlockGroupBoxStyle())
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
+                        if campaign1.totalRaisedNumerical == highestTotal {
+                            Image(.rCoin3000Px)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50)
+                                .offset(x: 8, y: -8)
+                        }
                     }
-                    if campaign1.totalRaisedNumerical == highestTotal {
-                        Image(.rCoin3000Px)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50)
-                            .offset(x: 8, y: -8)
-                    }
-                }
-                if animateIn {
-                    GroupBox {
-                        ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
-                            .frame(height: 20)
-                    }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                }
-                
-                ZStack(alignment: .bottomLeading) {
                     if animateIn {
                         GroupBox {
-                            VStack(spacing: 0) {
-                                HStack(alignment: .firstTextBaseline) {
-                                    Spacer()
-                                    Text(campaign2.user.username)
-                                        .font(.caption)
-                                    Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                }
-                                .transition(.move(edge: .trailing))
-                                campaignDetails(for: campaign2, alignment: .trailing)
-                                    .padding(.top)
-                                    .transition(.move(edge: .trailing))
-                            }
+                            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+                                .frame(height: 20)
                         }
                         .groupBoxStyle(BlockGroupBoxStyle())
                     }
-                    if campaign2.totalRaisedNumerical == highestTotal {
-                        Image(.rCoin3000Px)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50)
-                            .offset(x: -4, y: 4)
+                    
+                    ZStack(alignment: .bottomLeading) {
+                        if animateIn {
+                            GroupBox {
+                                VStack(spacing: 0) {
+                                    HStack(alignment: .firstTextBaseline) {
+                                        Spacer()
+                                        Text(campaign2.user.username)
+                                            .font(.caption)
+                                        Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    .transition(.move(edge: .trailing))
+                                    campaignDetails(for: campaign2, alignment: .trailing)
+                                        .padding(.top)
+                                        .transition(.move(edge: .trailing))
+                                }
+                            }
+                            .groupBoxStyle(BlockGroupBoxStyle())
+                        }
+                        if campaign2.totalRaisedNumerical == highestTotal {
+                            Image(.rCoin3000Px)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50)
+                                .offset(x: -4, y: 4)
+                        }
                     }
+                    Spacer()
                 }
-                Spacer()
-            }
-            .padding()
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .background {
-                GeometryReader { geometry in
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                        .tiledImageAtScale(scale: Double.spriteScale)
-                        .frame(height:geometry.size.height + 1000)
-                        .animation(.none, value: UUID())
+                .padding()
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .background {
+                    GeometryReader { geometry in
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+                            .tiledImageAtScale(scale: Double.spriteScale)
+                            .frame(height:geometry.size.height + 1000)
+                            .animation(.none, value: UUID())
+                    }
                 }
             }
         }
