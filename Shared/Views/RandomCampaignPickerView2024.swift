@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import AVKit
 
 
 struct RandomCampaignPickerView2024: View {
@@ -49,6 +49,28 @@ struct RandomCampaignPickerView2024: View {
     @State var direction = true
     
     @State private var justinAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
+    
+    @State private var audioSession = AVAudioSession.sharedInstance()
+    @State private var isMuted = true
+    
+    func toggleMute() -> Void {
+        if audioSession.categoryOptions.rawValue == 0 {
+            do {
+                try audioSession.setCategory(.playback, options: .mixWithOthers)
+                isMuted = false
+            } catch {
+                print("Failed to set the audio session configuration")
+            }
+        } else {
+            do {
+                try audioSession.setCategory(.ambient)
+                isMuted = true
+            } catch {
+                print("Failed to set the audio session configuration")
+            }
+        }
+        
+    }
     
     func getRandomCampaign() -> Campaign? {
         return allCampaigns.filter({$0.id != RELAY_CAMPAIGN}).randomElement()
@@ -403,6 +425,19 @@ struct RandomCampaignPickerView2024: View {
             .background {
                 Color.skyBackground
             }
+            Button {
+                toggleMute()
+            } label: {
+                if isMuted {
+                    Image(systemName: "speaker.slash.fill")
+                } else {
+                    Image(systemName: "speaker.fill")
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundColor(.primary)
+            .padding()
+            .opacity(0.5)
         }
         .onAppear {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
