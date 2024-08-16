@@ -293,18 +293,17 @@ struct CampaignView: View {
                             DonorChart(donations: donations, total: campaign.totalRaised)
                                 .frame(height: 80)
                         }
+                        
+                        if teamEvent != nil {
+                            Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
+                                .font(.caption)
+                                .fullWidth()
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
                 .buttonStyle(BlockButtonStyle())
                 .padding(.bottom)
-                
-                if teamEvent != nil {
-                    Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
-                        .font(.caption)
-                        .fullWidth()
-                        .foregroundStyle(.secondary)
-                        .padding(.bottom)
-                }
                 
             }
             
