@@ -16,6 +16,10 @@ struct St_JudeApp: App {
     @UIApplicationDelegateAdaptor(StJudeAppDelegate.self) var appDelegate
 #endif
     
+    @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
+    @State private var mainAppViewID = UUID()
+    @State private var navTitle = "Relay for St. Jude"
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -26,9 +30,15 @@ struct St_JudeApp: App {
                         }
                     }
                     .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle(navTitle)
             }
+            .id(mainAppViewID)
             .navigationViewStyle(.stack)
             .environment(\.font, Font.body)
+            .onChange(of: disablePixelFont) { newValue in
+                mainAppViewID = UUID()
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
     }
 }

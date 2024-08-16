@@ -37,7 +37,6 @@
 		430E7A232C60649C005E1973 /* FontHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A182C60649C005E1973 /* FontHelpers.swift */; };
 		430E7A242C60649C005E1973 /* FontHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A182C60649C005E1973 /* FontHelpers.swift */; };
 		430E7A252C60649C005E1973 /* FontHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A182C60649C005E1973 /* FontHelpers.swift */; };
-		430E7A262C60649C005E1973 /* FontHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A182C60649C005E1973 /* FontHelpers.swift */; };
 		430E7A272C60649C005E1973 /* FontHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A182C60649C005E1973 /* FontHelpers.swift */; };
 		430E7A2C2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
 		430E7A2D2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E7A282C6064A6005E1973 /* BlockButtonStyle.swift */; };
@@ -1671,7 +1670,6 @@
 				63D0CD0128B117390073957E /* Campaign.swift in Sources */,
 				430E7A4B2C6064C3005E1973 /* EasterEggImage.swift in Sources */,
 				5E180C2428B7F3F400F10BE5 /* Reward.swift in Sources */,
-				430E7A262C60649C005E1973 /* FontHelpers.swift in Sources */,
 				5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */,
 				63A6F99626D636A900095ACB /* INMilestoneExtension.swift in Sources */,
 				63BFF1B126D5D62A0023263D /* TiltifyWidgetData.swift in Sources */,

@@ -28,6 +28,13 @@ extension UserDefaults {
     static let shouldShowHeadToHeadKey = "shouldShowHeadToHead"
     static let expandHeadToHeadSectionKey = "expandHeadToHeadSection"
     
+    static let disablePixelFontKey = "disablePixelFont"
+    
+    @objc var disablePixelFont: Bool {
+        get { bool(forKey: Self.disablePixelFontKey) }
+        set { set(newValue, forKey: Self.disablePixelFontKey) }
+    }
+    
     @objc var shouldShowHeadToHead: Bool {
         get { bool(forKey: Self.shouldShowHeadToHeadKey) }
         set { set(newValue, forKey: Self.shouldShowHeadToHeadKey) }

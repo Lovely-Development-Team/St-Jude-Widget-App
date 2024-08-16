@@ -62,8 +62,12 @@ enum CampaignListSheet: Identifiable {
 struct CampaignList: View {
     
     init() {
-        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .headline).pointSize) ?? UIFont.systemFont(ofSize: 20)]
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)  ?? UIFont.systemFont(ofSize: 20)]
+        updateNavBarFont()
+    }
+    
+    func updateNavBarFont() {
+        UINavigationBar.appearance().titleTextAttributes = [.font : UserDefaults.shared.disablePixelFont ? UIFont.preferredFont(forTextStyle: .headline) : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .headline).pointSize) ?? UIFont.systemFont(ofSize: 20)]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UserDefaults.shared.disablePixelFont ? UIFont.preferredFont(forTextStyle: .largeTitle) : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)  ?? UIFont.systemFont(ofSize: 20)]
     }
     
     @Environment(\.colorScheme) var colorScheme
@@ -797,7 +801,6 @@ struct CampaignList: View {
                 .disabled(isRefreshing)
             }
         }
-        .navigationTitle("Relay for St. Jude 2024")
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value

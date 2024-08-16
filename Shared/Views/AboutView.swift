@@ -14,6 +14,8 @@ struct AboutView: View {
     
     @State private var backgroundColor: Color = .black
     
+    @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
+    
     var body: some View {
         ScrollView {
             VStack(spacing:0) {
@@ -71,6 +73,28 @@ struct AboutView: View {
                             }
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
                             .padding(.top)
+                        }
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    GroupBox {
+                        HStack {
+                            Text("Use Pixel Font")
+                            Spacer()
+                            Button(action: {
+                                disablePixelFont = false
+                            }) {
+                                Text("Yes")
+                                    .foregroundColor(disablePixelFont ? .primary : .white)
+                            }
+                            .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                            Button(action: {
+                                disablePixelFont = true
+                            }) {
+                                Text("No")
+                                    .foregroundColor(disablePixelFont ? .white : .primary)
+                            }
+                            .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
