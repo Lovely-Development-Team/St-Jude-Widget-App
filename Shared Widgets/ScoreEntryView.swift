@@ -13,7 +13,7 @@ struct ScoreEntryView: View {
     var entry: ScoreEntry
     
     @State private var mykeWidth: CGSize = .zero
-        
+    
     var mykeIsWinning: Bool {
         entry.score.myke.score > entry.score.stephen.score
     }
@@ -32,7 +32,7 @@ struct ScoreEntryView: View {
     
     var spriteScaleModifier: Double {
         switch family {
-        case .systemLarge:
+        case .systemLarge, .systemExtraLarge:
             return 1.3
         case .systemSmall:
             return 0.8
@@ -63,40 +63,79 @@ struct ScoreEntryView: View {
     
     var scoreFont: Font {
         switch family {
-        case .systemLarge:
-            return .largeTitle
+        case .systemLarge, .systemExtraLarge, .systemMedium:
+            return .atSize(60)
         default:
             return .title
         }
     }
+        
+    @ViewBuilder
+    func funkyText(of text: some View, color: Color = .red) -> some View {
+        text
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+            .shadow(color: color, radius: 0.4)
+    }
     
     @ViewBuilder
     var homeScreenWidget: some View {
-        ZStack {
-            ZStack(alignment: .bottom) {
-                Color.skyBackground.preferredColorScheme(.light)
-                AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
-                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
-                    .animation(.none, value: UUID())
-            }
-            VStack(spacing: 0) {
-                Spacer()
+        VStack(spacing: 0) {
+            Spacer()
+            if family == .systemMedium {
+                HStack(alignment: .top) {
+                    AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score > entry.score.myke.score ? .stephenWalk1 : .stephenIdle)
+                        .imageAtScale(scale: .spriteScale * spriteScaleModifier)
+                        .scaleEffect(x: -1)
+                    Spacer()
+                    Group {
+                        funkyText(of: Text(formatNumber(entry.score.stephen.score))
+                            .minimumScaleFactor(0.5)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(1)
+                            .foregroundColor(WidgetAppearance.stephenYellow),
+                                  color: .black
+                        )
+                        Spacer()
+                        funkyText(of: Text(formatNumber(entry.score.myke.score))
+                            .minimumScaleFactor(0.5)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(1)
+                            .foregroundColor(WidgetAppearance.mykeBlue.lighter(by: 10)), color: .black)
+                    }
+                    .offset(y: -30)
+                    Spacer()
+                    AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score < entry.score.myke.score ? .mykeWalk1 : .mykeIdle)
+                        .imageAtScale(scale: .spriteScale * spriteScaleModifier)
+                }
+                .font(scoreFont)
+                .padding(.horizontal)
+            } else {
                 Grid(verticalSpacing: 0) {
                     GridRow {
                         VStack {
                             Spacer()
-                            Text(formatNumber(entry.score.stephen.score))
+                            funkyText(of: Text(formatNumber(entry.score.stephen.score))
                                 .minimumScaleFactor(0.5)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(1)
+                                .foregroundColor(WidgetAppearance.stephenYellow),
+                                      color: .black
+                            )
                             Spacer()
                         }
                         VStack {
                             Spacer()
-                            Text(formatNumber(entry.score.myke.score))
+                            funkyText(of: Text(formatNumber(entry.score.myke.score))
                                 .minimumScaleFactor(0.5)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(1)
+                                .foregroundColor(WidgetAppearance.mykeBlue.lighter(by: 10)), color: .black)
                             Spacer()
                         }
                     }
@@ -104,18 +143,24 @@ struct ScoreEntryView: View {
                     .font(scoreFont)
                     .foregroundStyle(Color.white)
                     GridRow {
-                        AdaptiveImage.stephen(colorScheme: .light)
+                        AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score > entry.score.myke.score ? .stephenWalk1 : .stephenIdle)
                             .imageAtScale(scale: .spriteScale * spriteScaleModifier)
                             .scaleEffect(x: -1)
-                        AdaptiveImage.myke(colorScheme: .light)
+                        AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score < entry.score.myke.score ? .mykeWalk1 : .mykeIdle)
                             .imageAtScale(scale: .spriteScale * spriteScaleModifier)
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
                 }
                 .padding(.horizontal, scorePadding)
-                AdaptiveImage.groundRepeatable(colorScheme: .light)
-                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
             }
+            AdaptiveImage.groundRepeatable(colorScheme: .light)
+                .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
+        }
+        .background(alignment: .bottom) {
+            AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
+                .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
+                .animation(.none, value: UUID())
+                .frame(minWidth: 0, maxWidth: .infinity)
         }
         .dynamicTypeSize(.medium)
     }
@@ -194,13 +239,13 @@ struct ScoreEntryView: View {
 
 struct CampaignList_Previews: PreviewProvider {
     static var previews: some View {
-//        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-//            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
-//        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-//            .previewContext(WidgetPreviewContext(family: .accessoryInline))
-//        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-//            .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
+        //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
+        //            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+        //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
+        //            .previewContext(WidgetPreviewContext(family: .accessoryInline))
+        //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
+        //            .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
         ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

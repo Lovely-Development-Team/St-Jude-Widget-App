@@ -14,6 +14,10 @@ import SwiftUI
 
 extension Font {
     public static var customFontName: String { "SFPro" }
+    
+    public static func atSize(_ size: CGFloat) -> Font {
+        return Font.system(size: size)
+    }
 }
 
 #else
@@ -77,6 +81,11 @@ extension Font {
     public static var customFontName: String {
         return "ChicagoFLF"
     }
+    
+    public static func atSize(_ size: CGFloat) -> Font {
+        return Font.custom(Self.customFontName, size: size)
+    }
+    
 }
 
 #endif
