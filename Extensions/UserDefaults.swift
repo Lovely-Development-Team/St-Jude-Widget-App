@@ -30,6 +30,12 @@ extension UserDefaults {
     static let easterEggEnabled2024Key = "easterEggEnabled2024"
     
     static let disablePixelFontKey = "disablePixelFont"
+    static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
+    
+    @objc var playSoundsEvenWhenMuted: Bool {
+        get { bool(forKey: Self.playSoundsEvenWhenMutedKey) }
+        set { set(newValue, forKey: Self.playSoundsEvenWhenMutedKey) }
+    }
     
     @objc var disablePixelFont: Bool {
         get { bool(forKey: Self.disablePixelFontKey) }

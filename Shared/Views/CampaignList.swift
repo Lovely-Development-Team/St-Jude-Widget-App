@@ -224,6 +224,7 @@ struct CampaignList: View {
                 }
             }
             .frame(maxWidth: Double.stretchedContentMaxWidth)
+            
             AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
                 .tiledImageAtScale(axis: .horizontal)
         }

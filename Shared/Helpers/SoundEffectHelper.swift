@@ -37,7 +37,11 @@ class SoundEffectHelper {
                 if let url = Bundle.main.url(forResource: self.soundEffect.rawValue, withExtension: "mp3") {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setActive(false)
-                    try audioSession.setCategory(.ambient)
+                    if UserDefaults.shared.playSoundsEvenWhenMuted {
+                        try audioSession.setCategory(.playback, options: .mixWithOthers)
+                    } else {
+                        try audioSession.setCategory(.ambient)
+                    }
                     self.audioPlayer = try AVAudioPlayer(contentsOf: url)
                     self.audioPlayer?.prepareToPlay()
                 }
@@ -68,6 +72,26 @@ class SoundEffectHelper {
             let player = soundEffect.soundEffectPlayer
             player.setupSoundEffect()
             self.soundEffects[soundEffect] = player
+        }
+    }
+    
+    func setToPlayEvenOnMute() {
+        appLogger.debug("Setting audio session to playback")
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, options: .mixWithOthers)
+        } catch {
+            appLogger.debug("Could not set audio session category to playback: \(error.localizedDescription)")
+        }
+    }
+    
+    func setToOnlyPlayWhenUnmuted() {
+        appLogger.debug("Setting audio session to ambient")
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.ambient)
+        } catch {
+            appLogger.debug("Could not set audio session category to ambient: \(error.localizedDescription)")
         }
     }
     

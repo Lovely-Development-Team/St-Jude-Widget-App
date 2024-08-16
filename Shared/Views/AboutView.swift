@@ -15,6 +15,7 @@ struct AboutView: View {
     @State private var backgroundColor: Color = .black
     
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
+    @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
     
     var body: some View {
         ScrollView {
@@ -95,6 +96,30 @@ struct AboutView: View {
                                     .foregroundColor(disablePixelFont ? .white : .primary)
                             }
                             .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+                        }
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    GroupBox {
+                        HStack {
+                            Text("Play Sounds When Muted")
+                            Spacer()
+                            Button(action: {
+                                playSoundsEvenWhenMuted = true
+                                SoundEffectHelper.shared.setToPlayEvenOnMute()
+                            }) {
+                                Text("Yes")
+                                    .foregroundColor(playSoundsEvenWhenMuted ? .white : .primary)
+                            }
+                            .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+                            Button(action: {
+                                playSoundsEvenWhenMuted = false
+                                SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
+                            }) {
+                                Text("No")
+                                    .foregroundColor(playSoundsEvenWhenMuted ? .primary : .white    )
+                            }
+                            .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
