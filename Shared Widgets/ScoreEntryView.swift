@@ -81,6 +81,7 @@ struct ScoreEntryView: View {
             .shadow(color: color, radius: 0.4)
             .shadow(color: color, radius: 0.4)
             .shadow(color: color, radius: 0.4)
+            .compositingGroup()
     }
     
     @ViewBuilder
