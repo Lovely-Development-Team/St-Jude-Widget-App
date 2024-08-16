@@ -12,6 +12,8 @@ private var subsystem = Bundle.main.bundleIdentifier!
 
 let dataLog = OSLog(subsystem: subsystem, category: "Data")
 let dataLogger = Logger(dataLog)
+let appLog = OSLog(subsystem: subsystem, category: "App")
+let appLogger = Logger(appLog)
 let refreshLog = OSLog(subsystem: subsystem, category: "Refresh")
 let refreshLogger = Logger(dataLog)
 let sqlLog = OSLog(subsystem: subsystem, category: "SQL")

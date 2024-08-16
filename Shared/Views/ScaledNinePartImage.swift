@@ -52,8 +52,8 @@ struct ScaledNinePartImage: View {
 }
 
 struct BlockView: View {
-    @State var tint: Color?
-    @State var isPressed: Bool? = nil
+    var tint: Color?
+    var isPressed: Bool? = nil
     
     @ViewBuilder
     func buttonImageView(isPressed: Bool) -> some View {
