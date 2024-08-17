@@ -158,10 +158,16 @@ struct ScoreEntryView: View {
                 .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
         }
         .background(alignment: .bottom) {
-            AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
-                .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
-                .animation(.none, value: UUID())
-                .frame(minWidth: 0, maxWidth: .infinity)
+            ZStack(alignment: .bottom) {
+                AdaptiveImage(colorScheme: .light, light: .skyBackgroundRepeatable)
+                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .none)
+                    .animation(.none, value: UUID())
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
+                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
+                    .animation(.none, value: UUID())
+                    .frame(minWidth: 0, maxWidth: .infinity)
+            }
         }
         .dynamicTypeSize(.medium)
     }
@@ -247,6 +253,6 @@ struct CampaignList_Previews: PreviewProvider {
         //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
         //            .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
         ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }
