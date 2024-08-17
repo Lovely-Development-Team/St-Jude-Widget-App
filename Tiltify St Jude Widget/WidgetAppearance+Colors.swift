@@ -23,6 +23,41 @@ extension WidgetAppearance {
     static let stephenYellow = Color(red: 255 / 255, green: 186 / 255, blue: 4 / 255)
     static let mykeBlue = Color(red: 3 / 255, green: 84 / 255, blue: 208 / 255)
     
+    static let allCases: [WidgetAppearance] = [
+        .stjude,
+        .stjudetrueblack,
+        .relay,
+        .relaytrueblack,
+        .yellow,
+        .blue,
+        .purple,
+        .green,
+        .red,
+    ]
+    
+    var name: String {
+        switch self {
+        case .stjude:
+            return "St Jude"
+        case .stjudetrueblack:
+            return "St Jude (True Black)"
+        case .relay:
+            return "Relay"
+        case .relaytrueblack:
+            return "Relay (True Black)"
+        case .yellow:
+            return "Yellow"
+        case .blue:
+            return "Blue"
+        case .purple:
+            return "Purple"
+        case .red:
+            return "Red"
+        default:
+            return "Unknown"
+        }
+    }
+    
     var foregroundColor: Color {
         switch self {
             
