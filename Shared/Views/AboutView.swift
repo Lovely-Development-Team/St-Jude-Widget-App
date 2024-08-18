@@ -76,16 +76,6 @@ struct AboutView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
-                    Button(action: {
-                        self.dismiss()
-                    }, label: {
-                        Text("Done")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .fullWidth(alignment: .center)
-                    })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                    .padding(.horizontal)
                     
                     GroupBox {
                         HStack {
@@ -108,6 +98,17 @@ struct AboutView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    Button(action: {
+                        self.dismiss()
+                    }, label: {
+                        Text("Done")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .fullWidth(alignment: .center)
+                    })
+                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    .padding(.horizontal)
                     
                 }
                 .padding()

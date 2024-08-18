@@ -307,8 +307,6 @@ struct CampaignView: View {
                         }
                     }
                     .buttonStyle(BlockButtonStyle())
-                    .padding(.bottom)
-
                 }
 
                 if !milestones.isEmpty {
