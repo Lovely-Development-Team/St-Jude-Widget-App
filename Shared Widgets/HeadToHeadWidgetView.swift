@@ -9,13 +9,14 @@ import SwiftUI
 import WidgetKit
 import Kingfisher
 
-let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.red
-let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.purple
+let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.blue
+let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.green
 
 struct HeadToHeadWidgetView: View {
     @Environment(\.widgetFamily) var family
     @Environment(\.showsWidgetContainerBackground) var showsBackground
     @Environment(\.widgetRenderingMode) var renderingMode
+    @Environment(\.colorScheme) var colorScheme
     
     var entry: HeadToHeadProvider.Entry
     
@@ -79,7 +80,7 @@ struct HeadToHeadWidgetView: View {
     
     var labelColor: Color {
         if(showColorBackground) {
-            return .white
+            return .primary
         }
         return .label
     }
@@ -87,10 +88,16 @@ struct HeadToHeadWidgetView: View {
     @ViewBuilder
     var backgroundView: some View {
         if(family == .systemSmall) {
-            LinearGradient(colors: smallBackgroundColors, startPoint: .bottom, endPoint: .top)
-        } else if(family == .systemLarge) {
+//            LinearGradient(colors: smallBackgroundColors, startPoint: .bottom, endPoint: .top)
+            if campaign2 == winner {
+                AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                    .tiledImageAtScale()
+            } else {
+                SkyView()
+            }
+        } else if(family == .systemExtraLarge || family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
-        } else if(family == .systemExtraLarge || family == .systemMedium) {
+        } else if(family == .systemMedium) {
             backgroundRectView(isHorizontal: true, isSkewed: true)
         }
     }
@@ -100,56 +107,35 @@ struct HeadToHeadWidgetView: View {
         if(isHorizontal) {
             ZStack {
                 if(showColorBackground) {
-                    HStack(spacing:0) {
-                        Rectangle()
-                            .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-                        Rectangle()
-                            .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
-                    }
-                }
-                ZStack {
-                    if(showColorBackground) {
-                        HStack(spacing:0) {
-                            Rectangle()
-                                .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-                            Rectangle()
-                                .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                    GeometryReader { geo in
+                        HStack(spacing: 0) {
+                            SkyView()
+                                .frame(width: geo.frame(in: .local).size.width / 2, height: geo.frame(in: .local).size.height)
+                            AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                                .tiledImageAtScale()
                         }
                     }
-                    Rectangle()
-                        .fill(labelColor)
-                        .frame(maxHeight:.infinity)
-                        .frame(width:2)
                 }
-                .scaleEffect(y: isSkewed ? 1.5 : 1)
-                .rotationEffect(Angle(degrees: isSkewed ? 15 : 0))
+                Rectangle()
+                    .fill(.black)
+                    .frame(maxHeight:.infinity)
+                    .frame(width:2)
             }
         } else {
             ZStack {
                 if(showColorBackground) {
-                    VStack(spacing:0) {
-                        Rectangle()
-                            .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-                        Rectangle()
-                            .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
-                    }
-                }
-                ZStack {
-                    if(showColorBackground) {
-                        VStack(spacing:0) {
-                            Rectangle()
-                                .fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
-                            Rectangle()
-                                .fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
+                    GeometryReader { geo in
+                        VStack(spacing: 0) {
+                            SkyView()
+                                .frame(width: geo.frame(in: .local).size.width, height: geo.frame(in: .local).size.height / 2)
+                            AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                                .tiledImageAtScale()
                         }
                     }
                     Rectangle()
-                        .fill(labelColor)
-                        .frame(maxWidth:.infinity)
-                        .frame(height:2)
+                        .fill(.black)
+                        .frame(maxHeight: 2)
                 }
-                .scaleEffect(x: isSkewed ? 1.5 : 1)
-                .rotationEffect(Angle(degrees: isSkewed ? 15 : 0))
             }
         }
     }
@@ -297,12 +283,12 @@ struct HeadToHeadWidgetView: View {
         case .systemMedium:
             mediumSizeContent
                 .padding(padded ? .all : [])
-        case .systemLarge:
+        case .systemLarge, .systemExtraLarge:
             largeSizeContent
                 .padding(padded ? .all : [])
-        case .systemExtraLarge:
-            extraLargeContent
-                .padding(padded ? .all : [])
+//        case .systemExtraLarge:
+//            extraLargeContent
+//                .padding(padded ? .all : [])
         case .accessoryCircular:
             circularLockScreenContent
         case .accessoryRectangular:
@@ -391,10 +377,9 @@ extension HeadToHeadWidgetView {
                         HStack(alignment: .top) {
                             avatarImageView(for: campaign1 ?? sampleCampaign)
                             if(campaign1?.id == winner?.id) {
-                                Image(systemName: "crown.fill")
-                                    .font(.system(size: 30))
+                                AdaptiveImage.coin(colorScheme: .light)
+                                    .imageAtScale(scale: Double.spriteScale * 1.2)
                                     .foregroundStyle(Color.brandYellow)
-                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                         }
                         if let campaign1 = campaign1 {
@@ -425,10 +410,9 @@ extension HeadToHeadWidgetView {
                     VStack(alignment: .trailing) {
                         HStack(alignment: .top) {
                             if(campaign2?.id == winner?.id) {
-                                Image(systemName: "crown.fill")
-                                    .font(.system(size: 30))
+                                AdaptiveImage.coin(colorScheme: .light)
+                                    .imageAtScale(scale: Double.spriteScale * 1.2)
                                     .foregroundStyle(Color.brandYellow)
-                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                             avatarImageView(for: campaign2 ?? sampleCampaign)
                         }
@@ -472,124 +456,131 @@ extension HeadToHeadWidgetView {
     var largeSizeContent: some View {
         ZStack {
             VStack {
-                HStack {
-                    VStack(alignment: .leading) {
-                        HStack (alignment: .top) {
-                            avatarImageView(for: campaign1 ?? sampleCampaign)
-                            VStack(alignment: .leading) {
+                ZStack(alignment: .bottomTrailing) {
+                    GroupBox {
+                        VStack(alignment: .leading) {
+                            HStack (alignment: .top) {
+                                avatarImageView(for: campaign1 ?? sampleCampaign)
+                                VStack(alignment: .leading) {
+                                    if let campaign1 = campaign1 {
+                                        Text(campaign1.username ?? "Unknown")
+                                            .foregroundStyle(labelColor)
+                                            .font(.title2)
+                                            .bold()
+                                        Text(campaign1.name)
+                                            .foregroundStyle(labelColor)
+                                            .font(.body)
+                                    } else {
+                                        Text("Username")
+                                            .foregroundStyle(labelColor)
+                                            .font(.title2)
+                                            .bold()
+                                            .redacted(reason: .placeholder)
+                                        Text("Some Campaign for St. Jude")
+                                            .foregroundStyle(labelColor)
+                                            .font(.body)
+                                            .redacted(reason: .placeholder)
+                                    }
+                                }
+                                Spacer()
+                            }
+                            HStack(alignment: .lastTextBaseline) {
                                 if let campaign1 = campaign1 {
-                                    Text(campaign1.username ?? "Unknown")
+                                    Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                         .foregroundStyle(labelColor)
-                                        .font(.title2)
-                                        .bold()
-                                    Text(campaign1.name)
-                                        .foregroundStyle(labelColor)
-                                        .font(.body)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .lineLimit(1)
                                 } else {
-                                    Text("Username")
+                                    Text("$123,456.00")
                                         .foregroundStyle(labelColor)
-                                        .font(.title2)
-                                        .bold()
-                                        .redacted(reason: .placeholder)
-                                    Text("Some Campaign for St. Jude")
-                                        .foregroundStyle(labelColor)
-                                        .font(.body)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .lineLimit(1)
                                         .redacted(reason: .placeholder)
                                 }
                             }
                         }
-                        HStack(alignment: .lastTextBaseline) {
-                            if let campaign1 = campaign1 {
-                                Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
-                                    .foregroundStyle(labelColor)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .lineLimit(1)
-                            } else {
-                                Text("$123,456.00")
-                                    .foregroundStyle(labelColor)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .lineLimit(1)
-                                    .redacted(reason: .placeholder)
-                            }
-                            Spacer()
-                            if(campaign1?.id == winner?.id) {
-                                Image(systemName: "crown.fill")
-                                    .font(.system(size: 30))
-                                    .imageScale(.large)
-                                    .foregroundStyle(Color.brandYellow)
-                                    .background(Circle().fill(.white).blur(radius: 30))
-                            }
-                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
                     }
-                    Spacer()
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    if(campaign1?.id == winner?.id) {
+                        AdaptiveImage.coin(colorScheme: .light)
+                            .imageAtScale(scale: Double.spriteScale * 1.6)
+                            .foregroundStyle(Color.brandYellow)
+                            .offset(x: 5, y: 5)
+                    }
                 }
                 .padding(.bottom)
-                HStack {
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        HStack(alignment: .lastTextBaseline) {
-                            if(campaign2?.id == winner?.id) {
-                                Image(systemName: "crown.fill")
-                                    .font(.system(size: 30))
-                                    .imageScale(.large)
-                                    .foregroundStyle(Color.brandYellow)
-                                    .background(Circle().fill(.white).blur(radius: 30))
-                            }
-                            Spacer()
-                            if let campaign2 = campaign2 {
-                                Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
-                                    .foregroundStyle(labelColor)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .lineLimit(1)
-                            } else {
-                                Text("$123,456.00")
-                                    .foregroundStyle(labelColor)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .lineLimit(1)
-                                    .redacted(reason: .placeholder)
-                            }
-                        }
-                        HStack (alignment: .bottom) {
-                            VStack(alignment: .trailing) {
+//                .padding(.bottom, 15)
+                ZStack(alignment: .topLeading) {
+                    GroupBox {
+                        VStack(alignment: .trailing) {
+                            HStack(alignment: .lastTextBaseline) {
                                 if let campaign2 = campaign2 {
-                                    Text(campaign2.username ?? "Unknown")
+                                    Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                         .foregroundStyle(labelColor)
-                                        .font(.title2)
-                                        .bold()
-                                        .multilineTextAlignment(.trailing)
-                                    Text(campaign2.name)
-                                        .foregroundStyle(labelColor)
-                                        .font(.body)
-                                        .multilineTextAlignment(.trailing)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .lineLimit(1)
                                 } else {
-                                    Text("Username")
+                                    Text("$123,456.00")
                                         .foregroundStyle(labelColor)
-                                        .font(.title2)
-                                        .bold()
-                                        .multilineTextAlignment(.trailing)
-                                        .redacted(reason: .placeholder)
-                                    Text("Some Campaign for St. Jude")
-                                        .foregroundStyle(labelColor)
-                                        .font(.body)
-                                        .multilineTextAlignment(.trailing)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .lineLimit(1)
                                         .redacted(reason: .placeholder)
                                 }
                             }
-                            avatarImageView(for: campaign2 ?? sampleCampaign)
+                            HStack (alignment: .bottom) {
+                                Spacer()
+                                VStack(alignment: .trailing) {
+                                    if let campaign2 = campaign2 {
+                                        Text(campaign2.username ?? "Unknown")
+                                            .foregroundStyle(labelColor)
+                                            .font(.title2)
+                                            .bold()
+                                            .multilineTextAlignment(.trailing)
+                                        Text(campaign2.name)
+                                            .foregroundStyle(labelColor)
+                                            .font(.body)
+                                            .multilineTextAlignment(.trailing)
+                                    } else {
+                                        Text("Username")
+                                            .foregroundStyle(labelColor)
+                                            .font(.title2)
+                                            .bold()
+                                            .multilineTextAlignment(.trailing)
+                                            .redacted(reason: .placeholder)
+                                        Text("Some Campaign for St. Jude")
+                                            .foregroundStyle(labelColor)
+                                            .font(.body)
+                                            .multilineTextAlignment(.trailing)
+                                            .redacted(reason: .placeholder)
+                                    }
+                                }
+                                avatarImageView(for: campaign2 ?? sampleCampaign)
+                            }
                         }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    if(campaign2?.id == winner?.id) {
+                        AdaptiveImage.coin(colorScheme: .light)
+                            .imageAtScale(scale: Double.spriteScale * 1.6)
+                            .foregroundStyle(Color.brandYellow)
+                            .offset(x: -5, y: -5)
                     }
                 }
                 .padding(.top)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
                 .frame(height: 15)
                 .overlay {
-                    Capsule().stroke(labelColor, style: StrokeStyle(lineWidth: 2))
+                    Capsule().stroke(.black, style: StrokeStyle(lineWidth: 2))
                 }
+//                .padding(.bottom, 30)
         }
     }
 }
@@ -606,44 +597,47 @@ extension HeadToHeadWidgetView {
                             avatarImageView(for: campaign1 ?? sampleCampaign)
                                 .frame(maxHeight: 100)
                             if(campaign1?.id == winner?.id) {
-                                Image(systemName: "crown.fill")
-                                    .font(.system(size: 30))
-                                    .imageScale(.large)
+                                AdaptiveImage.coin(colorScheme: .light)
+                                    .imageAtScale(scale: Double.spriteScale * 2)
                                     .foregroundStyle(Color.brandYellow)
-                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                         }
                         Spacer()
-                        if let campaign1 = campaign1 {
-                            Text(campaign1.username ?? "Unknown")
-                                .foregroundStyle(labelColor)
-                                .font(.title2)
-                                .bold()
-                            Text(campaign1.name)
-                                .foregroundStyle(labelColor)
-                                .font(.body)
-                            HStack {
+                        GroupBox {  VStack(alignment: .leading) {
+                            if let campaign1 = campaign1 {
+                                Text(campaign1.username ?? "Unknown")
+                                    .foregroundStyle(labelColor)
+                                    .font(.title2)
+                                    .bold()
+                                Text(campaign1.name)
+                                    .foregroundStyle(labelColor)
+                                    .font(.body)
                                 Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                     .foregroundStyle(labelColor)
                                     .font(.title)
                                     .fontWeight(.bold)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            } else {
+                                Text("Username")
+                                    .foregroundStyle(labelColor)
+                                    .font(.title2)
+                                    .bold()
+                                    .redacted(reason: .placeholder)
+                                Text("Some Campaign for St. Jude")
+                                    .foregroundStyle(labelColor)
+                                    .font(.body)
+                                    .redacted(reason: .placeholder)
+                                Text("$123,456.00")
+                                    .foregroundStyle(labelColor)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .redacted(reason: .placeholder)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             }
-                        } else {
-                            Text("Username")
-                                .foregroundStyle(labelColor)
-                                .font(.title2)
-                                .bold()
-                                .redacted(reason: .placeholder)
-                            Text("Some Campaign for St. Jude")
-                                .foregroundStyle(labelColor)
-                                .font(.body)
-                                .redacted(reason: .placeholder)
-                            Text("$123,456.00")
-                                .foregroundStyle(labelColor)
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .redacted(reason: .placeholder)
+                        }.frame(minWidth: 0, maxWidth: .infinity)
                         }
+                        .groupBoxStyle(BlockGroupBoxStyle())
+                        .padding(.trailing, 4)
                     }
                     Spacer()
                 }
@@ -652,48 +646,58 @@ extension HeadToHeadWidgetView {
                     VStack(alignment: .trailing) {
                         HStack(alignment: .top) {
                             if(campaign2?.id == winner?.id) {
-                                Image(systemName: "crown.fill")
-                                    .font(.system(size: 30))
-                                    .imageScale(.large)
+                                AdaptiveImage.coin(colorScheme: .light)
+                                    .imageAtScale(scale: Double.spriteScale * 2)
                                     .foregroundStyle(Color.brandYellow)
-                                    .background(Circle().fill(.white).blur(radius: 30))
+//                                Image(systemName: "crown.fill")
+//                                    .font(.system(size: 30))
+//                                    .imageScale(.large)
+//                                    .foregroundStyle(Color.brandYellow)
+//                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                             avatarImageView(for: campaign2 ?? sampleCampaign)
                                 .frame(maxHeight: 100)
                         }
                         Spacer()
-                        if let campaign2 = campaign2 {
-                            Text(campaign2.username ?? "Unknown")
-                                .foregroundStyle(labelColor)
-                                .font(.title2)
-                                .bold()
-                                .multilineTextAlignment(.trailing)
-                            Text(campaign2.name)
-                                .foregroundStyle(labelColor)
-                                .font(.body)
-                                .multilineTextAlignment(.trailing)
-                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
-                                .foregroundStyle(labelColor)
-                                .font(.title)
-                                .fontWeight(.bold)
-                        } else {
-                            Text("Username")
-                                .foregroundStyle(labelColor)
-                                .font(.title2)
-                                .bold()
-                                .multilineTextAlignment(.trailing)
-                                .redacted(reason: .placeholder)
-                            Text("Some Campaign for St. Jude")
-                                .foregroundStyle(labelColor)
-                                .font(.body)
-                                .multilineTextAlignment(.trailing)
-                                .redacted(reason: .placeholder)
-                            Text("$123,456.00")
-                                .foregroundStyle(labelColor)
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .redacted(reason: .placeholder)
+                        GroupBox { VStack(alignment: .trailing) {
+                            if let campaign2 = campaign2 {
+                                Text(campaign2.username ?? "Unknown")
+                                    .foregroundStyle(labelColor)
+                                    .font(.title2)
+                                    .bold()
+                                    .multilineTextAlignment(.trailing)
+                                Text(campaign2.name)
+                                    .foregroundStyle(labelColor)
+                                    .font(.body)
+                                    .multilineTextAlignment(.trailing)
+                                Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
+                                    .foregroundStyle(labelColor)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+                            } else {
+                                Text("Username")
+                                    .foregroundStyle(labelColor)
+                                    .font(.title2)
+                                    .bold()
+                                    .multilineTextAlignment(.trailing)
+                                    .redacted(reason: .placeholder)
+                                Text("Some Campaign for St. Jude")
+                                    .foregroundStyle(labelColor)
+                                    .font(.body)
+                                    .multilineTextAlignment(.trailing)
+                                    .redacted(reason: .placeholder)
+                                Text("$123,456.00")
+                                    .foregroundStyle(labelColor)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .redacted(reason: .placeholder)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+                            }
+                        }.frame(minWidth: 0, maxWidth: .infinity)
                         }
+                        .groupBoxStyle(BlockGroupBoxStyle())
+                        .padding(.leading, 4)
                     }
                 }
             }
