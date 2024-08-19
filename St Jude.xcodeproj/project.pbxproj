@@ -144,6 +144,8 @@
 		5E7C300528C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C300428C600C800A9B0D5 /* CampaignConfigurationIntentHandler.swift */; };
 		5E9921542C6B5DDC0048B92D /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E9921532C6B5DDC0048B92D /* jump.mp3 */; };
 		5E9921552C6B5DDC0048B92D /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E9921532C6B5DDC0048B92D /* jump.mp3 */; };
+		5EAF63002C738C3E00090101 /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
+		5EAF63012C738C3E00090101 /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
 		5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */; };
 		5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */; };
 		5EC3B82428C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */; };
@@ -1368,6 +1370,7 @@
 				5E180C2528B7F3F400F10BE5 /* Reward.swift in Sources */,
 				6350A75B28BE0646000A986F /* FundraisingEventEntry.swift in Sources */,
 				4301B7FB2AA17E0B00B4F9DA /* HeadToHeadEntry.swift in Sources */,
+				5EAF63012C738C3E00090101 /* SkyView.swift in Sources */,
 				63D0CD0228B117390073957E /* Campaign.swift in Sources */,
 				5E1705CF28C4AAB700E70019 /* FundraisingLockScreenWidgetView.swift in Sources */,
 				63D0CD2028B4E8AB0073957E /* Sequence.swift in Sources */,
@@ -1644,6 +1647,7 @@
 				63D0CCF328B102AA0073957E /* AppDatabase.swift in Sources */,
 				63574A3E26D65BCE00A2D495 /* WidgetEntryView.swift in Sources */,
 				5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
+				5EAF63002C738C3E00090101 /* SkyView.swift in Sources */,
 				5E5814B02C6EA46D0044662C /* BlockGroupBoxStyle.swift in Sources */,
 				5EF748D526DF74B7008174DF /* Notifications.swift in Sources */,
 				5E180C1D28B7F18F00F10BE5 /* Milestone.swift in Sources */,
