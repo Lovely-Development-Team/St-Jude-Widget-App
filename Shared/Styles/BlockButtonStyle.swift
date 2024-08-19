@@ -53,7 +53,6 @@ struct BlockButtonStyle: ButtonStyle {
                     .animation(.none, value: UUID())
             }
         }
-        .opacity(self.disabled ? 0.5 : 1.0)
         .background {
             Group {
                 if(self.disabled) {

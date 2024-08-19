@@ -7,11 +7,7 @@
 
 import SwiftUI
 
-enum LandscapeElement: Int, CaseIterable, Identifiable {
-    var id: Int {
-        self.rawValue
-    }
-    
+enum LandscapeElementType: Int, CaseIterable {
     case myke
     case stephen
     case coin
@@ -19,7 +15,7 @@ enum LandscapeElement: Int, CaseIterable, Identifiable {
     case flower
     case empty
     
-    static func random(isMainScreen: Bool = true) -> LandscapeElement {
+    static func random(isMainScreen: Bool = true) -> LandscapeElementType {
         if(isMainScreen) {
             return self.allCases.filter({$0 != .myke && $0 != .stephen})
                 .randomElement()!
@@ -27,25 +23,58 @@ enum LandscapeElement: Int, CaseIterable, Identifiable {
         return self.allCases.filter({$0 != .myke && $0 != .stephen && $0 != .coin})
             .randomElement()!
     }
+}
+
+struct LandscapeElement: Identifiable {
+    var id = UUID()
+    
+    var type: LandscapeElementType
+    var offset: CGFloat = CGFloat.random(in: -25...25)
     
     @ViewBuilder
-    func view(colorScheme: ColorScheme) -> some View {
-        switch self {
+    func view(colorScheme: ColorScheme, easterEggEnabled: Bool) -> some View {
+        switch self.type {
         case .myke:
-            EasterEggImage(content: {
-                AdaptiveImage.myke(colorScheme: colorScheme)
-                    .imageAtScale()
-            }, onTap: {
-                SoundEffectHelper.shared.play(.honk)
-            })
+            if(easterEggEnabled) {
+                    ZStack(alignment:.bottom) {
+                        AdaptiveImage.isoGround(colorScheme: colorScheme)
+                            .imageAtScale()
+                        VStack {
+                            EasterEggImage(content: {
+                                AdaptiveImage.jonyCube(colorScheme: colorScheme)
+                                    .imageAtScale()
+                            }, onTap: {
+                                SoundEffectHelper.shared.play(.softMatt)
+                            })
+                                .padding(.bottom, (10 * 10) * Double.spriteScale)
+                        }
+                    }
+            } else {
+                EasterEggImage(content: {
+                    AdaptiveImage.myke(colorScheme: colorScheme)
+                        .imageAtScale()
+                }, onTap: {
+                    SoundEffectHelper.shared.play(.honk)
+                })
+            }
         case .stephen:
-            EasterEggImage(content: {
-                AdaptiveImage.stephen(colorScheme: colorScheme)
-                    .imageAtScale()
-                    .scaleEffect(x: -1)
-            }, onTap: {
-                SoundEffectHelper.shared.play(.joe)
-            })
+            if(easterEggEnabled) {
+                EasterEggImage(content: {
+                    AdaptiveImage.dogcow(colorScheme: colorScheme)
+                        .imageAtScale()
+                        .scaleEffect(x: -1)
+                }, onTap: {
+                    SoundEffectHelper.shared.play(.moof)
+                })
+            } else {
+                EasterEggImage(content: {
+                    AdaptiveImage.stephen(colorScheme: colorScheme)
+                        .imageAtScale()
+                        .scaleEffect(x: -1)
+                }, onTap: {
+                    SoundEffectHelper.shared.play(.joe)
+                })
+            }
         case .bush:
             AdaptiveImage.bush(colorScheme: colorScheme)
                 .imageAtScale()
@@ -53,8 +82,7 @@ enum LandscapeElement: Int, CaseIterable, Identifiable {
             AdaptiveImage.flower(colorScheme: colorScheme)
                 .imageAtScale()
         case .coin:
-            AdaptiveImage.coin(colorScheme: colorScheme)
-                .imageAtScale()
+            TappableCoin()
         default:
             EmptyView()
         }
@@ -96,7 +124,11 @@ struct RandomLandscapeData {
         self.elevatedShown = self.isForMainScreen ? Bool.random() : false
         
         self.mykeElevated = self.elevatedShown ? Bool.random() : false
-        self.stephenElevated = self.elevatedShown ? Bool.random() : false
+        if(UserDefaults.shared.easterEggEnabled2024) {
+            self.stephenElevated = self.elevatedShown ? !self.mykeElevated : false
+        } else {
+            self.stephenElevated = self.elevatedShown ? Bool.random() : false
+        }
         
         if(self.isForMainScreen) {
             self.mykeLocation = Int.random(in: 0..<(self.mykeElevated ? self.numElevatedElements : self.numGroundElements))
@@ -114,26 +146,32 @@ struct RandomLandscapeData {
         
         self.groundElements = (0..<self.numGroundElements).map { i in
             if(!self.mykeElevated && self.mykeLocation == i) {
-                return .myke
+                return .init(type: .myke)
             }
             
             if(!self.stephenElevated && self.stephenLocation == i) {
-                return .stephen
+                return .init(type: .stephen)
             }
             
-            return .random(isMainScreen: self.isForMainScreen)
+            return .init(type: .random(isMainScreen: self.isForMainScreen))
         }
         
-        self.elevatedElements = (0..<self.numElevatedElements).map { i in
-            if(self.mykeElevated && self.mykeLocation == i) {
-                return .myke
+        if(self.mykeElevated && UserDefaults.shared.easterEggEnabled2024) {
+            self.elevatedElements = [.init(type: .myke)]
+        } else if(self.stephenElevated && UserDefaults.shared.easterEggEnabled2024) {
+            self.elevatedElements = [.init(type: .stephen)]
+        } else {
+            self.elevatedElements = (0..<self.numElevatedElements).map { i in
+                if(self.mykeElevated && self.mykeLocation == i) {
+                    return .init(type: .myke)
+                }
+                
+                if(self.stephenElevated && self.stephenLocation == i) {
+                    return .init(type: .stephen)
+                }
+                
+                return .init(type: .random(isMainScreen: self.isForMainScreen))
             }
-            
-            if(self.stephenElevated && self.stephenLocation == i) {
-                return .stephen
-            }
-            
-            return .random(isMainScreen: self.isForMainScreen)
         }
         self.backgroundBlockType = Bool.random()
         self.backgroundBlockColor = Color.randomBrandedColor
@@ -142,6 +180,7 @@ struct RandomLandscapeData {
 
 struct RandomLandscapeView<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     
     @Binding var data: RandomLandscapeData
     
@@ -180,7 +219,7 @@ struct RandomLandscapeView<Content: View>: View {
                         HStack(alignment: .bottom, spacing:0) {
                             ForEach(self.data.elevatedElements) { element in
                                 Spacer()
-                                element.view(colorScheme: self.colorScheme)
+                                element.view(colorScheme: self.colorScheme, easterEggEnabled: self.easterEggEnabled2024)
                             }
                             Spacer()
                         }
@@ -200,7 +239,7 @@ struct RandomLandscapeView<Content: View>: View {
         HStack(alignment:.bottom, spacing:0) {
             ForEach(self.data.groundElements) { element in
                 Spacer()
-                element.view(colorScheme: self.colorScheme)
+                element.view(colorScheme: self.colorScheme, easterEggEnabled: self.easterEggEnabled2024)
             }
             Spacer()
         }
@@ -220,8 +259,6 @@ struct RandomLandscapeView<Content: View>: View {
                     self.backgroundLayer()
                 }
             }
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis:.horizontal)
         }
         .frame(maxWidth: .infinity)
         .onAppear {

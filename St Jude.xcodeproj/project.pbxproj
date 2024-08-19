@@ -73,6 +73,14 @@
 		43E555392AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43E5553A2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
 		43E5553B2AB91BF6006EC83F /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43E555362AB91BF6006EC83F /* drumroll.mp3 */; };
+		43F786382C72BF670011950C /* softmatt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43F786362C72BF660011950C /* softmatt.mp3 */; };
+		43F786392C72BF670011950C /* softmatt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43F786362C72BF660011950C /* softmatt.mp3 */; };
+		43F7863A2C72BF670011950C /* moof.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43F786372C72BF670011950C /* moof.mp3 */; };
+		43F7863B2C72BF670011950C /* moof.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43F786372C72BF670011950C /* moof.mp3 */; };
+		43F7863E2C72BF710011950C /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
+		43F7863F2C72BF710011950C /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
+		43F786402C72BF710011950C /* TappableCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863D2C72BF710011950C /* TappableCoin.swift */; };
+		43F786412C72BF710011950C /* TappableCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863D2C72BF710011950C /* TappableCoin.swift */; };
 		43F8A6132ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
 		43F8A6142ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
 		43F8A6162ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */; };
@@ -499,6 +507,10 @@
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4397FD612C64FF8000C0591B /* PixelRounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelRounding.swift; sourceTree = "<group>"; };
 		43E555362AB91BF6006EC83F /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
+		43F786362C72BF660011950C /* softmatt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = softmatt.mp3; sourceTree = "<group>"; };
+		43F786372C72BF670011950C /* moof.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = moof.mp3; sourceTree = "<group>"; };
+		43F7863C2C72BF710011950C /* SkyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyView.swift; sourceTree = "<group>"; };
+		43F7863D2C72BF710011950C /* TappableCoin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableCoin.swift; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
 		43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView.swift; sourceTree = "<group>"; };
 		5E1705C328C0C47000E70019 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -727,6 +739,8 @@
 				430E7A032C606481005E1973 /* honk.mp3 */,
 				430E7A042C606481005E1973 /* joe.mp3 */,
 				5E9921532C6B5DDC0048B92D /* jump.mp3 */,
+				43F786372C72BF670011950C /* moof.mp3 */,
+				43F786362C72BF660011950C /* softmatt.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -945,6 +959,8 @@
 				5E5814AA2C6E39C40044662C /* AnimatedAdaptiveImage.swift */,
 				430E7A3B2C6064BC005E1973 /* ScaledNinePartImage.swift */,
 				430035C72C6ADCE300F5AA29 /* RandomLandscapeView.swift */,
+				43F7863C2C72BF710011950C /* SkyView.swift */,
+				43F7863D2C72BF710011950C /* TappableCoin.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1275,8 +1291,10 @@
 			files = (
 				43E555372AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
+				43F7863A2C72BF670011950C /* moof.mp3 in Resources */,
 				43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				430E7A052C606481005E1973 /* honk.mp3 in Resources */,
+				43F786382C72BF670011950C /* softmatt.mp3 in Resources */,
 				5E9921542C6B5DDC0048B92D /* jump.mp3 in Resources */,
 				439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 				430E7A0A2C606481005E1973 /* joe.mp3 in Resources */,
@@ -1289,8 +1307,10 @@
 			files = (
 				43E555382AB91BF6006EC83F /* drumroll.mp3 in Resources */,
 				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
+				43F7863B2C72BF670011950C /* moof.mp3 in Resources */,
 				43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				430E7A062C606481005E1973 /* honk.mp3 in Resources */,
+				43F786392C72BF670011950C /* softmatt.mp3 in Resources */,
 				5E9921552C6B5DDC0048B92D /* jump.mp3 in Resources */,
 				439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
 				430E7A0B2C606481005E1973 /* joe.mp3 in Resources */,
@@ -1444,6 +1464,7 @@
 				5E482E5028B7B03C00131DE1 /* CampaignView.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
 				5E5814AB2C6E39C70044662C /* AnimatedAdaptiveImage.swift in Sources */,
+				43F7863E2C72BF710011950C /* SkyView.swift in Sources */,
 				4397FD632C64FF8000C0591B /* PixelRounding.swift in Sources */,
 				63ACF01326D4E6D800F98023 /* Refresh.swift in Sources */,
 				5EE56C132A7BBF4F00FA71DF /* ApiClientRequestQueries.swift in Sources */,
@@ -1486,6 +1507,7 @@
 				5EEB569F2AA090E7008AABF1 /* HeadToHeadListItem.swift in Sources */,
 				DE0F34BE26DA6A8400F268C9 /* DeviceType.swift in Sources */,
 				63D0CCF128B102AA0073957E /* AppDatabase.swift in Sources */,
+				43F786402C72BF710011950C /* TappableCoin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1515,6 +1537,7 @@
 				63E19D5A26E230D7009F318F /* NotificationSettings.swift in Sources */,
 				5E482E5128B7B03C00131DE1 /* CampaignView.swift in Sources */,
 				630DD48626E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
+				43F7863F2C72BF710011950C /* SkyView.swift in Sources */,
 				63E19D5B26E230F4009F318F /* NotificationSettingsController.swift in Sources */,
 				63A6F9AA26D64E9500095ACB /* ProgressBar.swift in Sources */,
 				BA2A9C9B28C068CF001D66E1 /* SupporterView.swift in Sources */,
@@ -1550,6 +1573,7 @@
 				5E1705C928C32F5D00E70019 /* TapToWobble.swift in Sources */,
 				6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				430E7A2D2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
+				43F786412C72BF710011950C /* TappableCoin.swift in Sources */,
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				5E7C2FFA28C521BB00A9B0D5 /* UnicornView.swift in Sources */,
 				63A6F9A126D64CF000095ACB /* TiltifyWidgetData.swift in Sources */,

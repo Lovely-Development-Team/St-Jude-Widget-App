@@ -30,6 +30,7 @@ class FetchSupporters: ObservableObject {
 
 struct SupporterView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
     @StateObject var fetch = FetchSupporters()
     
     @State private var animate = false
@@ -44,33 +45,32 @@ struct SupporterView: View {
         let supporters = fetch.supporters
         ScrollView {
             VStack(spacing: 0) {
-                VStack {
-                    Text("Supporters")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.top)
-                    Text("Our thanks to these awesome people for donating to our fundraiser!")
-                        .padding(.top, 2)
-                        .padding(.bottom, 10)
-                        .multilineTextAlignment(.center)
-                    Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
-                        Text("tildy.dev/stjude")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .fullWidth(alignment: .center)
-                    })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                    .padding(.bottom, 30)
-                }
-                .padding()
-                RandomLandscapeView(data: self.$landscapeData) {}
-                .background {
-                    ZStack(alignment: .bottom) {
-                        Color.skyBackground
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                            .animation(.none, value: UUID())
+                VStack(spacing: 0) {
+                    VStack {
+                        Text("Supporters")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.top)
+                        Text("Our thanks to these awesome people for donating to our fundraiser!")
+                            .padding(.top, 2)
+                            .padding(.bottom, 10)
+                            .multilineTextAlignment(.center)
+                        Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
+                            Text("tildy.dev/stjude")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .fullWidth(alignment: .center)
+                        })
+                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                        .padding(.bottom, 30)
                     }
+                    .padding()
+                    RandomLandscapeView(data: self.$landscapeData) {}
+                    AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                        .tiledImageAtScale(axis: .horizontal)
+                }
+                .background {
+                    SkyView()
                 }
                 VStack {
                     if (supporters.count > 0) {
@@ -97,6 +97,15 @@ struct SupporterView: View {
                         .groupBoxStyle(BlockGroupBoxStyle())
                     }
                     Button(action: {
+                        self.dismiss()
+                    }, label: {
+                        Text("Close")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .fullWidth(alignment: .center)
+                    })
+                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    Button(action: {
                         withAnimation {
 #if !os(macOS)
                             bounceHaptics.impactOccurred()
@@ -115,7 +124,6 @@ struct SupporterView: View {
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    Spacer()
                 }
                 .padding()
                 .background {

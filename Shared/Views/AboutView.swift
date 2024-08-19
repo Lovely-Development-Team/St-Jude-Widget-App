@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AboutView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @State private var showSupporterSheet: Bool = false
     
     @State private var backgroundColor: Color = .black
@@ -76,6 +76,16 @@ struct AboutView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
+                    Button(action: {
+                        self.dismiss()
+                    }, label: {
+                        Text("Done")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .fullWidth(alignment: .center)
+                    })
+                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    .padding(.horizontal)
                     
                     GroupBox {
                         HStack {
@@ -101,7 +111,6 @@ struct AboutView: View {
                     
                 }
                 .padding()
-                .padding(.bottom, 60)
                 .background {
                     GeometryReader { geometry in
                         AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
@@ -116,15 +125,6 @@ struct AboutView: View {
             Color.skyBackground
         }
         .background(ignoresSafeAreaEdges: .all)
-        .overlay(alignment: .bottomTrailing) {
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Image(systemName: "xmark")
-            })
-            .buttonStyle(BlockButtonStyle())
-            .padding()
-        }
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
@@ -143,12 +143,14 @@ struct AboutViewHeader: View {
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
 #endif
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Image(.bannerForeground)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.bottom)
             RandomLandscapeView(data: self.$landscapeData) {}
+            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                .tiledImageAtScale(axis: .horizontal)
         }
         .onReceive(timer) { _ in
             withAnimation {
@@ -157,10 +159,7 @@ struct AboutViewHeader: View {
         }
         .background {
             ZStack(alignment: .bottom) {
-                Color.skyBackground
-                AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
-                    .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                    .animation(.none, value: UUID())
+                SkyView()
                 ForEach(flowers, id: \.self) { flowerOffset in
                     AdaptiveImage.flower(colorScheme: self.colorScheme)
                         .imageAtScale(scale: Double.spriteScale)
