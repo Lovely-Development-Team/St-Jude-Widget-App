@@ -11,6 +11,7 @@ struct AnimatedAdaptiveImage: View {
     @Binding var idleImage: AdaptiveImage
     @Binding var images: [AdaptiveImage]
     @Binding var animating: Bool
+    @State var playOnce: Bool = false
     @State var interval: Double = 0.2
     
     @State private var imageIndex: Int = 0
@@ -49,14 +50,21 @@ struct AnimatedAdaptiveImage: View {
     }
     
     func startAnimating() {
+        self.imageIndex = 0
+        self.animating = true
+        self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(withTimeInterval: self.interval, repeats: true, block: {_ in
             withAnimation(.none) {
                 self.imageIndex = ((self.imageIndex+1) % self.images.count)
+                if(self.imageIndex == 0 && self.playOnce) {
+                    self.stopAnimating()
+                }
             }
         })
     }
     
     func stopAnimating() {
+        self.animating = false
         self.timer?.invalidate()
         self.imageIndex = 0
     }

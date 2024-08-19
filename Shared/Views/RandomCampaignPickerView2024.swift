@@ -7,7 +7,17 @@
 
 import SwiftUI
 
-
+enum InputType {
+    case up
+    case down
+    case left
+    case right
+    case a
+    case b
+    case start
+    
+    static var konamiCode: [InputType] = [.up, .up, .down, .down, .left, .right, .left, .right, .b, .a, .start]
+}
 
 struct RandomCampaignPickerView2024: View {
     @Environment(\.colorScheme) var colorScheme
@@ -15,6 +25,7 @@ struct RandomCampaignPickerView2024: View {
     @Namespace var namespace
     
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
     @Binding var campaignChoiceID: UUID?
     @State var allCampaigns: [Campaign]
@@ -30,6 +41,13 @@ struct RandomCampaignPickerView2024: View {
     @State var showingResult: Bool = false
     
     @State var spriteOffset: Double = 0.0
+    
+    var spriteWidth: Double {
+        if(self.easterEggEnabled2024) {
+            return self.isMyke ? Double.jonycubeSpriteWidth : Double.dogcowSpriteWidth
+        }
+        return Double.hostSpriteWidth
+    }
     
     var spriteIncrement: Double = 5.0
     
@@ -50,8 +68,33 @@ struct RandomCampaignPickerView2024: View {
     
     @State private var justinAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
+    @State private var inputStackTimer: Timer? = nil
+    @State private var inputStack: [InputType] = []
+    @State private var showingKonamiCodeAlert: Bool = false
+    
     func getRandomCampaign() -> Campaign? {
         return allCampaigns.filter({$0.id != RELAY_CAMPAIGN}).randomElement()
+    }
+    
+    var isAlmostKonamiCode: Bool {
+        return self.inputStack == Array(InputType.konamiCode.prefix(upTo: InputType.konamiCode.count-1))
+    }
+    
+    var isKonamiCode: Bool {
+        return self.inputStack == InputType.konamiCode
+    }
+    
+    func addInputToStack(input: InputType) {
+        self.inputStackTimer?.invalidate()
+        self.inputStack.append(input)
+        
+        if(self.isKonamiCode) {
+            self.showingKonamiCodeAlert = true
+        }
+        
+        self.inputStackTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {_ in
+            self.inputStack = []
+        })
     }
     
     func moveSprite(containerGeometry: GeometryProxy, by increment: Double, manual: Bool = true) {
@@ -62,11 +105,11 @@ struct RandomCampaignPickerView2024: View {
             let maxBound: Double
             
             if isMyke {
-                minBound = -(containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale))
+                minBound = -(containerGeometry.size.width - 60 - self.spriteWidth)
                 maxBound = 0
             } else {
                 minBound = 0
-                maxBound = containerGeometry.size.width - 30 - (16 * 10 * Double.spriteScale)
+                maxBound = containerGeometry.size.width - 30 - self.spriteWidth
             }
             
             self.spriteOffset = max(minBound, min(maxBound, desiredPosition))
@@ -75,7 +118,7 @@ struct RandomCampaignPickerView2024: View {
             
             for element in self.boxXArr.sorted(by: {$0.value > $1.value}) {
                 let index = element.key
-                let spriteMaxX = self.spriteX + Double.hostSpriteWidth
+                let spriteMaxX = self.spriteX + self.spriteWidth
                 let boxX = element.value
                 let boxMaxX = boxX+Double.questionBoxWidth
                 
@@ -115,13 +158,17 @@ struct RandomCampaignPickerView2024: View {
         withAnimation {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             self.jumping = true
-            self.spriteImage = AdaptiveImage(colorScheme: self.colorScheme, light: self.isMyke ? .mykeWalk1 : .stephenWalk1)
+            if(!self.easterEggEnabled2024) {
+                self.spriteImage = AdaptiveImage(colorScheme: self.colorScheme, light: self.isMyke ? .mykeWalk1 : .stephenWalk1)
+            }
             if let currentBox = self.currentBoxUnder {
                 self.activateBox(currentBox)
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
                 self.jumping = false
-                self.spriteImage = self.isMyke ? .myke(colorScheme: self.colorScheme) : .stephen(colorScheme: self.colorScheme)
+                if(!self.easterEggEnabled2024) {
+                    self.spriteImage = self.isMyke ? .myke(colorScheme: self.colorScheme) : .stephen(colorScheme: self.colorScheme)
+                }
             }
         }
     }
@@ -142,7 +189,11 @@ struct RandomCampaignPickerView2024: View {
                                 .overlay {
                                     VStack {
                                         Button(action: {
-                                            print("up")
+                                            // reset input stack
+                                            if(self.inputStack != [.up]) {
+                                                self.inputStack = []
+                                            }
+                                            self.addInputToStack(input: .up)
                                         }, label: {
                                             Rectangle()
                                                 .foregroundStyle(.clear)
@@ -157,7 +208,7 @@ struct RandomCampaignPickerView2024: View {
                                         .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                         Spacer()
                                         Button(action: {
-                                            print("down")
+                                            self.addInputToStack(input: .down)
                                         }, label: {
                                             Rectangle()
                                                 .foregroundStyle(.clear)
@@ -190,6 +241,7 @@ struct RandomCampaignPickerView2024: View {
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
                                         .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
+                                            self.addInputToStack(input: .left)
                                             self.isMoving = true
                                         }, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
@@ -208,6 +260,7 @@ struct RandomCampaignPickerView2024: View {
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
                                         .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
+                                            self.addInputToStack(input: .right)
                                             self.isMoving = true
                                         }, action: {
                                             self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
@@ -230,6 +283,7 @@ struct RandomCampaignPickerView2024: View {
                         HStack(spacing: 0) {
                             Spacer()
                             Button(action: {
+                                self.addInputToStack(input: .a)
                                 self.jump()
                             }, label: {
                                 Rectangle()
@@ -245,7 +299,7 @@ struct RandomCampaignPickerView2024: View {
                         }
                         HStack(spacing: 0) {
                             Button(action: {
-                                self.dismiss()
+                                self.addInputToStack(input: .b)
                             }, label: {
                                 Rectangle()
                                     .foregroundStyle(.clear)
@@ -261,6 +315,71 @@ struct RandomCampaignPickerView2024: View {
                         }
                     }
                 }
+        }
+    }
+    
+    @ViewBuilder
+    func questionBoxesView(containerGeometry: GeometryProxy) -> some View {
+        HStack(spacing: 0) {
+            if(!self.hitArr.isEmpty) {
+                ForEach(0..<self.numBoxes) { i in
+                    Spacer()
+                    Button(action: {
+                        if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
+                            withAnimation {
+                                var boxOffsetIndex = i
+                                var offsetMultiplier = 1.0
+                                var adjustOffset = 0.0
+                                
+                                if isMyke {
+                                    boxOffsetIndex = self.numBoxes - (i + 1)
+                                    offsetMultiplier = -1
+                                    adjustOffset = (self.spriteWidth / 2)
+                                }
+                                
+                                if let newOffset = self.boxXArr[boxOffsetIndex] {
+                                    let newSpriteOffset = (newOffset * offsetMultiplier) + adjustOffset
+                                    self.isMoving = true
+                                    self.moveSprite(containerGeometry: containerGeometry, by: newSpriteOffset-self.spriteOffset, manual: false)
+                                }
+                                
+                                self.currentBoxUnder = i
+                                DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
+                                    self.activateBox(i)
+                                    self.isMoving = false
+                                    self.jump()
+                                }
+                            }
+                        }
+                    }) {
+                        AdaptiveImage.questionBox(colorScheme: self.colorScheme)
+                            .imageAtScale()
+                            .offset(y: self.hitArr[i] ? -10 : 0)
+                            .animation(.easeOut(duration: self.animationDuration), value: self.hitArr)
+                            .background {
+                                GeometryReader { geometry in
+                                    let boxX =  geometry.frame(in: .global).origin.x
+                                    if let storedX = self.boxXArr[i] {
+                                        if(boxX != storedX) {
+                                            self.boxXArr[i] = boxX
+                                        }
+                                    } else {
+                                        self.boxXArr[i] = boxX
+                                    }
+                                    
+                                    return Color.clear
+                                }
+                            }
+                            .background(alignment: .top) {
+                                TappableCoin(collectable: false, spinOnceOnTap: false, offset: 0, interval: 0.05)
+                                    .offset(y: self.hitArr[i] ? -80 : 0)
+                                    .opacity(self.hitArr[i] ? 0.0 : 2.0)
+                            }
+                            .compositingGroup()
+                    }
+                }
+                Spacer()
+            }
         }
     }
     
@@ -299,80 +418,61 @@ struct RandomCampaignPickerView2024: View {
                                         .offset(y: self.resultOffset ? 0 : 20)
                                         .animation(.easeOut(duration: self.animationDuration), value: self.resultOffset)
                                         .animation(.easeInOut(duration: self.animationDuration/2), value: self.resultOpacity)
+                                        .frame(maxWidth: Double.stretchedContentMaxWidth)
                                     }
                                 Rectangle()
                                     .foregroundStyle(.clear)
                                     .overlay(alignment: .bottom) {
                                         VStack(alignment: .leading, spacing: 0) {
-                                            HStack(spacing: 0) {
-                                                if(!self.hitArr.isEmpty) {
-                                                    ForEach(0..<self.numBoxes) { i in
-                                                        Spacer()
-                                                        Button(action: {
-                                                            if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
-                                                                withAnimation {
-                                                                    self.currentBoxUnder = i
-                                                                    
-                                                                    var boxOffsetIndex = i
-                                                                    var offsetMultiplier = 1.0
-                                                                    var adjustOffset = 0.0
-                                                                    
-                                                                    if isMyke {
-                                                                        boxOffsetIndex = self.numBoxes - (i + 1)
-                                                                        offsetMultiplier = -1
-                                                                        adjustOffset = Double.hostSpriteWidth / 3
+                                            self.questionBoxesView(containerGeometry: mainGeometry)
+                                            Group {
+                                                if(self.easterEggEnabled2024 && self.isMyke) {
+                                                    Rectangle()
+                                                        .foregroundStyle(.clear)
+                                                        .overlay(alignment: .bottomTrailing) {
+                                                            ZStack(alignment:.bottom) {
+                                                                AdaptiveImage.isoGround(colorScheme: self.colorScheme)
+                                                                    .imageAtScale()
+                                                                    .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
+                                                                    .background {
+                                                                        GeometryReader { geometry in
+                                                                            self.spriteX = geometry.frame(in: .global).origin.x
+                                                                            return Color.clear
+                                                                        }
                                                                     }
-                                                                    
-                                                                    if let newOffset = self.boxXArr[boxOffsetIndex] {
-                                                                        let newSpriteOffset = (newOffset * offsetMultiplier) + adjustOffset
-                                                                        self.isMoving = true
-                                                                        self.moveSprite(containerGeometry: mainGeometry, by: newSpriteOffset-self.spriteOffset, manual: false)
+                                                                VStack {
+                                                                    if(!self.jumping) {
+                                                                        Spacer()
                                                                     }
-                                                                    DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
-                                                                        self.activateBox(i)
-                                                                        self.isMoving = false
-                                                                        self.jump()
+                                                                    AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
+                                                                        .imageAtScale()
+                                                                        .padding(.bottom, (10 * 10) * Double.spriteScale)
+                                                                        .scaleEffect(x: self.direction ? -1 : 1)
+                                                                    if(self.jumping) {
+                                                                        Spacer()
                                                                     }
                                                                 }
                                                             }
-                                                        }) {
-                                                            AdaptiveImage.questionBox(colorScheme: self.colorScheme)
-                                                                .imageAtScale()
-                                                                .offset(y: self.hitArr[i] ? -10 : 0)
-                                                                .animation(.easeOut(duration: self.animationDuration), value: self.hitArr)
+                                                                .offset(x: self.spriteOffset)
+                                                                
+                                                        }
+                                                } else {
+                                                    Rectangle()
+                                                        .foregroundStyle(.clear)
+                                                        .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
+                                                            AnimatedAdaptiveImage(idleImage: self.$spriteImage, images: self.$animationImages, animating: self.$isMoving)
+                                                                .scaleEffect(x: self.direction ? -1 : 1)
+                                                                .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
                                                                 .background {
                                                                     GeometryReader { geometry in
-                                                                        let boxX =  geometry.frame(in: .global).origin.x
-                                                                        if let storedX = self.boxXArr[i] {
-                                                                            if(boxX != storedX) {
-                                                                                self.boxXArr[i] = boxX
-                                                                            }
-                                                                        } else {
-                                                                            self.boxXArr[i] = boxX
-                                                                        }
-                                                                        
+                                                                        self.spriteX = geometry.frame(in: .global).origin.x
                                                                         return Color.clear
                                                                     }
                                                                 }
+                                                                .offset(x: self.spriteOffset)
                                                         }
-                                                    }
-                                                    Spacer()
                                                 }
                                             }
-                                            Rectangle()
-                                                .foregroundStyle(.clear)
-                                                .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
-                                                    AnimatedAdaptiveImage(idleImage: self.$spriteImage, images: self.$animationImages, animating: self.$isMoving)
-                                                        .scaleEffect(x: self.direction ? -1 : 1)
-                                                        .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
-                                                        .background {
-                                                            GeometryReader { geometry in
-                                                                self.spriteX = geometry.frame(in: .global).origin.x
-                                                                return Color.clear
-                                                            }
-                                                        }
-                                                        .offset(x: self.spriteOffset)
-                                                }
                                             
                                         }
                                     }
@@ -383,10 +483,24 @@ struct RandomCampaignPickerView2024: View {
                         .animation(.easeOut(duration: self.animationDuration), value: self.jumping)
                         .frame(maxHeight: .infinity)
                         .background(alignment: .bottom) {
-                            AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
-                                .tiledImageAtScale(axis: .horizontal)
+                            SkyView()
                         }
                 }
+                .overlay(alignment: .bottomTrailing) {
+                    if(self.isAlmostKonamiCode || self.isKonamiCode) {
+                        Button(action: {
+                            self.addInputToStack(input: .start)
+                        }, label: {
+                            Text("Start")
+                                .foregroundStyle(.white)
+                        })
+                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                        .padding()
+                        .padding(.bottom)
+                    }
+                }
+                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                    .tiledImageAtScale(axis: .horizontal)
                 VStack {
                     self.controllerView(containerGeometry: mainGeometry)
                 }
@@ -400,23 +514,69 @@ struct RandomCampaignPickerView2024: View {
                     }
                 }
             }
-            .background {
-                Color.skyBackground
-            }
         }
         .onAppear {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             if Bool.random() {
-                self.spriteImage = AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                self.animationImages = AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
+                self.spriteImage = self.easterEggEnabled2024 ? AdaptiveImage.dogcow(colorScheme: self.colorScheme) : AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                self.animationImages = self.easterEggEnabled2024 ? [AdaptiveImage.dogcow(colorScheme: self.colorScheme)] : AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
                 self.isMyke = false
             } else {
-                self.spriteImage = AdaptiveImage.myke(colorScheme: self.colorScheme)
-                self.animationImages = AdaptiveImage.mykeWalkCycle(colorScheme: self.colorScheme)
+                self.spriteImage = self.easterEggEnabled2024 ? AdaptiveImage.jonyCube(colorScheme: self.colorScheme) : AdaptiveImage.myke(colorScheme: self.colorScheme)
+                self.animationImages = self.easterEggEnabled2024 ? [AdaptiveImage.jonyCube(colorScheme: self.colorScheme)] : AdaptiveImage.mykeWalkCycle(colorScheme: self.colorScheme)
                 self.isMyke = true
                 self.direction = false
             }
         }
+        .onChange(of: self.easterEggEnabled2024) { _ in
+            if(self.easterEggEnabled2024) {
+                self.spriteImage = self.isMyke ? AdaptiveImage.jonyCube(colorScheme: self.colorScheme) : AdaptiveImage.dogcow(colorScheme: self.colorScheme)
+                self.animationImages = self.isMyke ? [AdaptiveImage.jonyCube(colorScheme: self.colorScheme)] : [AdaptiveImage.dogcow(colorScheme: self.colorScheme)]
+            } else {
+                self.spriteImage = self.isMyke ? AdaptiveImage.myke(colorScheme: self.colorScheme) : AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                self.animationImages = self.isMyke ? AdaptiveImage.mykeWalkCycle(colorScheme: self.colorScheme) : AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
+            }
+        }
+        .alert("Secrets!", isPresented: self.$showingKonamiCodeAlert, actions: {
+            if(konamiCodeEasterEggEnabled) {
+                if(self.easterEggEnabled2024) {
+                    Button(action: {}, label: {
+                        Text("Keep the vibes goin 😍")
+                    })
+                    Button(action: {
+                        UserDefaults.shared.easterEggEnabled2024.toggle()
+                    }, label: {
+                        Text("Back to normal pls")
+                    })
+                } else {
+                    Button(action: {
+                        UserDefaults.shared.easterEggEnabled2024.toggle()
+                    }, label: {
+                        Text("Oh yes please 😈")
+                    })
+                    Button(action: {}, label: {
+                        Text("Nah I'm good")
+                    })
+                }
+            } else {
+                Button(action: {
+                    // TODO: Update with our campaign ID
+                    self.dismiss()
+                }, label: {
+                    Text("Visit our campaign!")
+                })
+            }
+        }, message: {
+            if(konamiCodeEasterEggEnabled) {
+                if(self.easterEggEnabled2024) {
+                    Text("Had enough? Or are you hungry for more 😈")
+                } else {
+                    Text("Enable cursed mode?")
+                }
+            } else {
+                Text("Get our campaign to \(formatCurrency(from: konamiCodeEasterEggDollarThreshold, currency: "USD", showFullCurrencySymbol: false).1) to unlock something special!")
+            }
+        })
     }
 }
 

@@ -60,11 +60,11 @@ enum CampaignListSheet: Identifiable {
 }
 
 struct CampaignList: View {
-    
+
     init() {
         updateNavBarFont()
     }
-    
+
     func updateNavBarFont() {
         UINavigationBar.appearance().titleTextAttributes = [.font : UserDefaults.shared.disablePixelFont ? UIFont.preferredFont(forTextStyle: .headline) : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .headline).pointSize) ?? UIFont.systemFont(ofSize: 20)]
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UserDefaults.shared.disablePixelFont ? UIFont.preferredFont(forTextStyle: .largeTitle) : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)  ?? UIFont.systemFont(ofSize: 20)]
@@ -102,8 +102,6 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     @State private var showHeadToHeads: Bool = true
-    
-    @State var stretchedContentMaxWidth: Double = 500
     
     @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
@@ -219,21 +217,20 @@ struct CampaignList: View {
                         }
                     }
                     .zIndex(1)
-                    .frame(maxWidth: self.stretchedContentMaxWidth)
                     RandomLandscapeView(data: self.$landscapeData) {
                         EmptyView()
                     }
                     .zIndex(0)
                 }
             }
+            .frame(maxWidth: Double.stretchedContentMaxWidth)
+            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                .tiledImageAtScale(axis: .horizontal)
         }
         .frame(maxWidth: .infinity)
         .background(alignment: .bottom) {
             ZStack(alignment: .bottom) {
-                Color.skyBackground
-                AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
-                    .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                    .animation(.none, value: UUID())
+                SkyView()
             }
             .mask {
                 LinearGradient(stops: [
@@ -263,10 +260,19 @@ struct CampaignList: View {
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         }
-                        Image(showStephen ? .stephen : .myke)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 60)
+//                        Image(showStephen ? .stephen : .myke)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 60)
+                        Group {
+                            if(self.showStephen) {
+                                AdaptiveImage.stephen(colorScheme: self.colorScheme)
+                                    .imageAtScale()
+                            } else {
+                                AdaptiveImage.myke(colorScheme: self.colorScheme)
+                                    .imageAtScale()
+                            }
+                        }
                             .tapToWobble(anchor: .center)
                     }
                 } else {
@@ -358,7 +364,7 @@ struct CampaignList: View {
             }
         }
         .padding(.horizontal)
-        .frame(maxWidth: self.stretchedContentMaxWidth)
+        .frame(maxWidth: Double.stretchedContentMaxWidth)
         .groupBoxStyle(BlockGroupBoxStyle())
     }
     
@@ -489,7 +495,7 @@ struct CampaignList: View {
                     .padding(.horizontal)
                 }
             }
-            
+
             if campaigns.count != 0 {
                 
                 if showSearchBar {
@@ -560,6 +566,7 @@ struct CampaignList: View {
                 .padding(.horizontal)
             }
         }
+        .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     
     @ViewBuilder
@@ -616,6 +623,7 @@ struct CampaignList: View {
         })
         .buttonStyle(BlockButtonStyle())
         .padding(.horizontal)
+        .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     
     @ViewBuilder
@@ -655,6 +663,7 @@ struct CampaignList: View {
                         widgetCompatibilityView
                     }
                     .padding(.bottom)
+                    .frame(maxWidth: .infinity)
                     .background {
                         GeometryReader { geometry in
                             AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
@@ -731,7 +740,7 @@ struct CampaignList: View {
                     }
                 }
             case .randomPicker:
-                NavigationStack {
+                NavigationView {
                     RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: campaigns)
                     //                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
                     //                                             allCampaigns: campaigns)

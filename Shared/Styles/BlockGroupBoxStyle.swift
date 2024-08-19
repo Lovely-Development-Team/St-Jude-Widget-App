@@ -20,9 +20,9 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
                 configuration.content
             }
         }
+            .compositingGroup()
             .background {
                 BlockView(tint: self.tint)
-                    .compositingGroup()
             }
     }
 }

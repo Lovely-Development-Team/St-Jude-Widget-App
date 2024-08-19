@@ -111,23 +111,18 @@ struct HeadToHeadView: View {
                     .frame(minHeight: 140)
                     .padding()
                     .background {
-                        ZStack(alignment: .bottom) {
-                            Color.skyBackground
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
-                                .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                                .animation(.none, value: UUID())
-                        }
-                        .mask {
-                            LinearGradient(stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 0.25),
-                                .init(color: .white, location: 1)
-                            ], startPoint: .top, endPoint: .bottom)
-                        }
+                        SkyView()
+                            .mask {
+                                LinearGradient(stops: [
+                                    .init(color: .clear, location: 0),
+                                    .init(color: .white, location: 0.25),
+                                    .init(color: .white, location: 1)
+                                ], startPoint: .top, endPoint: .bottom)
+                            }
                     }
                 }
                 .overlay(alignment: .bottom) {
-                    HStack {
+                    HStack(alignment: .bottom) {
                         if animateIn {
                             AdaptiveImage.stephen(colorScheme: self.colorScheme)
                                 .imageAtScale(scale: .spriteScale)
@@ -164,8 +159,9 @@ struct HeadToHeadView: View {
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, Double.spriteScale * 80)
                 }
+                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                    .tiledImageAtScale(axis: .horizontal)
                 VStack {
                     ZStack(alignment: .topTrailing) {
                         if animateIn {
@@ -173,7 +169,7 @@ struct HeadToHeadView: View {
                                 VStack(spacing: 0) {
                                     campaignDetails(for: campaign1, alignment: .leading)
                                         .transition(.move(edge: .leading))
-                                    HStack(alignment: .firstTextBaseline) {
+                                    HStack(alignment: .lastTextBaseline) {
                                         Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                             .font(.title)
                                             .fontWeight(.bold)
@@ -186,12 +182,11 @@ struct HeadToHeadView: View {
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())
                         }
+                    }
+                    .overlay(alignment: .bottomTrailing) {
                         if campaign1.totalRaisedNumerical == highestTotal {
-                            Image(.rCoin3000Px)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50)
-                                .offset(x: 8, y: -8)
+                            TappableCoin(collectable: false, spinOnceOnTap: true, offset: 0)
+                                .scaleEffect(1.5)
                         }
                     }
                     if animateIn {
@@ -222,12 +217,11 @@ struct HeadToHeadView: View {
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())
                         }
+                    }
+                    .overlay(alignment: .topLeading) {
                         if campaign2.totalRaisedNumerical == highestTotal {
-                            Image(.rCoin3000Px)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50)
-                                .offset(x: -4, y: 4)
+                            TappableCoin(collectable: false, spinOnceOnTap: true, offset: 0)
+                                .scaleEffect(1.5)
                         }
                     }
                     Spacer()

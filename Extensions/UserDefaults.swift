@@ -27,6 +27,7 @@ extension UserDefaults {
     
     static let shouldShowHeadToHeadKey = "shouldShowHeadToHead"
     static let expandHeadToHeadSectionKey = "expandHeadToHeadSection"
+    static let easterEggEnabled2024Key = "easterEggEnabled2024"
     
     static let disablePixelFontKey = "disablePixelFont"
     
@@ -108,5 +109,10 @@ extension UserDefaults {
     @objc var customNotificationAmount: Double {
         get { double(forKey: Self.customNotificationAmountKey) }
         set { UserDefaults.shared.set(newValue, forKey: Self.customNotificationAmountKey) }
+    }
+    
+    @objc var easterEggEnabled2024: Bool {
+        get { bool(forKey: Self.easterEggEnabled2024Key) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.easterEggEnabled2024Key) }
     }
 }

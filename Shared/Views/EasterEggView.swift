@@ -10,7 +10,7 @@ import SwiftUI
 struct EasterEggView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.openURL) var openURL
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     @State private var animate = false
@@ -102,10 +102,11 @@ struct EasterEggView: View {
                         .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                 }
             }
+            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                .tiledImageAtScale(axis: .horizontal)
         }
         .background(alignment: .bottom) {
-            AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
+            SkyView()
         }
     }
     
@@ -188,7 +189,17 @@ struct EasterEggView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
-                    .padding(.bottom)
+                    
+                    Button(action: {
+                        self.dismiss()
+                    }, label: {
+                        Text("Done")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .fullWidth(alignment: .center)
+                    })
+                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    .padding(.horizontal)
                 }
                 .padding()
                 .background {

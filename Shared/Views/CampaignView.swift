@@ -95,135 +95,138 @@ struct CampaignView: View {
     @ViewBuilder
     func topView(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
         Group {
-            VStack {
-                Group {
-                    VStack {
-                        if let initialCampaign = initialCampaign {
-                            FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                        } else if let teamEvent = teamEvent {
-                            TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                            //                    Text("Annual Fundraising Totals")
-                            //                        .fullWidth()
-                            //                        .font(.headline)
-                            //                        .padding(.top)
-                            //                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
-                            //                        .frame(height: 150)
-                            //                        .padding(.bottom)
-                            GroupBox {
-                                VStack {
-                                    HStack(spacing: 4) {
-                                        if grandTotalRaised >= 2500000 {
-                                            Image(.partyPopperFillPixel)
+            VStack(spacing: 0) {
+                VStack(spacing: 0) {
+                    Group {
+                        VStack {
+                            if let initialCampaign = initialCampaign {
+                                FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
+                            } else if let teamEvent = teamEvent {
+                                TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
+                                //                    Text("Annual Fundraising Totals")
+                                //                        .fullWidth()
+                                //                        .font(.headline)
+                                //                        .padding(.top)
+                                //                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
+                                //                        .frame(height: 150)
+                                //                        .padding(.bottom)
+                                GroupBox {
+                                    VStack {
+                                        HStack(spacing: 4) {
+                                            if grandTotalRaised >= 2500000 {
+                                                Image(.partyPopperFillPixel)
+                                            }
+                                            Text("Lifetime Total")
+                                                .textCase(.uppercase)
+                                            Spacer()
                                         }
-                                        Text("Lifetime Total")
-                                            .textCase(.uppercase)
-                                        Spacer()
+                                        .font(.caption)
+                                        .foregroundColor(.accentColor)
+                                        Text(grandTotalRaisedDescription)
+                                            .textSelection(.enabled)
+                                            .fullWidth()
+                                            .font(.title)
+                                            .bold()
                                     }
-                                    .font(.caption)
-                                    .foregroundColor(.accentColor)
-                                    Text(grandTotalRaisedDescription)
-                                        .textSelection(.enabled)
-                                        .fullWidth()
-                                        .font(.title)
-                                        .bold()
                                 }
+                                .groupBoxStyle(BlockGroupBoxStyle())
+                                //                            .padding(.vertical, 8)
                             }
-                            .groupBoxStyle(BlockGroupBoxStyle())
-                            //                            .padding(.vertical, 8)
-                        }
-                        
+
 #if DEBUG
-                        if let initialCampaign = initialCampaign {
-                            GroupBox {
-                                Text("\(initialCampaign.id)")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            if let initialCampaign = initialCampaign {
+                                GroupBox {
+                                    Text("\(initialCampaign.id)")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                }
+                                .groupBoxStyle(BlockGroupBoxStyle())
                             }
-                            .groupBoxStyle(BlockGroupBoxStyle())
-                        }
 #endif
-                        
-                        LazyVGrid(columns: [GridItem(.flexible()),
-                                            GridItem(.flexible())]) {
-                            Button(action: {
-                                withAnimation {
-                                    scrollViewReader.scrollTo("Milestones", anchor: .top)
-                                }
-                            }) {
-                                HStack {
-                                    Text("^[\(milestones.count) Milestone](inflect:true)")
-                                        .multilineTextAlignment(.center)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                    Spacer()
-                                }
-                                .frame(minHeight: 0, maxHeight: .infinity)
-                            }
-                            .buttonStyle(BlockButtonStyle(disabled: milestones.isEmpty))
-                            .disabled(milestones.isEmpty)
-                            Button(action: {
-                                withAnimation {
-                                    scrollViewReader.scrollTo("Rewards", anchor: .top)
-                                }
-                            }) {
-                                HStack {
-                                    Text("^[\(rewards.count) Reward](inflect:true)")
-                                        .multilineTextAlignment(.center)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                    Spacer()
-                                }
-                                .frame(minHeight: 0, maxHeight: .infinity)
-                            }
-                            .buttonStyle(BlockButtonStyle(disabled: rewards.isEmpty))
-                            .disabled(rewards.isEmpty)
-                        }
+
+                            LazyVGrid(columns: [GridItem(.flexible()),
+                                                GridItem(.flexible())]) {
+                                Button(action: {
+                                    withAnimation {
+                                        scrollViewReader.scrollTo("Milestones", anchor: .top)
+                                    }
+                                }) {
+                                    HStack {
+                                        Text("^[\(milestones.count) Milestone](inflect:true)")
+                                            .multilineTextAlignment(.center)
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        
-                        ZStack {
-                            if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
-                                if let left = egg.left {
-                                    HStack {
-                                        left
                                         Spacer()
                                     }
+                                    .frame(minHeight: 0, maxHeight: .infinity)
                                 }
-                                if let right = egg.right {
-                                    HStack {
-                                        Spacer()
-                                        right
+                                .buttonStyle(BlockButtonStyle(disabled: milestones.isEmpty))
+                                .disabled(milestones.isEmpty)
+                                Button(action: {
+                                    withAnimation {
+                                        scrollViewReader.scrollTo("Rewards", anchor: .top)
                                     }
+                                }) {
+                                    HStack {
+                                        Text("^[\(rewards.count) Reward](inflect:true)")
+                                            .multilineTextAlignment(.center)
+                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                        Spacer()
+                                    }
+                                    .frame(minHeight: 0, maxHeight: .infinity)
                                 }
+                                .buttonStyle(BlockButtonStyle(disabled: rewards.isEmpty))
+                                .disabled(rewards.isEmpty)
                             }
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             
-                            Link(destination: fundraiserURL, label: {
-                                Text("Visit the \(teamEvent == nil ? "fundraiser" : "event")!")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                            })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                            //                .padding(10)
-                            //                .padding(.horizontal, 20)
-                            //                .background(Color.accentColor)
-                            //                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                            //                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                            //                .padding(.top)
-                            
+                            ZStack {
+                                if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
+                                    if let left = egg.left {
+                                        HStack {
+                                            left
+                                            Spacer()
+                                        }
+                                    }
+                                    if let right = egg.right {
+                                        HStack {
+                                            Spacer()
+                                            right
+                                        }
+                                    }
+                                }
+
+                                Link(destination: fundraiserURL, label: {
+                                    Text("Visit the \(teamEvent == nil ? "fundraiser" : "event")!")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                })
+                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                //                .padding(10)
+                                //                .padding(.horizontal, 20)
+                                //                .background(Color.accentColor)
+                                //                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                //                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                //                .padding(.top)
+
+                            }
                         }
                     }
+                    .padding()
+
+                    RandomLandscapeView(data: self.$landscapeData) {}
                 }
-                .padding()
+                .frame(maxWidth: Double.stretchedContentMaxWidth)
                 
-                RandomLandscapeView(data: self.$landscapeData) {}
+                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                    .tiledImageAtScale(axis: .horizontal)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
         }
         .background(alignment: .bottom) {
             ZStack(alignment: .bottom) {
-                Color.skyBackground
-                AdaptiveImage.skyRepeatable(colorScheme: self.colorScheme)
-                    .tiledImageAtScale(scale: Double.spriteScale, axis: .horizontal)
-                    .animation(.none, value: UUID())
+                SkyView()
             }
             .mask {
                 LinearGradient(stops: [
@@ -237,185 +240,189 @@ struct CampaignView: View {
     
     @ViewBuilder
     func contents(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
-        VStack {
-            GroupBox {
-                Text(description)
-                    .font(.caption)
-                    .multilineTextAlignment(.leading)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            }
-            .groupBoxStyle(BlockGroupBoxStyle())
-            
-            if let topDonor = topDonor {
+        Group {
+            VStack {
                 GroupBox {
-                    VStack(spacing: 5) {
-                        HStack(spacing: 4) {
-                            Image(.crownPixel)
-                            if donations.count == 1 {
-                                Text("Top and only Donor")
-                                    .textCase(.uppercase)
-                            } else {
-                                Text("Top Donor")
-                                    .textCase(.uppercase)
-                            }
-                            Spacer()
-                        }
+                    Text(description)
                         .font(.caption)
-                        .foregroundColor(.accentColor)
-                        HStack(alignment: .top) {
-                            Text(topDonor.donorName)
-                                .multilineTextAlignment(.leading)
-                                .font(.headline)
-                            Spacer()
-                            Text(topDonor.amount.description(showFullCurrencySymbol: false))
-                        }
-                        if let comment = topDonor.donorComment {
-                            Text(comment)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
+                        .multilineTextAlignment(.leading)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 }
                 .groupBoxStyle(BlockGroupBoxStyle())
-            }
-            
-            if donations.count > 1, let campaign = initialCampaign ?? relayCampaign {
-                NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
-                    VStack {
-                        HStack {
-                            Text("Recent Donations")
-                            Spacer()
-                            Image("pixel-chevron-right")
-                                .foregroundColor(.secondary)
+
+                if let topDonor = topDonor {
+                    GroupBox {
+                        VStack(spacing: 5) {
+                            HStack(spacing: 4) {
+                                Image(.crownPixel)
+                                if donations.count == 1 {
+                                    Text("Top and only Donor")
+                                        .textCase(.uppercase)
+                                } else {
+                                    Text("Top Donor")
+                                        .textCase(.uppercase)
+                                }
+                                Spacer()
+                            }
+                            .font(.caption)
+                            .foregroundColor(.accentColor)
+                            HStack(alignment: .top) {
+                                Text(topDonor.donorName)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.headline)
+                                Spacer()
+                                Text(topDonor.amount.description(showFullCurrencySymbol: false))
+                            }
+                            if let comment = topDonor.donorComment {
+                                Text(comment)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            }
                         }
-                        if #available(iOS 16.0, *), donations.count >= 4 {
-                            DonorChart(donations: donations, total: campaign.totalRaised)
-                                .frame(height: 80)
-                        }
-                        
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                }
+
+                if donations.count > 1, let campaign = initialCampaign ?? relayCampaign {
+                    NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
+                        VStack {
+                            HStack {
+                                Text("Recent Donations")
+                                Spacer()
+                                Image("pixel-chevron-right")
+                                    .foregroundColor(.secondary)
+                            }
+                            if #available(iOS 16.0, *), donations.count >= 4 {
+                                DonorChart(donations: donations, total: campaign.totalRaised)
+                                    .frame(height: 80)
+                            }
+
                         if teamEvent != nil {
                             Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
                                 .font(.caption)
                                 .fullWidth()
                                 .foregroundStyle(.secondary)
                         }
-                    }
-                }
-                .buttonStyle(BlockButtonStyle())
-                .padding(.bottom)
-                
-            }
-            
-            if !milestones.isEmpty {
-                GroupBox {
-                    VStack(spacing: 10) {
-                        HStack(alignment: .firstTextBaseline) {
-                            Text("Milestones")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            
-                            Spacer()
-                            
-                            Text("\(milestones.count)")
-                                .foregroundColor(.secondary)
-                            
                         }
-                        .id("Milestones")
-                        ForEach(milestones, id: \.id) { milestone in
-                            let reached = milestoneReached(for: milestone)
-                            HStack(alignment: .top) {
-                                Image(.checkmarkSealFillPixel)
-                                    .foregroundColor(reached ? .green : .secondary)
-                                    .opacity(reached ? 1 : 0.25)
-                                Text("\(milestone.name)")
-                                    .foregroundColor(reached ? .secondary : .primary)
+                    }
+                    .buttonStyle(BlockButtonStyle())
+                    .padding(.bottom)
+
+                }
+
+                if !milestones.isEmpty {
+                    GroupBox {
+                        VStack(spacing: 10) {
+                            HStack(alignment: .firstTextBaseline) {
+                                Text("Milestones")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+
                                 Spacer()
-                                Text(milestone.amount.description(showFullCurrencySymbol: false))
-                                    .foregroundColor(.accentColor)
-                                    .opacity(reached ? 0.75 : 1)
+
+                                Text("\(milestones.count)")
+                                    .foregroundColor(.secondary)
+
                             }
-                            if milestone != milestones.last {
-                                Rectangle()
-                                    .frame(height: 10 * Double.spriteScale)
-                                    .foregroundStyle(.secondary)
+                            .id("Milestones")
+                            ForEach(milestones, id: \.id) { milestone in
+                                let reached = milestoneReached(for: milestone)
+                                HStack(alignment: .top) {
+                                    Image(.checkmarkSealFillPixel)
+                                        .foregroundColor(reached ? .green : .secondary)
+                                        .opacity(reached ? 1 : 0.25)
+                                    Text("\(milestone.name)")
+                                        .foregroundColor(reached ? .secondary : .primary)
+                                    Spacer()
+                                    Text(milestone.amount.description(showFullCurrencySymbol: false))
+                                        .foregroundColor(.accentColor)
+                                        .opacity(reached ? 0.75 : 1)
+                                }
+                                if milestone != milestones.last {
+                                    Rectangle()
+                                        .frame(height: 10 * Double.spriteScale)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
                     }
+                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
-            }
-            
-            if !rewards.isEmpty {
-                GroupBox {
-                    VStack(spacing: 10) {
-                        HStack(alignment: .firstTextBaseline) {
-                            Text("Rewards")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            
-                            Text("\(rewards.count)")
-                                .foregroundColor(.secondary)
-                            
-                        }
-                        .id("Rewards")
-                        ForEach(rewards, id: \.id) { reward in
-                            VStack(alignment: .leading) {
-                                HStack(alignment: .top) {
-                                    Text(reward.name)
-                                        .font(.headline)
-                                    Spacer()
-                                    Text(reward.amount.description(showFullCurrencySymbol: false))
-                                        .foregroundColor(.accentColor)
-                                }
-                                HStack(alignment: .top) {
-                                    if let url = URL(string: reward.imageSrc ?? "") {
-                                        KFImage.url(url)
-                                            .resizable()
-                                            .placeholder {
-                                                ProgressView()
-                                                    .frame(width: 45, height: 45)
-                                            }.aspectRatio(contentMode: .fit)
-                                            .frame(width: 45, height: 45)
-                                            .cornerRadius(5)
+
+                if !rewards.isEmpty {
+                    GroupBox {
+                        VStack(spacing: 10) {
+                            HStack(alignment: .firstTextBaseline) {
+                                Text("Rewards")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+
+                                Text("\(rewards.count)")
+                                    .foregroundColor(.secondary)
+
+                            }
+                            .id("Rewards")
+                            ForEach(rewards, id: \.id) { reward in
+                                VStack(alignment: .leading) {
+                                    HStack(alignment: .top) {
+                                        Text(reward.name)
+                                            .font(.headline)
+                                        Spacer()
+                                        Text(reward.amount.description(showFullCurrencySymbol: false))
+                                            .foregroundColor(.accentColor)
                                     }
-                                    VStack {
-                                        Text(reward.description)
-                                            .font(.caption)
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        
-                                        
-                                        if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
-                                            HStack {
-                                                Button(action: {
-                                                    showSupporterSheet = true
-                                                }, label: {
-                                                    Text("Supporters")
-                                                        .font(.headline)
-                                                        .foregroundColor(.white)
-                                                })
-                                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                                                Spacer()
+                                    HStack(alignment: .top) {
+                                        if let url = URL(string: reward.imageSrc ?? "") {
+                                            KFImage.url(url)
+                                                .resizable()
+                                                .placeholder {
+                                                    ProgressView()
+                                                        .frame(width: 45, height: 45)
+                                                }.aspectRatio(contentMode: .fit)
+                                                .frame(width: 45, height: 45)
+                                                .cornerRadius(5)
+                                        }
+                                        VStack {
+                                            Text(reward.description)
+                                                .font(.caption)
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+
+
+                                            if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
+                                                HStack {
+                                                    Button(action: {
+                                                        showSupporterSheet = true
+                                                    }, label: {
+                                                        Text("Supporters")
+                                                            .font(.headline)
+                                                            .foregroundColor(.white)
+                                                    })
+                                                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                                    Spacer()
+                                                }
                                             }
                                         }
                                     }
+
                                 }
-                                
-                            }
-                            if reward != rewards.last {
-                                Rectangle()
-                                    .frame(height: 10 * Double.spriteScale)
-                                    .foregroundStyle(.secondary)
+                                if reward != rewards.last {
+                                    Rectangle()
+                                        .frame(height: 10 * Double.spriteScale)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
                     }
+                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
             }
+            .padding(.vertical)
+            .frame(maxWidth: Double.stretchedContentMaxWidth)
         }
-        .padding(.vertical)
+        .frame(maxWidth: .infinity)
     }
     
     var body: some View {

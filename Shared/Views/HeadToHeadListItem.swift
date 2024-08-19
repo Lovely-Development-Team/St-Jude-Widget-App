@@ -39,10 +39,10 @@ struct HeadToHeadListItem: View {
                         .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
             }
             
-            AdaptiveImage.coin(colorScheme: self.colorScheme)
-                .imageAtScale()
+            TappableCoin(collectable: false, spinOnceOnTap: true, offset: 0)
                 .offset(x: leading ? -23 : 23, y: -25)
         }
+        .compositingGroup()
         .padding()
         .background(
             HStack(spacing: 4) {

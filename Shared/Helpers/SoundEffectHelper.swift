@@ -16,6 +16,8 @@ class SoundEffectHelper {
         case joe = "joe"
         case honk = "honk"
         case jump = "jump"
+        case moof = "moof"
+        case softMatt = "softmatt"
         
         var soundEffectPlayer: SoundEffectPlayer {
             return SoundEffectPlayer(soundEffect: self)
