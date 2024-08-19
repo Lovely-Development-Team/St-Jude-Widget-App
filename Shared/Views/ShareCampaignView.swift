@@ -110,15 +110,9 @@ struct ShareCampaignView: View {
                             Text("Appearance")
                             Spacer()
                             Picker("Appearance", selection: $appearance.animation()) {
-                                Text("Relay").tag(WidgetAppearance.relay)
-                                Text("St. Jude").tag(WidgetAppearance.stjude)
-                                Text("Relay (True Black)").tag(WidgetAppearance.relaytrueblack)
-                                Text("St. Jude (True Black)").tag(WidgetAppearance.stjudetrueblack)
-                                Text("Yellow").tag(WidgetAppearance.yellow)
-                                Text("Red").tag(WidgetAppearance.red)
-                                Text("Blue").tag(WidgetAppearance.blue)
-                                Text("Green").tag(WidgetAppearance.green)
-                                Text("Purple").tag(WidgetAppearance.purple)
+                                ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
+                                    Text(appearance.name).tag(appearance)
+                                }
                             }
                         }
                         .padding(.bottom, 8)

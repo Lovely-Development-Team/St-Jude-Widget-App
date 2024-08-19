@@ -59,7 +59,7 @@ extension WidgetAppearance {
         case .purple:
             return "Ground"
         case .red:
-            return "Myke's Sprite Pants"
+            return "Red"
         case .green:
             return "Grass"
         default:
