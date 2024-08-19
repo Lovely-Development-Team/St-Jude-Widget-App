@@ -20,8 +20,15 @@ extension WidgetAppearance {
     
     // 2024
     
-    static let stephenYellow = Color(red: 255 / 255, green: 186 / 255, blue: 4 / 255)
-    static let mykeBlue = Color(red: 3 / 255, green: 84 / 255, blue: 208 / 255)
+    static let stephenYellow = Color.rgb(255, 187, 4)
+    static let mykeBlue = Color.rgb(3, 84, 208)
+    static let mykeRed = Color.rgb(158, 40, 53)
+    
+    static let skyBlue = Color.rgb(148, 222, 231)
+    static let grassBorderGreen = Color.rgb(10, 93, 2)
+    static let grassGreen = Color.rgb(72, 179, 5)
+    static let groundBrown1 = Color.rgb(239, 185, 104)
+    static let groundBrown2 = Color.rgb(211, 157, 76)
     
     static let allCases: [WidgetAppearance] = [
         .stjude,
@@ -46,13 +53,15 @@ extension WidgetAppearance {
         case .relaytrueblack:
             return "Relay (True Black)"
         case .yellow:
-            return "Yellow"
+            return "Relay Gold"
         case .blue:
-            return "Blue"
+            return "Sky"
         case .purple:
-            return "Purple"
+            return "Ground"
         case .red:
-            return "Red"
+            return "Myke's Sprite Pants"
+        case .green:
+            return "Grass"
         default:
             return "Unknown"
         }
@@ -66,11 +75,11 @@ extension WidgetAppearance {
         case .red:
             return .white
         case .blue:
-            return .white
+            return .black
         case .green:
             return .white
         case .purple:
-            return .white
+            return .black
             
         default:
             return .white
@@ -85,11 +94,11 @@ extension WidgetAppearance {
         case .red:
             return .white
         case .blue:
-            return .white
+            return .black
         case .green:
             return .white
         case .purple:
-            return .white
+            return .black
             
             
             
@@ -109,13 +118,13 @@ extension WidgetAppearance {
         case .yellow:
             return [Self.stephenYellow, Self.stephenYellow.darker(by: 5)]
         case .red:
-            return [.brandRed, .brandRed.darker(by: 5)]
+            return [Self.mykeRed]
         case .blue:
-            return [Self.mykeBlue, Self.mykeBlue.darker(by: 5)]
+            return [Self.skyBlue, Self.skyBlue.darker(by: 10)]
         case .green:
-            return [.brandGreen, .brandGreen.darker(by: 5)]
+            return [Self.grassGreen, Self.grassGreen.darker(by: 10)]
         case .purple:
-            return [.brandPurple, .brandPurple.darker(by: 5)]
+            return [Self.groundBrown2, Self.groundBrown2.darker(by: 10)]
             
             
             

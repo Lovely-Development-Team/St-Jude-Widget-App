@@ -9,6 +9,11 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    
+    static func rgb(_ red: Int, _ green: Int, _ blue: Int) -> Color {
+        return Color(red: Double(red) / 255, green: Double(green) / 255, blue: Double(blue) / 255)
+    }
+    
 #if os(macOS)
     static let secondarySystemBackground = Color(NSColor.controlBackgroundColor)
 #else
