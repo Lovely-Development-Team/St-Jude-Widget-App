@@ -67,7 +67,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Yellow</string>
+					<string>Relay Gold</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>XxkG1s</string>
 					<key>INEnumValueIndex</key>
@@ -87,7 +87,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Blue</string>
+					<string>Sky</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>nBKDjl</string>
 					<key>INEnumValueIndex</key>
@@ -97,7 +97,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Green</string>
+					<string>Grass</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>gCSogJ</string>
 					<key>INEnumValueIndex</key>
@@ -107,7 +107,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Purple</string>
+					<string>Ground</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>zwAMex</string>
 					<key>INEnumValueIndex</key>
@@ -123,7 +123,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>23F79</string>
+	<string>23G93</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>15F31d</string>
 	<key>INIntentDefinitionToolsVersion</key>
