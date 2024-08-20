@@ -158,7 +158,11 @@ struct RandomCampaignPickerView2024: View {
         withAnimation {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             self.jumping = true
-            if(!self.easterEggEnabled2024) {
+            if(self.easterEggEnabled2024) {
+                if(!self.isMyke) {
+                    self.spriteImage = AdaptiveImage.dogcowJump(colorScheme: self.colorScheme)
+                }
+            } else {
                 self.spriteImage = AdaptiveImage(colorScheme: self.colorScheme, light: self.isMyke ? .mykeWalk1 : .stephenWalk1)
             }
             if let currentBox = self.currentBoxUnder {
@@ -166,7 +170,9 @@ struct RandomCampaignPickerView2024: View {
             }
             DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
                 self.jumping = false
-                if(!self.easterEggEnabled2024) {
+                if(self.easterEggEnabled2024) {
+                    self.spriteImage = self.isMyke ? .jonyCube(colorScheme: self.colorScheme) : .dogcow(colorScheme: self.colorScheme)
+                } else {
                     self.spriteImage = self.isMyke ? .myke(colorScheme: self.colorScheme) : .stephen(colorScheme: self.colorScheme)
                 }
             }
@@ -519,7 +525,7 @@ struct RandomCampaignPickerView2024: View {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             if Bool.random() {
                 self.spriteImage = self.easterEggEnabled2024 ? AdaptiveImage.dogcow(colorScheme: self.colorScheme) : AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                self.animationImages = self.easterEggEnabled2024 ? [AdaptiveImage.dogcow(colorScheme: self.colorScheme)] : AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
+                self.animationImages = self.easterEggEnabled2024 ? AdaptiveImage.dogcowWalkCycle(colorScheme: self.colorScheme) : AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
                 self.isMyke = false
             } else {
                 self.spriteImage = self.easterEggEnabled2024 ? AdaptiveImage.jonyCube(colorScheme: self.colorScheme) : AdaptiveImage.myke(colorScheme: self.colorScheme)

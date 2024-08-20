@@ -15,7 +15,7 @@ extension Double {
     static var questionBoxWidth = (10 * 24) * Double.spriteScale
     static var hostSpriteWidth = (10 * 18) * Double.spriteScale
     
-    static var dogcowSpriteWidth = (10 * 40) * Double.spriteScale
+    static var dogcowSpriteWidth = (10 * 42) * Double.spriteScale
     static var jonycubeSpriteWidth = (10 * 34) * Double.spriteScale
     
     static var screenWidth: Double {
