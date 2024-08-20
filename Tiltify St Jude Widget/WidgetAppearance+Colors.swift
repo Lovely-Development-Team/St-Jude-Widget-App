@@ -30,6 +30,9 @@ extension WidgetAppearance {
     static let groundBrown1 = Color.rgb(239, 185, 104)
     static let groundBrown2 = Color.rgb(211, 157, 76)
     
+    static let slimePurple = Color.rgb(0x50, 0x14, 0x84)
+    static let fireRed = Color.rgb(0xc7, 0x25, 0x2e)
+    
     static let allCases: [WidgetAppearance] = [
         .stjude,
         .stjudetrueblack,
@@ -55,13 +58,15 @@ extension WidgetAppearance {
         case .yellow:
             return "Relay Gold"
         case .blue:
-            return "Sky"
+            return "Sky Blue"
         case .purple:
-            return "Ground"
+            return "Slime Purple"
+        case .ground:
+            return "Ground Brown"
         case .red:
-            return "Red"
+            return "Fire Red"
         case .green:
-            return "Grass"
+            return "Grass Green"
         default:
             return "Unknown"
         }
@@ -78,7 +83,7 @@ extension WidgetAppearance {
             return .black
         case .green:
             return .white
-        case .purple:
+        case .ground:
             return .black
             
         default:
@@ -97,8 +102,10 @@ extension WidgetAppearance {
             return .black
         case .green:
             return .white
-        case .purple:
+        case .ground:
             return .black
+        case .purple:
+            return .white
             
             
             
@@ -116,15 +123,17 @@ extension WidgetAppearance {
         switch self {
             
         case .yellow:
-            return [Self.stephenYellow, Self.stephenYellow.darker(by: 5)]
+            return [Self.stephenYellow, Self.stephenYellow.darker(by: 10)]
         case .red:
-            return [Self.mykeRed]
+            return [Self.fireRed.darker(by: 10), Self.fireRed]
         case .blue:
             return [Self.skyBlue, Self.skyBlue.darker(by: 10)]
         case .green:
             return [Self.grassGreen, Self.grassGreen.darker(by: 10)]
-        case .purple:
+        case .ground:
             return [Self.groundBrown2, Self.groundBrown2.darker(by: 10)]
+        case .purple:
+            return [Self.slimePurple.darker(by: 5), Self.slimePurple]
             
             
             
