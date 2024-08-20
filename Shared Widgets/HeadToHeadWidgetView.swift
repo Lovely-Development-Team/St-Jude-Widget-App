@@ -32,10 +32,6 @@ struct HeadToHeadWidgetView: View {
         entry.configuration.showFullCurrencySymbol?.boolValue ?? false
     }
     
-    var showColorBackground: Bool {
-        entry.configuration.showColorBackground?.boolValue ?? true
-    }
-    
     var openToHeadToHead: Bool {
         entry.configuration.openToHeadToHead?.boolValue ?? true
     }
@@ -79,16 +75,12 @@ struct HeadToHeadWidgetView: View {
     }
     
     var labelColor: Color {
-        if(showColorBackground) {
-            return .primary
-        }
         return .label
     }
     
     @ViewBuilder
     var backgroundView: some View {
         if(family == .systemSmall) {
-            //            LinearGradient(colors: smallBackgroundColors, startPoint: .bottom, endPoint: .top)
             if campaign2 == winner {
                 AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
                     .tiledImageAtScale()
@@ -114,49 +106,21 @@ struct HeadToHeadWidgetView: View {
                         .tiledImageAtScale()
                 }
             }
-            //            ZStack {
-            //                if(showColorBackground) {
-            //                    GeometryReader { geo in
-            //                        HStack(spacing: 0) {
-            //                            SkyView()
-            //                                .frame(width: geo.frame(in: .local).size.width / 2, height: geo.frame(in: .local).size.height)
-            //                            AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
-            //                                .tiledImageAtScale()
-            //                        }
-            //                    }
-            //                }
-            //                Rectangle()
-            //                    .fill(.black)
-            //                    .frame(maxHeight:.infinity)
-            //                    .frame(width:2)
-            //            }
         } else {
             ZStack {
-                if(showColorBackground) {
-                    GeometryReader { geo in
-                        VStack(spacing: 0) {
-                            SkyView()
-                                .frame(width: geo.frame(in: .local).size.width, height: geo.frame(in: .local).size.height / 2)
-                            AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
-                                .tiledImageAtScale()
-                        }
+                GeometryReader { geo in
+                    VStack(spacing: 0) {
+                        SkyView()
+                            .frame(width: geo.frame(in: .local).size.width, height: geo.frame(in: .local).size.height / 2)
+                        AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                            .tiledImageAtScale()
                     }
-                    Rectangle()
-                        .fill(.black)
-                        .frame(maxHeight: 2)
                 }
+                Rectangle()
+                    .fill(.black)
+                    .frame(maxHeight: 2)
             }
         }
-    }
-    
-    var smallBackgroundColors: [Color] {
-        if(family != .systemSmall || !showColorBackground) {
-            return [.clear]
-        }
-        if(entry.campaign1?.id ?? nil == winner?.id) {
-            return HEAD_TO_HEAD_COLOR_1.backgroundColors
-        }
-        return HEAD_TO_HEAD_COLOR_2.backgroundColors
     }
     
     func avatarImage(for campaign: TiltifyWidgetData) -> UIImage? {
