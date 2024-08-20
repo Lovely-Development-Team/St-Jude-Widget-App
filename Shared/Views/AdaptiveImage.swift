@@ -202,6 +202,21 @@ extension AdaptiveImage {
     }
     
     static func dogcow(colorScheme: ColorScheme) -> AdaptiveImage {
-        return AdaptiveImage(colorScheme: colorScheme, light: .dogcow)
+        return AdaptiveImage(colorScheme: colorScheme, light: .dogcowIdle)
+    }
+    
+    static func dogcowJump(colorScheme: ColorScheme) -> AdaptiveImage {
+        return AdaptiveImage(colorScheme: colorScheme, light: .dogcowJump)
+    }
+    
+    static func dogcowWalkCycle(colorScheme: ColorScheme) -> [AdaptiveImage] {
+        return [
+            AdaptiveImage(colorScheme: colorScheme, light: .dogcow1),
+            AdaptiveImage(colorScheme: colorScheme, light: .dogcow2),
+            AdaptiveImage(colorScheme: colorScheme, light: .dogcow3),
+            AdaptiveImage(colorScheme: colorScheme, light: .dogcow4),
+            AdaptiveImage(colorScheme: colorScheme, light: .dogcow5),
+            AdaptiveImage(colorScheme: colorScheme, light: .dogcow6)
+        ]
     }
 }
