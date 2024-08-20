@@ -22,6 +22,7 @@ struct ProgressBar: View {
     var showDivider: Bool = false
     var dividerColor: Color = .white
     var dividerWidth: CGFloat = 1
+    var stroke: Bool = false
     
     var longProgressBar: some View {
         GeometryReader { geometry in
@@ -71,7 +72,20 @@ struct ProgressBar: View {
         if circularShape {
             circleProgressBar
         } else {
-            longProgressBar
+            if stroke {
+                longProgressBar
+                    .compositingGroup()
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+                    .shadow(color: dividerColor, radius: 0.4)
+            } else {
+                longProgressBar
+            }
         }
     }
 }
@@ -80,9 +94,10 @@ struct ProgressBar: View {
 struct ProgressBar_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ProgressBar(value: .constant(0.55), fillColor: .red, showDivider: true)
+            ProgressBar(value: .constant(0.55), barColour: .green, fillColor: .red, showDivider: true, dividerColor: .black, dividerWidth: 2, stroke: true)
                 .frame(height: 30)
-            ProgressBar(value: .constant(0.25), fillColor: .red, circularShape: true, circleStrokeWidth: 50)
+//            ProgressBar(value: .constant(0.25), fillColor: .red, circularShape: true, circleStrokeWidth: 50)
         }
+        .padding()
     }
 }
