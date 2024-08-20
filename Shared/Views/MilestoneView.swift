@@ -87,6 +87,7 @@ struct MilestoneView: View {
         }
         .accessibilityElement()
         .accessibility(label: Text(accessibilityLabel))
+        .environment(\.font, Font.body)
     }
 }
 
