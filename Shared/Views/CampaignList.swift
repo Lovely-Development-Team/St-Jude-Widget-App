@@ -89,6 +89,10 @@ struct CampaignList: View {
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
     @StateObject private var apiClient = ApiClient.shared
     
+    var allCampaigns: [Campaign] {
+        campaigns.filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
+    }
+    
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
     @State private var selectedCampaignId: UUID? = nil
@@ -102,8 +106,6 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     @State private var showHeadToHeads: Bool = true
-    
-    @AppStorage(UserDefaults.shouldShowHeadToHeadKey, store: UserDefaults.shared) private var shouldShowHeadToHead: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728266450)
@@ -372,7 +374,7 @@ struct CampaignList: View {
     @ViewBuilder
     func fundraiserHeaderView(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
         Group {
-            if campaigns.count != 0 {
+            if allCampaigns.count != 0 {
                 if dynamicTypeSize >= .xLarge {
                     GroupBox {
                         VStack(spacing: 0) {
@@ -383,7 +385,7 @@ struct CampaignList: View {
                                 Spacer()
                             }
                             HStack {
-                                Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
+                                Text("\(allCampaigns.count)")
                                     .foregroundColor(.secondary)
                                     .background(
                                         Color.secondarySystemBackground
@@ -442,7 +444,7 @@ struct CampaignList: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                             Spacer()
-                            Text("\(campaigns.count - HIDDEN_CAMPAIGN_IDS.count)")
+                            Text("\(allCampaigns.count)")
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
@@ -497,7 +499,7 @@ struct CampaignList: View {
                 }
             }
 
-            if campaigns.count != 0 {
+            if allCampaigns.count != 0 {
                 
                 if showSearchBar {
                     GroupBox {
@@ -545,7 +547,7 @@ struct CampaignList: View {
                                     .foregroundStyle(.white)
                                 Text("No fundraisers yet")
                                     .foregroundStyle(.white)
-                                Link(destination: URL(string: "https://tiltify.com/+relay-for-st-jude/relay-for-st-jude-2024/start/cause-summary")!, label: {
+                                Link(destination: URL(string: "https://tiltify.com/\(TEAM_EVENT_VANITY)/\(TEAM_EVENT_SLUG)/start/cause-summary")!, label: {
                                     Text("Be the first and create your own!")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
@@ -572,22 +574,19 @@ struct CampaignList: View {
     
     @ViewBuilder
     var fundraiserListView: some View {
-        if(campaigns.count != 0) {
+        if(allCampaigns.count != 0) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
                 
                 ForEach(Array(searchResults.enumerated()), id: \.offset) { index, campaign in
-                    if !HIDDEN_CAMPAIGN_IDS.contains(campaign.id) {
                         NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
                             FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showBackground: false, showShareSheet: .constant(false))
                         }
                         .buttonStyle(BlockButtonStyle())
                         .contextMenu {
-                            if shouldShowHeadToHead {
-                                Button(action: {
-                                    showSheet = .continueHeadToHead(campaign: campaign)
-                                }) {
-                                    Label("Start Head to Head", image: "pixel-trophy")
-                                }
+                            Button(action: {
+                                showSheet = .continueHeadToHead(campaign: campaign)
+                            }) {
+                                Label("Start Head to Head", image: "pixel-trophy")
                             }
                             Button(action: {
                                 Task {
@@ -597,8 +596,6 @@ struct CampaignList: View {
                                 Label(campaign.isStarred ? "Unfavourite" : "Favourite", image: campaign.isStarred ? "heart.pixel" : "heart.fill.pixel")
                             }
                         }
-                        //                        .padding(.top)
-                    }
                 }
             }
             .padding(.horizontal)
@@ -735,14 +732,14 @@ struct CampaignList: View {
                 }
             case .leaderBoard:
                 NavigationView {
-                    Leaderboard(campaigns: campaigns) { campaign in
+                    Leaderboard(campaigns: allCampaigns) { campaign in
                         showSheet = nil
                         selectedCampaignId = campaign.id
                     }
                 }
             case .randomPicker:
                 NavigationView {
-                    RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: campaigns)
+                    RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
                     //                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
                     //                                             allCampaigns: campaigns)
                         .navigationTitle("Pick a block!")
@@ -870,9 +867,9 @@ struct CampaignList: View {
                     do {
                         dataLogger.notice("Updating \(apiCampaign.name) - \(apiCampaign.totalRaised.description(showFullCurrencySymbol: false))")
                         try await AppDatabase.shared.updateCampaign(updateCampaign, changesFrom: dbCampaign)
-                        if apiCampaign.id == TLD_CAMPAIGN {
-                            shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
-                        }
+//                        if apiCampaign.id == TLD_CAMPAIGN {
+//                            shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
+//                        }
                     } catch {
                         dataLogger.error("Failed to update campaign: \(updateCampaign.id) \(updateCampaign.name): \(error.localizedDescription)")
                     }
@@ -889,9 +886,9 @@ struct CampaignList: View {
             for apiCampaign in keyedApiCampaigns.values {
                 do {
                     try await AppDatabase.shared.saveCampaign(apiCampaign)
-                    if apiCampaign.id == TLD_CAMPAIGN {
-                        shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
-                    }
+//                    if apiCampaign.id == TLD_CAMPAIGN {
+//                        shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
+//                    }
                 } catch {
                     dataLogger.error("Failed to save Campaign \(apiCampaign.id) \(apiCampaign.name): \(error.localizedDescription)")
                 }

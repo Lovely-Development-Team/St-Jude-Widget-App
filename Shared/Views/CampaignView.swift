@@ -155,6 +155,7 @@ struct CampaignView: View {
                                     HStack {
                                         Text("^[\(milestones.count) Milestone](inflect:true)")
                                             .multilineTextAlignment(.center)
+                                            .foregroundColor(milestones.isEmpty ? .secondary : .primary)
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                         Spacer()
                                     }
@@ -170,6 +171,7 @@ struct CampaignView: View {
                                     HStack {
                                         Text("^[\(rewards.count) Reward](inflect:true)")
                                             .multilineTextAlignment(.center)
+                                            .foregroundColor(rewards.isEmpty ? .secondary : .primary)
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                         Spacer()
                                     }
@@ -310,6 +312,7 @@ struct CampaignView: View {
                 }
 
                 if !milestones.isEmpty {
+                                        
                     GroupBox {
                         VStack(spacing: 10) {
                             HStack(alignment: .firstTextBaseline) {
@@ -324,7 +327,6 @@ struct CampaignView: View {
                                     .foregroundColor(.secondary)
 
                             }
-                            .id("Milestones")
                             ForEach(milestones, id: \.id) { milestone in
                                 let reached = milestoneReached(for: milestone)
                                 HStack(alignment: .top) {
@@ -347,6 +349,7 @@ struct CampaignView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
+                    .id("Milestones")
                 }
 
                 if !rewards.isEmpty {
@@ -362,7 +365,6 @@ struct CampaignView: View {
                                     .foregroundColor(.secondary)
 
                             }
-                            .id("Rewards")
                             ForEach(rewards, id: \.id) { reward in
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .top) {
@@ -415,6 +417,7 @@ struct CampaignView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
+                    .id("Rewards")
                 }
             }
             .padding(.vertical)

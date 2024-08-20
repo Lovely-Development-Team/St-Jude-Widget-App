@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DonorList: View {
+    @Environment(\.colorScheme) var colorScheme
     
     let campaign: Campaign
     @Binding var donations: [TiltifyDonorsForCampaignDonation]
@@ -18,42 +19,95 @@ struct DonorList: View {
     var body: some View {
         ScrollView {
             
-            Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!) {
-                    HStack {
-                        Text("View all donors on Tiltify")
-                        Spacer()
-                        Image(systemName: "safari")
-                            .foregroundColor(.secondary)
-                    }
-            }
-            .buttonStyle(BlockButtonStyle())
-            .padding()
-            
-            ForEach(donations, id: \.id) { donation in
-                GroupBox {
-                    VStack(spacing: 5) {
-                        HStack(alignment: .top) {
-                            Text(donation.donorName)
-                                .multilineTextAlignment(.leading)
-                                .font(.headline)
-                            Spacer()
-                            if !donation.incentives.isEmpty {
-                                Image(.heartPixel)
-                                    .foregroundColor(.secondary)
-                            }
-                            Text(donation.amount.description(showFullCurrencySymbol: false))
-                        }
-                        if let comment = donation.donorComment {
-                            Text(comment)
-                                .font(.caption)
-                                .multilineTextAlignment(.leading)
-                                .foregroundColor(.secondary)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
+            VStack(spacing: 0) {
+                
+                VStack(spacing: 0) {
+                    Spacer()
+                    AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+                        .tiledImageAtScale(axis: .horizontal)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
-                .padding(.horizontal)
+                .overlay(alignment: .bottom) {
+                    HStack {
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                        TappableCoin()
+                    }
+                    .padding(.bottom, Double.spriteScale * 100)
+                }
+                .frame(minHeight: 100)
+                .background {
+                    SkyView()
+                        .mask {
+                            LinearGradient(stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .white, location: 0.25),
+                                .init(color: .white, location: 1)
+                            ], startPoint: .top, endPoint: .bottom)
+                        }
+                }
+                .background {
+                    Color(uiColor: .systemBackground)
+                }
+                
+                VStack {
+                    
+                    Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!) {
+                        HStack {
+                            Text("View all donors on Tiltify")
+                            Spacer()
+                            Image(systemName: "safari")
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .buttonStyle(BlockButtonStyle())
+                    .padding()
+                    
+                    ForEach(donations, id: \.id) { donation in
+                        GroupBox {
+                            VStack(spacing: 5) {
+                                HStack(alignment: .top) {
+                                    Text(donation.donorName)
+                                        .multilineTextAlignment(.leading)
+                                        .font(.headline)
+                                    Spacer()
+                                    if !donation.incentives.isEmpty {
+                                        Image(.heartPixel)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Text(donation.amount.description(showFullCurrencySymbol: false))
+                                }
+                                if let comment = donation.donorComment {
+                                    Text(comment)
+                                        .font(.caption)
+                                        .multilineTextAlignment(.leading)
+                                        .foregroundColor(.secondary)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                }
+                            }
+                        }
+                        .groupBoxStyle(BlockGroupBoxStyle())
+                        .padding(.horizontal)
+                        .padding(.bottom, donation.id == donations.last?.id ? 10 : 0)
+                    }
+                    
+                }
+                Spacer()
+            }
+            .background {
+                GeometryReader { geometry in
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+                        .tiledImageAtScale(scale: Double.spriteScale)
+                        .frame(height:geometry.size.height + 1000)
+                        .animation(.none, value: UUID())
+                }
             }
         }
         .toolbar {
@@ -79,7 +133,7 @@ struct DonorList: View {
             isRefreshing = false
         }
         .navigationTitle("Recent Donations")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func refresh() async {
