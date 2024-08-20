@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22129"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,133 +11,25 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" id="AYq-B5-eeq">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <stackView opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xHb-AF-S6V">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tvR-BZ-eeE">
-                                        <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="759"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j9U-XD-jbb">
-                                                <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="253"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Asset 58" translatesAutoresizingMaskIntoConstraints="NO" id="53r-ED-mUa">
-                                                        <rect key="frame" x="-50" y="0.0" width="120" height="253"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="120" id="w1t-rE-l7C"/>
-                                                        </constraints>
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="53r-ED-mUa" secondAttribute="bottom" id="3MC-ru-Ia4"/>
-                                                    <constraint firstItem="53r-ED-mUa" firstAttribute="leading" secondItem="j9U-XD-jbb" secondAttribute="leading" constant="-50" id="FnT-7n-tdJ"/>
-                                                    <constraint firstItem="53r-ED-mUa" firstAttribute="top" secondItem="j9U-XD-jbb" secondAttribute="top" id="mIh-Fs-CNw"/>
-                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="53r-ED-mUa" secondAttribute="trailing" id="zB3-Ln-tQF"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6S7-Lu-jQQ">
-                                                <rect key="frame" x="0.0" y="253" width="196.66666666666666" height="253"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Asset 66" translatesAutoresizingMaskIntoConstraints="NO" id="zsY-o1-nbx">
-                                                        <rect key="frame" x="-30" y="0.0" width="200" height="253"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="dPr-6A-TEQ"/>
-                                                        </constraints>
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zsY-o1-nbx" secondAttribute="trailing" id="4zP-Gf-p6z"/>
-                                                    <constraint firstAttribute="bottom" secondItem="zsY-o1-nbx" secondAttribute="bottom" id="SDr-ut-aDq"/>
-                                                    <constraint firstItem="zsY-o1-nbx" firstAttribute="leading" secondItem="6S7-Lu-jQQ" secondAttribute="leading" constant="-30" id="TbC-Uu-jGw"/>
-                                                    <constraint firstItem="zsY-o1-nbx" firstAttribute="top" secondItem="6S7-Lu-jQQ" secondAttribute="top" id="Xcy-Pv-Fcm"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P46-9j-cFi">
-                                                <rect key="frame" x="0.0" y="506" width="196.66666666666666" height="253"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Asset 67" translatesAutoresizingMaskIntoConstraints="NO" id="Ot1-pu-xIg">
-                                                        <rect key="frame" x="-10" y="0.0" width="20" height="253"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="20" id="8TJ-CQ-num"/>
-                                                        </constraints>
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="Ot1-pu-xIg" secondAttribute="bottom" id="GWf-pU-TMh"/>
-                                                    <constraint firstItem="Ot1-pu-xIg" firstAttribute="leading" secondItem="P46-9j-cFi" secondAttribute="leading" constant="-10" id="TN9-Hk-mDX"/>
-                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ot1-pu-xIg" secondAttribute="trailing" id="cyS-1d-wuB"/>
-                                                    <constraint firstItem="Ot1-pu-xIg" firstAttribute="top" secondItem="P46-9j-cFi" secondAttribute="top" id="dEh-SJ-XJf"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="NvK-XB-6gm">
-                                        <rect key="frame" x="196.66666666666663" y="0.0" width="196.33333333333337" height="759"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u1e-1B-ToY">
-                                                <rect key="frame" x="0.0" y="0.0" width="196.33333333333334" height="379.66666666666669"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Asset 87" translatesAutoresizingMaskIntoConstraints="NO" id="8uA-Mz-Ky0">
-                                                        <rect key="frame" x="96.333333333333343" y="0.0" width="150" height="379.66666666666669"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="c4h-oh-06O"/>
-                                                        </constraints>
-                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="8uA-Mz-Ky0" secondAttribute="bottom" id="AdN-H5-qE8"/>
-                                                    <constraint firstItem="8uA-Mz-Ky0" firstAttribute="top" secondItem="u1e-1B-ToY" secondAttribute="top" id="Fbw-3A-lw2"/>
-                                                    <constraint firstAttribute="trailing" secondItem="8uA-Mz-Ky0" secondAttribute="trailing" constant="-50" id="ZgH-pR-6vI"/>
-                                                    <constraint firstItem="8uA-Mz-Ky0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="u1e-1B-ToY" secondAttribute="leading" id="qq5-3w-Iei"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gWF-5E-ASX">
-                                                <rect key="frame" x="0.0" y="379.66666666666674" width="196.33333333333334" height="379.33333333333326"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Asset 65" translatesAutoresizingMaskIntoConstraints="NO" id="fvU-U5-UTr">
-                                                        <rect key="frame" x="96.333333333333343" y="0.0" width="200.00000000000003" height="379.33333333333331"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="uEF-Mu-h2N"/>
-                                                        </constraints>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="fvU-U5-UTr" firstAttribute="top" secondItem="gWF-5E-ASX" secondAttribute="top" id="5Cj-An-yTN"/>
-                                                    <constraint firstItem="fvU-U5-UTr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gWF-5E-ASX" secondAttribute="leading" id="Go0-If-nMf"/>
-                                                    <constraint firstAttribute="trailing" secondItem="fvU-U5-UTr" secondAttribute="trailing" constant="-100" id="Nyy-U9-ZU7"/>
-                                                    <constraint firstAttribute="bottom" secondItem="fvU-U5-UTr" secondAttribute="bottom" id="Oxy-Qd-kx8"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bannerForeground" translatesAutoresizingMaskIntoConstraints="NO" id="sUg-Wn-93H">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bannerForeground" translatesAutoresizingMaskIntoConstraints="NO" id="JAq-v5-F9A">
                                 <rect key="frame" x="0.0" y="87.666666666666686" width="393" height="677"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="YNT-jJ-Lg5"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="500" id="LZq-mp-pdg"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <viewLayoutGuide key="safeArea" id="ejL-W3-2O8"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="sUg-Wn-93H" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5jc-Cc-Hfb"/>
-                            <constraint firstItem="sUg-Wn-93H" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="TX6-lX-Gjm"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sUg-Wn-93H" secondAttribute="trailing" id="URs-HC-or7"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="xHb-AF-S6V" secondAttribute="bottom" id="dzY-DS-GSg"/>
-                            <constraint firstItem="xHb-AF-S6V" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="qh9-eZ-tSs"/>
-                            <constraint firstAttribute="trailing" secondItem="xHb-AF-S6V" secondAttribute="trailing" id="rKQ-Yn-OJd"/>
-                            <constraint firstItem="sUg-Wn-93H" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="wZ6-Cj-q0Z"/>
-                            <constraint firstItem="xHb-AF-S6V" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="zWk-dJ-o4W"/>
+                            <constraint firstItem="JAq-v5-F9A" firstAttribute="width" relation="lessThanOrEqual" secondItem="AYq-B5-eeq" secondAttribute="width" id="0Cy-cf-3bf"/>
+                            <constraint firstItem="JAq-v5-F9A" firstAttribute="centerY" secondItem="AYq-B5-eeq" secondAttribute="centerY" id="5fc-PP-U4E"/>
+                            <constraint firstItem="JAq-v5-F9A" firstAttribute="centerX" secondItem="AYq-B5-eeq" secondAttribute="centerX" id="jLy-43-gt3"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -147,11 +39,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Asset 58" width="270" height="208"/>
-        <image name="Asset 65" width="577" height="437"/>
-        <image name="Asset 66" width="332.33334350585938" height="496.66665649414062"/>
-        <image name="Asset 67" width="90" height="90"/>
-        <image name="Asset 87" width="316" height="197.66667175292969"/>
         <image name="bannerForeground" width="1400" height="677"/>
     </resources>
 </document>
