@@ -54,7 +54,7 @@ struct LandscapeElement: Identifiable {
                     AdaptiveImage.myke(colorScheme: colorScheme)
                         .imageAtScale()
                 }, onTap: {
-                    SoundEffectHelper.shared.play(.honk)
+                    SoundEffectHelper.shared.play(.mykeRandom)
                 })
             }
         case .stephen:
@@ -72,7 +72,7 @@ struct LandscapeElement: Identifiable {
                         .imageAtScale()
                         .scaleEffect(x: -1)
                 }, onTap: {
-                    SoundEffectHelper.shared.play(.joe)
+                    SoundEffectHelper.shared.play(.stephenRandom)
                 })
             }
         case .bush:
@@ -122,6 +122,7 @@ struct RandomLandscapeData {
     mutating func generate() {
         self.backgroundShown = self.isForMainScreen ? Bool.random() : false
         self.elevatedShown = self.isForMainScreen ? Bool.random() : false
+        self.numGroundElements = UserDefaults.shared.easterEggEnabled2024 ? 3 : 4
         
         self.mykeElevated = self.elevatedShown ? Bool.random() : false
         if(UserDefaults.shared.easterEggEnabled2024) {
@@ -260,9 +261,7 @@ struct RandomLandscapeView<Content: View>: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
-        .onAppear {
-        }
+        .frame(maxWidth: min(Double.screenWidth, Double.stretchedContentMaxWidth))
     }
 }
 
