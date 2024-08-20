@@ -25,4 +25,8 @@ extension Double {
             return UIScreen.main.bounds.height
         }
     }
+    
+    func roundDown(toNearest value: Double) -> Double {
+        return floor(self/value)*value
+    }
 }

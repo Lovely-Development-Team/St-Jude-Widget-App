@@ -189,8 +189,7 @@ extension AdaptiveImage {
             AdaptiveImage(colorScheme: colorScheme, light: .sky21),
             AdaptiveImage(colorScheme: colorScheme, light: .sky22),
             AdaptiveImage(colorScheme: colorScheme, light: .sky23),
-            AdaptiveImage(colorScheme: colorScheme, light: .sky24),
-            AdaptiveImage(colorScheme: colorScheme, light: .sky25)
+            AdaptiveImage(colorScheme: colorScheme, light: .sky24)
         ].reversed()
     }
     
