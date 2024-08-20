@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Double {
     static var stretchedContentMaxWidth: Double = 500
@@ -16,4 +17,12 @@ extension Double {
     
     static var dogcowSpriteWidth = (10 * 40) * Double.spriteScale
     static var jonycubeSpriteWidth = (10 * 34) * Double.spriteScale
+    
+    static var screenWidth: Double {
+        if(UIDevice.current.orientation.isPortrait) {
+            return UIScreen.main.bounds.width
+        } else {
+            return UIScreen.main.bounds.height
+        }
+    }
 }
