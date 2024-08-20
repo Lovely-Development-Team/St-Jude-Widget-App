@@ -250,8 +250,8 @@ struct TiltifyTeamEventResponse: Codable {
 }
 
 struct TiltifySupportingCampaignsPageInfo: Codable {
-    let endCursor: String
-    let startCursor: String
+    let endCursor: String?
+    let startCursor: String?
     let hasNextPage: Bool
     let hasPreviousPage: Bool
 }

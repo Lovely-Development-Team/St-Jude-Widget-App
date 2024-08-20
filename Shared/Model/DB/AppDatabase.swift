@@ -8,8 +8,8 @@
 import Foundation
 import GRDB
 
-let RELAY_CAMPAIGN: UUID = UUID(uuidString: "5a2fe249-37c7-4bb6-b848-cce3a6eb9066")!
-let TLD_CAMPAIGN: UUID = UUID(uuidString: "65563296-EEC2-45D5-BB7B-E77203D6AB08")!
+let RELAY_CAMPAIGN: UUID = UUID(uuidString: "0220c3fa-fc0e-4ae5-9dd9-174c956d5d1c")!
+let TLD_CAMPAIGN: UUID = UUID(uuidString: "f8ca36e1-39bb-4633-bb32-2d0d8f45e151")!
 
 struct TLDMilestones {
     static let HeadToHead: Double = 500

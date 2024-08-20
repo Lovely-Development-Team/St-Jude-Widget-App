@@ -107,6 +107,7 @@ struct HeadToHeadView: View {
                         }
                     }
                     .font(.title)
+                    .bold()
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .frame(minHeight: 140)
                     .padding()
@@ -191,7 +192,7 @@ struct HeadToHeadView: View {
                     }
                     if animateIn {
                         GroupBox {
-                            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.backgroundColors[0], fillColor: HEAD_TO_HEAD_COLOR_1.backgroundColors[0], showDivider: true, dividerWidth: 2)
+                            ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeBlue, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
                                 .frame(height: 20)
                         }
                         .groupBoxStyle(BlockGroupBoxStyle())
