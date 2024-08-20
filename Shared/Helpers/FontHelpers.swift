@@ -9,8 +9,8 @@ import SwiftUI
 
 // If you get errors about this file when running a preview, swap the #if directives commented below
 
-//#if NOT_TRYING_TO_USE_PREVIEWS
-#if os(iOS)
+#if NOT_TRYING_TO_USE_PREVIEWS
+//#if os(iOS)
 
 extension Font {
     public static var customFontName: String { "SFPro" }
