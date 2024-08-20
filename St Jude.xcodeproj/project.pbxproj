@@ -934,7 +934,6 @@
 				63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */,
 				63ACEFF326D3C64100F98023 /* ProgressBar.swift */,
 				63ACEFFE26D3CC3400F98023 /* EntryView.swift */,
-				5E5814B72C708B510044662C /* ColourSchemeTest.swift */,
 				5E49D6C826DCC03E002892CC /* WidgetSettingsView.swift */,
 				630DD48126E24A9200FE44E5 /* InAppSettingsToggle.swift */,
 				630DD48426E253CF00FE44E5 /* SettingsDivider.swift */,
@@ -963,6 +962,7 @@
 				430035C72C6ADCE300F5AA29 /* RandomLandscapeView.swift */,
 				43F7863C2C72BF710011950C /* SkyView.swift */,
 				43F7863D2C72BF710011950C /* TappableCoin.swift */,
+				5E5814B72C708B510044662C /* ColourSchemeTest.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

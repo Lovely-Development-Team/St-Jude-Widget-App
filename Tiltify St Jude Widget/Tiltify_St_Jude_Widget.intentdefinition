@@ -77,7 +77,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Red</string>
+					<string>Fire Red</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>bI96uX</string>
 					<key>INEnumValueIndex</key>
@@ -87,7 +87,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Sky</string>
+					<string>Sky Blue</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>nBKDjl</string>
 					<key>INEnumValueIndex</key>
@@ -97,7 +97,7 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Grass</string>
+					<string>Grass Green</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>gCSogJ</string>
 					<key>INEnumValueIndex</key>
@@ -107,13 +107,23 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Ground</string>
+					<string>Slime Purple</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>zwAMex</string>
 					<key>INEnumValueIndex</key>
 					<integer>11</integer>
 					<key>INEnumValueName</key>
 					<string>purple</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Ground Brown</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>vskwnN</string>
+					<key>INEnumValueIndex</key>
+					<integer>3</integer>
+					<key>INEnumValueName</key>
+					<string>ground</string>
 				</dict>
 			</array>
 		</dict>

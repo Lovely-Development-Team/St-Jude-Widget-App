@@ -54,7 +54,7 @@ struct HeadToHeadWidgetView: View {
         guard denominator > 0 else { return 0.5 }
         return Float(campaign1.totalRaisedNumerical / denominator)
     }
-
+    
     var highestTotal: Double {
         guard let campaign1 = campaign1, let campaign2 = campaign2 else { return 0 }
         return max(campaign1.totalRaisedNumerical, campaign2.totalRaisedNumerical)
