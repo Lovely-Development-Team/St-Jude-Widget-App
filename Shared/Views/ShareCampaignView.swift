@@ -41,6 +41,7 @@ struct ShareCampaignView: View {
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
             .frame(minHeight: 169) // Height of a medium widget
             .dynamicTypeSize(.medium)
+            .environment(\.font, Font.body)
     }
     
     @Environment(\.displayScale) var displayScale
@@ -74,14 +75,12 @@ struct ShareCampaignView: View {
                 }
                 .cornerRadius((clipCorners ? 15 : 0))
                 .padding(.horizontal)
-            ShareLink("Share", item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage))
+            ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
+                Label("Share", image: "share.pixel")
+            }
                 .font(.headline)
                 .foregroundColor(.white)
-                .padding(10)
-                .padding(.horizontal, 20)
-                .background(Color.accentColor)
-                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                .buttonStyle(BlockButtonStyle(tint: .accentColor))
                 .padding()
         }
     }
