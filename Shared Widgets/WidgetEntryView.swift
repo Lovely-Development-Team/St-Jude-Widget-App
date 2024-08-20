@@ -63,6 +63,7 @@ struct WidgetEntryView : View {
         if let campaign = entry.campaign {
             EntryView(campaign: .constant(campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
                 .widgetURL(URL(string: campaign.widgetURL)!)
+                .environment(\.font, Font.body)
         } else {
             if #available(iOS 17.0, *) {
                 placeholderView
