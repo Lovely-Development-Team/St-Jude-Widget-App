@@ -10,15 +10,25 @@ import SwiftUI
 struct SkyView: View {
     @Environment(\.colorScheme) var colorScheme
     
+    private var slices: [AdaptiveImage] {
+        AdaptiveImage.stretchSky(colorScheme: self.colorScheme)
+    }
+    
     var body: some View {
-        VStack(spacing:-1) {
-            ForEach(AdaptiveImage.stretchSky(colorScheme: self.colorScheme)) { slice in
-                slice.tiledImageAtScale()
+        GeometryReader { geometry in
+            VStack(spacing:-1) {
+                Color.skyBackground
+                VStack(spacing:-1) {
+                    ForEach(self.slices) { slice in
+                        slice.tiledImageAtScale()
+                    }
+                }
+                .frame(height: Double(geometry.size.height).roundDown(toNearest: Double(10 * self.slices.count) * Double.spriteScale))
             }
-        }
-        .overlay {
-            Color.black
-                .opacity(self.colorScheme == .dark ? 0.5 : 0.0)
+            .overlay {
+                Color.black
+                    .opacity(self.colorScheme == .dark ? 0.5 : 0.0)
+            }
         }
     }
 }
