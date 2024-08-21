@@ -149,67 +149,6 @@ struct HeadToHeadWidgetView: View {
         return !showsBackground && !isLockScreen(family: family)
     }
     
-    var headToHeadEnabled: Bool {
-        entry.headToHeadEnabled
-    }
-    
-    @ViewBuilder
-    var disabledBackground: some View {
-        if(!isLockScreen(family: family)) {
-            LinearGradient(colors: WidgetAppearance.stjude.backgroundColors, startPoint: .bottom, endPoint: .top)
-        }
-    }
-    
-    @ViewBuilder
-    func disabledContent(padded: Bool = false) -> some View {
-        if(isLockScreen(family: family)) {
-            if(family == .accessoryCircular) {
-                Gauge(value: 0, label: {
-                    Image(systemName: "lock.fill")
-                })
-                .gaugeStyle(.accessoryCircularCapacity)
-            } else {
-                Image(systemName: "lock.fill")
-                if(family == .accessoryInline) {
-                    Text("Get us to $500!")
-                        .minimumScaleFactor(0.5)
-                        .multilineTextAlignment(.center)
-                } else {
-                    Text("Get TLD to $500 to unlock!")
-                        .multilineTextAlignment(.center)
-                }
-            }
-        } else {
-            VStack {
-                Spacer()
-                HStack {
-                    Image(.mykesmol)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    Spacer()
-                    Text("vs")
-                        .bold()
-                        .padding(.all, 4)
-                        .background(Circle().fill(Color.white))
-                        .foregroundColor(.black)
-                    Spacer()
-                    Image(.stephensmol)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                }
-                Spacer()
-                Text("Head To Head")
-                    .foregroundStyle(.white)
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                Text("Get TLD to $500 to unlock!")
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
-            }
-            .padding(padded ? .all : [])
-        }
-    }
-    
     var h2hWidgetUrl: URL? {
         guard let urlString = entry.widgetUrlString, let url = URL(string: urlString),  openToHeadToHead else { return nil }
         return url
@@ -217,33 +156,21 @@ struct HeadToHeadWidgetView: View {
     
     var body: some View {
         if #available(iOS 17.0, *) {
-            if(headToHeadEnabled) {
-                content(for: family)
-                    .containerBackground(for: .widget, content: {
-                        backgroundView
-                    })
-                    .padding(shouldHaveExtraPadding ? .all : [], 5)
-                    .widgetURL(h2hWidgetUrl)
-                    .containerShape(.rect)
-            } else {
-                disabledContent()
-                    .containerBackground(for: .widget, content: {
-                        disabledBackground
-                    })
-                    .widgetURL(URL(string: "relay-fm-for-st-jude://campaign?id=65563296-EEC2-45D5-BB7B-E77203D6AB08")!)
-            }
+            content(for: family)
+                .containerBackground(for: .widget, content: {
+                    backgroundView
+                })
+                .padding(shouldHaveExtraPadding ? .all : [], 5)
+                .widgetURL(h2hWidgetUrl)
+                .containerShape(.rect)
+                .dynamicTypeSize(.medium)
         } else {
-            if(headToHeadEnabled) {
-                content(for: family, padded: true)
-                    .background {
-                        backgroundView
-                    }
-                    .widgetURL(h2hWidgetUrl)
-            } else {
-                disabledContent(padded: true)
-                    .background(disabledBackground)
-                    .widgetURL(URL(string: "relay-fm-for-st-jude://campaign?id=65563296-EEC2-45D5-BB7B-E77203D6AB08")!)
-            }
+            content(for: family, padded: true)
+                .background {
+                    backgroundView
+                }
+                .widgetURL(h2hWidgetUrl)
+                .dynamicTypeSize(.medium)
         }
     }
     
