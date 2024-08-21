@@ -14,7 +14,6 @@ struct HeadToHeadEntry: TimelineEntry {
     let headToHeadId: UUID?
     let campaign1: TiltifyWidgetData?
     let campaign2: TiltifyWidgetData?
-    let headToHeadEnabled: Bool
     
     var widgetUrlString: String? {
         guard let id = headToHeadId else { return nil }
