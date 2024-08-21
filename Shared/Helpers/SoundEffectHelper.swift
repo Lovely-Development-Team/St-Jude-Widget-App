@@ -144,6 +144,7 @@ class SoundEffectHelper {
         appLogger.debug("Setting audio session to playback")
         let audioSession = AVAudioSession.sharedInstance()
         do {
+            try audioSession.setActive(false)
             try audioSession.setCategory(.playback, options: .mixWithOthers)
         } catch {
             appLogger.debug("Could not set audio session category to playback: \(error.localizedDescription)")
@@ -154,6 +155,7 @@ class SoundEffectHelper {
         appLogger.debug("Setting audio session to ambient")
         let audioSession = AVAudioSession.sharedInstance()
         do {
+            try audioSession.setActive(false)
             try audioSession.setCategory(.ambient)
         } catch {
             appLogger.debug("Could not set audio session category to ambient: \(error.localizedDescription)")
