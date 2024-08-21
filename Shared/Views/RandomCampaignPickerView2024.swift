@@ -145,7 +145,7 @@ struct RandomCampaignPickerView2024: View {
             withAnimation(.none) {
                 self.chosenCampaign = self.getRandomCampaign()
             }
-            self.coinCount += 10
+            self.coinCount += 1
             self.showingResult = true
             self.hitArr[currentBox] = true
             self.resultOpacity = true
