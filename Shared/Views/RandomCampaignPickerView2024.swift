@@ -488,9 +488,10 @@ struct RandomCampaignPickerView2024: View {
                         }
                         .animation(.easeOut(duration: self.animationDuration), value: self.jumping)
                         .frame(maxHeight: .infinity)
-                        .background(alignment: .bottom) {
-                            SkyView()
-                        }
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .background(alignment: .bottom) {
+                    SkyView()
                 }
                 .overlay(alignment: .bottomTrailing) {
                     if(self.isAlmostKonamiCode || self.isKonamiCode) {
