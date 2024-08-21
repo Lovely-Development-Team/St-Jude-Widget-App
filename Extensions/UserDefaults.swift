@@ -31,6 +31,12 @@ extension UserDefaults {
     
     static let disablePixelFontKey = "disablePixelFont"
     static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
+    static let coinCountKey = "coinCount"
+    
+    @objc var coinCount: Int {
+        get { integer(forKey: Self.coinCountKey) }
+        set { set(newValue, forKey: Self.coinCountKey) }
+    }
     
     @objc var playSoundsEvenWhenMuted: Bool {
         get { bool(forKey: Self.playSoundsEvenWhenMutedKey) }
