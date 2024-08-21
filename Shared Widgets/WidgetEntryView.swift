@@ -18,26 +18,6 @@ struct WidgetEntryView : View {
         return isExtraLargeSize(family: family) || entry.campaign?.nextMilestone == nil
     }
     
-    var titleFont: Font {
-        switch family {
-        case .systemSmall:
-            return .headline
-        case .systemMedium:
-            return .title2
-        default:
-            return .largeTitle
-        }
-    }
-    
-    var raisedAmountFont: Font {
-        switch family {
-        case .systemSmall:
-            return .headline
-        default:
-            return .largeTitle
-        }
-    }
-    
     var shouldShowMilestones: Bool {
         entry.configuration.showMilestones?.boolValue == true
     }
@@ -58,12 +38,16 @@ struct WidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
+    var shouldDisablePixelTheme: Bool {
+        entry.configuration.disablePixelTheme?.boolValue == true
+    }
+    
     @ViewBuilder
     var entryView: some View {
         if let campaign = entry.campaign {
-            EntryView(campaign: .constant(campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
+            EntryView(campaign: .constant(campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance, disablePixelFont: shouldDisablePixelTheme)
                 .widgetURL(URL(string: campaign.widgetURL)!)
-                .environment(\.font, Font.body)
+                .environment(\.font, Font.body(disablePixelFont: shouldDisablePixelTheme))
         } else {
             if #available(iOS 17.0, *) {
                 placeholderView

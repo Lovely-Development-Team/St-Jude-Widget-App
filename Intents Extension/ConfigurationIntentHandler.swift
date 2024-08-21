@@ -27,6 +27,10 @@ class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
         return .success(with: intent.showGoalPercentage?.boolValue ?? true)
     }
     
+    func resolveDisablePixelTheme(for intent: ConfigurationIntent) async -> INBooleanResolutionResult {
+        return .success(with: intent.disablePixelTheme?.boolValue ?? true)
+    }
+    
     func resolveCampaign(for intent: ConfigurationIntent) async -> INWidgetCampaignResolutionResult {
         guard let campaign = intent.campaign else {
             return .notRequired()
