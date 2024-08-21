@@ -10,8 +10,10 @@ import SwiftUI
 struct SkyView: View {
     @Environment(\.colorScheme) var colorScheme
     
+    var overrideColorScheme: ColorScheme? = nil
+    
     private var slices: [AdaptiveImage] {
-        AdaptiveImage.stretchSky(colorScheme: self.colorScheme)
+        AdaptiveImage.stretchSky(colorScheme: overrideColorScheme ?? self.colorScheme)
     }
     
     var body: some View {
@@ -27,7 +29,7 @@ struct SkyView: View {
             }
             .overlay {
                 Color.black
-                    .opacity(self.colorScheme == .dark ? 0.5 : 0.0)
+                    .opacity((self.overrideColorScheme ?? self.colorScheme) == .dark ? 0.5 : 0.0)
             }
         }
     }

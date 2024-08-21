@@ -16,7 +16,6 @@ struct HeadToHeadWidgetView: View {
     @Environment(\.widgetFamily) var family
     @Environment(\.showsWidgetContainerBackground) var showsBackground
     @Environment(\.widgetRenderingMode) var renderingMode
-    @Environment(\.colorScheme) var colorScheme
     
     var entry: HeadToHeadProvider.Entry
     
@@ -79,6 +78,9 @@ struct HeadToHeadWidgetView: View {
     }
     
     var labelColor: Color {
+        if (family == .systemSmall) {
+            return .black
+        }
         return .label
     }
     
@@ -86,10 +88,10 @@ struct HeadToHeadWidgetView: View {
     var backgroundView: some View {
         if(family == .systemSmall) {
             if campaign2 == winner {
-                AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                AdaptiveImage.undergroundRepeatable(colorScheme: .light)
                     .tiledImageAtScale()
             } else {
-                SkyView()
+                SkyView(overrideColorScheme: .light)
             }
         } else if(family == .systemExtraLarge || family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
@@ -103,10 +105,10 @@ struct HeadToHeadWidgetView: View {
         if(isHorizontal) {
             GeometryReader { geo in
                 HStack(spacing: 0) {
-                    SkyView()
+                    SkyView(overrideColorScheme: .light)
                         .frame(width: geo.frame(in: .local).size.width * min(0.9, max(0.1, CGFloat(self.progressBarValue))), height: geo.frame(in: .local).size.height)
                     Rectangle().fill(.black).frame(width: 2)
-                    AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                    AdaptiveImage.undergroundRepeatable(colorScheme: .light)
                         .tiledImageAtScale()
                 }
             }
@@ -114,9 +116,9 @@ struct HeadToHeadWidgetView: View {
             ZStack {
                 GeometryReader { geo in
                     VStack(spacing: 0) {
-                        SkyView()
+                        SkyView(overrideColorScheme: .light)
                             .frame(width: geo.frame(in: .local).size.width, height: geo.frame(in: .local).size.height / 2)
-                        AdaptiveImage.undergroundRepeatable(colorScheme: self.colorScheme)
+                        AdaptiveImage.undergroundRepeatable(colorScheme: .light)
                             .tiledImageAtScale()
                     }
                 }
@@ -180,28 +182,31 @@ struct HeadToHeadWidgetView: View {
     
     @ViewBuilder
     func content(for family: WidgetFamily, padded: Bool = false) -> some View {
-        switch family {
-        case .systemSmall:
-            smallSizeContent
-                .padding(padded ? .all : [])
-        case .systemMedium:
-            mediumSizeContent
-                .padding(padded ? .all : [])
-        case .systemLarge, .systemExtraLarge:
-            largeSizeContent
-                .padding(padded ? .all : [])
-            //        case .systemExtraLarge:
-            //            extraLargeContent
-            //                .padding(padded ? .all : [])
-        case .accessoryCircular:
-            circularLockScreenContent
-        case .accessoryRectangular:
-            rectangularLockScreenContent
-        case .accessoryInline:
-            inlineLockScreenContent
-        default:
-            content
+        Group {
+            switch family {
+            case .systemSmall:
+                smallSizeContent
+                    .padding(padded ? .all : [])
+            case .systemMedium:
+                mediumSizeContent
+                    .padding(padded ? .all : [])
+            case .systemLarge, .systemExtraLarge:
+                largeSizeContent
+                    .padding(padded ? .all : [])
+                //        case .systemExtraLarge:
+                //            extraLargeContent
+                //                .padding(padded ? .all : [])
+            case .accessoryCircular:
+                circularLockScreenContent
+            case .accessoryRectangular:
+                rectangularLockScreenContent
+            case .accessoryInline:
+                inlineLockScreenContent
+            default:
+                content
+            }
         }
+        .preferredColorScheme(.light)
     }
     
     @ViewBuilder
