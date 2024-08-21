@@ -27,7 +27,7 @@ struct TappableCoin: View, Identifiable {
                         self.shown = false
                     }
                 }
-                SoundEffectHelper.shared.play(.jump)
+                SoundEffectHelper.shared.play(.coin)
             }, label: {
                 AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: .constant(true), interval: self.interval)
             })
@@ -36,7 +36,7 @@ struct TappableCoin: View, Identifiable {
         } else {
             Button(action: {
                 self.manualAnimating = true
-                SoundEffectHelper.shared.play(.jump)
+                SoundEffectHelper.shared.play(.coin)
             }, label: {
                 AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: self.$manualAnimating, playOnce: true, interval: self.interval)
             })
