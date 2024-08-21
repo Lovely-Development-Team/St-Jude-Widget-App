@@ -17,26 +17,6 @@ struct FundraisingWidgetEntryView : View {
         return isExtraLargeSize(family: family) || entry.campaign.nextMilestone == nil
     }
     
-    var titleFont: Font {
-        switch family {
-        case .systemSmall:
-            return .headline
-        case .systemMedium:
-            return .title2
-        default:
-            return .largeTitle
-        }
-    }
-    
-    var raisedAmountFont: Font {
-        switch family {
-        case .systemSmall:
-            return .headline
-        default:
-            return .largeTitle
-        }
-    }
-    
     var shouldShowMilestones: Bool {
         entry.configuration.showMilestones?.boolValue == true
     }
@@ -57,8 +37,12 @@ struct FundraisingWidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
+    var shouldDisablePixelTheme: Bool {
+        entry.configuration.disablePixelTheme?.boolValue == true
+    }
+    
     var rawEntryView: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance)
+        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance, disablePixelFont: shouldDisablePixelTheme)
     }
     
     @ViewBuilder

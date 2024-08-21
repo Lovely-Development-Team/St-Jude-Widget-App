@@ -152,7 +152,7 @@
 			<key>INIntentIneligibleForSuggestions</key>
 			<true/>
 			<key>INIntentLastParameterTag</key>
-			<integer>17</integer>
+			<integer>19</integer>
 			<key>INIntentName</key>
 			<string>Configuration</string>
 			<key>INIntentParameters</key>
@@ -475,6 +475,54 @@
 				<dict>
 					<key>INIntentParameterConfigurable</key>
 					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Disable Pixel Theme</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>ONpEZU</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>7</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>false</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>SY7wkb</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>true</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>GWsj8F</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>disablePixelTheme</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Disable pixel theme?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>jII83L</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>19</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
 					<key>INIntentParameterCustomDisambiguation</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
@@ -482,7 +530,7 @@
 					<key>INIntentParameterDisplayNameID</key>
 					<string>ICOwju</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>7</integer>
+					<integer>8</integer>
 					<key>INIntentParameterEnumType</key>
 					<string>WidgetAppearance</string>
 					<key>INIntentParameterEnumTypeNamespace</key>
@@ -574,7 +622,7 @@
 			<key>INIntentIneligibleForSuggestions</key>
 			<true/>
 			<key>INIntentLastParameterTag</key>
-			<integer>17</integer>
+			<integer>19</integer>
 			<key>INIntentName</key>
 			<string>FundraisingEventConfiguration</string>
 			<key>INIntentParameters</key>
@@ -836,6 +884,54 @@
 				<dict>
 					<key>INIntentParameterConfigurable</key>
 					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Disable Pixel Theme</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>mxLUEc</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>6</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>false</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>bZgepo</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>true</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>Tkefz3</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>disablePixelTheme</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Disable the pixel theme?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>dHJB70</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>19</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
 					<key>INIntentParameterCustomDisambiguation</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
@@ -843,7 +939,7 @@
 					<key>INIntentParameterDisplayNameID</key>
 					<string>tXQNNI</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>6</integer>
+					<integer>7</integer>
 					<key>INIntentParameterEnumType</key>
 					<string>WidgetAppearance</string>
 					<key>INIntentParameterEnumTypeNamespace</key>
@@ -905,7 +1001,7 @@
 					<key>INIntentParameterDisplayNameID</key>
 					<string>YRXwG9</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>7</integer>
+					<integer>8</integer>
 					<key>INIntentParameterMetadata</key>
 					<dict>
 						<key>INIntentParameterMetadataDefaultValue</key>
@@ -1274,7 +1370,7 @@
 			<key>INIntentIneligibleForSuggestions</key>
 			<true/>
 			<key>INIntentLastParameterTag</key>
-			<integer>8</integer>
+			<integer>10</integer>
 			<key>INIntentName</key>
 			<string>HeadToHeadConfiguration</string>
 			<key>INIntentParameters</key>
@@ -1386,11 +1482,59 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
+					<string>Disable Pixel Font</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>h1j5gq</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>3</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>false</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>anxcvV</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>true</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>ZWhGUk</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>disablePixelTheme</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Disable pixel font?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>nP35vx</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>10</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
 					<string>Open To Head To Head</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>4FSS5c</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>3</integer>
+					<integer>4</integer>
 					<key>INIntentParameterMetadata</key>
 					<dict>
 						<key>INIntentParameterMetadataDefaultValue</key>

@@ -18,6 +18,10 @@ class HeadToHeadConfigurationIntentHandler: NSObject, HeadToHeadConfigurationInt
         return .success(with: headToHead)
     }
     
+    func resolveDisablePixelTheme(for intent: HeadToHeadConfigurationIntent) async -> INBooleanResolutionResult {
+        return .success(with: intent.disablePixelTheme?.boolValue ?? true)
+    }
+    
     func provideHeadToHeadOptionsCollection(for intent: HeadToHeadConfigurationIntent) async throws -> INObjectCollection<WidgetHeadToHead> {
         let headToHeads = try await AppDatabase.shared.fetchAllHeadToHeads()
         
