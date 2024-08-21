@@ -16,6 +16,7 @@ struct TappableCoin: View, Identifiable {
     @State private var idleImage = AdaptiveImage.coin(colorScheme: .light)
     @State private var images = AdaptiveImage.coinAnimation(colorScheme: .light)
     var collectable: Bool = true
+    var returns: Bool = false
     var spinOnceOnTap: Bool = false
     var offset: Double = -10
     @State private var manualAnimating: Bool = false
@@ -30,6 +31,11 @@ struct TappableCoin: View, Identifiable {
                     withAnimation(.easeIn) {
                         if(self.collectable) {
                             self.shown = false
+                            if self.returns {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    self.shown = true
+                                }
+                            }
                         }
                     }
                     SoundEffectHelper.shared.play(.coin)
@@ -83,6 +89,11 @@ struct TappableCoinPreviewView: View {
             HStack {
                 TappableCoin(easterEggEnabled2024: self.easterEgg, collectable: false, spinOnceOnTap: true)
             }
+            Divider()
+            HStack {
+                TappableCoin(easterEggEnabled2024: self.easterEgg, collectable: true, returns: true)
+            }
+            Divider()
             Toggle(isOn: self.$easterEgg, label: {
                 Text("Easter egg")
             })

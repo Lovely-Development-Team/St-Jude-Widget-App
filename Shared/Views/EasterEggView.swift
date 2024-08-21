@@ -22,6 +22,7 @@ struct EasterEggView: View {
     #endif
     
     @AppStorage(UserDefaults.coinCountKey, store: UserDefaults.shared) private var coinCount: Int = 0
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
     @State private var showFullL2CUName = false
     private var affirmationToShow: String = "Teamwork makes the dream work!"
@@ -45,16 +46,6 @@ struct EasterEggView: View {
     
     @ViewBuilder var topView: some View {
         VStack(spacing:0) {
-            GroupBox {
-                HStack {
-                    Text("Score")
-                    Spacer()
-                    Text("\(coinCount)")
-                }
-                .bold()
-            }
-            .groupBoxStyle(BlockGroupBoxStyle())
-            .padding([.horizontal, .top])
             GroupBox {
                 VStack {
                     Text("Hi there!")
@@ -95,23 +86,41 @@ struct EasterEggView: View {
             Spacer()
             
             RandomLandscapeView(data: self.$landscapeData) {
-                Button(action: {
-                    withAnimation {
+                ZStack(alignment: .top) {
+                    Button(action: {
+                        withAnimation {
 #if !os(macOS)
-                        bounceHaptics.impactOccurred()
+                            bounceHaptics.impactOccurred()
 #endif
-                        self.animate.toggle()
-                        self.animationType = .default
+                            self.animate.toggle()
+                            self.animationType = .default
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.animate.toggle()
+                        }
+                    }) {
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                            .imageAtScale(scale: .spriteScale * 2)
+                            .accessibility(hidden: true)
+                            .offset(x: 0, y: animate ? -5 : 0)
+                            .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.animate.toggle()
+                    HStack {
+                        Spacer()
+                        GroupBox {
+                            HStack {
+                                TappableCoin(easterEggEnabled2024: easterEggEnabled2024, returns: true, offset: 0)
+                                ZStack(alignment: .trailing) {
+                                    Text("888")
+                                        .opacity(0)
+                                    Text("\(coinCount)")
+                                }
+                            }
+                        }
+                        .groupBoxStyle(BlockGroupBoxStyle())
                     }
-                }) {
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
-                        .imageAtScale(scale: .spriteScale * 2)
-                        .accessibility(hidden: true)
-                        .offset(x: 0, y: animate ? -5 : 0)
-                        .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                    .padding(.trailing)
+                    .offset(y: -10)
                 }
             }
             AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
