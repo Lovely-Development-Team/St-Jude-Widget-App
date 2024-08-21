@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AnimatedAdaptiveImage: View {
-    @Binding var idleImage: AdaptiveImage
-    @Binding var images: [AdaptiveImage]
+    var idleImage: AdaptiveImage
+    var images: [AdaptiveImage]
     @Binding var animating: Bool
-    @State var playOnce: Bool = false
-    @State var interval: Double = 0.2
+    var playOnce: Bool = false
+    var interval: Double = 0.2
     
     @State private var imageIndex: Int = 0
     @State private var timer: Timer?

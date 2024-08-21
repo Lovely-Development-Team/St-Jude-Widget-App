@@ -11,13 +11,13 @@ struct TappableCoin: View, Identifiable {
     var id = UUID()
     
     @State private var shown: Bool = true
-    @State private var idleImage = AdaptiveImage.coin(colorScheme: .light)
-    @State private var images = AdaptiveImage.coinAnimation(colorScheme: .light)
-    @State var collectable: Bool = true
-    @State var spinOnceOnTap: Bool = false
-    @State var offset: Double = -10
+    let idleImage = AdaptiveImage.coin(colorScheme: .light)
+    let images = AdaptiveImage.coinAnimation(colorScheme: .light)
+    var collectable: Bool = true
+    var spinOnceOnTap: Bool = false
+    var offset: Double = -10
     @State private var manualAnimating: Bool = false
-    @State var interval: Double = 0.2
+    var interval: Double = 0.2
     
     var body: some View {
         if(!self.spinOnceOnTap) {
@@ -27,16 +27,18 @@ struct TappableCoin: View, Identifiable {
                         self.shown = false
                     }
                 }
+                SoundEffectHelper.shared.play(.jump)
             }, label: {
-                AnimatedAdaptiveImage(idleImage: self.$idleImage, images: self.$images, animating: .constant(true), interval: self.interval)
+                AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: .constant(true), interval: self.interval)
             })
             .opacity(self.shown ? 1.0 : 0.0)
             .offset(y: self.shown ? self.offset : self.offset-10)
         } else {
             Button(action: {
                 self.manualAnimating = true
+                SoundEffectHelper.shared.play(.jump)
             }, label: {
-                AnimatedAdaptiveImage(idleImage: self.$idleImage, images: self.$images, animating: self.$manualAnimating, playOnce: true, interval: self.interval)
+                AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: self.$manualAnimating, playOnce: true, interval: self.interval)
             })
             .offset(y: self.offset)
         }
