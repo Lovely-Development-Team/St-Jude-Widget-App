@@ -18,11 +18,25 @@ extension Font {
     public static func atSize(_ size: CGFloat) -> Font {
         return Font.system(size: size)
     }
+    
+    public static func largeTitle(disablePixelFont: Bool = false) -> Font { .largeTitle }
+    public static func title(disablePixelFont: Bool = false) -> Font { .title }
+    public static func title2(disablePixelFont: Bool = false) -> Font { .title2 }
+    public static func title3(disablePixelFont: Bool = false) -> Font { .title3 }
+    public static func headline(disablePixelFont: Bool = false) -> Font { .headline }
+    public static func subheadline(disablePixelFont: Bool = false) -> Font { .subheadline }
+    public static func body(disablePixelFont: Bool = false) -> Font { .body }
+    public static func callout(disablePixelFont: Bool = false) -> Font { .callout }
+    public static func footnote(disablePixelFont: Bool = false) -> Font { .footnote }
+    public static func caption(disablePixelFont: Bool = false) -> Font { .caption }
+    public static func caption2(disablePixelFont: Bool = false) -> Font { .caption2 }
+    
 }
 
 #else
 
 extension Font {
+    
     /// A font with the large title text style.
     public static var largeTitle: Font {
         return UserDefaults.shared.disablePixelFont ? .system(.largeTitle) : Font.custom(Self.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
@@ -84,6 +98,50 @@ extension Font {
     
     public static func atSize(_ size: CGFloat) -> Font {
         return Font.custom(Self.customFontName, size: size)
+    }
+    
+    public static func largeTitle(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.largeTitle) : .largeTitle
+    }
+
+    public static func title(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.title) : .title
+    }
+
+    public static func title2(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.title2) : .title2
+    }
+
+    public static func title3(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.title3) : .title3
+    }
+
+    public static func headline(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.headline) : .headline
+    }
+
+    public static func subheadline(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.subheadline) : .subheadline
+    }
+
+    public static func body(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.body) : .body
+    }
+
+    public static func callout(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.callout) : .callout
+    }
+
+    public static func footnote(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.footnote) : .footnote
+    }
+
+    public static func caption(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.caption) : .caption
+    }
+
+    public static func caption2(disablePixelFont: Bool = false) -> Font {
+        disablePixelFont ? Font.system(.caption2) : .caption2
     }
     
 }
