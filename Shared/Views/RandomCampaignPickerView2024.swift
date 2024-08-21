@@ -538,7 +538,7 @@ struct RandomCampaignPickerView2024: View {
         .onChange(of: self.easterEggEnabled2024) { _ in
             if(self.easterEggEnabled2024) {
                 self.spriteImage = self.isMyke ? AdaptiveImage.jonyCube(colorScheme: self.colorScheme) : AdaptiveImage.dogcow(colorScheme: self.colorScheme)
-                self.animationImages = self.isMyke ? [AdaptiveImage.jonyCube(colorScheme: self.colorScheme)] : [AdaptiveImage.dogcow(colorScheme: self.colorScheme)]
+                self.animationImages = self.isMyke ? [AdaptiveImage.jonyCube(colorScheme: self.colorScheme)] : AdaptiveImage.dogcowWalkCycle(colorScheme: self.colorScheme)
             } else {
                 self.spriteImage = self.isMyke ? AdaptiveImage.myke(colorScheme: self.colorScheme) : AdaptiveImage.stephen(colorScheme: self.colorScheme)
                 self.animationImages = self.isMyke ? AdaptiveImage.mykeWalkCycle(colorScheme: self.colorScheme) : AdaptiveImage.stephenWalkCycle(colorScheme: self.colorScheme)
