@@ -11,10 +11,11 @@ import WidgetKit
 struct LargeMilestoneTitle: View {
     let title: String?
     let name: String
+    let disablePixelFont: Bool
     var body: some View {
         if let title = title {
             Text(title)
-                .font(.caption)
+                .font(.caption(disablePixelFont: disablePixelFont))
                 .opacity(0.8)
         }
         Text(name)
@@ -34,8 +35,9 @@ struct MilestoneView: View {
     let percentageReached: Double?
     let showMilestonePercentage: Bool
     let fillColor: Color
+    let disablePixelFont: Bool
     
-    init(title: String? = nil, data: TiltifyWidgetData, milestone: Milestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool, fillColor: Color) {
+    init(title: String? = nil, data: TiltifyWidgetData, milestone: Milestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool, fillColor: Color, disablePixelFont: Bool) {
         self.title = title
         self.data = data
         self.milestone = milestone
@@ -43,6 +45,7 @@ struct MilestoneView: View {
         self.percentageReached = data.percentage(ofMilestone: milestone)
         self.showMilestonePercentage = showMilestonePercentage
         self.fillColor = fillColor
+        self.disablePixelFont = disablePixelFont
     }
     
     var accessibilityLabel: String {
@@ -53,7 +56,7 @@ struct MilestoneView: View {
         VStack(alignment: .leading) {
             if isLargeSize(family: family) || !DeviceType.isInWidget(){
                 Spacer().fixedSize()
-                LargeMilestoneTitle(title: title, name: milestone.name)
+                LargeMilestoneTitle(title: title, name: milestone.name, disablePixelFont: disablePixelFont)
                     .accessibility(hidden: true)
             }
             
@@ -87,7 +90,7 @@ struct MilestoneView: View {
         }
         .accessibilityElement()
         .accessibility(label: Text(accessibilityLabel))
-        .environment(\.font, Font.body)
+        .environment(\.font, Font.body(disablePixelFont: disablePixelFont))
     }
 }
 

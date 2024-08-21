@@ -23,23 +23,22 @@ struct ProgressBar: View {
     var dividerColor: Color = .white
     var dividerWidth: CGFloat = 1
     var stroke: Bool = false
+    var disablePixelBorder: Bool = false
     
-    var longProgressBar: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
-                    .foregroundColor(barColour)
-                Rectangle().frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width), height: geometry.size.height)
-                    .foregroundColor(fillColor)
-                if showDivider && value != 0 && value != 1 {
-                    Rectangle()
-                        .fill(dividerColor)
-                        .frame(width: dividerWidth)
-                        .offset(x: min(CGFloat(self.value)*geometry.size.width, geometry.size.width))
-                    
-                }
+    @ViewBuilder
+    func longProgressBar(geometry: GeometryProxy) -> some View {
+        ZStack(alignment: .leading) {
+            Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
+                .foregroundColor(barColour)
+            Rectangle().frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width), height: geometry.size.height)
+                .foregroundColor(fillColor)
+            if showDivider && value != 0 && value != 1 {
+                Rectangle()
+                    .fill(dividerColor)
+                    .frame(width: dividerWidth)
+                    .offset(x: min(CGFloat(self.value)*geometry.size.width, geometry.size.width))
+                
             }
-            .modifier(PixelRounding(geometry: geometry))
         }
     }
     
@@ -68,12 +67,25 @@ struct ProgressBar: View {
         .padding(circleStrokeWidth / 2)
     }
     
+    @ViewBuilder
+    var pixeledProgressBar: some View {
+        GeometryReader { geometry in
+            if disablePixelBorder {
+                longProgressBar(geometry: geometry)
+                    .clipShape(Capsule())
+            } else {
+                longProgressBar(geometry: geometry)
+                    .modifier(PixelRounding(geometry: geometry))
+            }
+        }
+    }
+    
     var body: some View {
         if circularShape {
             circleProgressBar
         } else {
             if stroke {
-                longProgressBar
+                pixeledProgressBar
                     .compositingGroup()
                     .shadow(color: dividerColor, radius: 0.4)
                     .shadow(color: dividerColor, radius: 0.4)
@@ -84,7 +96,7 @@ struct ProgressBar: View {
                     .shadow(color: dividerColor, radius: 0.4)
                     .shadow(color: dividerColor, radius: 0.4)
             } else {
-                longProgressBar
+                pixeledProgressBar
             }
         }
     }

@@ -22,6 +22,7 @@ struct ShareCampaignView: View {
     @AppStorage(UserDefaults.shareScreenshotShowMainGoalPercentageKey , store: UserDefaults.shared) private var showMainGoalPercentage: Bool = false
     @AppStorage(UserDefaults.shareScreenshotClipCornersKey, store: UserDefaults.shared) private var clipCorners: Bool = false
     @AppStorage(UserDefaults.shareScreenshotInitialAppearanceKey, store: UserDefaults.shared) private var appearance: WidgetAppearance = .yellow
+    @AppStorage(UserDefaults.shareScreenshotDisablePixelThemeKey, store: UserDefaults.shared) private var disablePixelTheme: Bool = false
     
     @State private var renderedImage = Image(systemName: "photo")
     @State private var imageSize: CGSize = .zero
@@ -37,11 +38,11 @@ struct ShareCampaignView: View {
     }
     
     var entryView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
             .frame(minHeight: 169) // Height of a medium widget
             .dynamicTypeSize(.medium)
-            .environment(\.font, Font.body)
+            .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
     }
     
     @Environment(\.displayScale) var displayScale
@@ -104,6 +105,8 @@ struct ShareCampaignView: View {
                         Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation()).padding(.trailing)
                         Divider().opacity(0.75)
                         Toggle("Rounded Corners", isOn: $clipCorners.animation()).padding(.trailing)
+                        Divider().opacity(0.75)
+                        Toggle("Disable Pixel Theme", isOn: $disablePixelTheme.animation()).padding(.trailing)
                         Divider().opacity(0.75)
                         HStack(alignment: .firstTextBaseline) {
                             Text("Appearance")

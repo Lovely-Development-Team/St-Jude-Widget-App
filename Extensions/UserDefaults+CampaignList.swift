@@ -18,6 +18,12 @@ extension UserDefaults {
     static let shareScreenshotPreferFutureMilestonesKey = "shareScreenshotPreferFutureMilestones"
     static let shareScreenshotShowFullCurrencySymbolKey = "shareScreenshotShowFullCurrencySymbol"
     static let shareScreenshotShowMainGoalPercentageKey = "shareScreenshotShowMainGoalPercentage"
+    static let shareScreenshotDisablePixelThemeKey = "shareScreenshotDisablePixelTheme"
+    
+    @objc var shareDisablePixelTheme: Bool {
+        get { bool(forKey: Self.shareScreenshotDisablePixelThemeKey) }
+        set { set(newValue, forKey: Self.shareScreenshotDisablePixelThemeKey) }
+    }
     
     var campaignListSortOrder: FundraiserSortOrder {
         get {

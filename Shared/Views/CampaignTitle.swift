@@ -13,18 +13,19 @@ struct CampaignTitle: View {
     
     let name: String
     var showingTwoMilestones: Bool = false
+    var disablePixelFont: Bool = false
     
     var titleFont: Font {
         switch family {
         case .systemSmall:
-            return .headline
+            return .headline(disablePixelFont: disablePixelFont)
         case .systemMedium:
-            return .title2
+            return .title2(disablePixelFont: disablePixelFont)
         default:
             if showingTwoMilestones {
-                return .title2
+                return .title2(disablePixelFont: disablePixelFont)
             } else {
-                return .largeTitle
+                return .largeTitle(disablePixelFont: disablePixelFont)
             }
         }
     }
