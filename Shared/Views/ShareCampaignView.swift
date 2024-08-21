@@ -168,6 +168,9 @@ struct ShareCampaignView: View {
         .onChange(of: widgetData) { _ in
             render()
         }
+        .onChange(of: disablePixelTheme) { _ in
+            render()
+        }
         .task {
             if let campaign = campaign {
                 do {
