@@ -110,7 +110,7 @@ let easterEggDirectory: [UUID: CampaignViewEasterEgg] = [:]
 
 var konamiCodeEasterEggEnabled: Bool {
     // TODO: Update this to check the TLD fundraiser for the dollar amount we want
-    return false
+    return true
 }
 
 var konamiCodeEasterEggDollarThreshold: Double = 250    
