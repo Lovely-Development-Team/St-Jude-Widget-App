@@ -72,6 +72,8 @@ struct RandomCampaignPickerView2024: View {
     @State private var inputStack: [InputType] = []
     @State private var showingKonamiCodeAlert: Bool = false
     
+    @AppStorage(UserDefaults.coinCountKey, store: UserDefaults.shared) private var coinCount: Int = 0
+    
     func getRandomCampaign() -> Campaign? {
         return allCampaigns.filter({$0.id != RELAY_CAMPAIGN}).randomElement()
     }
@@ -143,6 +145,7 @@ struct RandomCampaignPickerView2024: View {
             withAnimation(.none) {
                 self.chosenCampaign = self.getRandomCampaign()
             }
+            self.coinCount += 10
             self.showingResult = true
             self.hitArr[currentBox] = true
             self.resultOpacity = true
