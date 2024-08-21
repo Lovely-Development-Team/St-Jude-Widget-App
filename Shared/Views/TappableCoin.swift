@@ -21,6 +21,8 @@ struct TappableCoin: View, Identifiable {
     @State private var manualAnimating: Bool = false
     var interval: Double = 0.2
     
+    @AppStorage(UserDefaults.coinCountKey, store: UserDefaults.shared) private var coinCount: Int = 0
+    
     var body: some View {
         Group {
             if(!self.spinOnceOnTap) {
@@ -31,6 +33,7 @@ struct TappableCoin: View, Identifiable {
                         }
                     }
                     SoundEffectHelper.shared.play(.coin)
+                    coinCount += 1
                 }, label: {
                     AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: .constant(true), interval: self.interval)
                 })
@@ -40,6 +43,7 @@ struct TappableCoin: View, Identifiable {
                 Button(action: {
                     self.manualAnimating = true
                     SoundEffectHelper.shared.play(.coin)
+                    coinCount += 1
                 }, label: {
                     AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: self.$manualAnimating, playOnce: true, interval: self.interval)
                 })

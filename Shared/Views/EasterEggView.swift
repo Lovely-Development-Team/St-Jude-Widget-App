@@ -21,6 +21,8 @@ struct EasterEggView: View {
     let selectionHaptics = UISelectionFeedbackGenerator()
     #endif
     
+    @AppStorage(UserDefaults.coinCountKey, store: UserDefaults.shared) private var coinCount: Int = 0
+    
     @State private var showFullL2CUName = false
     private var affirmationToShow: String = "Teamwork makes the dream work!"
     
@@ -43,6 +45,16 @@ struct EasterEggView: View {
     
     @ViewBuilder var topView: some View {
         VStack(spacing:0) {
+            GroupBox {
+                HStack {
+                    Text("Score")
+                    Spacer()
+                    Text("\(coinCount)")
+                }
+                .bold()
+            }
+            .groupBoxStyle(BlockGroupBoxStyle())
+            .padding([.horizontal, .top])
             GroupBox {
                 VStack {
                     Text("Hi there!")
