@@ -466,7 +466,7 @@ struct RandomCampaignPickerView2024: View {
                                                     Rectangle()
                                                         .foregroundStyle(.clear)
                                                         .overlay(alignment: self.jumping ? (self.isMyke ? .topTrailing : .topLeading) : (self.isMyke ? .bottomTrailing : .bottomLeading)) {
-                                                            AnimatedAdaptiveImage(idleImage: self.$spriteImage, images: self.$animationImages, animating: self.$isMoving)
+                                                            AnimatedAdaptiveImage(idleImage: self.spriteImage, images: self.animationImages, animating: self.$isMoving)
                                                                 .scaleEffect(x: self.direction ? -1 : 1)
                                                                 .matchedGeometryEffect(id: "stephenSprite", in: self.namespace)
                                                                 .background {
