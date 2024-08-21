@@ -15,6 +15,9 @@ struct ShareCampaignView: View {
     @State private var campaign: Campaign?
     @State private var widgetData: TiltifyWidgetData = sampleCampaign
     
+
+    @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFontGlobally: Bool = false
+    
     @AppStorage(UserDefaults.shareScreenshotShowMilestonesKey, store: UserDefaults.shared) private var showMilestones: Bool = false
     @AppStorage(UserDefaults.shareScreenshotShowMilestonePercentageKey, store: UserDefaults.shared) private var showMilestonePercentage: Bool = false
     @AppStorage(UserDefaults.shareScreenshotPreferFutureMilestonesKey , store: UserDefaults.shared) private var preferFutureMilestones: Bool = true
@@ -106,7 +109,8 @@ struct ShareCampaignView: View {
                         Divider().opacity(0.75)
                         Toggle("Rounded Corners", isOn: $clipCorners.animation()).padding(.trailing)
                         Divider().opacity(0.75)
-                        Toggle("Disable Pixel Theme", isOn: $disablePixelTheme.animation()).padding(.trailing)
+                        Toggle("Disable Pixel Theme", isOn: disablePixelFontGlobally ? .constant(true) : $disablePixelTheme.animation()).padding(.trailing)
+                            .disabled(disablePixelFontGlobally)
                         Divider().opacity(0.75)
                         HStack(alignment: .firstTextBaseline) {
                             Text("Appearance")
