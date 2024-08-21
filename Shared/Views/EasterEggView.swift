@@ -113,7 +113,7 @@ struct EasterEggView: View {
                                 ZStack(alignment: .trailing) {
                                     Text("888")
                                         .opacity(0)
-                                    Text("\(coinCount)")
+                                    Text(coinCount, format: .number.grouping(.never))
                                 }
                             }
                         }
