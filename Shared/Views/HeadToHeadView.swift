@@ -14,6 +14,7 @@ let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.blue
 struct HeadToHeadView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     
@@ -112,39 +113,54 @@ struct HeadToHeadView: View {
                     .frame(minHeight: 140)
                     .padding()
                 }
-                .overlay(alignment: .bottom) {
+                .background(alignment: .bottom) {
                     HStack(alignment: .bottom) {
                         if animateIn {
-                            AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                                .imageAtScale(scale: .spriteScale)
-                                .scaleEffect(x: -1)
-                                .onTapGesture {
-                                    withAnimation {
-#if !os(macOS)
-                                        bounceHaptics.impactOccurred()
-#endif
-                                        self.animateStephen.toggle()
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        self.animateStephen.toggle()
-                                    }
+                            Group {
+                                if(self.easterEggEnabled2024) {
+                                    EasterEggImage(content: {
+                                        AdaptiveImage.dogcow(colorScheme: colorScheme)
+                                            .imageAtScale()
+                                    }, onTap: {
+                                        SoundEffectHelper.shared.play(.moof)
+                                    })
+                                } else {
+                                    EasterEggImage(content: {
+                                        AdaptiveImage.stephen(colorScheme: colorScheme)
+                                            .imageAtScale()
+                                    }, onTap: {
+                                        SoundEffectHelper.shared.play(.stephenRandom)
+                                    })
                                 }
+                            }
+                                .scaleEffect(x: -1)
                                 .offset(x: 0, y: animateStephen ? -5 : 0)
                                 .transition(.move(edge: .leading))
                             Spacer()
-                            AdaptiveImage.myke(colorScheme: self.colorScheme)
-                                .imageAtScale(scale: .spriteScale)
-                                .onTapGesture {
-                                    withAnimation {
-#if !os(macOS)
-                                        bounceHaptics.impactOccurred()
-#endif
-                                        self.animateMyke.toggle()
+                            Group {
+                                if(self.easterEggEnabled2024) {
+                                    ZStack(alignment:.bottom) {
+                                        AdaptiveImage.isoGround(colorScheme: colorScheme)
+                                            .imageAtScale()
+                                        VStack {
+                                            EasterEggImage(content: {
+                                                AdaptiveImage.jonyCube(colorScheme: colorScheme)
+                                                    .imageAtScale()
+                                            }, onTap: {
+                                                SoundEffectHelper.shared.play(.softMatt)
+                                            })
+                                            .padding(.bottom, (10 * 10) * Double.spriteScale)
+                                        }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        self.animateMyke.toggle()
-                                    }
+                                } else {
+                                    EasterEggImage(content: {
+                                        AdaptiveImage.myke(colorScheme: colorScheme)
+                                            .imageAtScale()
+                                    }, onTap: {
+                                        SoundEffectHelper.shared.play(.mykeRandom)
+                                    })
                                 }
+                            }
                                 .offset(x: 0, y: animateMyke ? -5 : 0)
                                 .transition(.move(edge: .trailing))
                         }
@@ -187,7 +203,7 @@ struct HeadToHeadView: View {
                     }
                     .overlay(alignment: .bottomTrailing) {
                         if campaign1.totalRaisedNumerical == highestTotal {
-                            TappableCoin(collectable: false, spinOnceOnTap: true, offset: 0)
+                            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
                                 .scaleEffect(1.5)
                         }
                     }
@@ -222,7 +238,7 @@ struct HeadToHeadView: View {
                     }
                     .overlay(alignment: .topLeading) {
                         if campaign2.totalRaisedNumerical == highestTotal {
-                            TappableCoin(collectable: false, spinOnceOnTap: true, offset: 0)
+                            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
                                 .scaleEffect(1.5)
                         }
                     }

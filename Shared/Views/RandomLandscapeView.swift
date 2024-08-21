@@ -82,7 +82,7 @@ struct LandscapeElement: Identifiable {
             AdaptiveImage.flower(colorScheme: colorScheme)
                 .imageAtScale()
         case .coin:
-            TappableCoin()
+            TappableCoin(easterEggEnabled2024: easterEggEnabled)
         default:
             EmptyView()
         }

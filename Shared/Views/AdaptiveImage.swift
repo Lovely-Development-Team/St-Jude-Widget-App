@@ -219,4 +219,21 @@ extension AdaptiveImage {
             AdaptiveImage(colorScheme: colorScheme, light: .dogcow6)
         ]
     }
+    
+    static func happyCleaningFace(colorScheme: ColorScheme) -> AdaptiveImage {
+        return AdaptiveImage(colorScheme: colorScheme, light: .daddy1)
+    }
+    
+    static func happyCleaningFaceAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
+        return [
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy1),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy2),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy3),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy4),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy1),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy2),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy3),
+            AdaptiveImage(colorScheme: colorScheme, light: .daddy4)
+        ]
+    }
 }
