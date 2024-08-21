@@ -11,6 +11,8 @@ import Kingfisher
 struct HeadToHeadListItem: View {
     @Environment(\.colorScheme) var colorScheme
     
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
+    
     var headToHead: HeadToHeadWithCampaigns
     
     var leading: Bool {
@@ -39,7 +41,7 @@ struct HeadToHeadListItem: View {
                         .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
             }
             
-            TappableCoin(collectable: false, spinOnceOnTap: true, offset: 0)
+            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
                 .offset(x: leading ? -23 : 23, y: -25)
         }
         .compositingGroup()

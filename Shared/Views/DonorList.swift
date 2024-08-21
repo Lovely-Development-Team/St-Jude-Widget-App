@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DonorList: View {
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
     let campaign: Campaign
     @Binding var donations: [TiltifyDonorsForCampaignDonation]
@@ -28,17 +29,17 @@ struct DonorList: View {
                 }
                 .overlay(alignment: .bottom) {
                     HStack {
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
-                        TappableCoin()
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
                     }
                     .padding(.bottom, Double.spriteScale * 100)
                 }

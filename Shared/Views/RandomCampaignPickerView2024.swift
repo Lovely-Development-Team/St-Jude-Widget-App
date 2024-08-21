@@ -377,7 +377,7 @@ struct RandomCampaignPickerView2024: View {
                                 }
                             }
                             .background(alignment: .top) {
-                                TappableCoin(collectable: false, spinOnceOnTap: false, offset: 0, interval: 0.05)
+                                TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: false, offset: 0, interval: 0.05)
                                     .offset(y: self.hitArr[i] ? -80 : 0)
                                     .opacity(self.hitArr[i] ? 0.0 : 2.0)
                             }
