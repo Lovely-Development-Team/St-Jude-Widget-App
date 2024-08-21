@@ -111,16 +111,6 @@ struct HeadToHeadView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .frame(minHeight: 140)
                     .padding()
-                    .background {
-                        SkyView()
-                            .mask {
-                                LinearGradient(stops: [
-                                    .init(color: .clear, location: 0),
-                                    .init(color: .white, location: 0.25),
-                                    .init(color: .white, location: 1)
-                                ], startPoint: .top, endPoint: .bottom)
-                            }
-                    }
                 }
                 .overlay(alignment: .bottom) {
                     HStack(alignment: .bottom) {
@@ -160,6 +150,17 @@ struct HeadToHeadView: View {
                         }
                     }
                     .padding(.horizontal)
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .background {
+                    SkyView()
+                        .mask {
+                            LinearGradient(stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .white, location: 0.25),
+                                .init(color: .white, location: 1)
+                            ], startPoint: .top, endPoint: .bottom)
+                        }
                 }
                 AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
                     .tiledImageAtScale(axis: .horizontal)
