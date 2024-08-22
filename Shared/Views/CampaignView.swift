@@ -11,6 +11,7 @@ import Kingfisher
 
 struct CampaignView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
     // MARK: 2024
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
@@ -92,6 +93,17 @@ struct CampaignView: View {
         return currencyFormatter.string(from: grandTotalRaised as NSNumber) ?? "USD 0"
     }
     
+    var milestoneAndRewardButtonColumns: [GridItem] {
+        if dynamicTypeSize < .xLarge {
+            return [
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ]
+        } else {
+            return [GridItem(.flexible())]
+        }
+    }
+    
     @ViewBuilder
     func topView(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
         Group {
@@ -145,8 +157,7 @@ struct CampaignView: View {
                             }
 #endif
 
-                            LazyVGrid(columns: [GridItem(.flexible()),
-                                                GridItem(.flexible())]) {
+                            LazyVGrid(columns: milestoneAndRewardButtonColumns) {
                                 Button(action: {
                                     withAnimation {
                                         scrollViewReader.scrollTo("Milestones", anchor: .top)
@@ -328,18 +339,7 @@ struct CampaignView: View {
 
                             }
                             ForEach(milestones, id: \.id) { milestone in
-                                let reached = milestoneReached(for: milestone)
-                                HStack(alignment: .top) {
-                                    Image(.checkmarkSealFillPixel)
-                                        .foregroundColor(reached ? .green : .secondary)
-                                        .opacity(reached ? 1 : 0.25)
-                                    Text("\(milestone.name)")
-                                        .foregroundColor(reached ? .secondary : .primary)
-                                    Spacer()
-                                    Text(milestone.amount.description(showFullCurrencySymbol: false))
-                                        .foregroundColor(.accentColor)
-                                        .opacity(reached ? 0.75 : 1)
-                                }
+                                MilestoneListView(milestone: milestone, reached: milestoneReached(for: milestone))
                                 if milestone != milestones.last {
                                     Rectangle()
                                         .frame(height: 10 * Double.spriteScale)
