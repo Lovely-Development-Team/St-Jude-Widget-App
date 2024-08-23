@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct PressAndHoldButtonStyle: ButtonStyle {
-    @State var timer: Timer?
+    @State private var timer: Timer?
     
     var action: (() -> Void)
     
-    @State var pressing: Bool = false
+    @State private var pressing: Bool = false
     var timerDuration: Double = 0.05
     
     func gesture() -> some Gesture {

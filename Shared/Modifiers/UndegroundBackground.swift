@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UndergroundBackground: ViewModifier {
-    @State var colorScheme: ColorScheme
+    var colorScheme: ColorScheme
     
     func body(content: Content) -> some View {
         content

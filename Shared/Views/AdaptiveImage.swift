@@ -11,8 +11,8 @@ struct AdaptiveImage: View, Identifiable {
     var id = UUID()
     
     var colorScheme: ColorScheme
-    @State var light: ImageResource
-    @State var dark: ImageResource? = nil
+    var light: ImageResource
+    var dark: ImageResource? = nil
     
     var currentImage: ImageResource {
         if let dark = self.dark, self.colorScheme == .dark {

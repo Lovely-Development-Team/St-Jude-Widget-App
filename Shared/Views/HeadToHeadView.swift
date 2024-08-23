@@ -18,8 +18,8 @@ struct HeadToHeadView: View {
     
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     
-    @State var campaign1: Campaign
-    @State var campaign2: Campaign
+    @State private var campaign1: Campaign
+    @State private var campaign2: Campaign
     
     @State private var animateIn: Bool = false
     

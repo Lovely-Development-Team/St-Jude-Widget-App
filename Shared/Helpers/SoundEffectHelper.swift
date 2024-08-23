@@ -11,6 +11,9 @@ import AVKit
 class SoundEffectHelper {
     static var shared = SoundEffectHelper()
     
+    static let numMykeSounds: Int = 18
+    static let numStephenSounds: Int = 9
+    
     enum SoundEffect: String, CaseIterable {
         case none = ""
         case drumroll = "drumroll"
@@ -24,9 +27,9 @@ class SoundEffectHelper {
         var soundEffectPlayer: SoundEffectPlayer {
             switch self {
             case .mykeRandom:
-                return RandomSoundEffectPlayer(soundEffects: ["honk","balls","wow","yes","turtles"], defaultSoundEffect: "honk")
+                return RandomSoundEffectPlayer(soundEffects: (1...numMykeSounds).map({"myke\($0)"}), defaultSoundEffect: "myke1")
             case .stephenRandom:
-                return RandomSoundEffectPlayer(soundEffects: ["joe","constitution"], defaultSoundEffect: "joe")
+                return RandomSoundEffectPlayer(soundEffects: (1...numStephenSounds).map({"stephen\($0)"}), defaultSoundEffect: "stephen1")
             default:
                 return SoundEffectPlayer(soundEffect: self)
             }

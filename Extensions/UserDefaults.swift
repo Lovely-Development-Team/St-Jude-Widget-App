@@ -32,6 +32,7 @@ extension UserDefaults {
     static let disablePixelFontKey = "disablePixelFont"
     static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
     static let coinCountKey = "coinCount"
+    static let appAppearanceKey = "appAppearance"
     
     @objc var coinCount: Int {
         get { integer(forKey: Self.coinCountKey) }
@@ -126,5 +127,10 @@ extension UserDefaults {
     @objc var easterEggEnabled2024: Bool {
         get { bool(forKey: Self.easterEggEnabled2024Key) }
         set { UserDefaults.shared.set(newValue, forKey: Self.easterEggEnabled2024Key) }
+    }
+    
+    @objc var appAppearance: Int {
+        get { object(forKey: Self.appAppearanceKey) as? Int ?? 2 }
+        set { UserDefaults.shared.set(newValue, forKey: Self.appAppearanceKey) }
     }
 }

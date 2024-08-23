@@ -14,8 +14,8 @@ struct TeamEventCardView: View {
     var showShareIcon: Bool = false
     var appearance: WidgetAppearance = .yellow
     @Binding var showShareSheet: Bool
-    @State var showShareLinkSheet: ShareURL? = nil
-    @State var showBackground: Bool = true
+    @State private var showShareLinkSheet: ShareURL? = nil
+    var showBackground: Bool = true
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
