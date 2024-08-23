@@ -10,6 +10,7 @@ import WidgetKit
 
 struct ScoreEntryView: View {
     @Environment(\.widgetFamily) var family
+    @Environment(\.widgetRenderingMode) var renderingMode
     var entry: ScoreEntry
     
     @State private var mykeWidth: CGSize = .zero
@@ -157,19 +158,29 @@ struct ScoreEntryView: View {
             AdaptiveImage.groundRepeatable(colorScheme: .light)
                 .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
         }
+        .ignoresSafeArea()
         .background(alignment: .bottom) {
-            ZStack(alignment: .bottom) {
-                AdaptiveImage(colorScheme: .light, light: .skyBackgroundRepeatable)
-                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .none)
-                    .animation(.none, value: UUID())
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
-                    .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
-                    .animation(.none, value: UUID())
-                    .frame(minWidth: 0, maxWidth: .infinity)
+            if(self.renderingMode == .fullColor) {
+                ZStack(alignment: .bottom) {
+                    AdaptiveImage(colorScheme: .light, light: .skyBackgroundRepeatable)
+                        .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .none)
+                        .animation(.none, value: UUID())
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                    AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
+                        .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
+                        .animation(.none, value: UUID())
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                }
             }
         }
         .dynamicTypeSize(.medium)
+        .mask {
+            if(self.renderingMode == .fullColor) {
+                Rectangle()
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+            }
+        }
     }
     
     @ViewBuilder

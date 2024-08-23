@@ -641,8 +641,10 @@ extension HeadToHeadWidgetView {
     var circularLockScreenContent: some View {
         ZStack {
             Gauge(value: progressBarValue, in: 0...1, label: {
-                Image(systemName: "crown.fill")
-                    .offset(y: 3)
+                Image(.coin)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .offset(y: 5)
             }) {
                 avatarImageView(for: winner ?? sampleCampaign)
                     .clipShape(Circle())
@@ -656,13 +658,16 @@ extension HeadToHeadWidgetView {
     var rectangularLockScreenContent: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(systemName: "crown.fill")
+                Image(.coin)
+                    .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .frame(width: 20)
                 Text(winner?.username ?? "Unknown")
-                    .bold()
+                    .font(.body)
             }
             Text(winner?.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol) ?? "$0")
-            ProgressBar(value: .constant(Float(progressBarValue)), fillColor: .white)
+                .font(.footnote)
+            ProgressBar(value: .constant(Float(progressBarValue)), fillColor: .white, pixelScale: Double.spriteScale/2)
                 .frame(height: 6)
         }
     }
