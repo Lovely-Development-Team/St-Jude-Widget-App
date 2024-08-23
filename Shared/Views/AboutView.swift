@@ -152,26 +152,26 @@ struct AboutView: View {
                                     self.appAppearance = 0
                                 }) {
                                     Text("Light")
-                                        .foregroundColor((self.appAppearance == 0) ? .primary : .white    )
+                                        .foregroundColor((self.appAppearance == 0) ? .white : .primary    )
                                         .frame(maxWidth: .infinity)
                                 }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                                 Button(action: {
                                     self.appAppearance = 1
                                 }) {
                                     Text("Dark")
-                                        .foregroundColor((self.appAppearance == 1) ? .primary : .white    )
+                                        .foregroundColor((self.appAppearance == 1) ? .white : .primary    )
                                         .frame(maxWidth: .infinity)
                                 }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                                 Button(action: {
                                     self.appAppearance = 2
                                 }) {
                                     Text("System")
-                                        .foregroundColor((self.appAppearance == 2) ? .primary : .white    )
+                                        .foregroundColor((self.appAppearance == 2) ? .white : .primary    )
                                         .frame(maxWidth: .infinity)
                                 }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                             }
                         }
                         .frame(maxWidth: .infinity)
