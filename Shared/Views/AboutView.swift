@@ -47,7 +47,7 @@ struct AboutView: View {
                             Text("Every year throughout the month of September, Relay raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
                                 .fullWidth()
                                 .padding(.top)
-                            Link(destination: URL(string: "https://512pixels.net/2024/08/relay-st-jude-2024/")!) {
+                            Link(destination: URL(string: "https://512pixels.net/2024/08/relay-for-st-jude-2024/")!) {
                                 Text("Read Stephen's post")
                                     .font(.headline)
                                     .foregroundColor(.white)
