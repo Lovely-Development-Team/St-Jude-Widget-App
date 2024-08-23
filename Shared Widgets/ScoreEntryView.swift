@@ -184,17 +184,19 @@ struct ScoreEntryView: View {
             Image(.mykehead)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 30)
+                .frame(minWidth: 10, maxWidth: 30)
                 .multilineTextAlignment(.leading)
+                .scaleEffect(x: -1)
             Text(formatNumber(entry.score.myke.score))
+                .fixedSize(horizontal: true, vertical: false)
             Spacer()
             Image(.stephenhead)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 30)
+                .frame(minWidth: 10, maxWidth: 30)
             Text(formatNumber(entry.score.stephen.score))
+                .fixedSize(horizontal: true, vertical: false)
         }
-        .font(.system(.body, design: .rounded))
         .bold()
     }
     
@@ -211,11 +213,12 @@ struct ScoreEntryView: View {
             .bold()
         } minimumValueLabel: {
             Text("M")
+                .font(.caption)
         } maximumValueLabel: {
             Text("S")
+                .font(.caption)
         }
         .gaugeStyle(.accessoryCircular)
-        .font(.system(.caption, design: .rounded))
     }
     
     @ViewBuilder
