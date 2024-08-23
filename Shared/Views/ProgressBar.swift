@@ -24,6 +24,7 @@ struct ProgressBar: View {
     var dividerWidth: CGFloat = 1
     var stroke: Bool = false
     var disablePixelBorder: Bool = false
+    var pixelScale: Double = Double.spriteScale
     
     @ViewBuilder
     func longProgressBar(geometry: GeometryProxy) -> some View {
@@ -75,7 +76,7 @@ struct ProgressBar: View {
                     .clipShape(Capsule())
             } else {
                 longProgressBar(geometry: geometry)
-                    .modifier(PixelRounding(geometry: geometry))
+                    .modifier(PixelRounding(geometry: geometry, pixelScale: self.pixelScale))
             }
         }
     }
