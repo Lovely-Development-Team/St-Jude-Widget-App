@@ -77,8 +77,8 @@ struct SupporterView: View {
                         //                    ScrollView {
                         GroupBox {
                             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 0) {
-                                ForEach(supporters.indices) {
-                                    Text(supporters[$0])
+                                ForEach(supporters, id: \.self) { supporter in
+                                    Text(supporter)
                                         .multilineTextAlignment(.center)
                                         .padding(4)
                                 }
