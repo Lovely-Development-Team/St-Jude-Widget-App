@@ -12,19 +12,17 @@ struct EasterEggImage<Content: View>: View {
     
     var onTap: (() -> Void)?
     
-    @State var animating: Bool = false
-    @State var animationType: Animation? = .none
-    @State var animationDuration = 1.0
+    @State private var animating: Bool = false
+    @State private var animationType: Animation? = .none
+    @State private var animationDuration = 1.0
     
+    @State private var animationTimer: Timer?
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
         Button(action: {
+            self.animationTimer?.invalidate()
             withAnimation {
-                guard !self.animating else {
-                    return
-                }
-                
                 #if !os(macOS)
                 bounceHaptics.impactOccurred()
                 #endif
@@ -32,10 +30,9 @@ struct EasterEggImage<Content: View>: View {
                 self.onTap?()
                 self.animating = true
                 self.animationType = .default
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+self.animationDuration) {
-                self.animating = false
+                self.animationTimer = Timer.scheduledTimer(withTimeInterval: self.animationDuration, repeats: false, block: {_ in
+                    self.animating = false
+                })
             }
         }, label: {
             content

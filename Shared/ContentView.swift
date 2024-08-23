@@ -46,7 +46,7 @@ struct ContentView: View {
     
     @State private var fadeInWidget = true
     
-    @State var activeSheet: ActiveSheet?
+    @State private var activeSheet: ActiveSheet?
     
     let vanity: String
     let slug: String

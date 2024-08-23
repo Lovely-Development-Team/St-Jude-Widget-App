@@ -28,19 +28,19 @@ struct RandomCampaignPickerView2024: View {
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
     @Binding var campaignChoiceID: UUID?
-    @State var allCampaigns: [Campaign]
-    @State var chosenCampaign: Campaign? = nil
+    var allCampaigns: [Campaign]
+    @State private var chosenCampaign: Campaign? = nil
     
-    @State var jumping: Bool = false
-    @State var resultOpacity = false
-    @State var resultOffset = false
-    @State var showShareSheet = false
+    @State private var jumping: Bool = false
+    @State private var resultOpacity = false
+    @State private var resultOffset = false
+    @State private var showShareSheet = false
     
-    @State var animationDuration: Double = 0.2
+    @State private var animationDuration: Double = 0.2
     
-    @State var showingResult: Bool = false
+    @State private var showingResult: Bool = false
     
-    @State var spriteOffset: Double = 0.0
+    @State private var spriteOffset: Double = 0.0
     
     var spriteWidth: Double {
         if(self.easterEggEnabled2024) {
@@ -49,22 +49,22 @@ struct RandomCampaignPickerView2024: View {
         return Double.hostSpriteWidth
     }
     
-    var spriteIncrement: Double = 5.0
+    @State private var spriteIncrement: Double = 5.0
     
-    @State var numBoxes: Int = 3
+    @State private var numBoxes: Int = 3
     
-    @State var hitArr: [Bool] = []
+    @State private var hitArr: [Bool] = []
     
-    @State var spriteX: Double = 0
-    @State var boxXArr: [Int: Double] = [:]
-    @State var currentBoxUnder: Int? = nil
+    @State private var spriteX: Double = 0
+    @State private var boxXArr: [Int: Double] = [:]
+    @State private var currentBoxUnder: Int? = nil
     
-    @State var spriteImage: AdaptiveImage = .stephen(colorScheme: .light)
-    @State var animationImages: [AdaptiveImage] = AdaptiveImage.stephenWalkCycle(colorScheme: .light)
-    @State var isMyke: Bool = false
+    @State private var spriteImage: AdaptiveImage = .stephen(colorScheme: .light)
+    @State private var animationImages: [AdaptiveImage] = AdaptiveImage.stephenWalkCycle(colorScheme: .light)
+    @State private var isMyke: Bool = false
     @State private var isMoving: Bool = false
     // false = left, true = right
-    @State var direction = true
+    @State private var direction = true
     
     @State private var justinAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     

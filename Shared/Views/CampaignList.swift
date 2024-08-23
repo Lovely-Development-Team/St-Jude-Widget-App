@@ -199,6 +199,7 @@ struct CampaignList: View {
             //            .tint(.white)
             //            .padding(.top)
         }
+        .compositingGroup()
     }
     
     @ViewBuilder
