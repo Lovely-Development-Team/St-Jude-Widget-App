@@ -9,7 +9,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>wAvlGo</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>23F79</string>
+	<string>23G93</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>15F31d</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -47,8 +47,6 @@
 			<dict>
 				<key>campaign</key>
 				<dict>
-					<key>INIntentParameterCombinationIsLinked</key>
-					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
