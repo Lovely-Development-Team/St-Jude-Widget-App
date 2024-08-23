@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PixelRounding: ViewModifier {
     var geometry: GeometryProxy? = nil
+    var pixelScale: Double = Double.spriteScale
     
     func body(content: Content) -> some View {
         if #available(iOS 15.0, *) {
@@ -18,13 +19,13 @@ struct PixelRounding: ViewModifier {
                         .mask {
                             HStack(spacing:-1) {
                                 Rectangle()
-                                    .frame(width: round(10*Double.spriteScale)+1,
-                                           height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                                    .frame(width: round(10*self.pixelScale)+1,
+                                           height: geometry.size.height - round(((2*10)*self.pixelScale)))
                                 Rectangle()
-                                    .frame(width: geometry.size.width-round(((2*10)*Double.spriteScale)))
+                                    .frame(width: geometry.size.width-round(((2*10)*self.pixelScale)))
                                 Rectangle()
-                                    .frame(width: round(10*Double.spriteScale)+1,
-                                           height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                                    .frame(width: round(10*self.pixelScale)+1,
+                                           height: geometry.size.height - round(((2*10)*self.pixelScale)))
                             }
                         }
                 } else {
@@ -33,13 +34,13 @@ struct PixelRounding: ViewModifier {
                             GeometryReader { geometry in
                                 HStack(spacing:-1) {
                                     Rectangle()
-                                        .frame(width: round(10*Double.spriteScale)+1,
-                                               height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                                        .frame(width: round(10*self.pixelScale)+1,
+                                               height: geometry.size.height - round(((2*10)*self.pixelScale)))
                                     Rectangle()
-                                        .frame(width: geometry.size.width-round(((2*10)*Double.spriteScale)))
+                                        .frame(width: geometry.size.width-round(((2*10)*self.pixelScale)))
                                     Rectangle()
-                                        .frame(width: round(10*Double.spriteScale)+1,
-                                               height: geometry.size.height - round(((2*10)*Double.spriteScale)))
+                                        .frame(width: round(10*self.pixelScale)+1,
+                                               height: geometry.size.height - round(((2*10)*self.pixelScale)))
                                 }
                             }
                         }

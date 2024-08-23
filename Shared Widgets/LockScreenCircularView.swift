@@ -31,16 +31,17 @@ struct LockScreenCircularView: View {
                 }
                 .gaugeStyle(.accessoryCircularCapacity)
                 if campaign?.percentageReached ?? 0 >= 1 {
-                    Image(systemName: "party.popper.fill")
+                    Image(.partyPopperFillPixel)
                 } else {
                     Group {
                         if shouldShowGoalPercentage {
                             Text((campaign?.shortPercentageReachedDescription ?? "?"))
+                                .font(.body)
                         } else {
                             if shouldShowFullCurrencySymbol {
                                 VStack(spacing: 0) {
                                     Text("USD")
-                                        .font(.system(.footnote, design: .rounded))
+                                        .font(.footnote)
                                         .fontWeight(.bold)
                                     if let campaign = campaign {
                                         Text(campaign.raisedShortRepresentation(showFullCurrencySymbol: true))

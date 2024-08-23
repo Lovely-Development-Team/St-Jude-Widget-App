@@ -181,68 +181,71 @@ struct HeadToHeadView: View {
                 AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
                     .tiledImageAtScale(axis: .horizontal)
                 VStack {
-                    ZStack(alignment: .topTrailing) {
-                        if animateIn {
-                            GroupBox {
-                                VStack(spacing: 0) {
-                                    campaignDetails(for: campaign1, alignment: .leading)
+                    Group {
+                        ZStack(alignment: .topTrailing) {
+                            if animateIn {
+                                GroupBox {
+                                    VStack(spacing: 0) {
+                                        campaignDetails(for: campaign1, alignment: .leading)
+                                            .transition(.move(edge: .leading))
+                                        HStack(alignment: .lastTextBaseline) {
+                                            Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                            Text(campaign1.user.username)
+                                                .font(.caption)
+                                            Spacer()
+                                        }
                                         .transition(.move(edge: .leading))
-                                    HStack(alignment: .lastTextBaseline) {
-                                        Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                        Text(campaign1.user.username)
-                                            .font(.caption)
-                                        Spacer()
                                     }
-                                    .transition(.move(edge: .leading))
                                 }
+                                .groupBoxStyle(BlockGroupBoxStyle())
                             }
-                            .groupBoxStyle(BlockGroupBoxStyle())
                         }
-                    }
-                    .overlay(alignment: .bottomTrailing) {
-                        if campaign1.totalRaisedNumerical == highestTotal {
-                            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
-                                .scaleEffect(1.5)
+                        .overlay(alignment: .bottomTrailing) {
+                            if campaign1.totalRaisedNumerical == highestTotal {
+                                TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
+                                    .scaleEffect(1.5)
+                            }
                         }
-                    }
-                    if animateIn {
-                        GroupBox {
-                            ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeBlue, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
-                                .frame(height: 20)
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle())
-                    }
-                    
-                    ZStack(alignment: .bottomLeading) {
                         if animateIn {
                             GroupBox {
-                                VStack(spacing: 0) {
-                                    HStack(alignment: .firstTextBaseline) {
-                                        Spacer()
-                                        Text(campaign2.user.username)
-                                            .font(.caption)
-                                        Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                    }
-                                    .transition(.move(edge: .trailing))
-                                    campaignDetails(for: campaign2, alignment: .trailing)
-                                        .padding(.top)
-                                        .transition(.move(edge: .trailing))
-                                }
+                                ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeBlue, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
+                                    .frame(height: 20)
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())
                         }
-                    }
-                    .overlay(alignment: .topLeading) {
-                        if campaign2.totalRaisedNumerical == highestTotal {
-                            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
-                                .scaleEffect(1.5)
+                        
+                        ZStack(alignment: .bottomLeading) {
+                            if animateIn {
+                                GroupBox {
+                                    VStack(spacing: 0) {
+                                        HStack(alignment: .firstTextBaseline) {
+                                            Spacer()
+                                            Text(campaign2.user.username)
+                                                .font(.caption)
+                                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                        }
+                                        .transition(.move(edge: .trailing))
+                                        campaignDetails(for: campaign2, alignment: .trailing)
+                                            .padding(.top)
+                                            .transition(.move(edge: .trailing))
+                                    }
+                                }
+                                .groupBoxStyle(BlockGroupBoxStyle())
+                            }
                         }
+                        .overlay(alignment: .topLeading) {
+                            if campaign2.totalRaisedNumerical == highestTotal {
+                                TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
+                                    .scaleEffect(1.5)
+                            }
+                        }
+                        Spacer()
                     }
-                    Spacer()
+                    .frame(maxWidth: Double.stretchedContentMaxWidth)
                 }
                 .padding()
                 .frame(minWidth: 0, maxWidth: .infinity)
