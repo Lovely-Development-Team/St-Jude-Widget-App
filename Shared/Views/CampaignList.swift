@@ -119,7 +119,7 @@ struct CampaignList: View {
     }
     
     var sortedCampaigns: [Campaign] {
-        return campaigns.sorted { c1, c2 in
+        return allCampaigns.sorted { c1, c2 in
             if c1.isStarred && !c2.isStarred {
                 return true
             }
