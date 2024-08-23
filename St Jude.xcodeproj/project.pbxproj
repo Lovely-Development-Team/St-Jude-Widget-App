@@ -287,7 +287,7 @@
 		63574A1A26D6590000A2D495 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63574A1926D6590000A2D495 /* Assets.xcassets */; };
 		63574A1C26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */; };
 		63574A1D26D6590000A2D495 /* macOS_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 63574A1826D658FD00A2D495 /* macOS_Widget.intentdefinition */; };
-		63574A2026D6590000A2D495 /* macOS WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		63574A2026D6590000A2D495 /* macOS WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		63574A2626D6594600A2D495 /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A6F9AC26D64F0D00095ACB /* WidgetFamily.swift */; };
 		63574A2826D6596100A2D495 /* SampleCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2726D6596100A2D495 /* SampleCampaign.swift */; };
 		63574A2926D6596100A2D495 /* SampleCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63574A2726D6596100A2D495 /* SampleCampaign.swift */; };
@@ -322,7 +322,7 @@
 		6357657626D1AD28004F04DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6357657526D1AD28004F04DE /* Assets.xcassets */; };
 		6357657826D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
 		6357657926D1AD28004F04DE /* Tiltify_St_Jude_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6357657426D1AD25004F04DE /* Tiltify_St_Jude_Widget.intentdefinition */; };
-		6357657C26D1AD28004F04DE /* Tiltify St Jude WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6357657C26D1AD28004F04DE /* Tiltify St Jude WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6357656B26D1AD24004F04DE /* Tiltify St Jude WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6357658326D25309004F04DE /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
 		6357658426D25309004F04DE /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
 		6357658626D256C9004F04DE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
@@ -364,7 +364,7 @@
 		63BFF17D26D5B0670023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
 		63BFF17E26D5B2990023263D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF17C26D5B0660023263D /* UserDefaults.swift */; };
 		63BFF19C26D5D37C0023263D /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BFF18426D5CA400023263D /* Intents.framework */; platformFilter = maccatalyst; };
-		63BFF1A326D5D37C0023263D /* Intents Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63BFF19B26D5D37C0023263D /* Intents Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		63BFF1A326D5D37C0023263D /* Intents Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 63BFF19B26D5D37C0023263D /* Intents Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		63BFF1A726D5D38B0023263D /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFF18726D5CA410023263D /* IntentHandler.swift */; };
 		63BFF1AA26D5D3AB0023263D /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658226D25309004F04DE /* ApiClient.swift */; };
 		63BFF1AB26D5D3AF0023263D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357658526D256C9004F04DE /* Model.swift */; };
@@ -456,27 +456,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		63574A2126D6590000A2D495 /* Embed App Extensions */ = {
+		63574A2126D6590000A2D495 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				63574A2026D6590000A2D495 /* macOS WidgetExtension.appex in Embed App Extensions */,
+				63574A2026D6590000A2D495 /* macOS WidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6357658026D1AD28004F04DE /* Embed App Extensions */ = {
+		6357658026D1AD28004F04DE /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				6357657C26D1AD28004F04DE /* Tiltify St Jude WidgetExtension.appex in Embed App Extensions */,
-				63BFF1A326D5D37C0023263D /* Intents Extension.appex in Embed App Extensions */,
+				6357657C26D1AD28004F04DE /* Tiltify St Jude WidgetExtension.appex in Embed Foundation Extensions */,
+				63BFF1A326D5D37C0023263D /* Intents Extension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		63D0CCE228B1012D0073957E /* Embed Frameworks */ = {
@@ -1218,7 +1218,7 @@
 				6357653026D1A73E004F04DE /* Sources */,
 				6357653126D1A73E004F04DE /* Frameworks */,
 				6357653226D1A73E004F04DE /* Resources */,
-				6357658026D1AD28004F04DE /* Embed App Extensions */,
+				6357658026D1AD28004F04DE /* Embed Foundation Extensions */,
 				63D0CD2428B639DD0073957E /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -1243,7 +1243,7 @@
 				6357653626D1A73E004F04DE /* Sources */,
 				6357653726D1A73E004F04DE /* Frameworks */,
 				6357653826D1A73E004F04DE /* Resources */,
-				63574A2126D6590000A2D495 /* Embed App Extensions */,
+				63574A2126D6590000A2D495 /* Embed Foundation Extensions */,
 				63D0CCE228B1012D0073957E /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -1349,7 +1349,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					63574A1126D658FD00A2D495 = {
 						CreatedOnToolsVersion = 13.0;
@@ -1951,6 +1951,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1981,6 +1982,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2038,9 +2040,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2099,9 +2103,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2205,6 +2211,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2238,6 +2245,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2319,6 +2327,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2344,6 +2353,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 142;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
