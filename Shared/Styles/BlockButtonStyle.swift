@@ -13,11 +13,11 @@ struct BlockButtonStyle: ButtonStyle {
     var disabled: Bool = false
     
     var usingPressAndHoldGesture: Bool = false
-    @State var timer: Timer?
+    @State private var timer: Timer?
     var onStart: (() -> Void)? = nil
     var action: (() -> Void)? = nil
     var onEnd: (() -> Void)? = nil
-    @State var pressing: Bool = false
+    @State private var pressing: Bool = false
     var timerDuration: Double = 0.05
     
     func gesture() -> some Gesture {

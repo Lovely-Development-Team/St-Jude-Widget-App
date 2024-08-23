@@ -9,17 +9,17 @@ import SwiftUI
 
 struct ScaledNinePartImage: View {
     
-    @State var topLeft: ImageResource
-    @State var top: ImageResource
-    @State var topRight: ImageResource
-    @State var left: ImageResource
-    @State var center: ImageResource
-    @State var right: ImageResource
-    @State var bottomLeft: ImageResource
-    @State var bottom: ImageResource
-    @State var bottomRight: ImageResource
+    var topLeft: ImageResource
+    var top: ImageResource
+    var topRight: ImageResource
+    var left: ImageResource
+    var center: ImageResource
+    var right: ImageResource
+    var bottomLeft: ImageResource
+    var bottom: ImageResource
+    var bottomRight: ImageResource
     
-    @State var scale = 1.0
+    var scale = 1.0
     
     @State private var spacing: CGFloat = -1
     
@@ -48,12 +48,15 @@ struct ScaledNinePartImage: View {
                     .padding((60 * self.scale) / 2)
             }
         }
+        .compositingGroup()
+        .opacity(1)
     }
 }
 
 struct BlockView: View {
     var tint: Color?
     var isPressed: Bool? = nil
+    var scale: Double = Double.spriteScale
     
     @ViewBuilder
     func buttonImageView(isPressed: Bool) -> some View {
@@ -66,7 +69,7 @@ struct BlockView: View {
                             bottomLeft: isPressed ? .blockButtonRepeatableBottomLeftPressed : .blockButtonRepeatableBottomLeft,
                             bottom: isPressed ? .blockButtonRepeatableBottomPressed : .blockButtonRepeatableBottom,
                             bottomRight: isPressed ? .blockButtonRepeatableBottomRightPressed : .blockButtonRepeatableBottomRight,
-                            scale: Double.spriteScale)
+                            scale: self.scale)
     }
     
     @ViewBuilder
@@ -80,7 +83,7 @@ struct BlockView: View {
                             bottomLeft: .blockRepeatableBottomLeft,
                             bottom: .blockRepeatableBottom,
                             bottomRight: .blockRepeatableBottomRight,
-                            scale: Double.spriteScale)
+                            scale: self.scale)
     }
     
     @ViewBuilder 
@@ -105,16 +108,18 @@ struct BlockView: View {
 }
 
 #Preview {
-    ScaledNinePartImage(
-        topLeft: .blockRepeatableTopLeft,
-        top: .blockRepeatableTop,
-        topRight: .blockRepeatableTopRight,
-        left: .blockRepeatableLeft,
-        center: .blockRepeatableCenter,
-        right: .blockRepeatableRight,
-        bottomLeft: .blockRepeatableBottomLeft,
-        bottom: .blockRepeatableBottom,
-        bottomRight: .blockRepeatableBottomRight)
-        .frame(width: 300, height: 200)
-        .border(.black)
+    VStack {
+        BlockView(tint: .blue, scale: 0.75)
+        .frame(width: 300, height: 150)
+        BlockView(tint: .red, scale: 0.75)
+        .frame(width: 300, height: 150)
+        .opacity(0.5)
+        DisclosureGroup(
+            content: {
+                BlockView(tint: .green, scale: 0.75)
+                .frame(width: 300, height: 150)
+            },
+            label: { Text("Disclosure") }
+        )
+    }
 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct BlockGroupBoxStyle: GroupBoxStyle {
-    @State var tint: Color = .secondarySystemBackground
-    @State var padding: Bool = true
+    var tint: Color = .secondarySystemBackground
+    var padding: Bool = true
     
     func makeBody(configuration: Configuration) -> some View {
         Group {

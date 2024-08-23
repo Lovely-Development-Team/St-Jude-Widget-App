@@ -49,6 +49,60 @@
 		4314971F2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */; };
 		431497212C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
 		431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
+		432EF8132C781BD7009D43C7 /* myke2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8012C781BD5009D43C7 /* myke2.mp3 */; };
+		432EF8142C781BD7009D43C7 /* myke2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8012C781BD5009D43C7 /* myke2.mp3 */; };
+		432EF8152C781BD7009D43C7 /* myke11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8022C781BD6009D43C7 /* myke11.mp3 */; };
+		432EF8162C781BD7009D43C7 /* myke11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8022C781BD6009D43C7 /* myke11.mp3 */; };
+		432EF8172C781BD7009D43C7 /* myke17.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8032C781BD6009D43C7 /* myke17.mp3 */; };
+		432EF8182C781BD7009D43C7 /* myke17.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8032C781BD6009D43C7 /* myke17.mp3 */; };
+		432EF8192C781BD7009D43C7 /* myke9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8042C781BD6009D43C7 /* myke9.mp3 */; };
+		432EF81A2C781BD7009D43C7 /* myke9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8042C781BD6009D43C7 /* myke9.mp3 */; };
+		432EF81B2C781BD7009D43C7 /* myke10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8052C781BD6009D43C7 /* myke10.mp3 */; };
+		432EF81C2C781BD7009D43C7 /* myke10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8052C781BD6009D43C7 /* myke10.mp3 */; };
+		432EF81D2C781BD7009D43C7 /* myke8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8062C781BD6009D43C7 /* myke8.mp3 */; };
+		432EF81E2C781BD7009D43C7 /* myke8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8062C781BD6009D43C7 /* myke8.mp3 */; };
+		432EF81F2C781BD7009D43C7 /* myke6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8072C781BD6009D43C7 /* myke6.mp3 */; };
+		432EF8202C781BD7009D43C7 /* myke6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8072C781BD6009D43C7 /* myke6.mp3 */; };
+		432EF8212C781BD7009D43C7 /* myke1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8082C781BD6009D43C7 /* myke1.mp3 */; };
+		432EF8222C781BD7009D43C7 /* myke1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8082C781BD6009D43C7 /* myke1.mp3 */; };
+		432EF8232C781BD7009D43C7 /* myke13.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8092C781BD6009D43C7 /* myke13.mp3 */; };
+		432EF8242C781BD7009D43C7 /* myke13.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8092C781BD6009D43C7 /* myke13.mp3 */; };
+		432EF8252C781BD7009D43C7 /* myke15.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80A2C781BD6009D43C7 /* myke15.mp3 */; };
+		432EF8262C781BD7009D43C7 /* myke15.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80A2C781BD6009D43C7 /* myke15.mp3 */; };
+		432EF8272C781BD7009D43C7 /* myke4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80B2C781BD6009D43C7 /* myke4.mp3 */; };
+		432EF8282C781BD7009D43C7 /* myke4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80B2C781BD6009D43C7 /* myke4.mp3 */; };
+		432EF8292C781BD7009D43C7 /* myke3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80C2C781BD6009D43C7 /* myke3.mp3 */; };
+		432EF82A2C781BD7009D43C7 /* myke3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80C2C781BD6009D43C7 /* myke3.mp3 */; };
+		432EF82B2C781BD7009D43C7 /* myke5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80D2C781BD6009D43C7 /* myke5.mp3 */; };
+		432EF82C2C781BD7009D43C7 /* myke5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80D2C781BD6009D43C7 /* myke5.mp3 */; };
+		432EF82D2C781BD7009D43C7 /* myke18.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80E2C781BD6009D43C7 /* myke18.mp3 */; };
+		432EF82E2C781BD7009D43C7 /* myke18.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80E2C781BD6009D43C7 /* myke18.mp3 */; };
+		432EF82F2C781BD7009D43C7 /* myke12.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80F2C781BD6009D43C7 /* myke12.mp3 */; };
+		432EF8302C781BD7009D43C7 /* myke12.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF80F2C781BD6009D43C7 /* myke12.mp3 */; };
+		432EF8312C781BD7009D43C7 /* myke14.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8102C781BD7009D43C7 /* myke14.mp3 */; };
+		432EF8322C781BD7009D43C7 /* myke14.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8102C781BD7009D43C7 /* myke14.mp3 */; };
+		432EF8332C781BD7009D43C7 /* myke7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8112C781BD7009D43C7 /* myke7.mp3 */; };
+		432EF8342C781BD7009D43C7 /* myke7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8112C781BD7009D43C7 /* myke7.mp3 */; };
+		432EF8352C781BD7009D43C7 /* myke16.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8122C781BD7009D43C7 /* myke16.mp3 */; };
+		432EF8362C781BD7009D43C7 /* myke16.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8122C781BD7009D43C7 /* myke16.mp3 */; };
+		432EF8402C781BDD009D43C7 /* stephen2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8372C781BDC009D43C7 /* stephen2.mp3 */; };
+		432EF8412C781BDD009D43C7 /* stephen2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8372C781BDC009D43C7 /* stephen2.mp3 */; };
+		432EF8422C781BDD009D43C7 /* stephen6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8382C781BDC009D43C7 /* stephen6.mp3 */; };
+		432EF8432C781BDD009D43C7 /* stephen6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8382C781BDC009D43C7 /* stephen6.mp3 */; };
+		432EF8442C781BDD009D43C7 /* stephen4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8392C781BDC009D43C7 /* stephen4.mp3 */; };
+		432EF8452C781BDD009D43C7 /* stephen4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF8392C781BDC009D43C7 /* stephen4.mp3 */; };
+		432EF8462C781BDD009D43C7 /* stephen5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83A2C781BDC009D43C7 /* stephen5.mp3 */; };
+		432EF8472C781BDD009D43C7 /* stephen5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83A2C781BDC009D43C7 /* stephen5.mp3 */; };
+		432EF8482C781BDD009D43C7 /* stephen1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83B2C781BDC009D43C7 /* stephen1.mp3 */; };
+		432EF8492C781BDD009D43C7 /* stephen1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83B2C781BDC009D43C7 /* stephen1.mp3 */; };
+		432EF84A2C781BDD009D43C7 /* stephen7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83C2C781BDC009D43C7 /* stephen7.mp3 */; };
+		432EF84B2C781BDD009D43C7 /* stephen7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83C2C781BDC009D43C7 /* stephen7.mp3 */; };
+		432EF84C2C781BDD009D43C7 /* stephen3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83D2C781BDD009D43C7 /* stephen3.mp3 */; };
+		432EF84D2C781BDD009D43C7 /* stephen3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83D2C781BDD009D43C7 /* stephen3.mp3 */; };
+		432EF84E2C781BDD009D43C7 /* stephen8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83E2C781BDD009D43C7 /* stephen8.mp3 */; };
+		432EF84F2C781BDD009D43C7 /* stephen8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83E2C781BDD009D43C7 /* stephen8.mp3 */; };
+		432EF8502C781BDD009D43C7 /* stephen9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83F2C781BDD009D43C7 /* stephen9.mp3 */; };
+		432EF8512C781BDD009D43C7 /* stephen9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 432EF83F2C781BDD009D43C7 /* stephen9.mp3 */; };
 		43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
@@ -57,26 +111,10 @@
 		4391F5122C74EDC200B1D5DD /* drumroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5012C74EDC200B1D5DD /* drumroll.mp3 */; };
 		4391F5132C74EDC200B1D5DD /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5022C74EDC200B1D5DD /* jump.mp3 */; };
 		4391F5142C74EDC200B1D5DD /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5022C74EDC200B1D5DD /* jump.mp3 */; };
-		4391F5152C74EDC200B1D5DD /* constitution.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5042C74EDC200B1D5DD /* constitution.mp3 */; };
-		4391F5162C74EDC200B1D5DD /* constitution.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5042C74EDC200B1D5DD /* constitution.mp3 */; };
-		4391F5172C74EDC200B1D5DD /* joe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5052C74EDC200B1D5DD /* joe.mp3 */; };
-		4391F5182C74EDC200B1D5DD /* joe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5052C74EDC200B1D5DD /* joe.mp3 */; };
 		4391F5192C74EDC200B1D5DD /* moof.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5072C74EDC200B1D5DD /* moof.mp3 */; };
 		4391F51A2C74EDC200B1D5DD /* moof.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5072C74EDC200B1D5DD /* moof.mp3 */; };
 		4391F51B2C74EDC200B1D5DD /* softmatt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5082C74EDC200B1D5DD /* softmatt.mp3 */; };
 		4391F51C2C74EDC200B1D5DD /* softmatt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F5082C74EDC200B1D5DD /* softmatt.mp3 */; };
-		4391F51D2C74EDC200B1D5DD /* balls.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50A2C74EDC200B1D5DD /* balls.mp3 */; };
-		4391F51E2C74EDC200B1D5DD /* balls.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50A2C74EDC200B1D5DD /* balls.mp3 */; };
-		4391F51F2C74EDC200B1D5DD /* comeon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50B2C74EDC200B1D5DD /* comeon.mp3 */; };
-		4391F5202C74EDC200B1D5DD /* comeon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50B2C74EDC200B1D5DD /* comeon.mp3 */; };
-		4391F5212C74EDC200B1D5DD /* honk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50C2C74EDC200B1D5DD /* honk.mp3 */; };
-		4391F5222C74EDC200B1D5DD /* honk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50C2C74EDC200B1D5DD /* honk.mp3 */; };
-		4391F5232C74EDC200B1D5DD /* turtles.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50D2C74EDC200B1D5DD /* turtles.mp3 */; };
-		4391F5242C74EDC200B1D5DD /* turtles.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50D2C74EDC200B1D5DD /* turtles.mp3 */; };
-		4391F5252C74EDC200B1D5DD /* wow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50E2C74EDC200B1D5DD /* wow.mp3 */; };
-		4391F5262C74EDC200B1D5DD /* wow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50E2C74EDC200B1D5DD /* wow.mp3 */; };
-		4391F5272C74EDC200B1D5DD /* yes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50F2C74EDC200B1D5DD /* yes.mp3 */; };
-		4391F5282C74EDC200B1D5DD /* yes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4391F50F2C74EDC200B1D5DD /* yes.mp3 */; };
 		4397FD632C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		4397FD642C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		4397FD652C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
@@ -510,20 +548,39 @@
 		4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView2024.swift; sourceTree = "<group>"; };
 		4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressAndHoldButtonStyle.swift; sourceTree = "<group>"; };
 		431497202C6716D8001312AB /* UndegroundBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndegroundBackground.swift; sourceTree = "<group>"; };
+		432EF8012C781BD5009D43C7 /* myke2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke2.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke2.mp3"; sourceTree = "<group>"; };
+		432EF8022C781BD6009D43C7 /* myke11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke11.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke11.mp3"; sourceTree = "<group>"; };
+		432EF8032C781BD6009D43C7 /* myke17.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke17.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke17.mp3"; sourceTree = "<group>"; };
+		432EF8042C781BD6009D43C7 /* myke9.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke9.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke9.mp3"; sourceTree = "<group>"; };
+		432EF8052C781BD6009D43C7 /* myke10.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke10.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke10.mp3"; sourceTree = "<group>"; };
+		432EF8062C781BD6009D43C7 /* myke8.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke8.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke8.mp3"; sourceTree = "<group>"; };
+		432EF8072C781BD6009D43C7 /* myke6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke6.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke6.mp3"; sourceTree = "<group>"; };
+		432EF8082C781BD6009D43C7 /* myke1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke1.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke1.mp3"; sourceTree = "<group>"; };
+		432EF8092C781BD6009D43C7 /* myke13.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke13.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke13.mp3"; sourceTree = "<group>"; };
+		432EF80A2C781BD6009D43C7 /* myke15.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke15.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke15.mp3"; sourceTree = "<group>"; };
+		432EF80B2C781BD6009D43C7 /* myke4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke4.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke4.mp3"; sourceTree = "<group>"; };
+		432EF80C2C781BD6009D43C7 /* myke3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke3.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke3.mp3"; sourceTree = "<group>"; };
+		432EF80D2C781BD6009D43C7 /* myke5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke5.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke5.mp3"; sourceTree = "<group>"; };
+		432EF80E2C781BD6009D43C7 /* myke18.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke18.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke18.mp3"; sourceTree = "<group>"; };
+		432EF80F2C781BD6009D43C7 /* myke12.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke12.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke12.mp3"; sourceTree = "<group>"; };
+		432EF8102C781BD7009D43C7 /* myke14.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke14.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke14.mp3"; sourceTree = "<group>"; };
+		432EF8112C781BD7009D43C7 /* myke7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke7.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke7.mp3"; sourceTree = "<group>"; };
+		432EF8122C781BD7009D43C7 /* myke16.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke16.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/myke/myke16.mp3"; sourceTree = "<group>"; };
+		432EF8372C781BDC009D43C7 /* stephen2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen2.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen2.mp3"; sourceTree = "<group>"; };
+		432EF8382C781BDC009D43C7 /* stephen6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen6.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen6.mp3"; sourceTree = "<group>"; };
+		432EF8392C781BDC009D43C7 /* stephen4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen4.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen4.mp3"; sourceTree = "<group>"; };
+		432EF83A2C781BDC009D43C7 /* stephen5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen5.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen5.mp3"; sourceTree = "<group>"; };
+		432EF83B2C781BDC009D43C7 /* stephen1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen1.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen1.mp3"; sourceTree = "<group>"; };
+		432EF83C2C781BDC009D43C7 /* stephen7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen7.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen7.mp3"; sourceTree = "<group>"; };
+		432EF83D2C781BDD009D43C7 /* stephen3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen3.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen3.mp3"; sourceTree = "<group>"; };
+		432EF83E2C781BDD009D43C7 /* stephen8.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen8.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen8.mp3"; sourceTree = "<group>"; };
+		432EF83F2C781BDD009D43C7 /* stephen9.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen9.mp3; path = "../../../../../Desktop/st jude/sounds/clipped/stephen/stephen9.mp3"; sourceTree = "<group>"; };
 		43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ChicagoFLF.ttf; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4391F5012C74EDC200B1D5DD /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
 		4391F5022C74EDC200B1D5DD /* jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jump.mp3; sourceTree = "<group>"; };
-		4391F5042C74EDC200B1D5DD /* constitution.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = constitution.mp3; sourceTree = "<group>"; };
-		4391F5052C74EDC200B1D5DD /* joe.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = joe.mp3; sourceTree = "<group>"; };
 		4391F5072C74EDC200B1D5DD /* moof.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = moof.mp3; sourceTree = "<group>"; };
 		4391F5082C74EDC200B1D5DD /* softmatt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = softmatt.mp3; sourceTree = "<group>"; };
-		4391F50A2C74EDC200B1D5DD /* balls.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = balls.mp3; sourceTree = "<group>"; };
-		4391F50B2C74EDC200B1D5DD /* comeon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = comeon.mp3; sourceTree = "<group>"; };
-		4391F50C2C74EDC200B1D5DD /* honk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = honk.mp3; sourceTree = "<group>"; };
-		4391F50D2C74EDC200B1D5DD /* turtles.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = turtles.mp3; sourceTree = "<group>"; };
-		4391F50E2C74EDC200B1D5DD /* wow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wow.mp3; sourceTree = "<group>"; };
-		4391F50F2C74EDC200B1D5DD /* yes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = yes.mp3; sourceTree = "<group>"; };
 		4397FD612C64FF8000C0591B /* PixelRounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelRounding.swift; sourceTree = "<group>"; };
 		43F7863C2C72BF710011950C /* SkyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyView.swift; sourceTree = "<group>"; };
 		43F7863D2C72BF710011950C /* TappableCoin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableCoin.swift; sourceTree = "<group>"; };
@@ -753,8 +810,15 @@
 		4391F5062C74EDC200B1D5DD /* stepen */ = {
 			isa = PBXGroup;
 			children = (
-				4391F5042C74EDC200B1D5DD /* constitution.mp3 */,
-				4391F5052C74EDC200B1D5DD /* joe.mp3 */,
+				432EF83B2C781BDC009D43C7 /* stephen1.mp3 */,
+				432EF8372C781BDC009D43C7 /* stephen2.mp3 */,
+				432EF83D2C781BDD009D43C7 /* stephen3.mp3 */,
+				432EF8392C781BDC009D43C7 /* stephen4.mp3 */,
+				432EF83A2C781BDC009D43C7 /* stephen5.mp3 */,
+				432EF8382C781BDC009D43C7 /* stephen6.mp3 */,
+				432EF83C2C781BDC009D43C7 /* stephen7.mp3 */,
+				432EF83E2C781BDD009D43C7 /* stephen8.mp3 */,
+				432EF83F2C781BDD009D43C7 /* stephen9.mp3 */,
 			);
 			path = stepen;
 			sourceTree = "<group>";
@@ -771,12 +835,24 @@
 		4391F5102C74EDC200B1D5DD /* myke */ = {
 			isa = PBXGroup;
 			children = (
-				4391F50A2C74EDC200B1D5DD /* balls.mp3 */,
-				4391F50B2C74EDC200B1D5DD /* comeon.mp3 */,
-				4391F50C2C74EDC200B1D5DD /* honk.mp3 */,
-				4391F50D2C74EDC200B1D5DD /* turtles.mp3 */,
-				4391F50E2C74EDC200B1D5DD /* wow.mp3 */,
-				4391F50F2C74EDC200B1D5DD /* yes.mp3 */,
+				432EF8082C781BD6009D43C7 /* myke1.mp3 */,
+				432EF8012C781BD5009D43C7 /* myke2.mp3 */,
+				432EF80C2C781BD6009D43C7 /* myke3.mp3 */,
+				432EF80B2C781BD6009D43C7 /* myke4.mp3 */,
+				432EF80D2C781BD6009D43C7 /* myke5.mp3 */,
+				432EF8072C781BD6009D43C7 /* myke6.mp3 */,
+				432EF8112C781BD7009D43C7 /* myke7.mp3 */,
+				432EF8062C781BD6009D43C7 /* myke8.mp3 */,
+				432EF8042C781BD6009D43C7 /* myke9.mp3 */,
+				432EF8052C781BD6009D43C7 /* myke10.mp3 */,
+				432EF8022C781BD6009D43C7 /* myke11.mp3 */,
+				432EF80F2C781BD6009D43C7 /* myke12.mp3 */,
+				432EF8092C781BD6009D43C7 /* myke13.mp3 */,
+				432EF8102C781BD7009D43C7 /* myke14.mp3 */,
+				432EF80A2C781BD6009D43C7 /* myke15.mp3 */,
+				432EF8122C781BD7009D43C7 /* myke16.mp3 */,
+				432EF8032C781BD6009D43C7 /* myke17.mp3 */,
+				432EF80E2C781BD6009D43C7 /* myke18.mp3 */,
 			);
 			path = myke;
 			sourceTree = "<group>";
@@ -1343,21 +1419,40 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4391F5272C74EDC200B1D5DD /* yes.mp3 in Resources */,
 				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
+				432EF81D2C781BD7009D43C7 /* myke8.mp3 in Resources */,
+				432EF8502C781BDD009D43C7 /* stephen9.mp3 in Resources */,
+				432EF8462C781BDD009D43C7 /* stephen5.mp3 in Resources */,
 				4391F51B2C74EDC200B1D5DD /* softmatt.mp3 in Resources */,
-				4391F5212C74EDC200B1D5DD /* honk.mp3 in Resources */,
+				432EF8312C781BD7009D43C7 /* myke14.mp3 in Resources */,
+				432EF8272C781BD7009D43C7 /* myke4.mp3 in Resources */,
+				432EF8352C781BD7009D43C7 /* myke16.mp3 in Resources */,
+				432EF82F2C781BD7009D43C7 /* myke12.mp3 in Resources */,
+				432EF8422C781BDD009D43C7 /* stephen6.mp3 in Resources */,
+				432EF8442C781BDD009D43C7 /* stephen4.mp3 in Resources */,
+				432EF81B2C781BD7009D43C7 /* myke10.mp3 in Resources */,
+				432EF8192C781BD7009D43C7 /* myke9.mp3 in Resources */,
+				432EF81F2C781BD7009D43C7 /* myke6.mp3 in Resources */,
+				432EF8132C781BD7009D43C7 /* myke2.mp3 in Resources */,
+				432EF8172C781BD7009D43C7 /* myke17.mp3 in Resources */,
+				432EF82D2C781BD7009D43C7 /* myke18.mp3 in Resources */,
+				432EF8252C781BD7009D43C7 /* myke15.mp3 in Resources */,
+				432EF84C2C781BDD009D43C7 /* stephen3.mp3 in Resources */,
 				4391F5132C74EDC200B1D5DD /* jump.mp3 in Resources */,
 				43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
+				432EF84E2C781BDD009D43C7 /* stephen8.mp3 in Resources */,
+				432EF8402C781BDD009D43C7 /* stephen2.mp3 in Resources */,
+				432EF8232C781BD7009D43C7 /* myke13.mp3 in Resources */,
+				432EF8482C781BDD009D43C7 /* stephen1.mp3 in Resources */,
 				4391F5112C74EDC200B1D5DD /* drumroll.mp3 in Resources */,
-				4391F5172C74EDC200B1D5DD /* joe.mp3 in Resources */,
-				4391F51F2C74EDC200B1D5DD /* comeon.mp3 in Resources */,
-				4391F5152C74EDC200B1D5DD /* constitution.mp3 in Resources */,
+				432EF84A2C781BDD009D43C7 /* stephen7.mp3 in Resources */,
 				4391F5192C74EDC200B1D5DD /* moof.mp3 in Resources */,
-				4391F5232C74EDC200B1D5DD /* turtles.mp3 in Resources */,
-				4391F5252C74EDC200B1D5DD /* wow.mp3 in Resources */,
-				4391F51D2C74EDC200B1D5DD /* balls.mp3 in Resources */,
+				432EF8292C781BD7009D43C7 /* myke3.mp3 in Resources */,
+				432EF82B2C781BD7009D43C7 /* myke5.mp3 in Resources */,
+				432EF8152C781BD7009D43C7 /* myke11.mp3 in Resources */,
+				432EF8212C781BD7009D43C7 /* myke1.mp3 in Resources */,
+				432EF8332C781BD7009D43C7 /* myke7.mp3 in Resources */,
 				5EAF63032C7640D600090101 /* coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1366,21 +1461,40 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4391F5282C74EDC200B1D5DD /* yes.mp3 in Resources */,
 				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
+				432EF81E2C781BD7009D43C7 /* myke8.mp3 in Resources */,
+				432EF8512C781BDD009D43C7 /* stephen9.mp3 in Resources */,
+				432EF8472C781BDD009D43C7 /* stephen5.mp3 in Resources */,
 				4391F51C2C74EDC200B1D5DD /* softmatt.mp3 in Resources */,
-				4391F5222C74EDC200B1D5DD /* honk.mp3 in Resources */,
+				432EF8322C781BD7009D43C7 /* myke14.mp3 in Resources */,
+				432EF8282C781BD7009D43C7 /* myke4.mp3 in Resources */,
+				432EF8362C781BD7009D43C7 /* myke16.mp3 in Resources */,
+				432EF8302C781BD7009D43C7 /* myke12.mp3 in Resources */,
+				432EF8432C781BDD009D43C7 /* stephen6.mp3 in Resources */,
+				432EF8452C781BDD009D43C7 /* stephen4.mp3 in Resources */,
+				432EF81C2C781BD7009D43C7 /* myke10.mp3 in Resources */,
+				432EF81A2C781BD7009D43C7 /* myke9.mp3 in Resources */,
+				432EF8202C781BD7009D43C7 /* myke6.mp3 in Resources */,
+				432EF8142C781BD7009D43C7 /* myke2.mp3 in Resources */,
+				432EF8182C781BD7009D43C7 /* myke17.mp3 in Resources */,
+				432EF82E2C781BD7009D43C7 /* myke18.mp3 in Resources */,
+				432EF8262C781BD7009D43C7 /* myke15.mp3 in Resources */,
+				432EF84D2C781BDD009D43C7 /* stephen3.mp3 in Resources */,
 				4391F5142C74EDC200B1D5DD /* jump.mp3 in Resources */,
 				43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
 				439028E82AA8097200AEC63E /* LaunchScreen.storyboard in Resources */,
+				432EF84F2C781BDD009D43C7 /* stephen8.mp3 in Resources */,
+				432EF8412C781BDD009D43C7 /* stephen2.mp3 in Resources */,
+				432EF8242C781BD7009D43C7 /* myke13.mp3 in Resources */,
+				432EF8492C781BDD009D43C7 /* stephen1.mp3 in Resources */,
 				4391F5122C74EDC200B1D5DD /* drumroll.mp3 in Resources */,
-				4391F5182C74EDC200B1D5DD /* joe.mp3 in Resources */,
-				4391F5202C74EDC200B1D5DD /* comeon.mp3 in Resources */,
-				4391F5162C74EDC200B1D5DD /* constitution.mp3 in Resources */,
+				432EF84B2C781BDD009D43C7 /* stephen7.mp3 in Resources */,
 				4391F51A2C74EDC200B1D5DD /* moof.mp3 in Resources */,
-				4391F5242C74EDC200B1D5DD /* turtles.mp3 in Resources */,
-				4391F5262C74EDC200B1D5DD /* wow.mp3 in Resources */,
-				4391F51E2C74EDC200B1D5DD /* balls.mp3 in Resources */,
+				432EF82A2C781BD7009D43C7 /* myke3.mp3 in Resources */,
+				432EF82C2C781BD7009D43C7 /* myke5.mp3 in Resources */,
+				432EF8162C781BD7009D43C7 /* myke11.mp3 in Resources */,
+				432EF8222C781BD7009D43C7 /* myke1.mp3 in Resources */,
+				432EF8342C781BD7009D43C7 /* myke7.mp3 in Resources */,
 				5EAF63042C7640D600090101 /* coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

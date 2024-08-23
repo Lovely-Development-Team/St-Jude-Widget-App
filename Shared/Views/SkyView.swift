@@ -36,7 +36,7 @@ struct SkyView: View {
 }
 
 struct SkyViewPreviewView: View {
-    @State var height: Double = 500
+    @State private var height: Double = 500
     
     var body: some View {
         SkyView()

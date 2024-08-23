@@ -13,9 +13,23 @@ struct AboutView: View {
     @State private var showSupporterSheet: Bool = false
     
     @State private var backgroundColor: Color = .black
+    @State private var forceRefresh: Bool = false
     
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
     @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
+    @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
+    
+    private var userColorScheme: ColorScheme? {
+        switch self.appAppearance {
+        case 0:
+            return .light
+        case 1:
+            return .dark
+        default:
+            return self.colorScheme
+        }
+    }
     
     var body: some View {
         ScrollView {
@@ -79,50 +93,104 @@ struct AboutView: View {
                     .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
-                        HStack {
+                        VStack {
                             Text("Use Pixel Font")
-                            Spacer()
-                            Button(action: {
-                                disablePixelFont = false
-                            }) {
-                                Text("Yes")
-                                    .foregroundColor(disablePixelFont ? .primary : .white)
+                            HStack {
+                                Button(action: {
+                                    disablePixelFont = false
+                                }) {
+                                    Text("Yes")
+                                        .foregroundColor(disablePixelFont ? .primary : .white)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                Button(action: {
+                                    disablePixelFont = true
+                                }) {
+                                    Text("No")
+                                        .foregroundColor(disablePixelFont ? .white : .primary)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                             }
-                            .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                            Button(action: {
-                                disablePixelFont = true
-                            }) {
-                                Text("No")
-                                    .foregroundColor(disablePixelFont ? .white : .primary)
-                            }
-                            .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
-                        HStack {
+                        VStack {
                             Text("Play Sounds When Muted")
-                            Spacer()
-                            Button(action: {
-                                playSoundsEvenWhenMuted = true
-                                SoundEffectHelper.shared.setToPlayEvenOnMute()
-                            }) {
-                                Text("Yes")
-                                    .foregroundColor(playSoundsEvenWhenMuted ? .white : .primary)
+                            HStack {
+                                Button(action: {
+                                    playSoundsEvenWhenMuted = true
+                                    SoundEffectHelper.shared.setToPlayEvenOnMute()
+                                }) {
+                                    Text("Yes")
+                                        .foregroundColor(playSoundsEvenWhenMuted ? .white : .primary)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+                                Button(action: {
+                                    playSoundsEvenWhenMuted = false
+                                    SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
+                                }) {
+                                    Text("No")
+                                        .foregroundColor(playSoundsEvenWhenMuted ? .primary : .white    )
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
                             }
-                            .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                            Button(action: {
-                                playSoundsEvenWhenMuted = false
-                                SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
-                            }) {
-                                Text("No")
-                                    .foregroundColor(playSoundsEvenWhenMuted ? .primary : .white    )
-                            }
-                            .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    GroupBox {
+                        VStack {
+                            Text("Appearance")
+                            HStack {
+                                Button(action: {
+                                    self.appAppearance = 0
+                                }) {
+                                    Text("Light")
+                                        .foregroundColor((self.appAppearance == 0) ? .primary : .white    )
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                Button(action: {
+                                    self.appAppearance = 1
+                                }) {
+                                    Text("Dark")
+                                        .foregroundColor((self.appAppearance == 1) ? .primary : .white    )
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                Button(action: {
+                                    self.appAppearance = 2
+                                }) {
+                                    Text("System")
+                                        .foregroundColor((self.appAppearance == 2) ? .primary : .white    )
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    if(self.easterEggEnabled2024) {
+                        Button(action: {
+                            UserDefaults.shared.easterEggEnabled2024 = false
+                            self.dismiss()
+                        }, label: {
+                            Text("Disable Cursed Mode")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .fullWidth(alignment: .center)
+                        })
+                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                        .padding(.horizontal)
+                    }
                     
                     Button(action: {
                         self.dismiss()
@@ -154,7 +222,6 @@ struct AboutView: View {
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

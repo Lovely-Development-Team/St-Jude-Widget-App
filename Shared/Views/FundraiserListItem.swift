@@ -25,7 +25,7 @@ struct FundraiserListItem: View {
     
     let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
     
-    @State var showShareLinkSheet: ShareURL? = nil
+    @State private var showShareLinkSheet: ShareURL? = nil
     
     @ViewBuilder
     var disclosureIndicator: some View {
