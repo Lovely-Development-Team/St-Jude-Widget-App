@@ -571,6 +571,7 @@ struct RandomCampaignPickerView2024: View {
             } else {
                 Button(action: {
                     // TODO: Update with our campaign ID
+                    self.campaignChoiceID = UUID(uuidString: "FE5B0F18-C993-4987-AAB0-3167E2D3F91A")
                     self.dismiss()
                 }, label: {
                     Text("Visit our campaign!")
