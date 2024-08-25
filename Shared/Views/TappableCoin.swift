@@ -26,10 +26,10 @@ struct TappableCoin: View, Identifiable {
     
     var body: some View {
         Group {
-            if(!self.spinOnceOnTap) {
-                Button(action: {
+            if !self.spinOnceOnTap {
+                Button {
                     withAnimation(.easeIn) {
-                        if(self.collectable) {
+                        if self.collectable {
                             self.shown = false
                             if self.returns {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -40,19 +40,19 @@ struct TappableCoin: View, Identifiable {
                     }
                     SoundEffectHelper.shared.play(.coin)
                     coinCount += 1
-                }, label: {
+                } label: {
                     AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: .constant(true), interval: self.interval)
-                })
+                }
                 .opacity(self.shown ? 1.0 : 0.0)
                 .offset(y: self.shown ? self.offset : self.offset-10)
             } else {
-                Button(action: {
+                Button {
                     self.manualAnimating = true
                     SoundEffectHelper.shared.play(.coin)
                     coinCount += 1
-                }, label: {
+                } label: {
                     AnimatedAdaptiveImage(idleImage: self.idleImage, images: self.images, animating: self.$manualAnimating, playOnce: true, interval: self.interval)
-                })
+                }
                 .offset(y: self.offset)
             }
         }
