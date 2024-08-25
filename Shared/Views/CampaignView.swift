@@ -152,6 +152,13 @@ struct CampaignView: View {
                                         .font(.headline)
                                         .foregroundColor(.primary)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                        .contextMenu(menuItems: {
+                                            Button(action: {
+                                                UIPasteboard.general.string = initialCampaign.id.uuidString
+                                            }, label: {
+                                                Text("Copy")
+                                            })
+                                        })
                                 }
                                 .groupBoxStyle(BlockGroupBoxStyle())
                             }
