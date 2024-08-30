@@ -72,6 +72,11 @@ struct CampaignView: View {
         }
     }
     
+    func milestonePercentage(for milestone: Milestone) -> Float {
+        let total = initialCampaign?.totalRaised.numericalValue ?? teamEvent?.totalRaised.numericalValue ?? 0
+        return Float(min(1, total / milestone.amount.value))
+    }
+    
     func milestoneReached(for milestone: Milestone) -> Bool {
         if let initialCampaign = initialCampaign {
             return milestone.amount.value <= initialCampaign.totalRaised.numericalValue
@@ -346,12 +351,7 @@ struct CampaignView: View {
 
                             }
                             ForEach(milestones, id: \.id) { milestone in
-                                MilestoneListView(milestone: milestone, reached: milestoneReached(for: milestone))
-                                if milestone != milestones.last {
-                                    Rectangle()
-                                        .frame(height: 10 * Double.spriteScale)
-                                        .foregroundStyle(.secondary)
-                                }
+                                MilestoneListView(milestone: milestone, reached: milestoneReached(for: milestone), percentage: milestonePercentage(for: milestone))
                             }
                         }
                     }

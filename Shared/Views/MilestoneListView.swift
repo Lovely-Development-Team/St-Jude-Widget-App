@@ -13,6 +13,7 @@ struct MilestoneListView: View {
     
     let milestone: Milestone
     let reached: Bool
+    var percentage: Float = 0.4
     
     let breakPoint: DynamicTypeSize = .xLarge
     
@@ -26,30 +27,41 @@ struct MilestoneListView: View {
     
     var body: some View {
         
-        layout {
-            HStack(alignment: .top) {
-                Image(.checkmarkSealFillPixel)
-                    .foregroundColor(reached ? .green : .secondary)
-                    .opacity(reached ? 1 : 0.25)
-                Text("\(milestone.name)")
-                    .foregroundColor(reached ? .secondary : .primary)
+        VStack(spacing: 5) {
+            layout {
+                HStack(alignment: .top) {
+                    Image(.checkmarkSealFillPixel)
+                        .foregroundColor(reached ? .green : .secondary)
+                        .opacity(reached ? 1 : 0.25)
+                    Text("\(milestone.name)")
+                        .foregroundColor(reached ? .secondary : .primary)
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                if dynamicTypeSize < breakPoint {
+                    Spacer()
+                }
+                Text(milestone.amount.description(showFullCurrencySymbol: false))
+                    .foregroundColor(.accentColor)
+                    .opacity(reached ? 0.75 : 1)
             }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            if dynamicTypeSize < breakPoint {
-                Spacer()
-            }
-            Text(milestone.amount.description(showFullCurrencySymbol: false))
-                .foregroundColor(.accentColor)
-                .opacity(reached ? 0.75 : 1)
+            ProgressBar(value: .constant(percentage), fillColor: .accentColor)
+                .frame(height: 10 * Double.spriteScale)
+                .modifier(PixelRounding())
+                .opacity(reached ? 0.25 : 1)
         }
     }
 }
 
 #Preview {
-    VStack {
-        MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "13"), name: "Milestone 123", publicId: .init())), reached: false)
-            .padding()
-        MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "123"), name: "Milestone 123", publicId: .init())), reached: false)
-            .padding()
+    GroupBox {
+        VStack(spacing: 10) {
+            MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "13"), name: "Milestone 123", publicId: .init())), reached: true)
+//            Rectangle()
+//                .frame(height: 10 * Double.spriteScale)
+//                .foregroundStyle(.secondary)
+            MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "123"), name: "Milestone 123", publicId: .init())), reached: false)
+        }
     }
+    .groupBoxStyle(BlockGroupBoxStyle())
+    .padding()
 }
