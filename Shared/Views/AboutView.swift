@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AboutView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @Environment(\.dismiss) var dismiss
     @State private var showSupporterSheet: Bool = false
     
@@ -164,14 +165,12 @@ struct AboutView: View {
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                Button(action: {
-                                    self.appAppearance = 2
-                                }) {
-                                    Text("System")
-                                        .foregroundColor((self.appAppearance == 2) ? .white : .primary    )
-                                        .frame(maxWidth: .infinity)
+                                if dynamicTypeSize < .large {
+                                    systemAppearanceButton
                                 }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+                            }
+                            if dynamicTypeSize >= .large {
+                                systemAppearanceButton
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -223,6 +222,19 @@ struct AboutView: View {
             SupporterView()
         }
     }
+    
+    @ViewBuilder
+    var systemAppearanceButton: some View {
+        Button(action: {
+            self.appAppearance = 2
+        }) {
+            Text("System")
+                .foregroundColor((self.appAppearance == 2) ? .white : .primary    )
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+    }
+    
 }
 
 struct AboutViewHeader: View {
