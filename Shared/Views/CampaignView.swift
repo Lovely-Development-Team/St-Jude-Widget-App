@@ -390,7 +390,7 @@ struct CampaignView: View {
                                                         .frame(width: 45, height: 45)
                                                 }.aspectRatio(contentMode: .fit)
                                                 .frame(width: 45, height: 45)
-                                                .cornerRadius(5)
+                                                .modifier(PixelRounding())
                                         }
                                         VStack {
                                             Text(reward.description)
