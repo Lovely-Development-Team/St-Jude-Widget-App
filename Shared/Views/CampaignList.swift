@@ -193,7 +193,7 @@ struct CampaignList: View {
                         await fetch()
                     }
                 } label: {
-                    Label("Remove Head to Head", systemImage: "trash")
+                    Label("Remove Head to Head", image: "trash.pixel")
                 }
             }
             //            .tint(.white)
