@@ -64,8 +64,7 @@ struct DonorList: View {
                         HStack {
                             Text("View all donors on Tiltify")
                             Spacer()
-                            Image(systemName: "safari")
-                                .foregroundColor(.secondary)
+                            Image(.boxArrowUpRightPixel)
                         }
                     }
                     .buttonStyle(BlockButtonStyle())
