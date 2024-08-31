@@ -89,6 +89,11 @@ extension AdaptiveImage {
     }
     
     @ViewBuilder
+    static func tallflower(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .tallflower, dark: .tallflowerNight)
+    }
+    
+    @ViewBuilder
     static func groundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .groundRepeatable, dark: .groundRepeatableNight)
     }

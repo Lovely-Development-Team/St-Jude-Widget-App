@@ -13,6 +13,7 @@ enum LandscapeElementType: Int, CaseIterable {
     case coin
     case bush
     case flower
+    case tallflower
     case empty
     
     static func random(isMainScreen: Bool = true) -> LandscapeElementType {
@@ -80,6 +81,9 @@ struct LandscapeElement: Identifiable {
                 .imageAtScale()
         case .flower:
             AdaptiveImage.flower(colorScheme: colorScheme)
+                .imageAtScale()
+        case .tallflower:
+            AdaptiveImage.tallflower(colorScheme: colorScheme)
                 .imageAtScale()
         case .coin:
             TappableCoin(easterEggEnabled2024: easterEggEnabled)
