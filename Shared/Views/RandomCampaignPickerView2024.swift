@@ -561,6 +561,7 @@ struct RandomCampaignPickerView2024: View {
                 } else {
                     Button(action: {
                         UserDefaults.shared.easterEggEnabled2024.toggle()
+                        SoundEffectHelper.shared.play(.underworld)
                     }, label: {
                         Text("Oh yes please 😈")
                     })

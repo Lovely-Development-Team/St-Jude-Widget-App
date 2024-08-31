@@ -23,6 +23,7 @@ class SoundEffectHelper {
         case moof = "moof"
         case softMatt = "softmatt"
         case coin = "coin"
+        case underworld = "underworld"
         
         var soundEffectPlayer: SoundEffectPlayer {
             switch self {
