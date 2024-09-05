@@ -36,8 +36,9 @@ struct MilestoneView: View {
     let showMilestonePercentage: Bool
     let fillColor: Color
     let disablePixelFont: Bool
+    let progressBarHeight: CGFloat
     
-    init(title: String? = nil, data: TiltifyWidgetData, milestone: Milestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool, fillColor: Color, disablePixelFont: Bool) {
+    init(title: String? = nil, data: TiltifyWidgetData, milestone: Milestone, showFullCurrencySymbol: Bool, showMilestonePercentage: Bool, fillColor: Color, disablePixelFont: Bool, progressBarHeight: CGFloat = 10) {
         self.title = title
         self.data = data
         self.milestone = milestone
@@ -46,6 +47,7 @@ struct MilestoneView: View {
         self.showMilestonePercentage = showMilestonePercentage
         self.fillColor = fillColor
         self.disablePixelFont = disablePixelFont
+        self.progressBarHeight = 10
     }
     
     var accessibilityLabel: String {
@@ -83,7 +85,7 @@ struct MilestoneView: View {
                let percentageToMilestone = percentageReached,
                percentageToMilestone <= 1 {
                 ProgressBar(value: .constant(Float(percentageToMilestone)), fillColor: fillColor)
-                    .frame(height: 10)
+                    .frame(height: progressBarHeight)
                     .accessibility(hidden: true)
                     .padding(.top, -5)
             }

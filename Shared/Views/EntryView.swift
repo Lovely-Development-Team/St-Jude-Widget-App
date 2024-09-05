@@ -22,6 +22,10 @@ struct EntryView: View {
     var forceHidePreviousMilestone: Bool = false
     var useNormalBackgroundOniOS17: Bool = false
     var disablePixelFont: Bool = true
+    var centerVertically: Bool = false
+    var additionalPadding: CGFloat = 0
+    var mainProgressBarHeight: CGFloat = 15
+    var milestoneProgressBarHeight: CGFloat = 10
 
     
     var showTwoMilestones: Bool {
@@ -84,15 +88,21 @@ struct EntryView: View {
     @ViewBuilder
     var content: some View {
         
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: self.centerVertically ? 20 : 5) {
            
+            if self.centerVertically {
+                Spacer()
+            }
+            
             CampaignTitle(name: campaign.name, showingTwoMilestones: showMilestones, disablePixelFont: disablePixelFont)
              
-            Spacer()
+            if !self.centerVertically {
+                Spacer()
+            }
             
             if let percentageReached = campaign.percentageReached {
                 ProgressBar(value: .constant(Float(percentageReached)), fillColor: fillColor, disablePixelBorder: disablePixelFont)
-                    .frame(height: 15)
+                    .frame(height: mainProgressBarHeight)
             }
             VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .lastTextBaseline, spacing: 5) {
@@ -105,7 +115,9 @@ struct EntryView: View {
                         .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
                     
                     if showGoalPercentage && DeviceType.isInWidget() && (family == .systemMedium || (family == .systemLarge && showMilestones)) {
-                        Spacer()
+                        if !self.centerVertically {
+                            Spacer()
+                        }
                         VStack(alignment: .trailing) {
                             Text("\(campaign.percentageReachedDescription ?? "Unknown") of")
                             Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))
@@ -113,8 +125,10 @@ struct EntryView: View {
                         .font(.caption(disablePixelFont: disablePixelFont))
                     }
                     if #available(iOS 15.0, *), showGoalPercentage, isExtraLargeSize(family: family) && DeviceType.isInWidget() {
-                            Spacer()
-                            Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))")
+                            if !self.centerVertically {
+                                Spacer()
+                            }
+                        Text("\(campaign.percentageReachedDescription ?? "Unknown") of \(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))")
                     }
                 }
                 
@@ -133,26 +147,34 @@ struct EntryView: View {
             .accessibility(label: Text(campaign.totalRaisedAccessibilityDescription(showFullCurrencySymbol: showFullCurrencySymbol)))
             
             if showMilestones && family != .systemSmall {
+                
                 if showTwoMilestones,
                    !preferFutureMilestones || campaign.futureMilestones.count <= 1,
                    let milestone = campaign.previousMilestone {
-                    MilestoneView(title: "Previous milestone", data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor, disablePixelFont: disablePixelFont)
+                    MilestoneView(title: "Previous milestone", data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor, disablePixelFont: disablePixelFont, progressBarHeight: milestoneProgressBarHeight)
                 }
                 
                 if let milestone = campaign.nextMilestone {
-                    MilestoneView(title: "Upcoming milestones", data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor, disablePixelFont: disablePixelFont)
+                    MilestoneView(title: "Upcoming milestones", data: campaign, milestone: milestone, showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor, disablePixelFont: disablePixelFont, progressBarHeight: milestoneProgressBarHeight)
                 }
                 
                 if showTwoMilestones,
                    preferFutureMilestones && campaign.futureMilestones.count > 1,
                    1 < campaign.futureMilestones.endIndex {
-                    MilestoneView(data: campaign, milestone: campaign.futureMilestones[1], showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor, disablePixelFont: disablePixelFont)
+                    MilestoneView(data: campaign, milestone: campaign.futureMilestones[1], showFullCurrencySymbol: showFullCurrencySymbol, showMilestonePercentage: showMilestonePercentage, fillColor: fillColor, disablePixelFont: disablePixelFont, progressBarHeight: milestoneProgressBarHeight)
                 }
             }
+            
+            
+            if self.centerVertically {
+                Spacer()
+            }
+           
             
         }
         .foregroundColor(foregroundColor)
         .frame(maxWidth: .infinity)
+        .padding(additionalPadding)
     }
 }
 

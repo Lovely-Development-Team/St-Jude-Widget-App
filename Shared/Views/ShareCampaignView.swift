@@ -14,7 +14,6 @@ struct ShareCampaignView: View {
     @State private var teamEvent: TeamEvent?
     @State private var campaign: Campaign?
     @State private var widgetData: TiltifyWidgetData = sampleCampaign
-    
 
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFontGlobally: Bool = false
     
@@ -26,6 +25,7 @@ struct ShareCampaignView: View {
     @AppStorage(UserDefaults.shareScreenshotClipCornersKey, store: UserDefaults.shared) private var clipCorners: Bool = false
     @AppStorage(UserDefaults.shareScreenshotInitialAppearanceKey, store: UserDefaults.shared) private var appearance: WidgetAppearance = .yellow
     @AppStorage(UserDefaults.shareScreenshotDisablePixelThemeKey, store: UserDefaults.shared) private var disablePixelTheme: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotExport169Key, store: UserDefaults.shared) private var exportForInstagram: Bool = false
     
     @State private var renderedImage = Image(systemName: "photo")
     @State private var imageSize: CGSize = .zero
@@ -40,21 +40,38 @@ struct ShareCampaignView: View {
         self._campaign = State(wrappedValue: nil)
     }
     
-    var entryView: some View {
+    var instagramView: some View {
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, additionalPadding: 40, mainProgressBarHeight: 30, milestoneProgressBarHeight: 20)
+            .frame(width: 1080, height: 1920)
+            .dynamicTypeSize(.accessibility3)
+    }
+    
+    var standardView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
-            .frame(minHeight: 169) // Height of a medium widget
-            .dynamicTypeSize(.medium)
             .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+            .frame(minHeight: 169)
+            .dynamicTypeSize(.medium)
+    }
+    
+    @ViewBuilder
+    var renderView: some View {
+        if self.exportForInstagram {
+            instagramView
+                .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+        } else {
+            standardView
+                .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+        }
     }
     
     @Environment(\.displayScale) var displayScale
     
     @MainActor func render() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            let renderer = ImageRenderer(content: entryView)
+            let renderer = ImageRenderer(content: self.renderView)
             renderer.scale = displayScale
-            renderer.proposedSize = ProposedViewSize(imageSize)
+            renderer.proposedSize = ProposedViewSize(self.exportForInstagram ? CGSize(width: 1080, height: 1920) : imageSize)
             if let uiImage = renderer.uiImage {
                 renderedImage = Image(uiImage: uiImage)
             }
@@ -65,7 +82,7 @@ struct ShareCampaignView: View {
     @MainActor
     var headerView: some View {
         VStack(spacing: 0) {
-            entryView
+            standardView
                 .background {
                     GeometryReader { geo in
                         Color.clear
@@ -112,6 +129,8 @@ struct ShareCampaignView: View {
                         Toggle("Disable Pixel Theme", isOn: disablePixelFontGlobally ? .constant(true) : $disablePixelTheme.animation()).padding(.trailing)
                             .disabled(disablePixelFontGlobally)
                         Divider().opacity(0.75)
+                        Toggle("Export in 9:16", isOn: $exportForInstagram).padding(.trailing)
+                        Divider().opacity(0.75)
                         HStack(alignment: .firstTextBaseline) {
                             Text("Appearance")
                             Spacer()
@@ -149,6 +168,9 @@ struct ShareCampaignView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .onChange(of: appearance) { _ in
+            render()
+        }
+        .onChange(of: exportForInstagram) { _ in
             render()
         }
         .onChange(of: clipCorners) { _ in
