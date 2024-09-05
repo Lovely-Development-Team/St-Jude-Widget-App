@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+extension CGSize {
+    static let instagramStoryDimensions = CGSize(width: 1080, height: 1920)
+}
+
 struct ShareCampaignView: View {
     
     @Environment(\.presentationMode) var presentationMode
@@ -42,7 +46,7 @@ struct ShareCampaignView: View {
     
     var instagramView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, additionalPadding: 40, mainProgressBarHeight: 30, milestoneProgressBarHeight: 20)
-            .frame(width: 1080, height: 1920)
+            .frame(width: CGSize.instagramStoryDimensions.width, height: CGSize.instagramStoryDimensions.height)
             .dynamicTypeSize(.accessibility3)
     }
     
@@ -71,7 +75,7 @@ struct ShareCampaignView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             let renderer = ImageRenderer(content: self.renderView)
             renderer.scale = displayScale
-            renderer.proposedSize = ProposedViewSize(self.exportForInstagram ? CGSize(width: 1080, height: 1920) : imageSize)
+            renderer.proposedSize = ProposedViewSize(self.exportForInstagram ? .instagramStoryDimensions : imageSize)
             if let uiImage = renderer.uiImage {
                 renderedImage = Image(uiImage: uiImage)
             }
