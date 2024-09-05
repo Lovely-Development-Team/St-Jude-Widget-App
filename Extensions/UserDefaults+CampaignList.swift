@@ -19,6 +19,12 @@ extension UserDefaults {
     static let shareScreenshotShowFullCurrencySymbolKey = "shareScreenshotShowFullCurrencySymbol"
     static let shareScreenshotShowMainGoalPercentageKey = "shareScreenshotShowMainGoalPercentage"
     static let shareScreenshotDisablePixelThemeKey = "shareScreenshotDisablePixelTheme"
+    static let shareScreenshotExport169Key = "shareScreenshotExport169"
+    
+    @objc var shareScreenshotExport169: Bool {
+        get { bool(forKey: Self.shareScreenshotExport169Key) }
+        set { set(newValue, forKey: Self.shareScreenshotExport169Key) }
+    }
     
     @objc var shareDisablePixelTheme: Bool {
         get { bool(forKey: Self.shareScreenshotDisablePixelThemeKey) }
