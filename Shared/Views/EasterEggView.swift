@@ -41,7 +41,7 @@ struct EasterEggView: View {
     }
     
     var accessibilityLabel: Text {
-        Text("L2CU (\"Lovely to See You\") says \"\(affirmationToShow)\"")
+        Text("PixL2CU (\"Lovely to See You\") says \"\(affirmationToShow)\"")
     }
     
     @ViewBuilder var topView: some View {
@@ -64,7 +64,7 @@ struct EasterEggView: View {
                                 }
                             }
                         }) {
-                            Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
+                            Text(showFullL2CUName ? "Lovely to See You" : "PixL2CU")
                         }
                         .buttonStyle(PlainButtonStyle())
                         Text("says:")
