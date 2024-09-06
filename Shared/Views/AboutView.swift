@@ -18,6 +18,8 @@ struct AboutView: View {
     @State private var forceRefresh: Bool = false
     @State private var currentIcon: String? = nil
     
+    @Binding var campaignChoiceID: UUID?
+    
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
     @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
@@ -241,9 +243,12 @@ struct AboutView: View {
             SupporterView()
         }
         .sheet(isPresented: $showChangeIconSheet) {
-            AltIconPicker {
+            AltIconPicker(campaignChoiceID: self.$campaignChoiceID) { shouldQuit in
                 self.showChangeIconSheet = false
                 self.currentIcon = UIApplication.shared.alternateIconName ?? "AppIcon"
+                if shouldQuit {
+                    self.dismiss()
+                }
             }
         }
         .onAppear {
@@ -321,5 +326,5 @@ struct AboutViewHeader: View {
 }
 
 #Preview {
-    AboutView()
+    AboutView(campaignChoiceID: .constant(nil))
 }

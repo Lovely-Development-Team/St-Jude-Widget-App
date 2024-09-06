@@ -13,28 +13,26 @@ struct AltIconPicker: View {
     
     @State private var chosenIconName: String? = nil
     @State private var showSecretsAlert: Bool = false
+    @State private var showUnlockAlert: Bool = false
     
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
+    @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
+//    @State private var iconsUnlocked = true
     
     let iconWidth: CGFloat = 80
     
-    let done: () -> ()
+    @Binding var campaignChoiceID: UUID?
+    
+    let done: (Bool) -> ()
     
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 VStack {
                     Spacer()
-                    HStack {
-                        Spacer()
-                        Button(action: done) {
-                            Text("Done")
-                        }
-                    }
-                    .padding()
                     Text("Choose your icon")
                         .font(.title)
-                        .padding(.bottom)
+                        .padding(.vertical)
                     Spacer()
                     AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
                         .tiledImageAtScale(axis: .horizontal)
@@ -50,10 +48,24 @@ struct AltIconPicker: View {
 //                            ], startPoint: .top, endPoint: .bottom)
 //                        }
                 }
+                if !iconsUnlocked {
+                    Button(action: {
+                        campaignChoiceID = TLD_CAMPAIGN
+                        done(true)
+                    }) {
+                        HStack {
+                            Text("Help us reach our milestone of \(formatCurrency(from: TLDMilestones.IconsUnlocked, currency: "USD", showFullCurrencySymbol: false).1) to unlock custom icons for the app!")
+                                .fullWidth()
+                            Image(.pixelChevronRight)                            
+                        }
+                    }
+                    .buttonStyle(BlockButtonStyle())
+                    .padding()
+                }
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
                     ForEach(AltIcon.allCases) { icon in
                         VStack {
-                            if (!icon.isCursed || easterEggEnabled2024) {
+                            if ((iconsUnlocked || icon == .original) && (!icon.isCursed || easterEggEnabled2024)) {
                                 Button(action: {
                                     setIcon(to: icon)
                                 }) {
@@ -63,14 +75,23 @@ struct AltIconPicker: View {
                                 .buttonStyle(BlockButtonStyle(tint: icon.fileName == chosenIconName ? WidgetAppearance.skyBlue : .secondarySystemBackground))
                             } else {
                                 Button(action: {
-                                    self.showSecretsAlert = true
+                                    if iconsUnlocked {
+                                        self.showSecretsAlert = true
+                                    } else {
+                                        self.showUnlockAlert = true
+                                    }
                                 }) {
                                     ZStack {
                                         icon.image
                                             .frame(width: iconWidth, height: iconWidth)
                                             .blur(radius: 10)
-                                        Image(.pixelQuestion)
-                                            .imageScale(.large)
+                                        if iconsUnlocked {
+                                            Image(.pixelQuestion)
+                                                .imageScale(.large)
+                                        } else {
+                                            Image(.lockFillPixel)
+                                                .imageScale(.large)
+                                        }
                                     }
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: icon.fileName == chosenIconName ? WidgetAppearance.skyBlue : .secondarySystemBackground))
@@ -79,6 +100,17 @@ struct AltIconPicker: View {
                     }
                 }
                 .padding()
+                
+                Button(action: {
+                    done(false)
+                }, label: {
+                    Text("Done")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .fullWidth(alignment: .center)
+                })
+                .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                .padding([.bottom, .horizontal])
             }
             .background {
                 GeometryReader { geometry in
@@ -102,17 +134,31 @@ struct AltIconPicker: View {
         }, message: {
             Text("What could be hiding under here?")
         })
+        .alert("Icons!", isPresented: self.$showUnlockAlert, actions: {
+            Button(action: {
+                self.campaignChoiceID = TLD_CAMPAIGN
+                self.done(true)
+            }, label: {
+                Text("Visit our campaign!")
+            })
+        }, message: {
+            Text("Help us reach our milestone of \(formatCurrency(from: TLDMilestones.IconsUnlocked, currency: "USD", showFullCurrencySymbol: false).1) to unlock custom icons for the app!")
+        })
     }
     
     func setIcon(to icon: AltIcon) {
-        icon.set()
-        chosenIconName = icon.fileName
+        if iconsUnlocked {
+            icon.set()
+            chosenIconName = icon.fileName
+        } else {
+            showUnlockAlert = true
+        }
     }
     
 }
 
 #Preview {
-    AltIconPicker {
+    AltIconPicker(campaignChoiceID: .constant(nil)) { _ in
         
     }
 }
