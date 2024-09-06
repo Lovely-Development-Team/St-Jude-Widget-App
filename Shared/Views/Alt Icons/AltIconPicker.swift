@@ -18,14 +18,23 @@ struct AltIconPicker: View {
     
     let iconWidth: CGFloat = 80
     
+    let done: () -> ()
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 VStack {
                     Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: done) {
+                            Text("Done")
+                        }
+                    }
+                    .padding()
                     Text("Choose your icon")
                         .font(.title)
-                        .padding(.top)
+                        .padding(.bottom)
                     Spacer()
                     AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
                         .tiledImageAtScale(axis: .horizontal)
@@ -103,5 +112,7 @@ struct AltIconPicker: View {
 }
 
 #Preview {
-    AltIconPicker()
+    AltIconPicker {
+        
+    }
 }

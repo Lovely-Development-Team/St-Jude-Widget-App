@@ -16,6 +16,7 @@ struct AboutView: View {
     
     @State private var backgroundColor: Color = .black
     @State private var forceRefresh: Bool = false
+    @State private var currentIcon: String? = nil
     
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
     @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
@@ -183,10 +184,12 @@ struct AboutView: View {
                         self.showChangeIconSheet = true
                     }) {
                         HStack {
-                            Image(uiImage: UIImage(named: UIApplication.shared.alternateIconName ?? "AppIcon") ?? UIImage())
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .modifier(PixelRounding())
+                            if let currentIcon = currentIcon {
+                                Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .modifier(PixelRounding())
+                            }
                             Text("Change Icon")
                                 .fullWidth()
                         }
@@ -238,19 +241,13 @@ struct AboutView: View {
             SupporterView()
         }
         .sheet(isPresented: $showChangeIconSheet) {
-            NavigationView {
-                AltIconPicker()
-                    .navigationTitle("Choose your icon")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("Done") {
-                                showChangeIconSheet = false
-                            }
-                            .animation(.linear(duration: 0))
-                        }
-                    }
+            AltIconPicker {
+                self.showChangeIconSheet = false
+                self.currentIcon = UIApplication.shared.alternateIconName ?? "AppIcon"
             }
+        }
+        .onAppear {
+            self.currentIcon = UIApplication.shared.alternateIconName ?? "AppIcon"
         }
     }
     
