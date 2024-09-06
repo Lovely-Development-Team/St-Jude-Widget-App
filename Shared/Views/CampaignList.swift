@@ -107,6 +107,8 @@ struct CampaignList: View {
     
     @State private var showHeadToHeads: Bool = true
     
+    @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
+    
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728266450)
     // let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -729,7 +731,7 @@ struct CampaignList: View {
             switch sheet {
             case .aboutScreen:
                 NavigationView {
-                    AboutView()
+                    AboutView(campaignChoiceID: self.$selectedCampaignId)
                 }
             case .leaderBoard:
                 NavigationView {
@@ -868,9 +870,9 @@ struct CampaignList: View {
                     do {
                         dataLogger.notice("Updating \(apiCampaign.name) - \(apiCampaign.totalRaised.description(showFullCurrencySymbol: false))")
                         try await AppDatabase.shared.updateCampaign(updateCampaign, changesFrom: dbCampaign)
-//                        if apiCampaign.id == TLD_CAMPAIGN {
-//                            shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
-//                        }
+                        if apiCampaign.id == TLD_CAMPAIGN {
+                            iconsUnlocked = apiCampaign.totalRaisedNumerical >= TLDMilestones.IconsUnlocked
+                        }
                     } catch {
                         dataLogger.error("Failed to update campaign: \(updateCampaign.id) \(updateCampaign.name): \(error.localizedDescription)")
                     }
@@ -887,9 +889,9 @@ struct CampaignList: View {
             for apiCampaign in keyedApiCampaigns.values {
                 do {
                     try await AppDatabase.shared.saveCampaign(apiCampaign)
-//                    if apiCampaign.id == TLD_CAMPAIGN {
-//                        shouldShowHeadToHead = apiCampaign.totalRaisedNumerical >= TLDMilestones.HeadToHead
-//                    }
+                    if apiCampaign.id == TLD_CAMPAIGN {
+                        iconsUnlocked = apiCampaign.totalRaisedNumerical >= TLDMilestones.IconsUnlocked
+                    }
                 } catch {
                     dataLogger.error("Failed to save Campaign \(apiCampaign.id) \(apiCampaign.name): \(error.localizedDescription)")
                 }

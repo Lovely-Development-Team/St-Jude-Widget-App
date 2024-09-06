@@ -28,11 +28,17 @@ extension UserDefaults {
     static let shouldShowHeadToHeadKey = "shouldShowHeadToHead"
     static let expandHeadToHeadSectionKey = "expandHeadToHeadSection"
     static let easterEggEnabled2024Key = "easterEggEnabled2024"
+    static let iconsUnlockedKey = "iconsUnlocked"
     
     static let disablePixelFontKey = "disablePixelFont"
     static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
     static let coinCountKey = "coinCount"
     static let appAppearanceKey = "appAppearance"
+    
+    @objc var iconsUnlocked: Bool {
+        get { bool(forKey: Self.iconsUnlockedKey) }
+        set { set(newValue, forKey: Self.iconsUnlockedKey) }
+    }
     
     @objc var coinCount: Int {
         get { integer(forKey: Self.coinCountKey) }
