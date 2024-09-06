@@ -12,6 +12,7 @@ struct AboutView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @Environment(\.dismiss) var dismiss
     @State private var showSupporterSheet: Bool = false
+    @State private var showChangeIconSheet: Bool = false
     
     @State private var backgroundColor: Color = .black
     @State private var forceRefresh: Bool = false
@@ -37,6 +38,7 @@ struct AboutView: View {
             VStack(spacing:0) {
                 AboutViewHeader()
                 VStack {
+                    
                     GroupBox {
                         VStack {
                             Text("About St. Jude")
@@ -177,6 +179,20 @@ struct AboutView: View {
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
                     
+                    Button(action: {
+                        self.showChangeIconSheet = true
+                    }) {
+                        HStack {
+                            Image(uiImage: UIImage(named: UIApplication.shared.alternateIconName ?? "AppIcon") ?? UIImage())
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .modifier(PixelRounding())
+                            Text("Change Icon")
+                                .fullWidth()
+                        }
+                    }
+                    .buttonStyle(BlockButtonStyle())
+                    
                     if(self.easterEggEnabled2024) {
                         Button(action: {
                             UserDefaults.shared.easterEggEnabled2024 = false
@@ -200,7 +216,7 @@ struct AboutView: View {
                             .fullWidth(alignment: .center)
                     })
                     .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                    .padding(.horizontal)
+                    .padding([.top, .horizontal])
                     
                 }
                 .padding()
@@ -220,6 +236,21 @@ struct AboutView: View {
         .background(ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
+        }
+        .sheet(isPresented: $showChangeIconSheet) {
+            NavigationView {
+                AltIconPicker()
+                    .navigationTitle("Choose your icon")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Done") {
+                                showChangeIconSheet = false
+                            }
+                            .animation(.linear(duration: 0))
+                        }
+                    }
+            }
         }
     }
     
