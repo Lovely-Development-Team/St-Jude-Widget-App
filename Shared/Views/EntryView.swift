@@ -25,6 +25,7 @@ struct EntryView: View {
     var centerVertically: Bool = false
     var additionalPadding: CGFloat = 0
     var mainProgressBarHeight: CGFloat = 15
+    var mainProgressBarPixelScale: Double = .spriteScale
     var milestoneProgressBarHeight: CGFloat = 10
 
     
@@ -101,7 +102,7 @@ struct EntryView: View {
             }
             
             if let percentageReached = campaign.percentageReached {
-                ProgressBar(value: .constant(Float(percentageReached)), fillColor: fillColor, disablePixelBorder: disablePixelFont)
+                ProgressBar(value: .constant(Float(percentageReached)), fillColor: fillColor, disablePixelBorder: disablePixelFont, pixelScale: mainProgressBarPixelScale)
                     .frame(height: mainProgressBarHeight)
             }
             VStack(alignment: .leading, spacing: 5) {
