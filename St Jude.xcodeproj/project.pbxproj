@@ -193,6 +193,8 @@
 		5EAF63582C787B1300090101 /* myke11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5EAF63342C787B1300090101 /* myke11.mp3 */; };
 		5EAF635A2C830DFD00090101 /* underworld.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5EAF63592C830DFD00090101 /* underworld.mp3 */; };
 		5EAF635B2C830DFD00090101 /* underworld.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5EAF63592C830DFD00090101 /* underworld.mp3 */; };
+		5EAF635E2C86398A00090101 /* AltIconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAF635D2C86398A00090101 /* AltIconPicker.swift */; };
+		5EAF63602C86399800090101 /* AltIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAF635F2C86399800090101 /* AltIcons.swift */; };
 		5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */; };
 		5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */; };
 		5EC3B82428C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */; };
@@ -614,6 +616,8 @@
 		5EAF63332C787B1300090101 /* myke17.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = myke17.mp3; sourceTree = "<group>"; };
 		5EAF63342C787B1300090101 /* myke11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = myke11.mp3; sourceTree = "<group>"; };
 		5EAF63592C830DFD00090101 /* underworld.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = underworld.mp3; sourceTree = "<group>"; };
+		5EAF635D2C86398A00090101 /* AltIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltIconPicker.swift; sourceTree = "<group>"; };
+		5EAF635F2C86399800090101 /* AltIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltIcons.swift; sourceTree = "<group>"; };
 		5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraiserIntentHandler.swift; sourceTree = "<group>"; };
 		5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRewardExtension.swift; sourceTree = "<group>"; };
 		5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraisingEventIntentHandler.swift; sourceTree = "<group>"; };
@@ -893,6 +897,15 @@
 			path = EasterEggs;
 			sourceTree = "<group>";
 		};
+		5EAF635C2C86397700090101 /* Alt Icons */ = {
+			isa = PBXGroup;
+			children = (
+				5EAF635D2C86398A00090101 /* AltIconPicker.swift */,
+				5EAF635F2C86399800090101 /* AltIcons.swift */,
+			);
+			path = "Alt Icons";
+			sourceTree = "<group>";
+		};
 		63574A1526D658FD00A2D495 /* macOS Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -1063,6 +1076,7 @@
 			isa = PBXGroup;
 			children = (
 				439028E62AA8097200AEC63E /* LaunchScreen.storyboard */,
+				5EAF635C2C86397700090101 /* Alt Icons */,
 				5E1705C628C32EE200E70019 /* EasterEggs */,
 				63ACEFF026D3C4D400F98023 /* MilestoneView.swift */,
 				63ACEFF726D3C6FF00F98023 /* CampaignTitle.swift */,
@@ -1611,6 +1625,7 @@
 				5EC5147B28D5AE8100CB00DC /* DonorChart.swift in Sources */,
 				63ACF00F26D3FCB300F98023 /* AppDelegate.swift in Sources */,
 				5E56A7A328C73D4B00B0DD59 /* AnimatedImage.swift in Sources */,
+				5EAF635E2C86398A00090101 /* AltIconPicker.swift in Sources */,
 				63ACEFF826D3C6FF00F98023 /* CampaignTitle.swift in Sources */,
 				431497212C6716D8001312AB /* UndegroundBackground.swift in Sources */,
 				63A6F9AF26D64F2900095ACB /* WidgetFamily.swift in Sources */,
@@ -1634,6 +1649,7 @@
 				430E7A192C60649C005E1973 /* DoubleHelpers.swift in Sources */,
 				5EEB56A22AA0987C008AABF1 /* ChooseCampaignView.swift in Sources */,
 				5EEB56872A9BDE07008AABF1 /* BrandShapeBackground.swift in Sources */,
+				5EAF63602C86399800090101 /* AltIcons.swift in Sources */,
 				630DD48526E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
 				430E7A232C60649C005E1973 /* FontHelpers.swift in Sources */,
 				5EE0EC1C28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */,
@@ -2015,6 +2031,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "icon-flowers icon-cloud icon-bush icon-stephenKart icon-mykeKart icon-stephen icon-myke icon-l2cu icon-jony icon-questionblock icon-logo";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -2078,6 +2095,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "icon-flowers icon-cloud icon-bush icon-stephenKart icon-mykeKart icon-stephen icon-myke icon-l2cu icon-jony icon-questionblock icon-logo";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
