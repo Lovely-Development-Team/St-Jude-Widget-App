@@ -123,7 +123,7 @@ extension WidgetAppearance {
         switch self {
             
         case .yellow:
-            return [Self.stephenYellow, Self.stephenYellow.darker(by: 10)]
+            return [Self.stephenYellow, Self.stephenYellow.darker(by: 5)]
         case .red:
             return [Self.fireRed.darker(by: 10), Self.fireRed]
         case .blue:
