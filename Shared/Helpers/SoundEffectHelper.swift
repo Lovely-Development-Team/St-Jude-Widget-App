@@ -3,6 +3,7 @@
 //  St Jude
 //
 //  Created by Justin Hamilton on 9/19/23.
+//  Edited by Pierre-Luc Robitaille on 9/6/24
 //
 
 import Foundation
@@ -11,8 +12,8 @@ import AVKit
 class SoundEffectHelper {
     static var shared = SoundEffectHelper()
     
-    static let numMykeSounds: Int = 18
-    static let numStephenSounds: Int = 9
+    static let numMykeSounds: Int = 20
+    static let numStephenSounds: Int = 11
     
     enum SoundEffect: String, CaseIterable {
         case none = ""
