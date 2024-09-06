@@ -39,7 +39,6 @@ enum CampaignListSheet: Identifiable {
     case easterEgg
     case startHeadToHead
     case continueHeadToHead(campaign: Campaign)
-    case changeIcon
     
     var id: String {
         switch self {
@@ -55,8 +54,6 @@ enum CampaignListSheet: Identifiable {
             return "startHeadToHead"
         case let .continueHeadToHead(campaign):
             return "continueHeadToHead:\(campaign.id.uuidString)"
-        case .changeIcon:
-            return "changeIcon"
         }
     }
     
@@ -84,7 +81,7 @@ struct CampaignList: View {
     @State private var teamEventObservation = AppDatabase.shared.observeTeamEventObservation()
     @State private var teamEventCancellable: DatabaseCancellable?
     
-    @State private var showSheet: CampaignListSheet? = .changeIcon
+    @State private var showSheet: CampaignListSheet? = nil
     
     // MARK: 2022
     
@@ -730,18 +727,6 @@ struct CampaignList: View {
             SoundEffectHelper.shared.stop()
         }) { sheet in
             switch sheet {
-            case .changeIcon:
-                NavigationView {
-                    AltIconPicker()
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button("Done") {
-                                    showSheet = nil
-                                }
-                                .animation(.linear(duration: 0))
-                            }
-                        }
-                }
             case .aboutScreen:
                 NavigationView {
                     AboutView()
