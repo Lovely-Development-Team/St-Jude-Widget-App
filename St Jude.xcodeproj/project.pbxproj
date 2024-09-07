@@ -74,14 +74,14 @@
 		43F8A6142ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */; };
 		43F8A6162ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */; };
 		43F8A6172ABA9995007A9B7D /* RandomCampaignPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */; };
-		441664B52C8AC08E007779B0 /* myke19.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664B32C8AC08E007779B0 /* myke19.mp3 */; };
-		441664B62C8AC08E007779B0 /* myke19.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664B32C8AC08E007779B0 /* myke19.mp3 */; };
-		441664B72C8AC08E007779B0 /* myke20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664B42C8AC08E007779B0 /* myke20.mp3 */; };
-		441664B82C8AC08E007779B0 /* myke20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664B42C8AC08E007779B0 /* myke20.mp3 */; };
-		441664BB2C8AC096007779B0 /* stephen10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664B92C8AC096007779B0 /* stephen10.mp3 */; };
-		441664BC2C8AC096007779B0 /* stephen10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664B92C8AC096007779B0 /* stephen10.mp3 */; };
-		441664BD2C8AC096007779B0 /* stephen11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664BA2C8AC096007779B0 /* stephen11.mp3 */; };
-		441664BE2C8AC096007779B0 /* stephen11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664BA2C8AC096007779B0 /* stephen11.mp3 */; };
+		441664C12C8BE3A6007779B0 /* myke20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664BF2C8BE3A6007779B0 /* myke20.mp3 */; };
+		441664C22C8BE3A6007779B0 /* myke20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664BF2C8BE3A6007779B0 /* myke20.mp3 */; };
+		441664C32C8BE3A6007779B0 /* myke19.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664C02C8BE3A6007779B0 /* myke19.mp3 */; };
+		441664C42C8BE3A6007779B0 /* myke19.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664C02C8BE3A6007779B0 /* myke19.mp3 */; };
+		441664C72C8BE3B1007779B0 /* stephen11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664C52C8BE3B1007779B0 /* stephen11.mp3 */; };
+		441664C82C8BE3B1007779B0 /* stephen11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664C52C8BE3B1007779B0 /* stephen11.mp3 */; };
+		441664C92C8BE3B1007779B0 /* stephen10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664C62C8BE3B1007779B0 /* stephen10.mp3 */; };
+		441664CA2C8BE3B1007779B0 /* stephen10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 441664C62C8BE3B1007779B0 /* stephen10.mp3 */; };
 		5E1705C428C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C528C0C47000E70019 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C328C0C47000E70019 /* AboutView.swift */; };
 		5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1705C728C32F5D00E70019 /* TapToWobble.swift */; };
@@ -571,10 +571,10 @@
 		43F7863D2C72BF710011950C /* TappableCoin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableCoin.swift; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
 		43F8A6152ABA9995007A9B7D /* RandomCampaignPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView.swift; sourceTree = "<group>"; };
-		441664B32C8AC08E007779B0 /* myke19.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke19.mp3; path = ../../../../../audioclips/myke19.mp3; sourceTree = "<group>"; };
-		441664B42C8AC08E007779B0 /* myke20.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = myke20.mp3; path = ../../../../../audioclips/myke20.mp3; sourceTree = "<group>"; };
-		441664B92C8AC096007779B0 /* stephen10.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen10.mp3; path = ../../../../../audioclips/stephen10.mp3; sourceTree = "<group>"; };
-		441664BA2C8AC096007779B0 /* stephen11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = stephen11.mp3; path = ../../../../../audioclips/stephen11.mp3; sourceTree = "<group>"; };
+		441664BF2C8BE3A6007779B0 /* myke20.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = myke20.mp3; sourceTree = "<group>"; };
+		441664C02C8BE3A6007779B0 /* myke19.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = myke19.mp3; sourceTree = "<group>"; };
+		441664C52C8BE3B1007779B0 /* stephen11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stephen11.mp3; sourceTree = "<group>"; };
+		441664C62C8BE3B1007779B0 /* stephen10.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stephen10.mp3; sourceTree = "<group>"; };
 		5E1705C328C0C47000E70019 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		5E1705C728C32F5D00E70019 /* TapToWobble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToWobble.swift; sourceTree = "<group>"; };
 		5E1705CA28C332AA00E70019 /* EasterEggDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggDirectory.swift; sourceTree = "<group>"; };
@@ -839,8 +839,8 @@
 				5EAF63082C787ADA00090101 /* stephen7.mp3 */,
 				5EAF63102C787ADB00090101 /* stephen8.mp3 */,
 				5EAF630B2C787ADB00090101 /* stephen9.mp3 */,
-				441664B92C8AC096007779B0 /* stephen10.mp3 */,
-				441664BA2C8AC096007779B0 /* stephen11.mp3 */,
+				441664C62C8BE3B1007779B0 /* stephen10.mp3 */,
+				441664C52C8BE3B1007779B0 /* stephen11.mp3 */,
 			);
 			path = stephen;
 			sourceTree = "<group>";
@@ -875,8 +875,8 @@
 				5EAF63292C787B1300090101 /* myke16.mp3 */,
 				5EAF63332C787B1300090101 /* myke17.mp3 */,
 				5EAF632A2C787B1300090101 /* myke18.mp3 */,
-				441664B32C8AC08E007779B0 /* myke19.mp3 */,
-				441664B42C8AC08E007779B0 /* myke20.mp3 */,
+				441664C02C8BE3A6007779B0 /* myke19.mp3 */,
+				441664BF2C8BE3A6007779B0 /* myke20.mp3 */,
 			);
 			path = myke;
 			sourceTree = "<group>";
@@ -1454,8 +1454,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6348F9F726D6B5100031697F /* Assets.xcassets in Resources */,
+				441664C12C8BE3A6007779B0 /* myke20.mp3 in Resources */,
 				5EAF63152C787ADB00090101 /* stephen3.mp3 in Resources */,
 				5EAF63472C787B1300090101 /* myke8.mp3 in Resources */,
+				441664C32C8BE3A6007779B0 /* myke19.mp3 in Resources */,
 				5EAF63352C787B1300090101 /* myke7.mp3 in Resources */,
 				5EAF63452C787B1300090101 /* myke12.mp3 in Resources */,
 				5EAF634D2C787B1300090101 /* myke6.mp3 in Resources */,
@@ -1479,9 +1481,6 @@
 				5EAF634B2C787B1300090101 /* myke13.mp3 in Resources */,
 				5EAF63572C787B1300090101 /* myke11.mp3 in Resources */,
 				5EAF63412C787B1300090101 /* myke16.mp3 in Resources */,
-				441664BB2C8AC096007779B0 /* stephen10.mp3 in Resources */,
-				441664B52C8AC08E007779B0 /* myke19.mp3 in Resources */,
-				441664BD2C8AC096007779B0 /* stephen11.mp3 in Resources */,
 				5EAF633F2C787B1300090101 /* myke14.mp3 in Resources */,
 				4391F5132C74EDC200B1D5DD /* jump.mp3 in Resources */,
 				43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
@@ -1489,9 +1488,10 @@
 				5EAF633D2C787B1300090101 /* myke9.mp3 in Resources */,
 				5EAF631D2C787ADB00090101 /* stephen4.mp3 in Resources */,
 				4391F5112C74EDC200B1D5DD /* drumroll.mp3 in Resources */,
+				441664C92C8BE3B1007779B0 /* stephen10.mp3 in Resources */,
+				441664C72C8BE3B1007779B0 /* stephen11.mp3 in Resources */,
 				4391F5192C74EDC200B1D5DD /* moof.mp3 in Resources */,
 				5EAF63172C787ADB00090101 /* stephen9.mp3 in Resources */,
-				441664B72C8AC08E007779B0 /* myke20.mp3 in Resources */,
 				5EAF63032C7640D600090101 /* coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1501,8 +1501,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6348F9F826D6B5100031697F /* Assets.xcassets in Resources */,
+				441664C22C8BE3A6007779B0 /* myke20.mp3 in Resources */,
 				5EAF63162C787ADB00090101 /* stephen3.mp3 in Resources */,
 				5EAF63482C787B1300090101 /* myke8.mp3 in Resources */,
+				441664C42C8BE3A6007779B0 /* myke19.mp3 in Resources */,
 				5EAF63362C787B1300090101 /* myke7.mp3 in Resources */,
 				5EAF63462C787B1300090101 /* myke12.mp3 in Resources */,
 				5EAF634E2C787B1300090101 /* myke6.mp3 in Resources */,
@@ -1526,9 +1528,6 @@
 				5EAF634C2C787B1300090101 /* myke13.mp3 in Resources */,
 				5EAF63582C787B1300090101 /* myke11.mp3 in Resources */,
 				5EAF63422C787B1300090101 /* myke16.mp3 in Resources */,
-				441664BC2C8AC096007779B0 /* stephen10.mp3 in Resources */,
-				441664B62C8AC08E007779B0 /* myke19.mp3 in Resources */,
-				441664BE2C8AC096007779B0 /* stephen11.mp3 in Resources */,
 				5EAF63402C787B1300090101 /* myke14.mp3 in Resources */,
 				4391F5142C74EDC200B1D5DD /* jump.mp3 in Resources */,
 				43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */,
@@ -1536,9 +1535,10 @@
 				5EAF633E2C787B1300090101 /* myke9.mp3 in Resources */,
 				5EAF631E2C787ADB00090101 /* stephen4.mp3 in Resources */,
 				4391F5122C74EDC200B1D5DD /* drumroll.mp3 in Resources */,
+				441664CA2C8BE3B1007779B0 /* stephen10.mp3 in Resources */,
+				441664C82C8BE3B1007779B0 /* stephen11.mp3 in Resources */,
 				4391F51A2C74EDC200B1D5DD /* moof.mp3 in Resources */,
 				5EAF63182C787ADB00090101 /* stephen9.mp3 in Resources */,
-				441664B82C8AC08E007779B0 /* myke20.mp3 in Resources */,
 				5EAF63042C7640D600090101 /* coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
