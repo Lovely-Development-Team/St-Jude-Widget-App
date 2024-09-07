@@ -134,12 +134,15 @@ struct AltIconPicker: View {
         }, message: {
             Text("What could be hiding under here?")
         })
-        .alert("Icons!", isPresented: self.$showUnlockAlert, actions: {
+        .alert("What's this?", isPresented: self.$showUnlockAlert, actions: {
             Button(action: {
                 self.campaignChoiceID = TLD_CAMPAIGN
                 self.done(true)
             }, label: {
                 Text("Visit our campaign!")
+            })
+            Button(action: {}, label: {
+                Text("Maybe later")
             })
         }, message: {
             Text("Help us reach our milestone of \(formatCurrency(from: TLDMilestones.IconsUnlocked, currency: "USD", showFullCurrencySymbol: false).1) to unlock custom icons for the app!")
