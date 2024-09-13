@@ -109,13 +109,6 @@ struct TiltifyWidgetData: Equatable {
         return self.totalRaisedNumerical.multiplierToTwoDecimalPlaces(of: self.goal ?? 1)
     }
     
-    var progressBarAmount: Double? {
-        if(self.totalRaisedNumerical <= self.goal ?? 1) {
-            return self.percentageReached
-        }
-        return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: (self.goal ?? 1)))/(self.goal ?? 1)
-    }
-    
     init(from campaign: TiltifyCampaign) {
         self.id = campaign.publicId
         self.name = campaign.title

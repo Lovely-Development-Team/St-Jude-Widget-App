@@ -34,6 +34,7 @@ extension UserDefaults {
     static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
     static let coinCountKey = "coinCount"
     static let appAppearanceKey = "appAppearance"
+    static let disableCombosKey = "disableCombos"
     
     @objc var iconsUnlocked: Bool {
         get { bool(forKey: Self.iconsUnlockedKey) }
@@ -138,5 +139,10 @@ extension UserDefaults {
     @objc var appAppearance: Int {
         get { object(forKey: Self.appAppearanceKey) as? Int ?? 2 }
         set { UserDefaults.shared.set(newValue, forKey: Self.appAppearanceKey) }
+    }
+    
+    @objc var disableCombos: Bool {
+        get { bool(forKey: Self.disableCombosKey) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.disableCombosKey) }
     }
 }
