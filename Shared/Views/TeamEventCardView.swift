@@ -41,6 +41,28 @@ struct TeamEventCardView: View {
             .opacity(0.8)
     }
     
+    
+    
+    var barColor: Color {
+        guard let teamEvent = teamEvent else { return .accentColor }
+        
+        if(teamEvent.multiplier % 2 == 0) {
+            return .accentColor
+        } else {
+            return .brandYellow
+        }
+    }
+    
+    var fillColor: Color {
+        guard let teamEvent = teamEvent else { return .accentColor }
+        
+        if(teamEvent.multiplier % 2 == 0) {
+            return .brandYellow
+        } else {
+            return .accentColor
+        }
+    }
+    
     @ViewBuilder
     var contents: some View {
         VStack(spacing: 0) {
@@ -86,9 +108,17 @@ struct TeamEventCardView: View {
                 .opacity(0.8)
                 .padding(.bottom, 20)
             if let teamEvent = teamEvent {
-                if let percentageReached =  teamEvent.percentageReached {
-                    mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)
-                    //                    mainProgressBar(value: 0.5, color: appearance.fillColor)
+                if let progressBarAmount =  teamEvent.progressBarAmount {
+                    if(teamEvent.totalRaisedNumerical <= teamEvent.goalNumerical) {
+                        mainProgressBar(value: Float(progressBarAmount), color: appearance.fillColor)
+                    } else {
+                        HStack {
+                            Text("\(teamEvent.multiplier)x")
+                                .font(.headline)
+                            ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor)
+                                .frame(height: 10)
+                        }
+                    }
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {
