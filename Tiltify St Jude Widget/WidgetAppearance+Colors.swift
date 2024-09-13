@@ -119,6 +119,15 @@ extension WidgetAppearance {
         }
     }
     
+    var comboFillColor: Color {
+        switch self {
+        case .stjude, .stjudetrueblack, .purple, .red, .blue, .green:
+            return Self.relayYellow
+        default:
+            return Self.stjudeRed
+        }
+    }
+    
     var backgroundColors: [Color] {
         switch self {
             
