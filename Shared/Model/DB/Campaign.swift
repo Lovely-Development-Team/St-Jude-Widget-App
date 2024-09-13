@@ -116,13 +116,6 @@ struct Campaign: Identifiable, Hashable {
     var multiplier: Int {
         return self.totalRaisedNumerical.multiplierToTwoDecimalPlaces(of: self.goalNumerical)
     }
-    
-    var progressBarAmount: Double? {
-        if(self.totalRaisedNumerical <= self.goalNumerical) {
-            return self.percentageReached
-        }
-        return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
-    }
 }
 
 extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {

@@ -24,6 +24,7 @@ struct AboutView: View {
     @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
+    @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
     
     private var userColorScheme: ColorScheme? {
         switch self.appAppearance {
@@ -145,6 +146,31 @@ struct AboutView: View {
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                            }
+                        }
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    GroupBox {
+                        VStack {
+                            Text("Enable Combos")
+                            HStack {
+                                Button(action: {
+                                    disableCombos = false
+                                }) {
+                                    Text("Yes")
+                                        .foregroundColor(disableCombos ? .primary : .white)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                Button(action: {
+                                    disableCombos = true
+                                }) {
+                                    Text("No")
+                                        .foregroundColor(disableCombos ? .white : .primary)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? .accentColor : Color(uiColor: .systemGroupedBackground)))
                             }
                         }
                     }

@@ -27,6 +27,7 @@ struct EntryView: View {
     var mainProgressBarHeight: CGFloat = 15
     var mainProgressBarPixelScale: Double = .spriteScale
     var milestoneProgressBarHeight: CGFloat = 10
+    var disableCombos: Bool = false
 
     
     var showTwoMilestones: Bool {
@@ -59,11 +60,11 @@ struct EntryView: View {
     }
     
     var fillColor: Color {
-        return renderingMode == .vibrant ? .white : (self.campaign.multiplier % 2 == 0 ? appearance.comboFillColor : appearance.fillColor)
+        return renderingMode == .vibrant ? .white : (self.campaign.multiplier % 2 == 0 && !disableCombos ? appearance.comboFillColor : appearance.fillColor)
     }
     
     var barColor: Color {
-        return renderingMode == .vibrant ? .white : (self.campaign.multiplier % 2 == 0 ? appearance.fillColor : appearance.comboFillColor)
+        return renderingMode == .vibrant ? .black : (self.campaign.multiplier % 2 == 0 ? appearance.fillColor : appearance.comboFillColor)
     }
     
     var foregroundColor: Color {
@@ -105,8 +106,8 @@ struct EntryView: View {
                 Spacer()
             }
             
-            if let progressBarAmount = campaign.progressBarAmount {
-                if campaign.multiplier > 1 {
+            if let progressBarAmount = campaign.progressBarAmount(disableCombos: disableCombos) {
+                if campaign.multiplier > 1 && !disableCombos {
                     HStack {
                         Text("\(campaign.multiplier)x")
                             .font(.caption(disablePixelFont: disablePixelFont))

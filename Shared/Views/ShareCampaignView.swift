@@ -30,6 +30,7 @@ struct ShareCampaignView: View {
     @AppStorage(UserDefaults.shareScreenshotInitialAppearanceKey, store: UserDefaults.shared) private var appearance: WidgetAppearance = .yellow
     @AppStorage(UserDefaults.shareScreenshotDisablePixelThemeKey, store: UserDefaults.shared) private var disablePixelTheme: Bool = false
     @AppStorage(UserDefaults.shareScreenshotExport169Key, store: UserDefaults.shared) private var exportForInstagram: Bool = false
+    @AppStorage(UserDefaults.shareScreenshotDisableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
     
     @State private var renderedImage = Image(systemName: "photo")
     @State private var imageSize: CGSize = .zero
@@ -45,13 +46,13 @@ struct ShareCampaignView: View {
     }
     
     var instagramView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, additionalPadding: 40, mainProgressBarHeight: 30, mainProgressBarPixelScale: .spriteScale * 2, milestoneProgressBarHeight: 20)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, mainProgressBarHeight: 30, mainProgressBarPixelScale: .spriteScale * 2, milestoneProgressBarHeight: 20, disableCombos: disableCombos)
             .frame(width: CGSize.instagramStoryDimensions.width, height: CGSize.instagramStoryDimensions.height)
             .dynamicTypeSize(.accessibility3)
     }
     
     var standardView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, disableCombos: disableCombos)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
             .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
             .frame(minHeight: 169)
@@ -135,6 +136,8 @@ struct ShareCampaignView: View {
                         Divider().opacity(0.75)
                         Toggle("Export in 9:16", isOn: $exportForInstagram).padding(.trailing)
                         Divider().opacity(0.75)
+                        Toggle("Disable Combos", isOn: $disableCombos).padding(.trailing)
+                        Divider().opacity(0.75)
                         HStack(alignment: .firstTextBaseline) {
                             Text("Appearance")
                             Spacer()
@@ -199,6 +202,9 @@ struct ShareCampaignView: View {
             render()
         }
         .onChange(of: disablePixelTheme) { _ in
+            render()
+        }
+        .onChange(of: disableCombos) { _ in
             render()
         }
         .task {

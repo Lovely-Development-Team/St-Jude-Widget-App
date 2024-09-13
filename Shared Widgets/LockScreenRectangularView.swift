@@ -13,6 +13,7 @@ struct LockScreenRectangularView: View {
     let campaign: TiltifyWidgetData?
     var shouldShowFullCurrencySymbol: Bool = false
     var shouldShowGoalPercentage: Bool = false
+    var shouldDisableCombos: Bool = false
     
     var body: some View {
         if #available(iOS 17.0, *) {
@@ -35,8 +36,14 @@ struct LockScreenRectangularView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .minimumScaleFactor(0.2)
                 .fixedSize(horizontal: false, vertical: true)
-            ProgressBar(value: .constant(Float(campaign?.percentageReached ?? 0)), fillColor: .white, pixelScale: Double.spriteScale/2)
-                .frame(height: 6)
+            HStack {
+                if campaign?.multiplier ?? 1 > 1 && !shouldDisableCombos {
+                    Text("\(campaign?.multiplier ?? 1)x")
+                        .font(.caption)
+                }
+                ProgressBar(value: .constant(Float(campaign?.progressBarAmount(disableCombos: shouldDisableCombos) ?? 0)), fillColor: .white, pixelScale: Double.spriteScale/2)
+                    .frame(height: 6)
+            }
             if shouldShowGoalPercentage, let campaign = campaign, let percentage = campaign.shortPercentageReachedDescription {
                 Text("\(percentage) of \(campaign.goalDescription(showFullCurrencySymbol: shouldShowFullCurrencySymbol))")
                     .font(.caption)

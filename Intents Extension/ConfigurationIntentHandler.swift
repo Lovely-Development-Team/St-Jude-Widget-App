@@ -11,6 +11,10 @@ import Intents
 
 class ConfigurationIntentHandler: NSObject, ConfigurationIntentHandling {
     
+    func resolveDisableCombos(for intent: ConfigurationIntent) async -> INBooleanResolutionResult {
+        return .success(with: intent.disableCombos?.boolValue ?? false)
+    }
+    
     func resolveAppearance(for intent: ConfigurationIntent) async -> WidgetAppearanceResolutionResult {
         .success(with: intent.appearance)
     }

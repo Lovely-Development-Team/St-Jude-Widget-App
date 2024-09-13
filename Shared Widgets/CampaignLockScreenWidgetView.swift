@@ -44,6 +44,10 @@ struct CampaignLockScreenWidgetView : View {
     var shouldShouldFullCurrencySymbol: Bool {
         entry.configuration.showFullCurrencySymbol?.boolValue == true
     }
+    
+    var shouldDisableCombos: Bool {
+        entry.configuration.disableCombos?.boolValue == true
+    }
 
     var accessoryInlineText: String {
         var amount = entry.campaign?.totalRaisedDescription(showFullCurrencySymbol: shouldShouldFullCurrencySymbol) ?? "AMOUNT"
@@ -61,7 +65,7 @@ struct CampaignLockScreenWidgetView : View {
         if #available(iOSApplicationExtension 16.0, *) {
             switch family {
             case .accessoryRectangular:
-                LockScreenRectangularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
+                LockScreenRectangularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage, shouldDisableCombos: shouldDisableCombos)
             case .accessoryCircular:
                 LockScreenCircularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
             default:
