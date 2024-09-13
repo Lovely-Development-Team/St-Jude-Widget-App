@@ -66,6 +66,8 @@
 		4397FD652C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		4397FD662C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		4397FD672C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
+		43F348422C94B4D700769C11 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
+		43F348432C94B4D700769C11 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
 		43F7863E2C72BF710011950C /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
 		43F7863F2C72BF710011950C /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
 		43F786402C72BF710011950C /* TappableCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863D2C72BF710011950C /* TappableCoin.swift */; };
@@ -567,6 +569,7 @@
 		4391F5072C74EDC200B1D5DD /* moof.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = moof.mp3; sourceTree = "<group>"; };
 		4391F5082C74EDC200B1D5DD /* softmatt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = softmatt.mp3; sourceTree = "<group>"; };
 		4397FD612C64FF8000C0591B /* PixelRounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelRounding.swift; sourceTree = "<group>"; };
+		43F348412C94B4D700769C11 /* CampaignHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignHelpers.swift; sourceTree = "<group>"; };
 		43F7863C2C72BF710011950C /* SkyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyView.swift; sourceTree = "<group>"; };
 		43F7863D2C72BF710011950C /* TappableCoin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableCoin.swift; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
@@ -1206,6 +1209,7 @@
 		DE0F34BD26DA694100F268C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				43F348412C94B4D700769C11 /* CampaignHelpers.swift */,
 				5EF748C726DF748F008174DF /* CheckNewMilestones.swift */,
 				5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */,
 				5EF748C626DF748F008174DF /* Notifications.swift */,
@@ -1686,6 +1690,7 @@
 				5E1705C428C0C47000E70019 /* AboutView.swift in Sources */,
 				5E482E5028B7B03C00131DE1 /* CampaignView.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				43F348422C94B4D700769C11 /* CampaignHelpers.swift in Sources */,
 				5E5814AB2C6E39C70044662C /* AnimatedAdaptiveImage.swift in Sources */,
 				43F7863E2C72BF710011950C /* SkyView.swift in Sources */,
 				4397FD632C64FF8000C0591B /* PixelRounding.swift in Sources */,
@@ -1740,6 +1745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
+				43F348432C94B4D700769C11 /* CampaignHelpers.swift in Sources */,
 				431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */,
 				430E7A1A2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
 				4397FD642C64FF8000C0591B /* PixelRounding.swift in Sources */,
