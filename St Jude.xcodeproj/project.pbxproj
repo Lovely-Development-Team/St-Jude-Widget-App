@@ -49,6 +49,8 @@
 		4314971F2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */; };
 		431497212C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
 		431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
+		434C2C802C94B684000A4685 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
+		434C2C812C94B685000A4685 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
 		43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
@@ -1634,6 +1636,7 @@
 				5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
+				434C2C812C94B685000A4685 /* CampaignHelpers.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				5E5814B32C6EA4A80044662C /* ScaledNinePartImage.swift in Sources */,
 				4397FD672C64FF8000C0591B /* PixelRounding.swift in Sources */,
@@ -1898,6 +1901,7 @@
 				63ACEFF926D3C76E00F98023 /* CampaignTitle.swift in Sources */,
 				430E7A202C60649C005E1973 /* ImageHelpers.swift in Sources */,
 				63A6F9AE26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				434C2C802C94B684000A4685 /* CampaignHelpers.swift in Sources */,
 				5EEB569D2A9F95C2008AABF1 /* HeadToHead.swift in Sources */,
 				430E7A1B2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
 				63D0CCF928B108EF0073957E /* Persistence.swift in Sources */,
