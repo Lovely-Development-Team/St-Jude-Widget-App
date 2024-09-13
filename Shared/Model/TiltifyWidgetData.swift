@@ -106,10 +106,7 @@ struct TiltifyWidgetData: Equatable {
     }()
     
     var multiplier: Int {
-        if(self.totalRaisedNumerical <= self.goal ?? 1) {
-            return 1
-        }
-        return Int(floor(self.totalRaisedNumerical/(self.goal ?? 1)))+1
+        return self.totalRaisedNumerical.multiplierToTwoDecimalPlaces(of: self.goal ?? 1)
     }
     
     var progressBarAmount: Double? {

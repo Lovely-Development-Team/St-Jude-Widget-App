@@ -20,12 +20,12 @@ struct PixelRounding: ViewModifier {
                             HStack(spacing:-1) {
                                 Rectangle()
                                     .frame(width: round(10*self.pixelScale)+1,
-                                           height: geometry.size.height - round(((2*10)*self.pixelScale)))
+                                           height: max(0, geometry.size.height - round(((2*10)*self.pixelScale))))
                                 Rectangle()
-                                    .frame(width: geometry.size.width-round(((2*10)*self.pixelScale)))
+                                    .frame(width: max(0, geometry.size.width-round(((2*10)*self.pixelScale))))
                                 Rectangle()
                                     .frame(width: round(10*self.pixelScale)+1,
-                                           height: geometry.size.height - round(((2*10)*self.pixelScale)))
+                                           height: max(0, geometry.size.height - round(((2*10)*self.pixelScale))))
                             }
                         }
                 } else {
@@ -35,12 +35,12 @@ struct PixelRounding: ViewModifier {
                                 HStack(spacing:-1) {
                                     Rectangle()
                                         .frame(width: round(10*self.pixelScale)+1,
-                                               height: geometry.size.height - round(((2*10)*self.pixelScale)))
+                                               height: max(0, geometry.size.height - round(((2*10)*self.pixelScale))))
                                     Rectangle()
-                                        .frame(width: geometry.size.width-round(((2*10)*self.pixelScale)))
+                                        .frame(width: max(0, geometry.size.width-round(((2*10)*self.pixelScale))))
                                     Rectangle()
                                         .frame(width: round(10*self.pixelScale)+1,
-                                               height: geometry.size.height - round(((2*10)*self.pixelScale)))
+                                               height: max(0, geometry.size.height - round(((2*10)*self.pixelScale))))
                                 }
                             }
                         }
