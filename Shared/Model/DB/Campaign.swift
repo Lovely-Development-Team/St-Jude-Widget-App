@@ -114,10 +114,7 @@ struct Campaign: Identifiable, Hashable {
     }
     
     var multiplier: Int {
-        if(self.totalRaisedNumerical <= self.goalNumerical) {
-            return 1
-        }
-        return Int(floor(self.totalRaisedNumerical/self.goalNumerical))+1
+        return self.totalRaisedNumerical.multiplierToTwoDecimalPlaces(of: self.goalNumerical)
     }
     
     var progressBarAmount: Double? {
