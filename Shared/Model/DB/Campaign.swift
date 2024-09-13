@@ -113,6 +113,19 @@ struct Campaign: Identifiable, Hashable {
         URL(string: "https://donate.tiltify.com/@\(user.slug)/\(slug)")!
     }
     
+    var multiplier: Int {
+        if(self.totalRaisedNumerical <= self.goalNumerical) {
+            return 1
+        }
+        return Int(floor(self.totalRaisedNumerical/self.goalNumerical))+1
+    }
+    
+    var progressBarAmount: Double? {
+        if(self.totalRaisedNumerical <= self.goalNumerical) {
+            return self.percentageReached
+        }
+        return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
+    }
 }
 
 extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
