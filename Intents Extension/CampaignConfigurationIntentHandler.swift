@@ -10,6 +10,10 @@ import Intents
 
 
 class CampaignConfigurationIntentHandler: NSObject, CampaignLockScreenConfigurationIntentHandling {
+    func resolveDisableCombos(for intent: CampaignLockScreenConfigurationIntent) async -> INBooleanResolutionResult {
+        return .success(with: intent.disableCombos?.boolValue ?? false)
+    }
+    
         
     func resolveShowGoalPercentage(for intent: ConfigurationIntent) async -> INBooleanResolutionResult {
         return .success(with: intent.showGoalPercentage?.boolValue ?? true)

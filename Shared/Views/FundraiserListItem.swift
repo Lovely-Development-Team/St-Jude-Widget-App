@@ -26,6 +26,7 @@ struct FundraiserListItem: View {
     let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
     
     @State private var showShareLinkSheet: ShareURL? = nil
+    @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
     
     @ViewBuilder
     var disclosureIndicator: some View {
@@ -161,7 +162,7 @@ struct FundraiserListItem: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                     if let progressBarAmount = campaign.progressBarAmount {
                         HStack {
-                            if(self.campaign.multiplier > 1) {
+                            if self.campaign.multiplier > 1 && !UserDefaults.shared.disableCombos {
                                 Text("\(self.campaign.multiplier)x")
                                     .font(.headline)
                                 ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor)

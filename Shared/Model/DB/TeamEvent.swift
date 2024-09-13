@@ -52,13 +52,6 @@ struct TeamEvent: Identifiable, Hashable {
         return Int(floor(self.totalRaisedNumerical/self.goalNumerical))+1
     }
     
-    var progressBarAmount: Double? {
-        if(self.totalRaisedNumerical <= self.goalNumerical) {
-            return self.percentageReached
-        }
-        return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
-    }
-    
     var percentageReachedDescription: String? {
         guard let percentageReached = percentageReached else {
             return nil
