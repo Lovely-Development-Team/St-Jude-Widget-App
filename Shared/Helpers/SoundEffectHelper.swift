@@ -25,6 +25,8 @@ class SoundEffectHelper {
         case softMatt = "softmatt"
         case coin = "coin"
         case underworld = "underworld"
+        case mykeNice = "mykenice"
+        case stephenNice = "stephennice"
         
         var soundEffectPlayer: SoundEffectPlayer {
             switch self {

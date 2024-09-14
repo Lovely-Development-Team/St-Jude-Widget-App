@@ -106,6 +106,7 @@ struct CampaignList: View {
     @State private var showStephen: Bool = false
     
     @State private var showHeadToHeads: Bool = true
+    @State private var rotationAnimation: Bool = false
     
     @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
     
@@ -602,6 +603,10 @@ struct CampaignList: View {
                 }
             }
             .padding(.horizontal)
+            if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
+                AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
+                    .imageAtScale(scale: 0.5)
+            }
         }
     }
     
@@ -674,6 +679,14 @@ struct CampaignList: View {
                         }
                     }
                 }
+                .overlay(alignment: .bottom) {
+                    if !isLoading {
+                        AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
+                            .imageAtScale(scale: 0.5)
+                            .offset(y: 500)
+                    }
+                }
+                .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
             }
         }
         //        .background(BrandShapeBackground())
@@ -819,6 +832,14 @@ struct CampaignList: View {
                 showSheet = nil
             }
         }
+        .onChange(of: searchText, perform: { value in
+            if value.lowercased() == "do a barrel roll" {
+                rotationAnimation = false
+                withAnimation(.easeInOut(duration: 2.0)) {
+                    rotationAnimation = true
+                }
+            }
+        })
     }
     
     func starOrUnstar(campaign: Campaign) async {

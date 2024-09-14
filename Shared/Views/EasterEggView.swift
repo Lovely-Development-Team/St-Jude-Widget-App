@@ -36,6 +36,9 @@ struct EasterEggView: View {
         "I am so proud of the progress you've made.",
     ]
     
+    @State private var showCoinInput = false
+    @State private var coinInput = ""
+    
     init() {
         affirmationToShow = affirmations.randomElement() ?? "Teamwork makes the dream work!"
     }
@@ -106,20 +109,40 @@ struct EasterEggView: View {
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                     }
                     HStack {
+#if DEBUG
+                        GroupBox {
+                            VStack {
+                                Text("isNice: \(coinCount.isNice)")
+//                                    .padding(.top)
+                                Button(action: {
+                                    self.showCoinInput = true
+                                }, label: {
+                                    Image(systemName: "keyboard")
+                                })
+//                                .padding(.top)
+                            }
+                        }
+                        .groupBoxStyle(BlockGroupBoxStyle())
+#endif
                         Spacer()
                         GroupBox {
-                            HStack {
-                                TappableCoin(easterEggEnabled2024: easterEggEnabled2024, returns: true, offset: 0)
-                                ZStack(alignment: .trailing) {
-                                    Text("888")
-                                        .opacity(0)
-                                    Text(coinCount, format: .number.grouping(.never))
+                            VStack {
+                                HStack {
+                                    TappableCoin(easterEggEnabled2024: easterEggEnabled2024, returns: true, offset: 0)
+                                    ZStack(alignment: .trailing) {
+                                        Text("888")
+                                            .opacity(0)
+                                        Text(coinCount, format: .number.grouping(.never))
+                                    }
+                                }
+                                if UserDefaults.shared.userLevel > 1 {
+                                    Text("Level \(UserDefaults.shared.userLevel)")
                                 }
                             }
                         }
                         .groupBoxStyle(BlockGroupBoxStyle())
                     }
-                    .padding(.trailing)
+                    .padding(.horizontal)
                     .offset(y: -10)
                 }
             }
@@ -241,6 +264,17 @@ struct EasterEggView: View {
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
+        .alert("Coin Input", isPresented: self.$showCoinInput, actions: {
+            Button(action: {
+                UserDefaults.shared.coinCount = Int(self.coinInput) ?? 0
+                UserDefaults.shared.addCoin(numCoins: 0)
+            }, label: {
+                Text("OK")
+            })
+            TextField("Coin Input", text: self.$coinInput)
+        }, message: {
+            Text("coins!")
+        })
     }
 }
 

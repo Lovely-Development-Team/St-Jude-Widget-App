@@ -85,12 +85,56 @@ extension AdaptiveImage {
     
     @ViewBuilder
     static func flower(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .flower, dark: .flowerNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .flower1, dark: .flower1Night)
+    }
+    
+    static func flowerAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
+        return [
+            // repeat 4 times for a full rotation
+            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
+            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
+            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
+            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night),
+            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
+            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
+            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
+            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night),
+            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
+            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
+            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
+            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night),
+            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
+            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
+            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
+            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night)
+        ]
     }
     
     @ViewBuilder
     static func tallflower(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .tallflower, dark: .tallflowerNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night)
+    }
+    
+    static func tallFlowerAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
+        return [
+            // repeat 4 times for a full rotation
+            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
+            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
+            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
+            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night),
+            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
+            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
+            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
+            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night),
+            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
+            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
+            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
+            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night),
+            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
+            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
+            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
+            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night)
+        ]
     }
     
     @ViewBuilder
@@ -240,5 +284,9 @@ extension AdaptiveImage {
             AdaptiveImage(colorScheme: colorScheme, light: .daddy3),
             AdaptiveImage(colorScheme: colorScheme, light: .daddy4)
         ]
+    }
+    
+    static func weirdFish(colorScheme: ColorScheme) -> AdaptiveImage {
+        return AdaptiveImage(colorScheme: colorScheme, light: .weirdfishPixel)
     }
 }

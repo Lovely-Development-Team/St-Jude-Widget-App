@@ -35,6 +35,7 @@ extension UserDefaults {
     static let coinCountKey = "coinCount"
     static let appAppearanceKey = "appAppearance"
     static let disableCombosKey = "disableCombos"
+    static let userLevelKey = "userLevel"
     
     @objc var iconsUnlocked: Bool {
         get { bool(forKey: Self.iconsUnlockedKey) }
@@ -144,5 +145,29 @@ extension UserDefaults {
     @objc var disableCombos: Bool {
         get { bool(forKey: Self.disableCombosKey) }
         set { UserDefaults.shared.set(newValue, forKey: Self.disableCombosKey) }
+    }
+    
+    @objc var userLevel: Int {
+        get { object(forKey: Self.userLevelKey) as? Int ?? 1 }
+        set { UserDefaults.shared.set(newValue, forKey: Self.userLevelKey) }
+    }
+}
+
+extension UserDefaults {
+    func addCoin(numCoins: Int) {
+        var shouldShowNotification = false
+        
+        for i in self.coinCount...self.coinCount + numCoins {
+            if i % 1000 == 0 {
+                shouldShowNotification = true
+            }
+        }
+        
+        self.coinCount += numCoins
+        self.userLevel = Int(self.coinCount / 1000)+1
+        
+        if(shouldShowNotification) {
+            NotificationCenter.showGlobalAlert(title: "Level Up!", message: "You have leveled up to level \(UserDefaults.shared.userLevel)!")
+        }
     }
 }
