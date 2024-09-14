@@ -267,7 +267,7 @@ struct EasterEggView: View {
         .alert("Coin Input", isPresented: self.$showCoinInput, actions: {
             Button(action: {
                 UserDefaults.shared.coinCount = Int(self.coinInput) ?? 0
-                UserDefaults.shared.addCoin(numCoins: 0)
+                UserDefaults.shared.addCoin(numCoins: nil)
             }, label: {
                 Text("OK")
             })
