@@ -154,16 +154,20 @@ extension UserDefaults {
 }
 
 extension UserDefaults {
-    func addCoin(numCoins: Int) {
+    func addCoin(numCoins: Int?) {
         var shouldShowNotification = false
         
-        for i in self.coinCount...self.coinCount + numCoins {
-            if i % 1000 == 0 {
-                shouldShowNotification = true
+        if let numCoins = numCoins {
+            if(self.coinCount + numCoins >= 1000) {
+                for i in self.coinCount+1...self.coinCount + numCoins {
+                    if i % 1000 == 0 {
+                        shouldShowNotification = true
+                    }
+                }
             }
+            
+            self.coinCount += numCoins
         }
-        
-        self.coinCount += numCoins
         self.userLevel = Int(self.coinCount / 1000)+1
         
         if(shouldShowNotification) {
