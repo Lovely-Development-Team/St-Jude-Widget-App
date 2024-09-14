@@ -59,6 +59,8 @@
 		43716D7C2C962FAA00A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
 		43716D7D2C962FAA00A4BDEE /* IntHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D7A2C962FAA00A4BDEE /* IntHelpers.swift */; };
 		43716D7E2C962FAA00A4BDEE /* IntHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D7A2C962FAA00A4BDEE /* IntHelpers.swift */; };
+		43716D812C96316900A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
+		43716D822C96316900A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
 		43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
@@ -1624,6 +1626,7 @@
 				5E1705D528C506E000E70019 /* LockScreenInlineView.swift in Sources */,
 				430E7A272C60649C005E1973 /* FontHelpers.swift in Sources */,
 				4301B7F92AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
+				43716D822C96316900A4BDEE /* NotificationHelpers.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
 				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
 				5ECEF0632AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
@@ -1904,6 +1907,7 @@
 				5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
 				5EAF63002C738C3E00090101 /* SkyView.swift in Sources */,
 				5E5814B02C6EA46D0044662C /* BlockGroupBoxStyle.swift in Sources */,
+				43716D812C96316900A4BDEE /* NotificationHelpers.swift in Sources */,
 				5EF748D526DF74B7008174DF /* Notifications.swift in Sources */,
 				5E180C1D28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
