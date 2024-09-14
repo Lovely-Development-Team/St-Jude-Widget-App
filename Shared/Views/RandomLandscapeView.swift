@@ -32,6 +32,52 @@ struct LandscapeElement: Identifiable {
     var type: LandscapeElementType
     var offset: CGFloat = CGFloat.random(in: -25...25)
     
+    struct BushView: View {
+        var colorScheme: ColorScheme
+        @State private var showingEasterEgg: Bool = false
+        
+        var body: some View {
+            AdaptiveImage.bush(colorScheme: colorScheme)
+                .imageAtScale()
+                .background {
+                    AdaptiveImage.weirdFish(colorScheme: colorScheme)
+                        .imageAtScale()
+                        .opacity(showingEasterEgg ? 1.0 : 0.0)
+                        .offset(y: showingEasterEgg ? -20 : 0)
+                }
+                .onTapGesture {
+                    withAnimation {
+                        showingEasterEgg = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()+2.0, execute: {
+                            withAnimation {
+                                self.showingEasterEgg = false
+                            }
+                        })
+                    }
+                }
+        }
+    }
+    
+    struct FlowerView: View {
+        var colorScheme: ColorScheme
+        @State private var animating: Bool = false
+        var tall: Bool
+        
+        var body: some View {
+            Group {
+                if(self.tall) {
+                    AnimatedAdaptiveImage(idleImage: AdaptiveImage.tallflower(colorScheme: self.colorScheme), images: AdaptiveImage.tallFlowerAnimation(colorScheme: self.colorScheme), animating: self.$animating, playOnce: true)
+                } else {
+                    AnimatedAdaptiveImage(idleImage: AdaptiveImage.flower(colorScheme: self.colorScheme), images: AdaptiveImage.flowerAnimation(colorScheme: self.colorScheme), animating: self.$animating, playOnce: true)
+                }
+            }
+            .onTapGesture {
+                self.animating = true
+            }
+        }
+    }
+    
     @ViewBuilder
     func view(colorScheme: ColorScheme, easterEggEnabled: Bool) -> some View {
         switch self.type {
@@ -55,7 +101,11 @@ struct LandscapeElement: Identifiable {
                     AdaptiveImage.myke(colorScheme: colorScheme)
                         .imageAtScale()
                 }, onTap: {
-                    SoundEffectHelper.shared.play(.mykeRandom)
+                    if(UserDefaults.shared.coinCount.isNice) {
+                        SoundEffectHelper.shared.play(.mykeNice)
+                    } else {
+                        SoundEffectHelper.shared.play(.mykeRandom)
+                    }
                 })
             }
         case .stephen:
@@ -73,18 +123,19 @@ struct LandscapeElement: Identifiable {
                         .imageAtScale()
                         .scaleEffect(x: -1)
                 }, onTap: {
-                    SoundEffectHelper.shared.play(.stephenRandom)
+                    if(UserDefaults.shared.coinCount.isNice) {
+                        SoundEffectHelper.shared.play(.stephenNice)
+                    } else {
+                        SoundEffectHelper.shared.play(.stephenRandom)
+                    }
                 })
             }
         case .bush:
-            AdaptiveImage.bush(colorScheme: colorScheme)
-                .imageAtScale()
+            BushView(colorScheme: colorScheme)
         case .flower:
-            AdaptiveImage.flower(colorScheme: colorScheme)
-                .imageAtScale()
+            FlowerView(colorScheme: colorScheme, tall: false)
         case .tallflower:
-            AdaptiveImage.tallflower(colorScheme: colorScheme)
-                .imageAtScale()
+            FlowerView(colorScheme: colorScheme, tall: true)
         case .coin:
             TappableCoin(easterEggEnabled2024: easterEggEnabled)
         default:

@@ -296,12 +296,19 @@ struct AboutView: View {
     
 }
 
+struct FlowerPosition: Identifiable {
+    var id = UUID()
+    
+    var offset: CGFloat
+    var tall: Bool
+}
+
 struct AboutViewHeader: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var cloudMoved: Bool = false
     @State private var cloudOffset: CGFloat = 200
     @State private var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    @State private var flowers: [CGFloat] = []
+    @State private var flowers: [FlowerPosition] = []
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
@@ -324,11 +331,18 @@ struct AboutViewHeader: View {
         .background {
             ZStack(alignment: .bottom) {
                 SkyView()
-                ForEach(flowers, id: \.self) { flowerOffset in
-                    AdaptiveImage.flower(colorScheme: self.colorScheme)
-                        .imageAtScale(scale: Double.spriteScale)
-                        .transition(.move(edge: .bottom))
-                        .offset(x: flowerOffset, y: -20)
+                ForEach(flowers) { flower in
+                    if(flower.tall) {
+                        AdaptiveImage.tallflower(colorScheme: self.colorScheme)
+                            .imageAtScale(scale: Double.spriteScale)
+                            .transition(.move(edge: .bottom))
+                            .offset(x: flower.offset, y: -20)
+                    } else {
+                        AdaptiveImage.flower(colorScheme: self.colorScheme)
+                            .imageAtScale(scale: Double.spriteScale)
+                            .transition(.move(edge: .bottom))
+                            .offset(x: flower.offset, y: -20)
+                    }
                 }
             }
         }
@@ -343,7 +357,15 @@ struct AboutViewHeader: View {
                         bounceHaptics.impactOccurred()
 #endif
                         withAnimation {
-                            self.flowers.append(self.cloudOffset)
+                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: false))
+                        }
+                    }
+                    .onLongPressGesture(minimumDuration: 0.5) {
+#if !os(macOS)
+                        bounceHaptics.impactOccurred()
+#endif
+                        withAnimation {
+                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: true))
                         }
                     }
             }
