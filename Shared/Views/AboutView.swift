@@ -153,7 +153,7 @@ struct AboutView: View {
                     
                     GroupBox {
                         VStack {
-                            Text("Enable Combos")
+                            Text("Enable Goal Multipliers")
                             HStack {
                                 Button(action: {
                                     disableCombos = false

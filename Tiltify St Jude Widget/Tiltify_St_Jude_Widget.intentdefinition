@@ -133,7 +133,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>23A344</string>
+	<string>23G93</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>15F31d</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -588,7 +588,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Disable Combos</string>
+					<string>Disable Goal Multipliers</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>vhpxa4</string>
 					<key>INIntentParameterDisplayPriority</key>
@@ -1089,7 +1089,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Disable Combos</string>
+					<string>Disable Goal Multipliers</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>FDtNMy</string>
 					<key>INIntentParameterDisplayPriority</key>
@@ -1266,7 +1266,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Disable Combos</string>
+					<string>Disable Goal Multipliers</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>5t6bPY</string>
 					<key>INIntentParameterDisplayPriority</key>
@@ -1480,7 +1480,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Disable Combos</string>
+					<string>Disable Goal Multipliers</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>JNXF4y</string>
 					<key>INIntentParameterDisplayPriority</key>
