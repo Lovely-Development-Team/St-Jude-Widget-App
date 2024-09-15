@@ -136,7 +136,7 @@ struct ShareCampaignView: View {
                         Divider().opacity(0.75)
                         Toggle("Export in 9:16", isOn: $exportForInstagram).padding(.trailing)
                         Divider().opacity(0.75)
-                        Toggle("Disable Combos", isOn: $disableCombos).padding(.trailing)
+                        Toggle("Disable Goal Multipliers", isOn: $disableCombos).padding(.trailing)
                         Divider().opacity(0.75)
                         HStack(alignment: .firstTextBaseline) {
                             Text("Appearance")
