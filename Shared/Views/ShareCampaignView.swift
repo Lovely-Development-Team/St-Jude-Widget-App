@@ -46,7 +46,7 @@ struct ShareCampaignView: View {
     }
     
     var instagramView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, mainProgressBarHeight: 30, mainProgressBarPixelScale: .spriteScale * 2, milestoneProgressBarHeight: 20, disableCombos: disableCombos)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, additionalPadding: 40, mainProgressBarHeight: 30, mainProgressBarPixelScale: .spriteScale * 2, milestoneProgressBarHeight: 20, disableCombos: disableCombos)
             .frame(width: CGSize.instagramStoryDimensions.width, height: CGSize.instagramStoryDimensions.height)
             .dynamicTypeSize(.accessibility3)
     }
