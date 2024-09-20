@@ -48,9 +48,9 @@ struct TeamEventCardView: View {
         guard let teamEvent = teamEvent else { return .accentColor }
         
         if(teamEvent.multiplier % 2 == 0) {
-            return .accentColor
+            return .black
         } else {
-            return .brandYellow
+            return .accentColor
         }
     }
     
@@ -58,9 +58,9 @@ struct TeamEventCardView: View {
         guard let teamEvent = teamEvent else { return .accentColor }
         
         if(teamEvent.multiplier % 2 == 0) {
-            return .brandYellow
-        } else {
             return .accentColor
+        } else {
+            return .black
         }
     }
     
