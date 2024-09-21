@@ -133,7 +133,7 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>23G93</string>
+	<string>23A344</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>15F31d</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -1085,54 +1085,6 @@
 					<key>INIntentParameterType</key>
 					<string>Boolean</string>
 				</dict>
-				<dict>
-					<key>INIntentParameterConfigurable</key>
-					<true/>
-					<key>INIntentParameterDisplayName</key>
-					<string>Disable Goal Multipliers</string>
-					<key>INIntentParameterDisplayNameID</key>
-					<string>FDtNMy</string>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>9</integer>
-					<key>INIntentParameterMetadata</key>
-					<dict>
-						<key>INIntentParameterMetadataFalseDisplayName</key>
-						<string>false</string>
-						<key>INIntentParameterMetadataFalseDisplayNameID</key>
-						<string>GZuySn</string>
-						<key>INIntentParameterMetadataTrueDisplayName</key>
-						<string>true</string>
-						<key>INIntentParameterMetadataTrueDisplayNameID</key>
-						<string>TWrJh3</string>
-					</dict>
-					<key>INIntentParameterName</key>
-					<string>disableCombos</string>
-					<key>INIntentParameterPromptDialogs</key>
-					<array>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Configuration</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Disable combos?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>hF9tRm</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Primary</string>
-						</dict>
-					</array>
-					<key>INIntentParameterSupportsResolution</key>
-					<true/>
-					<key>INIntentParameterTag</key>
-					<integer>21</integer>
-					<key>INIntentParameterType</key>
-					<string>Boolean</string>
-				</dict>
 			</array>
 			<key>INIntentResponse</key>
 			<dict>
@@ -1259,54 +1211,6 @@
 					</array>
 					<key>INIntentParameterTag</key>
 					<integer>4</integer>
-					<key>INIntentParameterType</key>
-					<string>Boolean</string>
-				</dict>
-				<dict>
-					<key>INIntentParameterConfigurable</key>
-					<true/>
-					<key>INIntentParameterDisplayName</key>
-					<string>Disable Goal Multipliers</string>
-					<key>INIntentParameterDisplayNameID</key>
-					<string>5t6bPY</string>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>3</integer>
-					<key>INIntentParameterMetadata</key>
-					<dict>
-						<key>INIntentParameterMetadataFalseDisplayName</key>
-						<string>false</string>
-						<key>INIntentParameterMetadataFalseDisplayNameID</key>
-						<string>GZuySn</string>
-						<key>INIntentParameterMetadataTrueDisplayName</key>
-						<string>true</string>
-						<key>INIntentParameterMetadataTrueDisplayNameID</key>
-						<string>TWrJh3</string>
-					</dict>
-					<key>INIntentParameterName</key>
-					<string>disableCombos</string>
-					<key>INIntentParameterPromptDialogs</key>
-					<array>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Configuration</string>
-						</dict>
-						<dict>
-							<key>INIntentParameterPromptDialogCustom</key>
-							<true/>
-							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Disable combos?</string>
-							<key>INIntentParameterPromptDialogFormatStringID</key>
-							<string>2zjEvT</string>
-							<key>INIntentParameterPromptDialogType</key>
-							<string>Primary</string>
-						</dict>
-					</array>
-					<key>INIntentParameterSupportsResolution</key>
-					<true/>
-					<key>INIntentParameterTag</key>
-					<integer>5</integer>
 					<key>INIntentParameterType</key>
 					<string>Boolean</string>
 				</dict>
