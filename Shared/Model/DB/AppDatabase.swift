@@ -393,7 +393,7 @@ extension AppDatabase {
     
     func observeTeamEventObservation() -> ValueObservation<ValueReducers.Fetch<TeamEvent?>> {
         ValueObservation.trackingConstantRegion { db in
-            try AppDatabase.shared.fetchTeamEvent()
+            try AppDatabase.shared.fetchTeamEvent(using: db)
         }
     }
     
