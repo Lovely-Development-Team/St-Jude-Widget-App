@@ -85,13 +85,9 @@ struct CampaignList: View {
     
     // MARK: 2022
     
-    @State private var campaigns: [Campaign] = []
+    @State private var allCampaigns: [Campaign] = []
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
     @StateObject private var apiClient = ApiClient.shared
-    
-    var allCampaigns: [Campaign] {
-        campaigns.filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
-    }
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
@@ -119,6 +115,55 @@ struct CampaignList: View {
             return c1.id.uuidString < c2.id.uuidString
         }
         return c1.name.lowercased() < c2.name.lowercased()
+    }
+    
+    func sortCampaigns(_ campaigns: [Campaign]) -> [Campaign] {
+        return campaigns.sorted { c1, c2 in
+            if c1.isStarred && !c2.isStarred {
+                return true
+            }
+            if c2.isStarred && !c1.isStarred {
+                return false
+            }
+            switch fundraiserSortOrder {
+            case .byAmountRaised:
+                let v1 = c1.totalRaisedNumerical
+                let v2 = c2.totalRaisedNumerical
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
+                }
+                return v1 > v2
+            case .byGoal:
+                let v1 = c1.goalNumerical
+                let v2 = c2.goalNumerical
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
+                }
+                return v1 > v2
+            case .byPercentage:
+                let v1 = c1.percentageReached ?? 0
+                let v2 = c2.percentageReached ?? 0
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
+                }
+                return v1 > v2
+            case .byAmountRemaining:
+                var v1 = c1.goalNumerical - c1.totalRaisedNumerical
+                var v2 = c2.goalNumerical - c2.totalRaisedNumerical
+                if v1 <= 0 {
+                    v1 = .infinity
+                }
+                if v2 <= 0 {
+                    v2 = .infinity
+                }
+                if v1 == v2 {
+                    return compareNames(c1: c1, c2: c2)
+                }
+                return v1 < v2
+            default:
+                return compareNames(c1: c1, c2: c2)
+            }
+        }
     }
     
     var sortedCampaigns: [Campaign] {
@@ -173,9 +218,9 @@ struct CampaignList: View {
     var searchResults: [Campaign] {
         let query = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         if query.isEmpty {
-            return sortedCampaigns
+            return allCampaigns
         } else {
-            return sortedCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
+            return allCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
         }
     }
     
@@ -710,6 +755,12 @@ struct CampaignList: View {
         //        }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
+            Task {
+                let newAllCampaigns = sortCampaigns(allCampaigns)
+                DispatchQueue.main.async {
+                    allCampaigns = newAllCampaigns
+                }
+            }
         }
         .onChange(of: compactListMode) { newValue in
             UserDefaults.shared.campaignListCompactView = newValue
@@ -937,7 +988,7 @@ struct CampaignList: View {
         do {
             dataLogger.notice("Fetched stored fundraiser")
             try Task.checkCancellation()
-            campaigns = try await AppDatabase.shared.fetchAllCampaigns()
+            allCampaigns = sortCampaigns(try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) })
             dataLogger.notice("Fetched stored campaigns")
             let fetchedHeadToHeads = try await AppDatabase.shared.fetchAllHeadToHeads()
             withAnimation {
