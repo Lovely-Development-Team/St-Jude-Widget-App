@@ -107,8 +107,8 @@ struct CampaignList: View {
     @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728266450)
-    // let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let closingDate: Date? = Date(timeIntervalSince1970: 1728309641) // Date(timeIntervalSince1970: 1728309641)
+    let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -119,55 +119,6 @@ struct CampaignList: View {
     
     func sortCampaigns(_ campaigns: [Campaign]) -> [Campaign] {
         return campaigns.sorted { c1, c2 in
-            if c1.isStarred && !c2.isStarred {
-                return true
-            }
-            if c2.isStarred && !c1.isStarred {
-                return false
-            }
-            switch fundraiserSortOrder {
-            case .byAmountRaised:
-                let v1 = c1.totalRaisedNumerical
-                let v2 = c2.totalRaisedNumerical
-                if v1 == v2 {
-                    return compareNames(c1: c1, c2: c2)
-                }
-                return v1 > v2
-            case .byGoal:
-                let v1 = c1.goalNumerical
-                let v2 = c2.goalNumerical
-                if v1 == v2 {
-                    return compareNames(c1: c1, c2: c2)
-                }
-                return v1 > v2
-            case .byPercentage:
-                let v1 = c1.percentageReached ?? 0
-                let v2 = c2.percentageReached ?? 0
-                if v1 == v2 {
-                    return compareNames(c1: c1, c2: c2)
-                }
-                return v1 > v2
-            case .byAmountRemaining:
-                var v1 = c1.goalNumerical - c1.totalRaisedNumerical
-                var v2 = c2.goalNumerical - c2.totalRaisedNumerical
-                if v1 <= 0 {
-                    v1 = .infinity
-                }
-                if v2 <= 0 {
-                    v2 = .infinity
-                }
-                if v1 == v2 {
-                    return compareNames(c1: c1, c2: c2)
-                }
-                return v1 < v2
-            default:
-                return compareNames(c1: c1, c2: c2)
-            }
-        }
-    }
-    
-    var sortedCampaigns: [Campaign] {
-        return allCampaigns.sorted { c1, c2 in
             if c1.isStarred && !c2.isStarred {
                 return true
             }
@@ -299,48 +250,31 @@ struct CampaignList: View {
         if let closingDate = closingDate {
             VStack {
                 if campaignsHaveClosed {
-                    Text("Fundraisers are now closed!")
-                        .font(.title2)
-                        .bold()
-                        .multilineTextAlignment(.leading)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    HStack(alignment: .top) {
-                        VStack {
-                            Group {
-                                Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
-                            }
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    GroupBox {
+                        VStack(spacing: 5) {
+                            Text("Fundraisers are now closed!")
+                                .font(.title2)
+                                .bold()
+                                .multilineTextAlignment(.leading)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
+                                .multilineTextAlignment(.leading)
                         }
-//                        Image(showStephen ? .stephen : .myke)
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 60)
-                        Group {
-                            if(self.showStephen) {
-                                AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                                    .imageAtScale()
-                            } else {
-                                AdaptiveImage.myke(colorScheme: self.colorScheme)
-                                    .imageAtScale()
-                            }
-                        }
-                            .tapToWobble(anchor: .center)
                     }
+                    .foregroundColor(.white)
+                    .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
                 } else {
-                    Group {
+                    GroupBox {
                         Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
                     }
                     .font(.title2)
+                    .foregroundColor(.white)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
                 }
             }
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.accentColor)
-            .padding(.bottom)
         }
     }
     
@@ -687,7 +621,7 @@ struct CampaignList: View {
         /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
         /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
         /// trigger on the widget tap instead
-        ForEach(sortedCampaigns, id: \.id) { campaign in
+        ForEach(allCampaigns, id: \.id) { campaign in
             NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
                 EmptyView()
             }
@@ -706,11 +640,11 @@ struct CampaignList: View {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
                     topView
-                    countdownView
                     
                     VStack() {
+                        countdownView
+                            .padding([.top, .horizontal])
                         headToHeadListView
-                            .padding(.top)
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
                         fundraiserListView
                         easterEggView
