@@ -24,7 +24,7 @@ struct CountdownView: View {
                         GroupBox {
                             VStack(spacing: 5) {
                                 Text("Fundraisers are now closed!")
-                                    .font(.title2)
+                                    .font(.title3)
                                     .bold()
                                     .multilineTextAlignment(.leading)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -51,7 +51,7 @@ struct CountdownView: View {
                                 showAbsoluteDate.toggle()
                             }
                         }
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundColor(.white)
 //                        .lineLimit(1)
 //                        .minimumScaleFactor(0.5)
