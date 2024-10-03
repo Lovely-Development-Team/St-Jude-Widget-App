@@ -217,6 +217,8 @@
 		5EAF635B2C830DFD00090101 /* underworld.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5EAF63592C830DFD00090101 /* underworld.mp3 */; };
 		5EAF635E2C86398A00090101 /* AltIconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAF635D2C86398A00090101 /* AltIconPicker.swift */; };
 		5EAF63602C86399800090101 /* AltIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAF635F2C86399800090101 /* AltIcons.swift */; };
+		5EC372C52CAE6F7B00559BE4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */; };
+		5EC372C62CAE6F7B00559BE4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */; };
 		5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */; };
 		5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */; };
 		5EC3B82428C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */; };
@@ -649,6 +651,7 @@
 		5EAF63592C830DFD00090101 /* underworld.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = underworld.mp3; sourceTree = "<group>"; };
 		5EAF635D2C86398A00090101 /* AltIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltIconPicker.swift; sourceTree = "<group>"; };
 		5EAF635F2C86399800090101 /* AltIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltIcons.swift; sourceTree = "<group>"; };
+		5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraiserIntentHandler.swift; sourceTree = "<group>"; };
 		5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRewardExtension.swift; sourceTree = "<group>"; };
 		5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraisingEventIntentHandler.swift; sourceTree = "<group>"; };
@@ -1125,6 +1128,7 @@
 				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
 				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 				5ED5638528AEBAC5004A65A5 /* CampaignList.swift */,
+				5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */,
 				5E253D9628B64DE300CF024F /* FundraiserListItem.swift */,
 				5E482E4F28B7B03C00131DE1 /* CampaignView.swift */,
 				5EAF63052C77341100090101 /* MilestoneListView.swift */,
@@ -1739,6 +1743,7 @@
 				63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				5E253D9728B64DE300CF024F /* FundraiserListItem.swift in Sources */,
 				5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */,
+				5EC372C52CAE6F7B00559BE4 /* CountdownView.swift in Sources */,
 				5EC5147828D50F7E00CB00DC /* DonorList.swift in Sources */,
 				63D0CCF728B108EF0073957E /* Persistence.swift in Sources */,
 				63D0CCFE28B117390073957E /* Campaign.swift in Sources */,
@@ -1833,6 +1838,7 @@
 				5E1705C928C32F5D00E70019 /* TapToWobble.swift in Sources */,
 				6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				430E7A2D2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
+				5EC372C62CAE6F7B00559BE4 /* CountdownView.swift in Sources */,
 				43F786412C72BF710011950C /* TappableCoin.swift in Sources */,
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				5E7C2FFA28C521BB00A9B0D5 /* UnicornView.swift in Sources */,

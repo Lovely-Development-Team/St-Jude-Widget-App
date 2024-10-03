@@ -98,7 +98,6 @@ struct CampaignList: View {
     
     @State private var isRefreshing: Bool = false
     @State private var isLoading: Bool = true
-    @State private var campaignsHaveClosed: Bool = false
     @State private var showStephen: Bool = false
     
     @State private var showHeadToHeads: Bool = true
@@ -107,8 +106,6 @@ struct CampaignList: View {
     @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = Date(timeIntervalSince1970: 1728309641) // Date(timeIntervalSince1970: 1728309641)
-    let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -195,8 +192,6 @@ struct CampaignList: View {
                     Label("Remove Head to Head", image: "trash.pixel")
                 }
             }
-            //            .tint(.white)
-            //            .padding(.top)
         }
         .compositingGroup()
     }
@@ -244,40 +239,7 @@ struct CampaignList: View {
             }
         }
     }
-    
-    @ViewBuilder
-    var countdownView: some View {
-        if let closingDate = closingDate {
-            VStack {
-                if campaignsHaveClosed {
-                    GroupBox {
-                        VStack(spacing: 5) {
-                            Text("Fundraisers are now closed!")
-                                .font(.title2)
-                                .bold()
-                                .multilineTextAlignment(.leading)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
-                                .multilineTextAlignment(.leading)
-                        }
-                    }
-                    .foregroundColor(.white)
-                    .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
-                } else {
-                    GroupBox {
-                        Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
-                    }
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
-                }
-            }
-        }
-    }
-    
+        
     @ViewBuilder
     var headToHeadListView: some View {
         GroupBox {
@@ -326,18 +288,7 @@ struct CampaignList: View {
                             })
                             .buttonStyle(BlockButtonStyle(tint: .brandBlue))
                             .foregroundStyle(Color.white)
-                            //                            .fullWidth(alignment: .center)
-                            //                            .padding()
-                            //                            .background(
-                            //                                RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
-                            //                            )
-                            //                            .overlay(
-                            //                                RoundedRectangle(cornerRadius: 10)
-                            //                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
-                            //                            )
                         }
-                        //                        .padding(.horizontal)
-                        //                        .padding(.top, 5)
                     }
                 } else {
                     if showHeadToHeads {
@@ -345,7 +296,6 @@ struct CampaignList: View {
                             headToHeadList
                         }
                     }
-                    //                    .padding(.horizontal)
                 }
             }
         }
@@ -537,12 +487,7 @@ struct CampaignList: View {
                                 .font(.headline)
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.black)
-                                //                                .padding(10)
-                                //                            .padding(.horizontal, 20)
                                 .buttonStyle(BlockButtonStyle(tint: .white))
-                                //                                    .background(Color.accentColor)
-                                //                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                //                                    .padding([.bottom, .horizontal])
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -632,7 +577,6 @@ struct CampaignList: View {
                 EmptyView()
             }
         }
-        //                        }
     }
     
     var body: some View {
@@ -642,7 +586,7 @@ struct CampaignList: View {
                     topView
                     
                     VStack() {
-                        countdownView
+                        CountdownView()
                             .padding([.top, .horizontal])
                         headToHeadListView
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
@@ -671,7 +615,6 @@ struct CampaignList: View {
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
             }
         }
-        //        .background(BrandShapeBackground())
         .refreshable {
             await refresh()
         }
@@ -680,13 +623,6 @@ struct CampaignList: View {
                 await refresh(generateLandscape: false)
             }
         }
-        //        .onReceive(countdownTimer) { _ in
-        //            if let closingDate = closingDate {
-        //                withAnimation {
-        //                    campaignsHaveClosed = closingDate < Date()
-        //                }
-        //            }
-        //        }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
             Task {
@@ -703,10 +639,6 @@ struct CampaignList: View {
             UserDefaults.shared.expandHeadToHeadSection = newValue
         }
         .onAppear {
-            
-            if let closingDate = closingDate {
-                campaignsHaveClosed = closingDate < Date()
-            }
             showStephen = Bool.random()
             showHeadToHeads = UserDefaults.shared.expandHeadToHeadSection
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
@@ -744,8 +676,6 @@ struct CampaignList: View {
             case .randomPicker:
                 NavigationView {
                     RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
-                    //                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
-                    //                                             allCampaigns: campaigns)
                         .navigationTitle("Pick a block!")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
