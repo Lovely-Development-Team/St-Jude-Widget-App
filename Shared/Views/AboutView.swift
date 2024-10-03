@@ -24,6 +24,7 @@ struct AboutView: View {
     @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
+    @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
     
     private var userColorScheme: ColorScheme? {
         switch self.appAppearance {
@@ -152,6 +153,31 @@ struct AboutView: View {
                     
                     GroupBox {
                         VStack {
+                            Text("Enable Goal Multipliers")
+                            HStack {
+                                Button(action: {
+                                    disableCombos = false
+                                }) {
+                                    Text("Yes")
+                                        .foregroundColor(disableCombos ? .primary : .white)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? Color(uiColor: .systemGroupedBackground) : .accentColor))
+                                Button(action: {
+                                    disableCombos = true
+                                }) {
+                                    Text("No")
+                                        .foregroundColor(disableCombos ? .white : .primary)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+                            }
+                        }
+                    }
+                    .groupBoxStyle(BlockGroupBoxStyle())
+                    
+                    GroupBox {
+                        VStack {
                             Text("Appearance")
                             HStack {
                                 Button(action: {
@@ -270,12 +296,19 @@ struct AboutView: View {
     
 }
 
+struct FlowerPosition: Identifiable {
+    var id = UUID()
+    
+    var offset: CGFloat
+    var tall: Bool
+}
+
 struct AboutViewHeader: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var cloudMoved: Bool = false
     @State private var cloudOffset: CGFloat = 200
     @State private var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    @State private var flowers: [CGFloat] = []
+    @State private var flowers: [FlowerPosition] = []
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
 #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
@@ -298,11 +331,18 @@ struct AboutViewHeader: View {
         .background {
             ZStack(alignment: .bottom) {
                 SkyView()
-                ForEach(flowers, id: \.self) { flowerOffset in
-                    AdaptiveImage.flower(colorScheme: self.colorScheme)
-                        .imageAtScale(scale: Double.spriteScale)
-                        .transition(.move(edge: .bottom))
-                        .offset(x: flowerOffset, y: -20)
+                ForEach(flowers) { flower in
+                    if(flower.tall) {
+                        AdaptiveImage.tallflower(colorScheme: self.colorScheme)
+                            .imageAtScale(scale: Double.spriteScale)
+                            .transition(.move(edge: .bottom))
+                            .offset(x: flower.offset, y: -20)
+                    } else {
+                        AdaptiveImage.flower(colorScheme: self.colorScheme)
+                            .imageAtScale(scale: Double.spriteScale)
+                            .transition(.move(edge: .bottom))
+                            .offset(x: flower.offset, y: -20)
+                    }
                 }
             }
         }
@@ -317,7 +357,15 @@ struct AboutViewHeader: View {
                         bounceHaptics.impactOccurred()
 #endif
                         withAnimation {
-                            self.flowers.append(self.cloudOffset)
+                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: false))
+                        }
+                    }
+                    .onLongPressGesture(minimumDuration: 0.5) {
+#if !os(macOS)
+                        bounceHaptics.impactOccurred()
+#endif
+                        withAnimation {
+                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: true))
                         }
                     }
             }

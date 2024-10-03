@@ -29,4 +29,15 @@ extension Double {
     func roundDown(toNearest value: Double) -> Double {
         return floor(self/value)*value
     }
+    
+    func multiplierToTwoDecimalPlaces(of other: Double) -> Int {
+        if(self <= other) {
+            return 1
+        }
+        let goalInCents = Int(other * 100)
+        let totalInCents = Int(self * 100)
+        let (q, r) = totalInCents.quotientAndRemainder(dividingBy: goalInCents)
+        return q + min(r, 1)
+    }
+    
 }

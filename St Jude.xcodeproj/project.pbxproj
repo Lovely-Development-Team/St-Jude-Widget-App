@@ -49,6 +49,18 @@
 		4314971F2C6716CD001312AB /* PressAndHoldButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */; };
 		431497212C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
 		431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431497202C6716D8001312AB /* UndegroundBackground.swift */; };
+		434C2C802C94B684000A4685 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
+		434C2C812C94B685000A4685 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
+		43716D752C962F9200A4BDEE /* mykenice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43716D732C962F9200A4BDEE /* mykenice.mp3 */; };
+		43716D762C962F9200A4BDEE /* mykenice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43716D732C962F9200A4BDEE /* mykenice.mp3 */; };
+		43716D772C962F9200A4BDEE /* stephennice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43716D742C962F9200A4BDEE /* stephennice.mp3 */; };
+		43716D782C962F9200A4BDEE /* stephennice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43716D742C962F9200A4BDEE /* stephennice.mp3 */; };
+		43716D7B2C962FAA00A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
+		43716D7C2C962FAA00A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
+		43716D7D2C962FAA00A4BDEE /* IntHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D7A2C962FAA00A4BDEE /* IntHelpers.swift */; };
+		43716D7E2C962FAA00A4BDEE /* IntHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D7A2C962FAA00A4BDEE /* IntHelpers.swift */; };
+		43716D812C96316900A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
+		43716D822C96316900A4BDEE /* NotificationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */; };
 		43743F382C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		43743F392C63CA7800FF0001 /* ChicagoFLF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */; };
 		439028E72AA8097200AEC63E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439028E62AA8097200AEC63E /* LaunchScreen.storyboard */; };
@@ -66,6 +78,8 @@
 		4397FD652C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		4397FD662C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
 		4397FD672C64FF8000C0591B /* PixelRounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397FD612C64FF8000C0591B /* PixelRounding.swift */; };
+		43F348422C94B4D700769C11 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
+		43F348432C94B4D700769C11 /* CampaignHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348412C94B4D700769C11 /* CampaignHelpers.swift */; };
 		43F7863E2C72BF710011950C /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
 		43F7863F2C72BF710011950C /* SkyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863C2C72BF710011950C /* SkyView.swift */; };
 		43F786402C72BF710011950C /* TappableCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F7863D2C72BF710011950C /* TappableCoin.swift */; };
@@ -203,6 +217,8 @@
 		5EAF635B2C830DFD00090101 /* underworld.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5EAF63592C830DFD00090101 /* underworld.mp3 */; };
 		5EAF635E2C86398A00090101 /* AltIconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAF635D2C86398A00090101 /* AltIconPicker.swift */; };
 		5EAF63602C86399800090101 /* AltIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAF635F2C86399800090101 /* AltIcons.swift */; };
+		5EC372C52CAE6F7B00559BE4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */; };
+		5EC372C62CAE6F7B00559BE4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */; };
 		5EC3B82028C9191F003E6CC6 /* GetFundraiserIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */; };
 		5EC3B82228C91ECC003E6CC6 /* ShortcutRewardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */; };
 		5EC3B82428C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */; };
@@ -560,6 +576,10 @@
 		4314971A2C6716AB001312AB /* RandomCampaignPickerView2024.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomCampaignPickerView2024.swift; sourceTree = "<group>"; };
 		4314971D2C6716CD001312AB /* PressAndHoldButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressAndHoldButtonStyle.swift; sourceTree = "<group>"; };
 		431497202C6716D8001312AB /* UndegroundBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndegroundBackground.swift; sourceTree = "<group>"; };
+		43716D732C962F9200A4BDEE /* mykenice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mykenice.mp3; sourceTree = "<group>"; };
+		43716D742C962F9200A4BDEE /* stephennice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stephennice.mp3; sourceTree = "<group>"; };
+		43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelpers.swift; sourceTree = "<group>"; };
+		43716D7A2C962FAA00A4BDEE /* IntHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntHelpers.swift; sourceTree = "<group>"; };
 		43743F372C63CA7800FF0001 /* ChicagoFLF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ChicagoFLF.ttf; sourceTree = "<group>"; };
 		439028E62AA8097200AEC63E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4391F5012C74EDC200B1D5DD /* drumroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumroll.mp3; sourceTree = "<group>"; };
@@ -567,6 +587,7 @@
 		4391F5072C74EDC200B1D5DD /* moof.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = moof.mp3; sourceTree = "<group>"; };
 		4391F5082C74EDC200B1D5DD /* softmatt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = softmatt.mp3; sourceTree = "<group>"; };
 		4397FD612C64FF8000C0591B /* PixelRounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelRounding.swift; sourceTree = "<group>"; };
+		43F348412C94B4D700769C11 /* CampaignHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignHelpers.swift; sourceTree = "<group>"; };
 		43F7863C2C72BF710011950C /* SkyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyView.swift; sourceTree = "<group>"; };
 		43F7863D2C72BF710011950C /* TappableCoin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableCoin.swift; sourceTree = "<group>"; };
 		43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectHelper.swift; sourceTree = "<group>"; };
@@ -630,6 +651,7 @@
 		5EAF63592C830DFD00090101 /* underworld.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = underworld.mp3; sourceTree = "<group>"; };
 		5EAF635D2C86398A00090101 /* AltIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltIconPicker.swift; sourceTree = "<group>"; };
 		5EAF635F2C86399800090101 /* AltIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltIcons.swift; sourceTree = "<group>"; };
+		5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		5EC3B81F28C9191F003E6CC6 /* GetFundraiserIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraiserIntentHandler.swift; sourceTree = "<group>"; };
 		5EC3B82128C91ECC003E6CC6 /* ShortcutRewardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRewardExtension.swift; sourceTree = "<group>"; };
 		5EC3B82328C9360E003E6CC6 /* GetFundraisingEventIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFundraisingEventIntentHandler.swift; sourceTree = "<group>"; };
@@ -850,6 +872,8 @@
 			children = (
 				4391F5072C74EDC200B1D5DD /* moof.mp3 */,
 				4391F5082C74EDC200B1D5DD /* softmatt.mp3 */,
+				43716D732C962F9200A4BDEE /* mykenice.mp3 */,
+				43716D742C962F9200A4BDEE /* stephennice.mp3 */,
 			);
 			path = easteregg;
 			sourceTree = "<group>";
@@ -1104,6 +1128,7 @@
 				5EF748CC26DF749A008174DF /* NotificationSettings.swift */,
 				D544692526DFE14D00EA04C9 /* EasterEggView.swift */,
 				5ED5638528AEBAC5004A65A5 /* CampaignList.swift */,
+				5EC372C42CAE6F7B00559BE4 /* CountdownView.swift */,
 				5E253D9628B64DE300CF024F /* FundraiserListItem.swift */,
 				5E482E4F28B7B03C00131DE1 /* CampaignView.swift */,
 				5EAF63052C77341100090101 /* MilestoneListView.swift */,
@@ -1206,6 +1231,7 @@
 		DE0F34BD26DA694100F268C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				43F348412C94B4D700769C11 /* CampaignHelpers.swift */,
 				5EF748C726DF748F008174DF /* CheckNewMilestones.swift */,
 				5EF748C826DF748F008174DF /* CheckSignificantAmounts.swift */,
 				5EF748C626DF748F008174DF /* Notifications.swift */,
@@ -1217,6 +1243,8 @@
 				5E7C2FFB28C5403600A9B0D5 /* SearchBar.swift */,
 				43F8A6122ABA9917007A9B7D /* SoundEffectHelper.swift */,
 				5EEB56A42AA09DF1008AABF1 /* TextHelpers.swift */,
+				43716D7A2C962FAA00A4BDEE /* IntHelpers.swift */,
+				43716D792C962FAA00A4BDEE /* NotificationHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1467,6 +1495,7 @@
 				5EAF631F2C787ADB00090101 /* stephen6.mp3 in Resources */,
 				5EAF634F2C787B1300090101 /* myke5.mp3 in Resources */,
 				5EAF633B2C787B1300090101 /* myke15.mp3 in Resources */,
+				43716D752C962F9200A4BDEE /* mykenice.mp3 in Resources */,
 				5EAF63132C787ADB00090101 /* stephen1.mp3 in Resources */,
 				4391F51B2C74EDC200B1D5DD /* softmatt.mp3 in Resources */,
 				5EAF63112C787ADB00090101 /* stephen7.mp3 in Resources */,
@@ -1475,6 +1504,7 @@
 				5EAF63532C787B1300090101 /* myke10.mp3 in Resources */,
 				5EAF63392C787B1300090101 /* myke1.mp3 in Resources */,
 				5EAF63512C787B1300090101 /* myke4.mp3 in Resources */,
+				43716D772C962F9200A4BDEE /* stephennice.mp3 in Resources */,
 				5EAF63212C787ADB00090101 /* stephen8.mp3 in Resources */,
 				5EAF63492C787B1300090101 /* myke3.mp3 in Resources */,
 				5EAF635A2C830DFD00090101 /* underworld.mp3 in Resources */,
@@ -1514,6 +1544,7 @@
 				5EAF63202C787ADB00090101 /* stephen6.mp3 in Resources */,
 				5EAF63502C787B1300090101 /* myke5.mp3 in Resources */,
 				5EAF633C2C787B1300090101 /* myke15.mp3 in Resources */,
+				43716D762C962F9200A4BDEE /* mykenice.mp3 in Resources */,
 				5EAF63142C787ADB00090101 /* stephen1.mp3 in Resources */,
 				4391F51C2C74EDC200B1D5DD /* softmatt.mp3 in Resources */,
 				5EAF63122C787ADB00090101 /* stephen7.mp3 in Resources */,
@@ -1522,6 +1553,7 @@
 				5EAF63542C787B1300090101 /* myke10.mp3 in Resources */,
 				5EAF633A2C787B1300090101 /* myke1.mp3 in Resources */,
 				5EAF63522C787B1300090101 /* myke4.mp3 in Resources */,
+				43716D782C962F9200A4BDEE /* stephennice.mp3 in Resources */,
 				5EAF63222C787ADB00090101 /* stephen8.mp3 in Resources */,
 				5EAF634A2C787B1300090101 /* myke3.mp3 in Resources */,
 				5EAF635B2C830DFD00090101 /* underworld.mp3 in Resources */,
@@ -1598,6 +1630,7 @@
 				5E1705D528C506E000E70019 /* LockScreenInlineView.swift in Sources */,
 				430E7A272C60649C005E1973 /* FontHelpers.swift in Sources */,
 				4301B7F92AA17E0B00B4F9DA /* HeadToHeadWidgetView.swift in Sources */,
+				43716D822C96316900A4BDEE /* NotificationHelpers.swift in Sources */,
 				63574A4026D65C8100A2D495 /* EntryView.swift in Sources */,
 				5EF748D626DF74B7008174DF /* Notifications.swift in Sources */,
 				5ECEF0632AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
@@ -1630,6 +1663,7 @@
 				5EF748D026DF74B0008174DF /* CheckNewMilestones.swift in Sources */,
 				63574A1726D658FD00A2D495 /* macOS_Widget.swift in Sources */,
 				DE0F34C226DA6A8E00F268C9 /* DeviceType.swift in Sources */,
+				434C2C812C94B685000A4685 /* CampaignHelpers.swift in Sources */,
 				63574A4226D65DAA00A2D495 /* ProgressBar.swift in Sources */,
 				5E5814B32C6EA4A80044662C /* ScaledNinePartImage.swift in Sources */,
 				4397FD672C64FF8000C0591B /* PixelRounding.swift in Sources */,
@@ -1677,15 +1711,18 @@
 				630DD48526E253CF00FE44E5 /* SettingsDivider.swift in Sources */,
 				430E7A232C60649C005E1973 /* FontHelpers.swift in Sources */,
 				5EE0EC1C28BFA00E0053C9D1 /* ShareSheetView.swift in Sources */,
+				43716D7D2C962FAA00A4BDEE /* IntHelpers.swift in Sources */,
 				6357658626D256C9004F04DE /* Model.swift in Sources */,
 				6357655526D1A73E004F04DE /* ContentView.swift in Sources */,
 				5EF748CD26DF749A008174DF /* NotificationSettings.swift in Sources */,
 				6357655326D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				5E49D6C626DCC01B002892CC /* UIApplication.swift in Sources */,
 				5E1705C828C32F5D00E70019 /* TapToWobble.swift in Sources */,
+				43716D7B2C962FAA00A4BDEE /* NotificationHelpers.swift in Sources */,
 				5E1705C428C0C47000E70019 /* AboutView.swift in Sources */,
 				5E482E5028B7B03C00131DE1 /* CampaignView.swift in Sources */,
 				638AEFE726D7965400BC6AB9 /* CurrencyHelpers.swift in Sources */,
+				43F348422C94B4D700769C11 /* CampaignHelpers.swift in Sources */,
 				5E5814AB2C6E39C70044662C /* AnimatedAdaptiveImage.swift in Sources */,
 				43F7863E2C72BF710011950C /* SkyView.swift in Sources */,
 				4397FD632C64FF8000C0591B /* PixelRounding.swift in Sources */,
@@ -1706,6 +1743,7 @@
 				63B4B0AA26DD30AA001A3D30 /* BlurView.swift in Sources */,
 				5E253D9728B64DE300CF024F /* FundraiserListItem.swift in Sources */,
 				5EF748CB26DF748F008174DF /* CheckSignificantAmounts.swift in Sources */,
+				5EC372C52CAE6F7B00559BE4 /* CountdownView.swift in Sources */,
 				5EC5147828D50F7E00CB00DC /* DonorList.swift in Sources */,
 				63D0CCF728B108EF0073957E /* Persistence.swift in Sources */,
 				63D0CCFE28B117390073957E /* Campaign.swift in Sources */,
@@ -1739,7 +1777,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43716D7E2C962FAA00A4BDEE /* IntHelpers.swift in Sources */,
 				6357655626D1A73E004F04DE /* ContentView.swift in Sources */,
+				43F348432C94B4D700769C11 /* CampaignHelpers.swift in Sources */,
 				431497222C6716D8001312AB /* UndegroundBackground.swift in Sources */,
 				430E7A1A2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
 				4397FD642C64FF8000C0591B /* PixelRounding.swift in Sources */,
@@ -1798,6 +1838,7 @@
 				5E1705C928C32F5D00E70019 /* TapToWobble.swift in Sources */,
 				6357655426D1A73E004F04DE /* St_JudeApp.swift in Sources */,
 				430E7A2D2C6064A6005E1973 /* BlockButtonStyle.swift in Sources */,
+				5EC372C62CAE6F7B00559BE4 /* CountdownView.swift in Sources */,
 				43F786412C72BF710011950C /* TappableCoin.swift in Sources */,
 				63A6F9A426D64D1200095ACB /* UserDefaults.swift in Sources */,
 				5E7C2FFA28C521BB00A9B0D5 /* UnicornView.swift in Sources */,
@@ -1823,6 +1864,7 @@
 				43F8A6142ABA9917007A9B7D /* SoundEffectHelper.swift in Sources */,
 				63A6F9A626D64DD600095ACB /* EntryView.swift in Sources */,
 				630DD48326E24B3100FE44E5 /* InAppSettingsToggle.swift in Sources */,
+				43716D7C2C962FAA00A4BDEE /* NotificationHelpers.swift in Sources */,
 				5E5814AC2C6E39C70044662C /* AnimatedAdaptiveImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1871,6 +1913,7 @@
 				5ECEF0622AA8ABA900AD0117 /* ScoreEntry.swift in Sources */,
 				5EAF63002C738C3E00090101 /* SkyView.swift in Sources */,
 				5E5814B02C6EA46D0044662C /* BlockGroupBoxStyle.swift in Sources */,
+				43716D812C96316900A4BDEE /* NotificationHelpers.swift in Sources */,
 				5EF748D526DF74B7008174DF /* Notifications.swift in Sources */,
 				5E180C1D28B7F18F00F10BE5 /* Milestone.swift in Sources */,
 				63574A2A26D6596100A2D495 /* SampleCampaign.swift in Sources */,
@@ -1892,6 +1935,7 @@
 				63ACEFF926D3C76E00F98023 /* CampaignTitle.swift in Sources */,
 				430E7A202C60649C005E1973 /* ImageHelpers.swift in Sources */,
 				63A6F9AE26D64F2900095ACB /* WidgetFamily.swift in Sources */,
+				434C2C802C94B684000A4685 /* CampaignHelpers.swift in Sources */,
 				5EEB569D2A9F95C2008AABF1 /* HeadToHead.swift in Sources */,
 				430E7A1B2C60649C005E1973 /* DoubleHelpers.swift in Sources */,
 				63D0CCF928B108EF0073957E /* Persistence.swift in Sources */,
@@ -1996,7 +2040,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -2027,7 +2071,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -2086,7 +2130,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2150,7 +2194,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2181,7 +2225,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2219,7 +2263,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2258,7 +2302,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -2292,7 +2336,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -2322,7 +2366,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2347,7 +2391,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2374,7 +2418,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2400,7 +2444,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2427,7 +2471,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
@@ -2457,7 +2501,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
@@ -2486,7 +2530,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Intents Extension/Info.plist";
@@ -2514,7 +2558,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 154;
+				CURRENT_PROJECT_VERSION = 163;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Intents Extension/Info.plist";
@@ -2629,7 +2673,7 @@
 			repositoryURL = "https://github.com/groue/GRDB.swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.26.0;
+				minimumVersion = 6.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

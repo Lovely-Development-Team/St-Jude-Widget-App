@@ -26,6 +26,7 @@ struct FundraiserListItem: View {
     let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
     
     @State private var showShareLinkSheet: ShareURL? = nil
+    @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
     
     @ViewBuilder
     var disclosureIndicator: some View {
@@ -42,6 +43,23 @@ struct FundraiserListItem: View {
 //        }
 //        return "chevron.right"
 //    }
+    
+    
+    var barColor: Color {
+        if(self.campaign.multiplier % 2 == 0) {
+            return .accentColor
+        } else {
+            return .brandYellow
+        }
+    }
+    
+    var fillColor: Color {
+        if(self.campaign.multiplier % 2 == 0) {
+            return .brandYellow
+        } else {
+            return .accentColor
+        }
+    }
     
     @ViewBuilder
     func image(size: CGFloat = 45) -> some View {
@@ -142,9 +160,18 @@ struct FundraiserListItem: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                    if let percentageReached = campaign.percentageReached {
-                        ProgressBar(value: .constant(Float(percentageReached)), fillColor: .accentColor)
-                            .frame(height: 10)
+                    if let progressBarAmount = campaign.progressBarAmount {
+                        HStack {
+                            if self.campaign.multiplier > 1 && !UserDefaults.shared.disableCombos {
+                                Text("\(self.campaign.multiplier)x")
+                                    .font(.headline)
+                                ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor)
+                                    .frame(height: 10)
+                            } else {
+                                ProgressBar(value: .constant(Float(progressBarAmount)), fillColor: .accentColor)
+                                    .frame(height: 10)
+                            }
+                        }
                     }
                     if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
                         Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")

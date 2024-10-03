@@ -85,13 +85,9 @@ struct CampaignList: View {
     
     // MARK: 2022
     
-    @State private var campaigns: [Campaign] = []
+    @State private var allCampaigns: [Campaign] = []
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
     @StateObject private var apiClient = ApiClient.shared
-    
-    var allCampaigns: [Campaign] {
-        campaigns.filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
-    }
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
@@ -102,16 +98,14 @@ struct CampaignList: View {
     
     @State private var isRefreshing: Bool = false
     @State private var isLoading: Bool = true
-    @State private var campaignsHaveClosed: Bool = false
     @State private var showStephen: Bool = false
     
     @State private var showHeadToHeads: Bool = true
+    @State private var rotationAnimation: Bool = false
     
     @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728266450)
-    // let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func compareNames(c1: Campaign, c2: Campaign) -> Bool {
         if c1.name.lowercased() == c2.name.lowercased() {
@@ -120,8 +114,8 @@ struct CampaignList: View {
         return c1.name.lowercased() < c2.name.lowercased()
     }
     
-    var sortedCampaigns: [Campaign] {
-        return allCampaigns.sorted { c1, c2 in
+    func sortCampaigns(_ campaigns: [Campaign]) -> [Campaign] {
+        return campaigns.sorted { c1, c2 in
             if c1.isStarred && !c2.isStarred {
                 return true
             }
@@ -172,9 +166,9 @@ struct CampaignList: View {
     var searchResults: [Campaign] {
         let query = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         if query.isEmpty {
-            return sortedCampaigns
+            return allCampaigns
         } else {
-            return sortedCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
+            return allCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
         }
     }
     
@@ -198,8 +192,6 @@ struct CampaignList: View {
                     Label("Remove Head to Head", image: "trash.pixel")
                 }
             }
-            //            .tint(.white)
-            //            .padding(.top)
         }
         .compositingGroup()
     }
@@ -247,57 +239,7 @@ struct CampaignList: View {
             }
         }
     }
-    
-    @ViewBuilder
-    var countdownView: some View {
-        if let closingDate = closingDate {
-            VStack {
-                if campaignsHaveClosed {
-                    Text("Fundraisers are now closed!")
-                        .font(.title2)
-                        .bold()
-                        .multilineTextAlignment(.leading)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    HStack(alignment: .top) {
-                        VStack {
-                            Group {
-                                Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
-                            }
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        }
-//                        Image(showStephen ? .stephen : .myke)
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 60)
-                        Group {
-                            if(self.showStephen) {
-                                AdaptiveImage.stephen(colorScheme: self.colorScheme)
-                                    .imageAtScale()
-                            } else {
-                                AdaptiveImage.myke(colorScheme: self.colorScheme)
-                                    .imageAtScale()
-                            }
-                        }
-                            .tapToWobble(anchor: .center)
-                    }
-                } else {
-                    Group {
-                        Text("Fundraisers close in ").bold() + Text(closingDate, style: .relative).bold() + Text("!").bold()
-                    }
-                    .font(.title2)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                }
-            }
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.accentColor)
-            .padding(.bottom)
-        }
-    }
-    
+        
     @ViewBuilder
     var headToHeadListView: some View {
         GroupBox {
@@ -346,18 +288,7 @@ struct CampaignList: View {
                             })
                             .buttonStyle(BlockButtonStyle(tint: .brandBlue))
                             .foregroundStyle(Color.white)
-                            //                            .fullWidth(alignment: .center)
-                            //                            .padding()
-                            //                            .background(
-                            //                                RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
-                            //                            )
-                            //                            .overlay(
-                            //                                RoundedRectangle(cornerRadius: 10)
-                            //                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
-                            //                            )
                         }
-                        //                        .padding(.horizontal)
-                        //                        .padding(.top, 5)
                     }
                 } else {
                     if showHeadToHeads {
@@ -365,7 +296,6 @@ struct CampaignList: View {
                             headToHeadList
                         }
                     }
-                    //                    .padding(.horizontal)
                 }
             }
         }
@@ -557,12 +487,7 @@ struct CampaignList: View {
                                 .font(.headline)
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.black)
-                                //                                .padding(10)
-                                //                            .padding(.horizontal, 20)
                                 .buttonStyle(BlockButtonStyle(tint: .white))
-                                //                                    .background(Color.accentColor)
-                                //                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                //                                    .padding([.bottom, .horizontal])
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -602,6 +527,13 @@ struct CampaignList: View {
                 }
             }
             .padding(.horizontal)
+            if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
+                AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
+                    .imageAtScale(scale: 0.5)
+            } else if searchText.lowercased() == "l2cu" {
+                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                    .imageAtScale(scale: 0.5)
+            }
         }
     }
     
@@ -634,7 +566,7 @@ struct CampaignList: View {
         /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
         /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
         /// trigger on the widget tap instead
-        ForEach(sortedCampaigns, id: \.id) { campaign in
+        ForEach(allCampaigns, id: \.id) { campaign in
             NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
                 EmptyView()
             }
@@ -645,7 +577,6 @@ struct CampaignList: View {
                 EmptyView()
             }
         }
-        //                        }
     }
     
     var body: some View {
@@ -653,11 +584,11 @@ struct CampaignList: View {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
                     topView
-                    countdownView
                     
                     VStack() {
+                        CountdownView()
+                            .padding([.top, .horizontal])
                         headToHeadListView
-                            .padding(.top)
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
                         fundraiserListView
                         easterEggView
@@ -674,9 +605,16 @@ struct CampaignList: View {
                         }
                     }
                 }
+                .overlay(alignment: .bottom) {
+                    if !isLoading {
+                        AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
+                            .imageAtScale(scale: 0.5)
+                            .offset(y: 500)
+                    }
+                }
+                .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
             }
         }
-        //        .background(BrandShapeBackground())
         .refreshable {
             await refresh()
         }
@@ -685,15 +623,14 @@ struct CampaignList: View {
                 await refresh(generateLandscape: false)
             }
         }
-        //        .onReceive(countdownTimer) { _ in
-        //            if let closingDate = closingDate {
-        //                withAnimation {
-        //                    campaignsHaveClosed = closingDate < Date()
-        //                }
-        //            }
-        //        }
         .onChange(of: fundraiserSortOrder) { newValue in
             UserDefaults.shared.campaignListSortOrder = newValue
+            Task {
+                let newAllCampaigns = sortCampaigns(allCampaigns)
+                DispatchQueue.main.async {
+                    allCampaigns = newAllCampaigns
+                }
+            }
         }
         .onChange(of: compactListMode) { newValue in
             UserDefaults.shared.campaignListCompactView = newValue
@@ -702,10 +639,6 @@ struct CampaignList: View {
             UserDefaults.shared.expandHeadToHeadSection = newValue
         }
         .onAppear {
-            
-            if let closingDate = closingDate {
-                campaignsHaveClosed = closingDate < Date()
-            }
             showStephen = Bool.random()
             showHeadToHeads = UserDefaults.shared.expandHeadToHeadSection
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
@@ -743,8 +676,6 @@ struct CampaignList: View {
             case .randomPicker:
                 NavigationView {
                     RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
-                    //                    RandomCampaignPickerView(campaignChoiceID: $selectedCampaignId,
-                    //                                             allCampaigns: campaigns)
                         .navigationTitle("Pick a block!")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
@@ -819,6 +750,14 @@ struct CampaignList: View {
                 showSheet = nil
             }
         }
+        .onChange(of: searchText, perform: { value in
+            if value.lowercased() == "do a barrel roll" {
+                rotationAnimation = false
+                withAnimation(.easeInOut(duration: 2.0)) {
+                    rotationAnimation = true
+                }
+            }
+        })
     }
     
     func starOrUnstar(campaign: Campaign) async {
@@ -913,7 +852,7 @@ struct CampaignList: View {
         do {
             dataLogger.notice("Fetched stored fundraiser")
             try Task.checkCancellation()
-            campaigns = try await AppDatabase.shared.fetchAllCampaigns()
+            allCampaigns = sortCampaigns(try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) })
             dataLogger.notice("Fetched stored campaigns")
             let fetchedHeadToHeads = try await AppDatabase.shared.fetchAllHeadToHeads()
             withAnimation {

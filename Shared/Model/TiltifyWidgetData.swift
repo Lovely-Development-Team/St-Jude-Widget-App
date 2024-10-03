@@ -105,6 +105,10 @@ struct TiltifyWidgetData: Equatable {
         return formatter
     }()
     
+    var multiplier: Int {
+        return self.totalRaisedNumerical.multiplierToTwoDecimalPlaces(of: self.goal ?? 1)
+    }
+    
     init(from campaign: TiltifyCampaign) {
         self.id = campaign.publicId
         self.name = campaign.title

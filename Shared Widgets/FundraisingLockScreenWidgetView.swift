@@ -61,7 +61,7 @@ struct FundraisingLockScreenWidgetView : View {
         if #available(iOSApplicationExtension 16.0, *) {
             switch family {
             case .accessoryRectangular:
-                LockScreenRectangularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage)
+                LockScreenRectangularView(campaign: entry.campaign, shouldShowFullCurrencySymbol: shouldShouldFullCurrencySymbol, shouldShowGoalPercentage: shouldShowGoalPercentage, shouldDisableCombos: true)
             case .accessoryCircular:
                 LockScreenCircularView(campaign: entry.campaign, shouldShowGoalPercentage: shouldShowGoalPercentage)
             default:

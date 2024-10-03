@@ -21,6 +21,10 @@ struct St_JudeApp: App {
     @State private var mainAppViewID = UUID()
     @State private var navTitle = "Relay for St. Jude"
     
+    @State private var globalAlertTitle = ""
+    @State private var globalAlertMessage = ""
+    @State private var globalAlertShown = false
+    
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     
     private var userColorScheme: ColorScheme? {
@@ -58,6 +62,27 @@ struct St_JudeApp: App {
                 WidgetCenter.shared.reloadAllTimelines()
             }
             .preferredColorScheme(self.userColorScheme)
+            .onReceive(NotificationCenter.default.publisher(for: .displayGlobalNotification)) { message in
+                guard let userInfo = message.userInfo,
+                      let title = userInfo[NotificationCenter.globalNotificationTitleKey] as? String,
+                      let message = userInfo[NotificationCenter.globalNotificationMessageKey] as? String else {
+                    return
+                }
+                globalAlertTitle = title
+                globalAlertMessage = message
+                globalAlertShown = true
+            }
+            .alert(globalAlertTitle, isPresented: $globalAlertShown, actions: {
+                Button(action: {
+                    globalAlertTitle = ""
+                    globalAlertMessage = ""
+                    globalAlertShown = false
+                }, label: {
+                    Text("OK")
+                })
+            }, message: {
+                Text(globalAlertMessage)
+            })
         }
     }
 }

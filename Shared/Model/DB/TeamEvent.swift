@@ -7,7 +7,6 @@
 
 import Foundation
 
-import Foundation
 import GRDB
 
 /// The Campaign struct.
@@ -44,6 +43,13 @@ struct TeamEvent: Identifiable, Hashable {
     
     var percentageReached: Double? {
         return calcPercentage(goal: goal.value ?? "0", total: totalRaised.value ?? "0")
+    }
+    
+    var multiplier: Int {
+        if(self.totalRaisedNumerical <= self.goalNumerical) {
+            return 1
+        }
+        return Int(floor(self.totalRaisedNumerical/self.goalNumerical))+1
     }
     
     var percentageReachedDescription: String? {

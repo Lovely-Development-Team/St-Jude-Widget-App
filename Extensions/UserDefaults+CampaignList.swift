@@ -20,6 +20,7 @@ extension UserDefaults {
     static let shareScreenshotShowMainGoalPercentageKey = "shareScreenshotShowMainGoalPercentage"
     static let shareScreenshotDisablePixelThemeKey = "shareScreenshotDisablePixelTheme"
     static let shareScreenshotExport169Key = "shareScreenshotExport169"
+    static let shareScreenshotDisableCombosKey = "shareScreenshotDisableCombos"
     
     @objc var shareScreenshotExport169: Bool {
         get { bool(forKey: Self.shareScreenshotExport169Key) }
@@ -61,6 +62,11 @@ extension UserDefaults {
     var shareScreenshotClipCorners: Bool {
         get { bool(forKey: Self.shareScreenshotClipCornersKey) }
         set { set(newValue, forKey: Self.shareScreenshotClipCornersKey) }
+    }
+    
+    var shareScreenshotDisableCombos: Bool {
+        get { bool(forKey: Self.shareScreenshotDisableCombosKey) }
+        set { set(newValue, forKey: Self.shareScreenshotDisableCombosKey) }
     }
     
 }

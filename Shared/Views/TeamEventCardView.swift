@@ -16,6 +16,7 @@ struct TeamEventCardView: View {
     @Binding var showShareSheet: Bool
     @State private var showShareLinkSheet: ShareURL? = nil
     var showBackground: Bool = true
+    @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
@@ -88,7 +89,6 @@ struct TeamEventCardView: View {
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
                     mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)
-                    //                    mainProgressBar(value: 0.5, color: appearance.fillColor)
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {

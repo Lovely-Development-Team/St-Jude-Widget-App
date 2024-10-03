@@ -27,6 +27,7 @@ struct EntryView: View {
     var mainProgressBarHeight: CGFloat = 15
     var mainProgressBarPixelScale: Double = .spriteScale
     var milestoneProgressBarHeight: CGFloat = 10
+    var disableCombos: Bool = false
 
     
     var showTwoMilestones: Bool {
@@ -59,7 +60,11 @@ struct EntryView: View {
     }
     
     var fillColor: Color {
-        return renderingMode == .vibrant ? .white : appearance.fillColor
+        return renderingMode == .vibrant ? .white : (self.campaign.multiplier % 2 == 0 && !disableCombos ? appearance.comboFillColor : appearance.fillColor)
+    }
+    
+    var barColor: Color {
+        return renderingMode == .vibrant ? .black : (self.campaign.multiplier % 2 == 0 ? appearance.fillColor : appearance.comboFillColor)
     }
     
     var foregroundColor: Color {
@@ -101,9 +106,18 @@ struct EntryView: View {
                 Spacer()
             }
             
-            if let percentageReached = campaign.percentageReached {
-                ProgressBar(value: .constant(Float(percentageReached)), fillColor: fillColor, disablePixelBorder: disablePixelFont, pixelScale: mainProgressBarPixelScale)
-                    .frame(height: mainProgressBarHeight)
+            if let progressBarAmount = campaign.progressBarAmount(disableCombos: disableCombos) {
+                if campaign.multiplier > 1 && !disableCombos {
+                    HStack {
+                        Text("\(campaign.multiplier)x")
+                            .font(.caption(disablePixelFont: disablePixelFont))
+                        ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor, disablePixelBorder: disablePixelFont, pixelScale: mainProgressBarPixelScale)
+                            .frame(height: mainProgressBarHeight)
+                    }
+                } else {
+                    ProgressBar(value: .constant(Float(progressBarAmount)), fillColor: fillColor, disablePixelBorder: disablePixelFont, pixelScale: mainProgressBarPixelScale)
+                        .frame(height: mainProgressBarHeight)
+                }
             }
             VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .lastTextBaseline, spacing: 5) {

@@ -113,6 +113,9 @@ struct Campaign: Identifiable, Hashable {
         URL(string: "https://donate.tiltify.com/@\(user.slug)/\(slug)")!
     }
     
+    var multiplier: Int {
+        return self.totalRaisedNumerical.multiplierToTwoDecimalPlaces(of: self.goalNumerical)
+    }
 }
 
 extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {

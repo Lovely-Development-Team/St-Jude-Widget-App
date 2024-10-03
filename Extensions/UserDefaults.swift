@@ -34,6 +34,8 @@ extension UserDefaults {
     static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
     static let coinCountKey = "coinCount"
     static let appAppearanceKey = "appAppearance"
+    static let disableCombosKey = "disableCombos"
+    static let userLevelKey = "userLevel"
     
     @objc var iconsUnlocked: Bool {
         get { bool(forKey: Self.iconsUnlockedKey) }
@@ -138,5 +140,38 @@ extension UserDefaults {
     @objc var appAppearance: Int {
         get { object(forKey: Self.appAppearanceKey) as? Int ?? 2 }
         set { UserDefaults.shared.set(newValue, forKey: Self.appAppearanceKey) }
+    }
+    
+    @objc var disableCombos: Bool {
+        get { bool(forKey: Self.disableCombosKey) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.disableCombosKey) }
+    }
+    
+    @objc var userLevel: Int {
+        get { object(forKey: Self.userLevelKey) as? Int ?? 1 }
+        set { UserDefaults.shared.set(newValue, forKey: Self.userLevelKey) }
+    }
+}
+
+extension UserDefaults {
+    func addCoin(numCoins: Int?) {
+        var shouldShowNotification = false
+        
+        if let numCoins = numCoins {
+            if(self.coinCount + numCoins >= 1000) {
+                for i in self.coinCount+1...self.coinCount + numCoins {
+                    if i % 1000 == 0 {
+                        shouldShowNotification = true
+                    }
+                }
+            }
+            
+            self.coinCount += numCoins
+        }
+        self.userLevel = Int(self.coinCount / 1000)+1
+        
+        if(shouldShowNotification) {
+            NotificationCenter.showGlobalAlert(title: "Level Up!", message: "You have leveled up to level \(UserDefaults.shared.userLevel)!")
+        }
     }
 }
