@@ -214,7 +214,6 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                         Spacer()
                                         Button(action: {
                                             self.addInputToStack(input: .down)
@@ -230,7 +229,6 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                     }
                                 }
                             Rectangle()
@@ -249,14 +247,6 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
-                                            self.addInputToStack(input: .left)
-                                            self.isMoving = true
-                                        }, action: {
-                                            self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
-                                        }, onEnd: {
-                                            self.isMoving = false
-                                        }))
                                         Spacer()
                                         Button(action: {}, label: {
                                             Rectangle()
@@ -268,14 +258,6 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
-                                            self.addInputToStack(input: .right)
-                                            self.isMoving = true
-                                        }, action: {
-                                            self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
-                                        }, onEnd: {
-                                            self.isMoving = false
-                                        }))
                                     }
                                 }
                         }
@@ -304,7 +286,6 @@ struct RandomCampaignPickerView2024: View {
                                             .foregroundStyle(.white)
                                     }
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                         }
                         HStack(spacing: 0) {
                             Button(action: {
@@ -319,7 +300,6 @@ struct RandomCampaignPickerView2024: View {
                                             .foregroundStyle(.white)
                                     }
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                             Spacer()
                         }
                     }
@@ -412,7 +392,6 @@ struct RandomCampaignPickerView2024: View {
                                                     }, label: {
                                                         FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showBackground: false, showShareSheet: self.$showShareSheet)
                                                     })
-                                                    .buttonStyle(BlockButtonStyle())
                                                 }
                                             } else {
                                                 GroupBox {
@@ -420,7 +399,6 @@ struct RandomCampaignPickerView2024: View {
                                                         .font(.headline)
                                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                                 }
-                                                .groupBoxStyle(BlockGroupBoxStyle())
                                             }
                                         }
                                         .opacity(self.resultOpacity ? 1.0 : 0.0)
@@ -504,7 +482,6 @@ struct RandomCampaignPickerView2024: View {
                             Text("Start")
                                 .foregroundStyle(.white)
                         })
-                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
                         .padding()
                         .padding(.bottom)
                     }

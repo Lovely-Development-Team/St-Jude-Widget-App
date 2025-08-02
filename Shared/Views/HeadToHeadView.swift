@@ -99,87 +99,19 @@ struct HeadToHeadView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                RandomLandscapeView(data: self.$landscapeData) {
-                    VStack {
-                        if animateIn {
-                            Text("Fundraiser")
-                                .padding(.top, 5)
-                            Text("Head to Head!")
-                        }
+                VStack {
+                    if animateIn {
+                        Text("Fundraiser")
+                            .padding(.top, 5)
+                        Text("Head to Head!")
                     }
-                    .font(.title)
-                    .bold()
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(minHeight: 140)
-                    .padding()
                 }
-                .background(alignment: .bottom) {
-                    HStack(alignment: .bottom) {
-                        if animateIn {
-                            Group {
-                                if(self.easterEggEnabled2024) {
-                                    EasterEggImage(content: {
-                                        AdaptiveImage.dogcow(colorScheme: colorScheme)
-                                            .imageAtScale()
-                                    }, onTap: {
-                                        SoundEffectHelper.shared.play(.moof)
-                                    })
-                                } else {
-                                    EasterEggImage(content: {
-                                        AdaptiveImage.stephen(colorScheme: colorScheme)
-                                            .imageAtScale()
-                                    }, onTap: {
-                                        SoundEffectHelper.shared.play(.stephenRandom)
-                                    })
-                                }
-                            }
-                                .scaleEffect(x: -1)
-                                .offset(x: 0, y: animateStephen ? -5 : 0)
-                                .transition(.move(edge: .leading))
-                            Spacer()
-                            Group {
-                                if(self.easterEggEnabled2024) {
-                                    ZStack(alignment:.bottom) {
-                                        AdaptiveImage.isoGround(colorScheme: colorScheme)
-                                            .imageAtScale()
-                                        VStack {
-                                            EasterEggImage(content: {
-                                                AdaptiveImage.jonyCube(colorScheme: colorScheme)
-                                                    .imageAtScale()
-                                            }, onTap: {
-                                                SoundEffectHelper.shared.play(.softMatt)
-                                            })
-                                            .padding(.bottom, (10 * 10) * Double.spriteScale)
-                                        }
-                                    }
-                                } else {
-                                    EasterEggImage(content: {
-                                        AdaptiveImage.myke(colorScheme: colorScheme)
-                                            .imageAtScale()
-                                    }, onTap: {
-                                        SoundEffectHelper.shared.play(.mykeRandom)
-                                    })
-                                }
-                            }
-                                .offset(x: 0, y: animateMyke ? -5 : 0)
-                                .transition(.move(edge: .trailing))
-                        }
-                    }
-                    .padding(.horizontal)
-                }
+                .font(.title)
+                .bold()
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .background {
-                    SkyView()
-                        .mask {
-                            LinearGradient(stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 0.25),
-                                .init(color: .white, location: 1)
-                            ], startPoint: .top, endPoint: .bottom)
-                        }
-                }
-                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                    .tiledImageAtScale(axis: .horizontal)
+                .frame(minHeight: 140)
+                .padding()
+                .frame(minWidth: 0, maxWidth: .infinity)
                 VStack {
                     Group {
                         ZStack(alignment: .topTrailing) {
@@ -199,13 +131,18 @@ struct HeadToHeadView: View {
                                         .transition(.move(edge: .leading))
                                     }
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
                             }
                         }
                         .overlay(alignment: .bottomTrailing) {
                             if campaign1.totalRaisedNumerical == highestTotal {
-                                TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
-                                    .scaleEffect(1.5)
+                                Image(systemName:"crown.fill")
+                                    .foregroundStyle(Color.brandYellow)
+                                    .padding([.all], 5)
+                                    .background {
+                                        Color.black
+                                            .clipShape(.capsule)
+                                    }
+                                    .offset(x: 5, y: 5)
                             }
                         }
                         if animateIn {
@@ -213,7 +150,6 @@ struct HeadToHeadView: View {
                                 ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeBlue, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
                                     .frame(height: 20)
                             }
-                            .groupBoxStyle(BlockGroupBoxStyle())
                         }
                         
                         ZStack(alignment: .bottomLeading) {
@@ -234,13 +170,18 @@ struct HeadToHeadView: View {
                                             .transition(.move(edge: .trailing))
                                     }
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
                             }
                         }
                         .overlay(alignment: .topLeading) {
                             if campaign2.totalRaisedNumerical == highestTotal {
-                                TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
-                                    .scaleEffect(1.5)
+                                Image(systemName:"crown.fill")
+                                    .foregroundStyle(Color.brandYellow)
+                                    .padding([.all], 5)
+                                    .background {
+                                        Color.black
+                                            .clipShape(.capsule)
+                                    }
+                                    .offset(x: -5, y: -5)
                             }
                         }
                         Spacer()
@@ -249,14 +190,6 @@ struct HeadToHeadView: View {
                 }
                 .padding()
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .background {
-                    GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
-                            .frame(height:geometry.size.height + 1000)
-                            .animation(.none, value: UUID())
-                    }
-                }
             }
         }
         .onAppear {

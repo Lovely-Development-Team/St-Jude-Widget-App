@@ -9,6 +9,8 @@ import WidgetKit
 import SwiftUI
 import Intents
 
+
+// TODO: [DETHEMING] Detheme the widgets pls
 struct CampaignLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
     let apiClient = ApiClient.shared
     

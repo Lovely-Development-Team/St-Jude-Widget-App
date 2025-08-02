@@ -54,7 +54,7 @@ struct ShareCampaignView: View {
     var standardView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, disableCombos: disableCombos)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
-            .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+            .environment(\.font, Font.body)
             .frame(minHeight: 169)
             .dynamicTypeSize(.medium)
     }
@@ -63,10 +63,10 @@ struct ShareCampaignView: View {
     var renderView: some View {
         if self.exportForInstagram {
             instagramView
-                .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+                .environment(\.font, Font.body)
         } else {
             standardView
-                .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+                .environment(\.font, Font.body)
         }
     }
     
@@ -102,12 +102,12 @@ struct ShareCampaignView: View {
                 .cornerRadius((clipCorners ? 15 : 0))
                 .padding(.horizontal)
             ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
-                Label("Share", image: "share.pixel")
+                Label("Share", systemImage: "square.and.arrow.up")
             }
                 .font(.headline)
                 .foregroundColor(.white)
-                .buttonStyle(BlockButtonStyle(tint: .accentColor))
                 .padding()
+                .buttonStyle(RoundedAccentButtonStyle())
         }
     }
     

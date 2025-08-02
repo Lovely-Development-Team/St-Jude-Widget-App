@@ -86,18 +86,24 @@ struct ProgressBar: View {
             circleProgressBar
         } else {
             if stroke {
-                pixeledProgressBar
-                    .compositingGroup()
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
-                    .shadow(color: dividerColor, radius: 0.4)
+                GeometryReader { geometry in
+                    longProgressBar(geometry: geometry)
+                        .clipShape(.capsule)
+                        .compositingGroup()
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                        .shadow(color: dividerColor, radius: 0.4)
+                }
             } else {
-                pixeledProgressBar
+                GeometryReader { geometry in
+                    longProgressBar(geometry: geometry)
+                        .clipShape(.capsule)
+                }
             }
         }
     }

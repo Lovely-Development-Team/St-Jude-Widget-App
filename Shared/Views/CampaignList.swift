@@ -60,16 +60,6 @@ enum CampaignListSheet: Identifiable {
 }
 
 struct CampaignList: View {
-
-    init() {
-        updateNavBarFont()
-    }
-
-    func updateNavBarFont() {
-        UINavigationBar.appearance().titleTextAttributes = [.font : UserDefaults.shared.disablePixelFont ? UIFont.preferredFont(forTextStyle: .headline) : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .headline).pointSize) ?? UIFont.systemFont(ofSize: 20)]
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UserDefaults.shared.disablePixelFont ? UIFont.preferredFont(forTextStyle: .largeTitle) : UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)  ?? UIFont.systemFont(ofSize: 20)]
-    }
-    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -189,7 +179,7 @@ struct CampaignList: View {
                         await fetch()
                     }
                 } label: {
-                    Label("Remove Head to Head", image: "trash.pixel")
+                    Label("Remove Head to Head", image: "trash")
                 }
             }
         }
@@ -204,9 +194,8 @@ struct CampaignList: View {
                     Group {
                         if let teamEvent = teamEvent {
                             NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
-                                TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
+                                TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: true)
                             }
-                            .buttonStyle(BlockButtonStyle(tint: .brandYellow))
                             .padding()
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
@@ -214,30 +203,11 @@ struct CampaignList: View {
                         }
                     }
                     .zIndex(1)
-                    RandomLandscapeView(data: self.$landscapeData) {
-                        EmptyView()
-                    }
-                    .zIndex(0)
                 }
             }
             .frame(maxWidth: Double.stretchedContentMaxWidth)
-            
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
         }
         .frame(maxWidth: .infinity)
-        .background(alignment: .bottom) {
-            ZStack(alignment: .bottom) {
-                SkyView()
-            }
-            .mask {
-                LinearGradient(stops: [
-                    .init(color: .clear, location: 0),
-                    .init(color: .white, location: 0.25),
-                    .init(color: .white, location: 1)
-                ], startPoint: .top, endPoint: .bottom)
-            }
-        }
     }
         
     @ViewBuilder
@@ -264,14 +234,12 @@ struct CampaignList: View {
                             .padding(.vertical, 4)
                             .aspectRatio(1.0, contentMode: .fit)
                             .background {
-                                GeometryReader { geometry in
-                                    Color.brandBlue
-                                        .modifier(PixelRounding(geometry: geometry))
-                                }
+                                Color.brandBlue
+                                    .clipShape(.capsule)
                             }
                         }
                         Spacer()
-                        Image("pixel-chevron-right")
+                        Image(systemName: "chevron.right")
                             .foregroundStyle(.secondary)
                             .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
                     }
@@ -286,22 +254,32 @@ struct CampaignList: View {
                                 Text("Add a Head to Head")
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .brandBlue))
                             .foregroundStyle(Color.white)
+                            .fullWidth(alignment: .center)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 10).fill(Color.brandBlue.opacity(0.2))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundStyle(Color.brandBlue)
+                            )
                         }
+                        .padding(.horizontal)
+                        .padding(.top, 5)
                     }
                 } else {
                     if showHeadToHeads {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 10) {
                             headToHeadList
                         }
+                        .padding(.horizontal)
                     }
                 }
             }
         }
         .padding(.horizontal)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
-        .groupBoxStyle(BlockGroupBoxStyle())
     }
     
     @ViewBuilder
@@ -328,7 +306,7 @@ struct CampaignList: View {
                                 Button(action: {
                                     showSheet = .leaderBoard
                                 }) {
-                                    Label("Leaderboard", image: "pixel-trophy")
+                                    Label("Leaderboard", image: "trophy")
                                         .labelStyle(.iconOnly)
                                 }
                                 Menu {
@@ -350,7 +328,7 @@ struct CampaignList: View {
                                         Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
                                     }
                                 } label: {
-                                    Image("pixel-settings")
+                                    Image(systemName:"slider.horizontal.3")
                                 }
                                 Button(action: {
                                     withAnimation {
@@ -362,13 +340,12 @@ struct CampaignList: View {
                                         }
                                     }
                                 }) {
-                                    Label("Search", image: "pixel-magnify")
+                                    Label("Search", systemImage: "magnifyingglass")
                                         .labelStyle(.iconOnly)
                                 }
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     .padding(.horizontal)
                 } else {
                     GroupBox {
@@ -388,7 +365,7 @@ struct CampaignList: View {
                             Button(action: {
                                 showSheet = .leaderBoard
                             }) {
-                                Label("Leaderboard", image: "pixel-trophy")
+                                Label("Leaderboard", systemImage: "trophy")
                                     .labelStyle(.iconOnly)
                             }
                             Menu {
@@ -410,7 +387,7 @@ struct CampaignList: View {
                                     Label("Compact View", systemImage: compactListMode ? "checkmark" : "")
                                 }
                             } label: {
-                                Image("pixel-settings")
+                                Image(systemName: "slider.horizontal.3")
                             }
                             Button(action: {
                                 withAnimation {
@@ -422,12 +399,11 @@ struct CampaignList: View {
                                     }
                                 }
                             }) {
-                                Label("Search", image: "pixel-magnify")
+                                Label("Search", systemImage: "magnifyingglass")
                                     .labelStyle(.iconOnly)
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     .padding(.horizontal)
                 }
             }
@@ -439,23 +415,25 @@ struct CampaignList: View {
                         SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
                             .id("SEARCH_BAR")
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(tint: .secondarySystemBackground, padding: false))
                     .padding(.horizontal)
                 }
-                Button(action: {
-                    showSheet = .randomPicker
-                }) {
-                    HStack {
-                        Image("pixel-question")
-                        Text("Play for a random Fundraiser!")
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        Image("pixel-chevron-right")
+                
+                GroupBox {
+                    Button(action: {
+                        showSheet = .randomPicker
+                    }) {
+                        // TODO: [DETHEMING] The themed random picker is still here, yall can make a new one if you want
+                        HStack {
+                            Image(systemName:"questionmark")
+                            Text("Play for a random Fundraiser!")
+                                .multilineTextAlignment(.leading)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            Image(systemName:"chevron.right")
+                        }
+                        .foregroundColor(.black)
                     }
-                    .foregroundColor(.black)
                 }
                 .padding(.horizontal)
-                .buttonStyle(BlockButtonStyle(tint: .brandYellow))
             } else {
                 Group {
                     if isLoading {
@@ -469,7 +447,6 @@ struct CampaignList: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                         
                     } else {
                         GroupBox {
@@ -487,11 +464,14 @@ struct CampaignList: View {
                                 .font(.headline)
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.black)
-                                .buttonStyle(BlockButtonStyle(tint: .white))
+                                //                                .padding(10)
+                                //                            .padding(.horizontal, 20)
+                                //                                    .background(Color.accentColor)
+                                //                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                //                                    .padding([.bottom, .horizontal])
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: .brandRed))
                     }
                 }
                 .padding(.horizontal)
@@ -507,33 +487,32 @@ struct CampaignList: View {
                 
                 ForEach(Array(searchResults.enumerated()), id: \.offset) { index, campaign in
                         NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-                            FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showBackground: false, showShareSheet: .constant(false))
+                            FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showBackground: true, showShareSheet: .constant(false))
                         }
-                        .buttonStyle(BlockButtonStyle())
                         .contextMenu {
                             Button(action: {
                                 showSheet = .continueHeadToHead(campaign: campaign)
                             }) {
-                                Label("Start Head to Head", image: "pixel-trophy")
+                                Label("Start Head to Head", systemImage: "trophy")
                             }
                             Button(action: {
                                 Task {
                                     await starOrUnstar(campaign: campaign)
                                 }
                             }) {
-                                Label(campaign.isStarred ? "Unfavourite" : "Favourite", image: campaign.isStarred ? "heart.pixel" : "heart.fill.pixel")
+                                Label(campaign.isStarred ? "Unfavourite" : "Favourite", systemImage: campaign.isStarred ? "heart.fill" : "heart")
                             }
                         }
                 }
             }
             .padding(.horizontal)
-            if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
-                AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
-                    .imageAtScale(scale: 0.5)
-            } else if searchText.lowercased() == "l2cu" {
-                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
-                    .imageAtScale(scale: 0.5)
-            }
+//            if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
+//                AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
+//                    .imageAtScale(scale: 0.5)
+//            } else if searchText.lowercased() == "l2cu" {
+//                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+//                    .imageAtScale(scale: 0.5)
+//            }
         }
     }
     
@@ -546,6 +525,7 @@ struct CampaignList: View {
                 Text("App from the Lovely Developers")
                     .font(.caption)
                     .foregroundColor(.secondary)
+                // TODO: [DETHEMING] Replace with drawn L2CU head (the sizing is messed up idk)
                 Image(.l2CuHeadPixel)
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -554,7 +534,6 @@ struct CampaignList: View {
             }
             .frame(maxWidth: .infinity)
         })
-        .buttonStyle(BlockButtonStyle())
         .padding(.horizontal)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
@@ -596,21 +575,6 @@ struct CampaignList: View {
                     }
                     .padding(.bottom)
                     .frame(maxWidth: .infinity)
-                    .background {
-                        GeometryReader { geometry in
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                                .tiledImageAtScale(scale: Double.spriteScale)
-                                .frame(height:geometry.size.height + 1000)
-                                .animation(.none, value: UUID())
-                        }
-                    }
-                }
-                .overlay(alignment: .bottom) {
-                    if !isLoading {
-                        AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
-                            .imageAtScale(scale: 0.5)
-                            .offset(y: 500)
-                    }
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
             }
@@ -719,7 +683,7 @@ struct CampaignList: View {
                 Button(action: {
                     showSheet = .aboutScreen
                 }) {
-                    Image("info.button.pixel")
+                    Image(systemName: "info.circle")
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -734,7 +698,7 @@ struct CampaignList: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Image("pixel-refresh")
+                        Image(systemName: "arrow.clockwise")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }

@@ -15,7 +15,7 @@ struct LargeMilestoneTitle: View {
     var body: some View {
         if let title = title {
             Text(title)
-                .font(.caption(disablePixelFont: disablePixelFont))
+                .font(.caption)
                 .opacity(0.8)
         }
         Text(name)
@@ -92,7 +92,7 @@ struct MilestoneView: View {
         }
         .accessibilityElement()
         .accessibility(label: Text(accessibilityLabel))
-        .environment(\.font, Font.body(disablePixelFont: disablePixelFont))
+        .environment(\.font, Font.body)
     }
 }
 

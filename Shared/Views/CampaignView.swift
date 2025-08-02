@@ -131,7 +131,7 @@ struct CampaignView: View {
                                     VStack {
                                         HStack(spacing: 4) {
                                             if grandTotalRaised >= 2500000 {
-                                                Image(.partyPopperFillPixel)
+                                                Image(systemName: "party.popper")
                                             }
                                             Text("Lifetime Total")
                                                 .textCase(.uppercase)
@@ -146,7 +146,6 @@ struct CampaignView: View {
                                             .bold()
                                     }
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
                                 //                            .padding(.vertical, 8)
                             }
 
@@ -165,45 +164,45 @@ struct CampaignView: View {
                                             })
                                         })
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
                             }
 #endif
 
                             LazyVGrid(columns: milestoneAndRewardButtonColumns) {
-                                Button(action: {
-                                    withAnimation {
-                                        scrollViewReader.scrollTo("Milestones", anchor: .top)
+                                    Button(action: {
+                                        withAnimation {
+                                            scrollViewReader.scrollTo("Milestones", anchor: .top)
+                                        }
+                                    }) {
+                                        GroupBox {
+                                            HStack {
+                                                Text("^[\(milestones.count) Milestone](inflect:true)")
+                                                    .multilineTextAlignment(.center)
+                                                    .foregroundColor(milestones.isEmpty ? .secondary : .primary)
+                                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                            }
+                                            .frame(minHeight: 0, maxHeight: .infinity)
+                                        }
                                     }
-                                }) {
-                                    HStack {
-                                        Text("^[\(milestones.count) Milestone](inflect:true)")
-                                            .multilineTextAlignment(.center)
-                                            .foregroundColor(milestones.isEmpty ? .secondary : .primary)
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                        Spacer()
-                                    }
-                                    .frame(minHeight: 0, maxHeight: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(disabled: milestones.isEmpty))
-                                .disabled(milestones.isEmpty)
+                                    .disabled(milestones.isEmpty)
                                 Button(action: {
                                     withAnimation {
                                         scrollViewReader.scrollTo("Rewards", anchor: .top)
                                     }
                                 }) {
-                                    HStack {
-                                        Text("^[\(rewards.count) Reward](inflect:true)")
-                                            .multilineTextAlignment(.center)
-                                            .foregroundColor(rewards.isEmpty ? .secondary : .primary)
-                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                        Spacer()
+                                    GroupBox {
+                                        HStack {
+                                            Text("^[\(rewards.count) Reward](inflect:true)")
+                                                .multilineTextAlignment(.center)
+                                                .foregroundColor(rewards.isEmpty ? .secondary : .primary)
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                                .padding([.vertical])
+                                        }
+                                        .frame(minHeight: 0, maxHeight: .infinity)
                                     }
-                                    .frame(minHeight: 0, maxHeight: .infinity)
                                 }
-                                .buttonStyle(BlockButtonStyle(disabled: rewards.isEmpty))
                                 .disabled(rewards.isEmpty)
                             }
-                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             
                             ZStack {
                                 if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
@@ -227,39 +226,21 @@ struct CampaignView: View {
                                         .foregroundColor(.white)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
-                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                                //                .padding(10)
-                                //                .padding(.horizontal, 20)
-                                //                .background(Color.accentColor)
-                                //                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                //                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                //                .padding(.top)
+                                    .padding(10)
+                                    .padding(.horizontal, 20)
+                                    .background(Color.accentColor)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                                    .padding(.top)
 
                             }
                         }
                     }
                     .padding()
-
-                    RandomLandscapeView(data: self.$landscapeData) {}
                 }
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
-                
-                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                    .tiledImageAtScale(axis: .horizontal)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
-        }
-        .background(alignment: .bottom) {
-            ZStack(alignment: .bottom) {
-                SkyView()
-            }
-            .mask {
-                LinearGradient(stops: [
-                    .init(color: .clear, location: 0),
-                    .init(color: .white, location: 0.25),
-                    .init(color: .white, location: 1)
-                ], startPoint: .top, endPoint: .bottom)
-            }
         }
     }
     
@@ -273,13 +254,12 @@ struct CampaignView: View {
                         .multilineTextAlignment(.leading)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
 
                 if let topDonor = topDonor {
                     GroupBox {
                         VStack(spacing: 5) {
                             HStack(spacing: 4) {
-                                Image(.crownPixel)
+                                Image(systemName: "crown")
                                 if donations.count == 1 {
                                     Text("Top and only Donor")
                                         .textCase(.uppercase)
@@ -306,7 +286,6 @@ struct CampaignView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
 
                 if donations.count > 1, let campaign = initialCampaign ?? relayCampaign {
@@ -315,7 +294,7 @@ struct CampaignView: View {
                             HStack {
                                 Text("Recent Donations")
                                 Spacer()
-                                Image("pixel-chevron-right")
+                                Image(systemName: "chevron.right")
                                     .foregroundColor(.secondary)
                             }
                             if #available(iOS 16.0, *), donations.count >= 4 {
@@ -331,7 +310,6 @@ struct CampaignView: View {
                         }
                         }
                     }
-                    .buttonStyle(BlockButtonStyle())
                 }
 
                 if !milestones.isEmpty {
@@ -355,7 +333,6 @@ struct CampaignView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     .id("Milestones")
                 }
 
@@ -390,7 +367,7 @@ struct CampaignView: View {
                                                         .frame(width: 45, height: 45)
                                                 }.aspectRatio(contentMode: .fit)
                                                 .frame(width: 45, height: 45)
-                                                .modifier(PixelRounding())
+                                                .cornerRadius(5)
                                         }
                                         VStack {
                                             Text(reward.description)
@@ -407,7 +384,6 @@ struct CampaignView: View {
                                                             .font(.headline)
                                                             .foregroundColor(.white)
                                                     })
-                                                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                                     Spacer()
                                                 }
                                             }
@@ -423,7 +399,6 @@ struct CampaignView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     .id("Rewards")
                 }
             }
@@ -440,14 +415,6 @@ struct CampaignView: View {
                     self.topView(scrollViewReader: scrollViewReader)
                     self.contents(scrollViewReader:scrollViewReader)
                         .padding(.horizontal)
-                        .background {
-                            GeometryReader { geometry in
-                                AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                                    .tiledImageAtScale(scale: Double.spriteScale)
-                                    .frame(height:geometry.size.height + 1000)
-                                    .animation(.none, value: UUID())
-                            }
-                        }
                 }
             }
         }
@@ -505,7 +472,7 @@ struct CampaignView: View {
                         await starOrUnstar()
                     }
                 }) {
-                    Label("Starred", image: initialCampaign?.isStarred ?? false ? "heart.fill.pixel" : "heart.pixel")
+                    Label("Starred", systemImage: initialCampaign?.isStarred ?? false ? "heart.fill" : "heart")
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)
                 .disabled(teamEvent != nil)
@@ -522,7 +489,7 @@ struct CampaignView: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Image("pixel-refresh")
+                        Image(systemName:"arrow.clockwise")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }

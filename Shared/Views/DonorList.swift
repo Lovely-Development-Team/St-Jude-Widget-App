@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: [DETHEMING] Detheme this once the donor lists are showing on campaigns
 struct DonorList: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
@@ -67,7 +68,6 @@ struct DonorList: View {
                             Image(.boxArrowUpRightPixel)
                         }
                     }
-                    .buttonStyle(BlockButtonStyle())
                     .padding()
                     
                     ForEach(donations, id: \.id) { donation in
@@ -93,7 +93,6 @@ struct DonorList: View {
                                 }
                             }
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                         .padding(.horizontal)
                         .padding(.bottom, donation.id == donations.last?.id ? 10 : 0)
                     }

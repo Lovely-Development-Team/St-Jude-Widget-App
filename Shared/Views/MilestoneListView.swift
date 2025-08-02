@@ -30,7 +30,7 @@ struct MilestoneListView: View {
         VStack(spacing: 5) {
             layout {
                 HStack(alignment: .top) {
-                    Image(.checkmarkSealFillPixel)
+                    Image(systemName: "checkmark.seal.fill")
                         .foregroundColor(reached ? .green : .secondary)
                         .opacity(reached ? 1 : 0.25)
                     Text("\(milestone.name)")
@@ -46,7 +46,7 @@ struct MilestoneListView: View {
             }
             ProgressBar(value: .constant(percentage), fillColor: .accentColor)
                 .frame(height: 10 * Double.spriteScale)
-                .modifier(PixelRounding())
+                .clipShape(.capsule)
                 .opacity(reached ? 0.25 : 1)
         }
     }
@@ -62,6 +62,5 @@ struct MilestoneListView: View {
             MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "123"), name: "Milestone 123", publicId: .init())), reached: false)
         }
     }
-    .groupBoxStyle(BlockGroupBoxStyle())
     .padding()
 }
