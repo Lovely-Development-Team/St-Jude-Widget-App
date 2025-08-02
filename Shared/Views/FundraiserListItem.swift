@@ -31,9 +31,9 @@ struct FundraiserListItem: View {
     @ViewBuilder
     var disclosureIndicator: some View {
         if(campaign.isStarred) {
-            Image(.heartFillPixel)
+            Image(systemName: "heart.fill")
         } else {
-            Image(.pixelChevronRight)
+            Image(systemName: "chevron.right")
         }
     }
     
@@ -72,8 +72,7 @@ struct FundraiserListItem: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
-//                .cornerRadius(5)
-                .modifier(PixelRounding())
+                .cornerRadius(5)
         } else {
             EmptyView()
         }
@@ -86,11 +85,11 @@ struct FundraiserListItem: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text(campaign.title)
+                            .foregroundStyle(.primary)
                             .lineLimit(1)
                             .font(.headline)
                         if showDisclosureIndicator {
                             Spacer()
-//                            Image(systemName: disclosureIndicatorIcon)
                             self.disclosureIndicator
                                 .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         }
@@ -114,6 +113,7 @@ struct FundraiserListItem: View {
                             .fontWeight(.bold)
                             .lineLimit(1)
                             .layoutPriority(1)
+                            .foregroundStyle(.primary)
                     }
                 }
             } else {
@@ -121,6 +121,7 @@ struct FundraiserListItem: View {
                     HStack(alignment: .top) {
                         image()
                         VStack(alignment: .leading, spacing: 2) {
+                            // TODO: [DETHEMING] Why is some of the text in this view set to the accent color??
                             Text(campaign.title)
                                 .multilineTextAlignment(.leading)
                                 .font(.headline)
@@ -129,7 +130,6 @@ struct FundraiserListItem: View {
                         }
                         if showDisclosureIndicator {
                             Spacer()
-//                            Image(systemName: disclosureIndicatorIcon)
                             self.disclosureIndicator
                                 .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                         } else if showShareIcon {
@@ -151,7 +151,7 @@ struct FundraiserListItem: View {
                                     Label("Share Direct Donation Link", systemImage: "dollarsign")
                                 }
                             } label: {
-                                Label("Share", image: "share.pixel")
+                                Label("Share", systemImage: "square.and.arrow.up")
                                     .labelStyle(.iconOnly)
                             }
                         }
@@ -198,7 +198,6 @@ struct FundraiserListItem: View {
             GroupBox {
                 self.contents
             }
-                .groupBoxStyle(BlockGroupBoxStyle())
         } else {
             self.contents
         }

@@ -27,35 +27,36 @@ struct HeadToHeadListItem: View {
                         .multilineTextAlignment(.center)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
-                GroupBox {
-                    Text("vs")
-                        .bold()
-                        .padding(8)
-                        .foregroundColor(.white)
-                }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, padding: false))
+                Text("vs")
+                    .bold()
+                    .padding(8)
+                    .foregroundColor(.white)
+                    .background {
+                        Color.black
+                            .clipShape(.capsule)
+                    }
                     Text(headToHead.campaign2.name)
                         .bold()
                         .multilineTextAlignment(.center)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
+                        .foregroundColor(HEAD_TO_HEAD_COLOR_2.foregroundColor)
             }
             
-            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
+            Image(systemName:"crown.fill")
+                .foregroundStyle(Color.brandYellow)
+                .padding([.all], 5)
+                .background {
+                    Color.black
+                        .clipShape(.capsule)
+                }
                 .offset(x: leading ? -23 : 23, y: -25)
         }
         .compositingGroup()
         .padding()
         .background(
             HStack(spacing: 4) {
-                GroupBox {
-                    Rectangle().fill(.clear)
-                }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
-                GroupBox {
-                    Rectangle().fill(.clear)
-                }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 10 : 5)))
+                Rectangle().fill(HEAD_TO_HEAD_COLOR_1.backgroundColors[0])
+                Rectangle().fill(HEAD_TO_HEAD_COLOR_2.backgroundColors[0])
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
         )

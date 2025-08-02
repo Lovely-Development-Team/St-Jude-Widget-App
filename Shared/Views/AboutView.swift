@@ -37,16 +37,29 @@ struct AboutView: View {
         }
     }
     
+    var enableCombosBinding: Binding<Bool> {
+        return Binding<Bool>(get: {
+            return !self.disableCombos
+        }, set: { newValue in
+            self.disableCombos = !newValue
+        })
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing:0) {
-                AboutViewHeader()
+                Image(.bannerForeground)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.bottom)
+                
                 VStack {
                     
                     GroupBox {
                         VStack {
                             Text("About St. Jude")
                                 .font(.title3)
+                                .bold()
                                 .fullWidth()
                             Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
                                 .fullWidth()
@@ -60,16 +73,16 @@ struct AboutView: View {
                                     .foregroundColor(.white)
                                     .fullWidth(alignment: .center)
                             }
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(RoundedAccentButtonStyle())
                             .padding(.top)
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
                         VStack {
                             Text("About the app")
                                 .font(.title3)
+                                .bold()
                                 .fullWidth()
                             Text("This app was developed by a group of friends from around the world, who came together thanks to Relay's membership program.")
                                 .fullWidth()
@@ -80,7 +93,7 @@ struct AboutView: View {
                                     .foregroundColor(.white)
                                     .fullWidth(alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(RoundedAccentButtonStyle())
                             .padding(.top)
                             Text("Our thanks go to everybody who donates to St. Jude via our fundraiser.")
                                 .fullWidth()
@@ -93,150 +106,62 @@ struct AboutView: View {
                                     .foregroundColor(.white)
                                     .fullWidth(alignment: .center)
                             }
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(RoundedAccentButtonStyle())
                             .padding(.top)
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
-                        VStack {
-                            Text("Use Pixel Font")
-                            HStack {
-                                Button(action: {
-                                    disablePixelFont = false
-                                }) {
-                                    Text("Yes")
-                                        .foregroundColor(disablePixelFont ? .primary : .white)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                                Button(action: {
-                                    disablePixelFont = true
-                                }) {
-                                    Text("No")
-                                        .foregroundColor(disablePixelFont ? .white : .primary)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                            }
-                        }
-                    }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                    
-                    GroupBox {
-                        VStack {
-                            Text("Play Sounds When Muted")
-                            HStack {
-                                Button(action: {
-                                    playSoundsEvenWhenMuted = true
-                                    SoundEffectHelper.shared.setToPlayEvenOnMute()
-                                }) {
-                                    Text("Yes")
-                                        .foregroundColor(playSoundsEvenWhenMuted ? .white : .primary)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                Button(action: {
-                                    playSoundsEvenWhenMuted = false
-                                    SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
-                                }) {
-                                    Text("No")
-                                        .foregroundColor(playSoundsEvenWhenMuted ? .primary : .white    )
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                            }
-                        }
-                    }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                    
-                    GroupBox {
-                        VStack {
+                        Toggle(isOn: enableCombosBinding, label: {
                             Text("Enable Goal Multipliers")
-                            HStack {
-                                Button(action: {
-                                    disableCombos = false
-                                }) {
-                                    Text("Yes")
-                                        .foregroundColor(disableCombos ? .primary : .white)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                                Button(action: {
-                                    disableCombos = true
-                                }) {
-                                    Text("No")
-                                        .foregroundColor(disableCombos ? .white : .primary)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                            }
-                        }
+                                .bold()
+                        })
+                        .tint(Color.accentColor)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
                         VStack {
                             Text("Appearance")
-                            HStack {
-                                Button(action: {
-                                    self.appAppearance = 0
-                                }) {
-                                    Text("Light")
-                                        .foregroundColor((self.appAppearance == 0) ? .white : .primary    )
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                Button(action: {
-                                    self.appAppearance = 1
-                                }) {
-                                    Text("Dark")
-                                        .foregroundColor((self.appAppearance == 1) ? .white : .primary    )
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                if dynamicTypeSize < .large {
-                                    systemAppearanceButton
-                                }
-                            }
-                            if dynamicTypeSize >= .large {
-                                systemAppearanceButton
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                    
-                    Button(action: {
-                        self.showChangeIconSheet = true
-                    }) {
-                        HStack {
-                            if let currentIcon = currentIcon {
-                                Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .modifier(PixelRounding())
-                            }
-                            Text("Change Icon")
-                                .fullWidth()
+                                .bold()
+                            Picker(selection: self.$appAppearance, content: {
+                                Text("Light")
+                                    .tag(0)
+                                Text("Dark")
+                                    .tag(1)
+                                Text("System")
+                                    .tag(2)
+                            }, label: {})
+                            .pickerStyle(.segmented)
                         }
                     }
-                    .buttonStyle(BlockButtonStyle())
                     
-                    if(self.easterEggEnabled2024) {
-                        Button(action: {
-                            UserDefaults.shared.easterEggEnabled2024 = false
-                            self.dismiss()
-                        }, label: {
-                            Text("Disable Cursed Mode")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .fullWidth(alignment: .center)
-                        })
-                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                        .padding(.horizontal)
-                    }
+//                    Button(action: {
+//                        self.showChangeIconSheet = true
+//                    }) {
+//                        HStack {
+//                            if let currentIcon = currentIcon {
+//                                Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+//                                    .resizable()
+//                                    .frame(width: 50, height: 50)
+//                                    .modifier(PixelRounding())
+//                            }
+//                            Text("Change Icon")
+//                                .fullWidth()
+//                        }
+//                    }
+                    
+//                    if(self.easterEggEnabled2024) {
+//                        Button(action: {
+//                            UserDefaults.shared.easterEggEnabled2024 = false
+//                            self.dismiss()
+//                        }, label: {
+//                            Text("Disable Cursed Mode")
+//                                .font(.headline)
+//                                .foregroundColor(.white)
+//                                .fullWidth(alignment: .center)
+//                        })
+//                        .padding(.horizontal)
+//                    }
                     
                     Button(action: {
                         self.dismiss()
@@ -246,25 +171,13 @@ struct AboutView: View {
                             .foregroundColor(.white)
                             .fullWidth(alignment: .center)
                     })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
                     .padding([.top, .horizontal])
+                    .buttonStyle(RoundedAccentButtonStyle())
                     
                 }
                 .padding()
-                .background {
-                    GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
-                            .frame(height:geometry.size.height + 1000)
-                            .animation(.none, value: UUID())
-                    }
-                }
             }
         }
-        .background {
-            Color.skyBackground
-        }
-        .background(ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
@@ -291,86 +204,8 @@ struct AboutView: View {
                 .foregroundColor((self.appAppearance == 2) ? .white : .primary    )
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
     }
     
-}
-
-struct FlowerPosition: Identifiable {
-    var id = UUID()
-    
-    var offset: CGFloat
-    var tall: Bool
-}
-
-struct AboutViewHeader: View {
-    @Environment(\.colorScheme) var colorScheme
-    @State private var cloudMoved: Bool = false
-    @State private var cloudOffset: CGFloat = 200
-    @State private var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    @State private var flowers: [FlowerPosition] = []
-    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
-#if !os(macOS)
-    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
-#endif
-    var body: some View {
-        VStack(spacing: 0) {
-            Image(.bannerForeground)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding(.bottom)
-            RandomLandscapeView(data: self.$landscapeData) {}
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
-        }
-        .onReceive(timer) { _ in
-            withAnimation {
-                self.cloudOffset -= 1
-            }
-        }
-        .background {
-            ZStack(alignment: .bottom) {
-                SkyView()
-                ForEach(flowers) { flower in
-                    if(flower.tall) {
-                        AdaptiveImage.tallflower(colorScheme: self.colorScheme)
-                            .imageAtScale(scale: Double.spriteScale)
-                            .transition(.move(edge: .bottom))
-                            .offset(x: flower.offset, y: -20)
-                    } else {
-                        AdaptiveImage.flower(colorScheme: self.colorScheme)
-                            .imageAtScale(scale: Double.spriteScale)
-                            .transition(.move(edge: .bottom))
-                            .offset(x: flower.offset, y: -20)
-                    }
-                }
-            }
-        }
-        .overlay {
-            ZStack(alignment: .bottom) {
-                AdaptiveImage.cloud(colorScheme: self.colorScheme)
-                    .imageAtScale(scale: Double.spriteScale)
-                    .offset(y: -Double.spriteScale * 50)
-                    .offset(x: cloudOffset)
-                    .onTapGesture {
-#if !os(macOS)
-                        bounceHaptics.impactOccurred()
-#endif
-                        withAnimation {
-                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: false))
-                        }
-                    }
-                    .onLongPressGesture(minimumDuration: 0.5) {
-#if !os(macOS)
-                        bounceHaptics.impactOccurred()
-#endif
-                        withAnimation {
-                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: true))
-                        }
-                    }
-            }
-        }
-    }
 }
 
 #Preview {

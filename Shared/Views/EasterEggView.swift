@@ -67,7 +67,7 @@ struct EasterEggView: View {
                                 }
                             }
                         }) {
-                            Text(showFullL2CUName ? "Lovely to See You" : "PixL2CU")
+                            Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
                         }
                         .buttonStyle(PlainButtonStyle())
                         Text("says:")
@@ -84,73 +84,30 @@ struct EasterEggView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
             }
-            .groupBoxStyle(BlockGroupBoxStyle())
             .padding()
             Spacer()
             
-            RandomLandscapeView(data: self.$landscapeData) {
-                ZStack(alignment: .top) {
-                    Button(action: {
-                        withAnimation {
+            ZStack(alignment: .top) {
+                Button(action: {
+                    withAnimation {
 #if !os(macOS)
-                            bounceHaptics.impactOccurred()
+                        bounceHaptics.impactOccurred()
 #endif
-                            self.animate.toggle()
-                            self.animationType = .default
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.animate.toggle()
-                        }
-                    }) {
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
-                            .imageAtScale(scale: .spriteScale * 2)
-                            .accessibility(hidden: true)
-                            .offset(x: 0, y: animate ? -5 : 0)
-                            .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                        self.animate.toggle()
+                        self.animationType = .default
                     }
-                    HStack {
-#if DEBUG
-                        GroupBox {
-                            VStack {
-                                Text("isNice: \(coinCount.isNice)")
-//                                    .padding(.top)
-                                Button(action: {
-                                    self.showCoinInput = true
-                                }, label: {
-                                    Image(systemName: "keyboard")
-                                })
-//                                .padding(.top)
-                            }
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle())
-#endif
-                        Spacer()
-                        GroupBox {
-                            VStack {
-                                HStack {
-                                    TappableCoin(easterEggEnabled2024: easterEggEnabled2024, returns: true, offset: 0)
-                                    ZStack(alignment: .trailing) {
-                                        Text("888")
-                                            .opacity(0)
-                                        Text(coinCount, format: .number.grouping(.never))
-                                    }
-                                }
-                                if UserDefaults.shared.userLevel > 1 {
-                                    Text("Level \(UserDefaults.shared.userLevel)")
-                                }
-                            }
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle())
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.animate.toggle()
                     }
-                    .padding(.horizontal)
-                    .offset(y: -10)
+                }) {
+                    // TODO: [DETHEMING] Replace with drawn L2CU (where did they go???)
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                        .imageAtScale(scale: .spriteScale * 2)
+                        .accessibility(hidden: true)
+                        .offset(x: 0, y: animate ? -5 : 0)
+                        .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                 }
             }
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
-        }
-        .background(alignment: .bottom) {
-            SkyView()
         }
     }
     
@@ -186,14 +143,14 @@ struct EasterEggView: View {
                                     .foregroundColor(.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(RoundedAccentButtonStyle())
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     GroupBox {
                         VStack{
                             Text("Supporters")
                                 .font(.title3)
+                                .bold()
                                 .allowsTightening(true)
                             Text("Our thanks to these awesome people for donating to our fundraiser!")
                                 .font(.body)
@@ -208,13 +165,12 @@ struct EasterEggView: View {
                                     .foregroundColor(.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(RoundedAccentButtonStyle())
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     GroupBox {
                         VStack {
-                            Text("L2CU drawing by rhl_, pixel art by Jelly and Justin.\nRelay for St. Jude crafted with care by The Lovely Developers. ")
+                            Text("L2CU drawing by rhl__.\nRelay for St. Jude crafted with care by The Lovely Developers. ")
                                 .font(.caption)
                                 .multilineTextAlignment(.center)
                                 .allowsTightening(true)
@@ -229,10 +185,9 @@ struct EasterEggView: View {
                                     .foregroundColor(.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(RoundedAccentButtonStyle())
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     
                     Button(action: {
                         self.dismiss()
@@ -242,39 +197,17 @@ struct EasterEggView: View {
                             .foregroundColor(.white)
                             .fullWidth(alignment: .center)
                     })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    .buttonStyle(RoundedAccentButtonStyle())
                     .padding(.horizontal)
                 }
                 .padding()
-                .background {
-                    GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
-                            .frame(height:geometry.size.height + 1000)
-                            .animation(.none, value: UUID())
-                    }
-                }
             }
-        }
-        .background {
-            Color.skyBackground
         }
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityLabel)
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
-        .alert("Coin Input", isPresented: self.$showCoinInput, actions: {
-            Button(action: {
-                UserDefaults.shared.coinCount = Int(self.coinInput) ?? 0
-                UserDefaults.shared.addCoin(numCoins: nil)
-            }, label: {
-                Text("OK")
-            })
-            TextField("Coin Input", text: self.$coinInput)
-        }, message: {
-            Text("coins!")
-        })
     }
 }
 

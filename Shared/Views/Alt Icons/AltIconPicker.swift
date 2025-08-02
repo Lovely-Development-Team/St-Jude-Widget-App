@@ -59,7 +59,6 @@ struct AltIconPicker: View {
                             Image(.pixelChevronRight)                            
                         }
                     }
-                    .buttonStyle(BlockButtonStyle())
                     .padding()
                 }
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
@@ -72,7 +71,6 @@ struct AltIconPicker: View {
                                     icon.image
                                         .frame(width: iconWidth, height: iconWidth)
                                 }
-                                .buttonStyle(BlockButtonStyle(tint: icon.fileName == chosenIconName ? WidgetAppearance.skyBlue : .secondarySystemBackground))
                             } else {
                                 Button(action: {
                                     if iconsUnlocked {
@@ -94,7 +92,6 @@ struct AltIconPicker: View {
                                         }
                                     }
                                 }
-                                .buttonStyle(BlockButtonStyle(tint: icon.fileName == chosenIconName ? WidgetAppearance.skyBlue : .secondarySystemBackground))
                             }
                         }
                     }
@@ -109,7 +106,6 @@ struct AltIconPicker: View {
                         .foregroundColor(.white)
                         .fullWidth(alignment: .center)
                 })
-                .buttonStyle(BlockButtonStyle(tint: .accentColor))
                 .padding([.bottom, .horizontal])
             }
             .background {

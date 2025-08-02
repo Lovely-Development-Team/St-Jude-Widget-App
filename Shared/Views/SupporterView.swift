@@ -61,16 +61,10 @@ struct SupporterView: View {
                                 .foregroundColor(.white)
                                 .fullWidth(alignment: .center)
                         })
-                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                        .buttonStyle(RoundedAccentButtonStyle())
                         .padding(.bottom, 30)
                     }
                     .padding()
-                    RandomLandscapeView(data: self.$landscapeData) {}
-                    AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                        .tiledImageAtScale(axis: .horizontal)
-                }
-                .background {
-                    SkyView()
                 }
                 VStack {
                     if (supporters.count > 0) {
@@ -84,7 +78,6 @@ struct SupporterView: View {
                                 }
                             }
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                         //                    }
                     } else {
                         GroupBox {
@@ -94,7 +87,6 @@ struct SupporterView: View {
                                 .fullWidth(alignment: .center)
                                 .padding(.bottom, 40)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                     }
                     Button(action: {
                         self.dismiss()
@@ -104,7 +96,7 @@ struct SupporterView: View {
                             .foregroundColor(.white)
                             .fullWidth(alignment: .center)
                     })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    .buttonStyle(RoundedAccentButtonStyle())
                     Button(action: {
                         withAnimation {
 #if !os(macOS)
@@ -117,6 +109,7 @@ struct SupporterView: View {
                             self.animate.toggle()
                         }
                     }) {
+                        // TODO: [DETHEMING] Replace with drawn L2CU
                         AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
                             .imageAtScale(scale: .spriteScale * 2)
                             .padding()
@@ -126,18 +119,7 @@ struct SupporterView: View {
                     .buttonStyle(PlainButtonStyle())
                 }
                 .padding()
-                .background {
-                    GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
-                            .frame(height:geometry.size.height + 1000)
-                            .animation(.none, value: UUID())
-                    }
-                }
             }
-        }
-        .background {
-            Color.skyBackground
         }
         .background(ignoresSafeAreaEdges: .all)
         .navigationBarTitleDisplayMode(.inline)
