@@ -290,24 +290,26 @@ struct CampaignView: View {
 
                 if donations.count > 1, let campaign = initialCampaign ?? relayCampaign {
                     NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
-                        VStack {
-                            HStack {
-                                Text("Recent Donations")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.secondary)
+                        GroupBox {
+                            VStack {
+                                HStack {
+                                    Text("Recent Donations")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.secondary)
+                                }
+                                if #available(iOS 16.0, *), donations.count >= 4 {
+                                    DonorChart(donations: donations, total: campaign.totalRaised)
+                                        .frame(height: 80)
+                                }
+                                
+                                if teamEvent != nil {
+                                    Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
+                                        .font(.caption)
+                                        .fullWidth()
+                                        .foregroundStyle(.secondary)
+                                }
                             }
-                            if #available(iOS 16.0, *), donations.count >= 4 {
-                                DonorChart(donations: donations, total: campaign.totalRaised)
-                                    .frame(height: 80)
-                            }
-
-                        if teamEvent != nil {
-                            Text("Recent donations and the Top Donor do not include those who donated to community fundraisers.")
-                                .font(.caption)
-                                .fullWidth()
-                                .foregroundStyle(.secondary)
-                        }
                         }
                     }
                 }
@@ -694,6 +696,8 @@ struct CampaignView: View {
             return
         }
         
+        topDonor = response.data.fact.topDonation
+        
         let apiCampaign = campaign.updated(fromFact: response.data.fact)
         do {
             if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
@@ -713,10 +717,9 @@ struct CampaignView: View {
         
         do {
             dataLogger.debug("Fetching donors for \(campaign.id)")
-            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(id: campaign.id)
             withAnimation {
-                donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
-                topDonor = apiDonorsResponse.data.campaign.topDonation
+                donations = apiDonorsResponse.data.fact.donations.edges.map { $0.node }
             }
         } catch {
             dataLogger.error("Failed to load donors: \(error.localizedDescription)")

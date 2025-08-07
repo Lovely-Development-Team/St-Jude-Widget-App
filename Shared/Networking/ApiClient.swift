@@ -45,7 +45,7 @@ struct TiltifyGetCampaignsRequest: Codable {
 }
 
 struct TiltifyDonorsRequestVariables: Codable {
-    let publicId: String
+    let id: String
     let limit: Int
 }
 
@@ -161,12 +161,23 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         return campaigns
     }
     
+    func buildDonorRequest(id: UUID) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let body = TiltifyDonorsRequest(operationName: "get_fact_donations_by_id_asc",
+                                  variables: TiltifyDonorsRequestVariables(id: "\(id)", limit: 25),
+                                  query: DONOR_REQUEST_QUERY_2025)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
     func buildDonorRequest(publicId: String) throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let body = TiltifyDonorsRequest(operationName: "get_previous_donations_by_campaign",
-                                  variables: TiltifyDonorsRequestVariables(publicId: publicId, limit: 25),
+                                  variables: TiltifyDonorsRequestVariables(id: publicId, limit: 25),
                                   query: DONOR_REQUEST_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request
@@ -232,6 +243,12 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
                 continuation.resume(with: result)
             }
         }
+    }
+    
+    func fetchDonorsForCampaign(id: UUID) async throws -> TiltifyDonorsForCampaignResponse2025 {
+        let request = try buildDonorRequest(id: id)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return try JSONDecoder().decode(TiltifyDonorsForCampaignResponse2025.self, from: data)
     }
         
     func fetchDonorsForCampaign(publicId: String, completion: @escaping (Result<TiltifyDonorsForCampaignResponse, Error>) -> ()) -> URLSessionDataTask? {
