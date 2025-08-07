@@ -100,8 +100,7 @@ struct EasterEggView: View {
                         self.animate.toggle()
                     }
                 }) {
-                    // TODO: [DETHEMING] Replace with drawn L2CU (where did they go???)
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .teamLogoF)
                         .imageAtScale(scale: .spriteScale * 2)
                         .accessibility(hidden: true)
                         .offset(x: 0, y: animate ? -5 : 0)
