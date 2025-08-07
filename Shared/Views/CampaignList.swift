@@ -587,7 +587,7 @@ struct CampaignList: View {
                     
                     VStack() {
                         CountdownView()
-                            .padding([.top, .horizontal])
+                            .padding(.horizontal)
                         headToHeadListView
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
                         fundraiserListView

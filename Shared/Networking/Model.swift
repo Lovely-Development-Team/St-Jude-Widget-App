@@ -75,6 +75,12 @@ struct TiltifyMilestone: Codable {
     let amount: TiltifyAmount
     let name: String
     let publicId: UUID
+    
+    enum CodingKeys: String, CodingKey {
+        case publicId = "id"
+        case name
+        case amount
+    }
 }
 
 struct TiltifyAvatar: Codable, Hashable {
@@ -95,6 +101,17 @@ struct TiltifyCampaignReward: Codable {
     let amount: TiltifyAmount
     let image: TiltifyCampaignRewardImage?
     let active: Bool
+    let ownerUsageType: String
+    
+    enum CodingKeys: String, CodingKey {
+        case publicId = "id"
+        case name
+        case description
+        case amount
+        case image
+        case active
+        case ownerUsageType
+    }
 }
 
 struct TiltifyCampaign: Codable {
@@ -124,6 +141,34 @@ struct TiltifyData: Codable {
 
 struct TiltifyResponse: Codable {
     let data: TiltifyData
+}
+
+struct TiltifyOwnership: Codable {
+    let id: UUID
+    let name: String
+    let slug: String
+}
+
+struct TiltifyFact: Codable {
+    let id: UUID
+    let currentSlug: String
+    let totalAmountRaised: TiltifyAmount
+    let avatar: TiltifyAvatar?
+    let goal: TiltifyAmount
+    let originalGoal: TiltifyAmount
+    let name: String
+    let description: String
+    let ownership: TiltifyOwnership
+    let milestones: [TiltifyMilestone]
+    let rewards: [TiltifyCampaignReward]
+}
+
+struct TiltifyData2025: Codable {
+    let fact: TiltifyFact
+}
+
+struct TiltifyResponse2025: Codable {
+    let data: TiltifyData2025
 }
 
 func sortMilestones(_ milestoneA: TiltifyMilestone, _ milestoneB: TiltifyMilestone) -> Bool {

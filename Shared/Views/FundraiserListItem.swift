@@ -107,6 +107,7 @@ struct FundraiserListItem: View {
                         } else {
                             Text(campaign.user.name)
                                 .foregroundColor(.secondary)
+                                .fullWidth(alignment: .leading)
                         }
                         Spacer()
                         Text("\(campaign.totalRaisedDescription(showFullCurrencySymbol: false))")
@@ -125,6 +126,7 @@ struct FundraiserListItem: View {
                                 .multilineTextAlignment(.leading)
                                 .font(.headline)
                             Text(campaign.user.name)
+                                .multilineTextAlignment(.leading)
                                 .foregroundColor(.secondary)
                         }
                         if showDisclosureIndicator {

@@ -665,7 +665,7 @@ struct CampaignView: View {
     
     func updateRewardsInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiRewards: [TiltifyCampaignReward]) async {
         
-        var keyedApiRewards: [UUID: Reward] = apiRewards.reduce(into: [:]) { partialResult, reward in
+        var keyedApiRewards: [UUID: Reward] = apiRewards.filter { $0.ownerUsageType == "fundraising_event_activation" }.reduce(into: [:]) { partialResult, reward in
             partialResult.updateValue(Reward(from: reward, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: reward.publicId)
         }
         
@@ -718,15 +718,16 @@ struct CampaignView: View {
     
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
         
-        let response: TiltifyResponse
+        let response: TiltifyResponse2025
         do {
-            response = try await apiClient.fetchCampaign(vanity: campaign.user.slug, slug: campaign.slug)
+            response = try await apiClient.fetchCampaign(id: campaign.id)
+            dataLogger.debug("\(campaign.id) Fetched campaign from API: \(response.data.fact.description)")
         } catch {
             dataLogger.error("\(campaign.id) Fetching campaign failed: \(error.localizedDescription)")
             return
         }
         
-        let apiCampaign = campaign.updated(fromCampaign: response.data.campaign)
+        let apiCampaign = campaign.updated(fromFact: response.data.fact)
         do {
             if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
                 dataLogger.info("\(campaign.id) Updated stored campaign: \(apiCampaign.id)")
@@ -740,8 +741,8 @@ struct CampaignView: View {
         
         dataLogger.debug("\(campaign.id) Updating campaign from the API!")
         
-        await updateMilestonesInDatabase(forCampaign: apiCampaign, with: response.data.campaign.milestones)
-        await updateRewardsInDatabase(forCampaign: apiCampaign, with: response.data.campaign.rewards)
+        await updateMilestonesInDatabase(forCampaign: apiCampaign, with: response.data.fact.milestones)
+        await updateRewardsInDatabase(forCampaign: apiCampaign, with: response.data.fact.rewards)
         
         do {
             dataLogger.debug("Fetching donors for \(campaign.id)")

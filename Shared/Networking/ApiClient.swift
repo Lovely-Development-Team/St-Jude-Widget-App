@@ -10,7 +10,7 @@ import Combine
 import WidgetKit
 
 let TEAM_EVENT_VANITY = "+relay-for-st-jude"
-let TEAM_EVENT_SLUG = "relay-for-st-jude-2025"
+let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
 //let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
 //let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
 
@@ -170,6 +170,23 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
                                   query: DONOR_REQUEST_QUERY)
         request.httpBody = try jsonEncoder.encode(body)
         return request
+    }
+    
+    func buildCampaignRequest(id: UUID) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let body = TiltifyRequest(operationName: "get_default_template_fact",
+                                  variables: ["id": "\(id)"],
+                                  query: CAMPAIGN_REQUEST_QUERY_2025)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
+    func fetchCampaign(id: UUID) async throws -> TiltifyResponse2025 {
+        let request = try buildCampaignRequest(id: id)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return try JSONDecoder().decode(TiltifyResponse2025.self, from: data)
     }
     
     func buildCampaignRequest(vanity: String, slug: String) throws -> URLRequest {
