@@ -68,9 +68,9 @@ struct CountdownView: View {
     }
     
     func updateDate() {
-//        if let closingDate = closingDate {
-//            campaignsHaveClosed = closingDate < Date()
-//        }
+        if let closingDate = closingDate {
+            campaignsHaveClosed = closingDate < Date()
+        }
     }
 }
 
