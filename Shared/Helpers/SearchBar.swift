@@ -58,7 +58,7 @@ struct SearchBar: UIViewRepresentable {
         searchBar.searchBarStyle = .minimal
         searchBar.becomeFirstResponder()
         searchBar.setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-        searchBar.searchTextField.font = UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .body).pointSize)
+//        searchBar.searchTextField.font = UIFont(name: Font.customFontName, size: UIFont.preferredFont(forTextStyle: .body).pointSize)
         return searchBar
     }
 

@@ -307,6 +307,427 @@ query get_previous_donations_by_campaign($publicId: String!, $limit: Int!, $curs
 }
 """
 
+let CAMPAIGN_REQUEST_QUERY_2025 = """
+query get_default_template_fact($id: ID!) {
+  fact(id: $id) {
+    id
+    currentSlug
+    updatedAt
+    trackers
+    template {
+      id
+      theme
+      panels {
+        id
+        name
+      }
+    }
+    supportedFacts {
+      id
+      name
+      link
+      usageType
+      currentSlug
+    }
+    ...DefaultTemplateFactAbout
+    ...DefaultTemplateFactFAQ
+    ...DefaultTemplateFactFundraiserRewards
+    ...DefaultTemplateFactFundraisers
+    ...DefaultTemplateFactHeader
+    ...DefaultTemplateFactLeaderboards
+    ...DefaultTemplateFactLiveDonations
+    ...DefaultTemplateFactMilestones
+    ...DefaultTemplateFactPolls
+    ...DefaultTemplateFactRewards
+    ...DefaultTemplateFactTargets
+    ...DefaultTemplateFactTeamStats
+  }
+}
+
+fragment DefaultTemplateFactAbout on Fact {
+  id
+  name
+  description
+  contactEmail
+  avatar {
+    src
+    alt
+    height
+    width
+  }
+  video
+  image {
+    src
+    alt
+    height
+    width
+  }
+  usageType
+  supportedFacts {
+    id
+    name
+    description
+    link
+    avatar {
+      src
+      alt
+      height
+      width
+    }
+    usageType
+  }
+  template {
+    id
+    panels {
+      id
+      config {
+        findOutMore
+        findOutMoreLink
+        contact
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactFAQ on Fact {
+  id
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        faqUrl
+        faqHeading
+        faqDescription
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactFundraiserRewards on Fact {
+  id
+  fundraiserRewards {
+    id
+    title
+    description
+    label
+    promoted
+    amount {
+      value
+      currency
+    }
+    fairMarketValue {
+      value
+      currency
+    }
+    image {
+      src
+      alt
+      height
+      width
+    }
+  }
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        fundraiserRewardsHeading
+        fundraiserRewardsDescription
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactFundraisers on Fact {
+  id
+  link
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactHeader on Fact {
+  id
+  name
+  fundraisingForName
+  status
+  usageType
+  restricted
+  avatar {
+    src
+    alt
+    height
+    width
+  }
+  region {
+    id
+    name
+  }
+  supportable
+  featureSettings {
+    monthlyGivingEnabled
+  }
+  totalAmountRaised {
+    value
+    currency
+  }
+  goal {
+    value
+    currency
+  }
+  originalGoal {
+    value
+    currency
+  }
+  donationMatches {
+    id
+    active
+    startedAtAmount {
+      value
+      currency
+    }
+    matchedAmountTotalAmountRaised {
+      value
+      currency
+    }
+  }
+  milestones {
+    id
+    name
+    amount {
+      value
+      currency
+    }
+  }
+  monthlyGivingStats {
+    donorCount
+    totalAmountRaised {
+      value
+      currency
+    }
+  }
+  ownership {
+    id
+    name
+    slug
+  }
+  shareLinks {
+    supportLink
+  }
+  social {
+    discord
+    facebook
+    instagram
+    snapchat
+    tiktok
+    twitch
+    twitter
+    website
+    youtube
+  }
+  supportedFacts {
+    id
+    name
+    usageType
+    link
+    ownership {
+      id
+      name
+    }
+  }
+  template {
+    id
+    primaryColor
+    secondaryFont
+    panels {
+      id
+      config {
+        alignment
+        heading
+        subHeading
+        donateButton
+        donateMonthlyButton
+        startFundraisingButton
+        amountRaised
+        fundraisingGoal
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactLeaderboards on Fact {
+  id
+  currency
+  link
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        individual
+        team
+        donor
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactLiveDonations on Fact {
+  id
+  template {
+    id
+    secondaryFont
+    panels {
+      id
+      config {
+        show
+        backgroundColor
+      }
+    }
+  }
+}
+
+fragment DefaultTemplateFactMilestones on Fact {
+  id
+  milestones {
+    id
+    name
+    amount {
+      value
+      currency
+    }
+    active
+  }
+}
+
+fragment DefaultTemplateFactPolls on Fact {
+  id
+  polls {
+    id
+    active
+    updatedAt
+    ...DefaultTemplateFactPollsPoll
+  }
+}
+
+fragment DefaultTemplateFactPollsPoll on Poll {
+  id
+  name
+  amountRaised(factId: $id) {
+    value
+    currency
+  }
+  totalAmountRaised {
+    value
+    currency
+  }
+  ownerUsageType
+  pollOptions {
+    id
+    name
+    amountRaised(factId: $id) {
+      value
+      currency
+    }
+    totalAmountRaised {
+      value
+      currency
+    }
+  }
+}
+
+fragment DefaultTemplateFactRewards on Fact {
+  id
+  rewards {
+    id
+    updatedAt
+    active
+    promoted
+    amount {
+      value
+      currency
+    }
+    ...DefaultTemplateFactRewardsReward
+  }
+}
+
+fragment DefaultTemplateFactRewardsReward on Reward {
+  id
+  name
+  description
+  image {
+    src
+    alt
+    height
+    width
+  }
+  amount {
+    value
+    currency
+  }
+  quantity
+  remaining
+  endsAt
+  startsAt
+  ownerUsageType
+}
+
+fragment DefaultTemplateFactTargets on Fact {
+  id
+  challenges {
+    id
+    updatedAt
+    active
+    ...DefaultTemplateFactTargetsTarget
+  }
+}
+
+fragment DefaultTemplateFactTargetsTarget on Challenge {
+  id
+  name
+  amount {
+    value
+    currency
+  }
+  amountRaised {
+    value
+    currency
+  }
+  endsAt
+}
+
+fragment DefaultTemplateFactTeamStats on Fact {
+  id
+  publishedAt
+  teamMemberCount
+  supportingFactsCount(usageTypes: [CAMPAIGN])
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+      }
+    }
+  }
+}
+"""
+
 let CAMPAIGN_REQUEST_QUERY = """
 query get_campaign_by_vanity_and_slug($vanity: String!, $slug: String!) {
   campaign(vanity: $vanity, slug: $slug) {

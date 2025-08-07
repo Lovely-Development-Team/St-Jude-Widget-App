@@ -12,7 +12,7 @@ struct TeamEventCardView: View {
     let teamEvent: TeamEvent?
     let showDisclosureIndicator: Bool
     var showShareIcon: Bool = false
-    var appearance: WidgetAppearance = .yellow
+    var appearance: WidgetAppearance = .stjude
     @Binding var showShareSheet: Bool
     @State private var showShareLinkSheet: ShareURL? = nil
     var showBackground: Bool = true
@@ -102,7 +102,7 @@ struct TeamEventCardView: View {
                     .redacted(reason: .placeholder)
             }
         }
-        .foregroundColor(appearance.foregroundColor)
+        .foregroundColor(.primary)
     }
     
     var body: some View {

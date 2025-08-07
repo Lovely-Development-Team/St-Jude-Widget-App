@@ -205,7 +205,6 @@ struct CampaignList: View {
                     .zIndex(1)
                 }
             }
-            .frame(maxWidth: Double.stretchedContentMaxWidth)
         }
         .frame(maxWidth: .infinity)
     }
@@ -254,7 +253,6 @@ struct CampaignList: View {
                                 Text("Add a Head to Head")
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .foregroundStyle(Color.white)
                             .fullWidth(alignment: .center)
                             .padding()
                             .background(
@@ -411,29 +409,27 @@ struct CampaignList: View {
             if allCampaigns.count != 0 {
                 
                 if showSearchBar {
-                    GroupBox {
-                        SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
-                            .id("SEARCH_BAR")
-                    }
-                    .padding(.horizontal)
+                    SearchBar(text: $searchText, placeholder: "Search...", showingMyself: $showSearchBar)
+                        .id("SEARCH_BAR")
+                        .padding(.horizontal)
                 }
-                
-                GroupBox {
-                    Button(action: {
-                        showSheet = .randomPicker
-                    }) {
-                        // TODO: [DETHEMING] The themed random picker is still here, yall can make a new one if you want
-                        HStack {
-                            Image(systemName:"questionmark")
-                            Text("Play for a random Fundraiser!")
-                                .multilineTextAlignment(.leading)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            Image(systemName:"chevron.right")
-                        }
-                        .foregroundColor(.black)
-                    }
-                }
-                .padding(.horizontal)
+//                
+//                GroupBox {
+//                    Button(action: {
+//                        showSheet = .randomPicker
+//                    }) {
+//                        // TODO: [DETHEMING] The themed random picker is still here, yall can make a new one if you want
+//                        HStack {
+//                            Image(systemName:"questionmark")
+//                            Text("Play for a random Fundraiser!")
+//                                .multilineTextAlignment(.leading)
+//                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+//                            Image(systemName:"chevron.right")
+//                        }
+//                        .foregroundColor(.black)
+//                    }
+//                }
+//                .padding(.horizontal)
             } else {
                 Group {
                     if isLoading {
@@ -536,8 +532,7 @@ struct CampaignList: View {
             }
             .frame(maxWidth: .infinity)
         })
-        .padding(.horizontal)
-        .frame(maxWidth: Double.stretchedContentMaxWidth)
+        .padding([.top, .horizontal])
     }
     
     @ViewBuilder
@@ -568,7 +563,7 @@ struct CampaignList: View {
                     
                     VStack() {
                         CountdownView()
-                            .padding([.top, .horizontal])
+                            .padding(.horizontal)
                         headToHeadListView
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
                         fundraiserListView

@@ -221,6 +221,24 @@ extension Campaign {
                         isStarred: self.isStarred)
     }
     
+    func updated(fromFact fact: TiltifyFact) -> Campaign {
+        return Campaign(id: self.id,
+                        name: fact.name,
+                        slug: fact.currentSlug,
+                        avatar: fact.avatar,
+                        status: self.status,
+                        description: fact.description,
+                        goalCurrency: fact.goal.currency,
+                        goalValue: fact.goal.value,
+                        goalNumericalValue: fact.goal.numericalValue,
+                        totalRaisedCurrency: fact.totalAmountRaised.currency,
+                        totalRaisedValue: fact.totalAmountRaised.value,
+                        totalRaisedNumericalValue: fact.totalAmountRaised.numericalValue,
+                        username: fact.ownership.name,
+                        userSlug: fact.ownership.slug,
+                        isStarred: self.isStarred)
+    }
+    
     func setStar(to isStarred: Bool) -> Campaign {
         return Campaign(id: self.id,
                         name: self.name,
