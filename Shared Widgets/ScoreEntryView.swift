@@ -192,7 +192,7 @@ struct ScoreEntryView: View {
     @ViewBuilder
     var lockScreenRectangular: some View {
         HStack {
-            Image(.mykehead)
+            Image(.mykeHead)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(minWidth: 10, maxWidth: 30)
@@ -201,7 +201,7 @@ struct ScoreEntryView: View {
             Text(formatNumber(entry.score.myke.score))
                 .fixedSize(horizontal: true, vertical: false)
             Spacer()
-            Image(.stephenhead)
+            Image(.stephenHead)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(minWidth: 10, maxWidth: 30)
@@ -270,3 +270,4 @@ struct CampaignList_Previews: PreviewProvider {
             .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }
+
