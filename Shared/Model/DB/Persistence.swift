@@ -27,7 +27,7 @@ extension AppDatabase {
             
             // Connect to a database on disk
             // See https://github.com/groue/GRDB.swift/blob/master/README.md#database-connections
-            let dbURL = folderURL.appendingPathComponent("db.2024.sqlite")
+            let dbURL = folderURL.appendingPathComponent("db.2025.sqlite")
             var config = Configuration()
             #if DEBUG
             // Protect sensitive information by enabling verbose debugging in DEBUG builds only
