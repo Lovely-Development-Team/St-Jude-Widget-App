@@ -10,7 +10,8 @@ import Combine
 import WidgetKit
 
 let TEAM_EVENT_VANITY = "+relay-for-st-jude"
-let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
+let TEAM_EVENT_SLUG = "relay-for-st-jude-2025"
+//let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
 //let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
 
 struct TiltifyRequest: Codable {
