@@ -257,6 +257,38 @@ query get_team_event_by_vanity_and_slug($vanity: String!, $slug: String!) {
 }
 """
 
+let DONOR_REQUEST_QUERY_2025 = """
+query get_fact_donations_by_id_asc($id: ID!, $limit: Int!, $cursor: String) {
+  fact(id: $id) {
+    id
+    donations(first: $limit, after: $cursor) {
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          donorName
+          donorComment
+          completedAt
+          amount {
+            value
+            currency
+          }
+          incentives {
+            type
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
 let DONOR_REQUEST_QUERY = """
 query get_previous_donations_by_campaign($publicId: String!, $limit: Int!, $cursor: String) {
   campaign(publicId: $publicId) {
@@ -341,6 +373,18 @@ query get_default_template_fact($id: ID!) {
     ...DefaultTemplateFactRewards
     ...DefaultTemplateFactTargets
     ...DefaultTemplateFactTeamStats
+    topDonation {
+      id
+      amount {
+        currency
+        value
+      }
+      donorComment
+      donorName
+      incentives {
+        type
+      }
+    }
   }
 }
 

@@ -161,6 +161,7 @@ struct TiltifyFact: Codable {
     let ownership: TiltifyOwnership
     let milestones: [TiltifyMilestone]
     let rewards: [TiltifyCampaignReward]
+    let topDonation: TiltifyDonorsForCampaignDonation?
 }
 
 struct TiltifyData2025: Codable {
@@ -242,9 +243,10 @@ struct TiltifyDonorsForCampaignDonation: Codable {
     let donorName: String
     let donorComment: String?
     let incentives: [TiltifyDonorsForCampaignDonationIncentive]
-    let completedAt: String
+    let completedAt: String?
     
     var donationDate: Date? {
+        guard let completedAt else { return nil }
         let parsedCompletedAt = String(completedAt.split(separator: ".")[0]) + "Z"
         let isoDateFormatter = ISO8601DateFormatter()
         return isoDateFormatter.date(from: parsedCompletedAt)
@@ -273,6 +275,14 @@ struct TiltifyDonorsForCampaignResponse: Codable {
     let data: TiltifyDonorsForCampaignData
 }
 
+
+struct TiltifyDonorsForCampaignData2025: Codable {
+    let fact: TiltifyDonorsForCampaignCampaign
+}
+
+struct TiltifyDonorsForCampaignResponse2025: Codable {
+    let data: TiltifyDonorsForCampaignData2025
+}
 
 
 struct TiltifyTeamEvent: Codable {
