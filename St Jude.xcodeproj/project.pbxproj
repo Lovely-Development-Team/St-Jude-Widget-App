@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 74;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5EB7C6D62E44A96600C44B4F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5EB7C6C82E44A96600C44B4F /* Intents.intentdefinition */; };
+		5EB7C6D72E44A96600C44B4F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5EB7C6C82E44A96600C44B4F /* Intents.intentdefinition */; };
+		5EB7C6D82E44A96600C44B4F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5EB7C6C82E44A96600C44B4F /* Intents.intentdefinition */; };
+		5EB7C6D92E44A96600C44B4F /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5EB7C6C82E44A96600C44B4F /* Intents.intentdefinition */; };
 		5EE56C0B2A7AABED00FA71DF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5EE56C0A2A7AABED00FA71DF /* Kingfisher */; };
 		63574A1326D658FD00A2D495 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656D26D1AD24004F04DE /* WidgetKit.framework */; platformFilter = maccatalyst; };
 		63574A1426D658FD00A2D495 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6357656F26D1AD25004F04DE /* SwiftUI.framework */; platformFilter = maccatalyst; };
@@ -138,6 +142,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5EB7C6C42E44A96600C44B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5EB7C6C62E44A96600C44B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
+		5EB7C6C72E44A96600C44B4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
+		5EB7C6C92E44A96600C44B4F /* Intents Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Intents Extension.entitlements"; sourceTree = "<group>"; };
 		63574A1226D658FD00A2D495 /* macOS WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "macOS WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63574A4326D65DD300A2D495 /* St-Jude--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "St-Jude--macOS--Info.plist"; sourceTree = "<group>"; };
 		63574A4726D65E5C00A2D495 /* macOS WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "macOS WidgetExtension.entitlements"; sourceTree = "<group>"; };
@@ -373,48 +381,11 @@
 			);
 			target = 6357653926D1A73E004F04DE /* St Jude (macOS) */;
 		};
-		5EE6B4D12E449BCD00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				/Localized/Intents.intentdefinition,
-				Info.plist,
-			);
-			target = 63BFF19A26D5D37C0023263D /* Intents Extension */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		5EE6B4CE2E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 6357653026D1A73E004F04DE /* Sources */;
-			membershipExceptions = (
-				/Localized/Intents.intentdefinition,
-			);
-		};
-		5EE6B4CF2E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 6357653626D1A73E004F04DE /* Sources */;
-			membershipExceptions = (
-				/Localized/Intents.intentdefinition,
-			);
-		};
-		5EE6B4D02E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 6357656726D1AD24004F04DE /* Sources */;
-			membershipExceptions = (
-				/Localized/Intents.intentdefinition,
-			);
-		};
-		5EE6B4D22E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 63BFF19726D5D37C0023263D /* Sources */;
-			membershipExceptions = (
-				/Localized/Intents.intentdefinition,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		5EB7C6DD2E44A99A00C44B4F /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
+		5EB7C6E22E44A9B900C44B4F /* Handlers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Handlers; sourceTree = "<group>"; };
 		5EE6B2492E449B7300DEBA1C /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B25E2E449B7300DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B25F2E449B7300DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B2602E449B7300DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B2612E449B7300DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		5EE6B2652E449B7600DEBA1C /* iOS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iOS; sourceTree = "<group>"; };
 		5EE6B26B2E449B7700DEBA1C /* macOS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = macOS; sourceTree = "<group>"; };
@@ -424,7 +395,6 @@
 		5EE6B2942E449B7E00DEBA1C /* macOS Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B29A2E449B7E00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B29B2E449B7E00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "macOS Widget"; sourceTree = "<group>"; };
 		5EE6B3252E449B8F00DEBA1C /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B46E2E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B46F2E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4702E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4712E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		5EE6B4842E449B9900DEBA1C /* Shared Widgets */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B4AD2E449B9900DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4AE2E449B9900DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared Widgets"; sourceTree = "<group>"; };
-		5EE6B4BE2E449BCD00DEBA1C /* Intents Extension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B4CE2E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, 5EE6B4CF2E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, 5EE6B4D02E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, 5EE6B4D12E449BCD00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4D22E449BCD00DEBA1C /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Intents Extension"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,6 +461,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5EB7C6CA2E44A96600C44B4F /* Intents Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5EB7C6E22E44A9B900C44B4F /* Handlers */,
+				5EB7C6DD2E44A99A00C44B4F /* Extensions */,
+				5EB7C6C42E44A96600C44B4F /* Info.plist */,
+				5EB7C6C82E44A96600C44B4F /* Intents.intentdefinition */,
+				5EB7C6C92E44A96600C44B4F /* Intents Extension.entitlements */,
+			);
+			path = "Intents Extension";
+			sourceTree = "<group>";
+		};
 		6357652726D1A73B004F04DE = {
 			isa = PBXGroup;
 			children = (
@@ -509,7 +491,7 @@
 				5EE6B2702E449B7900DEBA1C /* Tests iOS */,
 				5EE6B2752E449B7A00DEBA1C /* Tests macOS */,
 				5EE6B27D2E449B7C00DEBA1C /* Tiltify St Jude Widget */,
-				5EE6B4BE2E449BCD00DEBA1C /* Intents Extension */,
+				5EB7C6CA2E44A96600C44B4F /* Intents Extension */,
 				5EE6B2942E449B7E00DEBA1C /* macOS Widget */,
 				6357656C26D1AD24004F04DE /* Frameworks */,
 				6357653526D1A73E004F04DE /* Products */,
@@ -711,7 +693,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5EE6B4BE2E449BCD00DEBA1C /* Intents Extension */,
+				5EB7C6DD2E44A99A00C44B4F /* Extensions */,
+				5EB7C6E22E44A9B900C44B4F /* Handlers */,
 			);
 			name = "Intents Extension";
 			packageProductDependencies = (
@@ -757,6 +740,7 @@
 				};
 			};
 			buildConfigurationList = 6357652B26D1A73B004F04DE /* Build configuration list for PBXProject "St Jude" */;
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -768,7 +752,6 @@
 				63D0CCDC28B101200073957E /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				16AF570528C63180006B9530 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
-			preferredProjectObjectVersion = 55;
 			productRefGroup = 6357653526D1A73E004F04DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -848,6 +831,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB7C6D62E44A96600C44B4F /* Intents.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,6 +839,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB7C6D72E44A96600C44B4F /* Intents.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -876,6 +861,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB7C6D82E44A96600C44B4F /* Intents.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,6 +869,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB7C6D92E44A96600C44B4F /* Intents.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +902,18 @@
 			targetProxy = 63BFF1A126D5D37C0023263D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5EB7C6C82E44A96600C44B4F /* Intents.intentdefinition */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5EB7C6C62E44A96600C44B4F /* Base */,
+				5EB7C6C72E44A96600C44B4F /* en */,
+			);
+			name = Intents.intentdefinition;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		63574A2226D6590000A2D495 /* Debug */ = {
