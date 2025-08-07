@@ -22,50 +22,14 @@ struct DonorList: View {
         ScrollView {
             
             VStack(spacing: 0) {
-                
-                VStack(spacing: 0) {
-                    Spacer()
-                    AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                        .tiledImageAtScale(axis: .horizontal)
-                }
-                .overlay(alignment: .bottom) {
-                    HStack {
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    }
-                    .padding(.bottom, Double.spriteScale * 100)
-                }
-                .frame(minHeight: 100)
-                .background {
-                    SkyView()
-                        .mask {
-                            LinearGradient(stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 0.25),
-                                .init(color: .white, location: 1)
-                            ], startPoint: .top, endPoint: .bottom)
-                        }
-                }
-                .background {
-                    Color(uiColor: .systemBackground)
-                }
-                
+                                
                 VStack {
                     
                     Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!) {
                         HStack {
                             Text("View all donors on Tiltify")
                             Spacer()
-                            Image(.boxArrowUpRightPixel)
+                            Image(systemName: "safari")
                         }
                     }
                     .padding()
@@ -100,14 +64,6 @@ struct DonorList: View {
                 }
                 Spacer()
             }
-            .background {
-                GeometryReader { geometry in
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                        .tiledImageAtScale(scale: Double.spriteScale)
-                        .frame(height:geometry.size.height + 1000)
-                        .animation(.none, value: UUID())
-                }
-            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -121,7 +77,7 @@ struct DonorList: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Image(.pixelRefresh)
+                        Image(systemName: "arrow.clockwise")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }
@@ -139,10 +95,10 @@ struct DonorList: View {
         if !isRefreshing {
             isRefreshing = true
             do {
-                let apiDonorsResponse = try await ApiClient.shared.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
+                let apiDonorsResponse = try await ApiClient.shared.fetchDonorsForCampaign(id: campaign.id)
                 withAnimation {
-                    donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
-                    topDonor = apiDonorsResponse.data.campaign.topDonation
+                    donations = apiDonorsResponse.data.fact.donations.edges.map { $0.node }
+                    topDonor = apiDonorsResponse.data.fact.topDonation
                     isRefreshing = false
                 }
             } catch {

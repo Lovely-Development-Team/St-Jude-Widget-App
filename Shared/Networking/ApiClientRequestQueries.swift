@@ -261,6 +261,18 @@ let DONOR_REQUEST_QUERY_2025 = """
 query get_fact_donations_by_id_asc($id: ID!, $limit: Int!, $cursor: String) {
   fact(id: $id) {
     id
+    topDonation {
+      id
+      amount {
+        currency
+        value
+      }
+      donorComment
+      donorName
+      incentives {
+        type
+      }
+    }
     donations(first: $limit, after: $cursor) {
       pageInfo {
         startCursor
