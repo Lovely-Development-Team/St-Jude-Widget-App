@@ -32,8 +32,6 @@ struct CountdownView: View {
                                     .multilineTextAlignment(.leading)
                             }
                         }
-                        .foregroundColor(.white)
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
                     } else {
                         GroupBox {
                             Group {
@@ -52,11 +50,9 @@ struct CountdownView: View {
                             }
                         }
                         .font(.title3)
-                        .foregroundColor(.white)
 //                        .lineLimit(1)
 //                        .minimumScaleFactor(0.5)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
                     }
                 }
             } else {
@@ -72,9 +68,9 @@ struct CountdownView: View {
     }
     
     func updateDate() {
-        if let closingDate = closingDate {
-            campaignsHaveClosed = closingDate < Date()
-        }
+//        if let closingDate = closingDate {
+//            campaignsHaveClosed = closingDate < Date()
+//        }
     }
 }
 
