@@ -122,8 +122,8 @@ struct FundraiserListItem: View {
                     HStack(alignment: .top) {
                         image()
                         VStack(alignment: .leading, spacing: 2) {
-                            // TODO: [DETHEMING] Why is some of the text in this view set to the accent color??
                             Text(campaign.title)
+                                .foregroundColor(.primary)
                                 .multilineTextAlignment(.leading)
                                 .font(.headline)
                             Text(campaign.user.name)
@@ -159,6 +159,7 @@ struct FundraiserListItem: View {
                         }
                     }
                     Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+                        .foregroundColor(.primary)
                         .font(.title)
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .trailing)
