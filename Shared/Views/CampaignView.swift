@@ -634,7 +634,7 @@ struct CampaignView: View {
     
     func updateRewardsInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiRewards: [TiltifyCampaignReward]) async {
         
-        var keyedApiRewards: [UUID: Reward] = apiRewards.filter { $0.ownerUsageType == "fundraising_event_activation" }.reduce(into: [:]) { partialResult, reward in
+        var keyedApiRewards: [UUID: Reward] = apiRewards.filter { $0.ownerUsageType != "fundraising_event_activation" }.reduce(into: [:]) { partialResult, reward in
             partialResult.updateValue(Reward(from: reward, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: reward.publicId)
         }
         
