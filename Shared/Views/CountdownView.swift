@@ -30,6 +30,7 @@ struct CountdownView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                 Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
                                     .multilineTextAlignment(.leading)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             }
                         }
                     } else {
