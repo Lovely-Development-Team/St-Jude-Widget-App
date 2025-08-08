@@ -109,9 +109,9 @@ struct SupporterView: View {
                             self.animate.toggle()
                         }
                     }) {
-                        // TODO: [DETHEMING] Replace with drawn L2CU
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
-                            .imageAtScale(scale: .spriteScale * 2)
+                        Image("Team_Logo_F")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .padding()
                             .offset(x: 0, y: animate ? -5 : 0)
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
