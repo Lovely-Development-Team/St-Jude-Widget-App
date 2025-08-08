@@ -394,9 +394,7 @@ struct CampaignView: View {
 
                                 }
                                 if reward != rewards.last {
-                                    Rectangle()
-                                        .frame(height: 10 * Double.spriteScale)
-                                        .foregroundStyle(.secondary)
+                                    Divider()
                                 }
                             }
                         }
