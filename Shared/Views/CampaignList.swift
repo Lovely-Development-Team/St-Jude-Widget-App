@@ -580,9 +580,20 @@ struct CampaignList: View {
         ScrollView {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
-                    topView
-                    
-                    VStack() {
+                    VStack{
+                        topView
+                        
+                        HStack{
+                            BlinkingStandingView(baseImage: .mykeSuit, lightImage: .mykeLights,scale: 0.10, isMirrored: true)
+                            Spacer()
+                            BlinkingStandingView(baseImage: .stephenSuit, lightImage: .stephenLights, scale: 0.10, isMirrored: true)
+                        }
+                        Spacer()
+                            .padding(10)
+                    }
+                    .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall).imageAtScale())
+
+                    VStack {
                         CountdownView()
                             .padding(.horizontal)
                         headToHeadListView
@@ -593,23 +604,10 @@ struct CampaignList: View {
                     }
                     .padding(.bottom)
                     .frame(maxWidth: .infinity)
-                    .background {
-                        GeometryReader { geometry in
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                                .tiledImageAtScale(scale: Double.spriteScale)
-                                .frame(height:geometry.size.height + 1000)
-                                .animation(.none, value: UUID())
-                        }
-                    }
-                }
-                .overlay(alignment: .bottom) {
-                    if !isLoading {
-                        AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
-                            .imageAtScale(scale: 0.5)
-                            .offset(y: 500)
-                    }
+                    .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor).tiledImageAtScale())
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
+                
             }
         }
         .refreshable {
