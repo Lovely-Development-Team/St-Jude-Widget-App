@@ -46,7 +46,7 @@ struct BlinkingView: View {
 struct BlinkingStandingView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var baseImage:ImageResource
-    @State var blinkImage:ImageResource
+    @State var lightImage:ImageResource
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     @State var animate:Bool = false
     @State private var animationType: Animation? = .none
@@ -65,13 +65,15 @@ struct BlinkingStandingView: View {
             }
         }) {
             ZStack(alignment: .top){
-                AdaptiveImage(colorScheme: self.colorScheme, light: self.blinkImage)
-                        .imageAtScale(scale: .spriteScale * 0.5)
                 AdaptiveImage(colorScheme: self.colorScheme, light: self.baseImage)
                     .imageAtScale(scale: .spriteScale * 0.5)
-                    .saturation(animate ? 5 : 1)
+                if(animate){
+                    AdaptiveImage(colorScheme: self.colorScheme, light: self.lightImage)
+                            .imageAtScale(scale: .spriteScale * 0.5)
+                            .brightness(0.15)
+                }
             }
-            .animation(animate ? .linear(duration: 1).repeatForever(autoreverses: true) : animationType)
+            .animation(animate ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : animationType)
             
         }
     }
@@ -79,5 +81,5 @@ struct BlinkingStandingView: View {
 
 #Preview {
 //    BlinkingView(baseImage: .stephenDodgeSuit, blinkImage: .stephenFighting)
-        BlinkingStandingView(baseImage: .stephenLights, blinkImage: .stephenSuit)
+        BlinkingStandingView(baseImage: .stephenSuit, lightImage: .stephenLights)
 }
