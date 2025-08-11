@@ -584,10 +584,9 @@ struct CampaignList: View {
                         topView
                         
                         HStack{
-                            StandingToThrowingView(baseImage:.stephenSuit, throwImage: .stephenDodgeSuit, scale: 0.60, isPaddingMirrored: true)
+//                            StandingToThrowingView(baseImage:.stephenSuit, throwImage: .stephenDodgeSuit, scale: 0.60, isPaddingMirrored: true)
                             //                            BlinkingStandingView(baseImage: .mykeSuit, lightImage: .mykeLights, scale: 0.25, isMirrored: true)
                             Spacer()
-                            BlinkingStandingView(baseImage: .stephenSuit, lightImage: .stephenLights, scale: 0.25, isMirrored: true)
                         }
                         Spacer()
                             .padding(10)

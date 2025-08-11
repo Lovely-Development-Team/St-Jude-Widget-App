@@ -46,13 +46,15 @@ struct BlinkingView: View {
 struct PlayerImage{
     var BaseImage: ImageResource
     var LightImage: ImageResource
-    var ThrowImage: ImageResource
+    var ThrowImage: ImageResource?
     var FigthImage: ImageResource
-    var ThrowScale: Double
+    var StreetImage: ImageResource
+    var ThrowScale: Double?
     var BaseScale: Double
     var FigthScale: Double
-    var isPaddingMirrored: Bool
+    var isPaddingMirrored: Bool = false
     var Padding: Double = 30.0
+    var figthImageMirrored = false
 }
 
 
@@ -98,14 +100,10 @@ struct BlinkingStandingView: View {
 
 
 struct StandingToThrowingView: View{
-    @State var baseImage: ImageResource
-    @State var throwImage: ImageResource
-    @State var throwBlinkImage: ImageResource?
-    @State var scale: Double = 1
+    let player: PlayerImage
+    @State var scale: Double = 1.0
     @State var isMirrored: Bool = false
-    @State var isPaddingMirrored = false
     
-    @State private var test = true
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     @State private var animate = false
     @State private var animationType: Animation? = .none
@@ -119,27 +117,28 @@ struct StandingToThrowingView: View{
             self.animate.toggle()
         }){
             HStack{
-                if self.isMirrored{
+                if self.player.isPaddingMirrored {
                     Spacer()
                 }
                 
                 ZStack {
                     if !self.animate{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: self.baseImage)
-                            .imageAtScale(scale: .spriteScale * self.scale * 0.20)
-                            .padding( self.isPaddingMirrored ? .leading : .trailing, 30)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.BaseImage)
+                            .imageAtScale(scale: .spriteScale * self.scale * self.player.BaseScale)
+                            .padding( self.player.isPaddingMirrored ? .leading : .trailing, self.player.Padding)
                     }
                     else{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: self.throwImage)
-                            .imageAtScale(scale:  .spriteScale * self.scale * 0.25)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.ThrowImage ?? self.player.FigthImage)
+                            .imageAtScale(scale:  .spriteScale * self.scale * (self.player.ThrowScale ?? self.player.FigthScale))
+                            .scaleEffect(x: self.player.figthImageMirrored ? -1 : 1, y: 1)
                             .padding(.vertical)
                     }
                 }
-                .padding()
+                .padding(self.player.isPaddingMirrored ? .leading : .trailing)
                 .scaleEffect(x: isMirrored ? -1 : 1, y: 1)
                 .animation(animate ? .none : animationType)
                 
-                if !self.isMirrored{
+                if !self.player.isPaddingMirrored {
                     Spacer()
                 }
             }
@@ -149,5 +148,50 @@ struct StandingToThrowingView: View{
 
 
 #Preview {
-    StandingToThrowingView(baseImage: .stephenSuit, throwImage: .stephenDodgeSuit, isMirrored: false, isPaddingMirrored: true)
+    let stephen = PlayerImage(BaseImage: .stephenSuit,
+                              LightImage: .stephenLights,
+                              ThrowImage: .stephenDodgeSuit,
+                              FigthImage: .stephenFighting,
+                              StreetImage: .stephenStreet,
+                              ThrowScale: 0.25,
+                              BaseScale: 0.20,
+                              FigthScale: 0.25,
+                              isPaddingMirrored: true)
+    let myke = PlayerImage(BaseImage: .mykeSuit,
+                           LightImage: .mykeLights,
+                           ThrowImage: .mykeThrowSuit,
+                           FigthImage: .mykeFighting,
+                           StreetImage: .mykeStreet,
+                           ThrowScale: 0.50,
+                           BaseScale: 0.20,
+                           FigthScale: 0.26,)
+    let casey = PlayerImage(BaseImage: .caseySuit,
+                            LightImage: .caseyLights,
+                            FigthImage: .caseyFighting,
+                            StreetImage: .caseyStreet,
+                            BaseScale: 0.20,
+                            FigthScale: 0.50,
+                            Padding: 80.0)
+    let kathy = PlayerImage(BaseImage: .kathySuit,
+                            LightImage: .kathyLights,
+                            FigthImage: .kathyFighting,
+                            StreetImage: .kathyStreet,
+                            BaseScale: 0.20,
+                            FigthScale: 0.40,
+                            figthImageMirrored: true)
+    let jason = PlayerImage(BaseImage: .jasonSuit,
+                            LightImage: .jasonLights,
+                            FigthImage: .jasonFighting,
+                            StreetImage: .jasonStreet,
+                            BaseScale: 0.25,
+                            FigthScale: 0.50,
+                            isPaddingMirrored: true,
+                            Padding: 75)
+    let brad = PlayerImage(BaseImage: .bradSuit,
+                           LightImage: .bradLights,
+                           FigthImage: .bradFighting,
+                           StreetImage: .bradStreet,
+                           BaseScale: 0.10,
+                           FigthScale: 0.25)
+    StandingToThrowingView(player: brad, scale: 1, isMirrored: true)
 }
