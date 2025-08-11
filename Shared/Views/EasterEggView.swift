@@ -88,24 +88,41 @@ struct EasterEggView: View {
             Spacer()
             
             ZStack(alignment: .top) {
-                Button(action: {
-                    withAnimation {
-#if !os(macOS)
-                        bounceHaptics.impactOccurred()
-#endif
-                        self.animate.toggle()
-                        self.animationType = .default
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.animate.toggle()
-                    }
-                }) {
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .teamLogoF)
-                        .imageAtScale(scale: .spriteScale * 2)
-                        .accessibility(hidden: true)
-                        .offset(x: 0, y: animate ? -5 : 0)
-                        .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                }
+//                AdaptiveImage(colorScheme: self.colorScheme, light: .mykeThrowSuit)
+//                    .imageAtScale(scale: .spriteScale * 0.5)
+//                    .padding(10)
+//                AdaptiveImage(colorScheme: self.colorScheme, light: .mykeFighting)
+//                    .imageAtScale(scale: .spriteScale * 0.53)
+//                Button(action: {
+//                    withAnimation {
+//#if !os(macOS)
+//                        bounceHaptics.impactOccurred()
+//#endif
+//                        self.animate.toggle()
+//                        self.animationType = .default
+//                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+//                        self.animate.toggle()
+//                    }
+//                }) {
+                    BlinkingStandingView(baseImage: .mykeLights, blinkImage: .mykeSuit)
+//                }
+                    //                    ZStack{
+//                        AdaptiveImage(colorScheme: self.colorScheme, light: .stephenDodgeSuit)
+//                            .imageAtScale(scale: .spriteScale * 0.5)
+//                        if(animate){
+//                            AdaptiveImage(colorScheme: self.colorScheme, light: .stephenFighting)
+//                                .imageAtScale(scale: .spriteScale * 0.75)
+//                        }
+//                    }
+//                    .frame(width: 400,height: 400)
+//                    .background(.black)
+//                    .animation(animate ? .linear(duration: 1).repeatForever(autoreverses: true) : animationType)
+//                    AdaptiveImage(colorScheme: self.colorScheme, light: .teamLogoF)
+//                        .imageAtScale(scale: .spriteScale * 2)
+//                        .accessibility(hidden: true)
+//                        .offset(x: 0, y: animate ? -5 : 0)
+//                        .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
             }
         }
     }

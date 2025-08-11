@@ -267,6 +267,7 @@
 				Assets.xcassets,
 				CurrencyHelpers.swift,
 				Fonts/ChicagoFLF.ttf,
+				Helpers/BlinkingView.swift,
 				Helpers/CampaignHelpers.swift,
 				Helpers/CheckNewMilestones.swift,
 				Helpers/CheckSignificantAmounts.swift,
@@ -332,6 +333,7 @@
 				Assets.xcassets,
 				CurrencyHelpers.swift,
 				Fonts/ChicagoFLF.ttf,
+				Helpers/BlinkingView.swift,
 				Helpers/CampaignHelpers.swift,
 				Helpers/CheckNewMilestones.swift,
 				Helpers/CheckSignificantAmounts.swift,
@@ -1127,8 +1129,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2025;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude;
+				MARKETING_VERSION = 2024;
+				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude;
 				PRODUCT_NAME = "St Jude";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1166,8 +1168,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2025;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude;
+				MARKETING_VERSION = 2024;
+				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude;
 				PRODUCT_NAME = "St Jude";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1363,7 +1365,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.iOSWidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.iOSWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1393,7 +1395,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.iOSWidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.iOSWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1422,7 +1424,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.IntentsExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.IntentsExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1450,7 +1452,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.IntentsExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.IntentsExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
