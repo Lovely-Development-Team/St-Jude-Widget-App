@@ -555,9 +555,20 @@ struct CampaignList: View {
         ScrollView {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
-                    topView
-                    
-                    VStack() {
+                    VStack{
+                        topView
+                        
+                        HStack{
+                            BlinkingStandingView(baseImage: .mykeSuit, lightImage: .mykeLights,scale: 0.10, isMirrored: true)
+                            Spacer()
+                            BlinkingStandingView(baseImage: .stephenSuit, lightImage: .stephenLights, scale: 0.10, isMirrored: true)
+                        }
+                        Spacer()
+                            .padding(10)
+                    }
+                    .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall).imageAtScale())
+
+                    VStack {
                         CountdownView()
                             .padding(.horizontal)
                         headToHeadListView
@@ -568,8 +579,10 @@ struct CampaignList: View {
                     }
                     .padding(.bottom)
                     .frame(maxWidth: .infinity)
+                    .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor).tiledImageAtScale())
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
+                
             }
         }
         .refreshable {

@@ -50,6 +50,8 @@ struct BlinkingStandingView: View {
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     @State var animate:Bool = false
     @State private var animationType: Animation? = .none
+    @State var scale: Double = .spriteScale
+    @State var isMirrored: Bool = false
     
     var body: some View{
         Button(action: {
@@ -66,13 +68,14 @@ struct BlinkingStandingView: View {
         }) {
             ZStack(alignment: .top){
                 AdaptiveImage(colorScheme: self.colorScheme, light: self.baseImage)
-                    .imageAtScale(scale: .spriteScale * 0.5)
+                    .imageAtScale(scale: self.scale * 0.5)
                 if(animate){
                     AdaptiveImage(colorScheme: self.colorScheme, light: self.lightImage)
-                            .imageAtScale(scale: .spriteScale * 0.5)
+                            .imageAtScale(scale: self.scale * 0.5)
                             .brightness(0.15)
                 }
             }
+            .scaleEffect(x: isMirrored ? -1 : 1, y: 1)
             .animation(animate ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : animationType)
             
         }
