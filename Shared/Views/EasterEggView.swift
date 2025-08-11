@@ -105,7 +105,7 @@ struct EasterEggView: View {
 //                        self.animate.toggle()
 //                    }
 //                }) {
-                    BlinkingStandingView(baseImage: .mykeLights, blinkImage: .mykeSuit)
+                    BlinkingStandingView(baseImage: .mykeLights, lightImage: .mykeSuit)
 //                }
                     //                    ZStack{
 //                        AdaptiveImage(colorScheme: self.colorScheme, light: .stephenDodgeSuit)
