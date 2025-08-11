@@ -43,6 +43,20 @@ struct BlinkingView: View {
     }
 }
 
+struct PlayerImage{
+    var BaseImage: ImageResource
+    var LightImage: ImageResource
+    var ThrowImage: ImageResource
+    var FigthImage: ImageResource
+    var ThrowScale: Double
+    var BaseScale: Double
+    var FigthScale: Double
+    var isPaddingMirrored: Bool
+    var Padding: Double = 30.0
+}
+
+
+
 struct BlinkingStandingView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var baseImage:ImageResource
@@ -82,7 +96,58 @@ struct BlinkingStandingView: View {
     }
 }
 
+
+struct StandingToThrowingView: View{
+    @State var baseImage: ImageResource
+    @State var throwImage: ImageResource
+    @State var throwBlinkImage: ImageResource?
+    @State var scale: Double = 1
+    @State var isMirrored: Bool = false
+    @State var isPaddingMirrored = false
+    
+    @State private var test = true
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    @State private var animate = false
+    @State private var animationType: Animation? = .none
+    @Environment(\.colorScheme) var colorScheme
+    var body: some View{
+
+        Button(action: {
+#if !os(macOS)
+                bounceHaptics.impactOccurred()
+#endif
+            self.animate.toggle()
+        }){
+            HStack{
+                if self.isMirrored{
+                    Spacer()
+                }
+                
+                ZStack {
+                    if !self.animate{
+                        AdaptiveImage(colorScheme: self.colorScheme, light: self.baseImage)
+                            .imageAtScale(scale: .spriteScale * self.scale * 0.20)
+                            .padding( self.isPaddingMirrored ? .leading : .trailing, 30)
+                    }
+                    else{
+                        AdaptiveImage(colorScheme: self.colorScheme, light: self.throwImage)
+                            .imageAtScale(scale:  .spriteScale * self.scale * 0.25)
+                            .padding(.vertical)
+                    }
+                }
+                .padding()
+                .scaleEffect(x: isMirrored ? -1 : 1, y: 1)
+                .animation(animate ? .none : animationType)
+                
+                if !self.isMirrored{
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
+
 #Preview {
-//    BlinkingView(baseImage: .stephenDodgeSuit, blinkImage: .stephenFighting)
-        BlinkingStandingView(baseImage: .stephenSuit, lightImage: .stephenLights)
+    StandingToThrowingView(baseImage: .stephenSuit, throwImage: .stephenDodgeSuit, isMirrored: false, isPaddingMirrored: true)
 }
