@@ -87,7 +87,7 @@ struct EasterEggView: View {
             .groupBoxStyle(BlockGroupBoxStyle())
             .padding()
             Spacer()
-            
+
             RandomLandscapeView(data: self.$landscapeData) {
                 ZStack(alignment: .top) {
                     Button(action: {
