@@ -47,14 +47,14 @@ struct PlayerImage{
     var BaseImage: ImageResource
     var LightImage: ImageResource
     var ThrowImage: ImageResource?
-    var FigthImage: ImageResource
+    var FightImage: ImageResource
     var StreetImage: ImageResource
     var ThrowScale: Double?
     var BaseScale: Double
     var FigthScale: Double
     var isPaddingMirrored: Bool = false
     var Padding: Double = 30.0
-    var figthImageMirrored = false
+    var FightImageMirrored = false
 }
 
 
@@ -100,7 +100,7 @@ struct BlinkingStandingView: View {
 
 
 struct StandingToThrowingView: View{
-    let player: PlayerImage
+    let player: players
     @State var scale: Double = 1.0
     @State var isMirrored: Bool = false
     
@@ -117,28 +117,27 @@ struct StandingToThrowingView: View{
             self.animate.toggle()
         }){
             HStack{
-                if self.player.isPaddingMirrored {
+                if (self.isMirrored && self.player.getPlayer().isPaddingMirrored) || (!self.isMirrored && !self.player.getPlayer().isPaddingMirrored) {
                     Spacer()
                 }
-                
                 ZStack {
                     if !self.animate{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.BaseImage)
-                            .imageAtScale(scale: .spriteScale * self.scale * self.player.BaseScale)
-                            .padding( self.player.isPaddingMirrored ? .leading : .trailing, self.player.Padding)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.getPlayer().BaseImage)
+                            .imageAtScale(scale: .spriteScale * self.scale * self.player.getPlayer().BaseScale)
+                            .padding( self.player.getPlayer().isPaddingMirrored ? .leading : .trailing, self.player.getPlayer().Padding)
                     }
                     else{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.ThrowImage ?? self.player.FigthImage)
-                            .imageAtScale(scale:  .spriteScale * self.scale * (self.player.ThrowScale ?? self.player.FigthScale))
-                            .scaleEffect(x: self.player.figthImageMirrored ? -1 : 1, y: 1)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.getPlayer().ThrowImage ?? self.player.getPlayer().FightImage)
+                            .imageAtScale(scale:  .spriteScale * self.scale * (self.player.getPlayer().ThrowScale ?? self.player.getPlayer().FigthScale))
+                            .scaleEffect(x: self.player.getPlayer().FightImageMirrored ? -1 : 1, y: 1)
                             .padding(.vertical)
                     }
                 }
-                .padding(self.player.isPaddingMirrored ? .leading : .trailing)
+                .padding(self.player.getPlayer().isPaddingMirrored ? .leading : .trailing, 5)
                 .scaleEffect(x: isMirrored ? -1 : 1, y: 1)
                 .animation(animate ? .none : animationType)
                 
-                if !self.player.isPaddingMirrored {
+                if (!self.isMirrored && self.player.getPlayer().isPaddingMirrored) || (self.isMirrored && !self.player.getPlayer().isPaddingMirrored) {
                     Spacer()
                 }
             }
@@ -148,50 +147,13 @@ struct StandingToThrowingView: View{
 
 
 #Preview {
-    let stephen = PlayerImage(BaseImage: .stephenSuit,
-                              LightImage: .stephenLights,
-                              ThrowImage: .stephenDodgeSuit,
-                              FigthImage: .stephenFighting,
-                              StreetImage: .stephenStreet,
-                              ThrowScale: 0.25,
-                              BaseScale: 0.20,
-                              FigthScale: 0.25,
-                              isPaddingMirrored: true)
-    let myke = PlayerImage(BaseImage: .mykeSuit,
-                           LightImage: .mykeLights,
-                           ThrowImage: .mykeThrowSuit,
-                           FigthImage: .mykeFighting,
-                           StreetImage: .mykeStreet,
-                           ThrowScale: 0.50,
-                           BaseScale: 0.20,
-                           FigthScale: 0.26,)
-    let casey = PlayerImage(BaseImage: .caseySuit,
-                            LightImage: .caseyLights,
-                            FigthImage: .caseyFighting,
-                            StreetImage: .caseyStreet,
-                            BaseScale: 0.20,
-                            FigthScale: 0.50,
-                            Padding: 80.0)
-    let kathy = PlayerImage(BaseImage: .kathySuit,
-                            LightImage: .kathyLights,
-                            FigthImage: .kathyFighting,
-                            StreetImage: .kathyStreet,
-                            BaseScale: 0.20,
-                            FigthScale: 0.40,
-                            figthImageMirrored: true)
-    let jason = PlayerImage(BaseImage: .jasonSuit,
-                            LightImage: .jasonLights,
-                            FigthImage: .jasonFighting,
-                            StreetImage: .jasonStreet,
-                            BaseScale: 0.25,
-                            FigthScale: 0.50,
-                            isPaddingMirrored: true,
-                            Padding: 75)
-    let brad = PlayerImage(BaseImage: .bradSuit,
-                           LightImage: .bradLights,
-                           FigthImage: .bradFighting,
-                           StreetImage: .bradStreet,
-                           BaseScale: 0.10,
-                           FigthScale: 0.25)
-    StandingToThrowingView(player: brad, scale: 1, isMirrored: true)
+
+    ScrollView{
+        StandingToThrowingView(player: .brad, isMirrored: true)
+        StandingToThrowingView(player: .myke, scale: 0.5, isMirrored: true)
+        StandingToThrowingView(player: .jason, scale: 0.5, isMirrored: true)
+        StandingToThrowingView(player: .stephen,scale: 0.6, isMirrored: true)
+        StandingToThrowingView(player: .kathy, scale: 0.6, isMirrored: true)
+        StandingToThrowingView(player: .casey, scale: 0.6, isMirrored: true)
+    }
 }
