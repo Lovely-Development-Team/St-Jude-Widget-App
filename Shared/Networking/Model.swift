@@ -77,9 +77,36 @@ struct TiltifyMilestone: Codable {
     let publicId: UUID
     
     enum CodingKeys: String, CodingKey {
-        case publicId = "id"
-        case name
-        case amount
+        case id, publicId, name, amount
+    }
+    
+    init(amount: TiltifyAmount, name: String, publicId: UUID) {
+        self.amount = amount
+        self.name = name
+        self.publicId = publicId
+    }
+    
+    // Custom decoder to handle the two possible keys for the 'id' property
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Try decoding from "publicId" first. If that key isn't present,
+        // it will fall back and try decoding from "id".
+        self.publicId = try container.decodeIfPresent(UUID.self, forKey: .publicId) ?? container.decode(UUID.self, forKey: .id)
+
+        // Decode the rest of the properties as usual
+        self.amount = try container.decode(TiltifyAmount.self, forKey: .amount)
+        self.name = try container.decode(String.self, forKey: .name)
+    }
+    
+    // Custom encoder to standardize the output
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        // When encoding, always write the value to the "id" key for consistency
+        try container.encode(self.publicId, forKey: .id)
+        try container.encode(self.amount, forKey: .amount)
+        try container.encode(self.name, forKey: .name)
     }
 }
 
@@ -101,17 +128,44 @@ struct TiltifyCampaignReward: Codable {
     let amount: TiltifyAmount
     let image: TiltifyCampaignRewardImage?
     let active: Bool
-    let ownerUsageType: String
+    let ownerUsageType: String?
     
-    enum CodingKeys: String, CodingKey {
-        case publicId = "id"
-        case name
-        case description
-        case amount
-        case image
-        case active
-        case ownerUsageType
+    // Define all possible keys that might appear in the JSON
+    private enum CodingKeys: String, CodingKey {
+        case id, publicId, name, description, amount, image, active, ownerUsageType
     }
+
+    // Custom decoder to handle the two possible keys for the 'id' property
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Try decoding from "publicId" first. If that key is not present,
+        // it will fall back and try decoding from "id".
+        self.publicId = try container.decodeIfPresent(UUID.self, forKey: .publicId) ?? container.decode(UUID.self, forKey: .id)
+
+        // Decode the rest of the properties as usual
+        self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decode(String.self, forKey: .description)
+        self.amount = try container.decode(TiltifyAmount.self, forKey: .amount)
+        self.image = try container.decodeIfPresent(TiltifyCampaignRewardImage.self, forKey: .image)
+        self.active = try container.decode(Bool.self, forKey: .active)
+        self.ownerUsageType = try container.decodeIfPresent(String.self, forKey: .ownerUsageType)
+    }
+    
+    // Custom encoder to standardize the output
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        // When encoding, always write the value to the "id" key for consistency
+        try container.encode(self.publicId, forKey: .id)
+        try container.encode(self.name, forKey: .name)
+        try container.encode(self.description, forKey: .description)
+        try container.encode(self.amount, forKey: .amount)
+        try container.encodeIfPresent(self.image, forKey: .image)
+        try container.encode(self.active, forKey: .active)
+        try container.encodeIfPresent(self.ownerUsageType, forKey: .ownerUsageType)
+    }
+    
 }
 
 struct TiltifyCampaign: Codable {
