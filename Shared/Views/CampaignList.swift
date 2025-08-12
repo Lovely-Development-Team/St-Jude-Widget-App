@@ -562,7 +562,9 @@ struct CampaignList: View {
                         topView
                         
                         HStack{
-                            
+                            StandingToThrowingView(player: competitors.first!, isMirrored:true)
+                            Spacer()
+                            StandingToThrowingView(player: competitors.last!)
                         }
                         Spacer()
                             .padding(10)
