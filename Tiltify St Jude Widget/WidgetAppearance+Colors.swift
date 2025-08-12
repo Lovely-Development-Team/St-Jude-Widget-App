@@ -33,16 +33,30 @@ extension WidgetAppearance {
     static let slimePurple = Color.rgb(0x50, 0x14, 0x84)
     static let fireRed = Color.rgb(0xc7, 0x25, 0x2e)
     
+    // 2025
+    
+    static let suitColourLight = Color.rgb(6, 33, 70)
+    static let suitColourDark = Color.rgb(0, 11, 26)
+    
+    static let stephenLights = Color.rgb(255, 230, 103)
+    static let mykeLights = Color.rgb(232, 103, 162)
+    static let kathyLights = Color.rgb(200, 248, 96)
+    static let bradLights = Color.rgb(251, 200, 89)
+    static let jasonLights = Color.rgb(159, 177, 238)
+    static let caseyLights = Color.rgb(68, 232, 244)
+    
     static let allCases: [WidgetAppearance] = [
         .stjude,
         .stjudetrueblack,
         .relay,
         .relaytrueblack,
         .yellow,
-//        .blue,
-//        .purple,
-//        .green,
-//        .red,
+        .stephen,
+        .myke,
+        .kathy,
+        .brad,
+        .jason,
+        .casey,
     ]
     
     var name: String {
@@ -57,16 +71,18 @@ extension WidgetAppearance {
             return "Relay (True Black)"
         case .yellow:
             return "Relay Gold"
-//        case .blue:
-//            return "Sky Blue"
-//        case .purple:
-//            return "Slime Purple"
-//        case .ground:
-//            return "Ground Brown"
-//        case .red:
-//            return "Fire Red"
-//        case .green:
-//            return "Grass Green"
+        case .stephen:
+            return "Stephen's Suit"
+        case .myke:
+            return "Myke's Suit"
+        case .kathy:
+            return "Kathy's Suit"
+        case .brad:
+            return "Brad's Suit"
+        case .jason:
+            return "Jason's Suit"
+        case .casey:
+            return "Casey's Suit"
         default:
             return "Unknown"
         }
@@ -77,14 +93,19 @@ extension WidgetAppearance {
             
         case .yellow:
             return .black
-//        case .red:
-//            return .white
-//        case .blue:
-//            return .black
-//        case .green:
-//            return .white
-//        case .ground:
-//            return .black
+            
+        case .stephen:
+            return Self.stephenLights
+        case .myke:
+            return Self.mykeLights
+        case .kathy:
+            return Self.kathyLights
+        case .brad:
+            return Self.bradLights
+        case .jason:
+            return Self.jasonLights
+        case .casey:
+            return Self.caseyLights
             
         default:
             return .white
@@ -96,18 +117,19 @@ extension WidgetAppearance {
             
         case .yellow:
             return .black
-//        case .red:
-//            return .white
-//        case .blue:
-//            return .black
-//        case .green:
-//            return .white
-//        case .ground:
-//            return .black
-//        case .purple:
-//            return .white
             
-            
+        case .stephen:
+            return Self.stephenLights
+        case .myke:
+            return Self.mykeLights
+        case .kathy:
+            return Self.kathyLights
+        case .brad:
+            return Self.bradLights
+        case .jason:
+            return Self.jasonLights
+        case .casey:
+            return Self.caseyLights
             
         case .relay:
             return Self.relayYellow
@@ -133,18 +155,9 @@ extension WidgetAppearance {
             
         case .yellow:
             return [Self.stephenYellow, Self.stephenYellow.darker(by: 5)]
-//        case .red:
-//            return [Self.fireRed.darker(by: 10), Self.fireRed]
-//        case .blue:
-//            return [Self.skyBlue, Self.skyBlue.darker(by: 10)]
-//        case .green:
-//            return [Self.grassGreen, Self.grassGreen.darker(by: 10)]
-//        case .ground:
-//            return [Self.groundBrown2, Self.groundBrown2.darker(by: 10)]
-//        case .purple:
-//            return [Self.slimePurple.darker(by: 5), Self.slimePurple]
             
-            
+        case .stephen, .myke, .kathy, .brad, .jason, .casey:
+            return [Self.suitColourLight, Self.suitColourDark]
             
         case .relaytrueblack:
             return [Color.black]
