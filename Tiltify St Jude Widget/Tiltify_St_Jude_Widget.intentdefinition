@@ -75,6 +75,66 @@
 					<key>INEnumValueName</key>
 					<string>yellow</string>
 				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Stephen's Suit</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>cbDILr</string>
+					<key>INEnumValueIndex</key>
+					<integer>3</integer>
+					<key>INEnumValueName</key>
+					<string>stephen</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Myke's Suit</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>ayFJKl</string>
+					<key>INEnumValueIndex</key>
+					<integer>4</integer>
+					<key>INEnumValueName</key>
+					<string>myke</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Brad's Suit</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>lPK3Gd</string>
+					<key>INEnumValueIndex</key>
+					<integer>8</integer>
+					<key>INEnumValueName</key>
+					<string>brad</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Kathy's Suit</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>uCoL3Z</string>
+					<key>INEnumValueIndex</key>
+					<integer>9</integer>
+					<key>INEnumValueName</key>
+					<string>kathy</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Jason's Suit</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>8z54FZ</string>
+					<key>INEnumValueIndex</key>
+					<integer>10</integer>
+					<key>INEnumValueName</key>
+					<string>jason</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Casey's Suit</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>aY5NNv</string>
+					<key>INEnumValueIndex</key>
+					<integer>11</integer>
+					<key>INEnumValueName</key>
+					<string>casey</string>
+				</dict>
 			</array>
 		</dict>
 	</array>
