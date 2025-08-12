@@ -9,8 +9,8 @@ import SwiftUI
 import WidgetKit
 import Kingfisher
 
-let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.blue
-let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.green
+let HEAD_TO_HEAD_COLOR_1: WidgetAppearance = .stjude
+let HEAD_TO_HEAD_COLOR_2: WidgetAppearance = .relay
 
 struct HeadToHeadWidgetView: View {
     @Environment(\.widgetFamily) var family
