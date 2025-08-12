@@ -43,22 +43,6 @@ struct BlinkingView: View {
     }
 }
 
-struct PlayerImage{
-    var BaseImage: ImageResource
-    var LightImage: ImageResource
-    var ThrowImage: ImageResource?
-    var FightImage: ImageResource
-    var StreetImage: ImageResource
-    var ThrowScale: Double?
-    var BaseScale: Double
-    var FigthScale: Double
-    var isPaddingMirrored: Bool = false
-    var Padding: Double = 30.0
-    var FightImageMirrored = false
-}
-
-
-
 struct BlinkingStandingView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var baseImage:ImageResource
@@ -109,38 +93,42 @@ struct StandingToThrowingView: View{
     @State private var animationType: Animation? = .none
     @Environment(\.colorScheme) var colorScheme
     var body: some View{
-
+        let playerImage = self.player.getPlayer()
         Button(action: {
 #if !os(macOS)
             bounceHaptics.impactOccurred()
 #endif
-            self.animate.toggle()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            //if(!self.animate){
                 self.animate.toggle()
-            }
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                    //self.animate.toggle()
+                //}
+            //}
         }){
             HStack{
-                if (self.isMirrored && self.player.getPlayer().isPaddingMirrored) || (!self.isMirrored && !self.player.getPlayer().isPaddingMirrored) {
+                
+                if(!self.isMirrored){
                     Spacer()
                 }
+                
                 ZStack {
                     if !self.animate{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.getPlayer().BaseImage)
-                            .imageAtScale(scale: .spriteScale * self.scale * self.player.getPlayer().BaseScale)
-                            .padding( self.player.getPlayer().isPaddingMirrored ? .leading : .trailing, self.player.getPlayer().Padding)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.BaseImage)
+                            .imageAtScale(scale: .spriteScale * self.scale * playerImage.BaseScale)
+                            .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.HorizontalPadding)
                     }
                     else{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: self.player.getPlayer().ThrowImage ?? self.player.getPlayer().FightImage)
-                            .imageAtScale(scale:  .spriteScale * self.scale * (self.player.getPlayer().ThrowScale ?? self.player.getPlayer().FigthScale))
-                            .scaleEffect(x: self.player.getPlayer().FightImageMirrored ? -1 : 1, y: 1)
-                            .padding(.vertical)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.ThrowImage ?? playerImage.FightImage)
+                            .imageAtScale(scale:  .spriteScale * self.scale * (playerImage.ThrowScale ?? playerImage.FigthScale))
+                            .scaleEffect(x: playerImage.FightImageMirrored ? -1 : 1, y: 1)
+                            .padding(.bottom, playerImage.BottomPadding)
                     }
                 }
-                .padding(self.player.getPlayer().isPaddingMirrored ? .leading : .trailing, 5)
-                .scaleEffect(x: isMirrored ? -1 : 1, y: 1)
+                .padding(playerImage.isPaddingMirrored ? .leading : .trailing, 5)
+                .scaleEffect(x: (isMirrored && !playerImage.isPaddingMirrored)  || (!isMirrored && playerImage.isPaddingMirrored) ? -1 : 1, y: 1)
                 .animation(animate ? .none : animationType)
                 
-                if (!self.isMirrored && self.player.getPlayer().isPaddingMirrored) || (self.isMirrored && !self.player.getPlayer().isPaddingMirrored) {
+                if(self.isMirrored){
                     Spacer()
                 }
             }
@@ -152,8 +140,8 @@ struct StandingToThrowingView: View{
 #Preview {
 
     ScrollView{
-        ForEach(Players.allCases){ player in
-            StandingToThrowingView(player: player)
+        ForEach(Players.allCases.reversed()){ player in
+            StandingToThrowingView(player: player, isMirrored: true)
         }
     }
 }
