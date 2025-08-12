@@ -115,7 +115,9 @@ struct StandingToThrowingView: View{
             bounceHaptics.impactOccurred()
 #endif
             self.animate.toggle()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1){ self.animate.toggle()}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                self.animate.toggle()
+            }
         }){
             HStack{
                 if (self.isMirrored && self.player.getPlayer().isPaddingMirrored) || (!self.isMirrored && !self.player.getPlayer().isPaddingMirrored) {
