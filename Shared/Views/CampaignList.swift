@@ -72,7 +72,10 @@ struct CampaignList: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
-        
+    
+    // MARK: 2025
+    private let competitors = Players.allCases.shuffled()
+    
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
     @State private var teamEventObservation = AppDatabase.shared.observeTeamEventObservation()
@@ -584,9 +587,7 @@ struct CampaignList: View {
                         topView
                         
                         HStack{
-//                            StandingToThrowingView(baseImage:.stephenSuit, throwImage: .stephenDodgeSuit, scale: 0.60, isPaddingMirrored: true)
-                            //                            BlinkingStandingView(baseImage: .mykeSuit, lightImage: .mykeLights, scale: 0.25, isMirrored: true)
-                            Spacer()
+                            
                         }
                         Spacer()
                             .padding(10)
