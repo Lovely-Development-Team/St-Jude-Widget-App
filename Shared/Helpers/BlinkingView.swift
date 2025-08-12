@@ -100,7 +100,7 @@ struct BlinkingStandingView: View {
 
 
 struct StandingToThrowingView: View{
-    let player: players
+    let player: Players
     @State var scale: Double = 1.0
     @State var isMirrored: Bool = false
     
@@ -152,11 +152,8 @@ struct StandingToThrowingView: View{
 #Preview {
 
     ScrollView{
-        StandingToThrowingView(player: .brad, isMirrored: true)
-        StandingToThrowingView(player: .myke, scale: 0.5, isMirrored: true)
-        StandingToThrowingView(player: .jason, scale: 0.5, isMirrored: true)
-        StandingToThrowingView(player: .stephen,scale: 0.6, isMirrored: true)
-        StandingToThrowingView(player: .kathy, scale: 0.6, isMirrored: true)
-        StandingToThrowingView(player: .casey, scale: 0.6, isMirrored: true)
+        ForEach(Players.allCases){ player in
+            StandingToThrowingView(player: player)
+        }
     }
 }
