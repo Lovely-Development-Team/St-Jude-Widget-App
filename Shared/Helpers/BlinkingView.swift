@@ -98,12 +98,12 @@ struct StandingToThrowingView: View{
 #if !os(macOS)
             bounceHaptics.impactOccurred()
 #endif
-            //if(!self.animate){
+            if(!self.animate){
                 self.animate.toggle()
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                    //self.animate.toggle()
-                //}
-            //}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                    self.animate.toggle()
+                }
+            }
         }){
             HStack{
                 
