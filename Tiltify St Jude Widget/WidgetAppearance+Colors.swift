@@ -39,10 +39,10 @@ extension WidgetAppearance {
         .relay,
         .relaytrueblack,
         .yellow,
-        .blue,
-        .purple,
-        .green,
-        .red,
+//        .blue,
+//        .purple,
+//        .green,
+//        .red,
     ]
     
     var name: String {
@@ -57,16 +57,16 @@ extension WidgetAppearance {
             return "Relay (True Black)"
         case .yellow:
             return "Relay Gold"
-        case .blue:
-            return "Sky Blue"
-        case .purple:
-            return "Slime Purple"
-        case .ground:
-            return "Ground Brown"
-        case .red:
-            return "Fire Red"
-        case .green:
-            return "Grass Green"
+//        case .blue:
+//            return "Sky Blue"
+//        case .purple:
+//            return "Slime Purple"
+//        case .ground:
+//            return "Ground Brown"
+//        case .red:
+//            return "Fire Red"
+//        case .green:
+//            return "Grass Green"
         default:
             return "Unknown"
         }
@@ -77,14 +77,14 @@ extension WidgetAppearance {
             
         case .yellow:
             return .black
-        case .red:
-            return .white
-        case .blue:
-            return .black
-        case .green:
-            return .white
-        case .ground:
-            return .black
+//        case .red:
+//            return .white
+//        case .blue:
+//            return .black
+//        case .green:
+//            return .white
+//        case .ground:
+//            return .black
             
         default:
             return .white
@@ -96,16 +96,16 @@ extension WidgetAppearance {
             
         case .yellow:
             return .black
-        case .red:
-            return .white
-        case .blue:
-            return .black
-        case .green:
-            return .white
-        case .ground:
-            return .black
-        case .purple:
-            return .white
+//        case .red:
+//            return .white
+//        case .blue:
+//            return .black
+//        case .green:
+//            return .white
+//        case .ground:
+//            return .black
+//        case .purple:
+//            return .white
             
             
             
@@ -121,7 +121,7 @@ extension WidgetAppearance {
     
     var comboFillColor: Color {
         switch self {
-        case .stjude, .stjudetrueblack, .purple, .red, .blue, .green:
+        case .stjude, .stjudetrueblack:
             return Self.relayYellow
         default:
             return Self.stjudeRed
@@ -133,16 +133,16 @@ extension WidgetAppearance {
             
         case .yellow:
             return [Self.stephenYellow, Self.stephenYellow.darker(by: 5)]
-        case .red:
-            return [Self.fireRed.darker(by: 10), Self.fireRed]
-        case .blue:
-            return [Self.skyBlue, Self.skyBlue.darker(by: 10)]
-        case .green:
-            return [Self.grassGreen, Self.grassGreen.darker(by: 10)]
-        case .ground:
-            return [Self.groundBrown2, Self.groundBrown2.darker(by: 10)]
-        case .purple:
-            return [Self.slimePurple.darker(by: 5), Self.slimePurple]
+//        case .red:
+//            return [Self.fireRed.darker(by: 10), Self.fireRed]
+//        case .blue:
+//            return [Self.skyBlue, Self.skyBlue.darker(by: 10)]
+//        case .green:
+//            return [Self.grassGreen, Self.grassGreen.darker(by: 10)]
+//        case .ground:
+//            return [Self.groundBrown2, Self.groundBrown2.darker(by: 10)]
+//        case .purple:
+//            return [Self.slimePurple.darker(by: 5), Self.slimePurple]
             
             
             

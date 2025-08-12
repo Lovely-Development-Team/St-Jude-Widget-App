@@ -75,56 +75,6 @@
 					<key>INEnumValueName</key>
 					<string>yellow</string>
 				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>Fire Red</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>bI96uX</string>
-					<key>INEnumValueIndex</key>
-					<integer>8</integer>
-					<key>INEnumValueName</key>
-					<string>red</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>Sky Blue</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>nBKDjl</string>
-					<key>INEnumValueIndex</key>
-					<integer>9</integer>
-					<key>INEnumValueName</key>
-					<string>blue</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>Grass Green</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>gCSogJ</string>
-					<key>INEnumValueIndex</key>
-					<integer>10</integer>
-					<key>INEnumValueName</key>
-					<string>green</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>Slime Purple</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>zwAMex</string>
-					<key>INEnumValueIndex</key>
-					<integer>11</integer>
-					<key>INEnumValueName</key>
-					<string>purple</string>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>Ground Brown</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>vskwnN</string>
-					<key>INEnumValueIndex</key>
-					<integer>3</integer>
-					<key>INEnumValueName</key>
-					<string>ground</string>
-				</dict>
 			</array>
 		</dict>
 	</array>
@@ -133,11 +83,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>23A344</string>
+	<string>24F74</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>15F31d</string>
+	<string>16F6</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>15.4</string>
+	<string>16.4</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
