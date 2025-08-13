@@ -34,7 +34,7 @@ struct ScoreEntryView: View {
     var spriteScaleModifier: Double {
         switch family {
         case .systemLarge, .systemExtraLarge:
-            return 1.3
+            return 1
         case .systemSmall:
             return 0.8
         default:
@@ -70,6 +70,15 @@ struct ScoreEntryView: View {
             return .title
         }
     }
+    
+    var imageHeight: CGFloat {
+        switch family {
+        case .systemSmall, .systemMedium:
+            return 80
+        default:
+            return 130
+        }
+    }
         
     @ViewBuilder
     func funkyText(of text: some View, color: Color = .red) -> some View {
@@ -88,89 +97,133 @@ struct ScoreEntryView: View {
     @ViewBuilder
     var homeScreenWidget: some View {
         VStack(spacing: 0) {
-            Spacer()
             if family == .systemMedium {
-                HStack(alignment: .top) {
-                    AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score > entry.score.myke.score ? .stephenWalk1 : .stephenIdle)
-                        .imageAtScale(scale: .spriteScale * spriteScaleModifier)
-                        .scaleEffect(x: -1)
-                    Spacer()
-                    Group {
-                        funkyText(of: Text(formatNumber(entry.score.stephen.score))
-                            .minimumScaleFactor(0.5)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(1)
-                            .foregroundColor(WidgetAppearance.stephenYellow),
-                                  color: .black
-                        )
-                        Spacer()
-                        funkyText(of: Text(formatNumber(entry.score.myke.score))
-                            .minimumScaleFactor(0.5)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(1)
-                            .foregroundColor(WidgetAppearance.mykeBlue.lighter(by: 10)), color: .black)
+                ZStack {
+                    Grid(horizontalSpacing: 0) {
+                        GridRow {
+                            ZStack(alignment: .bottomLeading) {
+                                Color.clear
+                                Image(stephenIsWinning ? .stephenFightingSmall : .stephenSuitSmall)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: imageHeight)
+                                    .padding()
+                            }
+                            .overlay(alignment: .topTrailing) {
+                                funkyText(of: Text(formatNumber(entry.score.stephen.score))
+                                    .minimumScaleFactor(0.5)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(1)
+                                    .foregroundColor(WidgetAppearance.stephenLights),
+                                          color: .black)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .topTrailing)
+                                    .padding(4)
+                                    .padding(.trailing, 10)
+                            }
+                            ZStack(alignment: .topTrailing) {
+                                Color.clear
+                                Image(mykeIsWinning ? .mykeFightingSmall : .mykeSuitSmall)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: imageHeight)
+                                    .padding()
+                            }
+                            .overlay(alignment: .bottomLeading) {
+                                funkyText(of: Text(formatNumber(entry.score.myke.score))
+                                    .minimumScaleFactor(0.5)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(1)
+                                    .foregroundColor(WidgetAppearance.mykeLights),
+                                          color: .black)
+                                    .padding(4)
+                                    .padding(.leading, 10)
+                            }
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .frame(minHeight: 0, maxHeight: .infinity)
                     }
-                    .offset(y: -30)
-                    Spacer()
-                    AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score < entry.score.myke.score ? .mykeWalk1 : .mykeIdle)
-                        .imageAtScale(scale: .spriteScale * spriteScaleModifier)
+                    Rectangle()
+                        .fill(.white)
+                        .frame(minHeight: 0, maxHeight: .infinity)
+                        .frame(width: 2)
+                        .rotationEffect(.degrees(3))
                 }
                 .font(scoreFont)
-                .padding(.horizontal)
+//                HStack(alignment: .top) {
+//                    Image(stephenIsWinning ? .stephenFightingSmall : .stephenSuitSmall)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(height: 80)
+//                    Spacer()
+//                    Group {
+//                        funkyText(of: Text(formatNumber(entry.score.stephen.score))
+//                            .minimumScaleFactor(0.5)
+//                            .multilineTextAlignment(.center)
+//                            .lineLimit(1)
+//                            .foregroundColor(WidgetAppearance.stephenLights),
+//                                  color: .black
+//                        )
+//                        Spacer()
+//                        funkyText(of: Text(formatNumber(entry.score.myke.score))
+//                            .minimumScaleFactor(0.5)
+//                            .multilineTextAlignment(.center)
+//                            .lineLimit(1)
+//                            .foregroundColor(WidgetAppearance.mykeLights), color: .black)
+//                    }
+//                    .offset(y: -30)
+//                    Spacer()
+//                    Image(mykeIsWinning ? .mykeFightingSmall : .mykeSuitSmall)
+//                        .resizable()
+//                        .aspectRatio(contentMode: mykeIsWinning ? .fill : .fit)
+//                        .frame(height: 80)
+//                }
+//                .font(scoreFont)
+//                .padding(.horizontal)
             } else {
-                Grid(verticalSpacing: 0) {
-                    GridRow {
-                        VStack {
-                            Spacer()
+                ZStack {
+                    Grid(verticalSpacing: 0) {
+                        GridRow {
+                            Image(entry.score.stephen.score > entry.score.myke.score ? .stephenFightingSmall : .stephenSuitSmall)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: imageHeight)
                             funkyText(of: Text(formatNumber(entry.score.stephen.score))
                                 .minimumScaleFactor(0.5)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(1)
-                                .foregroundColor(WidgetAppearance.stephenYellow),
-                                      color: .black
-                            )
-                            Spacer()
+                                .foregroundColor(WidgetAppearance.stephenLights),
+                                      color: .black)
                         }
-                        VStack {
-                            Spacer()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .frame(minHeight: 0, maxHeight: .infinity)
+                        GridRow {
                             funkyText(of: Text(formatNumber(entry.score.myke.score))
                                 .minimumScaleFactor(0.5)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(1)
-                                .foregroundColor(WidgetAppearance.mykeBlue.lighter(by: 10)), color: .black)
-                            Spacer()
+                                .foregroundColor(WidgetAppearance.mykeLights),
+                                      color: .black)
+                            Image(entry.score.stephen.score < entry.score.myke.score ? .mykeFightingSmall : .mykeSuitSmall)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: imageHeight)
                         }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .frame(minHeight: 0, maxHeight: .infinity)
                     }
-                    .bold()
-                    .font(scoreFont)
-                    .foregroundStyle(Color.white)
-                    GridRow {
-                        AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score > entry.score.myke.score ? .stephenWalk1 : .stephenIdle)
-                            .imageAtScale(scale: .spriteScale * spriteScaleModifier)
-                            .scaleEffect(x: -1)
-                        AdaptiveImage(colorScheme: .light, light: entry.score.stephen.score < entry.score.myke.score ? .mykeWalk1 : .mykeIdle)
-                            .imageAtScale(scale: .spriteScale * spriteScaleModifier)
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity)
+                    Rectangle()
+                        .fill(.white)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .frame(height: 2)
+                        .rotationEffect(.degrees(-3))
                 }
-                .padding(.horizontal, scorePadding)
+                .font(scoreFont)
             }
-            AdaptiveImage.groundRepeatable(colorScheme: .light)
-                .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
         }
         .ignoresSafeArea()
-        .background(alignment: .bottom) {
+        .background {
             if(self.renderingMode == .fullColor) {
-                ZStack(alignment: .bottom) {
-                    AdaptiveImage(colorScheme: .light, light: .skyBackgroundRepeatable)
-                        .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .none)
-                        .animation(.none, value: UUID())
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                    AdaptiveImage(colorScheme: .light, light: .skyRepeatable, dark: .skyRepeatableNight)
-                        .tiledImageAtScale(scale: .spriteScale * spriteScaleModifier, axis: .horizontal)
-                        .animation(.none, value: UUID())
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                }
+                LinearGradient(colors: WidgetAppearance.stephen.backgroundColors, startPoint: .top, endPoint: .bottom)
             }
         }
         .dynamicTypeSize(.medium)
@@ -192,19 +245,11 @@ struct ScoreEntryView: View {
     @ViewBuilder
     var lockScreenRectangular: some View {
         HStack {
-            Image(.mykeHead)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(minWidth: 10, maxWidth: 30)
-                .multilineTextAlignment(.leading)
-                .scaleEffect(x: -1)
+            Image(systemName: "m.circle")
             Text(formatNumber(entry.score.myke.score))
                 .fixedSize(horizontal: true, vertical: false)
             Spacer()
-            Image(.stephenHead)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(minWidth: 10, maxWidth: 30)
+            Image(systemName: "s.circle")
             Text(formatNumber(entry.score.stephen.score))
                 .fixedSize(horizontal: true, vertical: false)
         }
@@ -258,16 +303,8 @@ struct ScoreEntryView: View {
     }
 }
 
-struct CampaignList_Previews: PreviewProvider {
-    static var previews: some View {
-        //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-        //            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
-        //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-        //            .previewContext(WidgetPreviewContext(family: .accessoryInline))
-        //        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-        //            .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
-        ScoreEntryView(entry: .init(date: .now, score: Score(myke: .init(score: 69), stephen: .init(score: 420))))
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
-    }
-}
-
+#Preview(as: .accessoryRectangular, widget: {
+    ScoreWidget()
+}, timeline: {
+    ScoreEntry(date: .now, score: Score(myke: .init(score: 233), stephen: .init(score: 231)))
+})
