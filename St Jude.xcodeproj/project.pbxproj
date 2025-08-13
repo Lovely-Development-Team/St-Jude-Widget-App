@@ -256,7 +256,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Refresh.swift,
-				"Views/Alt Icons/AltIconPicker.swift",
 				"Views/Alt Icons/AltIcons.swift",
 			);
 			target = 6357653926D1A73E004F04DE /* St Jude (macOS) */;

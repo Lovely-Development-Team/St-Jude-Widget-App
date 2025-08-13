@@ -12,11 +12,10 @@ struct AboutView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @Environment(\.dismiss) var dismiss
     @State private var showSupporterSheet: Bool = false
-    @State private var showChangeIconSheet: Bool = false
     
     @State private var backgroundColor: Color = .black
     @State private var forceRefresh: Bool = false
-    @State private var currentIcon: String? = nil
+    @State private var currentIcon: AltIcon? = nil
     
     @Binding var campaignChoiceID: UUID?
     
@@ -177,8 +176,10 @@ struct AboutView: View {
                     .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
-                        VStack {
+                        VStack(spacing: 0) {
+                            
                             Text("Appearance")
+
                             HStack {
                                 Button(action: {
                                     self.appAppearance = 0
@@ -203,40 +204,35 @@ struct AboutView: View {
                             if dynamicTypeSize >= .large {
                                 systemAppearanceButton
                             }
+                            
+                            LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
+                                ForEach(AltIcon.allCases) { icon in
+                                    VStack {
+                                        Button(action: {
+                                            icon.set()
+                                            withAnimation {
+                                                self.currentIcon = icon
+                                            }
+                                        }) {
+                                            icon.image
+                                                .frame(width: 60, height: 60)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                .overlay {
+                                                    if icon == currentIcon {
+                                                        RoundedRectangle(cornerRadius: 12)
+                                                            .stroke(lineWidth: 3)
+                                                    }
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.bottom, 10)
+                            
                         }
                         .frame(maxWidth: .infinity)
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
-                    
-                    Button(action: {
-                        self.showChangeIconSheet = true
-                    }) {
-                        HStack {
-                            if let currentIcon = currentIcon {
-                                Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .modifier(PixelRounding())
-                            }
-                            Text("Change Icon")
-                                .fullWidth()
-                        }
-                    }
-                    .buttonStyle(BlockButtonStyle())
-                    
-                    if(self.easterEggEnabled2024) {
-                        Button(action: {
-                            UserDefaults.shared.easterEggEnabled2024 = false
-                            self.dismiss()
-                        }, label: {
-                            Text("Disable Cursed Mode")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .fullWidth(alignment: .center)
-                        })
-                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                        .padding(.horizontal)
-                    }
                     
                     Button(action: {
                         self.dismiss()
@@ -268,17 +264,8 @@ struct AboutView: View {
         .sheet(isPresented: $showSupporterSheet) {
             SupporterView()
         }
-        .sheet(isPresented: $showChangeIconSheet) {
-            AltIconPicker(campaignChoiceID: self.$campaignChoiceID) { shouldQuit in
-                self.showChangeIconSheet = false
-                self.currentIcon = UIApplication.shared.alternateIconName ?? "AppIcon"
-                if shouldQuit {
-                    self.dismiss()
-                }
-            }
-        }
         .onAppear {
-            self.currentIcon = UIApplication.shared.alternateIconName ?? "AppIcon"
+            self.currentIcon = AltIcon(rawValue: UIApplication.shared.alternateIconName ?? "original") ?? .original
         }
     }
     
