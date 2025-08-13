@@ -94,43 +94,47 @@ struct StandingToThrowingView: View{
     @Environment(\.colorScheme) var colorScheme
     var body: some View{
         let playerImage = self.player.getPlayer()
-        Button(action: {
+        HStack{
+            
+            
+            if(!self.isMirrored){
+                Spacer()
+            }
+            Button(action: {
 #if !os(macOS)
-            bounceHaptics.impactOccurred()
+                bounceHaptics.impactOccurred()
 #endif
-            if(!self.animate){
-                self.animate.toggle()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                if(!self.animate){
                     self.animate.toggle()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        self.animate.toggle()
+                    }
+                }
+            }){
+                HStack{
+                    
+                    
+                    ZStack {
+                        if !self.animate{
+                            AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
+                                .imageAtScale(scale: .spriteScale * self.scale * playerImage.baseScale)
+                                .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.horizontalPadding)
+                        }
+                        else{
+                            AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.throwImage ?? playerImage.fightImage)
+                                .imageAtScale(scale:  .spriteScale * self.scale * (playerImage.throwScale ?? playerImage.figthScale))
+                                .scaleEffect(x: playerImage.isFightImageMirrored ? -1 : 1, y: 1)
+                                .padding(.bottom, playerImage.bottomPadding)
+                        }
+                    }
+                    .padding(playerImage.isPaddingMirrored ? .leading : .trailing, 5)
+                    .scaleEffect(x: (isMirrored && !playerImage.isPaddingMirrored)  || (!isMirrored && playerImage.isPaddingMirrored) ? -1 : 1, y: 1)
+                    .animation(animate ? .none : animationType)
+                    
                 }
             }
-        }){
-            HStack{
-                
-                if(!self.isMirrored){
-                    Spacer()
-                }
-                
-                ZStack {
-                    if !self.animate{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
-                            .imageAtScale(scale: .spriteScale * self.scale * playerImage.baseScale)
-                            .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.horizontalPadding)
-                    }
-                    else{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.throwImage ?? playerImage.fightImage)
-                            .imageAtScale(scale:  .spriteScale * self.scale * (playerImage.throwScale ?? playerImage.figthScale))
-                            .scaleEffect(x: playerImage.isFightImageMirrored ? -1 : 1, y: 1)
-                            .padding(.bottom, playerImage.bottomPadding)
-                    }
-                }
-                .padding(playerImage.isPaddingMirrored ? .leading : .trailing, 5)
-                .scaleEffect(x: (isMirrored && !playerImage.isPaddingMirrored)  || (!isMirrored && playerImage.isPaddingMirrored) ? -1 : 1, y: 1)
-                .animation(animate ? .none : animationType)
-                
-                if(self.isMirrored){
-                    Spacer()
-                }
+            if(self.isMirrored){
+                Spacer()
             }
         }
     }
