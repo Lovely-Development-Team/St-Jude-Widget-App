@@ -572,15 +572,22 @@ struct CampaignList: View {
                     VStack{
                         topView
                         
-                        HStack{
-                            StandingToThrowingView(player: competitors.first!, isMirrored: true)
-                            Spacer()
-                            StandingToThrowingView(player: competitors.last!)
+                        ZStack{
+                            StandingToThrowingView(player: self.competitors.first!)
+                            StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
                         }
                         .padding(.horizontal)
+                        
                     }
                     .padding(.bottom)
-                    .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall).imageAtScale())
+                    .background(
+                        VStack(spacing:0){
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallWall)
+                                .tiledImageAtScale(scale: .spriteScale * 0.50)
+                                .scaleEffect(x: -1, y: -1)
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall).imageAtScale(scale: .spriteScale * 0.5)
+                        }
+                    )
 
                     VStack {
                         CountdownView()
@@ -591,9 +598,17 @@ struct CampaignList: View {
                         easterEggView
                         widgetCompatibilityView
                     }
-                    .padding(.bottom)
+                    .padding(.vertical)
                     .frame(maxWidth: .infinity)
-                    .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor).tiledImageAtScale())
+                    .background(
+                        VStack(spacing:0){
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor)
+                                .tiledImageAtScale(scale: .spriteScale * 0.5)
+                                .scaleEffect(-1)
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor)
+                                .tiledImageAtScale(scale: .spriteScale * 0.5)
+                        }
+                    )
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
                 
