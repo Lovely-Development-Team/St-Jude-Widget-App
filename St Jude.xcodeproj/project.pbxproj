@@ -1364,7 +1364,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.iOSWidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.iOSWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1394,7 +1394,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.iOSWidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.iOSWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1423,7 +1423,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.IntentsExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.IntentsExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1451,7 +1451,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = "${MARKETING_VERSION}";
-				PRODUCT_BUNDLE_IDENTIFIER = pl.snailedit.stjude.IntentsExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude.IntentsExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
