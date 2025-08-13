@@ -168,22 +168,25 @@ struct CampaignView: View {
 #endif
 
                             LazyVGrid(columns: milestoneAndRewardButtonColumns) {
-                                    Button(action: {
-                                        withAnimation {
-                                            scrollViewReader.scrollTo("Milestones", anchor: .top)
-                                        }
-                                    }) {
-                                        GroupBox {
-                                            HStack {
+                                Button(action: {
+                                    withAnimation {
+                                        scrollViewReader.scrollTo("Milestones", anchor: .top)
+                                    }
+                                }) {
+                                    GroupBox {
+                                        HStack {
+                                                Image(systemName: "flag")
+                                                Spacer()
                                                 Text("^[\(milestones.count) Milestone](inflect:true)")
                                                     .multilineTextAlignment(.center)
                                                     .foregroundColor(milestones.isEmpty ? .secondary : .primary)
                                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                            }
-                                            .frame(minHeight: 0, maxHeight: .infinity)
+                                                Spacer()
                                         }
+                                        .frame(minHeight: 0, maxHeight: .infinity)
                                     }
-                                    .disabled(milestones.isEmpty)
+                                }
+                                .disabled(milestones.isEmpty)
                                 Button(action: {
                                     withAnimation {
                                         scrollViewReader.scrollTo("Rewards", anchor: .top)
@@ -191,6 +194,8 @@ struct CampaignView: View {
                                 }) {
                                     GroupBox {
                                         HStack {
+                                            Image(systemName: "rosette")
+                                            Spacer()
                                             Text("^[\(rewards.count) Reward](inflect:true)")
                                                 .multilineTextAlignment(.center)
                                                 .foregroundColor(rewards.isEmpty ? .secondary : .primary)

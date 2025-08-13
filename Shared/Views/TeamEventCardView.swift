@@ -51,7 +51,7 @@ struct TeamEventCardView: View {
                     .font(.headline)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 2)
-                
+                                
                 if showDisclosureIndicator {
                     Spacer()
                     Image(systemName:"chevron.right")
@@ -75,7 +75,7 @@ struct TeamEventCardView: View {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
                     } label: {
-                        Label("Share", image: "square.and.arrow.up")
+                        Label("Share", systemImage: "square.and.arrow.up")
                             .labelStyle(.iconOnly)
                     }
                 }
@@ -102,21 +102,20 @@ struct TeamEventCardView: View {
                     .redacted(reason: .placeholder)
             }
         }
-        .foregroundColor(.primary)
+        .foregroundColor(appearance.foregroundColor)
     }
     
     var body: some View {
         Group {
             if(self.showBackground) {
-                GroupBox {
-                    self.contents
-                }
+                self.contents
+                    .padding()
+                    .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .cornerRadius(10)
             } else {
                 self.contents
             }
         }
-//        .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
-//        .background(Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .sheet(item: $showShareLinkSheet) { url in
             ShareSheetView(activityItems: [url.url])
         }
