@@ -51,7 +51,7 @@ struct TeamEventCardView: View {
                     .font(.headline)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 2)
-                
+                                
                 if showDisclosureIndicator {
                     Spacer()
                     Image("pixel-chevron-right")
@@ -75,7 +75,11 @@ struct TeamEventCardView: View {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
                     } label: {
+<<<<<<< HEAD
                         Label("Share", image: "share.pixel")
+=======
+                        Label("Share", systemImage: "square.and.arrow.up")
+>>>>>>> 6a7ae2a (Add AltIcon view back)
                             .labelStyle(.iconOnly)
                     }
                 }
@@ -102,22 +106,27 @@ struct TeamEventCardView: View {
                     .redacted(reason: .placeholder)
             }
         }
-        .foregroundColor(.primary)
+        .foregroundColor(appearance.foregroundColor)
     }
     
     var body: some View {
         Group {
             if(self.showBackground) {
+<<<<<<< HEAD
                 GroupBox {
                     self.contents
                 }
                 .groupBoxStyle(BlockGroupBoxStyle(tint: .brandYellow))
+=======
+                self.contents
+                    .padding()
+                    .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .cornerRadius(10)
+>>>>>>> 6a7ae2a (Add AltIcon view back)
             } else {
                 self.contents
             }
         }
-//        .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
-//        .background(Color(red: 13 / 255, green: 39 / 255, blue: 83 / 255))
         .sheet(item: $showShareLinkSheet) { url in
             ShareSheetView(activityItems: [url.url])
         }

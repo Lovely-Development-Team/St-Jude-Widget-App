@@ -10,29 +10,10 @@ import SwiftUI
 
 enum AltIcon: String, CaseIterable, Identifiable {
     case original
-    case flowers
-    case l2cu
-    case stephen
-    case myke
-    case stephenKart
-    case mykeKart
-    case questionblock
-    case bush
-    case cloud
-    case jony
     case logo
     
     var id: String {
         self.rawValue
-    }
-    
-    var isCursed: Bool {
-        switch self {
-        case .jony:
-            return true
-        default:
-            return false
-        }
     }
     
     var fileName: String? {
@@ -45,9 +26,18 @@ enum AltIcon: String, CaseIterable, Identifiable {
     }
     
     var image: some View {
-        Image(uiImage: UIImage(named: fileName ?? "AppIcon") ?? UIImage())
-            .resizable()
-            .modifier(PixelRounding())
+        switch self {
+        case .original:
+            return Image(uiImage: Bundle.main.icon ?? UIImage())
+                .resizable()
+        default:
+            if let fileName {
+                return Image("\(fileName)-preview")
+                    .resizable()
+            }
+            return Image(uiImage: Bundle.main.icon ?? UIImage())
+                .resizable()
+        }
     }
     
     func set() {

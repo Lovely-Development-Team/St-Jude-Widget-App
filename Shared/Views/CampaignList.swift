@@ -72,10 +72,7 @@ struct CampaignList: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
-    
-    // MARK: 2024
-    @State private var landscapeData = RandomLandscapeData()
-    
+        
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
     @State private var teamEventObservation = AppDatabase.shared.observeTeamEventObservation()
@@ -620,7 +617,7 @@ struct CampaignList: View {
         }
         .onReceive(timer) { _ in
             Task {
-                await refresh(generateLandscape: false)
+                await refresh()
             }
         }
         .onChange(of: fundraiserSortOrder) { newValue in
@@ -654,7 +651,7 @@ struct CampaignList: View {
                 await fetch()
             }
             Task {
-                await refresh(generateLandscape: false)
+                await refresh()
             }
             
         }
@@ -772,7 +769,7 @@ struct CampaignList: View {
         await fetch()
     }
     
-    func refresh(generateLandscape: Bool = true) async {
+    func refresh() async {
         
         if let apiEventData = await apiClient.fetchTeamEvent() {
             dataLogger.debug("API fetched TeamEvent: \(apiEventData.name)")
@@ -841,9 +838,6 @@ struct CampaignList: View {
         
         await fetch()
         
-        if(generateLandscape) {
-            self.landscapeData.generate()
-        }
         self.isLoading = false
         
     }
