@@ -30,13 +30,16 @@ enum AltIcon: String, CaseIterable, Identifiable {
         case .original:
             return Image(uiImage: Bundle.main.icon ?? UIImage())
                 .resizable()
+                .modifier(PixelRounding())
         default:
             if let fileName {
                 return Image("\(fileName)-preview")
                     .resizable()
+                    .modifier(PixelRounding())
             }
             return Image(uiImage: Bundle.main.icon ?? UIImage())
                 .resizable()
+                .modifier(PixelRounding())
         }
     }
     

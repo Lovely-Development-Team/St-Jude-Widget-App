@@ -75,11 +75,7 @@ struct TeamEventCardView: View {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
                     } label: {
-<<<<<<< HEAD
                         Label("Share", image: "share.pixel")
-=======
-                        Label("Share", systemImage: "square.and.arrow.up")
->>>>>>> 6a7ae2a (Add AltIcon view back)
                             .labelStyle(.iconOnly)
                     }
                 }
@@ -106,23 +102,16 @@ struct TeamEventCardView: View {
                     .redacted(reason: .placeholder)
             }
         }
-        .foregroundColor(appearance.foregroundColor)
+        .foregroundColor(.black)
     }
     
     var body: some View {
         Group {
             if(self.showBackground) {
-<<<<<<< HEAD
                 GroupBox {
                     self.contents
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: .brandYellow))
-=======
-                self.contents
-                    .padding()
-                    .background(LinearGradient(colors: appearance.backgroundColors, startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .cornerRadius(10)
->>>>>>> 6a7ae2a (Add AltIcon view back)
+                .groupBoxStyle(BlockGroupBoxStyle(tint: WidgetAppearance.caseyLights))
             } else {
                 self.contents
             }

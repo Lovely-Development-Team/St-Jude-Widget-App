@@ -203,7 +203,7 @@ struct CampaignList: View {
                             NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
-                            .buttonStyle(BlockButtonStyle(tint: .brandYellow))
+                            .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.caseyLights))
                             .padding()
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
@@ -211,9 +211,9 @@ struct CampaignList: View {
                         }
                     }
                     .zIndex(1)
-                    RandomLandscapeView(data: self.$landscapeData) {
-                        EmptyView()
-                    }
+//                    RandomLandscapeView(data: self.$landscapeData) {
+//                        EmptyView()
+//                    }
                     .zIndex(0)
                 }
             }
@@ -452,7 +452,7 @@ struct CampaignList: View {
                     .foregroundColor(.black)
                 }
                 .padding(.horizontal)
-                .buttonStyle(BlockButtonStyle(tint: .brandYellow))
+                .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.stephenLights))
             } else {
                 Group {
                     if isLoading {
