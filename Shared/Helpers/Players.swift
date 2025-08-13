@@ -8,18 +8,18 @@
 import DeveloperToolsSupport
 
 struct PlayerImage{
-    var BaseImage: ImageResource
-    var LightImage: ImageResource
-    var ThrowImage: ImageResource?
-    var FightImage: ImageResource
-    var StreetImage: ImageResource
-    var ThrowScale: Double?
-    var BaseScale: Double
-    var FigthScale: Double
-    var BottomPadding: Double
+    var baseImage: ImageResource
+    var lightImage: ImageResource
+    var throwImage: ImageResource?
+    var fightImage: ImageResource
+    var streetImage: ImageResource
+    var throwScale: Double?
+    var baseScale: Double
+    var figthScale: Double
+    var bottomPadding: Double
     var isPaddingMirrored: Bool = false
-    var HorizontalPadding: Double = 15.0
-    var FightImageMirrored = false
+    var horizontalPadding: Double = 15.0
+    var isFightImageMirrored = false
 }
 
 enum Players: CaseIterable, Identifiable{
@@ -34,61 +34,61 @@ enum Players: CaseIterable, Identifiable{
     
     func getPlayer() -> PlayerImage {
         switch self {
-        case .stephen : return PlayerImage(BaseImage: .stephenSuit,
-                                           LightImage: .stephenLights,
-                                           ThrowImage: .stephenDodgeSuit,
-                                           FightImage: .stephenFighting,
-                                           StreetImage: .stephenStreet,
-                                           ThrowScale: 0.13,
-                                           BaseScale: 0.10,
-                                           FigthScale: 0.25, // TODO: Adjust this
-                                           BottomPadding: 22.5,
+        case .stephen : return PlayerImage(baseImage: .stephenSuit,
+                                           lightImage: .stephenLights,
+                                           throwImage: .stephenDodgeSuit,
+                                           fightImage: .stephenFighting,
+                                           streetImage: .stephenStreet,
+                                           throwScale: 0.13,
+                                           baseScale: 0.10,
+                                           figthScale: 0.25, // TODO: Adjust this
+                                           bottomPadding: 22.5,
                                            isPaddingMirrored: true)
             
-        case .myke : return PlayerImage(BaseImage: .mykeSuit,
-                                        LightImage: .mykeLights,
-                                        ThrowImage: .mykeThrowSuit,
-                                        FightImage: .mykeFighting,
-                                        StreetImage: .mykeStreet,
-                                        ThrowScale: 0.24,
-                                        BaseScale: 0.10,
-                                        FigthScale: 0.26, // TODO: Adjust this
-                                        BottomPadding: 6.8)
+        case .myke : return PlayerImage(baseImage: .mykeSuit,
+                                        lightImage: .mykeLights,
+                                        throwImage: .mykeThrowSuit,
+                                        fightImage: .mykeFighting,
+                                        streetImage: .mykeStreet,
+                                        throwScale: 0.24,
+                                        baseScale: 0.10,
+                                        figthScale: 0.26, // TODO: Adjust this
+                                        bottomPadding: 6.8)
             
-        case .casey : return PlayerImage(BaseImage: .caseySuit,
-                                         LightImage: .caseyLights,
-                                         FightImage: .caseyFighting,
-                                         StreetImage: .caseyStreet,
-                                         BaseScale: 0.10,
-                                         FigthScale: 0.25,
-                                         BottomPadding: -5.3,
-                                         HorizontalPadding: 40.0)
+        case .casey : return PlayerImage(baseImage: .caseySuit,
+                                         lightImage: .caseyLights,
+                                         fightImage: .caseyFighting,
+                                         streetImage: .caseyStreet,
+                                         baseScale: 0.10,
+                                         figthScale: 0.25,
+                                         bottomPadding: -5.3,
+                                         horizontalPadding: 40.0)
             
-        case .kathy : return PlayerImage(BaseImage: .kathySuit,
-                                         LightImage: .kathyLights,
-                                         FightImage: .kathyFighting,
-                                         StreetImage: .kathyStreet,
-                                         BaseScale: 0.10,
-                                         FigthScale: 0.20,
-                                         BottomPadding: 26.8,
-                                         FightImageMirrored: true)
+        case .kathy : return PlayerImage(baseImage: .kathySuit,
+                                         lightImage: .kathyLights,
+                                         fightImage: .kathyFighting,
+                                         streetImage: .kathyStreet,
+                                         baseScale: 0.10,
+                                         figthScale: 0.20,
+                                         bottomPadding: 26.8,
+                                         isFightImageMirrored: true)
             
-        case .jason : return PlayerImage(BaseImage: .jasonSuit,
-                                         LightImage: .jasonLights,
-                                         FightImage: .jasonFighting,
-                                         StreetImage: .jasonStreet,
-                                         BaseScale: 0.10,
-                                         FigthScale: 0.20,
-                                         BottomPadding: -0.75,
+        case .jason : return PlayerImage(baseImage: .jasonSuit,
+                                         lightImage: .jasonLights,
+                                         fightImage: .jasonFighting,
+                                         streetImage: .jasonStreet,
+                                         baseScale: 0.10,
+                                         figthScale: 0.20,
+                                         bottomPadding: -0.75,
                                          isPaddingMirrored: true)
             
-        case .brad : return PlayerImage(BaseImage: .bradSuit,
-                                        LightImage: .bradLights,
-                                        FightImage: .bradFighting,
-                                        StreetImage: .bradStreet,
-                                        BaseScale: 0.10,
-                                        FigthScale: 0.25,
-                                        BottomPadding: 1.5)
+        case .brad : return PlayerImage(baseImage: .bradSuit,
+                                        lightImage: .bradLights,
+                                        fightImage: .bradFighting,
+                                        streetImage: .bradStreet,
+                                        baseScale: 0.10,
+                                        figthScale: 0.25,
+                                        bottomPadding: 1.5)
         }
     }
 }
