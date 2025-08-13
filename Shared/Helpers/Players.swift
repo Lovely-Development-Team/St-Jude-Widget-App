@@ -5,6 +5,8 @@
 //  Created by Pierre-Luc Robitaille on 2025-08-11.
 //
 
+import DeveloperToolsSupport
+
 struct PlayerImage{
     var BaseImage: ImageResource
     var LightImage: ImageResource
