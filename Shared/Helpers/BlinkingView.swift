@@ -113,15 +113,15 @@ struct StandingToThrowingView: View{
                 
                 ZStack {
                     if !self.animate{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.BaseImage)
-                            .imageAtScale(scale: .spriteScale * self.scale * playerImage.BaseScale)
-                            .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.HorizontalPadding)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
+                            .imageAtScale(scale: .spriteScale * self.scale * playerImage.baseScale)
+                            .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.horizontalPadding)
                     }
                     else{
-                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.ThrowImage ?? playerImage.FightImage)
-                            .imageAtScale(scale:  .spriteScale * self.scale * (playerImage.ThrowScale ?? playerImage.FigthScale))
-                            .scaleEffect(x: playerImage.FightImageMirrored ? -1 : 1, y: 1)
-                            .padding(.bottom, playerImage.BottomPadding)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.throwImage ?? playerImage.fightImage)
+                            .imageAtScale(scale:  .spriteScale * self.scale * (playerImage.throwScale ?? playerImage.figthScale))
+                            .scaleEffect(x: playerImage.isFightImageMirrored ? -1 : 1, y: 1)
+                            .padding(.bottom, playerImage.bottomPadding)
                     }
                 }
                 .padding(playerImage.isPaddingMirrored ? .leading : .trailing, 5)
