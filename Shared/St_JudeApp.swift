@@ -48,7 +48,7 @@ struct St_JudeApp: App {
                         }
                     }
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle(navTitle)
+//                    .navigationTitle(navTitle)
             }
             .id(mainAppViewID)
             .navigationViewStyle(.stack)

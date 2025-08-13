@@ -222,22 +222,8 @@ struct CampaignList: View {
             }
             .frame(maxWidth: Double.stretchedContentMaxWidth)
             
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
         }
         .frame(maxWidth: .infinity)
-        .background(alignment: .bottom) {
-            ZStack(alignment: .bottom) {
-                SkyView()
-            }
-            .mask {
-                LinearGradient(stops: [
-                    .init(color: .clear, location: 0),
-                    .init(color: .white, location: 0.25),
-                    .init(color: .white, location: 1)
-                ], startPoint: .top, endPoint: .bottom)
-            }
-        }
     }
         
     @ViewBuilder
@@ -587,13 +573,13 @@ struct CampaignList: View {
                         topView
                         
                         HStack{
-                            StandingToThrowingView(player: competitors.first!, isMirrored:true)
+                            StandingToThrowingView(player: competitors.first!, isMirrored: true)
                             Spacer()
                             StandingToThrowingView(player: competitors.last!)
                         }
-                        Spacer()
-                            .padding(10)
+                        .padding(.horizontal)
                     }
+                    .padding(.bottom)
                     .background(AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall).imageAtScale())
 
                     VStack {

@@ -13,7 +13,7 @@ struct CountdownView: View {
     @State private var showAbsoluteDate: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = Date(timeIntervalSince1970: 1728309641)
+    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728309641)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
