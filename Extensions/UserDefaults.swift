@@ -36,7 +36,7 @@ extension UserDefaults {
     static let appAppearanceKey = "appAppearance"
     static let disableCombosKey = "disableCombos"
     static let userLevelKey = "userLevel"
-    
+        
     @objc var iconsUnlocked: Bool {
         get { bool(forKey: Self.iconsUnlockedKey) }
         set { set(newValue, forKey: Self.iconsUnlockedKey) }
