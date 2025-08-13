@@ -1129,7 +1129,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2024;
+				MARKETING_VERSION = 2025;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude;
 				PRODUCT_NAME = "St Jude";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1167,7 +1167,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2024;
+				MARKETING_VERSION = 2025;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.snailedit.stjude;
 				PRODUCT_NAME = "St Jude";
 				PROVISIONING_PROFILE_SPECIFIER = "";
