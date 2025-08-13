@@ -26,7 +26,7 @@ struct HeadToHeadListItem: View {
                         .bold()
                         .multilineTextAlignment(.center)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
+                        .foregroundColor(.primary)
                 GroupBox {
                     Text("vs")
                         .bold()
@@ -38,7 +38,7 @@ struct HeadToHeadListItem: View {
                         .bold()
                         .multilineTextAlignment(.center)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(HEAD_TO_HEAD_COLOR_1.foregroundColor)
+                        .foregroundColor(.primary)
             }
             
             TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)

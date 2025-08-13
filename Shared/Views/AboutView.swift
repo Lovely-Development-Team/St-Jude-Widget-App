@@ -176,7 +176,7 @@ struct AboutView: View {
                     .groupBoxStyle(BlockGroupBoxStyle())
                     
                     GroupBox {
-                        VStack(spacing: 0) {
+                        VStack {
                             
                             Text("Appearance")
 
@@ -205,7 +205,10 @@ struct AboutView: View {
                                 systemAppearanceButton
                             }
                             
-                            LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
+                            Text("Icon")
+                                .padding(.top, 5)
+                            
+                            LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
                                 ForEach(AltIcon.allCases) { icon in
                                     VStack {
                                         Button(action: {
@@ -216,14 +219,8 @@ struct AboutView: View {
                                         }) {
                                             icon.image
                                                 .frame(width: 60, height: 60)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                                .overlay {
-                                                    if icon == currentIcon {
-                                                        RoundedRectangle(cornerRadius: 12)
-                                                            .stroke(lineWidth: 3)
-                                                    }
-                                                }
                                         }
+                                        .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? WidgetAppearance.skyBlue : .secondarySystemBackground))
                                     }
                                 }
                             }
