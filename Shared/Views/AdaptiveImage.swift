@@ -24,6 +24,8 @@ struct AdaptiveImage: View, Identifiable {
     
     var body: some View {
         Image(currentImage)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
             .animation(.none, value: UUID())
     }
 }
