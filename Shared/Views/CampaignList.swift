@@ -268,13 +268,12 @@ struct CampaignList: View {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)], spacing: 10) {
                             headToHeadList
                         }
-                        .padding(.horizontal)
+//                        .padding(.horizontal)
                     }
                 }
             }
         }
         .padding(.horizontal)
-        .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     
     @ViewBuilder

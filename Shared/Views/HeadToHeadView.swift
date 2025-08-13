@@ -8,8 +8,8 @@
 import SwiftUI
 import Kingfisher
 
-let HEAD_TO_HEAD_COLOR_1 = WidgetAppearance.stjude
-let HEAD_TO_HEAD_COLOR_2 = WidgetAppearance.relay
+let HEAD_TO_HEAD_COLOR_1: WidgetAppearance = .stephen
+let HEAD_TO_HEAD_COLOR_2: WidgetAppearance = .myke
 
 struct HeadToHeadView: View {
     @Environment(\.presentationMode) var presentationMode
