@@ -142,9 +142,8 @@ struct StandingToThrowingView: View{
 
 
 #Preview {
-
     ScrollView{
-        ForEach(Players.allCases.reversed()){ player in
+        ForEach(Players.allCases){ player in
             StandingToThrowingView(player: player, isMirrored: true)
         }
     }
