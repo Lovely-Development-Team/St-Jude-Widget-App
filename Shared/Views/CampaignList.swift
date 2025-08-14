@@ -576,6 +576,7 @@ struct CampaignList: View {
                             StandingToThrowingView(player: self.competitors.first!)
                             StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
                         }
+                        .padding(.bottom,35)
                         .background(
                             AdaptiveImage(colorScheme: self.colorScheme, light: .arena)
                                 .imageAtScale()
@@ -597,7 +598,7 @@ struct CampaignList: View {
                         widgetCompatibilityView
                     }
 //                    .opacity(0)
-                    .padding(.vertical)
+                    .padding(.top,-10)
                     .frame(maxWidth: .infinity)
                     .background(
                             AdaptiveImage(colorScheme: self.colorScheme, light: .arenaFloor2)
