@@ -206,6 +206,7 @@ struct CampaignList: View {
                             NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
+                            // TODO: Change this color to be lest violent to look at
                             .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.caseyLights))
                             .padding()
                         } else {
@@ -576,16 +577,19 @@ struct CampaignList: View {
                             StandingToThrowingView(player: self.competitors.first!)
                             StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
                         }
-                        .padding(.bottom,35)
+//                        .padding(.top,10)
+                        .padding(.bottom, 35)
                         .background(
                             AdaptiveImage(colorScheme: self.colorScheme, light: .arena)
                                 .imageAtScale()
                         )
                         .zIndex(-1)
                     }
+                    .padding(.top,)
                     .background(
                             AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
-                                .tiledImageAtScale()
+                             .tiledImageAtScale()
+                             .mask(LinearGradient(colors: [.white,.white,.white,.white,.white,.white,.clear], startPoint: .bottom, endPoint: .top))
                     )
 
                     VStack {
