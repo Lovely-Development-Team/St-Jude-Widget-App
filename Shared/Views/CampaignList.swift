@@ -576,17 +576,15 @@ struct CampaignList: View {
                             StandingToThrowingView(player: self.competitors.first!)
                             StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
                         }
-                        .padding(.horizontal)
-                        
+                        .background(
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .arena)
+                                .imageAtScale()
+                        )
+                        .zIndex(-1)
                     }
-                    .padding(.bottom)
                     .background(
-                        VStack(spacing:0){
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallWall)
-                                .tiledImageAtScale(scale: .spriteScale * 0.50)
-                                .scaleEffect(x: -1, y: -1)
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall).imageAtScale(scale: .spriteScale * 0.5)
-                        }
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
+                                .tiledImageAtScale()
                     )
 
                     VStack {
@@ -598,16 +596,13 @@ struct CampaignList: View {
                         easterEggView
                         widgetCompatibilityView
                     }
+//                    .opacity(0)
                     .padding(.vertical)
                     .frame(maxWidth: .infinity)
                     .background(
-                        VStack(spacing:0){
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor)
-                                .tiledImageAtScale(scale: .spriteScale * 0.5)
-                                .scaleEffect(-1)
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWallFloor)
-                                .tiledImageAtScale(scale: .spriteScale * 0.5)
-                        }
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .arenaFloor2)
+                                .tiledImageAtScale()
+                                .padding(.bottom, -1000) // TODO: FIX BACKGROUND ITS UGLY
                     )
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))

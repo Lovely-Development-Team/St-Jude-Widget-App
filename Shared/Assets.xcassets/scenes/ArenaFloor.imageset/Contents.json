@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Floor.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

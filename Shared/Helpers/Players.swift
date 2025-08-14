@@ -14,8 +14,8 @@ struct PlayerImage{
     var fightImage: ImageResource
     var streetImage: ImageResource
     var throwScale: Double?
-    var baseScale: Double
-    var figthScale: Double
+    var baseScale: Double = 1.0
+    var figthScale: Double = 1.0
     var bottomPadding: Double
     var isPaddingMirrored: Bool = false
     var horizontalPadding: Double = 15.0
@@ -39,10 +39,8 @@ enum Players: CaseIterable, Identifiable{
                                            throwImage: .stephenDodgeSuit,
                                            fightImage: .stephenFighting,
                                            streetImage: .stephenStreet,
-                                           throwScale: 0.13,
-                                           baseScale: 0.10,
-                                           figthScale: 0.25, // TODO: Adjust this
-                                           bottomPadding: 22.5,
+                                           figthScale: 1.0,
+                                           bottomPadding: 12.5,
                                            isPaddingMirrored: true)
             
         case .myke : return PlayerImage(baseImage: .mykeSuit,
@@ -50,45 +48,35 @@ enum Players: CaseIterable, Identifiable{
                                         throwImage: .mykeThrowSuit,
                                         fightImage: .mykeFighting,
                                         streetImage: .mykeStreet,
-                                        throwScale: 0.24,
-                                        baseScale: 0.10,
-                                        figthScale: 0.26, // TODO: Adjust this
-                                        bottomPadding: 6.8)
+                                        figthScale: 1,
+                                        bottomPadding: 7.5)
             
         case .casey : return PlayerImage(baseImage: .caseySuit,
                                          lightImage: .caseyLights,
                                          fightImage: .caseyFighting,
                                          streetImage: .caseyStreet,
-                                         baseScale: 0.10,
-                                         figthScale: 0.25,
-                                         bottomPadding: -5.3,
+                                         bottomPadding: 0.0,
                                          horizontalPadding: 40.0)
             
         case .kathy : return PlayerImage(baseImage: .kathySuit,
                                          lightImage: .kathyLights,
                                          fightImage: .kathyFighting,
                                          streetImage: .kathyStreet,
-                                         baseScale: 0.10,
-                                         figthScale: 0.20,
-                                         bottomPadding: 26.8,
+                                         bottomPadding: 22.5,
                                          isFightImageMirrored: true)
             
         case .jason : return PlayerImage(baseImage: .jasonSuit,
                                          lightImage: .jasonLights,
                                          fightImage: .jasonFighting,
                                          streetImage: .jasonStreet,
-                                         baseScale: 0.10,
-                                         figthScale: 0.20,
-                                         bottomPadding: -0.75,
+                                         bottomPadding: 2.5,
                                          isPaddingMirrored: true)
             
         case .brad : return PlayerImage(baseImage: .bradSuit,
                                         lightImage: .bradLights,
                                         fightImage: .bradFighting,
                                         streetImage: .bradStreet,
-                                        baseScale: 0.10,
-                                        figthScale: 0.25,
-                                        bottomPadding: 1.5)
+                                        bottomPadding: 7.5)
         }
     }
 }
