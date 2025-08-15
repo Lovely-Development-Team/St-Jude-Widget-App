@@ -240,18 +240,21 @@ struct CampaignView: View {
                     }
                     .padding()
 
-                    RandomLandscapeView(data: self.$landscapeData) {}
+//                    RandomLandscapeView(data: self.$landscapeData) {}
                 }
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
                 
-                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                    .tiledImageAtScale(axis: .horizontal)
+//                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
+//                    .tiledImageAtScale(axis: .horizontal)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
         }
         .background(alignment: .bottom) {
             ZStack(alignment: .bottom) {
-                SkyView()
+                AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
+                    .imageAtScale()
+                LinearGradient(colors: [.clear, .arenaFloor], startPoint: .top, endPoint: .bottom)
+                    .frame(height: 35)
             }
             .mask {
                 LinearGradient(stops: [
@@ -431,8 +434,7 @@ struct CampaignView: View {
                         .padding(.horizontal)
                         .background {
                             GeometryReader { geometry in
-                                AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                                    .tiledImageAtScale(scale: Double.spriteScale)
+                                Color.arenaFloor
                                     .frame(height:geometry.size.height + 1000)
                                     .animation(.none, value: UUID())
                             }
