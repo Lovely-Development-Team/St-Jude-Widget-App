@@ -573,14 +573,18 @@ struct CampaignList: View {
                     VStack{
                         topView
                         
-                        ZStack{
-                            StandingToThrowingView(player: self.competitors.first!)
-                            StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
+                        ZStack(alignment: .bottom) {
+                            LinearGradient(colors: [.clear, .arenaFloor], startPoint: .top, endPoint: .bottom)
+                                .frame(height: 35)
+                            Group {
+                                StandingToThrowingView(player: self.competitors.first!)
+                                StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
+                            }
+                            .padding(.bottom, 35)
+                            .padding(.horizontal)
                         }
-//                        .padding(.top,10)
-                        .padding(.bottom, 35)
                         .background(
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .arena)
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
                                 .imageAtScale()
                         )
                         .zIndex(-1)
@@ -601,19 +605,16 @@ struct CampaignList: View {
                         easterEggView
                         widgetCompatibilityView
                     }
-//                    .opacity(0)
                     .padding(.top,-10)
                     .frame(maxWidth: .infinity)
-                    .background(
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .arenaFloor2)
-                                .tiledImageAtScale()
-                                .padding(.bottom, -1000) // TODO: FIX BACKGROUND ITS UGLY
-                    )
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
                 
             }
         }
+        .background(
+            Color.arenaFloor
+        )
         .refreshable {
             await refresh()
         }

@@ -127,6 +127,8 @@ extension Color {
     static let brandPurple = from256bit(red: 104, green: 54, blue: 139)
     static let skyBackground = Color("sky-background")
     
+    static let arenaFloor = from256bit(red: 5, green: 14, blue: 17)
+    
     static var randomBrandedColor: Color {
         return [Color.brandYellow, Color.brandRed, Color.brandBlue, Color.brandGreen, Color.brandPurple].randomElement() ?? Color.brandYellow
     }
