@@ -164,6 +164,14 @@ struct HeadToHeadView: View {
                                 .groupBoxStyle(BlockGroupBoxStyle())
                             }
                         }
+                        .overlay(alignment: .topLeading){
+                            if campaign1.totalRaisedNumerical == highestTotal {
+                                Image(.crownPixel)
+                                    .foregroundColor(.accentColor)
+                                    .scaleEffect(1.5)
+                            }
+                        }
+                        
                         if animateIn {
                             GroupBox {
                                 ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeBlue, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
@@ -191,6 +199,13 @@ struct HeadToHeadView: View {
                                     }
                                 }
                                 .groupBoxStyle(BlockGroupBoxStyle())
+                            }
+                        }
+                        .overlay(alignment: .topLeading){
+                            if campaign2.totalRaisedNumerical == highestTotal {
+                                Image(.crownPixel)
+                                    .foregroundColor(.accentColor)
+                                    .scaleEffect(1.5)
                             }
                         }
                         Spacer()

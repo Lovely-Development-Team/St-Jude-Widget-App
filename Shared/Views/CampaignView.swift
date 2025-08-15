@@ -249,19 +249,16 @@ struct CampaignView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity)
         }
-        .background(alignment: .bottom) {
-            ZStack(alignment: .bottom) {
+        .background{
+            VStack(spacing:0){
                 AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
                     .imageAtScale()
-                LinearGradient(colors: [.clear, .arenaFloor], startPoint: .top, endPoint: .bottom)
-                    .frame(height: 35)
-            }
-            .mask {
-                LinearGradient(stops: [
-                    .init(color: .clear, location: 0),
-                    .init(color: .white, location: 0.25),
-                    .init(color: .white, location: 1)
-                ], startPoint: .top, endPoint: .bottom)
+                    .mask(LinearGradient(stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .white, location: 0.25),
+                        .init(color: .white, location: 1)
+                    ], startPoint: .top, endPoint: .bottom))
+                Color.arenaFloor
             }
         }
     }

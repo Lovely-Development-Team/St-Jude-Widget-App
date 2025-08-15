@@ -21,38 +21,31 @@ struct DonorList: View {
         ScrollView {
             
             VStack(spacing: 0) {
-                
-                VStack(spacing: 0) {
-                    Spacer()
-                    AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                        .tiledImageAtScale(axis: .horizontal)
+                HStack {
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
+                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
                 }
-                .overlay(alignment: .bottom) {
-                    HStack {
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                        TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    }
-                    .padding(.bottom, Double.spriteScale * 100)
-                }
+                .padding(.top, Double.spriteScale * 100)
                 .frame(minHeight: 100)
                 .background {
-                    SkyView()
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
+                        .imageAtScale()
                         .mask {
                             LinearGradient(stops: [
                                 .init(color: .clear, location: 0),
                                 .init(color: .white, location: 0.25),
                                 .init(color: .white, location: 1)
                             ], startPoint: .top, endPoint: .bottom)
-                        }
+                    }
                 }
                 .background {
                     Color(uiColor: .systemBackground)
@@ -102,12 +95,17 @@ struct DonorList: View {
                 Spacer()
             }
             .background {
-                GeometryReader { geometry in
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                        .tiledImageAtScale(scale: Double.spriteScale)
-                        .frame(height:geometry.size.height + 1000)
-                        .animation(.none, value: UUID())
-                }
+                    GeometryReader { geometry in
+                        Color.arenaFloor
+                            .frame(height:geometry.size.height + 1000)
+                            .mask {
+                                LinearGradient(stops: [
+                                    .init(color: .clear, location: 0),
+                                    .init(color: .white, location: 0.05),
+                                    .init(color: .white, location: 1)
+                                ], startPoint: .top, endPoint: .bottom)
+                            }
+                    }
             }
         }
         .toolbar {
@@ -151,5 +149,4 @@ struct DonorList: View {
             }
         }
     }
-    
 }
