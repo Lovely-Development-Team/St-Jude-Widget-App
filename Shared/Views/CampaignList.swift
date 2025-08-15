@@ -593,7 +593,11 @@ struct CampaignList: View {
                     .background(
                             AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
                              .tiledImageAtScale()
-                             .mask(LinearGradient(colors: [.white,.white,.white,.white,.white,.white,.clear], startPoint: .bottom, endPoint: .top))
+                             .mask(LinearGradient(stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .white, location: 0.25),
+                                .init(color: .white, location: 1)
+                            ], startPoint: .top, endPoint: .bottom))
                     )
 
                     VStack {

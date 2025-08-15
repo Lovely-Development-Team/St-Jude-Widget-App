@@ -45,39 +45,49 @@ struct BlinkingView: View {
 
 struct BlinkingStandingView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State var baseImage:ImageResource
-    @State var lightImage:ImageResource
+    let player: Players
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     @State var animate:Bool = false
     @State private var animationType: Animation? = .none
     @State var scale: Double = 1
     @State var isMirrored: Bool = false
-    
+    var onTap: (() -> Void)?
+
     var body: some View{
-        Button(action: {
-            withAnimation {
+        let playerImage = player.getPlayer()
+        HStack{
+            if(!self.isMirrored){
+                Spacer()
+            }
+            Button(action: {
+                withAnimation {
 #if !os(macOS)
-                bounceHaptics.impactOccurred()
+                    bounceHaptics.impactOccurred()
 #endif
-                self.animate.toggle()
-                self.animationType = .default
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                self.animate.toggle()
-            }
-        }) {
-            ZStack(alignment: .top){
-                AdaptiveImage(colorScheme: self.colorScheme, light: self.baseImage)
-                    .imageAtScale(scale: self.scale * .spriteScale * 0.5)
-                if(animate){
-                    AdaptiveImage(colorScheme: self.colorScheme, light: self.lightImage)
-                        .imageAtScale(scale: self.scale * .spriteScale * 0.5)
-                            .brightness(0.15)
+                    self.onTap?()
+                    animate.toggle()
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                    animate.toggle()
+                }
+            }) {
+                ZStack(alignment: .top){
+                    AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
+                        .imageAtScale(scale: self.scale * .spriteScale)
+                    if(animate){
+                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.lightImage)
+                            .imageAtScale(scale: self.scale * .spriteScale)
+                            .brightness(0.15)
+                    }
+                }
+                .scaleEffect(x: (isMirrored && !playerImage.isPaddingMirrored)  || (!isMirrored && playerImage.isPaddingMirrored) ? -1 : 1, y: 1)
+                .padding(.horizontal)
+                .animation(animate ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : animationType)
+                
             }
-            .scaleEffect(x: isMirrored ? -1 : 1, y: 1)
-            .animation(animate ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : animationType)
-            
+            if(self.isMirrored){
+                Spacer()
+            }
         }
     }
 }
@@ -87,11 +97,13 @@ struct StandingToThrowingView: View{
     let player: Players
     @State var scale: Double = 1.0
     @State var isMirrored: Bool = false
-    
+    var onTap: (() -> Void)?
+
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     @State private var animate = false
     @State private var animationType: Animation? = .none
     @Environment(\.colorScheme) var colorScheme
+    
     var body: some View{
         let playerImage = self.player.getPlayer()
         HStack{
@@ -104,6 +116,7 @@ struct StandingToThrowingView: View{
 #if !os(macOS)
                 bounceHaptics.impactOccurred()
 #endif
+                self.onTap?()
                 if(!self.animate){
                     self.animate.toggle()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
@@ -144,6 +157,7 @@ struct StandingToThrowingView: View{
 #Preview {
     ScrollView{
         ForEach(Players.allCases){ player in
+            BlinkingStandingView(player: player, isMirrored: true)
             StandingToThrowingView(player: player, isMirrored: true)
         }
     }
