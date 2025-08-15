@@ -684,3 +684,11 @@ extension HeadToHeadWidgetView {
         }
     }
 }
+
+
+#Preview(as: .systemMedium, widget: {
+    HeadToHeadWidget()
+}, timeline: {
+    HeadToHeadEntry(date: .now, configuration: .init(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+})
+
