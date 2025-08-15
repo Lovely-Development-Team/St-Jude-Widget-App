@@ -40,9 +40,6 @@ struct HeadToHeadListItem: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         .foregroundColor(.primary)
             }
-            
-            TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024, collectable: false, spinOnceOnTap: true, offset: 0)
-                .offset(x: leading ? -23 : 23, y: -25)
         }
         .compositingGroup()
         .padding()
