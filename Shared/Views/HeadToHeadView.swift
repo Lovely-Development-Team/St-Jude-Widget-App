@@ -164,10 +164,11 @@ struct HeadToHeadView: View {
                                 .groupBoxStyle(BlockGroupBoxStyle())
                             }
                         }
-                        .overlay(alignment: .topLeading){
+                        .overlay(alignment: .bottomTrailing){
                             if campaign1.totalRaisedNumerical == highestTotal {
                                 Image(.crownPixel)
-                                    .foregroundColor(.accentColor)
+                                    .foregroundColor(.yellow)
+                                    .offset(x:-15, y:-10)
                                     .scaleEffect(1.5)
                             }
                         }
@@ -204,8 +205,9 @@ struct HeadToHeadView: View {
                         .overlay(alignment: .topLeading){
                             if campaign2.totalRaisedNumerical == highestTotal {
                                 Image(.crownPixel)
-                                    .foregroundColor(.accentColor)
+                                    .foregroundColor(.yellow)
                                     .scaleEffect(1.5)
+                                    .offset(x:15, y:10)
                             }
                         }
                         Spacer()
