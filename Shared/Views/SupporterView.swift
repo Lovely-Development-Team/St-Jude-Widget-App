@@ -65,13 +65,8 @@ struct SupporterView: View {
                         .padding(.bottom, 30)
                     }
                     .padding()
-                    RandomLandscapeView(data: self.$landscapeData) {}
-                    AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                        .tiledImageAtScale(axis: .horizontal)
                 }
-                .background {
-                    SkyView()
-                }
+                .foregroundColor(.white)
                 VStack {
                     if (supporters.count > 0) {
                         //                    ScrollView {
@@ -122,14 +117,23 @@ struct SupporterView: View {
                             .padding()
                             .offset(x: 0, y: animate ? -5 : 0)
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
+                            .background {
+                                AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
+                                    .imageAtScale()
+                                    .mask(LinearGradient(stops:[
+                                        .init(color: .clear, location: 0),
+                                        .init(color: .white, location: 0.25),
+                                        .init(color: .white, location: 0.70),
+                                        .init(color: .clear, location: 1)
+                                    ], startPoint: .top, endPoint: .bottom))
+                            }
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
                 .padding()
                 .background {
                     GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
+                        Color.arenaFloor
                             .frame(height:geometry.size.height + 1000)
                             .animation(.none, value: UUID())
                     }
@@ -137,7 +141,7 @@ struct SupporterView: View {
             }
         }
         .background {
-            Color.skyBackground
+            Color.arenaFloor
         }
         .background(ignoresSafeAreaEdges: .all)
         .navigationBarTitleDisplayMode(.inline)
