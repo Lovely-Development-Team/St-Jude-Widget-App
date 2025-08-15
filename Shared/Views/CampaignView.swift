@@ -250,7 +250,9 @@ struct CampaignView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
         }
         .background{
-            VStack(spacing:0){
+            ZStack{
+                Color.arenaFloor
+                    .offset(y:75)
                 AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
                     .imageAtScale()
                     .mask(LinearGradient(stops: [
@@ -258,7 +260,11 @@ struct CampaignView: View {
                         .init(color: .white, location: 0.25),
                         .init(color: .white, location: 1)
                     ], startPoint: .top, endPoint: .bottom))
-                Color.arenaFloor
+                    .mask(LinearGradient(stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .white, location: 0.50),
+                        .init(color: .white, location: 1)
+                    ], startPoint: .bottom, endPoint: .top))
             }
         }
     }

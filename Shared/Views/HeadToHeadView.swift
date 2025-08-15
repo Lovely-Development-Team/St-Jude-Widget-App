@@ -167,7 +167,7 @@ struct HeadToHeadView: View {
                         .overlay(alignment: .bottomTrailing){
                             if campaign1.totalRaisedNumerical == highestTotal {
                                 Image(.crownPixel)
-                                    .foregroundColor(.yellow)
+//                                    .foregroundColor(.yellow)
                                     .offset(x:-15, y:-10)
                                     .scaleEffect(1.5)
                             }
@@ -205,7 +205,7 @@ struct HeadToHeadView: View {
                         .overlay(alignment: .topLeading){
                             if campaign2.totalRaisedNumerical == highestTotal {
                                 Image(.crownPixel)
-                                    .foregroundColor(.yellow)
+//                                    .foregroundColor(.yellow)
                                     .scaleEffect(1.5)
                                     .offset(x:15, y:10)
                             }

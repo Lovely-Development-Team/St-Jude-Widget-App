@@ -88,7 +88,6 @@ struct EasterEggView: View {
             .padding()
             Spacer()
 
-            RandomLandscapeView(data: self.$landscapeData) {
                 ZStack(alignment: .top) {
                     Button(action: {
                         withAnimation {
@@ -125,32 +124,41 @@ struct EasterEggView: View {
                         .groupBoxStyle(BlockGroupBoxStyle())
 #endif
                         Spacer()
-                        GroupBox {
-                            VStack {
-                                HStack {
-                                    TappableCoin(easterEggEnabled2024: easterEggEnabled2024, returns: true, offset: 0)
-                                    ZStack(alignment: .trailing) {
-                                        Text("888")
-                                            .opacity(0)
-                                        Text(coinCount, format: .number.grouping(.never))
-                                    }
-                                }
-                                if UserDefaults.shared.userLevel > 1 {
-                                    Text("Level \(UserDefaults.shared.userLevel)")
-                                }
-                            }
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle())
+//                        GroupBox {
+//                            VStack {
+//                                HStack {
+//                                    TappableCoin(easterEggEnabled2024: easterEggEnabled2024, returns: true, offset: 0)
+//                                    ZStack(alignment: .trailing) {
+//                                        Text("888")
+//                                            .opacity(0)
+//                                        Text(coinCount, format: .number.grouping(.never))
+//                                    }
+//                                }
+//                                if UserDefaults.shared.userLevel > 1 {
+//                                    Text("Level \(UserDefaults.shared.userLevel)")
+//                                }
+//                            }
+//                        }
+//                        .groupBoxStyle(BlockGroupBoxStyle())
                     }
                     .padding(.horizontal)
                     .offset(y: -10)
                 }
             }
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
-        }
         .background(alignment: .bottom) {
-            SkyView()
+            VStack(spacing:0){
+                AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
+                    .imageAtScale()
+                    .mask(LinearGradient(stops:[
+                        .init(color: .clear, location: 0),
+                        .init(color: .white, location: 0.25),
+                        .init(color: .white, location: 1)
+                    ], startPoint: .top, endPoint: .bottom))
+                    .offset(y: 50)
+                AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
+                    .imageAtScale()
+                    .offset(y:50)
+            }
         }
     }
     
@@ -248,16 +256,16 @@ struct EasterEggView: View {
                 .padding()
                 .background {
                     GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
+                        Color.arenaFloor
+                            .mask(LinearGradient(stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .white, location: 0.02),
+                                .init(color: .white, location: 1)
+                            ], startPoint: .top, endPoint: .bottom))
                             .frame(height:geometry.size.height + 1000)
-                            .animation(.none, value: UUID())
                     }
                 }
             }
-        }
-        .background {
-            Color.skyBackground
         }
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityLabel)
@@ -275,6 +283,7 @@ struct EasterEggView: View {
         }, message: {
             Text("coins!")
         })
+        .background(Color.arenaFloor)
     }
 }
 
