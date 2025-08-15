@@ -64,6 +64,7 @@ struct AboutView: View {
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
+                    .padding(.top, -20)
                     
                     GroupBox {
                         VStack {
@@ -245,17 +246,12 @@ struct AboutView: View {
                 }
                 .padding()
                 .background {
-                    GeometryReader { geometry in
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
-                            .tiledImageAtScale(scale: Double.spriteScale)
-                            .frame(height:geometry.size.height + 1000)
-                            .animation(.none, value: UUID())
-                    }
+                    Color.arenaFloor
                 }
             }
         }
         .background {
-            Color.skyBackground
+            Color.arenaFloor
         }
         .background(ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $showSupporterSheet) {
@@ -289,70 +285,34 @@ struct FlowerPosition: Identifiable {
 
 struct AboutViewHeader: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var cloudMoved: Bool = false
-    @State private var cloudOffset: CGFloat = 200
-    @State private var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    @State private var flowers: [FlowerPosition] = []
-    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
-#if !os(macOS)
-    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
-#endif
     var body: some View {
         VStack(spacing: 0) {
             Image(.bannerForeground)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .padding(.bottom)
-            RandomLandscapeView(data: self.$landscapeData) {}
-            AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-                .tiledImageAtScale(axis: .horizontal)
-        }
-        .onReceive(timer) { _ in
-            withAnimation {
-                self.cloudOffset -= 1
-            }
+                .padding(.bottom, 80)
+                .colorScheme(.dark)
         }
         .background {
             ZStack(alignment: .bottom) {
-                SkyView()
-                ForEach(flowers) { flower in
-                    if(flower.tall) {
-                        AdaptiveImage.tallflower(colorScheme: self.colorScheme)
-                            .imageAtScale(scale: Double.spriteScale)
-                            .transition(.move(edge: .bottom))
-                            .offset(x: flower.offset, y: -20)
-                    } else {
-                        AdaptiveImage.flower(colorScheme: self.colorScheme)
-                            .imageAtScale(scale: Double.spriteScale)
-                            .transition(.move(edge: .bottom))
-                            .offset(x: flower.offset, y: -20)
-                    }
+                AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
+                 .tiledImageAtScale()
+                // TODO: Fix this background
+                VStack {
+                    Spacer()
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
                 }
+                LinearGradient(colors: [.clear, .arenaFloor], startPoint: .top, endPoint: .bottom)
+                    .frame(height: 35)
             }
         }
-        .overlay {
-            ZStack(alignment: .bottom) {
-                AdaptiveImage.cloud(colorScheme: self.colorScheme)
-                    .imageAtScale(scale: Double.spriteScale)
-                    .offset(y: -Double.spriteScale * 50)
-                    .offset(x: cloudOffset)
-                    .onTapGesture {
-#if !os(macOS)
-                        bounceHaptics.impactOccurred()
-#endif
-                        withAnimation {
-                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: false))
-                        }
-                    }
-                    .onLongPressGesture(minimumDuration: 0.5) {
-#if !os(macOS)
-                        bounceHaptics.impactOccurred()
-#endif
-                        withAnimation {
-                            self.flowers.append(FlowerPosition(offset: cloudOffset, tall: true))
-                        }
-                    }
+        .overlay(alignment: .bottom) {
+            Group {
+                StandingToThrowingView(player: .stephen)
+                StandingToThrowingView(player: .myke, isMirrored: true)
             }
+            .padding(.bottom, 30)
+            .padding(.horizontal)
         }
     }
 }
