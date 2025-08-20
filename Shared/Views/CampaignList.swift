@@ -429,20 +429,20 @@ struct CampaignList: View {
                     .groupBoxStyle(BlockGroupBoxStyle(tint: .secondarySystemBackground, padding: false))
                     .padding(.horizontal)
                 }
-                Button(action: {
-                    showSheet = .randomPicker
-                }) {
-                    HStack {
-                        Image("pixel-question")
-                        Text("Play for a random Fundraiser!")
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        Image("pixel-chevron-right")
-                    }
-                    .foregroundColor(.black)
-                }
-                .padding(.horizontal)
-                .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.stephenLights))
+//                Button(action: {
+//                    showSheet = .randomPicker
+//                }) {
+//                    HStack {
+//                        Image("pixel-question")
+//                        Text("Play for a random Fundraiser!")
+//                            .multilineTextAlignment(.leading)
+//                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+//                        Image("pixel-chevron-right")
+//                    }
+//                    .foregroundColor(.black)
+//                }
+//                .padding(.horizontal)
+//                .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.stephenLights))
             } else {
                 Group {
                     if isLoading {
