@@ -352,7 +352,10 @@ query get_default_template_fact($id: ID!) {
       panels {
         id
         name
+        __typename
       }
+      ...DefaultTemplateFactElements
+      __typename
     }
     supportedFacts {
       id
@@ -360,31 +363,31 @@ query get_default_template_fact($id: ID!) {
       link
       usageType
       currentSlug
+      __typename
     }
     ...DefaultTemplateFactAbout
+    ...DefaultTemplateFactAuctionHouses
+    ...DefaultTemplateFactBonfire
+    ...DefaultTemplateFactCurrentEvents
     ...DefaultTemplateFactFAQ
+    ...DefaultTemplateFactFeaturedMedia
+    ...DefaultTemplateFactFitnessData
     ...DefaultTemplateFactFundraiserRewards
     ...DefaultTemplateFactFundraisers
     ...DefaultTemplateFactHeader
+    ...DefaultTemplateFactImpactPoints
     ...DefaultTemplateFactLeaderboards
     ...DefaultTemplateFactLiveDonations
     ...DefaultTemplateFactMilestones
     ...DefaultTemplateFactPolls
     ...DefaultTemplateFactRewards
+    ...DefaultTemplateFactSchedules
+    ...DefaultTemplateFactSponsors
     ...DefaultTemplateFactTargets
     ...DefaultTemplateFactTeamStats
-    topDonation {
-      id
-      amount {
-        currency
-        value
-      }
-      donorComment
-      donorName
-      incentives {
-        type
-      }
-    }
+    ...DefaultTemplateFactToolkit
+    ...DefaultTemplateFactUpdates
+    __typename
   }
 }
 
@@ -398,6 +401,7 @@ fragment DefaultTemplateFactAbout on Fact {
     alt
     height
     width
+    __typename
   }
   video
   image {
@@ -405,6 +409,7 @@ fragment DefaultTemplateFactAbout on Fact {
     alt
     height
     width
+    __typename
   }
   usageType
   supportedFacts {
@@ -417,8 +422,10 @@ fragment DefaultTemplateFactAbout on Fact {
       alt
       height
       width
+      __typename
     }
     usageType
+    __typename
   }
   template {
     id
@@ -428,9 +435,73 @@ fragment DefaultTemplateFactAbout on Fact {
         findOutMore
         findOutMoreLink
         contact
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
+}
+
+fragment DefaultTemplateFactAuctionHouses on Fact {
+  id
+  __typename
+}
+
+fragment DefaultTemplateFactBonfire on Fact {
+  id
+  bonfire {
+    id
+    description
+    featuredItemImage {
+      src
+      alt
+      width
+      height
+      __typename
+    }
+    featuredItemName
+    featuredItemPrice {
+      currency
+      value
+      __typename
+    }
+    itemsSold
+    products {
+      id
+      productType
+      sellingPrice {
+        currency
+        value
+        __typename
+      }
+      __typename
+    }
+    url
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactCurrentEvents on Fact {
+  id
+  currency
+  link
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  __typename
 }
 
 fragment DefaultTemplateFactFAQ on Fact {
@@ -445,9 +516,238 @@ fragment DefaultTemplateFactFAQ on Fact {
         faqUrl
         faqHeading
         faqDescription
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
+}
+
+fragment DefaultTemplateFactFeaturedMedia on Fact {
+  id
+  scheduleCount
+  useScheduledMedia
+  mediaTypes {
+    id
+    image {
+      src
+      alt
+      height
+      width
+      __typename
+    }
+    provider
+    value
+    default
+    position
+    __typename
+  }
+  template {
+    id
+    panels {
+      id
+      config {
+        fullWidth
+        chat
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  paginatedSchedules(first: 10, activeAndUpcoming: true) {
+    edges {
+      cursor
+      node {
+        id
+        description
+        endsAt
+        name
+        startsAt
+        scheduledFact {
+          id
+          name
+          avatar {
+            src
+            alt
+            height
+            width
+            __typename
+          }
+          link
+          mediaTypes {
+            id
+            image {
+              src
+              alt
+              height
+              width
+              __typename
+            }
+            provider
+            value
+            default
+            position
+            __typename
+          }
+          __typename
+        }
+        ...DefaultTemplateFactFeaturedMediaCurrentScheduleItem
+        ...DefaultTemplateFactFeaturedMediaFutureScheduleItem
+        __typename
+      }
+      __typename
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactFeaturedMediaCurrentScheduleItem on NewSchedule {
+  id
+  description
+  endsAt
+  name
+  startsAt
+  scheduledFact {
+    id
+    name
+    avatar {
+      src
+      alt
+      height
+      width
+      __typename
+    }
+    link
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactFeaturedMediaFutureScheduleItem on NewSchedule {
+  id
+  description
+  name
+  startsAt
+  scheduledFact {
+    id
+    avatar {
+      src
+      alt
+      height
+      width
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactFitnessData on Fact {
+  id
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        stats
+        individualTime
+        individualDistance
+        teamDistance
+        teamTime
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  ...DefaultTemplateFactFitnessDataStats
+  ...DefaultTemplateFactFitnessDataRecentActivities
+  ...DefaultTemplateFactFitnessDataFitnessChart
+  __typename
+}
+
+fragment DefaultTemplateFactFitnessDataStats on Fact {
+  id
+  fitnessMeasurementUnit
+  fitnessTotals {
+    averagePaceMinutesKilometer
+    averagePaceMinutesMile
+    totalDistanceKilometers
+    totalDistanceMiles
+    totalDurationSeconds
+    totalSteps
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactFitnessDataRecentActivities on Fact {
+  id
+  fitnessActivities(first: 5) {
+    edges {
+      node {
+        id
+        ...DefaultTemplateFactFitnessDataRecentFitnessActivity
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  ...DefaultTemplateFactFitnessDataRecentActivity
+  __typename
+}
+
+fragment DefaultTemplateFactFitnessDataRecentActivity on Fact {
+  id
+  fitnessMeasurementUnit
+  showPolyline
+  __typename
+}
+
+fragment DefaultTemplateFactFitnessDataRecentFitnessActivity on NewFitnessActivity {
+  distanceMiles
+  id
+  distanceKilometers
+  durationSeconds
+  steps
+  elevationGainFeet
+  elevationGainMeters
+  paceMinutesMile
+  paceMinutesKilometer
+  startDate
+  obfuscatedPolyline
+  fitnessActivityType {
+    id
+    type
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactFitnessDataFitnessChart on Fact {
+  id
+  fitnessMeasurementUnit
+  fitnessDailyActivities {
+    date
+    totalDistanceKilometers
+    totalDistanceMiles
+    __typename
+  }
+  __typename
 }
 
 fragment DefaultTemplateFactFundraiserRewards on Fact {
@@ -461,17 +761,21 @@ fragment DefaultTemplateFactFundraiserRewards on Fact {
     amount {
       value
       currency
+      __typename
     }
     fairMarketValue {
       value
       currency
+      __typename
     }
     image {
       src
       alt
       height
       width
+      __typename
     }
+    __typename
   }
   template {
     id
@@ -482,9 +786,13 @@ fragment DefaultTemplateFactFundraiserRewards on Fact {
         show
         fundraiserRewardsHeading
         fundraiserRewardsDescription
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactFundraisers on Fact {
@@ -497,9 +805,13 @@ fragment DefaultTemplateFactFundraisers on Fact {
       id
       config {
         show
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactHeader on Fact {
@@ -514,26 +826,32 @@ fragment DefaultTemplateFactHeader on Fact {
     alt
     height
     width
+    __typename
   }
   region {
     id
     name
+    __typename
   }
   supportable
   featureSettings {
     monthlyGivingEnabled
+    __typename
   }
   totalAmountRaised {
     value
     currency
+    __typename
   }
   goal {
     value
     currency
+    __typename
   }
   originalGoal {
     value
     currency
+    __typename
   }
   donationMatches {
     id
@@ -541,11 +859,14 @@ fragment DefaultTemplateFactHeader on Fact {
     startedAtAmount {
       value
       currency
+      __typename
     }
     matchedAmountTotalAmountRaised {
       value
       currency
+      __typename
     }
+    __typename
   }
   milestones {
     id
@@ -553,22 +874,28 @@ fragment DefaultTemplateFactHeader on Fact {
     amount {
       value
       currency
+      __typename
     }
+    __typename
   }
   monthlyGivingStats {
     donorCount
     totalAmountRaised {
       value
       currency
+      __typename
     }
+    __typename
   }
   ownership {
     id
     name
     slug
+    __typename
   }
   shareLinks {
     supportLink
+    __typename
   }
   social {
     discord
@@ -580,6 +907,7 @@ fragment DefaultTemplateFactHeader on Fact {
     twitter
     website
     youtube
+    __typename
   }
   supportedFacts {
     id
@@ -589,7 +917,9 @@ fragment DefaultTemplateFactHeader on Fact {
     ownership {
       id
       name
+      __typename
     }
+    __typename
   }
   template {
     id
@@ -606,9 +936,140 @@ fragment DefaultTemplateFactHeader on Fact {
         startFundraisingButton
         amountRaised
         fundraisingGoal
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  ...DefaultTemplateFactHeaderDonationMatches
+  ...DefaultTemplateFactHeaderFitnessgoals
+  __typename
+}
+
+fragment DefaultTemplateFactHeaderDonationMatches on Fact {
+  id
+  donationMatches {
+    id
+    totalAmountRaised {
+      value
+      currency
+      __typename
+    }
+    pledgedAmount {
+      value
+      currency
+      __typename
+    }
+    endsAt
+    ...DefaultTemplateFactHeaderDonationMatchesDonationMatch
+    ...SharedComponentMatch
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactHeaderDonationMatchesDonationMatch on DonationMatch {
+  id
+  matchedBy
+  totalAmountRaised {
+    value
+    currency
+    __typename
+  }
+  pledgedAmount {
+    value
+    currency
+    __typename
+  }
+  startsAt
+  endsAt
+  __typename
+}
+
+fragment SharedComponentMatch on DonationMatch {
+  id
+  matchedBy
+  totalAmountRaised {
+    value
+    currency
+    __typename
+  }
+  pledgedAmount {
+    value
+    currency
+    __typename
+  }
+  startsAt
+  endsAt
+  active
+  __typename
+}
+
+fragment DefaultTemplateFactHeaderFitnessgoals on Fact {
+  id
+  fitnessMeasurementUnit
+  fitnessGoals {
+    id
+    currentValue {
+      unit
+      value
+      __typename
+    }
+    goal {
+      unit
+      value
+      __typename
+    }
+    type
+    __typename
+  }
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        distanceProgress
+        stepProgress
+        timeProgress
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactImpactPoints on Fact {
+  id
+  impactPoints {
+    id
+    name
+    amount {
+      value
+      currency
+      __typename
+    }
+    description
+    __typename
+  }
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        impactPointsHeader
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  __typename
 }
 
 fragment DefaultTemplateFactLeaderboards on Fact {
@@ -625,9 +1086,13 @@ fragment DefaultTemplateFactLeaderboards on Fact {
         individual
         team
         donor
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactLiveDonations on Fact {
@@ -640,9 +1105,13 @@ fragment DefaultTemplateFactLiveDonations on Fact {
       config {
         show
         backgroundColor
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactMilestones on Fact {
@@ -653,9 +1122,12 @@ fragment DefaultTemplateFactMilestones on Fact {
     amount {
       value
       currency
+      __typename
     }
     active
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactPolls on Fact {
@@ -665,7 +1137,9 @@ fragment DefaultTemplateFactPolls on Fact {
     active
     updatedAt
     ...DefaultTemplateFactPollsPoll
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactPollsPoll on Poll {
@@ -674,10 +1148,12 @@ fragment DefaultTemplateFactPollsPoll on Poll {
   amountRaised(factId: $id) {
     value
     currency
+    __typename
   }
   totalAmountRaised {
     value
     currency
+    __typename
   }
   ownerUsageType
   pollOptions {
@@ -686,12 +1162,16 @@ fragment DefaultTemplateFactPollsPoll on Poll {
     amountRaised(factId: $id) {
       value
       currency
+      __typename
     }
     totalAmountRaised {
       value
       currency
+      __typename
     }
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactRewards on Fact {
@@ -704,9 +1184,12 @@ fragment DefaultTemplateFactRewards on Fact {
     amount {
       value
       currency
+      __typename
     }
     ...DefaultTemplateFactRewardsReward
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactRewardsReward on Reward {
@@ -718,16 +1201,99 @@ fragment DefaultTemplateFactRewardsReward on Reward {
     alt
     height
     width
+    __typename
   }
   amount {
     value
     currency
+    __typename
   }
   quantity
   remaining
   endsAt
   startsAt
   ownerUsageType
+  __typename
+}
+
+fragment DefaultTemplateFactSchedules on Fact {
+  id
+  scheduleCount
+  paginatedSchedules(first: 10, activeAndUpcoming: true) {
+    edges {
+      cursor
+      node {
+        id
+        ...DefaultTemplateFactSchedulesSchedule
+        __typename
+      }
+      __typename
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactSchedulesSchedule on NewSchedule {
+  id
+  description
+  endsAt
+  name
+  startsAt
+  scheduledFact {
+    id
+    name
+    avatar {
+      src
+      alt
+      height
+      width
+      __typename
+    }
+    link
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactSponsors on Fact {
+  id
+  sponsors {
+    id
+    name
+    link
+    image {
+      src
+      alt
+      height
+      width
+      __typename
+    }
+    __typename
+  }
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        sponsorHeading
+        sponsorDescription
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  __typename
 }
 
 fragment DefaultTemplateFactTargets on Fact {
@@ -737,7 +1303,9 @@ fragment DefaultTemplateFactTargets on Fact {
     updatedAt
     active
     ...DefaultTemplateFactTargetsTarget
+    __typename
   }
+  __typename
 }
 
 fragment DefaultTemplateFactTargetsTarget on Challenge {
@@ -746,12 +1314,15 @@ fragment DefaultTemplateFactTargetsTarget on Challenge {
   amount {
     value
     currency
+    __typename
   }
   amountRaised {
     value
     currency
+    __typename
   }
   endsAt
+  __typename
 }
 
 fragment DefaultTemplateFactTeamStats on Fact {
@@ -766,9 +1337,76 @@ fragment DefaultTemplateFactTeamStats on Fact {
       id
       config {
         show
+        __typename
       }
+      __typename
     }
+    __typename
   }
+  __typename
+}
+
+fragment DefaultTemplateFactToolkit on Fact {
+  id
+  template {
+    id
+    primaryColor
+    panels {
+      id
+      config {
+        show
+        toolkitUrl
+        toolkitHeading
+        toolkitDescription
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactElements on FactTemplate {
+  id
+  primaryFont
+  secondaryFont
+  panels {
+    id
+    name
+    config {
+      backgroundColor
+      customBackgroundColor
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactUpdates on Fact {
+  id
+  factUpdates {
+    id
+    ...DefaultTemplateFactUpdatesFactUpdate
+    __typename
+  }
+  __typename
+}
+
+fragment DefaultTemplateFactUpdatesFactUpdate on FactUpdate {
+  id
+  description
+  insertedAt
+  title
+  image {
+    src
+    alt
+    height
+    width
+    __typename
+  }
+  __typename
 }
 """
 

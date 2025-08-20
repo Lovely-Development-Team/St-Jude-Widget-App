@@ -96,7 +96,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
     }
     
     func buildTeamEventRequest() throws -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com/gql")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let body = TiltifyRequest(operationName: "get_team_event_by_vanity_and_slug",
@@ -119,7 +119,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
     }
     
     func buildCampaignsForTeamEventRequest(limit: Int, cursor: String? = nil) throws -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com/gql")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let body = TiltifyCampaignsForTeamEventRequest(operationName: "get_supporting_campaigns_by_team_event_asc",
@@ -162,7 +162,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
     }
     
     func buildDonorRequest(id: UUID) throws -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.tiltify.com")!)
+        var request = URLRequest(url: URL(string: "https://api.tiltify.com/gql")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let body = TiltifyDonorsRequest(operationName: "get_fact_donations_by_id_asc",
@@ -188,7 +188,7 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let body = TiltifyRequest(operationName: "get_default_template_fact",
-                                  variables: ["id": "\(id)"],
+                                  variables: ["id": "\(id)".lowercased()],
                                   query: CAMPAIGN_REQUEST_QUERY_2025)
         request.httpBody = try jsonEncoder.encode(body)
         return request
