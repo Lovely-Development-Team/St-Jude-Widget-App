@@ -429,20 +429,20 @@ struct CampaignList: View {
                     .groupBoxStyle(BlockGroupBoxStyle(tint: .secondarySystemBackground, padding: false))
                     .padding(.horizontal)
                 }
-//                Button(action: {
-//                    showSheet = .randomPicker
-//                }) {
-//                    HStack {
-//                        Image("pixel-question")
-//                        Text("Play for a random Fundraiser!")
-//                            .multilineTextAlignment(.leading)
-//                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-//                        Image("pixel-chevron-right")
-//                    }
-//                    .foregroundColor(.black)
-//                }
-//                .padding(.horizontal)
-//                .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.stephenLights))
+                Button(action: {
+                    showSheet = .randomPicker
+                }) {
+                    HStack {
+                        Image("pixel-question")
+                        Text("Spin for a random Fundraiser!")
+                            .multilineTextAlignment(.leading)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        Image("pixel-chevron-right")
+                    }
+                    .foregroundColor(.black)
+                }
+                .padding(.horizontal)
+                .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.stephenLights))
             } else {
                 Group {
                     if isLoading {
@@ -679,8 +679,9 @@ struct CampaignList: View {
                 }
             case .randomPicker:
                 NavigationView {
-                    RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
-                        .navigationTitle("Pick a block!")
+                    RandomCampaignPickerView(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
+//                    RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
+//                        .navigationTitle("Pick a block!")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {
