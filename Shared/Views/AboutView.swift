@@ -179,32 +179,32 @@ struct AboutView: View {
                     GroupBox {
                         VStack {
                             
-                            Text("Appearance")
-
-                            HStack {
-                                Button(action: {
-                                    self.appAppearance = 0
-                                }) {
-                                    Text("Light")
-                                        .foregroundColor((self.appAppearance == 0) ? .white : .primary    )
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                Button(action: {
-                                    self.appAppearance = 1
-                                }) {
-                                    Text("Dark")
-                                        .foregroundColor((self.appAppearance == 1) ? .white : .primary    )
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                if dynamicTypeSize < .large {
-                                    systemAppearanceButton
-                                }
-                            }
-                            if dynamicTypeSize >= .large {
-                                systemAppearanceButton
-                            }
+//                            Text("Appearance")
+//
+//                            HStack {
+//                                Button(action: {
+//                                    self.appAppearance = 0
+//                                }) {
+//                                    Text("Light")
+//                                        .foregroundColor((self.appAppearance == 0) ? .white : .primary    )
+//                                        .frame(maxWidth: .infinity)
+//                                }
+//                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+//                                Button(action: {
+//                                    self.appAppearance = 1
+//                                }) {
+//                                    Text("Dark")
+//                                        .foregroundColor((self.appAppearance == 1) ? .white : .primary    )
+//                                        .frame(maxWidth: .infinity)
+//                                }
+//                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+//                                if dynamicTypeSize < .large {
+//                                    systemAppearanceButton
+//                                }
+//                            }
+//                            if dynamicTypeSize >= .large {
+//                                systemAppearanceButton
+//                            }
                             
                             Text("Icon")
                                 .padding(.top, 5)
@@ -294,16 +294,9 @@ struct AboutViewHeader: View {
                 .colorScheme(.dark)
         }
         .background {
-            ZStack(alignment: .bottom) {
-                AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
-                 .tiledImageAtScale()
-                // TODO: Fix this background
-                VStack {
-                    Spacer()
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                }
-                LinearGradient(colors: [.clear, .arenaFloor], startPoint: .top, endPoint: .bottom)
-                    .frame(height: 35)
+            VStack(spacing: 0) {
+                SkyView2025()
+                TiledArenaFloorView()
             }
         }
         .overlay(alignment: .bottom) {
