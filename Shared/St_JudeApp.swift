@@ -61,7 +61,7 @@ struct St_JudeApp: App {
                 mainAppViewID = UUID()
                 WidgetCenter.shared.reloadAllTimelines()
             }
-            .preferredColorScheme(self.userColorScheme)
+            .preferredColorScheme(.dark)
             .onReceive(NotificationCenter.default.publisher(for: .displayGlobalNotification)) { message in
                 guard let userInfo = message.userInfo,
                       let title = userInfo[NotificationCenter.globalNotificationTitleKey] as? String,

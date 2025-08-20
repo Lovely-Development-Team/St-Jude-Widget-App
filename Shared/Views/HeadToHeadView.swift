@@ -175,7 +175,7 @@ struct HeadToHeadView: View {
                         
                         if animateIn {
                             GroupBox {
-                                ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeBlue, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
+                                ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeLights, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
                                     .frame(height: 20)
                             }
                             .groupBoxStyle(BlockGroupBoxStyle())

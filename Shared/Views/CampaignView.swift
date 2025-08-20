@@ -250,22 +250,7 @@ struct CampaignView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
         }
         .background{
-            ZStack{
-                Color.arenaFloor
-                    .offset(y:75)
-                AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                    .imageAtScale()
-                    .mask(LinearGradient(stops: [
-                        .init(color: .clear, location: 0),
-                        .init(color: .white, location: 0.25),
-                        .init(color: .white, location: 1)
-                    ], startPoint: .top, endPoint: .bottom))
-                    .mask(LinearGradient(stops: [
-                        .init(color: .clear, location: 0),
-                        .init(color: .white, location: 0.50),
-                        .init(color: .white, location: 1)
-                    ], startPoint: .bottom, endPoint: .top))
-            }
+            SkyView2025(fadeOut: true)
         }
     }
     
@@ -423,9 +408,13 @@ struct CampaignView: View {
                 }
             }
             .padding(.vertical)
+            .padding(.horizontal)
             .frame(maxWidth: Double.stretchedContentMaxWidth)
         }
         .frame(maxWidth: .infinity)
+        .background(alignment: .top) {
+            TiledArenaFloorView()
+        }
     }
     
     var body: some View {
@@ -434,7 +423,6 @@ struct CampaignView: View {
                 VStack(spacing:0) {
                     self.topView(scrollViewReader: scrollViewReader)
                     self.contents(scrollViewReader:scrollViewReader)
-                        .padding(.horizontal)
                         .background {
                             GeometryReader { geometry in
                                 Color.arenaFloor

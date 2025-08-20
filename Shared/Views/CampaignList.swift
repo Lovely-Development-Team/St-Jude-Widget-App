@@ -218,6 +218,15 @@ struct CampaignList: View {
 //                    RandomLandscapeView(data: self.$landscapeData) {
 //                        EmptyView()
 //                    }
+                    
+                    ZStack(alignment: .bottom) {
+                        Group {
+                            StandingToThrowingView(player: self.competitors.first!)
+                            StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
+                        }
+                        .padding(.bottom, 35)
+                        .padding(.horizontal)
+                    }
                     .zIndex(0)
                 }
             }
@@ -225,6 +234,12 @@ struct CampaignList: View {
             
         }
         .frame(maxWidth: .infinity)
+        .background {
+            VStack(spacing: 0) {
+                SkyView2025(fadeOut: true, showGraffiti: true)
+                TiledArenaFloorView()
+            }
+        }
     }
         
     @ViewBuilder
@@ -273,8 +288,8 @@ struct CampaignList: View {
                                 Text("Add a Head to Head")
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .brandBlue))
-                            .foregroundStyle(Color.white)
+                            .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.caseyLights))
+                            .foregroundStyle(Color.black)
                         }
                     }
                 } else {
@@ -572,33 +587,8 @@ struct CampaignList: View {
                 VStack(spacing: 0) {
                     VStack{
                         topView
-                        
-                        ZStack(alignment: .bottom) {
-                            LinearGradient(colors: [.clear, .arenaFloor], startPoint: .top, endPoint: .bottom)
-                                .frame(height: 35)
-                            Group {
-                                StandingToThrowingView(player: self.competitors.first!)
-                                StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
-                            }
-                            .padding(.bottom, 35)
-                            .padding(.horizontal)
-                        }
-                        .background(
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                                .imageAtScale()
-                        )
-                        .zIndex(-1)
                     }
-                    .padding(.top,)
-                    .background(
-                            AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
-                             .tiledImageAtScale()
-                             .mask(LinearGradient(stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 0.25),
-                                .init(color: .white, location: 1)
-                            ], startPoint: .top, endPoint: .bottom))
-                    )
+                    .padding(.top)
 
                     VStack {
                         CountdownView()
