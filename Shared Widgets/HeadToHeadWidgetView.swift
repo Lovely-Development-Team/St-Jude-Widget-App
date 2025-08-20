@@ -88,10 +88,9 @@ struct HeadToHeadWidgetView: View {
     var backgroundView: some View {
         if(family == .systemSmall) {
             if campaign2 == winner {
-                AdaptiveImage.undergroundRepeatable(colorScheme: .light)
-                    .tiledImageAtScale()
+                AdaptiveImage.arena(colorScheme: .light)
             } else {
-                SkyView(overrideColorScheme: .light)
+                AdaptiveImage.arenaFloor(colorScheme: .light)
             }
         } else if(family == .systemExtraLarge || family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
@@ -105,10 +104,11 @@ struct HeadToHeadWidgetView: View {
         if(isHorizontal) {
             GeometryReader { geo in
                 HStack(spacing: 0) {
-                    SkyView(overrideColorScheme: .light)
+                    AdaptiveImage.arenaFloor(colorScheme: .light)
+                        .tiledImageAtScale()
                         .frame(width: geo.frame(in: .local).size.width * min(0.9, max(0.1, CGFloat(self.progressBarValue))), height: geo.frame(in: .local).size.height)
                     Rectangle().fill(.black).frame(width: 2)
-                    AdaptiveImage.undergroundRepeatable(colorScheme: .light)
+                    AdaptiveImage.arena(colorScheme: .light)
                         .tiledImageAtScale()
                 }
             }
@@ -116,9 +116,10 @@ struct HeadToHeadWidgetView: View {
             ZStack {
                 GeometryReader { geo in
                     VStack(spacing: 0) {
-                        SkyView(overrideColorScheme: .light)
+                        AdaptiveImage.arenaFloor(colorScheme: .light)
+                            .tiledImageAtScale()
                             .frame(width: geo.frame(in: .local).size.width, height: geo.frame(in: .local).size.height / 2)
-                        AdaptiveImage.undergroundRepeatable(colorScheme: .light)
+                        AdaptiveImage.arena(colorScheme: .light)
                             .tiledImageAtScale()
                     }
                 }
@@ -282,8 +283,9 @@ extension HeadToHeadWidgetView {
                     HStack(alignment: .top) {
                         avatarImageView(for: campaign1 ?? sampleCampaign)
                         if(campaign1?.id == winner?.id) {
-                            AdaptiveImage.coin(colorScheme: .light)
-                                .imageAtScale(scale: Double.spriteScale * 1.2)
+                            Image(.crownPixel)
+                                .font(.system(size: 30))
+                                .imageScale(.large)
                                 .foregroundStyle(Color.brandYellow)
                         }
                     }
@@ -322,8 +324,9 @@ extension HeadToHeadWidgetView {
                 VStack(alignment: .trailing) {
                     HStack(alignment: .top) {
                         if(campaign2?.id == winner?.id) {
-                            AdaptiveImage.coin(colorScheme: .light)
-                                .imageAtScale(scale: Double.spriteScale * 1.2)
+                            Image(.crownPixel)
+                                .font(.system(size: 30))
+                                .imageScale(.large)
                                 .foregroundStyle(Color.brandYellow)
                         }
                         avatarImageView(for: campaign2 ?? sampleCampaign)
@@ -431,10 +434,11 @@ extension HeadToHeadWidgetView {
                         Spacer()
                     }
                     if(campaign1?.id == winner?.id) {
-                        AdaptiveImage.coin(colorScheme: .light)
-                            .imageAtScale(scale: Double.spriteScale * 1.6)
+                        Image(.crownPixel)
+                            .font(.system(size: 30))
+                            .imageScale(.large)
                             .foregroundStyle(Color.brandYellow)
-                            .offset(x: 5, y: 5)
+                            .background(Circle().fill(.white).blur(radius: 30))
                     }
                 }
                 .padding(.bottom)
@@ -494,10 +498,11 @@ extension HeadToHeadWidgetView {
                     }
                     
                     if(campaign2?.id == winner?.id) {
-                        AdaptiveImage.coin(colorScheme: .light)
-                            .imageAtScale(scale: Double.spriteScale * 1.6)
+                        Image(.crownPixel)
+                            .font(.system(size: 30))
+                            .imageScale(.large)
                             .foregroundStyle(Color.brandYellow)
-                            .offset(x: -5, y: -5)
+                            .background(Circle().fill(.white).blur(radius: 30))
                     }
                 }
                 .padding(.top)
@@ -571,14 +576,11 @@ extension HeadToHeadWidgetView {
                     VStack(alignment: .trailing) {
                         HStack(alignment: .top) {
                             if(campaign2?.id == winner?.id) {
-                                AdaptiveImage.coin(colorScheme: .light)
-                                    .imageAtScale(scale: Double.spriteScale * 2)
+                                Image(.crownPixel)
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
                                     .foregroundStyle(Color.brandYellow)
-                                //                                Image(systemName: "crown.fill")
-                                //                                    .font(.system(size: 30))
-                                //                                    .imageScale(.large)
-                                //                                    .foregroundStyle(Color.brandYellow)
-                                //                                    .background(Circle().fill(.white).blur(radius: 30))
+                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                             avatarImageView(for: campaign2 ?? sampleCampaign)
                                 .frame(maxHeight: 100)
@@ -658,7 +660,7 @@ extension HeadToHeadWidgetView {
     var rectangularLockScreenContent: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(.coin)
+                Image(.crownPixel)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20)
