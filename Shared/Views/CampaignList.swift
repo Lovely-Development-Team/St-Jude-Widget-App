@@ -87,7 +87,6 @@ struct CampaignList: View {
     
     @State private var allCampaigns: [Campaign] = []
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
-    @StateObject private var apiClient = ApiClient.shared
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
@@ -767,9 +766,9 @@ struct CampaignList: View {
     }
     
     func refresh() async {
-                
-        if let apiEventData = await apiClient.fetchTeamEvent() {
-            dataLogger.debug("API fetched TeamEvent: \(apiEventData.data.fact.name)")
+                        
+        if let apiEventData = await TiltifyAPIClient.shared.getFundraisingEvent() {
+            dataLogger.debug("API fetched TeamEvent: \(apiEventData.name)")
             let apiEvent = TeamEvent(from: apiEventData)
             do {
                 if let existingTeamEvent = teamEvent {
@@ -787,11 +786,11 @@ struct CampaignList: View {
         }
         
         dataLogger.debug("Fetching campaigns...")
-        let apiCampaigns = await apiClient.fetchCampaignsForFundraisingEvent()
+        let apiCampaigns = await TiltifyAPIClient.shared.getFundraisingEventCampaigns()
         var keyedApiCampaigns: [UUID: Campaign] = apiCampaigns.reduce(into: [:]) { partialResult, campaign in
             partialResult.updateValue(Campaign(from: campaign), forKey: campaign.id)
         }
-        dataLogger.debug("Fetching campaigns... Done")
+        dataLogger.debug("Fetching campaigns... \(apiCampaigns.count) Done")
         
         do {
             // For each campaign from the database...

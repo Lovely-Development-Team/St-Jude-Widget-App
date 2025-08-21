@@ -32,7 +32,7 @@ struct CampaignView: View {
     @State private var rewards: [Reward] = []
     
     @State private var donations: [TiltifyDonorsForCampaignDonation] = []
-    @State private var topDonor: TiltifyDonorsForCampaignDonation? = nil
+    @State private var topDonor: TiltifyTopDonor? = nil
     
     @State private var showShareView: Bool = false
     @State private var showSupporterSheet: Bool = false
@@ -40,8 +40,6 @@ struct CampaignView: View {
     @State private var isRefreshing: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    
-    @StateObject private var apiClient = ApiClient.shared
     
     init(initialCampaign: Campaign) {
         _initialCampaign = State(wrappedValue: initialCampaign)
@@ -283,17 +281,11 @@ struct CampaignView: View {
                             .font(.caption)
                             .foregroundColor(.accentColor)
                             HStack(alignment: .top) {
-                                Text(topDonor.donorName)
+                                Text(topDonor.name)
                                     .multilineTextAlignment(.leading)
                                     .font(.headline)
                                 Spacer()
                                 Text(topDonor.amount.description(showFullCurrencySymbol: false))
-                            }
-                            if let comment = topDonor.donorComment {
-                                Text(comment)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             }
                         }
                     }
@@ -546,8 +538,8 @@ struct CampaignView: View {
         
         if let existingTeamEvent = teamEvent {
             
-            if let apiEventData = await apiClient.fetchTeamEvent() {
-                dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.data.fact.name)")
+            if let apiEventData = await TiltifyAPIClient.shared.getFundraisingEvent() {
+                dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.name)")
                 let apiEvent = TeamEvent(from: apiEventData)
                 do {
                     teamEvent = apiEvent
@@ -558,21 +550,14 @@ struct CampaignView: View {
                     dataLogger.error("[CampignView] Updating stored team event failed: \(error.localizedDescription)")
                 }
                 
-                await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.data.fact.milestones)
-                await self.updateRewardsInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.data.fact.rewards)
+                await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
+                await self.updateRewardsInDatabase(forId: TEAM_EVENT_ID)
                 
-                do {
-                    dataLogger.debug("Fetching donors for Relay campaign")
-                    relayCampaign = try await AppDatabase.shared.fetchRelayCampaign()
-                    if let campaign = relayCampaign {
-                        let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
-                        withAnimation {
-                            donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
-                            topDonor = apiDonorsResponse.data.campaign.topDonation
-                        }
-                    }
-                } catch {
-                    dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+                let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: TEAM_EVENT_ID)
+                let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: TEAM_EVENT_ID)
+                withAnimation {
+                    topDonor = apiTopDonor
+                    donations = apiDonations
                 }
                 
             } else {
@@ -592,18 +577,26 @@ struct CampaignView: View {
         
     }
     
-    func updateMilestonesInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiMilestones: [TiltifyMilestone]) async {
+    func updateMilestonesInDatabase(forId id: UUID) async {
+        let apiMilestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: id)
+        dataLogger.debug("Updating Milestones for campaign \(id) with \(milestones.count)")
         
         var keyedApiMilestones: [UUID: Milestone] = apiMilestones.filter { $0.active }.reduce(into: [:]) { partialResult, ms in
-            partialResult.updateValue(Milestone(from: ms, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: ms.publicId)
+            let milestone: Milestone
+            if teamEvent != nil {
+                milestone = Milestone(from: ms, campaignId: nil, teamEventId: UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)!)
+            } else {
+                milestone = Milestone(from: ms, campaignId: id, teamEventId: nil)
+            }
+            partialResult.updateValue(milestone, forKey: ms.publicId)
         }
         
         do {
             let dbMilestones: [Milestone]
-            if let teamEvent = teamEvent {
+            if let teamEvent {
                 dbMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: teamEvent)
             } else {
-                if let campaign = campaign {
+                if let campaign = initialCampaign {
                     dbMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: campaign)
                 } else {
                     dbMilestones = []
@@ -645,18 +638,29 @@ struct CampaignView: View {
         
     }
     
-    func updateRewardsInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiRewards: [TiltifyCampaignReward]) async {
+    func updateRewardsInDatabase(forId id: UUID) async {
         
-        var keyedApiRewards: [UUID: Reward] = apiRewards.filter { teamEvent != nil || ($0.ownerUsageType != "fundraising_event_activation" && $0.ownerUsageType != "cause") }.reduce(into: [:]) { partialResult, reward in
-            partialResult.updateValue(Reward(from: reward, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: reward.publicId)
+        // TODO: Filter out rewards that are on all campaigns
+        
+        let apiRewards = await TiltifyAPIClient.shared.getCampaignRewards(forId: id)
+        dataLogger.debug("Updating Rewards for campaign \(id) with \(rewards.count)")
+        
+        var keyedApiRewards: [UUID: Reward] = apiRewards.filter { $0.active }.reduce(into: [:]) { partialResult, reward in
+            let rewardObj: Reward
+            if teamEvent != nil {
+                rewardObj = Reward(from: reward, campaignId: nil, teamEventId: UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)!)
+            } else {
+                rewardObj = Reward(from: reward, campaignId: id, teamEventId: nil)
+            }
+            partialResult.updateValue(rewardObj, forKey: reward.publicId)
         }
         
         do {
             let dbRewards: [Reward]
-            if let teamEvent = teamEvent {
+            if let teamEvent {
                 dbRewards = try await AppDatabase.shared.fetchSortedRewards(for: teamEvent)
             } else {
-                if let campaign = campaign {
+                if let campaign = initialCampaign {
                     dbRewards = try await AppDatabase.shared.fetchSortedRewards(for: campaign)
                 } else {
                     dbRewards = []
@@ -700,18 +704,13 @@ struct CampaignView: View {
     
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
         
-        let response: TiltifyResponse2025
-        do {
-            response = try await apiClient.fetchCampaign(id: campaign.id)
-            dataLogger.debug("\(campaign.id) Fetched campaign from API: \(response.data.fact.description)")
-        } catch {
-            dataLogger.error("\(campaign.id) Fetching campaign failed: \(error.localizedDescription)")
+        guard let response = await TiltifyAPIClient.shared.getCampaign(withId: campaign.id) else {
             return
         }
         
-        topDonor = response.data.fact.topDonation
+        dataLogger.debug("\(campaign.id) Fetched campaign from the API: \(response.name)")
         
-        let apiCampaign = campaign.updated(fromFact: response.data.fact)
+        let apiCampaign = campaign.updated(from: response)
         do {
             if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
                 dataLogger.info("\(campaign.id) Updated stored campaign: \(apiCampaign.id)")
@@ -725,17 +724,14 @@ struct CampaignView: View {
         
         dataLogger.debug("\(campaign.id) Updating campaign from the API!")
         
-        await updateMilestonesInDatabase(forCampaign: apiCampaign, with: response.data.fact.milestones)
-        await updateRewardsInDatabase(forCampaign: apiCampaign, with: response.data.fact.rewards)
+        await updateMilestonesInDatabase(forId: campaign.id)
+        await updateRewardsInDatabase(forId: campaign.id)
         
-        do {
-            dataLogger.debug("Fetching donors for \(campaign.id)")
-            let apiDonorsResponse = try await apiClient.fetchDonorsForCampaign(id: campaign.id)
-            withAnimation {
-                donations = apiDonorsResponse.data.fact.donations.edges.map { $0.node }
-            }
-        } catch {
-            dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+        let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: campaign.id)
+        let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: campaign.id)
+        withAnimation {
+            topDonor = apiTopDonor
+            donations = apiDonations
         }
         
     }

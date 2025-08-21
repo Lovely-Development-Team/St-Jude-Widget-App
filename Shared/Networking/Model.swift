@@ -300,7 +300,7 @@ struct TiltifyDonorsForCampaignDonation: Codable {
     let amount: TiltifyAmount
     let donorName: String
     let donorComment: String?
-    let incentives: [TiltifyDonorsForCampaignDonationIncentive]
+    let incentives: [TiltifyDonorsForCampaignDonationIncentive]?
     let completedAt: String?
     
     var donationDate: Date? {
