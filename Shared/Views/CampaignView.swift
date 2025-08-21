@@ -61,6 +61,16 @@ struct CampaignView: View {
         }
     }
     
+    var donateURL: URL {
+        let id: UUID
+        if let initialCampaign {
+            id = initialCampaign.id
+        } else {
+            id = TEAM_EVENT_ID
+        }
+        return URL(string: "https://donate.tiltify.com/\(id.uuidString)")!
+    }
+    
     var description: AttributedString {
         let descr = teamEvent?.description ?? initialCampaign?.description ?? ""
         do {
@@ -218,22 +228,18 @@ struct CampaignView: View {
                                         }
                                     }
                                 }
-
-                                Link(destination: fundraiserURL, label: {
-                                    Text("Visit the \(teamEvent == nil ? "fundraiser" : "event")!")
+                                
+                                Link(destination: donateURL, label: {
+                                    Text("Donate Now!")
                                         .font(.headline)
                                         .foregroundColor(.black)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
                                 .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                                //                .padding(10)
-                                //                .padding(.horizontal, 20)
-                                //                .background(Color.accentColor)
-                                //                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                //                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                //                .padding(.top)
 
                             }
+                            
+                            
                         }
                     }
                     .padding()
