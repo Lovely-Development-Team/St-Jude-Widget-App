@@ -319,26 +319,20 @@ extension Campaign {
         
         dataLogger.debug("Updating \(self.id) from the API...")
         
-        let response: TiltifyResponse2025
-        do {
-            response = try await ApiClient.shared.fetchCampaign(id: self.id)
-        } catch {
-            dataLogger.error("\(self.id) Fetching campaign failed: \(error.localizedDescription)")
-            return nil
-        }
-        
-        let apiCampaign = self.updated(fromFact: response.data.fact)
-        do {
-            if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: self) {
-                dataLogger.info("\(self.id) Updated stored campaign: \(apiCampaign.id)")
-                
-                await self.updateMilestonesInDatabase(with: response.data.fact.milestones)
-                await self.updateRewardsInDatabase(with: response.data.fact.rewards)
-                
-                return apiCampaign
+        if let campaignData = await TiltifyAPIClient.shared.getCampaign(withId: id) {
+            let apiCampaign = self.updated(from: campaignData)
+            do {
+                if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: self) {
+                    dataLogger.info("\(self.id) Updated stored campaign: \(apiCampaign.id)")
+                    
+                    await self.updateMilestonesInDatabase(with: await TiltifyAPIClient.shared.getCampaignMilestones(forId: id))
+                    await self.updateRewardsInDatabase(with: await TiltifyAPIClient.shared.getCampaignRewards(forId: id))
+                    
+                    return apiCampaign
+                }
+            } catch {
+                dataLogger.error("\(self.id) Updating stored campaign failed: \(error.localizedDescription)")
             }
-        } catch {
-            dataLogger.error("\(self.id) Updating stored campaign failed: \(error.localizedDescription)")
         }
         
         return nil
