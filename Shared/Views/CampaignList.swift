@@ -267,7 +267,7 @@ struct CampaignList: View {
                             .aspectRatio(1.0, contentMode: .fit)
                             .background {
                                 GeometryReader { geometry in
-                                    Color.brandBlue
+                                    WidgetAppearance.caseyLights
                                         .modifier(PixelRounding(geometry: geometry))
                                 }
                             }
