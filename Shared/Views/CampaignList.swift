@@ -448,7 +448,6 @@ struct CampaignList: View {
                     showSheet = .randomPicker
                 }) {
                     HStack {
-                        Image("pixel-question")
                         Text("Spin for a random Fundraiser!")
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
