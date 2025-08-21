@@ -13,7 +13,7 @@ struct DonorList: View {
     
     let campaign: Campaign
     @Binding var donations: [TiltifyDonorsForCampaignDonation]
-    @Binding var topDonor: TiltifyDonorsForCampaignDonation?
+    @Binding var topDonor: TiltifyTopDonor?
     
     @State private var isRefreshing: Bool = false
     
@@ -71,10 +71,10 @@ struct DonorList: View {
                                         .multilineTextAlignment(.leading)
                                         .font(.headline)
                                     Spacer()
-                                    if !donation.incentives.isEmpty {
-                                        Image(.heartPixel)
-                                            .foregroundColor(.secondary)
-                                    }
+//                                    if !donation.incentives?.isEmpty ?? false {
+//                                        Image(.heartPixel)
+//                                            .foregroundColor(.secondary)
+//                                    }
                                     Text(donation.amount.description(showFullCurrencySymbol: false))
                                 }
                                 if let comment = donation.donorComment {
@@ -137,15 +137,12 @@ struct DonorList: View {
     func refresh() async {
         if !isRefreshing {
             isRefreshing = true
-            do {
-                let apiDonorsResponse = try await ApiClient.shared.fetchDonorsForCampaign(publicId: campaign.id.uuidString)
-                withAnimation {
-                    donations = apiDonorsResponse.data.campaign.donations.edges.map { $0.node }
-                    topDonor = apiDonorsResponse.data.campaign.topDonation
-                    isRefreshing = false
-                }
-            } catch {
-                dataLogger.error("Failed to load donors: \(error.localizedDescription)")
+            let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: campaign.id)
+            let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: campaign.id)
+            withAnimation {
+                topDonor = apiTopDonor
+                donations = apiDonations
+                isRefreshing = false
             }
         }
     }
