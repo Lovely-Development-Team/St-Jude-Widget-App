@@ -70,7 +70,7 @@ struct RandomCampaignPickerView: View {
     }
     
     @State var wheelRadius: Double = 300
-    @State var wedgeCount = 14
+    @State var wedgeCount = 18
     
     var wheelCircumference: Double {
         return 2 * Double.pi * wheelRadius
@@ -121,7 +121,7 @@ struct RandomCampaignPickerView: View {
                         }, label: {
                             Text("View this fundraiser")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                                 .padding(10)
                                 .padding(.horizontal, 20)
                                 .background(Color.accentColor)
@@ -137,7 +137,6 @@ struct RandomCampaignPickerView: View {
             }
             .padding([.bottom], wheelRadius*1.25)
         }
-        .background(BrandShapeBackground())
         .overlay(alignment:.bottom) {
             WheelLayout(radius: wheelRadius) {
                 ForEach(0..<wedgeCount) { index in
@@ -188,6 +187,12 @@ struct RandomCampaignPickerView: View {
             playAnimation()
             SoundEffectHelper.shared.play(.drumroll)
         }
+        .background {
+            VStack(spacing: 0) {
+                SkyView2025(fadeOut: true, showGraffiti: true)
+                TiledArenaFloorView()
+            }
+        }
 #if !os(macOS)
         .onReceive(timer) { _ in
             if !animationFinished && !isResetting {
@@ -235,11 +240,12 @@ struct WheelWedgeView: View {
     }
     
     let colors: [Color] = [
-        .brandRed,
-        .brandYellow,
-        .brandBlue,
-        .brandGreen,
-        .brandPurple,
+        WidgetAppearance.stephenLights,
+        WidgetAppearance.caseyLights,
+        WidgetAppearance.mykeLights,
+        WidgetAppearance.bradLights,
+        WidgetAppearance.jasonLights,
+        WidgetAppearance.kathyLights,
     ]
     
     var body: some View {
