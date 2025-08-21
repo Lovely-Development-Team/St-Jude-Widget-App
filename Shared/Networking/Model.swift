@@ -398,3 +398,31 @@ struct Score: Codable {
     let myke: ScoreItem
     let stephen: ScoreItem
 }
+
+
+struct TiltifyMultiSearchQueryCampaignResult: Codable {
+    let id: UUID
+    let name: String
+    let username: String
+    let description: String
+    let userAvatar: TiltifyAvatar?
+    let factAvatar: TiltifyAvatar?
+    let goal: Double
+    let totalAmountRaised: Double
+    
+    var tiltifyGoal: TiltifyAmount {
+        TiltifyAmount(currency: "USD", value: String(goal))
+    }
+    var tiltifyTotal: TiltifyAmount {
+        TiltifyAmount(currency: "USD", value: String(totalAmountRaised))
+    }
+}
+
+struct TiltifyMultiSearchQueryResult: Codable {
+    let hits: [TiltifyMultiSearchQueryCampaignResult]
+    let totalHits: Int
+}
+
+struct TiltifyMultiSearchResult: Codable {
+    let results: [TiltifyMultiSearchQueryResult]
+}

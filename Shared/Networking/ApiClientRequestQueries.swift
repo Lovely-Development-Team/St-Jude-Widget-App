@@ -7,6 +7,348 @@
 
 import Foundation
 
+let GET_CAUSE_AND_FE_BY_SLUG_QUERY = """
+query get_cause_and_fe_by_slug($feSlug: String!, $causeSlug: String!, $limit: Int!) {
+  cause(slug: $causeSlug) {
+    id
+    causeFactPublicId
+    name
+    slug
+    findOutMoreLink
+    trackers
+    avatar {
+      alt
+      height
+      width
+      src
+      __typename
+    }
+    contact {
+      email
+      address {
+        addressLine1
+        addressLine2
+        city
+        country
+        postalCode
+        region
+        __typename
+      }
+      __typename
+    }
+    paymentMethods {
+      type
+      currency
+      sellerId
+      minimumAmount {
+        currency
+        value
+        __typename
+      }
+      __typename
+    }
+    paymentOptions {
+      currency
+      additionalDonorDetails
+      additionalDonorDetailsType
+      monthlyGiving
+      monthlyGivingMinimumAmount
+      minimumAmount
+      __typename
+    }
+    __typename
+  }
+  fundraisingEvent(slug: $feSlug, causeSlug: $causeSlug) {
+    publicId
+    legacyFundraisingEventId
+    name
+    slug
+    description
+    status
+    supportable
+    trackers
+    publishedCampaignsCount
+    link
+    fitnessTotals {
+      averagePaceMinutesMile
+      averagePaceMinutesKilometer
+      totalSteps
+      totalDistanceMiles
+      totalDurationSeconds
+      totalDistanceKilometers
+      __typename
+    }
+    fitnessDailyActivity {
+      date
+      totalDistanceMiles
+      totalDistanceKilometers
+      __typename
+    }
+    fitnessGoals {
+      currentValue
+      goal
+      type
+      __typename
+    }
+    fitnessSettings {
+      measurementUnit
+      __typename
+    }
+    amountRaised {
+      currency
+      value
+      __typename
+    }
+    totalAmountRaised {
+      currency
+      value
+      __typename
+    }
+    goal {
+      currency
+      value
+      __typename
+    }
+    avatar {
+      alt
+      height
+      width
+      src
+      __typename
+    }
+    image {
+      src
+      __typename
+    }
+    banner {
+      src
+      __typename
+    }
+    colors {
+      highlight
+      background
+      __typename
+    }
+    paymentMethods {
+      type
+      currency
+      sellerId
+      minimumAmount {
+        currency
+        value
+        __typename
+      }
+      __typename
+    }
+    paymentOptions {
+      currency
+      additionalDonorDetails
+      monthlyGiving
+      minimumAmount
+      __typename
+    }
+    video
+    templateId
+    headerIntro
+    headerTitle
+    headerFontFamily
+    impactPointsHeader
+    impactPoints {
+      name
+      description
+      amount {
+        currency
+        value
+        __typename
+      }
+      __typename
+    }
+    descriptionFontFamily
+    contactEmail
+    sponsorList {
+      id
+      name
+      alt
+      link
+      image {
+        src
+        __typename
+      }
+      __typename
+    }
+    fitnessGoals {
+      type
+      id
+      goal
+      currentValue
+      __typename
+    }
+    fitnessSettings {
+      measurementUnit
+      __typename
+    }
+    publishedCampaigns(limit: $limit) {
+      edges {
+        node {
+          ... on Campaign {
+            publicId
+            name
+            slug
+            live
+            user {
+              id
+              username
+              slug
+              avatar {
+                src
+                alt
+                __typename
+              }
+              __typename
+            }
+            avatar {
+              src
+              alt
+              __typename
+            }
+            totalAmountRaised {
+              value
+              currency
+              __typename
+            }
+            goal {
+              value
+              currency
+              __typename
+            }
+            cardImage {
+              src
+              alt
+              __typename
+            }
+            __typename
+          }
+          ... on TeamEvent {
+            publicId
+            name
+            slug
+            currentSlug
+            live
+            team {
+              id
+              name
+              slug
+              avatar {
+                src
+                alt
+                __typename
+              }
+              __typename
+            }
+            avatar {
+              src
+              alt
+              __typename
+            }
+            totalAmountRaised {
+              value
+              currency
+              __typename
+            }
+            goal {
+              value
+              currency
+              __typename
+            }
+            cardImage {
+              src
+              alt
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    visibility {
+      donate
+      goal
+      raised
+      monthlyGivingTotals
+      headerTitle
+      headerIntro
+      fePageCampaigns
+      teamLeaderboard {
+        visible
+        __typename
+      }
+      userLeaderboard {
+        visible
+        __typename
+      }
+      toolkit {
+        visible
+        url
+        description
+        __typename
+      }
+      __typename
+    }
+    social {
+      discord
+      facebook
+      instagram
+      snapchat
+      tiktok
+      twitter
+      website
+      youtube
+      __typename
+    }
+    monthlyGiving {
+      totalAmountRaised {
+        currency
+        value
+        __typename
+      }
+      donorCount
+      __typename
+    }
+    incentives {
+      id
+      title
+      description
+      label
+      promoted
+      fairMarketValue {
+        value
+        currency
+        __typename
+      }
+      amount {
+        value
+        currency
+        __typename
+      }
+      image {
+        src
+        alt
+        __typename
+      }
+      __typename
+    }
+    registrationSetting {
+      enabled
+      __typename
+    }
+    __typename
+  }
+}
+"""
+
 let TEAM_EVENT_REQUEST_QUERY = """
 query get_team_event_by_vanity_and_slug($vanity: String!, $slug: String!) {
   teamEvent(vanity: $vanity, slug: $slug) {

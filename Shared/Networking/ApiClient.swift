@@ -12,6 +12,7 @@ import WidgetKit
 let TEAM_EVENT_VANITY = "@relay"
 let TEAM_EVENT_SLUG = "relay-for-st-jude-2025"
 let TEAM_EVENT_ID = UUID(uuidString: "37917f91-8a86-4c28-b11a-0e25390c02d0")!
+let FUNDRAISING_EVENT_PUBLIC_ID = "1c6d5c76-1804-48fa-a474-2bfe1c52f48c"
 //let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
 //let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
 
@@ -55,6 +56,19 @@ struct TiltifyDonorsRequest: Codable {
     let variables: TiltifyDonorsRequestVariables
     let query: String
 }
+
+
+struct TiltifyMultiSearchQuery: Codable {
+    let indexUid: String
+    let filter: [String]
+    let hitsPerPage: Int
+    let page: Int
+}
+
+struct TiltifyMultiSearchRequest: Codable {
+    let queries: [TiltifyMultiSearchQuery]
+}
+
 
 class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataDelegate {
     static let shared = ApiClient()
@@ -127,10 +141,60 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         return request
     }
     
+    func buildCampaignsForFundraisingEventRequest(limit: Int, page: Int) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://site-search.tiltify.com/multi-search")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.setValue("Bearer 4ab7c79d998483a2cc90cb98d682f2b256981087fbdf1bcc2a45a70ed606d139", forHTTPHeaderField: "Authorization")
+        let body = TiltifyMultiSearchRequest(queries: [
+            TiltifyMultiSearchQuery(indexUid: "facts",
+                                    filter: ["public = true AND fundraising_event_public_id = \(FUNDRAISING_EVENT_PUBLIC_ID) AND type = campaign"],
+                                    hitsPerPage: limit,
+                                    page: page)
+        ])
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+    
+    func fetchCampaignsForFundraisingEvent(limit: Int, page: Int) async -> TiltifyMultiSearchResult? {
+        do {
+            let request = try buildCampaignsForFundraisingEventRequest(limit: limit, page: page)
+            let (data, _) = try await URLSession.shared.data(for: request)
+//            dataLogger.debug("BEN: \(String(data: data, encoding: .utf8) ?? "No data")")
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let payload = try decoder.decode(TiltifyMultiSearchResult.self, from: data)
+            return payload
+        } catch {
+            dataLogger.debug("BEN: Fetching campaigns for fundraising event failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+    func fetchCampaignsForFundraisingEvent() async -> [TiltifyMultiSearchQueryCampaignResult] {
+        var campaigns: [TiltifyMultiSearchQueryCampaignResult] = []
+        var page: Int = 1
+        let limit: Int = 50
+        while true {
+            if let result = await fetchCampaignsForFundraisingEvent(limit: limit, page: page) {
+                print("On page \(page) found \(result.results.first?.hits.count ?? 0) hits")
+                campaigns += (result.results.first?.hits ?? []).filter { $0.username != "Relay" }
+                if result.results.first?.hits.count ?? 0 < limit {
+                    break
+                } else {
+                    page += 1
+                }
+            }
+        }
+        dataLogger.debug("Found \(campaigns.count) campaigns for fundraising event")
+        return campaigns
+    }
+    
     func fetchCampaignsForTeamEvent(limit: Int = 50, cursor: String? = nil) async -> TiltifySupportingCampaignsResponse? {
         do {
             let request = try buildCampaignsForTeamEventRequest(limit: limit, cursor: cursor)
             let (data, _) = try await URLSession.shared.data(for: request)
+            dataLogger.debug("BEN: \(String(data: data, encoding: .utf8) ?? "No data")")
             let payload = try JSONDecoder().decode(TiltifySupportingCampaignsResponse.self, from: data)
             dataLogger.debug("Fetched: \(payload.data.teamEvent.supportingCampaigns.edges.count)")
             return payload
