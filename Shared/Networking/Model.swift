@@ -75,15 +75,17 @@ struct TiltifyMilestone: Codable {
     let amount: TiltifyAmount
     let name: String
     let publicId: UUID
+    let active: Bool
     
     enum CodingKeys: String, CodingKey {
-        case id, publicId, name, amount
+        case id, publicId, name, amount, active
     }
     
     init(amount: TiltifyAmount, name: String, publicId: UUID) {
         self.amount = amount
         self.name = name
         self.publicId = publicId
+        self.active = true
     }
     
     // Custom decoder to handle the two possible keys for the 'id' property
@@ -97,6 +99,7 @@ struct TiltifyMilestone: Codable {
         // Decode the rest of the properties as usual
         self.amount = try container.decode(TiltifyAmount.self, forKey: .amount)
         self.name = try container.decode(String.self, forKey: .name)
+        self.active = try container.decode(Bool.self, forKey: .active)
     }
     
     // Custom encoder to standardize the output
@@ -107,6 +110,7 @@ struct TiltifyMilestone: Codable {
         try container.encode(self.publicId, forKey: .id)
         try container.encode(self.amount, forKey: .amount)
         try container.encode(self.name, forKey: .name)
+        try container.encode(self.active, forKey: .active)
     }
 }
 
