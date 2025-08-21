@@ -10,7 +10,6 @@ import SwiftUI
 import Intents
 
 struct Provider: IntentTimelineProvider, WidgetDataProviding {
-    let apiClient: ApiClient = ApiClient.shared
     
     func placeholder(in context: Context) -> SimpleEntry {
         return fetchPlaceholder(in: context)
@@ -28,7 +27,6 @@ struct Provider: IntentTimelineProvider, WidgetDataProviding {
 @main
 struct macOS_Widget: Widget {
     let kind: String = "macOS_Widget"
-    @StateObject private var apiClient = ApiClient.shared
 
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in

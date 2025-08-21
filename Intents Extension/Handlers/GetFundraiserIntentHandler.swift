@@ -11,37 +11,31 @@ import Intents
 class GetFundraiserIntentHandler: NSObject, GetFundraiserIntentHandling {
     
     func handle(intent: GetFundraiserIntent) async -> GetFundraiserIntentResponse {
-        guard let campaign = intent.campaign, let vanity = campaign.vanity, let slug = campaign.slug else {
+        guard let campaign = intent.campaign, let campaignId = UUID(uuidString: campaign.identifier ?? "") else {
             dataLogger.error("No campaign found for intent")
             return .init(code: .failure, userActivity: nil)
         }
-        do {
-            let response = try await ApiClient.shared.fetchCampaign(vanity: vanity, slug: slug)
-            let campaign = response.data.campaign
+        if let response = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaignId) {
+            let campaign = response.campaign
             
             let goalAmount = INAmount(from: campaign.goal, showFullCurrencySymbol: false)
             let amountRaised = INAmount(from: campaign.totalAmountRaised, showFullCurrencySymbol: false)
             
-            let inMilestones = campaign.milestones.sorted(by: sortMilestones).map { milestone -> INMilestone in
+            let inMilestones = response.milestones.sorted(by: sortMilestones).map { milestone -> INMilestone in
                 INMilestone(from: milestone, showFullCurrencySymbol: false)
             }
             
-            let inRewards = campaign.rewards.sorted(by: sortRewards).map { reward -> ShortcutReward in
-                ShortcutReward(from: reward, showFullCurrencySymbol: false)
-            }
-            
             let intentResponse = GetFundraiserIntentResponse(code: .success, userActivity: nil)
-            let fundraiser = ShortcutCampaignDetails(identifier: campaign.publicId.uuidString, display: campaign.name)
+            let fundraiser = ShortcutCampaignDetails(identifier: campaign.id.uuidString, display: campaign.name)
             fundraiser.name = campaign.name
             fundraiser.user = campaign.user.name
             fundraiser.goal = goalAmount
             fundraiser.amountRaised = amountRaised
             fundraiser.milestones = inMilestones
-            fundraiser.rewards = inRewards
+            fundraiser.rewards = []
             intentResponse.fundraiser = fundraiser
             return intentResponse
-        } catch {
-            dataLogger.error("Error fetching campaign details: \(error.localizedDescription)")
+        } else {
             return .init(code: .failure, userActivity: nil)
         }
     }

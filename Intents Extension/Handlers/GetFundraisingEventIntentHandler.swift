@@ -11,27 +11,23 @@ import Intents
 class GetFundraisingEventIntentHandler: NSObject, GetMainFundraisingEventIntentHandling {
     
     func handle(intent: GetMainFundraisingEventIntent) async -> GetMainFundraisingEventIntentResponse {
-        if let teamEvent = await ApiClient.shared.fetchTeamEvent() {
-            let goalAmount = INAmount(from: teamEvent.data.fact.goal, showFullCurrencySymbol: false)
-            let amountRaised = INAmount(from: teamEvent.data.fact.totalAmountRaised, showFullCurrencySymbol: false)
+        if let teamEvent = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: TEAM_EVENT_ID) {
+            let goalAmount = INAmount(from: teamEvent.campaign.goal, showFullCurrencySymbol: false)
+            let amountRaised = INAmount(from: teamEvent.campaign.totalAmountRaised, showFullCurrencySymbol: false)
             
             let intentResponse = GetMainFundraisingEventIntentResponse(code: .success, userActivity: nil)
-            let fundraiser = ShortcutCampaignDetails(identifier: teamEvent.data.fact.id.uuidString, display: teamEvent.data.fact.name)
+            let fundraiser = ShortcutCampaignDetails(identifier: teamEvent.campaign.id.uuidString, display: teamEvent.campaign.name)
             
-            let inMilestones = teamEvent.data.fact.milestones.sorted(by: sortMilestones).map { milestone -> INMilestone in
+            let inMilestones = teamEvent.milestones.sorted(by: sortMilestones).map { milestone -> INMilestone in
                 INMilestone(from: milestone, showFullCurrencySymbol: false)
             }
             
-            let inRewards = teamEvent.data.fact.rewards.sorted(by: sortRewards).map { reward -> ShortcutReward in
-                ShortcutReward(from: reward, showFullCurrencySymbol: false)
-            }
-            
-            fundraiser.name = teamEvent.data.fact.name
+            fundraiser.name = teamEvent.campaign.name
             fundraiser.user = "Relay"
             fundraiser.goal = goalAmount
             fundraiser.amountRaised = amountRaised
             fundraiser.milestones = inMilestones
-            fundraiser.rewards = inRewards
+            fundraiser.rewards = []
             intentResponse.event = fundraiser
             return intentResponse
         } else {
