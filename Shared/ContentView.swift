@@ -91,7 +91,6 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
 //                    .lineLimit(1)
 //                    .minimumScaleFactor(0.6)
-//                    .accessibility(label: Text("Relay FM for Saint Jude 2022"))
                     .padding(.bottom, 1)
                 ForEach(widgetData.rewards, id: \.id) { reward in
                     HStack {
@@ -126,7 +125,6 @@ struct ContentView: View {
 //                    .fixedSize(horizontal: false, vertical: true)
 //                    .frame(maxWidth: .infinity, alignment: .center)
 //                    .foregroundColor(.secondary)
-//                    .accessibility(label: Text("This app provides a widget to track the progress of the 2022 Relay FM Saint Jude fundraiser. Add the widget to your Home Screen!"))
                     .padding(.bottom, 5)
                 Spacer()
                 Rectangle()

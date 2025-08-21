@@ -130,9 +130,9 @@ struct CampaignView: View {
                                 GroupBox {
                                     VStack {
                                         HStack(spacing: 4) {
-                                            if grandTotalRaised >= 2500000 {
-                                                Image(.partyPopperFillPixel)
-                                            }
+//                                            if grandTotalRaised >= 2500000 {
+//                                                Image(.partyPopperFillPixel)
+//                                            }
                                             Text("Lifetime Total")
                                                 .textCase(.uppercase)
                                             Spacer()
@@ -547,7 +547,7 @@ struct CampaignView: View {
         if let existingTeamEvent = teamEvent {
             
             if let apiEventData = await apiClient.fetchTeamEvent() {
-                dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.name)")
+                dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.data.fact.name)")
                 let apiEvent = TeamEvent(from: apiEventData)
                 do {
                     teamEvent = apiEvent
@@ -558,8 +558,8 @@ struct CampaignView: View {
                     dataLogger.error("[CampignView] Updating stored team event failed: \(error.localizedDescription)")
                 }
                 
-                await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.milestones)
-                await self.updateRewardsInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.rewards)
+                await self.updateMilestonesInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.data.fact.milestones)
+                await self.updateRewardsInDatabase(forTeamEvent: existingTeamEvent, with: apiEventData.data.fact.rewards)
                 
                 do {
                     dataLogger.debug("Fetching donors for Relay campaign")

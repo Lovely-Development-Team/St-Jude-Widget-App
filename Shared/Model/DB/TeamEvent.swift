@@ -135,4 +135,17 @@ extension TeamEvent {
         self.goalValue = apiData.goal.value
         self.goalNumericalValue = apiData.goal.numericalValue
     }
+    
+    init(from apiData: TiltifyResponse2025) {
+        self.publicId = apiData.data.fact.id
+        self.name = apiData.data.fact.name
+        self.totalRaisedCurrency = apiData.data.fact.totalAmountRaised.currency
+        self.totalRaisedValue = apiData.data.fact.totalAmountRaised.value
+        self.totalRaisedNumericalValue = apiData.data.fact.totalAmountRaised.numericalValue
+        self.description = apiData.data.fact.description
+        self.goalCurrency = apiData.data.fact.goal.currency
+        self.goalValue = apiData.data.fact.goal.value
+        self.goalNumericalValue = apiData.data.fact.goal.numericalValue
+    }
+    
 }

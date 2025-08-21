@@ -102,7 +102,7 @@ struct Campaign: Identifiable, Hashable {
     }
     
     var title: String {
-        username == "Relay FM" ? "Relay FM" : name
+        username == "Relay" ? "Relay" : name
     }
     
     var url: URL {
@@ -265,21 +265,21 @@ extension Campaign {
         
         dataLogger.debug("Updating \(self.id) from the API...")
         
-        let response: TiltifyResponse
+        let response: TiltifyResponse2025
         do {
-            response = try await ApiClient.shared.fetchCampaign(vanity: self.user.slug, slug: self.slug)
+            response = try await ApiClient.shared.fetchCampaign(id: self.id)
         } catch {
             dataLogger.error("\(self.id) Fetching campaign failed: \(error.localizedDescription)")
             return nil
         }
         
-        let apiCampaign = self.updated(fromCampaign: response.data.campaign)
+        let apiCampaign = self.updated(fromFact: response.data.fact)
         do {
             if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: self) {
                 dataLogger.info("\(self.id) Updated stored campaign: \(apiCampaign.id)")
                 
-                await self.updateMilestonesInDatabase(with: response.data.campaign.milestones)
-                await self.updateRewardsInDatabase(with: response.data.campaign.rewards)
+                await self.updateMilestonesInDatabase(with: response.data.fact.milestones)
+                await self.updateRewardsInDatabase(with: response.data.fact.rewards)
                 
                 return apiCampaign
             }

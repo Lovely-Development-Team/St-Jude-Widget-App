@@ -184,7 +184,7 @@ struct TiltifyCampaign: Codable {
     let rewards: [TiltifyCampaignReward]
         
     var title: String {
-        user.name == "Relay FM" ? "Relay FM" : name
+        user.name == "Relay" ? "Relay" : name
     }
     
 }
