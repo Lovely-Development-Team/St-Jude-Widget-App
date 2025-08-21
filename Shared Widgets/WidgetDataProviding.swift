@@ -8,9 +8,7 @@
 import Foundation
 import WidgetKit
 
-protocol WidgetDataProviding: IntentTimelineProvider {
-    var apiClient: ApiClient { get }
-}
+protocol WidgetDataProviding: IntentTimelineProvider { }
 
 extension WidgetDataProviding {
     internal func fetchStoredData(for campaignId: UUID) async -> TiltifyWidgetData? {
@@ -29,22 +27,20 @@ extension WidgetDataProviding {
     
     internal func storeData(_ data: TiltifyWidgetData) {
         do {
-            UserDefaults.shared.set(try apiClient.jsonEncoder.encode(data), forKey: "relayData")
+            UserDefaults.shared.set(try JSONEncoder().encode(data), forKey: "relayData")
         } catch {
             dataLogger.error("Failed to store API response: \(error.localizedDescription)")
         }
     }
 }
 
+// Converted to TiltifyAPIClient
 extension WidgetDataProviding {
-    private func fetchCampaign(vanity: String?, slug: String?, completion: @escaping (Result<TiltifyResponse, Error>) -> ()) {
-        _ = apiClient.fetchCampaign(vanity: vanity ?? "relay-fm", slug: slug ?? "relay-fm", completion: completion)
-    }
     
     internal func fetchPlaceholder(in context: Context) -> SimpleEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
-                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                let campaign = try JSONDecoder().decode(TiltifyWidgetData.self, from: data)
                 return SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: campaign)
             } catch {
                 dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
@@ -56,7 +52,7 @@ extension WidgetDataProviding {
     internal func fetchPlaceholder(in context: Context) -> CampaignLockScreenEventEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
-                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                let campaign = try JSONDecoder().decode(TiltifyWidgetData.self, from: data)
                 return CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: campaign)
             } catch {
                 dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
@@ -65,77 +61,69 @@ extension WidgetDataProviding {
         return CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                Task {
-                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                          let campaign = await fetchStoredData(for: campaignId) else {
-                        completion(SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign))
-                        return
-                    }
-                    completion(SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: campaign))
-                }
-                break
-            case .success(let response):
-                let campaign: TiltifyWidgetData = TiltifyWidgetData(from:response.data.campaign)
-                let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
-                storeData(campaign)
+        Task {
+            if let campaignData = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: TEAM_EVENT_ID) {
+                let widgetData = TiltifyWidgetData(from: campaignData)
+                let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(entry)
+                return
+            } else {
+                // Failed to fetch campaign data from API
+                guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                      let campaign = await fetchStoredData(for: campaignId) else {
+                    let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
+                    completion(entry)
+                    return
+                }
+                completion(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
             }
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchSnapshot(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (CampaignLockScreenEventEntry) -> ()) {
-        self.fetchCampaign(vanity: configuration.campaign?.vanity, slug: configuration.campaign?.slug) { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                Task {
-                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                          let campaign = await fetchStoredData(for: campaignId) else {
-                        completion(CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign))
-                        return
-                    }
-                    completion(CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: campaign))
-                }
-                break
-            case .success(let response):
-                let campaign: TiltifyWidgetData = TiltifyWidgetData(from:response.data.campaign)
-                let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)
-                storeData(campaign)
+        Task {
+            if let campaignData = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: TEAM_EVENT_ID) {
+                let widgetData = TiltifyWidgetData(from: campaignData)
+                let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(entry)
+                return
+            } else {
+                // Failed to fetch campaign data from API
+                guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                      let campaign = await fetchStoredData(for: campaignId) else {
+                    let entry = CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
+                    completion(entry)
+                    return
+                }
+                completion(CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign))
             }
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         if let campaign = configuration.campaign {
-            self.fetchCampaign(vanity: campaign.vanity, slug: campaign.slug) { result in
-                Task {
-                    var entries: [SimpleEntry] = []
-                    switch result {
-                    case .failure(let error):
-                        dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                        guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                              let campaign = await fetchStoredData(for: campaignId) else {
-                            let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
-                            completion(Timeline(entries: [entry], policy: .atEnd))
-                            return
-                        }
-                        entries.append(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
-                        break
-                    case .success(let response):
-                        let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                        let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: campaign)
-                        storeData(campaign)
-                        entries.append(entry)
+            Task {
+                var entries: [SimpleEntry] = []
+                if let campaignId = UUID(uuidString: campaign.identifier ?? ""), let campaignData = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaignId) {
+                    let widgetData = TiltifyWidgetData(from: campaignData)
+                    let entry = SimpleEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                    entries.append(entry)
+                } else {
+                    // Failed to fetch campaign data from API
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        let entry = SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
                     }
-                    let timeline = Timeline(entries: entries, policy: .atEnd)
-                    completion(timeline)
+                    entries.append(SimpleEntry(date: Date(), configuration: configuration, campaign: campaign))
                 }
+                let timeline = Timeline(entries: entries, policy: .atEnd)
+                completion(timeline)
             }
         } else {
             let timeline = Timeline(entries: [
@@ -145,31 +133,27 @@ extension WidgetDataProviding {
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchTimeline(for configuration: CampaignLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<CampaignLockScreenEventEntry>) -> ()) {
         if let campaign = configuration.campaign {
-            self.fetchCampaign(vanity: campaign.vanity, slug: campaign.slug) { result in
-                Task {
-                    var entries: [CampaignLockScreenEventEntry] = []
-                    switch result {
-                    case .failure(let error):
-                        dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                        guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
-                              let campaign = await fetchStoredData(for: campaignId) else {
-                            let entry = CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
-                            completion(Timeline(entries: [entry], policy: .atEnd))
-                            return
-                        }
-                        entries.append(CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign))
-                        break
-                    case .success(let response):
-                        let campaign: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                        let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign)
-                        storeData(campaign)
-                        entries.append(entry)
+            Task {
+                var entries: [CampaignLockScreenEventEntry] = []
+                if let campaignId = UUID(uuidString: campaign.identifier ?? ""), let campaignData = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaignId) {
+                    let widgetData = TiltifyWidgetData(from: campaignData)
+                    let entry = CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                    entries.append(entry)
+                } else {
+                    // Failed to fetch campaign data from API
+                    guard let campaignId = configuration.campaign?.identifier.flatMap({ UUID(uuidString: $0) }),
+                          let campaign = await fetchStoredData(for: campaignId) else {
+                        let entry = CampaignLockScreenEventEntry(date: Date(), configuration: CampaignLockScreenConfigurationIntent(), campaign: sampleCampaign)
+                        completion(Timeline(entries: [entry], policy: .atEnd))
+                        return
                     }
-                    let timeline = Timeline(entries: entries, policy: .atEnd)
-                    completion(timeline)
+                    entries.append(CampaignLockScreenEventEntry(date: Date(), configuration: configuration, campaign: campaign))
                 }
+                let timeline = Timeline(entries: entries, policy: .atEnd)
+                completion(timeline)
             }
         } else {
             let timeline = Timeline(entries: [
@@ -180,12 +164,13 @@ extension WidgetDataProviding {
     }
 }
 
+// Converted to TiltifyAPIClient
 extension WidgetDataProviding {
     
     internal func fetchPlaceholder(in context: Context) -> FundraisingEventEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
-                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                let campaign = try JSONDecoder().decode(TiltifyWidgetData.self, from: data)
                 return FundraisingEventEntry(date: Date(), configuration: FundraisingEventConfigurationIntent(), campaign: campaign)
             } catch {
                 dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
@@ -197,7 +182,7 @@ extension WidgetDataProviding {
     internal func fetchPlaceholder(in context: Context) -> FundraisingLockScreenEventEntry {
         if let data = UserDefaults.shared.data(forKey: "relayData") {
             do {
-                let campaign = try apiClient.jsonDecoder.decode(TiltifyWidgetData.self, from: data)
+                let campaign = try JSONDecoder().decode(TiltifyWidgetData.self, from: data)
                 return FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: campaign)
             } catch {
                 dataLogger.error("Failed to retrieve stored data for placeholder: \(error.localizedDescription)")
@@ -206,10 +191,14 @@ extension WidgetDataProviding {
         return FundraisingLockScreenEventEntry(date: Date(), configuration: FundraisingEventLockScreenConfigurationIntent(), campaign: sampleCampaign)
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
         Task {
-            if let teamEvent = await apiClient.fetchTeamEvent() {
-                completion(FundraisingEventEntry(date: Date(), configuration: configuration, campaign: await TiltifyWidgetData(from: TeamEvent(from: teamEvent))))
+            if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
+                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
+                let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                completion(entry)
             } else {
                 do {
                     if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
@@ -222,10 +211,14 @@ extension WidgetDataProviding {
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchSnapshot(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (FundraisingLockScreenEventEntry) -> ()) {
         Task {
-            if let teamEvent = await apiClient.fetchTeamEvent() {
-                completion(FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: await TiltifyWidgetData(from: TeamEvent(from: teamEvent))))
+            if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
+                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
+                let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
+                completion(entry)
             } else {
                 do {
                     if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
@@ -238,13 +231,16 @@ extension WidgetDataProviding {
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchTimeline(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingEventEntry>) -> ()) {
         Task {
-            if let teamEvent = await apiClient.fetchTeamEvent() {
-                let widgetData = await TiltifyWidgetData(from: TeamEvent(from: teamEvent))
+            if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
+                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
                 let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(Timeline(entries: [entry], policy: .atEnd))
             } else {
+                // Read from database instead of API
                 do {
                     if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
                         let widgetData = await TiltifyWidgetData(from: teamEvent)
@@ -263,13 +259,16 @@ extension WidgetDataProviding {
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchTimeline(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingLockScreenEventEntry>) -> ()) {
         Task {
-            if let teamEvent = await apiClient.fetchTeamEvent() {
-                let widgetData = await TiltifyWidgetData(from: TeamEvent(from: teamEvent))
+            if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
+                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
                 let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(Timeline(entries: [entry], policy: .atEnd))
             } else {
+                // Read from database instead of API
                 do {
                     if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
                         let widgetData = await TiltifyWidgetData(from: teamEvent)
@@ -289,11 +288,13 @@ extension WidgetDataProviding {
     }
 }
 
+// Converted to TiltifyAPIClient
 extension WidgetDataProviding {
     internal func fetchPlaceholder(in context: Context) -> HeadToHeadEntry {
         return HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchSnapshot(for configuration: HeadToHeadConfigurationIntent, in context: Context, completion: @escaping (HeadToHeadEntry) -> ()) {
         
         guard let headToHead = configuration.headToHead, let campaign1 = headToHead.campaign1, let campaign2 = headToHead.campaign2 else {
@@ -302,35 +303,24 @@ extension WidgetDataProviding {
             return
         }
         
-        self.fetchCampaign(vanity: campaign1.vanity, slug: campaign1.slug) { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
+        Task {
+            if let campaign1Id = UUID(uuidString: campaign1.identifier ?? ""),
+               let campaign1Data = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaign1Id),
+               let campaign2Id = UUID(uuidString: campaign2.identifier ?? ""),
+               let campaign2Data = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaign2Id)
+            {
+                let widgetData1 = TiltifyWidgetData(from: campaign1Data)
+                let widgetData2 = TiltifyWidgetData(from: campaign2Data)
+                let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: headToHead.identifier ?? ""), campaign1: widgetData1, campaign2: widgetData2)
+                completion(entry)
+            } else {
                 let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
                 completion(entry)
-                return
-            case .success(let response):
-                let campaign1: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                
-                self.fetchCampaign(vanity: campaign2.vanity, slug: campaign2.slug, completion: { result2 in
-                    switch result {
-                    case .failure(let error):
-                        dataLogger.error("Failed to populate snapshot: \(error.localizedDescription)")
-                        let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                        completion(entry)
-                        return
-                    case .success(let response2):
-                        let campaign2: TiltifyWidgetData = TiltifyWidgetData(from: response2.data.campaign)
-                        
-                        let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: headToHead.identifier ?? ""), campaign1: campaign1, campaign2: campaign2)
-                        
-                        completion(entry)
-                    }
-                })
             }
         }
     }
     
+    // Converted to TiltifyAPIClient
     internal func fetchTimeline(for configuration: HeadToHeadConfigurationIntent, in context: Context, completion: @escaping (Timeline<HeadToHeadEntry>) -> ()) {
         
         guard let h2h = configuration.headToHead, let campaign1 = h2h.campaign1, let campaign2 = h2h.campaign2 else {
@@ -341,36 +331,23 @@ extension WidgetDataProviding {
             return
         }
         
-        self.fetchCampaign(vanity: campaign1.vanity, slug: campaign1.slug) { result in
-            switch result {
-            case .failure(let error):
-                dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
+        Task {
+            var entries: [HeadToHeadEntry] = []
+            if let campaign1Id = UUID(uuidString: campaign1.identifier ?? ""),
+               let campaign1Data = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaign1Id),
+               let campaign2Id = UUID(uuidString: campaign2.identifier ?? ""),
+               let campaign2Data = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaign2Id)
+            {
+                let widgetData1 = TiltifyWidgetData(from: campaign1Data)
+                let widgetData2 = TiltifyWidgetData(from: campaign2Data)
+                let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: h2h.identifier ?? ""), campaign1: widgetData1, campaign2: widgetData2)
+                entries.append(entry)
+            } else {
                 let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                completion(Timeline(entries: [entry], policy: .atEnd))
-                return
-            case .success(let response):
-                let campaign1: TiltifyWidgetData = TiltifyWidgetData(from: response.data.campaign)
-                
-                self.fetchCampaign(vanity: campaign2.vanity, slug: campaign2.slug, completion: { result2 in
-                    var entries: [HeadToHeadEntry] = []
-                    switch result2 {
-                    case .failure(let error):
-                        dataLogger.error("Failed to populate timeline: \(error.localizedDescription)")
-                        let entry = HeadToHeadEntry(date: Date(), configuration: HeadToHeadConfigurationIntent(), headToHeadId: nil, campaign1: nil, campaign2: nil)
-                        completion(Timeline(entries: [entry], policy: .atEnd))
-                        return
-                    case .success(let response2):
-                        let campaign2: TiltifyWidgetData = TiltifyWidgetData(from: response2.data.campaign)
-                        
-                        let entry = HeadToHeadEntry(date: Date(), configuration: configuration, headToHeadId: UUID(uuidString: h2h.identifier ?? ""), campaign1: campaign1, campaign2: campaign2)
-                        
-                        entries.append(entry)
-                    }
-                    
-                    let timeline = Timeline(entries: entries, policy: .atEnd)
-                    completion(timeline)
-                })
+                entries.append(entry)
             }
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
         }
     }
 }
