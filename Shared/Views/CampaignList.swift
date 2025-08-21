@@ -482,7 +482,7 @@ struct CampaignList: View {
                                     .foregroundStyle(.white)
                                 Text("No fundraisers yet")
                                     .foregroundStyle(.white)
-                                Link(destination: URL(string: "https://tiltify.com/\(TEAM_EVENT_VANITY)/\(TEAM_EVENT_SLUG)/start/cause-summary")!, label: {
+                                Link(destination: URL(string: "https://start.tiltify.com/?supportingFactId=1c6d5c76-1804-48fa-a474-2bfe1c52f48c")!, label: {
                                     Text("Be the first and create your own!")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
