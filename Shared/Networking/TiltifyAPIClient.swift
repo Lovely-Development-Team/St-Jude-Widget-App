@@ -165,3 +165,32 @@ extension TiltifyAPIClient {
     }
     
 }
+
+// MARK: Scores
+
+extension TiltifyAPIClient {
+    
+    func buildScoreRequest() -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://stjude-scoreboard.snailedit.online/api/co-founders")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        return request
+    }
+    
+    func fetchScore() async -> Score? {
+        do {
+            let request = buildScoreRequest()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let decoded = String(data: data, encoding: .utf8) {
+                dataLogger.debug("Score: \(decoded)")
+            } else {
+                dataLogger.debug("Score: not decodable")
+            }
+            return try JSONDecoder().decode(Score.self, from: data)
+        } catch {
+            dataLogger.error("Fetching score failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+}
