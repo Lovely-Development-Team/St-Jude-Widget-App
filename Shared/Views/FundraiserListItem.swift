@@ -49,13 +49,13 @@ struct FundraiserListItem: View {
         if(self.campaign.multiplier % 2 == 0) {
             return .accentColor
         } else {
-            return .brandYellow
+            return WidgetAppearance.stephenLights
         }
     }
     
     var fillColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
-            return .brandYellow
+            return WidgetAppearance.stephenLights
         } else {
             return .accentColor
         }

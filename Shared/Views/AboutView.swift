@@ -56,7 +56,7 @@ struct AboutView: View {
                             Link(destination: URL(string: "https://512pixels.net/2025/08/st-jude-2025/")!) {
                                 Text("Read Stephen's post")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .fullWidth(alignment: .center)
                             }
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -77,7 +77,7 @@ struct AboutView: View {
                             Link(destination: URL(string: "https://tildy.dev/")!, label: {
                                 Text("tildy.dev")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .fullWidth(alignment: .center)
                             })
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -90,7 +90,7 @@ struct AboutView: View {
                             }) {
                                 Text("Supporters")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .fullWidth(alignment: .center)
                             }
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -107,7 +107,7 @@ struct AboutView: View {
                                     disablePixelFont = false
                                 }) {
                                     Text("Yes")
-                                        .foregroundColor(disablePixelFont ? .primary : .white)
+                                        .foregroundColor(disablePixelFont ? .primary : .black)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor))
@@ -115,7 +115,7 @@ struct AboutView: View {
                                     disablePixelFont = true
                                 }) {
                                     Text("No")
-                                        .foregroundColor(disablePixelFont ? .white : .primary)
+                                        .foregroundColor(disablePixelFont ? .black : .primary)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
@@ -133,7 +133,7 @@ struct AboutView: View {
                                     SoundEffectHelper.shared.setToPlayEvenOnMute()
                                 }) {
                                     Text("Yes")
-                                        .foregroundColor(playSoundsEvenWhenMuted ? .white : .primary)
+                                        .foregroundColor(playSoundsEvenWhenMuted ? .black : .primary)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground)))
@@ -142,7 +142,7 @@ struct AboutView: View {
                                     SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
                                 }) {
                                     Text("No")
-                                        .foregroundColor(playSoundsEvenWhenMuted ? .primary : .white    )
+                                        .foregroundColor(playSoundsEvenWhenMuted ? .primary : .black    )
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
@@ -159,7 +159,7 @@ struct AboutView: View {
                                     disableCombos = false
                                 }) {
                                     Text("Yes")
-                                        .foregroundColor(disableCombos ? .primary : .white)
+                                        .foregroundColor(disableCombos ? .primary : .black)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: disableCombos ? Color(uiColor: .systemGroupedBackground) : .accentColor))
@@ -167,7 +167,7 @@ struct AboutView: View {
                                     disableCombos = true
                                 }) {
                                     Text("No")
-                                        .foregroundColor(disableCombos ? .white : .primary)
+                                        .foregroundColor(disableCombos ? .black : .primary)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .buttonStyle(BlockButtonStyle(tint: disableCombos ? .accentColor : Color(uiColor: .systemGroupedBackground)))
@@ -221,7 +221,7 @@ struct AboutView: View {
                                             icon.image
                                                 .frame(width: 60, height: 60)
                                         }
-                                        .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? WidgetAppearance.skyBlue : .secondarySystemBackground))
+                                        .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? WidgetAppearance.caseyLights : .secondarySystemBackground))
                                     }
                                 }
                             }
@@ -237,7 +237,7 @@ struct AboutView: View {
                     }, label: {
                         Text("Done")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .fullWidth(alignment: .center)
                     })
                     .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -268,7 +268,7 @@ struct AboutView: View {
             self.appAppearance = 2
         }) {
             Text("System")
-                .foregroundColor((self.appAppearance == 2) ? .white : .primary    )
+                .foregroundColor((self.appAppearance == 2) ? .black : .primary    )
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
