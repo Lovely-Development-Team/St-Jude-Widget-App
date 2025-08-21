@@ -110,7 +110,7 @@ struct TiltifyStJudeWidgets: WidgetBundle {
 
 struct CampaignLockScreenWidget: Widget {
     let kind: String = "CampaignLockScreenWidget"
-    @StateObject private var apiClient = ApiClient.shared
+//    @StateObject private var apiClient = ApiClient.shared
     
     var supportedFamilies: [WidgetFamily] {
         if #available(iOSApplicationExtension 16.0, *) {
@@ -130,11 +130,11 @@ struct CampaignLockScreenWidget: Widget {
         }
         .configurationDisplayName("Individual Fundraiser")
         .description("Displays the current status for a particular fundraiser.")
-        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
-            apiClient.backgroundCompletionHandler = completion
-            // Access the background session to make sure it is initialised
-            _ = apiClient.backgroundURLSession
-        }
+//        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+//            apiClient.backgroundCompletionHandler = completion
+//            // Access the background session to make sure it is initialised
+//            _ = apiClient.backgroundURLSession
+//        }
         .supportedFamilies(supportedFamilies)
     }
     
@@ -142,7 +142,7 @@ struct CampaignLockScreenWidget: Widget {
 
 struct FundraisingLockScreenWidget: Widget {
     let kind: String = "FundraisingLockScreenWidget"
-    @StateObject private var apiClient = ApiClient.shared
+//    @StateObject private var apiClient = ApiClient.shared
     
     var supportedFamilies: [WidgetFamily] {
         if #available(iOSApplicationExtension 16.0, *) {
@@ -162,18 +162,18 @@ struct FundraisingLockScreenWidget: Widget {
         }
         .configurationDisplayName("Relay for St. Jude")
         .description("Displays the current status of the overall fundraising event.")
-        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
-            apiClient.backgroundCompletionHandler = completion
-            // Access the background session to make sure it is initialised
-            _ = apiClient.backgroundURLSession
-        }
+//        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+//            apiClient.backgroundCompletionHandler = completion
+//            // Access the background session to make sure it is initialised
+//            _ = apiClient.backgroundURLSession
+//        }
         .supportedFamilies(supportedFamilies)
     }
 }
 
 struct HeadToHeadWidget: Widget {
     let kind: String = "HeadToHeadWidget"
-    @StateObject private var apiClient = ApiClient.shared
+//    @StateObject private var apiClient = ApiClient.shared
     
     var supportedFamilies: [WidgetFamily] {
         if #available(iOSApplicationExtension 16.0, *) {
@@ -202,11 +202,11 @@ struct HeadToHeadWidget: Widget {
         }
         .configurationDisplayName("Head To Head")
         .description("Pit one campaign against another!")
-        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
-            apiClient.backgroundCompletionHandler = completion
-            // Access the background session to make sure it is initialised
-            _ = apiClient.backgroundURLSession
-        }
+//        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+//            apiClient.backgroundCompletionHandler = completion
+//            // Access the background session to make sure it is initialised
+//            _ = apiClient.backgroundURLSession
+//        }
         .supportedFamilies(supportedFamilies)
     }
 }
@@ -216,7 +216,7 @@ struct HeadToHeadWidget: Widget {
 
 struct FundraisingEventWidget: Widget {
     let kind: String = "FundraisingEvent"
-    @StateObject private var apiClient = ApiClient.shared
+//    @StateObject private var apiClient = ApiClient.shared
     
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: FundraisingEventConfigurationIntent.self, provider: FundraisingProvider()) { entry in
@@ -224,17 +224,17 @@ struct FundraisingEventWidget: Widget {
         }
         .configurationDisplayName("Relay for St. Jude")
         .description("Displays the current status of the overall fundraising event.")
-        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
-            apiClient.backgroundCompletionHandler = completion
-            // Access the background session to make sure it is initialised
-            _ = apiClient.backgroundURLSession
-        }
+//        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+//            apiClient.backgroundCompletionHandler = completion
+//            // Access the background session to make sure it is initialised
+//            _ = apiClient.backgroundURLSession
+//        }
     }
 }
 
 struct Tiltify_St_Jude_Widget: Widget {
     let kind: String = "Tiltify_St_Jude_Widget"
-    @StateObject private var apiClient = ApiClient.shared
+//    @StateObject private var apiClient = ApiClient.shared
     
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
@@ -242,11 +242,11 @@ struct Tiltify_St_Jude_Widget: Widget {
         }
         .configurationDisplayName("Individual Fundraiser")
         .description("Displays the current status for a particular fundraiser.")
-        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
-            apiClient.backgroundCompletionHandler = completion
-            // Access the background session to make sure it is initialised
-            _ = apiClient.backgroundURLSession
-        }
+//        .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
+//            apiClient.backgroundCompletionHandler = completion
+//            // Access the background session to make sure it is initialised
+//            _ = apiClient.backgroundURLSession
+//        }
     }
 }
 
@@ -258,7 +258,7 @@ struct ScoreEntryProvider: TimelineProvider {
     
     func getSnapshot(in context: Context, completion: @escaping (ScoreEntry) -> Void) {
         Task {
-            if let score = await ApiClient.shared.fetchScore() {
+            if let score = await TiltifyAPIClient.shared.fetchScore() {
                 completion(ScoreEntry(date: .now, score: score))
             } else {
                 completion(ScoreEntry(date: .now, score: Score(myke: .zero, stephen: .zero)))
@@ -269,7 +269,7 @@ struct ScoreEntryProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<ScoreEntry>) -> Void) {
         Task {
             let score: Score
-            if let apiScore = await ApiClient.shared.fetchScore() {
+            if let apiScore = await TiltifyAPIClient.shared.fetchScore() {
                 score = apiScore
             } else {
                 score = Score(myke: .zero, stephen: .zero)
