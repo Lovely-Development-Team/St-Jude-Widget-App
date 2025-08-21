@@ -10,6 +10,9 @@ import SwiftUI
 struct BlockGroupBoxStyle: GroupBoxStyle {
     var tint: Color = .secondarySystemBackground
     var padding: Bool = true
+    var inverted: Bool = false
+    var edgeColor: Color?
+    var shadowColor: Color?
     
     func makeBody(configuration: Configuration) -> some View {
         Group {
@@ -22,7 +25,7 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
         }
             .compositingGroup()
             .background {
-                BlockView(tint: self.tint)
+                BlockView(tint: self.tint, edgeColor: self.edgeColor, shadowColor: self.shadowColor)
             }
     }
 }

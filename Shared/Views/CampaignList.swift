@@ -74,7 +74,21 @@ struct CampaignList: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
     // MARK: 2025
-    private let competitors = Players.allCases.shuffled()
+    private func getNewCompetitors() {
+        // Ensure we don't select either of the current players
+        let newCompetitor1 = Players.allCases.filter {
+            $0 != self.competitor1 && $0 != self.competitor2
+        }.randomElement() ?? .myke
+        let newCompetitor2 = Players.allCases.filter {
+            $0 != self.competitor1 && $0 != self.competitor2 && $0 != newCompetitor1
+        }.randomElement() ?? .stephen
+        
+        self.competitor1 = newCompetitor1
+        self.competitor2 = newCompetitor2
+    }
+    
+    @State private var competitor1: Players = .myke
+    @State private var competitor2: Players = .stephen
     
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
@@ -206,7 +220,7 @@ struct CampaignList: View {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
                             // TODO: Change this color to be lest violent to look at
-                            .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.caseyLights))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                             .padding()
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
@@ -220,8 +234,8 @@ struct CampaignList: View {
                     
                     ZStack(alignment: .bottom) {
                         Group {
-                            StandingToThrowingView(player: self.competitors.first!)
-                            StandingToThrowingView(player: self.competitors.last!, isMirrored: true)
+                            StandingToThrowingView(player: self.competitor1)
+                            StandingToThrowingView(player: self.competitor2, isMirrored: true)
                         }
                         .padding(.bottom, 35)
                         .padding(.horizontal)
@@ -266,7 +280,7 @@ struct CampaignList: View {
                             .aspectRatio(1.0, contentMode: .fit)
                             .background {
                                 GeometryReader { geometry in
-                                    WidgetAppearance.caseyLights
+                                    Color.accentColor
                                         .modifier(PixelRounding(geometry: geometry))
                                 }
                             }
@@ -287,7 +301,7 @@ struct CampaignList: View {
                                 Text("Add a Head to Head")
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.caseyLights))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
                             .foregroundStyle(Color.black)
                         }
                     }
@@ -302,7 +316,7 @@ struct CampaignList: View {
         }
         .padding(.horizontal)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
-        .groupBoxStyle(BlockGroupBoxStyle())
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor))
     }
     
     @ViewBuilder
@@ -491,7 +505,7 @@ struct CampaignList: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: WidgetAppearance.caseyLights))
+                        .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
                     }
                 }
                 .padding(.horizontal)
@@ -835,6 +849,8 @@ struct CampaignList: View {
         await fetch()
         
         self.isLoading = false
+        
+        self.getNewCompetitors()
         
     }
     
