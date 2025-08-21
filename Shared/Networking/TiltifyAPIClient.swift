@@ -15,6 +15,9 @@ class TiltifyAPIClient: APIClient {
     static let clientId = "86ada7963d7709d11bc771a370497f3e0a223c1d6fa08d6344fa96cbf888e945"
     static let clientSecret = ""
     
+    var _token: String = ""
+    var _tokenExpiresAt: Date = Date()
+    
 }
 
 // MARK: Authentication
@@ -33,11 +36,16 @@ extension TiltifyAPIClient {
     }
     
     func getToken() async -> String {
-        do {
-            return try await authenticate().accessToken
-        } catch {
-            return "No token"
+        if Date() >= self._tokenExpiresAt {
+            do {
+                let tokenData = try await authenticate()
+                self._token = tokenData.accessToken
+                self._tokenExpiresAt = Date().addingTimeInterval(TimeInterval(tokenData.expiresIn - 60))
+            } catch {
+                self._token = "No token"
+            }
         }
+        return self._token
     }
     
 }
