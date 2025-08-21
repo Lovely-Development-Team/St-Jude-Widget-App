@@ -203,6 +203,24 @@ extension Campaign {
         self.isStarred = false
     }
     
+    init(from campaign: TiltifyAPICampaign) {
+        self.id = campaign.id
+        self.name = campaign.name
+        self.slug = campaign.slug
+        self.avatar = campaign.avatar ?? campaign.user.avatar
+        self.status = campaign.status
+        self.description = campaign.description
+        self.goalCurrency = campaign.goal.currency
+        self.goalValue = campaign.goal.value
+        self.goalNumericalValue = campaign.goal.numericalValue
+        self.totalRaisedCurrency = campaign.totalAmountRaised.currency
+        self.totalRaisedValue = campaign.totalAmountRaised.value
+        self.totalRaisedNumericalValue = campaign.totalAmountRaised.numericalValue
+        self.username = campaign.user.username
+        self.userSlug = campaign.user.slug
+        self.isStarred = false
+    }
+    
     func updated(fromCauseCampaign campaign: TiltifyCauseCampaign) -> Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
@@ -222,6 +240,24 @@ extension Campaign {
     }
     
     func updated(fromCampaign campaign: TiltifyCampaign) -> Campaign {
+        return Campaign(id: self.id,
+                        name: campaign.name,
+                        slug: campaign.slug,
+                        avatar: campaign.avatar ?? campaign.user.avatar,
+                        status: self.status,
+                        description: campaign.description,
+                        goalCurrency: campaign.goal.currency,
+                        goalValue: campaign.goal.value,
+                        goalNumericalValue: campaign.goal.numericalValue,
+                        totalRaisedCurrency: campaign.totalAmountRaised.currency,
+                        totalRaisedValue: campaign.totalAmountRaised.value,
+                        totalRaisedNumericalValue: campaign.totalAmountRaised.numericalValue,
+                        username: campaign.user.username,
+                        userSlug: campaign.user.slug,
+                        isStarred: self.isStarred)
+    }
+    
+    func updated(from campaign: TiltifyAPICampaign) -> Campaign {
         return Campaign(id: self.id,
                         name: campaign.name,
                         slug: campaign.slug,
