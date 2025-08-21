@@ -9,8 +9,9 @@ import Foundation
 import Combine
 import WidgetKit
 
-let TEAM_EVENT_VANITY = "+relay-for-st-jude"
-let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
+let TEAM_EVENT_VANITY = "@relay"
+let TEAM_EVENT_SLUG = "relay-for-st-jude-2025"
+let TEAM_EVENT_ID = UUID(uuidString: "37917f91-8a86-4c28-b11a-0e25390c02d0")!
 //let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
 //let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
 
@@ -106,12 +107,9 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         return request
     }
     
-    func fetchTeamEvent() async -> TiltifyTeamEvent? {
+    func fetchTeamEvent() async -> TiltifyResponse2025? {
         do {
-            let request = try buildTeamEventRequest()
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let payload = try JSONDecoder().decode(TiltifyTeamEventResponse.self, from: data)
-            return payload.data.teamEvent
+            return try await fetchCampaign(id: TEAM_EVENT_ID)
         } catch {
             dataLogger.debug("Fetching Team Event failed: \(error.localizedDescription)")
         }

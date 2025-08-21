@@ -150,6 +150,7 @@ struct HeadToHeadView: View {
                                     VStack(spacing: 0) {
                                         campaignDetails(for: campaign1, alignment: .leading)
                                             .transition(.move(edge: .leading))
+                                            .padding(.bottom, 8)
                                         HStack(alignment: .lastTextBaseline) {
                                             Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                                 .font(.title)

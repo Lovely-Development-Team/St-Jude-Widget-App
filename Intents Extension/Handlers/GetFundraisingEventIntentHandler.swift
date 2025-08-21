@@ -12,22 +12,22 @@ class GetFundraisingEventIntentHandler: NSObject, GetMainFundraisingEventIntentH
     
     func handle(intent: GetMainFundraisingEventIntent) async -> GetMainFundraisingEventIntentResponse {
         if let teamEvent = await ApiClient.shared.fetchTeamEvent() {
-            let goalAmount = INAmount(from: teamEvent.goal, showFullCurrencySymbol: false)
-            let amountRaised = INAmount(from: teamEvent.totalAmountRaised, showFullCurrencySymbol: false)
+            let goalAmount = INAmount(from: teamEvent.data.fact.goal, showFullCurrencySymbol: false)
+            let amountRaised = INAmount(from: teamEvent.data.fact.totalAmountRaised, showFullCurrencySymbol: false)
             
             let intentResponse = GetMainFundraisingEventIntentResponse(code: .success, userActivity: nil)
-            let fundraiser = ShortcutCampaignDetails(identifier: teamEvent.publicId.uuidString, display: teamEvent.name)
+            let fundraiser = ShortcutCampaignDetails(identifier: teamEvent.data.fact.id.uuidString, display: teamEvent.data.fact.name)
             
-            let inMilestones = teamEvent.milestones.sorted(by: sortMilestones).map { milestone -> INMilestone in
+            let inMilestones = teamEvent.data.fact.milestones.sorted(by: sortMilestones).map { milestone -> INMilestone in
                 INMilestone(from: milestone, showFullCurrencySymbol: false)
             }
             
-            let inRewards = teamEvent.rewards.sorted(by: sortRewards).map { reward -> ShortcutReward in
+            let inRewards = teamEvent.data.fact.rewards.sorted(by: sortRewards).map { reward -> ShortcutReward in
                 ShortcutReward(from: reward, showFullCurrencySymbol: false)
             }
             
-            fundraiser.name = teamEvent.name
-            fundraiser.user = "Relay FM"
+            fundraiser.name = teamEvent.data.fact.name
+            fundraiser.user = "Relay"
             fundraiser.goal = goalAmount
             fundraiser.amountRaised = amountRaised
             fundraiser.milestones = inMilestones
