@@ -57,6 +57,8 @@ struct BlockView: View {
     var tint: Color?
     var isPressed: Bool? = nil
     var scale: Double = Double.spriteScale
+    var edgeColor: Color?
+    var shadowColor: Color?
     
     @ViewBuilder
     func buttonImageView(isPressed: Bool) -> some View {
@@ -86,6 +88,20 @@ struct BlockView: View {
                             scale: self.scale)
     }
     
+    @ViewBuilder
+    var regularImageViewEdge: some View {
+        ScaledNinePartImage(topLeft: .edgeBlockRepeatableTopLeft,
+                            top: .edgeBlockRepeatableTop,
+                            topRight: .edgeBlockRepeatableTopRight,
+                            left: .edgeBlockRepeatableLeft,
+                            center: .edgeBlockRepeatableCenter,
+                            right: .edgeBlockRepeatableRight,
+                            bottomLeft: .edgeBlockRepeatableBottomLeft,
+                            bottom: .edgeBlockRepeatableBottom,
+                            bottomRight: .edgeBlockRepeatableBottomRight,
+                            scale: self.scale)
+    }
+    
     @ViewBuilder 
     var content: some View {
         Group {
@@ -98,20 +114,29 @@ struct BlockView: View {
     }
     
     var body: some View {
-        if let tint = self.tint {
-            self.content
-                .colorMultiply(tint)
-        } else {
-            self.content
+        Group {
+            if let tint = self.tint {
+                self.content
+                    .colorMultiply(tint)
+            } else {
+                self.content
+            }
         }
+        .overlay {
+            if let edgeColor = self.edgeColor {
+                self.regularImageViewEdge
+                    .colorMultiply(edgeColor)
+            }
+        }
+        .shadow(color: (self.shadowColor ?? .clear).opacity(0.5), radius: 10)
     }
 }
 
 #Preview {
     VStack {
-        BlockView(tint: .blue, scale: 0.75)
+        BlockView(tint: .blue, scale: 0.75, edgeColor: .green, shadowColor: .green)
         .frame(width: 300, height: 150)
-        BlockView(tint: .red, scale: 0.75)
+        BlockView(tint: .red, scale: 0.75, shadowColor: .orange)
         .frame(width: 300, height: 150)
         .opacity(0.5)
         DisclosureGroup(

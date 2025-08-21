@@ -63,7 +63,7 @@ struct AboutView: View {
                             .padding(.top)
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
                     .padding(.top, -20)
                     
                     GroupBox {
@@ -97,7 +97,7 @@ struct AboutView: View {
                             .padding(.top)
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
                     
                     GroupBox {
                         VStack {
@@ -122,7 +122,7 @@ struct AboutView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
                     
                     GroupBox {
                         VStack {
@@ -149,7 +149,7 @@ struct AboutView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
                     
                     GroupBox {
                         VStack {
@@ -174,7 +174,7 @@ struct AboutView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
                     
                     GroupBox {
                         VStack {
@@ -221,7 +221,7 @@ struct AboutView: View {
                                             icon.image
                                                 .frame(width: 60, height: 60)
                                         }
-                                        .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? WidgetAppearance.caseyLights : .secondarySystemBackground))
+                                        .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? .accentColor : .secondarySystemBackground))
                                     }
                                 }
                             }
@@ -230,7 +230,7 @@ struct AboutView: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
+                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
                     
                     Button(action: {
                         self.dismiss()
