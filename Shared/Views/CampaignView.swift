@@ -224,7 +224,7 @@ struct CampaignView: View {
                                 Link(destination: fundraiserURL, label: {
                                     Text("Visit the \(teamEvent == nil ? "fundraiser" : "event")!")
                                         .font(.headline)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
                                 .buttonStyle(BlockButtonStyle(tint: .accentColor))

@@ -478,9 +478,9 @@ struct CampaignList: View {
                                 Image(systemName: "exclamationmark.triangle")
                                     .padding(.top, 40)
                                     .padding(.bottom, 10)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.black)
                                 Text("No fundraisers yet")
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.black)
                                 Link(destination: URL(string: "https://start.tiltify.com/?supportingFactId=1c6d5c76-1804-48fa-a474-2bfe1c52f48c")!, label: {
                                     Text("Be the first and create your own!")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -492,7 +492,7 @@ struct CampaignList: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: .brandRed))
+                        .groupBoxStyle(BlockGroupBoxStyle(tint: WidgetAppearance.caseyLights))
                     }
                 }
                 .padding(.horizontal)

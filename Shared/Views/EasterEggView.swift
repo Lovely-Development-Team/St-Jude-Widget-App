@@ -191,7 +191,7 @@ struct EasterEggView: View {
                             Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
                                 Text("tildy.dev/stjude")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -213,7 +213,7 @@ struct EasterEggView: View {
                             }, label: {
                                 Text("Supporters")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -234,7 +234,7 @@ struct EasterEggView: View {
                             }, label: {
                                 Text("tildy.dev")
                                     .font(.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -247,7 +247,7 @@ struct EasterEggView: View {
                     }, label: {
                         Text("Done")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .fullWidth(alignment: .center)
                     })
                     .buttonStyle(BlockButtonStyle(tint: .accentColor))
