@@ -9,8 +9,9 @@ import WidgetKit
 import SwiftUI
 import Intents
 
+// MARK: Campaign Widget (Lockscreen)
+// Converted to TiltifyAPIClient
 struct CampaignLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
-    let apiClient = ApiClient.shared
     
     func placeholder(in context: Context) -> CampaignLockScreenEventEntry {
         return fetchPlaceholder(in: context)
@@ -26,8 +27,9 @@ struct CampaignLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
     
 }
 
+// MARK: Main Event Widget (Lockscreen)
+// Converted to TiltifyAPIClient
 struct FundraisingLockScreenProvider: IntentTimelineProvider, WidgetDataProviding {
-    let apiClient = ApiClient.shared
     
     func placeholder(in context: Context) -> FundraisingLockScreenEventEntry {
         return fetchPlaceholder(in: context)
@@ -43,8 +45,9 @@ struct FundraisingLockScreenProvider: IntentTimelineProvider, WidgetDataProvidin
     
 }
 
+// MARK: Main Event Widget
+// Converted to TiltifyAPIClient
 struct FundraisingProvider: IntentTimelineProvider, WidgetDataProviding {
-    let apiClient = ApiClient.shared
     
     func placeholder(in context: Context) -> FundraisingEventEntry {
         return fetchPlaceholder(in: context)
@@ -59,8 +62,9 @@ struct FundraisingProvider: IntentTimelineProvider, WidgetDataProviding {
     }
 }
 
+// MARK: Head To Head Widget
+// Converted to TiltifyAPIClient
 struct HeadToHeadProvider: IntentTimelineProvider, WidgetDataProviding {
-    let apiClient = ApiClient.shared
 
     func placeholder(in context: Context) -> HeadToHeadEntry {
         return fetchPlaceholder(in: context)
@@ -75,8 +79,9 @@ struct HeadToHeadProvider: IntentTimelineProvider, WidgetDataProviding {
     }
 }
 
+// MARK: Campaign Widget
+// Converted to TiltifyAPIClient
 struct Provider: IntentTimelineProvider, WidgetDataProviding {
-    let apiClient = ApiClient.shared
     
     func placeholder(in context: Context) -> SimpleEntry {
         return fetchPlaceholder(in: context)
@@ -205,6 +210,9 @@ struct HeadToHeadWidget: Widget {
         .supportedFamilies(supportedFamilies)
     }
 }
+
+
+// MARK: Main Event Widget
 
 struct FundraisingEventWidget: Widget {
     let kind: String = "FundraisingEvent"

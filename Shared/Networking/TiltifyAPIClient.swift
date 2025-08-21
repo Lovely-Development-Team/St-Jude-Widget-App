@@ -154,4 +154,14 @@ extension TiltifyAPIClient {
         return nil
     }
     
+    func getCampaignWithMilestones(forId id: UUID) async -> TIltifyCampaignWithMilestones? {
+        if let campaign = await self.getCampaign(withId: id) {
+            return TIltifyCampaignWithMilestones(
+                campaign: campaign,
+                milestones: await self.getCampaignMilestones(forId: id)
+            )
+        }
+        return nil
+    }
+    
 }

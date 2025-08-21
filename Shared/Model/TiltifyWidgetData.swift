@@ -196,6 +196,47 @@ struct TiltifyWidgetData: Equatable {
         self.username = nil
     }
     
+    
+    init(from campaignData: TIltifyCampaignWithMilestones) {
+        self.id = campaignData.campaign.id
+        self.name = campaignData.campaign.name
+        self.description = campaignData.campaign.description
+        self.currencyCode = campaignData.campaign.totalAmountRaised.currency
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        currencyFormatter = formatter
+        self.totalRaisedRaw = campaignData.campaign.totalAmountRaised.value ?? "0"
+        self.goalRaw = campaignData.campaign.goal.value ?? "0"
+        self.milestones = campaignData.milestones.sorted(by: sortMilestones).map { Milestone(from: $0, campaignId: campaignData.campaign.id) }
+        self.previousMilestone = Self.previousMilestone(at: campaignData.campaign.totalAmountRaised.numericalValue, in: self.milestones)
+        self.nextMilestone = Self.nextMilestone(at: campaignData.campaign.totalAmountRaised.numericalValue, in: self.milestones)
+        self.futureMilestones = Self.futureMilestones(at: campaignData.campaign.totalAmountRaised.numericalValue, in: self.milestones)
+        self.rewards = []
+        self.avatarImageData = nil
+        self.username = nil
+    }
+    
+    init(from fundraisingEvent: TiltifyFundraisingEvent, milestones: [TiltifyMilestone]) {
+        self.id = fundraisingEvent.id
+        self.name = fundraisingEvent.name
+        self.description = fundraisingEvent.description
+        self.currencyCode = fundraisingEvent.totalAmountRaised.currency
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        currencyFormatter = formatter
+        self.totalRaisedRaw = fundraisingEvent.totalAmountRaised.value ?? "0"
+        self.goalRaw = fundraisingEvent.goal.value ?? "0"
+        self.milestones = milestones.sorted(by: sortMilestones).map { Milestone(from: $0, teamEventId: TEAM_EVENT_ID) }
+        self.previousMilestone = Self.previousMilestone(at: fundraisingEvent.totalAmountRaised.numericalValue, in: self.milestones)
+        self.nextMilestone = Self.nextMilestone(at: fundraisingEvent.totalAmountRaised.numericalValue, in: self.milestones)
+        self.futureMilestones = Self.futureMilestones(at: fundraisingEvent.totalAmountRaised.numericalValue, in: self.milestones)
+        self.rewards = []
+        self.avatarImageData = nil
+        self.username = nil
+    }
+    
     var percentageReached: Double? {
         return calcPercentage(goal: goalRaw, total: totalRaisedRaw)
     }

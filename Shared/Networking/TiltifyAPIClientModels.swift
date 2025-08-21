@@ -188,3 +188,8 @@ struct TiltifyGetCampaignTopDonorsRequest: TiltifyAPIPaginatedRequest {
         "api/public/campaigns/\(campaignId)/donor_leaderboard"
     }
 }
+
+struct TIltifyCampaignWithMilestones {
+    let campaign: TiltifyAPICampaign
+    let milestones: [TiltifyMilestone]
+}
