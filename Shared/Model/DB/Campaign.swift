@@ -167,6 +167,24 @@ extension Campaign {
         self.isStarred = false
     }
     
+    init(from campaign: TiltifyMultiSearchQueryCampaignResult) {
+        self.id = campaign.id
+        self.name = campaign.name
+        self.slug = ""
+        self.avatar = campaign.factAvatar ?? campaign.userAvatar
+        self.status = nil
+        self.description = campaign.description
+        self.goalCurrency = campaign.tiltifyGoal.currency
+        self.goalValue = campaign.tiltifyGoal.value
+        self.goalNumericalValue = campaign.tiltifyGoal.numericalValue
+        self.totalRaisedCurrency = campaign.tiltifyTotal.currency
+        self.totalRaisedValue = campaign.tiltifyTotal.value
+        self.totalRaisedNumericalValue = campaign.tiltifyTotal.numericalValue
+        self.username = campaign.username
+        self.userSlug = campaign.username
+        self.isStarred = false
+    }
+    
     init(from campaign: TiltifyCampaign) {
         self.id = campaign.publicId
         self.name = campaign.name

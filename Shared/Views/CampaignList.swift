@@ -768,7 +768,7 @@ struct CampaignList: View {
     }
     
     func refresh() async {
-        
+                
         if let apiEventData = await apiClient.fetchTeamEvent() {
             dataLogger.debug("API fetched TeamEvent: \(apiEventData.data.fact.name)")
             let apiEvent = TeamEvent(from: apiEventData)
@@ -788,9 +788,9 @@ struct CampaignList: View {
         }
         
         dataLogger.debug("Fetching campaigns...")
-        let apiCampaigns = await apiClient.fetchCampaignsForTeamEvent()
+        let apiCampaigns = await apiClient.fetchCampaignsForFundraisingEvent()
         var keyedApiCampaigns: [UUID: Campaign] = apiCampaigns.reduce(into: [:]) { partialResult, campaign in
-            partialResult.updateValue(Campaign(from: campaign), forKey: campaign.publicId)
+            partialResult.updateValue(Campaign(from: campaign), forKey: campaign.id)
         }
         dataLogger.debug("Fetching campaigns... Done")
         
