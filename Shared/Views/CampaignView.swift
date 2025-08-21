@@ -594,7 +594,7 @@ struct CampaignView: View {
     
     func updateMilestonesInDatabase(forCampaign campaign: Campaign? = nil, forTeamEvent teamEvent: TeamEvent? = nil, with apiMilestones: [TiltifyMilestone]) async {
         
-        var keyedApiMilestones: [UUID: Milestone] = apiMilestones.reduce(into: [:]) { partialResult, ms in
+        var keyedApiMilestones: [UUID: Milestone] = apiMilestones.filter { $0.active }.reduce(into: [:]) { partialResult, ms in
             partialResult.updateValue(Milestone(from: ms, campaignId: campaign?.id, teamEventId: teamEvent?.id), forKey: ms.publicId)
         }
         
