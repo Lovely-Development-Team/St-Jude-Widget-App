@@ -168,6 +168,14 @@ extension TiltifyAPIClient {
         return nil
     }
     
+    func getCampaignPolls(forId id: UUID) async -> [TiltifyCampaignPoll]? {
+        do {
+            return try await self.send(TiltifyGetCampaignPollsRequest(campaignId: id)).data
+        } catch {
+            apiLogger.error("Unable to fetch campaign polls: \(error.localizedDescription)")
+        }
+        return nil
+    }
 }
 
 // MARK: Scores

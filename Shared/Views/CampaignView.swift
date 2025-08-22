@@ -39,6 +39,13 @@ struct CampaignView: View {
     
     @State private var isRefreshing: Bool = false
     
+    @State private var showPolls: Bool = false
+    @State private var polls: [TiltifyCampaignPoll] = []
+    
+    private var activePolls: [TiltifyCampaignPoll] {
+        return self.polls.filter { $0.active }
+    }
+    
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     init(initialCampaign: Campaign) {
@@ -259,6 +266,180 @@ struct CampaignView: View {
     }
     
     @ViewBuilder
+    var milestonesView: some View {
+        if !milestones.isEmpty {
+                                
+            GroupBox {
+                VStack(spacing: 10) {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text("Milestones")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+
+                        Spacer()
+
+                        Text("\(milestones.count)")
+                            .foregroundColor(.secondary)
+
+                    }
+                    ForEach(milestones, id: \.id) { milestone in
+                        MilestoneListView(milestone: milestone, reached: milestoneReached(for: milestone), percentage: milestonePercentage(for: milestone))
+                    }
+                }
+            }
+            .groupBoxStyle(BlockGroupBoxStyle())
+            .id("Milestones")
+        }
+    }
+    
+    @ViewBuilder
+    func pollView(for poll: TiltifyCampaignPoll) -> some View {
+        GroupBox {
+            VStack(alignment: .leading) {
+                Text(poll.name)
+                ForEach(poll.options, id: \.id) { option in
+                    VStack {
+                        HStack(alignment: .center) {
+                            let isMax = option.isMax(parentPoll: poll)
+                            
+                            Text(option.name)
+                                .font(.caption)
+                                .foregroundStyle(isMax ? Color.accentColor : .white)
+                            
+                            if isMax {
+                                Image(.crownPixel)
+                                    .foregroundStyle(Color.accentColor)
+                            }
+                            
+                            Spacer()
+                            
+                            VStack(alignment: .trailing) {
+                                Text("\(Int(option.percentageOfPoll(parentPoll: poll)))%")
+                                    .font(.caption)
+                                    .foregroundStyle(isMax ? Color.accentColor : .white)
+                                Text(option.amountRaised.description(showFullCurrencySymbol: false))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        ProgressBar(value: option.percentageOfPollBinding(parentPoll: poll, defaultValue: 0.0), fillColor: .accentColor)
+                    }
+                }
+            }
+            .padding()
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(tint: .tertiarySystemBackground, padding: false))
+    }
+    
+    @ViewBuilder
+    var pollsView: some View {
+        if !self.activePolls.isEmpty {
+            GroupBox {
+                VStack(alignment: .leading) {
+                    Button(action: {
+                        withAnimation {
+                            self.showPolls.toggle()
+                        }
+                    }, label: {
+                        HStack {
+                            Text("Polls")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text("\(self.activePolls.count)")
+                                .foregroundStyle(.secondary)
+                            
+                            Image("pixel-chevron-right")
+                                .foregroundStyle(.secondary)
+                                .rotationEffect(.degrees(self.showPolls ? 90 : 0))
+                        }
+                    })
+                    .buttonStyle(.plain)
+                    
+                    if self.showPolls {
+                        ForEach(self.activePolls, id: \.id) { poll in
+                            self.pollView(for: poll)
+                        }
+                    }
+                }
+            }
+            .groupBoxStyle(BlockGroupBoxStyle())
+        }
+    }
+    
+    @ViewBuilder
+    var rewardsView: some View {
+        if !rewards.isEmpty {
+            GroupBox {
+                VStack(spacing: 10) {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text("Rewards")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+
+                        Text("\(rewards.count)")
+                            .foregroundColor(.secondary)
+
+                    }
+                    ForEach(rewards, id: \.id) { reward in
+                        VStack(alignment: .leading) {
+                            HStack(alignment: .top) {
+                                Text(reward.name)
+                                    .font(.headline)
+                                Spacer()
+                                Text(reward.amount.description(showFullCurrencySymbol: false))
+                                    .foregroundColor(.accentColor)
+                            }
+                            HStack(alignment: .top) {
+                                if let url = URL(string: reward.imageSrc ?? "") {
+                                    KFImage.url(url)
+                                        .resizable()
+                                        .placeholder {
+                                            ProgressView()
+                                                .frame(width: 45, height: 45)
+                                        }.aspectRatio(contentMode: .fit)
+                                        .frame(width: 45, height: 45)
+                                        .modifier(PixelRounding())
+                                }
+                                VStack {
+                                    Text(reward.description)
+                                        .font(.caption)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+
+
+                                    if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
+                                        HStack {
+                                            Button(action: {
+                                                showSupporterSheet = true
+                                            }, label: {
+                                                Text("Supporters")
+                                                    .font(.headline)
+                                                    .foregroundColor(.white)
+                                            })
+                                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        if reward != rewards.last {
+                            Rectangle()
+                                .frame(height: 10 * Double.spriteScale)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+            .groupBoxStyle(BlockGroupBoxStyle())
+            .id("Rewards")
+        }
+    }
+    
+    @ViewBuilder
     func contents(scrollViewReader: SwiftUI.ScrollViewProxy) -> some View {
         Group {
             VStack {
@@ -312,98 +493,12 @@ struct CampaignView: View {
                     .buttonStyle(BlockButtonStyle())
                 }
 
-                if !milestones.isEmpty {
-                                        
-                    GroupBox {
-                        VStack(spacing: 10) {
-                            HStack(alignment: .firstTextBaseline) {
-                                Text("Milestones")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-
-                                Spacer()
-
-                                Text("\(milestones.count)")
-                                    .foregroundColor(.secondary)
-
-                            }
-                            ForEach(milestones, id: \.id) { milestone in
-                                MilestoneListView(milestone: milestone, reached: milestoneReached(for: milestone), percentage: milestonePercentage(for: milestone))
-                            }
-                        }
-                    }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                    .id("Milestones")
-                }
-
-                if !rewards.isEmpty {
-                    GroupBox {
-                        VStack(spacing: 10) {
-                            HStack(alignment: .firstTextBaseline) {
-                                Text("Rewards")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-
-                                Text("\(rewards.count)")
-                                    .foregroundColor(.secondary)
-
-                            }
-                            ForEach(rewards, id: \.id) { reward in
-                                VStack(alignment: .leading) {
-                                    HStack(alignment: .top) {
-                                        Text(reward.name)
-                                            .font(.headline)
-                                        Spacer()
-                                        Text(reward.amount.description(showFullCurrencySymbol: false))
-                                            .foregroundColor(.accentColor)
-                                    }
-                                    HStack(alignment: .top) {
-                                        if let url = URL(string: reward.imageSrc ?? "") {
-                                            KFImage.url(url)
-                                                .resizable()
-                                                .placeholder {
-                                                    ProgressView()
-                                                        .frame(width: 45, height: 45)
-                                                }.aspectRatio(contentMode: .fit)
-                                                .frame(width: 45, height: 45)
-                                                .modifier(PixelRounding())
-                                        }
-                                        VStack {
-                                            Text(reward.description)
-                                                .font(.caption)
-                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-
-
-                                            if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
-                                                HStack {
-                                                    Button(action: {
-                                                        showSupporterSheet = true
-                                                    }, label: {
-                                                        Text("Supporters")
-                                                            .font(.headline)
-                                                            .foregroundColor(.white)
-                                                    })
-                                                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                                                    Spacer()
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                }
-                                if reward != rewards.last {
-                                    Rectangle()
-                                        .frame(height: 10 * Double.spriteScale)
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                        }
-                    }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                    .id("Rewards")
-                }
+                self.pollsView
+                
+                self.milestonesView
+                
+                self.rewardsView
+                
             }
             .padding(.vertical)
             .padding(.horizontal)
@@ -564,6 +659,13 @@ struct CampaignView: View {
                 withAnimation {
                     topDonor = apiTopDonor
                     donations = apiDonations
+                }
+                
+                let apiPolls = await TiltifyAPIClient.shared.getCampaignPolls(forId: TEAM_EVENT_ID)
+                if let apiPolls = apiPolls {
+                    withAnimation {
+                        self.polls = apiPolls
+                    }
                 }
                 
             } else {
@@ -740,6 +842,12 @@ struct CampaignView: View {
             donations = apiDonations
         }
         
+        let apiPolls = await TiltifyAPIClient.shared.getCampaignPolls(forId: campaign.id)
+        if let apiPolls = apiPolls {
+            withAnimation {
+                self.polls = apiPolls
+            }
+        }
     }
     
     /// Fetches the campaign data from GRDB
