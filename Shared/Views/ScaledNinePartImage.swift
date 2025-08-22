@@ -61,9 +61,9 @@ struct BlockView: View {
     var shadowColor: Color?
     
     // TODO: Remove
-    @AppStorage(UserDefaults.debugEnableGlowKey, store: UserDefaults.shared) private var debugEnableGlow: Bool = true
-    @AppStorage(UserDefaults.debugEnableEdgeHighlightsKey, store: UserDefaults.shared) private var debugEnableEdgeHighlights: Bool = true
-    @AppStorage(UserDefaults.debugGlowAndHighlightOpacityKey, store: UserDefaults.shared) private var debugGlowAndHighlightOpacity: Double = 1.0
+    @AppStorage(UserDefaults.debugGlowOpacityKey, store: UserDefaults.shared) private var debugGlowOpacity: Double = 0.5
+    @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
+    
     
     @ViewBuilder
     func buttonImageView(isPressed: Bool) -> some View {
@@ -142,22 +142,22 @@ struct BlockView: View {
             }
         }
         .overlay {
-            if let edgeColor = self.edgeColor, self.debugEnableEdgeHighlights {
+            if let edgeColor = self.edgeColor {
                 if let isPressed = self.isPressed {
                     self.buttonImageViewEdge(isPressed: isPressed)
                         .colorMultiply(edgeColor)
                         // TODO: Remove
-                        .opacity(self.debugGlowAndHighlightOpacity)
+                        .opacity(self.debugEdgeHighlightOpacity)
                 } else {
                     self.regularImageViewEdge
                         .colorMultiply(edgeColor)
                         // TODO: Remove
-                        .opacity(self.debugGlowAndHighlightOpacity)
+                        .opacity(self.debugEdgeHighlightOpacity)
                 }
             }
         }
         // TODO: Remove debug multiplier
-        .shadow(color: self.debugEnableGlow ? (self.shadowColor ?? .clear).opacity(0.5 * self.debugGlowAndHighlightOpacity) : .clear, radius: 10)
+        .shadow(color: (self.shadowColor ?? .clear).opacity(self.debugGlowOpacity), radius: 10)
     }
 }
 
