@@ -27,9 +27,8 @@ struct AboutView: View {
     @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColor: Int = Player.randomInitial.rawValue
     
     // TODO: Remove
-    @AppStorage(UserDefaults.debugEnableGlowKey, store: UserDefaults.shared) private var debugEnableGlow: Bool = true
-    @AppStorage(UserDefaults.debugEnableEdgeHighlightsKey, store: UserDefaults.shared) private var debugEnableEdgeHighlights: Bool = true
-    @AppStorage(UserDefaults.debugGlowAndHighlightOpacityKey, store: UserDefaults.shared) private var debugGlowAndHighlightOpacity: Double = 1.0
+    @AppStorage(UserDefaults.debugGlowOpacityKey, store: UserDefaults.shared) private var debugGlowOpacity: Double = 0.5
+    @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
     
     private var userColorScheme: ColorScheme? {
         switch self.appAppearance {
@@ -268,16 +267,13 @@ struct AboutView: View {
         GroupBox {
             VStack {
                 Text("Debug")
-                Toggle(isOn: self.$debugEnableGlow, label: {
-                    Text("Enable Glow")
-                })
-                Toggle(isOn: self.$debugEnableEdgeHighlights, label: {
-                    Text("Enable Edge Highlights")
-                })
-                .padding(.bottom)
                 
                 Text("Glow opacity")
-                Slider(value: self.$debugGlowAndHighlightOpacity, in: 0...1)
+                Slider(value: self.$debugGlowOpacity, in: 0...1)
+                    .padding(.bottom)
+                
+                Text("Edge highlight opacity")
+                Slider(value: self.$debugEdgeHighlightOpacity, in: 0...1)
             }
         }
         .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
