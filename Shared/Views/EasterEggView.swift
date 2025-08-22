@@ -109,19 +109,19 @@ struct EasterEggView: View {
                     }
                     HStack {
 #if DEBUG
-                        GroupBox {
-                            VStack {
-                                Text("isNice: \(coinCount.isNice)")
-//                                    .padding(.top)
-                                Button(action: {
-                                    self.showCoinInput = true
-                                }, label: {
-                                    Image(systemName: "keyboard")
-                                })
-//                                .padding(.top)
-                            }
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle())
+//                        GroupBox {
+//                            VStack {
+//                                Text("isNice: \(coinCount.isNice)")
+////                                    .padding(.top)
+//                                Button(action: {
+//                                    self.showCoinInput = true
+//                                }, label: {
+//                                    Image(systemName: "keyboard")
+//                                })
+////                                .padding(.top)
+//                            }
+//                        }
+//                        .groupBoxStyle(BlockGroupBoxStyle())
 #endif
                         Spacer()
 //                        GroupBox {
@@ -171,7 +171,7 @@ struct EasterEggView: View {
                   }) {
                     Text("Dismiss")
                           .fontWeight(.semibold)
-                          .foregroundColor(.blue)
+                          .foregroundColor(.accentColor)
                   }
                   .buttonStyle(PlainButtonStyle())
                   .padding(.horizontal, 15)
@@ -194,7 +194,7 @@ struct EasterEggView: View {
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
@@ -216,7 +216,7 @@ struct EasterEggView: View {
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
@@ -237,7 +237,7 @@ struct EasterEggView: View {
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
                         }
                     }
                     .groupBoxStyle(BlockGroupBoxStyle())
@@ -270,7 +270,9 @@ struct EasterEggView: View {
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityLabel)
         .sheet(isPresented: $showSupporterSheet) {
-            SupporterView()
+            NavigationView {
+                SupporterView()
+            }
         }
         .alert("Coin Input", isPresented: self.$showCoinInput, actions: {
             Button(action: {
