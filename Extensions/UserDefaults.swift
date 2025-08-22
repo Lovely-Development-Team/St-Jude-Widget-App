@@ -40,9 +40,8 @@ extension UserDefaults {
     static let selectedAccentColorKey = "selectedAccentColorKey"
     
     // DEBUG ONLY
-    static let debugEnableGlowKey = "debugEnableGlowKey"
-    static let debugEnableEdgeHighlightsKey = "debugEnableEdgeHighlightsKey"
-    static let debugGlowAndHighlightOpacityKey = "debugGlowAndHighlightOpacityKey"
+    static let debugGlowOpacityKey = "debugGlowOpacityKey"
+    static let debugEdgeHighlightOpacityKey = "debugEdgeHighlightOpacityKey"
         
     @objc var iconsUnlocked: Bool {
         get { bool(forKey: Self.iconsUnlockedKey) }
@@ -164,19 +163,14 @@ extension UserDefaults {
         set { UserDefaults.shared.set(newValue, forKey: Self.selectedAccentColorKey) }
     }
     
-    @objc var debugEnableGlow: Bool {
-        get { bool(forKey: Self.debugEnableGlowKey) }
-        set { UserDefaults.shared.set(newValue, forKey: Self.debugEnableGlowKey) }
+    @objc var debugGlowOpacity: Double {
+        get { object(forKey: Self.debugGlowOpacityKey) as? Double ?? 0.5 }
+        set { UserDefaults.shared.set(newValue, forKey: Self.debugGlowOpacityKey) }
     }
     
-    @objc var debugEnableEdgeHighlights: Bool {
-        get { bool(forKey: Self.debugEnableEdgeHighlightsKey) }
-        set { UserDefaults.shared.set(newValue, forKey: Self.debugEnableEdgeHighlightsKey) }
-    }
-    
-    @objc var debugGlowAndHighlightOpacity: Double {
-        get { object(forKey: Self.debugGlowAndHighlightOpacityKey) as? Double ?? 1.0 }
-        set { UserDefaults.shared.set(newValue, forKey: Self.debugGlowAndHighlightOpacityKey) }
+    @objc var debugHighlightOpacity: Double {
+        get { object(forKey: Self.debugEdgeHighlightOpacityKey) as? Double ?? 1.0 }
+        set { UserDefaults.shared.set(newValue, forKey: Self.debugEdgeHighlightOpacityKey) }
     }
 }
 

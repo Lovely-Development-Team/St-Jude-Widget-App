@@ -106,8 +106,8 @@ enum Player: Int, CaseIterable, Identifiable {
         return [
             .myke,
             .stephen,
-            .brad,
             .casey,
+            .brad,
             .jason,
             .kathy
         ]
