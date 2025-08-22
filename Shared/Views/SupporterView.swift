@@ -58,7 +58,7 @@ struct SupporterView: View {
                         Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
                             Text("tildy.dev/stjude")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                                 .fullWidth(alignment: .center)
                         })
                         .buttonStyle(BlockButtonStyle(tint: .accentColor))
@@ -96,7 +96,7 @@ struct SupporterView: View {
                     }, label: {
                         Text("Close")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .fullWidth(alignment: .center)
                     })
                     .buttonStyle(BlockButtonStyle(tint: .accentColor))

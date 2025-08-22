@@ -45,7 +45,7 @@ struct BlinkingView: View {
 
 struct BlinkingStandingView: View {
     @Environment(\.colorScheme) var colorScheme
-    let player: Players
+    let player: Player
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     @State var animate:Bool = false
     @State private var animationType: Animation? = .none
@@ -94,7 +94,7 @@ struct BlinkingStandingView: View {
 
 
 struct StandingToThrowingView: View{
-    let player: Players
+    let player: Player
     @State var scale: Double = 1.0
     @State var isMirrored: Bool = false
     var onTap: (() -> Void)?
@@ -156,7 +156,7 @@ struct StandingToThrowingView: View{
 
 #Preview {
     ScrollView{
-        ForEach(Players.allCases){ player in
+        ForEach(Player.allCases){ player in
             BlinkingStandingView(player: player, isMirrored: true)
             StandingToThrowingView(player: player, isMirrored: true)
         }

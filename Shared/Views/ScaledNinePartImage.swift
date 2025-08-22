@@ -60,6 +60,11 @@ struct BlockView: View {
     var edgeColor: Color?
     var shadowColor: Color?
     
+    // TODO: Remove
+    @AppStorage(UserDefaults.debugEnableGlowKey, store: UserDefaults.shared) private var debugEnableGlow: Bool = true
+    @AppStorage(UserDefaults.debugEnableEdgeHighlightsKey, store: UserDefaults.shared) private var debugEnableEdgeHighlights: Bool = true
+    @AppStorage(UserDefaults.debugGlowAndHighlightOpacityKey, store: UserDefaults.shared) private var debugGlowAndHighlightOpacity: Double = 1.0
+    
     @ViewBuilder
     func buttonImageView(isPressed: Bool) -> some View {
         ScaledNinePartImage(topLeft: isPressed ? .blockButtonRepeatableTopLeftPressed : .blockButtonRepeatableTopLeft,
@@ -71,6 +76,20 @@ struct BlockView: View {
                             bottomLeft: isPressed ? .blockButtonRepeatableBottomLeftPressed : .blockButtonRepeatableBottomLeft,
                             bottom: isPressed ? .blockButtonRepeatableBottomPressed : .blockButtonRepeatableBottom,
                             bottomRight: isPressed ? .blockButtonRepeatableBottomRightPressed : .blockButtonRepeatableBottomRight,
+                            scale: self.scale)
+    }
+    
+    @ViewBuilder
+    func buttonImageViewEdge(isPressed: Bool) -> some View {
+        ScaledNinePartImage(topLeft: isPressed ? .blockButtonRepeatableTopLeftEdgePressed : .blockButtonRepeatableTopLeftEdge,
+                            top: isPressed ? .blockButtonRepeatableTopEdgePressed : .blockButtonRepeatableTopEdge,
+                            topRight: isPressed ? .blockButtonRepeatableTopRightEdgePressed : .blockButtonRepeatableTopRightEdge,
+                            left: isPressed ? .blockButtonRepeatableLeftEdgePressed : .blockButtonRepeatableLeftEdge,
+                            center: .edgeBlockRepeatableCenter,
+                            right: isPressed ? .blockButtonRepeatableRightEdgePressed : .blockButtonRepeatableRightEdge,
+                            bottomLeft: isPressed ? .blockButtonRepeatableBottomLeftEdgePressed : .blockButtonRepeatableBottomLeftEdge,
+                            bottom: isPressed ? .blockButtonRepeatableBottomEdgePressed : .blockButtonRepeatableBottomEdge,
+                            bottomRight: isPressed ? .blockButtonRepeatableBottomRightEdgePressed : .blockButtonRepeatableBottomRightEdge,
                             scale: self.scale)
     }
     
@@ -123,12 +142,22 @@ struct BlockView: View {
             }
         }
         .overlay {
-            if let edgeColor = self.edgeColor {
-                self.regularImageViewEdge
-                    .colorMultiply(edgeColor)
+            if let edgeColor = self.edgeColor, self.debugEnableEdgeHighlights {
+                if let isPressed = self.isPressed {
+                    self.buttonImageViewEdge(isPressed: isPressed)
+                        .colorMultiply(edgeColor)
+                        // TODO: Remove
+                        .opacity(self.debugGlowAndHighlightOpacity)
+                } else {
+                    self.regularImageViewEdge
+                        .colorMultiply(edgeColor)
+                        // TODO: Remove
+                        .opacity(self.debugGlowAndHighlightOpacity)
+                }
             }
         }
-        .shadow(color: (self.shadowColor ?? .clear).opacity(0.5), radius: 10)
+        // TODO: Remove debug multiplier
+        .shadow(color: self.debugEnableGlow ? (self.shadowColor ?? .clear).opacity(0.5 * self.debugGlowAndHighlightOpacity) : .clear, radius: 10)
     }
 }
 

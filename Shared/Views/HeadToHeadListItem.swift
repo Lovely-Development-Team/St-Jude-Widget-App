@@ -31,9 +31,9 @@ struct HeadToHeadListItem: View {
                     Text("vs")
                         .bold()
                         .padding(8)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, padding: false))
+                .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, padding: false, shadowColor: nil))
                 Text(headToHead.campaign2.name)
                     .bold()
                     .multilineTextAlignment(.center)
@@ -48,7 +48,7 @@ struct HeadToHeadListItem: View {
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
+                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), shadowColor: nil))
                 .overlay(alignment: .topTrailing){
                     if(leading){
                         Image(.crownPixel)
@@ -58,7 +58,7 @@ struct HeadToHeadListItem: View {
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 10 : 5)))
+                .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 10 : 5), shadowColor: nil))
                 .overlay(alignment: .bottomLeading){
                     if(!leading){
                         Image(.crownPixel)

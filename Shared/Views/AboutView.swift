@@ -24,6 +24,12 @@ struct AboutView: View {
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
+    @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColor: Int = Player.randomInitial.rawValue
+    
+    // TODO: Remove
+    @AppStorage(UserDefaults.debugEnableGlowKey, store: UserDefaults.shared) private var debugEnableGlow: Bool = true
+    @AppStorage(UserDefaults.debugEnableEdgeHighlightsKey, store: UserDefaults.shared) private var debugEnableEdgeHighlights: Bool = true
+    @AppStorage(UserDefaults.debugGlowAndHighlightOpacityKey, store: UserDefaults.shared) private var debugGlowAndHighlightOpacity: Double = 1.0
     
     private var userColorScheme: ColorScheme? {
         switch self.appAppearance {
@@ -36,149 +42,173 @@ struct AboutView: View {
         }
     }
     
-    var body: some View {
-        ScrollView {
-            VStack(spacing:0) {
-                AboutViewHeader()
-                VStack {
-                    
-                    GroupBox {
-                        VStack {
-                            Text("About St. Jude")
-                                .font(.title3)
-                                .fullWidth()
-                            Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
-                                .fullWidth()
-                                .padding(.top)
-                            Text("Every year throughout the month of September, Relay raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
-                                .fullWidth()
-                                .padding(.top)
-                            Link(destination: URL(string: "https://512pixels.net/2025/08/st-jude-2025/")!) {
-                                Text("Read Stephen's post")
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                                    .fullWidth(alignment: .center)
-                            }
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                            .padding(.top)
-                        }
+    @ViewBuilder
+    var descriptionView: some View {
+        GroupBox {
+            VStack {
+                Text("About St. Jude")
+                    .font(.title3)
+                    .fullWidth()
+                Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
+                    .fullWidth()
+                    .padding(.top)
+                Text("Every year throughout the month of September, Relay raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
+                    .fullWidth()
+                    .padding(.top)
+                Link(destination: URL(string: "https://512pixels.net/2025/08/st-jude-2025/")!) {
+                    Text("Read Stephen's post")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                        .fullWidth(alignment: .center)
+                }
+                .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
+                .padding(.top)
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+        .padding(.top, -20)
+        
+        GroupBox {
+            VStack {
+                Text("About the app")
+                    .font(.title3)
+                    .fullWidth()
+                Text("This app was developed by a group of friends from around the world, who came together thanks to Relay's membership program.")
+                    .fullWidth()
+                    .padding(.top)
+                Link(destination: URL(string: "https://tildy.dev/")!, label: {
+                    Text("tildy.dev")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                        .fullWidth(alignment: .center)
+                })
+                .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
+                .padding(.top)
+                Text("Our thanks go to everybody who donates to St. Jude via our fundraiser.")
+                    .fullWidth()
+                    .padding(.top)
+                Button(action: {
+                    showSupporterSheet = true
+                }) {
+                    Text("Supporters")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                        .fullWidth(alignment: .center)
+                }
+                .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
+                .padding(.top)
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+    }
+    
+    @ViewBuilder
+    var settingsView: some View {
+        GroupBox {
+            VStack {
+                Text("Use Pixel Font")
+                HStack {
+                    Button(action: {
+                        disablePixelFont = false
+                    }) {
+                        Text("Yes")
+                            .foregroundColor(disablePixelFont ? .primary : .black)
+                            .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
-                    .padding(.top, -20)
-                    
-                    GroupBox {
-                        VStack {
-                            Text("About the app")
-                                .font(.title3)
-                                .fullWidth()
-                            Text("This app was developed by a group of friends from around the world, who came together thanks to Relay's membership program.")
-                                .fullWidth()
-                                .padding(.top)
-                            Link(destination: URL(string: "https://tildy.dev/")!, label: {
-                                Text("tildy.dev")
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                                    .fullWidth(alignment: .center)
-                            })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                            .padding(.top)
-                            Text("Our thanks go to everybody who donates to St. Jude via our fundraiser.")
-                                .fullWidth()
-                                .padding(.top)
-                            Button(action: {
-                                showSupporterSheet = true
-                            }) {
-                                Text("Supporters")
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                                    .fullWidth(alignment: .center)
-                            }
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                            .padding(.top)
-                        }
+                    .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor, shadowColor: nil))
+                    Button(action: {
+                        disablePixelFont = true
+                    }) {
+                        Text("No")
+                            .foregroundColor(disablePixelFont ? .black : .primary)
+                            .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
-                    
-                    GroupBox {
-                        VStack {
-                            Text("Use Pixel Font")
-                            HStack {
-                                Button(action: {
-                                    disablePixelFont = false
-                                }) {
-                                    Text("Yes")
-                                        .foregroundColor(disablePixelFont ? .primary : .black)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                                Button(action: {
-                                    disablePixelFont = true
-                                }) {
-                                    Text("No")
-                                        .foregroundColor(disablePixelFont ? .black : .primary)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                            }
-                        }
+                    .buttonStyle(BlockButtonStyle(tint: disablePixelFont ? .accentColor : Color(uiColor: .systemGroupedBackground), shadowColor: nil))
+                }
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+        
+        GroupBox {
+            VStack {
+                Text("Play Sounds When Muted")
+                HStack {
+                    Button(action: {
+                        playSoundsEvenWhenMuted = true
+                        SoundEffectHelper.shared.setToPlayEvenOnMute()
+                    }) {
+                        Text("Yes")
+                            .foregroundColor(playSoundsEvenWhenMuted ? .black : .primary)
+                            .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
-                    
-                    GroupBox {
-                        VStack {
-                            Text("Play Sounds When Muted")
-                            HStack {
-                                Button(action: {
-                                    playSoundsEvenWhenMuted = true
-                                    SoundEffectHelper.shared.setToPlayEvenOnMute()
-                                }) {
-                                    Text("Yes")
-                                        .foregroundColor(playSoundsEvenWhenMuted ? .black : .primary)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                                Button(action: {
-                                    playSoundsEvenWhenMuted = false
-                                    SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
-                                }) {
-                                    Text("No")
-                                        .foregroundColor(playSoundsEvenWhenMuted ? .primary : .black    )
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                            }
-                        }
+                    .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? .accentColor : Color(uiColor: .systemGroupedBackground), shadowColor: nil))
+                    Button(action: {
+                        playSoundsEvenWhenMuted = false
+                        SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
+                    }) {
+                        Text("No")
+                            .foregroundColor(playSoundsEvenWhenMuted ? .primary : .black    )
+                            .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
-                    
-                    GroupBox {
-                        VStack {
-                            Text("Enable Goal Multipliers")
-                            HStack {
-                                Button(action: {
-                                    disableCombos = false
-                                }) {
-                                    Text("Yes")
-                                        .foregroundColor(disableCombos ? .primary : .black)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? Color(uiColor: .systemGroupedBackground) : .accentColor))
-                                Button(action: {
-                                    disableCombos = true
-                                }) {
-                                    Text("No")
-                                        .foregroundColor(disableCombos ? .black : .primary)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(BlockButtonStyle(tint: disableCombos ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-                            }
-                        }
+                    .buttonStyle(BlockButtonStyle(tint: playSoundsEvenWhenMuted ? Color(uiColor: .systemGroupedBackground) : .accentColor, shadowColor: nil))
+                }
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+        
+        GroupBox {
+            VStack {
+                Text("Enable Goal Multipliers")
+                HStack {
+                    Button(action: {
+                        disableCombos = false
+                    }) {
+                        Text("Yes")
+                            .foregroundColor(disableCombos ? .primary : .black)
+                            .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
-                    
-                    GroupBox {
-                        VStack {
-                            
+                    .buttonStyle(BlockButtonStyle(tint: disableCombos ? Color(uiColor: .systemGroupedBackground) : .accentColor, shadowColor: nil))
+                    Button(action: {
+                        disableCombos = true
+                    }) {
+                        Text("No")
+                            .foregroundColor(disableCombos ? .black : .primary)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(BlockButtonStyle(tint: disableCombos ? .accentColor : Color(uiColor: .systemGroupedBackground), shadowColor: nil))
+                }
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+        
+        GroupBox {
+            VStack {
+                Text("Accent Color")
+                ForEach(Player.displayOrder) { player in
+                    let object = player.getPlayer()
+                    Button(action: {
+                        self.selectedAccentColor = player.rawValue
+                    }, label: {
+                        HStack {
+                            AdaptiveImage(colorScheme: self.colorScheme, light: object.headImage)
+                                .imageAtScale(scale: .spriteScale)
+                            Spacer()
+                            Text(object.name)
+                                .foregroundStyle(self.selectedAccentColor == player.rawValue ? .black : .white)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                    })
+                    .buttonStyle(BlockButtonStyle(tint: self.selectedAccentColor == player.rawValue ? object.color : .secondarySystemBackground,
+                                                  edgeColor: self.selectedAccentColor == player.rawValue ? nil : object.color, shadowColor: nil))
+                }
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+        
+        GroupBox {
+            VStack {
+                
 //                            Text("Appearance")
 //
 //                            HStack {
@@ -205,32 +235,66 @@ struct AboutView: View {
 //                            if dynamicTypeSize >= .large {
 //                                systemAppearanceButton
 //                            }
-                            
-                            Text("Icon")
-                                .padding(.top, 5)
-                            
-                            LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
-                                ForEach(AltIcon.allCases) { icon in
-                                    VStack {
-                                        Button(action: {
-                                            icon.set()
-                                            withAnimation {
-                                                self.currentIcon = icon
-                                            }
-                                        }) {
-                                            icon.image
-                                                .frame(width: 60, height: 60)
-                                        }
-                                        .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? .accentColor : .secondarySystemBackground))
-                                    }
+                
+                Text("Icon")
+                    .padding(.top, 5)
+                
+                LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
+                    ForEach(AltIcon.allCases) { icon in
+                        VStack {
+                            Button(action: {
+                                icon.set()
+                                withAnimation {
+                                    self.currentIcon = icon
                                 }
+                            }) {
+                                icon.image
+                                    .frame(width: 60, height: 60)
                             }
-                            .padding(.bottom, 10)
-                            
+                            .buttonStyle(BlockButtonStyle(tint: icon == currentIcon ? .accentColor : .secondarySystemBackground, shadowColor: nil))
                         }
-                        .frame(maxWidth: .infinity)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+                }
+                .padding(.bottom, 10)
+                
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+    }
+    
+    @ViewBuilder
+    var debugSettings: some View {
+        GroupBox {
+            VStack {
+                Text("Debug")
+                Toggle(isOn: self.$debugEnableGlow, label: {
+                    Text("Enable Glow")
+                })
+                Toggle(isOn: self.$debugEnableEdgeHighlights, label: {
+                    Text("Enable Edge Highlights")
+                })
+                .padding(.bottom)
+                
+                Text("Glow opacity")
+                Slider(value: self.$debugGlowAndHighlightOpacity, in: 0...1)
+            }
+        }
+        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
+        .padding(.bottom)
+    }
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing:0) {
+                
+                AboutViewHeader()
+                VStack {
+                    self.descriptionView
+                    
+                    self.settingsView
+                    
+                    self.debugSettings
                     
                     Button(action: {
                         self.dismiss()
@@ -242,7 +306,6 @@ struct AboutView: View {
                     })
                     .buttonStyle(BlockButtonStyle(tint: .accentColor))
                     .padding([.top, .horizontal])
-                    
                 }
                 .padding()
                 .background {
@@ -255,7 +318,9 @@ struct AboutView: View {
         }
         .background(ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $showSupporterSheet) {
-            SupporterView()
+            NavigationView {
+                SupporterView()
+            }
         }
         .onAppear {
             self.currentIcon = AltIcon(rawValue: UIApplication.shared.alternateIconName?.replacingOccurrences(of: "icon-", with: "") ?? "original") ?? .original
@@ -271,7 +336,7 @@ struct AboutView: View {
                 .foregroundColor((self.appAppearance == 2) ? .black : .primary    )
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
+        .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 2) ? .accentColor : Color(uiColor: .systemGroupedBackground), shadowColor: nil))
     }
     
 }

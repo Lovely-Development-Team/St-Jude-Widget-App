@@ -20,6 +20,9 @@ struct BlockButtonStyle: ButtonStyle {
     @State private var pressing: Bool = false
     var timerDuration: Double = 0.05
     
+    var edgeColor: Color? = .accentColor
+    var shadowColor: Color? = .accentColor
+    
     func gesture() -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
@@ -56,12 +59,12 @@ struct BlockButtonStyle: ButtonStyle {
         .background {
             Group {
                 if(self.disabled) {
-                    BlockView(tint: self.tint)
+                    BlockView(tint: self.tint, edgeColor: self.edgeColor, shadowColor: self.shadowColor)
                 } else {
                     if(configuration.isPressed || self.pressing) {
-                        BlockView(tint: self.tint, isPressed: true)
+                        BlockView(tint: self.tint, isPressed: true, edgeColor: self.tint == .secondarySystemBackground ? edgeColor : nil, shadowColor: self.shadowColor)
                     } else {
-                        BlockView(tint: self.tint, isPressed: false)
+                        BlockView(tint: self.tint, isPressed: false, edgeColor: self.tint == .secondarySystemBackground ? edgeColor : nil, shadowColor: self.shadowColor)
                     }
                 }
             }

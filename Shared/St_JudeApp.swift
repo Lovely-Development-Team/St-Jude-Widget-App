@@ -18,12 +18,17 @@ struct St_JudeApp: App {
     
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
+    @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColorKey = 0
     @State private var mainAppViewID = UUID()
     @State private var navTitle = "Relay for St. Jude"
     
     @State private var globalAlertTitle = ""
     @State private var globalAlertMessage = ""
     @State private var globalAlertShown = false
+    
+    private var selectedAccentColor: Color {
+        return (Player(rawValue: self.selectedAccentColorKey) ?? .randomInitial).getPlayer().color
+    }
     
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     
@@ -83,6 +88,13 @@ struct St_JudeApp: App {
             }, message: {
                 Text(globalAlertMessage)
             })
+            .tint(self.selectedAccentColor)
+            .onAppear {
+                // set the default accent color to either myke or stephen. hilarious prank
+                if let _ = UserDefaults.shared.object(forKey: UserDefaults.selectedAccentColorKey) { } else {
+                    UserDefaults.shared.selectedAccentColor = Player.randomInitial.rawValue
+                }
+            }
         }
     }
 }

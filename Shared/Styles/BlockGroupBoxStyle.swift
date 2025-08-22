@@ -10,9 +10,9 @@ import SwiftUI
 struct BlockGroupBoxStyle: GroupBoxStyle {
     var tint: Color = .secondarySystemBackground
     var padding: Bool = true
-    var inverted: Bool = false
-    var edgeColor: Color?
-    var shadowColor: Color?
+    
+    var edgeColor: Color? = .accentColor
+    var shadowColor: Color? = .accentColor
     
     func makeBody(configuration: Configuration) -> some View {
         Group {

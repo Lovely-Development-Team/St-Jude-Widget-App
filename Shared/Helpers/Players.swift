@@ -6,6 +6,7 @@
 //
 
 import DeveloperToolsSupport
+import SwiftUI
 
 struct PlayerImage{
     var baseImage: ImageResource
@@ -13,6 +14,9 @@ struct PlayerImage{
     var throwImage: ImageResource?
     var fightImage: ImageResource
     var streetImage: ImageResource
+    var headImage: ImageResource
+    var name: String
+    var color: Color
     var throwScale: Double?
     var baseScale: Double = 1.0
     var figthScale: Double = 1.0
@@ -22,7 +26,7 @@ struct PlayerImage{
     var isFightImageMirrored = false
 }
 
-enum Players: CaseIterable, Identifiable{
+enum Player: Int, CaseIterable, Identifiable {
     var id: Self { self }
     
     case stephen
@@ -39,6 +43,9 @@ enum Players: CaseIterable, Identifiable{
                                            throwImage: .stephenDodgeSuit,
                                            fightImage: .stephenFighting,
                                            streetImage: .stephenStreet,
+                                           headImage: .stephenHead,
+                                           name: "Stephen",
+                                           color: WidgetAppearance.stephenLights,
                                            figthScale: 1.0,
                                            bottomPadding: 12.5,
                                            isPaddingMirrored: true)
@@ -48,6 +55,9 @@ enum Players: CaseIterable, Identifiable{
                                         throwImage: .mykeThrowSuit,
                                         fightImage: .mykeFighting,
                                         streetImage: .mykeStreet,
+                                        headImage: .mykeHead,
+                                        name: "Myke",
+                                        color: WidgetAppearance.mykeLights,
                                         figthScale: 1,
                                         bottomPadding: 7.5)
             
@@ -55,6 +65,9 @@ enum Players: CaseIterable, Identifiable{
                                          lightImage: .caseyLights,
                                          fightImage: .caseyFighting,
                                          streetImage: .caseyStreet,
+                                         headImage: .caseyHead,
+                                         name: "Casey",
+                                         color: WidgetAppearance.caseyLights,
                                          bottomPadding: 0.0,
                                          horizontalPadding: 40.0)
             
@@ -62,13 +75,19 @@ enum Players: CaseIterable, Identifiable{
                                          lightImage: .kathyLights,
                                          fightImage: .kathyFighting,
                                          streetImage: .kathyStreet,
+                                         headImage: .kathyHead,
+                                         name: "Kathy",
+                                         color: WidgetAppearance.kathyLights,
                                          bottomPadding: 22.5,
                                          isFightImageMirrored: true)
-            
+             
         case .jason : return PlayerImage(baseImage: .jasonSuit,
                                          lightImage: .jasonLights,
                                          fightImage: .jasonFighting,
                                          streetImage: .jasonStreet,
+                                         headImage: .jasonHead,
+                                         name: "Jason",
+                                         color: WidgetAppearance.jasonLights,
                                          bottomPadding: 2.5,
                                          isPaddingMirrored: true)
             
@@ -76,7 +95,25 @@ enum Players: CaseIterable, Identifiable{
                                         lightImage: .bradLights,
                                         fightImage: .bradFighting,
                                         streetImage: .bradStreet,
+                                        headImage: .bradHead,
+                                        name: "Brad",
+                                        color: WidgetAppearance.bradLights,
                                         bottomPadding: 7.5)
         }
+    }
+    
+    static var displayOrder: [Player] {
+        return [
+            .myke,
+            .stephen,
+            .brad,
+            .casey,
+            .jason,
+            .kathy
+        ]
+    }
+    
+    static var randomInitial: Player {
+        return [Player.myke, Player.stephen].randomElement()!
     }
 }

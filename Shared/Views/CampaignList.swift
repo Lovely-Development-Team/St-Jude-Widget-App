@@ -76,10 +76,10 @@ struct CampaignList: View {
     // MARK: 2025
     private func getNewCompetitors() {
         // Ensure we don't select either of the current players
-        let newCompetitor1 = Players.allCases.filter {
+        let newCompetitor1 = Player.allCases.filter {
             $0 != self.competitor1 && $0 != self.competitor2
         }.randomElement() ?? .myke
-        let newCompetitor2 = Players.allCases.filter {
+        let newCompetitor2 = Player.allCases.filter {
             $0 != self.competitor1 && $0 != self.competitor2 && $0 != newCompetitor1
         }.randomElement() ?? .stephen
         
@@ -87,8 +87,8 @@ struct CampaignList: View {
         self.competitor2 = newCompetitor2
     }
     
-    @State private var competitor1: Players = .myke
-    @State private var competitor2: Players = .stephen
+    @State private var competitor1: Player = .myke
+    @State private var competitor2: Player = .stephen
     
     // MARK: 2023
     @State private var teamEvent: TeamEvent? = nil
@@ -220,7 +220,7 @@ struct CampaignList: View {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
                             // TODO: Change this color to be lest violent to look at
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: .accentColor))
                             .padding()
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
@@ -274,7 +274,7 @@ struct CampaignList: View {
                             }) {
                                 Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
                             }
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(Color.black)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 4)
                             .aspectRatio(1.0, contentMode: .fit)
@@ -301,7 +301,7 @@ struct CampaignList: View {
                                 Text("Add a Head to Head")
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
                             .foregroundStyle(Color.black)
                         }
                     }
@@ -316,7 +316,7 @@ struct CampaignList: View {
         }
         .padding(.horizontal)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
-        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor))
+        .groupBoxStyle(BlockGroupBoxStyle())
     }
     
     @ViewBuilder
@@ -469,7 +469,7 @@ struct CampaignList: View {
                     .foregroundColor(.black)
                 }
                 .padding(.horizontal)
-                .buttonStyle(BlockButtonStyle(tint: WidgetAppearance.stephenLights))
+                .buttonStyle(BlockButtonStyle(tint: .accentColor))
             } else {
                 Group {
                     if isLoading {
@@ -505,7 +505,7 @@ struct CampaignList: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor))
+                        .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, shadowColor: .accentColor))
                     }
                 }
                 .padding(.horizontal)
@@ -671,6 +671,8 @@ struct CampaignList: View {
             case .aboutScreen:
                 NavigationView {
                     AboutView(campaignChoiceID: self.$selectedCampaignId)
+                        .background(Color.secondarySystemBackground)
+                        .edgesIgnoringSafeArea(.all)
                 }
             case .leaderBoard:
                 NavigationView {
@@ -695,9 +697,11 @@ struct CampaignList: View {
                         }
                 }
             case .easterEgg:
-                EasterEggView()
-                    .background(Color.secondarySystemBackground)
-                    .edgesIgnoringSafeArea(.all)
+                NavigationView {
+                    EasterEggView()
+                        .background(Color.secondarySystemBackground)
+                        .edgesIgnoringSafeArea(.all)
+                }
             case .startHeadToHead:
                 NavigationView {
                     ChooseCampaignView() { campaign in
