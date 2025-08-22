@@ -89,8 +89,10 @@ struct HeadToHeadWidgetView: View {
         if(family == .systemSmall) {
             if campaign2 == winner {
                 AdaptiveImage.arena(colorScheme: .light)
+                    .imageAtScale()
             } else {
                 AdaptiveImage.arenaFloor(colorScheme: .light)
+                    .tiledImageAtScale()
             }
         } else if(family == .systemExtraLarge || family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
@@ -286,7 +288,8 @@ extension HeadToHeadWidgetView {
                             Image(.crownPixel)
                                 .font(.system(size: 30))
                                 .imageScale(.large)
-                                .foregroundStyle(Color.brandYellow)
+                                .foregroundStyle(Color.accentColor)
+                                .background(Circle().fill(.white).blur(radius: 30))
                         }
                     }
                     GroupBox {
@@ -327,7 +330,8 @@ extension HeadToHeadWidgetView {
                             Image(.crownPixel)
                                 .font(.system(size: 30))
                                 .imageScale(.large)
-                                .foregroundStyle(Color.brandYellow)
+                                .foregroundStyle(Color.accentColor)
+                                .background(Circle().fill(.white).blur(radius: 30))
                         }
                         avatarImageView(for: campaign2 ?? sampleCampaign)
                     }
@@ -437,7 +441,7 @@ extension HeadToHeadWidgetView {
                         Image(.crownPixel)
                             .font(.system(size: 30))
                             .imageScale(.large)
-                            .foregroundStyle(Color.brandYellow)
+                            .foregroundStyle(Color.accentColor)
                             .background(Circle().fill(.white).blur(radius: 30))
                     }
                 }
@@ -501,7 +505,7 @@ extension HeadToHeadWidgetView {
                         Image(.crownPixel)
                             .font(.system(size: 30))
                             .imageScale(.large)
-                            .foregroundStyle(Color.brandYellow)
+                            .foregroundStyle(Color.accentColor)
                             .background(Circle().fill(.white).blur(radius: 30))
                     }
                 }
@@ -525,9 +529,11 @@ extension HeadToHeadWidgetView {
                             avatarImageView(for: campaign1 ?? sampleCampaign)
                                 .frame(maxHeight: 100)
                             if(campaign1?.id == winner?.id) {
-                                AdaptiveImage.coin(colorScheme: .light)
-                                    .imageAtScale(scale: Double.spriteScale * 2)
-                                    .foregroundStyle(Color.brandYellow)
+                                Image(.crownPixel)
+                                    .font(.system(size: 30))
+                                    .imageScale(.large)
+                                    .foregroundStyle(Color.accentColor)
+                                    .background(Circle().fill(.white).blur(radius: 30))
                             }
                         }
                         Spacer()
@@ -579,7 +585,7 @@ extension HeadToHeadWidgetView {
                                 Image(.crownPixel)
                                     .font(.system(size: 30))
                                     .imageScale(.large)
-                                    .foregroundStyle(Color.brandYellow)
+                                    .foregroundStyle(Color.accentColor)
                                     .background(Circle().fill(.white).blur(radius: 30))
                             }
                             avatarImageView(for: campaign2 ?? sampleCampaign)
@@ -687,6 +693,11 @@ extension HeadToHeadWidgetView {
     }
 }
 
+#Preview(as: .systemSmall, widget: {
+    HeadToHeadWidget()
+}, timeline: {
+    HeadToHeadEntry(date: .now, configuration: .init(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+})
 
 #Preview(as: .systemMedium, widget: {
     HeadToHeadWidget()
@@ -694,3 +705,14 @@ extension HeadToHeadWidgetView {
     HeadToHeadEntry(date: .now, configuration: .init(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
 })
 
+#Preview(as: .systemLarge, widget: {
+    HeadToHeadWidget()
+}, timeline: {
+    HeadToHeadEntry(date: .now, configuration: .init(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+})
+
+#Preview(as: .systemExtraLarge, widget: {
+    HeadToHeadWidget()
+}, timeline: {
+    HeadToHeadEntry(date: .now, configuration: .init(), headToHeadId: nil, campaign1: sampleCampaign, campaign2: sampleCampaign)
+})

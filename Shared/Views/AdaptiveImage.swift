@@ -150,8 +150,13 @@ extension AdaptiveImage {
     }
     
     @ViewBuilder
+    static func arenaWallSmol(colorScheme: ColorScheme) -> AdaptiveImage {
+        AdaptiveImage(colorScheme: colorScheme, light: .arenaWallSmol, dark: .arenaWallSmol)
+    }
+    
+    @ViewBuilder
     static func arenaFloor(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .arenaFloor, dark: .arenaFloor)
+        AdaptiveImage(colorScheme: colorScheme, light: .arenaFloorTiles, dark: .arenaFloorTiles)
     }
 
     @ViewBuilder
