@@ -193,3 +193,36 @@ struct TIltifyCampaignWithMilestones {
     let campaign: TiltifyAPICampaign
     let milestones: [TiltifyMilestone]
 }
+
+struct TiltifyCampaignPollOption: Decodable {
+    let amountRaised: TiltifyAmount
+    let id: UUID
+    let insertedAt: String
+    let name: String
+    let updatedAt: String
+}
+
+struct TiltifyCampaignPoll: Decodable {
+    let active: Bool
+    let amountRaised: TiltifyAmount
+    let id: UUID
+    let insertedAt: String
+    let name: String
+    let options: [TiltifyCampaignPollOption]
+    let updatedAt: String
+}
+
+struct TiltifyGetCampaignPollsResponse: Decodable {
+    let data: [TiltifyCampaignPoll]
+}
+
+struct TiltifyGetCampaignPollsRequest: TiltifyAPIPaginatedRequest {
+    typealias Response = TiltifyGetCampaignPollsResponse
+    let campaignId: UUID
+    var after: String?
+    var limit: Int = 50
+    
+    var resourceName: String {
+        "api/public/campaigns/\(campaignId)/polls"
+    }
+}
