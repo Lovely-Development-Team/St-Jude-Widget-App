@@ -22,11 +22,11 @@ struct HeadToHeadListItem: View {
     var body: some View {
         ZStack(alignment: leading ? .topLeading : .topTrailing) {
             HStack {
-                    Text(headToHead.campaign1.name)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(.primary)
+                Text(headToHead.campaign1.name)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(.primary)
                 GroupBox {
                     Text("vs")
                         .bold()
@@ -34,14 +34,12 @@ struct HeadToHeadListItem: View {
                         .foregroundColor(.white)
                 }
                 .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, padding: false))
-                    Text(headToHead.campaign2.name)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(.primary)
+                Text(headToHead.campaign2.name)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(.primary)
             }
-            
-            Image(.crownPixel)
         }
         .compositingGroup()
         .padding()
@@ -51,10 +49,22 @@ struct HeadToHeadListItem: View {
                     Rectangle().fill(.clear)
                 }
                 .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
+                .overlay(alignment: .topTrailing){
+                    if(leading){
+                        Image(.crownPixel)
+                            .offset(x:-10, y: 10)
+                    }
+                }
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
                 .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 10 : 5)))
+                .overlay(alignment: .topLeading){
+                    if(!leading){
+                        Image(.crownPixel)
+                            .offset(x:10, y: 10)
+                    }
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
         )
