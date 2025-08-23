@@ -122,9 +122,18 @@ struct FundraiserListItem: View {
                     HStack(alignment: .top) {
                         image()
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(campaign.title)
-                                .multilineTextAlignment(.leading)
-                                .font(.headline)
+                            if !showDisclosureIndicator {
+                                Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!, label: {
+                                    Text(campaign.title)
+                                        .multilineTextAlignment(.leading)
+                                        .font(.headline)
+                                })
+                                .buttonStyle(.plain)
+                            } else {
+                                Text(campaign.title)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.headline)
+                            }
                             Text(campaign.user.name)
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(.secondary)
