@@ -132,7 +132,7 @@ extension TiltifyAPIClient {
             if id == TEAM_EVENT_ID {
                 return rewards
             } else {
-                return rewards.filter { !MAIN_REWARDS.contains($0.publicId) }
+                return rewards.filter { !MAIN_REWARDS.contains($0.publicId) && !RELAY_REWARDS.contains($0.publicId) }
             }
         } catch {
             apiLogger.error("Unable to fetch rewards: \(error.localizedDescription)")
@@ -212,10 +212,13 @@ let MAIN_REWARDS: [UUID] = [
     UUID(uuidString: "b9d0d014-42f4-49b4-a230-8c4eb27db13e")!,
     UUID(uuidString: "aa4b3999-1314-411e-9fc1-7f3a4d5836fc")!,
     UUID(uuidString: "a2997e00-1e0c-4eb9-b435-1ff5b2ab759b")!,
-    UUID(uuidString: "3b8eac87-17f8-4c1a-afab-a0caa6ae68dc")!,
-    UUID(uuidString: "96da8d82-381d-44d9-9d8d-5ccb834be408")!,
     UUID(uuidString: "e98114f6-fe8c-41db-bf7f-c977e6d07803")!,
     UUID(uuidString: "b12bef25-e5f3-4a27-b8b1-8271df77ffaf")!,
     UUID(uuidString: "f7e06f66-5d3c-4688-bc8d-56e8d04ce1c8")!,
     UUID(uuidString: "b94bc9f8-7bf9-46a1-a683-a905b6ad0fcc")!,
+]
+
+let RELAY_REWARDS: [UUID] = [
+    UUID(uuidString: "3b8eac87-17f8-4c1a-afab-a0caa6ae68dc")!,
+    UUID(uuidString: "96da8d82-381d-44d9-9d8d-5ccb834be408")!,
 ]
