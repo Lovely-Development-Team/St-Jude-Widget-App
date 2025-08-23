@@ -290,6 +290,7 @@ struct CampaignList: View {
                             .foregroundStyle(.secondary)
                             .rotationEffect(.degrees(showHeadToHeads ? 90 : 0))
                     }
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 if headToHeads.count == 0 {
