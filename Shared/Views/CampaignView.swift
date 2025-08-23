@@ -329,7 +329,7 @@ struct CampaignView: View {
             }
             .padding()
         }
-        .groupBoxStyle(BlockGroupBoxStyle(tint: .tertiarySystemBackground, padding: false))
+        .groupBoxStyle(BlockGroupBoxStyle(tint: .tertiarySystemBackground, padding: false, shadowColor: nil))
     }
     
     @ViewBuilder
