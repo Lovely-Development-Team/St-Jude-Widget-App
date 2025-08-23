@@ -296,45 +296,6 @@ struct CampaignView: View {
     }
     
     @ViewBuilder
-    func pollView(for poll: TiltifyCampaignPoll) -> some View {
-        GroupBox {
-            VStack(alignment: .leading) {
-                Text(poll.name)
-                ForEach(poll.options, id: \.id) { option in
-                    VStack {
-                        HStack(alignment: .center) {
-                            let isMax = option.isMax(parentPoll: poll)
-                            
-                            Text(option.name)
-                                .font(.caption)
-                                .foregroundStyle(isMax ? Color.accentColor : .white)
-                            
-                            if isMax {
-                                Image(.crownPixel)
-                                    .foregroundStyle(Color.accentColor)
-                            }
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing) {
-                                Text("\(Int(option.percentageOfPoll(parentPoll: poll)))%")
-                                    .font(.caption)
-                                    .foregroundStyle(isMax ? Color.accentColor : .white)
-                                Text(option.amountRaised.description(showFullCurrencySymbol: false))
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        ProgressBar(value: option.percentageOfPollBinding(parentPoll: poll, defaultValue: 0.0), fillColor: .accentColor)
-                    }
-                }
-            }
-            .padding()
-        }
-        .groupBoxStyle(BlockGroupBoxStyle(tint: .tertiarySystemBackground, padding: false, shadowColor: nil))
-    }
-    
-    @ViewBuilder
     var pollsView: some View {
         if !self.activePolls.isEmpty {
             GroupBox {
@@ -356,12 +317,13 @@ struct CampaignView: View {
                                 .foregroundStyle(.secondary)
                                 .rotationEffect(.degrees(self.showPolls ? 90 : 0))
                         }
+                        .contentShape(Rectangle())
                     })
                     .buttonStyle(.plain)
                     
-                    if self.showPolls {
+                    if let initialCampaign, self.showPolls {
                         ForEach(self.activePolls, id: \.id) { poll in
-                            self.pollView(for: poll)
+                            PollView(poll: poll, campaignId: initialCampaign.id)
                         }
                     }
                 }
