@@ -20,7 +20,7 @@ struct TeamEventCardView: View {
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
-        ProgressBar(value: .constant(value), fillColor: color)
+        ProgressBar(value: .constant(value), barColour: .black.opacity(0.2), fillColor: color)
             .frame(height: 15)
             .padding(.bottom, 2)
     }
@@ -88,14 +88,14 @@ struct TeamEventCardView: View {
                 .padding(.bottom, 20)
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
-                    mainProgressBar(value: Float(percentageReached), color: appearance.fillColor)
+                    mainProgressBar(value: Float(percentageReached), color: .black)
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {
                     mainPercentageReached(Text("\(percentageReachedDesc) of \(teamEvent.goal.description(showFullCurrencySymbol: false))"))
                 }
             } else {
-                mainProgressBar(value: 0, color: appearance.fillColor)
+                mainProgressBar(value: 0, color: .black)
                 mainAmountRaised(Text("PLACEHOLDER"))
                     .redacted(reason: .placeholder)
                 mainPercentageReached(Text("PLACEHOLDER"))
