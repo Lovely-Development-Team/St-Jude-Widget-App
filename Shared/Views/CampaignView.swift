@@ -42,6 +42,8 @@ struct CampaignView: View {
     @State private var showPolls: Bool = false
     @State private var polls: [TiltifyCampaignPoll] = []
     
+    @State private var hasDoneInitialAPIFetch: Bool = false
+    
     private var activePolls: [TiltifyCampaignPoll] {
         return self.polls.filter { $0.active }
     }
@@ -672,6 +674,8 @@ struct CampaignView: View {
                 dataLogger.debug("[CampignView] Could not update team event")
             }
             
+            self.hasDoneInitialAPIFetch = true
+            
             await fetch()
             
         } else if let initialCampaign = initialCampaign {
@@ -679,6 +683,9 @@ struct CampaignView: View {
             dataLogger.info("Campaign UUID: \(initialCampaign.id.uuidString)")
             
             await updateCampaignFromAPI(for: initialCampaign, updateLocalCampaignState: true)
+            
+            self.hasDoneInitialAPIFetch = true
+            
             await fetch()
             
         }
@@ -852,6 +859,7 @@ struct CampaignView: View {
     
     /// Fetches the campaign data from GRDB
     func fetch() async {
+        guard hasDoneInitialAPIFetch else { return }
         if let teamEvent = teamEvent {
             do {
                 dataLogger.notice("Fetching stored team event")
