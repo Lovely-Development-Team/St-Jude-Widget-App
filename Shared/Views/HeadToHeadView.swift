@@ -37,7 +37,10 @@ struct HeadToHeadView: View {
     }
     
     var highestTotal: Double {
-        max(campaign1.totalRaisedNumerical, campaign2.totalRaisedNumerical)
+        if campaign1.totalRaisedNumerical == campaign2.totalRaisedNumerical {
+            return -1
+        }
+        return max(campaign1.totalRaisedNumerical, campaign2.totalRaisedNumerical)
     }
     
     func distanceFromWin(for campaign: Campaign) -> Double {
@@ -162,7 +165,9 @@ struct HeadToHeadView: View {
                                         .transition(.move(edge: .leading))
                                     }
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
+                                .foregroundColor(campaign1.totalRaisedNumerical == highestTotal ? .black : .white)
+                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign1.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_1.fillColor : .secondarySystemBackground, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_1.fillColor))
+                                    
                             }
                         }
                         .overlay(alignment: .bottomTrailing){
@@ -175,11 +180,12 @@ struct HeadToHeadView: View {
                         }
                         
                         if animateIn {
-                            GroupBox {
-                                ProgressBar(value: .constant(progressBarValue), barColour: WidgetAppearance.mykeLights, fillColor: WidgetAppearance.stephenYellow, showDivider: true, dividerWidth: 2)
+//                            GroupBox {
+                            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.fillColor, fillColor: HEAD_TO_HEAD_COLOR_1.fillColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
                                     .frame(height: 20)
-                            }
-                            .groupBoxStyle(BlockGroupBoxStyle())
+                                    .padding(.vertical, 10)
+//                            }
+//                            .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .white))
                         }
                         
                         ZStack(alignment: .bottomLeading) {
@@ -200,15 +206,8 @@ struct HeadToHeadView: View {
                                             .transition(.move(edge: .trailing))
                                     }
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
-                            }
-                        }
-                        .overlay(alignment: .topLeading){
-                            if campaign2.totalRaisedNumerical == highestTotal {
-                                Image(.crownPixel)
-                                    .foregroundColor(.accentColor)
-                                    .scaleEffect(1.5)
-                                    .offset(x:15, y:10)
+                                .foregroundColor(campaign2.totalRaisedNumerical == highestTotal ? .black : .white)
+                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign2.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_2.fillColor : .secondarySystemBackground, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_2.fillColor))
                             }
                         }
                         Spacer()
