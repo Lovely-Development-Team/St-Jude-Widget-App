@@ -821,23 +821,26 @@ struct CampaignView: View {
     
     /// Fetches the campaign data from GRDB
     func fetch() async {
-        guard hasDoneInitialAPIFetch else { return }
         if let teamEvent = teamEvent {
-            do {
-                dataLogger.notice("Fetching stored team event")
-                self.teamEvent = try await AppDatabase.shared.fetchTeamEvent()
-                dataLogger.notice("Fetched stored team event")
-            } catch {
-                dataLogger.error("Failed to fetch stored team event: \(error.localizedDescription)")
+            if hasDoneInitialAPIFetch {
+                do {
+                    dataLogger.notice("Fetching stored team event")
+                    self.teamEvent = try await AppDatabase.shared.fetchTeamEvent()
+                    dataLogger.notice("Fetched stored team event")
+                } catch {
+                    dataLogger.error("Failed to fetch stored team event: \(error.localizedDescription)")
+                }
             }
             await fetchRewardsAndMilestones(for: teamEvent)
         } else if let initialCampaign = initialCampaign {
-            do {
-                dataLogger.notice("Fetching stored campaign: \(initialCampaign.id)")
-                self.initialCampaign = try await AppDatabase.shared.fetchCampaign(with: initialCampaign.id)
-                dataLogger.notice("Fetched stored campaign: \(initialCampaign.id)")
-            } catch {
-                dataLogger.error("Failed to fetch stored campaign \(initialCampaign.id): \(error.localizedDescription)")
+            if hasDoneInitialAPIFetch {
+                do {
+                    dataLogger.notice("Fetching stored campaign: \(initialCampaign.id)")
+                    self.initialCampaign = try await AppDatabase.shared.fetchCampaign(with: initialCampaign.id)
+                    dataLogger.notice("Fetched stored campaign: \(initialCampaign.id)")
+                } catch {
+                    dataLogger.error("Failed to fetch stored campaign \(initialCampaign.id): \(error.localizedDescription)")
+                }
             }
             await fetchRewardsAndMilestones(for: initialCampaign)
         }
