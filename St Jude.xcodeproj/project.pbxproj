@@ -994,7 +994,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "icon-flowers icon-cloud icon-bush icon-stephenKart icon-mykeKart icon-stephen icon-myke icon-l2cu icon-jony icon-questionblock icon-logo";
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "icon-logo";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1058,7 +1058,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "icon-flowers icon-cloud icon-bush icon-stephenKart icon-mykeKart icon-stephen icon-myke icon-l2cu icon-jony icon-questionblock icon-logo";
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "icon-logo";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
