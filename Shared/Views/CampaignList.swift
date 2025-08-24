@@ -460,6 +460,7 @@ struct CampaignList: View {
                 }) {
                     HStack {
                         Text("Spin for a random Fundraiser!")
+                            .bold(UserDefaults.shared.disablePixelFont)
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         Image("pixel-chevron-right")
