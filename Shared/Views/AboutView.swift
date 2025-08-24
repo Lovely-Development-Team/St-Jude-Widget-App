@@ -119,6 +119,7 @@ struct AboutView: View {
                         disablePixelFont = true
                     }) {
                         Text("No")
+                            .bold(disablePixelFont)
                             .foregroundColor(disablePixelFont ? .black : .primary)
                             .frame(maxWidth: .infinity)
                     }
@@ -137,6 +138,7 @@ struct AboutView: View {
                         SoundEffectHelper.shared.setToPlayEvenOnMute()
                     }) {
                         Text("Yes")
+                            .bold(playSoundsEvenWhenMuted && disablePixelFont)
                             .foregroundColor(playSoundsEvenWhenMuted ? .black : .primary)
                             .frame(maxWidth: .infinity)
                     }
@@ -146,6 +148,7 @@ struct AboutView: View {
                         SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
                     }) {
                         Text("No")
+                            .bold(!playSoundsEvenWhenMuted && disablePixelFont)
                             .foregroundColor(playSoundsEvenWhenMuted ? .primary : .black    )
                             .frame(maxWidth: .infinity)
                     }
@@ -163,6 +166,7 @@ struct AboutView: View {
                         disableCombos = false
                     }) {
                         Text("Yes")
+                            .bold(!disableCombos && disablePixelFont)
                             .foregroundColor(disableCombos ? .primary : .black)
                             .frame(maxWidth: .infinity)
                     }
@@ -171,6 +175,7 @@ struct AboutView: View {
                         disableCombos = true
                     }) {
                         Text("No")
+                            .bold(disableCombos && disablePixelFont)
                             .foregroundColor(disableCombos ? .black : .primary)
                             .frame(maxWidth: .infinity)
                     }
@@ -194,7 +199,9 @@ struct AboutView: View {
                                 .scaleEffect(x: object.facingLeft ? -1 : 1)
                             Spacer()
                             Text(object.name)
+                                .bold(self.selectedAccentColor == player.rawValue && disablePixelFont)
                                 .foregroundStyle(self.selectedAccentColor == player.rawValue ? .black : .white)
+
                             Spacer()
                         }
                         .padding(.horizontal)

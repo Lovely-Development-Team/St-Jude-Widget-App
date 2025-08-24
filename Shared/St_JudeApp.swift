@@ -43,6 +43,10 @@ struct St_JudeApp: App {
         }
     }
     
+    init(){
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(self.selectedAccentColor)
+    }
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -88,6 +92,7 @@ struct St_JudeApp: App {
             }, message: {
                 Text(globalAlertMessage)
             })
+            .accentColor(self.selectedAccentColor)
             .tint(self.selectedAccentColor)
             .onAppear {
                 // set the default accent color to either myke or stephen. hilarious prank
