@@ -269,17 +269,18 @@ struct CampaignList: View {
                                 showSheet = .startHeadToHead
                             }) {
                                 Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
+                                    .fontWeight(.bold)
                             }
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.accentColor)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 4)
                             .aspectRatio(1.0, contentMode: .fit)
-                            .background {
-                                GeometryReader { geometry in
-                                    Color.accentColor
-                                        .modifier(PixelRounding(geometry: geometry))
-                                }
-                            }
+//                            .background {
+//                                GeometryReader { geometry in
+//                                    Color.accentColor
+//                                        .modifier(PixelRounding(geometry: geometry))
+//                                }
+//                            }
                         }
                         Spacer()
                         Image("pixel-chevron-right")
