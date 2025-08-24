@@ -8,6 +8,7 @@
 import Foundation
 
 protocol APIClient {
+    var session: URLSession { get }
     var baseUrl: URL { get }
     func send<T: APIRequest>(_ request: T) async throws -> T.Response
     var commonParameters: [URLQueryItem] { get }
@@ -44,7 +45,7 @@ extension APIClient {
     func send<T: APIRequest>(_ request: T) async throws -> T.Response {
         let endpointRequest = try await self.endpointRequest(for: request)
         apiLogger.debug("Sending API request: \(endpointRequest) with body: \(endpointRequest.httpBody ?? Data()) and headers: \(endpointRequest.allHTTPHeaderFields ?? [:])")
-        let (data, _) = try await URLSession.shared.data(for: endpointRequest)
+        let (data, _) = try await self.session.data(for: endpointRequest)
         apiLogger.debug("Decoding response to \(T.Response.self): \(String(data: data, encoding: .utf8) ?? "no data")")
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
