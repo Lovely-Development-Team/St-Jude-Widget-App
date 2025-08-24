@@ -515,14 +515,16 @@ struct CampaignView: View {
             }
         }
         .refreshable {
-            await refresh()
+            fetchTask = Task {
+                await refresh()
+            }
         }
         .onReceive(timer) { _ in
             Task {
                 await refresh()
             }
         }
-        .onAppear {
+        .task {
             
             logs.append("View opened")
             
@@ -534,6 +536,7 @@ struct CampaignView: View {
                 } onChange: { event in
                     fetchTask?.cancel()
                     fetchTask = Task {
+                        logs.append("Calling fetch from campaignObservation onChange")
                         await fetch()
                     }
                 }
@@ -544,6 +547,7 @@ struct CampaignView: View {
                 } onChange: { event in
                     fetchTask?.cancel()
                     fetchTask = Task {
+                        logs.append("Calling fetch from teamEventObservation onChange")
                         await fetch()
                     }
                 }
@@ -632,15 +636,15 @@ struct CampaignView: View {
         
         if let existingTeamEvent = teamEvent {
             
-            logs.append("Doing API fetch for Team Event")
+//            logs.append("Doing API fetch for Team Event")
             
             if let apiEventData = await TiltifyAPIClient.shared.getFundraisingEvent() {
                 dataLogger.debug("[CampaignView] API fetched TeamEvent: \(apiEventData.name)")
                 logs.append("API fetched TeamEvent: \(apiEventData.totalAmountRaised.numericalValue)")
                 let apiEvent = TeamEvent(from: apiEventData)
                 do {
-                    teamEvent = apiEvent
-                    logs.append("Updating stored team event from \(existingTeamEvent.totalRaisedNumerical) to \(apiEvent.totalRaisedNumerical)")
+                    self.teamEvent = apiEvent
+                    logs.append("Updating stored team event from \(existingTeamEvent.totalRaisedNumerical) (\(existingTeamEvent.id)) to \(apiEvent.totalRaisedNumerical) (\(apiEvent.id))")
                     if try await AppDatabase.shared.updateTeamEvent(apiEvent, changesFrom: existingTeamEvent) {
                         dataLogger.info("[CampaignView] Updated team event \(apiEvent.name) (id: \(apiEvent.id)")
                         logs.append("Updated team event in database, now: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
