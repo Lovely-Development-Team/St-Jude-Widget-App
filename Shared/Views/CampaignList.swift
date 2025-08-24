@@ -297,6 +297,7 @@ struct CampaignList: View {
                                 showSheet = .startHeadToHead
                             }, label: {
                                 Text("Add a Head to Head")
+                                    .bold(UserDefaults.shared.disablePixelFont)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
                             .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
