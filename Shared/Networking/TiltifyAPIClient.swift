@@ -18,6 +18,8 @@ class TiltifyAPIClient: APIClient {
     var _token: String = ""
     var _tokenExpiresAt: Date = Date()
     
+    let session = URLSession(configuration: .default)
+    
 }
 
 // MARK: Authentication

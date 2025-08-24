@@ -122,11 +122,8 @@ struct RandomCampaignPickerView: View {
                             Text("View this fundraiser")
                                 .font(.headline)
                                 .foregroundColor(.black)
-                                .padding(10)
-                                .padding(.horizontal, 20)
-                                .background(Color.accentColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         })
+                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
                         Spacer()
                         Button(action: spinAgain, label: {
                             Text("Spin Again")
