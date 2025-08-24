@@ -31,7 +31,7 @@ struct MilestoneListView: View {
             layout {
                 HStack(alignment: .top) {
                     Image(.checkmarkSealFillPixel)
-                        .foregroundColor(reached ? .green : .secondary)
+                        .foregroundColor(reached ? .accentColor : .secondary)
                         .opacity(reached ? 1 : 0.25)
                     Text("\(milestone.name)")
                         .foregroundColor(reached ? .secondary : .primary)
