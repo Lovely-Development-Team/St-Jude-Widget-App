@@ -219,8 +219,7 @@ struct CampaignList: View {
                             NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
-                            // TODO: Change this color to be lest violent to look at
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: .accentColor))
+                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
                             .padding()
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
@@ -228,9 +227,6 @@ struct CampaignList: View {
                         }
                     }
                     .zIndex(1)
-//                    RandomLandscapeView(data: self.$landscapeData) {
-//                        EmptyView()
-//                    }
                     
                     ZStack(alignment: .bottom) {
                         Group {
