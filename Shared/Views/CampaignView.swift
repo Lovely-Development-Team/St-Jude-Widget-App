@@ -501,7 +501,7 @@ struct CampaignView: View {
         ScrollView {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing:0) {
-                    self.logView()
+//                    self.logView()
                     self.topView(scrollViewReader: scrollViewReader)
                     self.contents(scrollViewReader:scrollViewReader)
                         .background {
