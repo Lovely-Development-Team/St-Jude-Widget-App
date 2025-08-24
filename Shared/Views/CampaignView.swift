@@ -687,14 +687,18 @@ struct CampaignView: View {
                 await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
                 await self.updateRewardsInDatabase(forId: TEAM_EVENT_ID)
                 
-                let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: TEAM_EVENT_ID)
-                let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: TEAM_EVENT_ID)
+                async let apiTopDonorFetch = TiltifyAPIClient.shared.getCampaignTopDonor(forId: TEAM_EVENT_ID)
+                async let apiDonationsFetch = TiltifyAPIClient.shared.getCampaignDonations(forId: TEAM_EVENT_ID)
+                async let apiPollsFetch = TiltifyAPIClient.shared.getCampaignPolls(forId: TEAM_EVENT_ID)
+                
+                let apiTopDonor = await apiTopDonorFetch
+                let apiDonations = await apiDonationsFetch
                 withAnimation {
                     topDonor = apiTopDonor
                     donations = apiDonations
                 }
                 
-                let apiPolls = await TiltifyAPIClient.shared.getCampaignPolls(forId: TEAM_EVENT_ID)
+                let apiPolls = await apiPollsFetch
                 if let apiPolls = apiPolls {
                     withAnimation {
                         self.polls = apiPolls
