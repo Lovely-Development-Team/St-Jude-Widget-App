@@ -21,7 +21,7 @@ struct BlockButtonStyle: ButtonStyle {
     var timerDuration: Double = 0.05
     
     var edgeColor: Color? = .accentColor
-    var shadowColor: Color? = .accentColor
+    var shadowColor: Color? = nil
     
     func gesture() -> some Gesture {
         DragGesture(minimumDistance: 0)
