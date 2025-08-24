@@ -349,7 +349,7 @@ extension AppDatabase {
     
     func fetchSortedRewards(for teamEvent: TeamEvent) async throws -> [Reward] {
         try await dbWriter.read { db in
-            try teamEvent.rewards.fetchAll(db).sorted {
+            try teamEvent.rewards.order(Column("amountValue").asc).fetchAll(db).sorted {
                 if RELAY_REWARDS.contains($0.publicId) {
                     if RELAY_REWARDS.contains($1.publicId) {
                         return $0.amount.value < $1.amount.value
