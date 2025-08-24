@@ -42,8 +42,8 @@ struct St_JudeApp: App {
             return nil
         }
     }
-    
-    init(){
+
+    func changeSystemButtomColor(){
         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(self.selectedAccentColor)
     }
     
@@ -69,6 +69,12 @@ struct St_JudeApp: App {
             .onChange(of: appAppearance) { newValue in
                 mainAppViewID = UUID()
                 WidgetCenter.shared.reloadAllTimelines()
+            }
+            .onAppear(){
+                changeSystemButtomColor()
+            }
+            .onChange(of: selectedAccentColorKey){
+                changeSystemButtomColor()
             }
             .preferredColorScheme(.dark)
             .onReceive(NotificationCenter.default.publisher(for: .displayGlobalNotification)) { message in
