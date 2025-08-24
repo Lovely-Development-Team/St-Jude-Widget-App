@@ -27,19 +27,28 @@ struct LogsView: View {
     
     var body: some View {
         if !logs.isEmpty {
-            VStack(spacing: 3) {
-                ForEach(Array(logs.enumerated()), id: \.0) { idx, log in
-                    Text(log)
-                        .foregroundColor(.black)
-                        .font(.system(.caption2))
-                        .multilineTextAlignment(.leading)
-                        .fullWidth(alignment: .leading)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 3) {
+                        ForEach(Array(logs.enumerated()), id: \.0) { idx, log in
+                            Text(log)
+                                .foregroundColor(.black)
+                                .font(.system(.caption2))
+                                .multilineTextAlignment(.leading)
+                                .fullWidth(alignment: .leading)
+                                .id(idx)
+                        }
+                    }
+                    .padding(4)
+                    .background(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .padding(.horizontal)
+                }
+                .frame(maxHeight: 200)
+                .onChange(of: logs) { oldValue, newValue in
+                    proxy.scrollTo(newValue.endIndex-1)
                 }
             }
-            .padding(4)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .padding(.horizontal)
         }
     }
 }
