@@ -91,7 +91,7 @@ struct St_JudeApp: App {
             .tint(self.selectedAccentColor)
             .onAppear {
                 // set the default accent color to either myke or stephen. hilarious prank
-                if let _ = UserDefaults.shared.object(forKey: UserDefaults.selectedAccentColorKey) { } else {
+                if UserDefaults.shared.object(forKey: UserDefaults.selectedAccentColorKey) == nil {
                     UserDefaults.shared.selectedAccentColor = Player.randomInitial.rawValue
                 }
             }
