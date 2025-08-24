@@ -89,6 +89,7 @@ struct CampaignView: View {
     @State private var hasDoneInitialAPIFetch: Bool = false
     
     @State private var logsContainer: LogsContainer
+    @State private var refreshId: UUID = .init()
     
     private var activePolls: [TiltifyCampaignPoll] {
         return self.polls.filter { $0.active }
@@ -540,14 +541,10 @@ struct CampaignView: View {
             }
         }
         .refreshable {
-            fetchTask = Task {
-                await refresh()
-            }
+            refreshId = .init()
         }
         .onReceive(timer) { _ in
-            Task {
-                await refresh()
-            }
+            refreshId = .init()
         }
         .task {
             
@@ -578,13 +575,14 @@ struct CampaignView: View {
                 }
             }
             
-            // New API fetch
-            Task {
-                logs.append("Doing initial API fetch")
-                await refresh()
-            }
-            
         }
+        .task(id: refreshId, {
+            // New API fetch
+            if !hasDoneInitialAPIFetch {
+                logsContainer.logs.append("Doing initial API fetch")
+            }
+            await refresh()
+        })
         .sheet(isPresented: $showShareView) {
             if let campaign = initialCampaign {
                 ShareCampaignView(campaign: campaign)
@@ -609,10 +607,8 @@ struct CampaignView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    isRefreshing = true
                     Task {
-                        await refresh()
-                        isRefreshing = false
+                        refreshId = .init()
                     }
                 }) {
                     ZStack {
@@ -658,6 +654,15 @@ struct CampaignView: View {
     
     /// Fetch data from the API, save it to the database
     func refresh() async {
+        guard !isRefreshing else {
+            dataLogger.notice("Skipping refresh as one is already in-progress")
+            logsContainer.logs.append("Skipping refresh as one is already in-progress")
+            return
+        }
+        isRefreshing = true
+        defer {
+            isRefreshing = false
+        }
         
         if let existingTeamEvent = teamEvent {
             
