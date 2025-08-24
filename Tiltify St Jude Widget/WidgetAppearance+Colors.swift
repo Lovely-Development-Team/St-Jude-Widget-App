@@ -42,7 +42,7 @@ extension WidgetAppearance {
     static let mykeLights = Color.rgb(232, 103, 162)
     static let kathyLights = Color.rgb(200, 248, 96)
     static let bradLights = Color.rgb(251, 200, 89)
-    static let jasonLights = Color.rgb(159, 177, 238)
+    static let jasonLights = Color.rgb(159, 117, 237)
     static let caseyLights = Color.rgb(68, 232, 244)
     
     static let allCases: [WidgetAppearance] = [

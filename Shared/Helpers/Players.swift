@@ -24,6 +24,7 @@ struct PlayerImage{
     var isPaddingMirrored: Bool = false
     var horizontalPadding: Double = 15.0
     var isFightImageMirrored = false
+    var facingLeft: Bool = false
 }
 
 enum Player: Int, CaseIterable, Identifiable {
@@ -59,7 +60,8 @@ enum Player: Int, CaseIterable, Identifiable {
                                         name: "Myke",
                                         color: WidgetAppearance.mykeLights,
                                         figthScale: 1,
-                                        bottomPadding: 7.5)
+                                        bottomPadding: 7.5,
+                                        facingLeft: true)
             
         case .casey : return PlayerImage(baseImage: .caseySuit,
                                          lightImage: .caseyLights,
@@ -69,7 +71,8 @@ enum Player: Int, CaseIterable, Identifiable {
                                          name: "Casey",
                                          color: WidgetAppearance.caseyLights,
                                          bottomPadding: 0.0,
-                                         horizontalPadding: 40.0)
+                                         horizontalPadding: 40.0,
+                                         facingLeft: true)
             
         case .kathy : return PlayerImage(baseImage: .kathySuit,
                                          lightImage: .kathyLights,
@@ -79,7 +82,8 @@ enum Player: Int, CaseIterable, Identifiable {
                                          name: "Kathy",
                                          color: WidgetAppearance.kathyLights,
                                          bottomPadding: 22.5,
-                                         isFightImageMirrored: true)
+                                         isFightImageMirrored: true,
+                                         facingLeft: true)
              
         case .jason : return PlayerImage(baseImage: .jasonSuit,
                                          lightImage: .jasonLights,
@@ -98,7 +102,8 @@ enum Player: Int, CaseIterable, Identifiable {
                                         headImage: .bradHead,
                                         name: "Brad",
                                         color: WidgetAppearance.bradLights,
-                                        bottomPadding: 7.5)
+                                        bottomPadding: 7.5,
+                                        facingLeft: true)
         }
     }
     

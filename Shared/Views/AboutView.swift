@@ -191,6 +191,7 @@ struct AboutView: View {
                         HStack {
                             AdaptiveImage(colorScheme: self.colorScheme, light: object.headImage)
                                 .imageAtScale(scale: .spriteScale)
+                                .scaleEffect(x: object.facingLeft ? -1 : 1)
                             Spacer()
                             Text(object.name)
                                 .foregroundStyle(self.selectedAccentColor == player.rawValue ? .black : .white)
@@ -201,6 +202,14 @@ struct AboutView: View {
                     .buttonStyle(BlockButtonStyle(tint: self.selectedAccentColor == player.rawValue ? object.color : .secondarySystemBackground,
                                                   edgeColor: self.selectedAccentColor == player.rawValue ? nil : object.color, shadowColor: nil))
                 }
+                
+                Text("Glow opacity")
+                    .padding(.top)
+                Slider(value: self.$debugGlowOpacity, in: 0...1)
+                    .padding(.bottom)
+                
+                Text("Edge highlight opacity")
+                Slider(value: self.$debugEdgeHighlightOpacity, in: 0...1)
             }
         }
         .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
@@ -262,24 +271,6 @@ struct AboutView: View {
         .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
     }
     
-    @ViewBuilder
-    var debugSettings: some View {
-        GroupBox {
-            VStack {
-                Text("Debug")
-                
-                Text("Glow opacity")
-                Slider(value: self.$debugGlowOpacity, in: 0...1)
-                    .padding(.bottom)
-                
-                Text("Edge highlight opacity")
-                Slider(value: self.$debugEdgeHighlightOpacity, in: 0...1)
-            }
-        }
-        .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
-        .padding(.bottom)
-    }
-    
     var body: some View {
         ScrollView {
             VStack(spacing:0) {
@@ -289,8 +280,6 @@ struct AboutView: View {
                     self.descriptionView
                     
                     self.settingsView
-                    
-                    self.debugSettings
                     
                     Button(action: {
                         self.dismiss()
