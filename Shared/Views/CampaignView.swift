@@ -44,6 +44,8 @@ struct CampaignView: View {
     
     @State private var hasDoneInitialAPIFetch: Bool = false
     
+    @State private var logs: [String] = []
+    
     private var activePolls: [TiltifyCampaignPoll] {
         return self.polls.filter { $0.active }
     }
@@ -54,12 +56,14 @@ struct CampaignView: View {
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: nil)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
+        _logs = State(wrappedValue: ["View initialized with Campaign, value \(initialCampaign.totalRaisedNumerical)"])
     }
     
     init(teamEvent: TeamEvent) {
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: teamEvent)
         _teamEventObservation = State(wrappedValue: AppDatabase.shared.observeTeamEventObservation())
+        _logs = State(wrappedValue: ["View initialized with Team Event, value \(teamEvent.totalRaisedNumerical)"])
     }
     
     var fundraiserURL: URL {
@@ -474,10 +478,30 @@ struct CampaignView: View {
         }
     }
     
+    @ViewBuilder
+    func logView() -> some View {
+        if !logs.isEmpty {
+            VStack(spacing: 3) {
+                ForEach(Array(logs.enumerated()), id: \.0) { idx, log in
+                    Text(log)
+                        .foregroundColor(.black)
+                        .font(.system(.caption2))
+                        .multilineTextAlignment(.leading)
+                        .fullWidth(alignment: .leading)
+                }
+            }
+            .padding(4)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .padding(.horizontal)
+        }
+    }
+    
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing:0) {
+                    self.logView()
                     self.topView(scrollViewReader: scrollViewReader)
                     self.contents(scrollViewReader:scrollViewReader)
                         .background {
@@ -500,10 +524,13 @@ struct CampaignView: View {
         }
         .onAppear {
             
+            logs.append("View opened")
+            
             // Campaign change watch
             if let campaignObservation = campaignObservation {
                 campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
                     dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
+                    logs.append("Error observing stored campaign: \(error.localizedDescription)")
                 } onChange: { event in
                     fetchTask?.cancel()
                     fetchTask = Task {
@@ -513,6 +540,7 @@ struct CampaignView: View {
             } else if let teamEventObservation = teamEventObservation {
                 campaignCancellable = AppDatabase.shared.start(observation: teamEventObservation) { error in
                     dataLogger.error("Error observing stored team event: \(error.localizedDescription)")
+                    logs.append("Error observing stored team event: \(error.localizedDescription)")
                 } onChange: { event in
                     fetchTask?.cancel()
                     fetchTask = Task {
@@ -523,6 +551,7 @@ struct CampaignView: View {
             
             // New API fetch
             Task {
+                logs.append("Doing initial API fetch")
                 await refresh()
             }
             
@@ -603,16 +632,22 @@ struct CampaignView: View {
         
         if let existingTeamEvent = teamEvent {
             
+            logs.append("Doing API fetch for Team Event")
+            
             if let apiEventData = await TiltifyAPIClient.shared.getFundraisingEvent() {
-                dataLogger.debug("[CampignView] API fetched TeamEvent: \(apiEventData.name)")
+                dataLogger.debug("[CampaignView] API fetched TeamEvent: \(apiEventData.name)")
+                logs.append("API fetched TeamEvent: \(apiEventData.totalAmountRaised.numericalValue)")
                 let apiEvent = TeamEvent(from: apiEventData)
                 do {
                     teamEvent = apiEvent
+                    logs.append("Updating stored team event from \(existingTeamEvent.totalRaisedNumerical) to \(apiEvent.totalRaisedNumerical)")
                     if try await AppDatabase.shared.updateTeamEvent(apiEvent, changesFrom: existingTeamEvent) {
-                        dataLogger.info("[CampignView] Updated team event \(apiEvent.name) (id: \(apiEvent.id)")
+                        dataLogger.info("[CampaignView] Updated team event \(apiEvent.name) (id: \(apiEvent.id)")
+                        logs.append("Updated team event in database, now: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
                     }
                 } catch {
-                    dataLogger.error("[CampignView] Updating stored team event failed: \(error.localizedDescription)")
+                    dataLogger.error("[CampaignView] Updating stored team event failed: \(error.localizedDescription)")
+                    logs.append("Updating stored team event failed: \(error.localizedDescription)")
                 }
                 
                 await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
@@ -633,21 +668,25 @@ struct CampaignView: View {
                 }
                 
             } else {
-                dataLogger.debug("[CampignView] Could not update team event")
+                dataLogger.debug("[CampaignView] Could not get team event from API")
+                logs.append("Could not get team event from API")
             }
             
             self.hasDoneInitialAPIFetch = true
-            
+
+            logs.append("Calling fetch from database")
             await fetch()
             
         } else if let initialCampaign = initialCampaign {
             
             dataLogger.info("Campaign UUID: \(initialCampaign.id.uuidString)")
+            logs.append("Doing API fetch for Campaign \(initialCampaign.id)")
             
             await updateCampaignFromAPI(for: initialCampaign, updateLocalCampaignState: true)
             
             self.hasDoneInitialAPIFetch = true
             
+            logs.append("Calling fetch from database")
             await fetch()
             
         }
@@ -781,28 +820,38 @@ struct CampaignView: View {
     
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
         
+        logs.append("Updating campaign from API: \(campaign.id)")
+        
         guard let response = await TiltifyAPIClient.shared.getCampaign(withId: campaign.id) else {
+            logs.append("Could not get campaign from API")
             return
         }
         
         dataLogger.debug("\(campaign.id) Fetched campaign from the API: \(response.name)")
+        logs.append("Fetched campaign from the API: \(response.totalAmountRaised.numericalValue)")
         
         let apiCampaign = campaign.updated(from: response)
         do {
+            logs.append("Updating stored campaign from \(campaign.totalRaisedNumerical) to \(apiCampaign.totalRaisedNumerical)")
             if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
                 dataLogger.info("\(campaign.id) Updated stored campaign: \(apiCampaign.id)")
+                logs.append("Updated stored campaign in database, now: \(apiCampaign.totalRaisedNumerical)")
                 if updateLocalCampaignState {
                     self.initialCampaign = apiCampaign
                 }
             }
         } catch {
+            logs.append("Updating stored campaign failed: \(error.localizedDescription)")
             dataLogger.error("\(campaign.id) Updating stored campaign failed: \(error.localizedDescription)")
         }
         
-        dataLogger.debug("\(campaign.id) Updating campaign from the API!")
+        logs.append("Updating milestones and rewards")
         
         await updateMilestonesInDatabase(forId: campaign.id)
         await updateRewardsInDatabase(forId: campaign.id)
+        
+        logs.append("Done updating milestones and rewards")
+        logs.append("Updating donors and polls")
         
         let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: campaign.id)
         let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: campaign.id)
@@ -817,32 +866,47 @@ struct CampaignView: View {
                 self.polls = apiPolls
             }
         }
+        
+        logs.append("Done updating donors and polls")
+        
     }
     
     /// Fetches the campaign data from GRDB
     func fetch() async {
         if let teamEvent = teamEvent {
+            logs.append("Fetching data for Team Event from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
             if hasDoneInitialAPIFetch {
                 do {
                     dataLogger.notice("Fetching stored team event")
+                    logs.append("Fetching stored team event")
                     self.teamEvent = try await AppDatabase.shared.fetchTeamEvent()
                     dataLogger.notice("Fetched stored team event")
+                    logs.append("Fetched stored team event: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
                 } catch {
                     dataLogger.error("Failed to fetch stored team event: \(error.localizedDescription)")
+                    logs.append("Failed to fetch stored team event: \(error.localizedDescription)")
                 }
             }
+            logs.append("Fetching rewards and milestones for team event")
             await fetchRewardsAndMilestones(for: teamEvent)
+            logs.append("Rewards and milestones fetched")
         } else if let initialCampaign = initialCampaign {
+            logs.append("Fetching data for Campaign from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
             if hasDoneInitialAPIFetch {
                 do {
                     dataLogger.notice("Fetching stored campaign: \(initialCampaign.id)")
+                    logs.append("Fetching stored campaign")
                     self.initialCampaign = try await AppDatabase.shared.fetchCampaign(with: initialCampaign.id)
                     dataLogger.notice("Fetched stored campaign: \(initialCampaign.id)")
+                    logs.append("Fetched stored campaign: \(self.initialCampaign?.totalRaisedNumerical ?? 99999)")
                 } catch {
                     dataLogger.error("Failed to fetch stored campaign \(initialCampaign.id): \(error.localizedDescription)")
+                    logs.append("Failed to fetch stored campaign: \(error.localizedDescription)")
                 }
             }
+            logs.append("Fetching rewards and milestones for campaign")
             await fetchRewardsAndMilestones(for: initialCampaign)
+            logs.append("Rewards and milestones fetched")
         }
     }
     
