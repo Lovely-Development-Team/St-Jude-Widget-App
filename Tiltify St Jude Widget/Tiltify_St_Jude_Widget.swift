@@ -103,7 +103,7 @@ struct TiltifyStJudeWidgets: WidgetBundle {
        FundraisingLockScreenWidget()
        Tiltify_St_Jude_Widget()
        CampaignLockScreenWidget()
-       HeadToHeadWidget()
+//       HeadToHeadWidget()
        ScoreWidget()
    }
 }
