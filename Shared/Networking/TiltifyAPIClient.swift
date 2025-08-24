@@ -59,7 +59,7 @@ extension TiltifyAPIClient {
         do {
             return try await self.send(TiltifyGetFundraisingEventRequest(fundraisingEventId: UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)!)).data
         } catch {
-            apiLogger.error("Unable to fetch fundraising event: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch fundraising event: \(String(describing: error))")
         }
         return nil
     }
@@ -79,7 +79,7 @@ extension TiltifyAPIClient {
             }
             return campaigns.filter { $0.user.name != "Relay" }
         } catch {
-            apiLogger.error("Unable to fetch supporting events: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch supporting events: \(String(describing: error))")
         }
         return []
     }
@@ -93,7 +93,7 @@ extension TiltifyAPIClient {
         do {
             return try await self.send(TiltifyGetCampaignRequest(campaignId: id)).data
         } catch {
-            apiLogger.error("Unable to fetch campaign: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch campaign: \(String(describing: error))")
         }
         return nil
     }
@@ -113,7 +113,7 @@ extension TiltifyAPIClient {
             }
             return milestones
         } catch {
-            apiLogger.error("Unable to fetch milestones: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch milestones: \(String(describing: error))")
         }
         return []
     }
@@ -137,7 +137,7 @@ extension TiltifyAPIClient {
                 return rewards.filter { !MAIN_REWARDS.contains($0.publicId) && !RELAY_REWARDS.contains($0.publicId) }
             }
         } catch {
-            apiLogger.error("Unable to fetch rewards: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch rewards: \(String(describing: error))")
         }
         return []
     }
@@ -146,7 +146,7 @@ extension TiltifyAPIClient {
         do {
             return try await self.send(TiltifyGetCampaignDonationsRequest(campaignId: id)).data
         } catch {
-            apiLogger.error("Unable to fetch donations: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch donations: \(String(describing: error))")
         }
         return []
     }
@@ -155,7 +155,7 @@ extension TiltifyAPIClient {
         do {
             return try await self.send(TiltifyGetCampaignTopDonorsRequest(campaignId: id)).data.first
         } catch {
-            apiLogger.error("Unable to fetch top donor: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch top donor: \(String(describing: error))")
         }
         return nil
     }
@@ -174,7 +174,7 @@ extension TiltifyAPIClient {
         do {
             return try await self.send(TiltifyGetCampaignPollsRequest(campaignId: id)).data
         } catch {
-            apiLogger.error("Unable to fetch campaign polls: \(error.localizedDescription)")
+            apiLogger.error("Unable to fetch campaign polls: \(String(describing: error))")
         }
         return nil
     }
@@ -202,7 +202,7 @@ extension TiltifyAPIClient {
             }
             return try JSONDecoder().decode(Score.self, from: data)
         } catch {
-            dataLogger.error("Fetching score failed: \(error.localizedDescription)")
+            dataLogger.error("Fetching score failed: \(String(describing: error))")
         }
         return nil
     }
