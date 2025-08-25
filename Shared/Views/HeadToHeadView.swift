@@ -33,7 +33,13 @@ struct HeadToHeadView: View {
     var progressBarValue: Float {
         let denominator = campaign1.totalRaisedNumerical + campaign2.totalRaisedNumerical
         guard denominator > 0 else { return 0.5 }
-        return Float(campaign1.totalRaisedNumerical / denominator)
+        let result = Float(campaign1.totalRaisedNumerical / denominator)
+        if result == 0 {
+            return 0.02
+        } else if result == 1 {
+            return 0.98
+        }
+        return result
     }
     
     var highestTotal: Double {
@@ -149,64 +155,73 @@ struct HeadToHeadView: View {
                         ZStack(alignment: .topTrailing) {
                             if animateIn {
                                 GroupBox {
-                                    VStack(spacing: 0) {
-                                        campaignDetails(for: campaign1, alignment: .leading)
-                                            .transition(.move(edge: .leading))
-                                            .padding(.bottom, 8)
-                                        HStack(alignment: .lastTextBaseline) {
-                                            Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
-                                                .font(.title)
-                                                .fontWeight(.bold)
-                                            Text(campaign1.user.username)
-                                                .font(.caption)
-                                            Spacer()
+                                    ZStack {
+                                        if campaign1.totalRaisedNumerical == highestTotal {
+                                            GroupBox {
+                                                Rectangle().fill(.clear)
+                                            }
+                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil))
+                                            .padding(8)
                                         }
-                                        .transition(.move(edge: .leading))
+                                        VStack(spacing: 0) {
+                                            campaignDetails(for: campaign1, alignment: .leading)
+                                                .transition(.move(edge: .leading))
+                                                .padding(.bottom, 8)
+                                            HStack(alignment: .lastTextBaseline) {
+                                                Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                Text(campaign1.user.username)
+                                                    .font(.caption)
+                                                Spacer()
+                                            }
+                                            .transition(.move(edge: .leading))
+                                        }
+                                        .padding()
                                     }
                                 }
-                                .foregroundColor(campaign1.totalRaisedNumerical == highestTotal ? .black : .white)
-                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign1.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_1.fillColor : .secondarySystemBackground, edgeColor: campaign1.totalRaisedNumerical == highestTotal ? .black : HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_1.fillColor))
+                                .foregroundColor(.white)
+                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign1.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_1.fillColor : .secondarySystemBackground, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_1.fillColor))
                                     
-                            }
-                        }
-                        .overlay(alignment: .bottomTrailing){
-                            if campaign1.totalRaisedNumerical == highestTotal {
-                                Image(.crownPixel)
-                                    .foregroundColor(.accentColor)
-                                    .offset(x:-15, y:-10)
-                                    .scaleEffect(1.5)
                             }
                         }
                         
                         if animateIn {
-//                            GroupBox {
                             ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.fillColor, fillColor: HEAD_TO_HEAD_COLOR_1.fillColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
                                     .frame(height: 20)
                                     .padding(.vertical, 10)
-//                            }
-//                            .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .white))
                         }
                         
                         ZStack(alignment: .bottomLeading) {
                             if animateIn {
                                 GroupBox {
-                                    VStack(spacing: 0) {
-                                        HStack(alignment: .firstTextBaseline) {
-                                            Spacer()
-                                            Text(campaign2.user.username)
-                                                .font(.caption)
-                                            Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
-                                                .font(.title)
-                                                .fontWeight(.bold)
+                                    ZStack {
+                                        if campaign2.totalRaisedNumerical == highestTotal {
+                                            GroupBox {
+                                                Rectangle().fill(.clear)
+                                            }
+                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil))
+                                            .padding(8)
                                         }
-                                        .transition(.move(edge: .trailing))
-                                        campaignDetails(for: campaign2, alignment: .trailing)
-                                            .padding(.top)
+                                        VStack(spacing: 0) {
+                                            HStack(alignment: .firstTextBaseline) {
+                                                Spacer()
+                                                Text(campaign2.user.username)
+                                                    .font(.caption)
+                                                Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                            }
                                             .transition(.move(edge: .trailing))
+                                            campaignDetails(for: campaign2, alignment: .trailing)
+                                                .padding(.top)
+                                                .transition(.move(edge: .trailing))
+                                        }
+                                        .padding()
                                     }
                                 }
-                                .foregroundColor(campaign2.totalRaisedNumerical == highestTotal ? .black : .white)
-                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign2.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_2.fillColor : .secondarySystemBackground, edgeColor: campaign2.totalRaisedNumerical == highestTotal ? .black : HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_2.fillColor))
+                                .foregroundColor(.white)
+                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign2.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_2.fillColor : .secondarySystemBackground, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_2.fillColor))
                             }
                         }
                         Spacer()
@@ -264,6 +279,6 @@ struct HeadToHeadView: View {
 
 #Preview {
     NavigationStack {
-        HeadToHeadView(campaign1: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "The Lovely Developers for St. Jude 2023", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "160.00"), user: TiltifyUser(username: "TheLovelyDevelopers", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/uploads/user/thumbnail/447696/blob-59ba2e8f-8d1a-4037-bce2-515075a7f6aa.png", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")), campaign2: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Support the Research of Relay's Official Historian 📜", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "1600.00"), user: TiltifyUser(username: "rhl__", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/uploads/user/thumbnail/312463/blob-d2e2dc23-8ea5-4632-b63b-9ed3a2cdf374.jpeg", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")))
+        HeadToHeadView(campaign1: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "The Lovely Developers for St. Jude 2023", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "190.00"), user: TiltifyUser(username: "TheLovelyDevelopers", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/uploads/user/thumbnail/447696/blob-59ba2e8f-8d1a-4037-bce2-515075a7f6aa.png", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")), campaign2: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Support the Research of Relay's Official Historian 📜", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "200.00"), user: TiltifyUser(username: "rhl__", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/uploads/user/thumbnail/312463/blob-d2e2dc23-8ea5-4632-b63b-9ed3a2cdf374.jpeg", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")))
     }
 }
