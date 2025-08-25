@@ -182,6 +182,17 @@ struct HeadToHeadView: View {
                                 }
                                 .foregroundColor(.white)
                                 .groupBoxStyle(BlockGroupBoxStyle(tint: campaign1.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_1.fillColor : .secondarySystemBackground, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_1.fillColor))
+                                .overlay(alignment: .bottomTrailing) {
+                                    if campaign1.totalRaisedNumerical == highestTotal {
+                                        GroupBox {
+                                            Image(.partyPopperFillPixel)
+                                                .foregroundColor(.black)
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 8)
+                                        }
+                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_1.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: nil))
+                                    }
+                                }
                                     
                             }
                         }
@@ -222,6 +233,17 @@ struct HeadToHeadView: View {
                                 }
                                 .foregroundColor(.white)
                                 .groupBoxStyle(BlockGroupBoxStyle(tint: campaign2.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_2.fillColor : .secondarySystemBackground, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_2.fillColor))
+                                .overlay(alignment: .topLeading) {
+                                    if campaign2.totalRaisedNumerical == highestTotal {
+                                        GroupBox {
+                                            Image(.partyPopperFillPixel)
+                                                .foregroundColor(.black)
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 8)
+                                        }
+                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_2.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: nil))
+                                    }
+                                }
                             }
                         }
                         Spacer()
