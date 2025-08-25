@@ -160,7 +160,7 @@ struct HeadToHeadView: View {
                                             GroupBox {
                                                 Rectangle().fill(.clear)
                                             }
-                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil))
+                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil, scale: Double.spriteScale * 0.6))
                                             .padding(8)
                                         }
                                         VStack(spacing: 0) {
@@ -211,7 +211,7 @@ struct HeadToHeadView: View {
                                             GroupBox {
                                                 Rectangle().fill(.clear)
                                             }
-                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil))
+                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil, scale: Double.spriteScale * 0.6))
                                             .padding(8)
                                         }
                                         VStack(spacing: 0) {
