@@ -33,7 +33,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(winner == headToHead.campaign1 ? .black : .primary)
+                    .foregroundColor(.primary)
                 GroupBox {
                     Text("vs")
                         .bold()
@@ -45,7 +45,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(winner == headToHead.campaign2 ? .black : .primary)
+                    .foregroundColor(.primary)
             }
         }
         .compositingGroup()
@@ -53,13 +53,29 @@ struct HeadToHeadListItem: View {
         .background(
             HStack(spacing: 4) {
                 GroupBox {
-                    Rectangle().fill(.clear)
+                    if winner == headToHead.campaign1 {
+                        GroupBox {
+                            Rectangle().fill(.clear)
+                        }
+                        .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
+                        .padding(4)
+                    } else {
+                        Rectangle().fill(.clear)
+                    }
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: winner == headToHead.campaign1 ? .accentColor : Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), shadowColor: winner == headToHead.campaign1 ? .accentColor : nil))
+                .groupBoxStyle(BlockGroupBoxStyle(tint: winner == headToHead.campaign1 ? .accentColor : Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), padding: false, shadowColor: winner == headToHead.campaign1 ? .accentColor : nil))
                 GroupBox {
-                    Rectangle().fill(.clear)
+                    if winner == headToHead.campaign2 {
+                        GroupBox {
+                            Rectangle().fill(.clear)
+                        }
+                        .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
+                        .padding(4)
+                    } else {
+                        Rectangle().fill(.clear)
+                    }
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: winner == headToHead.campaign2 ? .accentColor : Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), shadowColor: winner == headToHead.campaign2 ? .accentColor : nil))
+                .groupBoxStyle(BlockGroupBoxStyle(tint: winner == headToHead.campaign2 ? .accentColor : Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), padding: false, shadowColor: winner == headToHead.campaign2 ? .accentColor : nil))
             }
         )
     }
