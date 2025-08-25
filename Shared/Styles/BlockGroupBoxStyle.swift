@@ -13,6 +13,7 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
     
     var edgeColor: Color? = .accentColor
     var shadowColor: Color? = .accentColor
+    var scale: Double = Double.spriteScale
     
     func makeBody(configuration: Configuration) -> some View {
         Group {
@@ -25,7 +26,7 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
         }
             .compositingGroup()
             .background {
-                BlockView(tint: self.tint, edgeColor: self.edgeColor, shadowColor: self.shadowColor)
+                BlockView(tint: self.tint, scale: scale, edgeColor: self.edgeColor, shadowColor: self.shadowColor)
             }
     }
 }
