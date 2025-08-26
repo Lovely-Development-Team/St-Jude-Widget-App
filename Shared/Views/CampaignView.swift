@@ -429,7 +429,7 @@ struct CampaignView: View {
                                             }, label: {
                                                 Text("Supporters")
                                                     .font(.headline)
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(.black)
                                             })
                                             .buttonStyle(BlockButtonStyle(tint: .accentColor))
                                             Spacer()
