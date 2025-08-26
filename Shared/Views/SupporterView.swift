@@ -117,18 +117,25 @@ struct SupporterView: View {
                             .padding()
                             .offset(x: 0, y: animate ? -5 : 0)
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
-                            .background {
-                                AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                                    .imageAtScale()
-                                    .mask(LinearGradient(stops:[
-                                        .init(color: .clear, location: 0),
-                                        .init(color: .white, location: 0.25),
-                                        .init(color: .white, location: 0.70),
-                                        .init(color: .clear, location: 1)
-                                    ], startPoint: .top, endPoint: .bottom))
-                            }
                     }
                     .buttonStyle(PlainButtonStyle())
+//                    .border(.yellow)
+                    .background {
+                        ZStack(alignment: .bottom) {
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
+                                .imageAtScale()
+                                .mask(LinearGradient(stops:[
+                                    .init(color: .clear, location: 0),
+                                    .init(color: .white, location: 0.25),
+                                    .init(color: .white, location: 0.70),
+                                    .init(color: .clear, location: 1)
+                                ], startPoint: .top, endPoint: .bottom))
+                            AdaptiveImage(colorScheme: self.colorScheme, light: .l2CURings)
+                                .imageAtScale()
+                                .offset(y: 50)
+                        }
+//                        .border(.red)
+                    }
                 }
                 .padding()
                 .background {
