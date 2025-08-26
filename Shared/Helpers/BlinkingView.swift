@@ -97,6 +97,7 @@ struct StandingToThrowingView: View{
     let player: Player
     @State var scale: Double = 1.0
     @State var isMirrored: Bool = false
+    var defaultToThrowing: Bool = false
     var onTap: (() -> Void)?
 
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
@@ -128,7 +129,7 @@ struct StandingToThrowingView: View{
                     
                     
                     ZStack {
-                        if !self.animate{
+                        if !self.animate && !defaultToThrowing {
                             AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
                                 .imageAtScale(scale: .spriteScale * self.scale * playerImage.baseScale)
                                 .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.horizontalPadding)
@@ -158,7 +159,7 @@ struct StandingToThrowingView: View{
     ScrollView{
         ForEach(Player.allCases){ player in
             BlinkingStandingView(player: player, isMirrored: true)
-            StandingToThrowingView(player: player, isMirrored: true)
+            StandingToThrowingView(player: player, isMirrored: true, defaultToThrowing: true)
         }
     }
 }
