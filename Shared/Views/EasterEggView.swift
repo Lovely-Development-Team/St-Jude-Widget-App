@@ -107,6 +107,7 @@ struct EasterEggView: View {
                             .offset(x: 0, y: animate ? -5 : 0)
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
                     }
+                    .buttonStyle(.plain)
                     HStack {
 #if DEBUG
 //                        GroupBox {
@@ -146,18 +147,23 @@ struct EasterEggView: View {
                 }
             }
         .background(alignment: .bottom) {
-            VStack(spacing:0){
-                AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
+            ZStack(alignment: .bottom) {
+                VStack(spacing:0){
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
+                        .imageAtScale()
+                        .mask(LinearGradient(stops:[
+                            .init(color: .clear, location: 0),
+                            .init(color: .white, location: 0.25),
+                            .init(color: .white, location: 1)
+                        ], startPoint: .top, endPoint: .bottom))
+                        .offset(y: 50)
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
+                        .imageAtScale()
+                        .offset(y:50)
+                }
+                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CURings)
                     .imageAtScale()
-                    .mask(LinearGradient(stops:[
-                        .init(color: .clear, location: 0),
-                        .init(color: .white, location: 0.25),
-                        .init(color: .white, location: 1)
-                    ], startPoint: .top, endPoint: .bottom))
-                    .offset(y: 50)
-                AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                    .imageAtScale()
-                    .offset(y:50)
+                    .offset(y: 60)
             }
         }
     }
