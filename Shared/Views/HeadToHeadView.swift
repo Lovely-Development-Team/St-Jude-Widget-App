@@ -124,10 +124,10 @@ struct HeadToHeadView: View {
                 .background(alignment: .bottom) {
                     HStack(alignment: .bottom) {
                         if animateIn {
-                            BlinkingStandingView(player: .stephen, isMirrored: true, onTap:{
+                            StandingToThrowingView(player: .stephen, isMirrored: true, defaultToThrowing: campaign1.totalRaisedNumerical == highestTotal, onTap:{
                                 SoundEffectHelper.shared.play(.stephenRandom)
                             })
-                            BlinkingStandingView(player: .myke, onTap: {
+                            StandingToThrowingView(player: .myke, defaultToThrowing: campaign2.totalRaisedNumerical == highestTotal, onTap: {
                                 SoundEffectHelper.shared.play(.mykeRandom)
                             })
                         }
