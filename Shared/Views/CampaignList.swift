@@ -297,7 +297,7 @@ struct CampaignList: View {
                                 showSheet = .startHeadToHead
                             }, label: {
                                 Text("Add a Head to Head")
-                                    .bold(UserDefaults.shared.disablePixelFont)
+                                    .font(.headline)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
                             .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
@@ -461,7 +461,7 @@ struct CampaignList: View {
                 }) {
                     HStack {
                         Text("Spin for a random Fundraiser!")
-                            .bold(UserDefaults.shared.disablePixelFont)
+                            .fontWeight(.bold)
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         Image("pixel-chevron-right")
@@ -498,7 +498,7 @@ struct CampaignList: View {
                                     Text("Be the first and create your own!")
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
-                                .font(.headline)
+                                .fontWeight(.bold)
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.black)
                                 .buttonStyle(BlockButtonStyle(tint: .white))

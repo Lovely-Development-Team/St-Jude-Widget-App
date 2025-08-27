@@ -27,6 +27,7 @@ struct DonorList: View {
                     Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!) {
                         HStack {
                             Text("View all donors on Tiltify")
+                                .fontWeight(.bold)
                             Spacer()
                             Image(.boxArrowUpRightPixel)
                         }
