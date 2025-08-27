@@ -33,10 +33,11 @@ struct SupporterView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var fetch = FetchSupporters()
     
+    @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColorKey = 0
+    
     @State private var animate = false
     @State private var animationType: Animation? = .none
     @State private var showSupporterSheet: Bool = false
-    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     #if !os(macOS)
     let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
     #endif
@@ -152,6 +153,8 @@ struct SupporterView: View {
         }
         .background(ignoresSafeAreaEdges: .all)
         .navigationBarTitleDisplayMode(.inline)
+        .tint(Player(rawValue: self.selectedAccentColorKey)?.getPlayer().color ?? .accentColor)
+        .accentColor(Player(rawValue: self.selectedAccentColorKey)?.getPlayer().color ?? .accentColor)
     }
 }
 
