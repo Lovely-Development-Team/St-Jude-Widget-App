@@ -105,7 +105,7 @@ struct ShareCampaignView: View {
                 Label("Share", image: "share.pixel")
             }
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .buttonStyle(BlockButtonStyle(tint: .accentColor))
                 .padding()
         }
