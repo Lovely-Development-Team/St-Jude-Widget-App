@@ -21,35 +21,6 @@ struct DonorList: View {
         ScrollView {
             
             VStack(spacing: 0) {
-                HStack {
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                    TappableCoin(easterEggEnabled2024: self.easterEggEnabled2024)
-                }
-                .padding(.top, Double.spriteScale * 100)
-                .frame(minHeight: 100)
-                .background {
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                        .imageAtScale()
-                        .mask {
-                            LinearGradient(stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 0.25),
-                                .init(color: .white, location: 1)
-                            ], startPoint: .top, endPoint: .bottom)
-                    }
-                }
-                .background {
-                    Color(uiColor: .systemBackground)
-                }
                 
                 VStack {
                     
@@ -60,7 +31,8 @@ struct DonorList: View {
                             Image(.boxArrowUpRightPixel)
                         }
                     }
-                    .buttonStyle(BlockButtonStyle())
+                    .foregroundColor(.black)
+                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
                     .padding()
                     
                     ForEach(donations, id: \.id) { donation in
@@ -86,7 +58,7 @@ struct DonorList: View {
                                 }
                             }
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
+                        .groupBoxStyle(BlockGroupBoxStyle(shadowColor: nil))
                         .padding(.horizontal)
                         .padding(.bottom, donation.id == donations.last?.id ? 10 : 0)
                     }
