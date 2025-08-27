@@ -15,6 +15,8 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
     var shadowColor: Color? = .accentColor
     var scale: Double = Double.spriteScale
     
+    var overridePositions: [ScaledNinePartImage.EdgePosition: ScaledNinePartImage.EdgePosition] = [:]
+    
     func makeBody(configuration: Configuration) -> some View {
         Group {
             if(self.padding) {
@@ -26,7 +28,7 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
         }
             .compositingGroup()
             .background {
-                BlockView(tint: self.tint, scale: scale, edgeColor: self.edgeColor, shadowColor: self.shadowColor)
+                BlockView(tint: self.tint, scale: scale, edgeColor: self.edgeColor, shadowColor: self.shadowColor, overridePositions: self.overridePositions)
             }
     }
 }

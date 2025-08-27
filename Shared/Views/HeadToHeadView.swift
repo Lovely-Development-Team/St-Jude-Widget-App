@@ -190,7 +190,11 @@ struct HeadToHeadView: View {
                                                 .padding(.horizontal, 10)
                                                 .padding(.vertical, 8)
                                         }
-                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_1.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: nil))
+                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_1.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: nil,
+                                                                          overridePositions: [
+                                                                            .topRight: .top,
+                                                                            .bottomLeft: .left
+                                                                          ]))
                                     }
                                 }
                                     
@@ -241,7 +245,11 @@ struct HeadToHeadView: View {
                                                 .padding(.horizontal, 10)
                                                 .padding(.vertical, 8)
                                         }
-                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_2.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: nil))
+                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_2.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: nil,
+                                                                          overridePositions: [
+                                                                            .topRight: .right,
+                                                                            .bottomLeft: .bottom
+                                                                          ]))
                                     }
                                 }
                             }
