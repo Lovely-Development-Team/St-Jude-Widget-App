@@ -492,8 +492,8 @@ struct CampaignView: View {
                     .groupBoxStyle(BlockGroupBoxStyle())
                 }
 
-                if donations.count > 1, let campaign = initialCampaign ?? relayCampaign {
-                    NavigationLink(destination: DonorList(campaign: campaign, donations: $donations, topDonor: $topDonor)) {
+                if donations.count > 1 {
+                    NavigationLink(destination: DonorList(campaignId: initialCampaign?.id ?? TEAM_EVENT_ID, campaignLink: fundraiserURL, donations: $donations, topDonor: $topDonor)) {
                         VStack {
                             HStack {
                                 Text("Recent Donations")

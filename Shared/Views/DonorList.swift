@@ -11,7 +11,8 @@ struct DonorList: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
-    let campaign: Campaign
+    let campaignId: UUID
+    let campaignLink: URL
     @Binding var donations: [TiltifyDonorsForCampaignDonation]
     @Binding var topDonor: TiltifyTopDonor?
     
@@ -24,7 +25,7 @@ struct DonorList: View {
                 
                 VStack {
                     
-                    Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!) {
+                    Link(destination: campaignLink) {
                         HStack {
                             Text("View all donors on Tiltify")
                                 .fontWeight(.bold)
@@ -110,8 +111,8 @@ struct DonorList: View {
     func refresh() async {
         if !isRefreshing {
             isRefreshing = true
-            let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: campaign.id)
-            let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: campaign.id)
+            let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: campaignId)
+            let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: campaignId)
             withAnimation {
                 topDonor = apiTopDonor
                 donations = apiDonations
