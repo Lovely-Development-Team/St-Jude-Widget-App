@@ -56,7 +56,7 @@ struct AboutView: View {
                     .padding(.top)
                 Link(destination: URL(string: "https://512pixels.net/2025/08/st-jude-2025/")!) {
                     Text("Read Stephen's post")
-                        .font(.headline)
+                        .fontWeight(.bold)
                         .foregroundColor(.black)
                         .fullWidth(alignment: .center)
                 }
@@ -77,7 +77,7 @@ struct AboutView: View {
                     .padding(.top)
                 Link(destination: URL(string: "https://tildy.dev/")!, label: {
                     Text("tildy.dev")
-                        .font(.headline)
+                        .fontWeight(.bold)
                         .foregroundColor(.black)
                         .fullWidth(alignment: .center)
                 })
@@ -90,7 +90,7 @@ struct AboutView: View {
                     showSupporterSheet = true
                 }) {
                     Text("Supporters")
-                        .font(.headline)
+                        .fontWeight(.bold)
                         .foregroundColor(.black)
                         .fullWidth(alignment: .center)
                 }
@@ -111,6 +111,7 @@ struct AboutView: View {
                         disablePixelFont = false
                     }) {
                         Text("Yes")
+                            .fontWeight(.bold)
                             .foregroundColor(disablePixelFont ? .primary : .black)
                             .frame(maxWidth: .infinity)
                     }
@@ -119,7 +120,7 @@ struct AboutView: View {
                         disablePixelFont = true
                     }) {
                         Text("No")
-                            .bold(disablePixelFont)
+                            .fontWeight(.bold)
                             .foregroundColor(disablePixelFont ? .black : .primary)
                             .frame(maxWidth: .infinity)
                     }
@@ -138,7 +139,7 @@ struct AboutView: View {
                         SoundEffectHelper.shared.setToPlayEvenOnMute()
                     }) {
                         Text("Yes")
-                            .bold(playSoundsEvenWhenMuted && disablePixelFont)
+                            .fontWeight(.bold)
                             .foregroundColor(playSoundsEvenWhenMuted ? .black : .primary)
                             .frame(maxWidth: .infinity)
                     }
@@ -148,7 +149,7 @@ struct AboutView: View {
                         SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
                     }) {
                         Text("No")
-                            .bold(!playSoundsEvenWhenMuted && disablePixelFont)
+                            .fontWeight(.bold)
                             .foregroundColor(playSoundsEvenWhenMuted ? .primary : .black    )
                             .frame(maxWidth: .infinity)
                     }
@@ -161,12 +162,13 @@ struct AboutView: View {
         GroupBox {
             VStack {
                 Text("Enable Goal Multipliers")
+                    .fontWeight(.bold)
                 HStack {
                     Button(action: {
                         disableCombos = false
                     }) {
                         Text("Yes")
-                            .bold(!disableCombos && disablePixelFont)
+                            .fontWeight(.bold)
                             .foregroundColor(disableCombos ? .primary : .black)
                             .frame(maxWidth: .infinity)
                     }
@@ -175,7 +177,7 @@ struct AboutView: View {
                         disableCombos = true
                     }) {
                         Text("No")
-                            .bold(disableCombos && disablePixelFont)
+                            .fontWeight(.bold)
                             .foregroundColor(disableCombos ? .black : .primary)
                             .frame(maxWidth: .infinity)
                     }
@@ -188,6 +190,7 @@ struct AboutView: View {
         GroupBox {
             VStack {
                 Text("Accent Color")
+                    .fontWeight(.bold)
                 ForEach(Player.displayOrder) { player in
                     let object = player.getPlayer()
                     Button(action: {
@@ -199,7 +202,7 @@ struct AboutView: View {
                                 .scaleEffect(x: object.facingLeft ? -1 : 1)
                             Spacer()
                             Text(object.name)
-                                .bold(self.selectedAccentColor == player.rawValue && disablePixelFont)
+                                .fontWeight(.bold)
                                 .foregroundStyle(self.selectedAccentColor == player.rawValue ? .black : .white)
 
                             Spacer()
@@ -211,11 +214,13 @@ struct AboutView: View {
                 }
                 
                 Text("Glow opacity")
+                    .fontWeight(.bold)
                     .padding(.top)
                 Slider(value: self.$debugGlowOpacity, in: 0...1)
                     .padding(.bottom)
                 
                 Text("Edge highlight opacity")
+                    .fontWeight(.bold)
                 Slider(value: self.$debugEdgeHighlightOpacity, in: 0...1)
             }
         }
@@ -224,34 +229,8 @@ struct AboutView: View {
         GroupBox {
             VStack {
                 
-//                            Text("Appearance")
-//
-//                            HStack {
-//                                Button(action: {
-//                                    self.appAppearance = 0
-//                                }) {
-//                                    Text("Light")
-//                                        .foregroundColor((self.appAppearance == 0) ? .white : .primary    )
-//                                        .frame(maxWidth: .infinity)
-//                                }
-//                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 0) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-//                                Button(action: {
-//                                    self.appAppearance = 1
-//                                }) {
-//                                    Text("Dark")
-//                                        .foregroundColor((self.appAppearance == 1) ? .white : .primary    )
-//                                        .frame(maxWidth: .infinity)
-//                                }
-//                                .buttonStyle(BlockButtonStyle(tint: (self.appAppearance == 1) ? .accentColor : Color(uiColor: .systemGroupedBackground)))
-//                                if dynamicTypeSize < .large {
-//                                    systemAppearanceButton
-//                                }
-//                            }
-//                            if dynamicTypeSize >= .large {
-//                                systemAppearanceButton
-//                            }
-                
                 Text("Icon")
+                    .fontWeight(.bold)
                     .padding(.top, 5)
                 
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], spacing: 10) {
@@ -292,7 +271,7 @@ struct AboutView: View {
                         self.dismiss()
                     }, label: {
                         Text("Done")
-                            .font(.headline)
+                            .fontWeight(.bold)
                             .foregroundColor(.black)
                             .fullWidth(alignment: .center)
                     })
