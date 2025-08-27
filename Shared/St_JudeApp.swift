@@ -27,7 +27,7 @@ struct St_JudeApp: App {
     @State private var globalAlertShown = false
     
     private var selectedAccentColor: Color {
-        return (Player(rawValue: self.selectedAccentColorKey) ?? .randomInitial).getPlayer().color
+        return (Player(rawValue: self.selectedAccentColorKey) ?? .myke).getPlayer().color
     }
     
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
