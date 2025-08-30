@@ -37,6 +37,17 @@ enum Player: Int, CaseIterable, Identifiable {
     case jason
     case brad
     
+    var opponent: Player {
+        switch self {
+        case .stephen: return .myke
+        case .myke: return .stephen
+        case .kathy: return .jason
+        case .jason: return .kathy
+        case .brad: return .casey
+        case .casey: return .brad
+        }
+    }
+    
     func getPlayer() -> PlayerImage {
         switch self {
         case .stephen : return PlayerImage(baseImage: .stephenSuit,

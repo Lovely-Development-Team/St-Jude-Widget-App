@@ -27,6 +27,7 @@ struct FundraiserListItem: View {
     
     @State private var showShareLinkSheet: ShareURL? = nil
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
+    @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColorKey = 0
     
     @ViewBuilder
     var disclosureIndicator: some View {
@@ -49,13 +50,13 @@ struct FundraiserListItem: View {
         if(self.campaign.multiplier % 2 == 0) {
             return .accentColor
         } else {
-            return WidgetAppearance.stephenLights
+            return (Player(rawValue: self.selectedAccentColorKey) ?? .myke).opponent.getPlayer().color
         }
     }
     
     var fillColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
-            return WidgetAppearance.stephenLights
+            return (Player(rawValue: self.selectedAccentColorKey) ?? .myke).opponent.getPlayer().color
         } else {
             return .accentColor
         }
