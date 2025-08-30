@@ -48,7 +48,7 @@ struct AboutView: View {
                 Text("About St. Jude")
                     .font(.title3)
                     .fullWidth()
-                Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of our founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
+                Text("The mission of St. Jude Children’s Research Hospital is to advance cures, and means of prevention, for paediatric catastrophic diseases through research and treatment. Consistent with the vision of founder Danny Thomas, no child is denied treatment based on race, religion or a family’s ability to pay.")
                     .fullWidth()
                     .padding(.top)
                 Text("Every year throughout the month of September, Relay raises money for St. Jude to help continue its mission. Read more about the reason why, and this year's fundraiser, over at 512pixels.net.")
@@ -62,6 +62,13 @@ struct AboutView: View {
                 }
                 .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
                 .padding(.top)
+                Link(destination: URL(string: "https://www.theenthusiast.net/relay-for-st-jude-2025/")!) {
+                    Text("Read Myke's post")
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .fullWidth(alignment: .center)
+                }
+                .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
             }
         }
         .groupBoxStyle(BlockGroupBoxStyle(edgeColor: .accentColor, shadowColor: .accentColor))
