@@ -45,7 +45,7 @@ struct PollView: View {
                             Spacer()
                             
                             VStack(alignment: .trailing) {
-                                Text("\(Int(option.percentageOfPoll(parentPoll: poll)))%")
+                                Text("\(Int(option.percentageOfPoll(parentPoll: poll) * 100))%")
                                     .font(.caption)
                                     .foregroundStyle(isMax ? Color.accentColor : .white)
                                 Text(option.amountRaised.description(showFullCurrencySymbol: false))
@@ -53,7 +53,7 @@ struct PollView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
-                        ProgressBar(value: option.percentageOfPollBinding(parentPoll: poll, defaultValue: 0.0), fillColor: .accentColor)
+                        ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: .accentColor)
                     }
                 }
             }

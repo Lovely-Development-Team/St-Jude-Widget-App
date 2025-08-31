@@ -57,10 +57,9 @@ extension TiltifyCampaignPollOption {
     func percentageOfPoll(parentPoll: TiltifyCampaignPoll) -> Double {
         guard parentPoll.amountRaised.numericalValue > 0,
                 self.amountRaised.numericalValue > 0,
-                parentPoll.amountRaised.numericalValue > self.amountRaised.numericalValue else {
+                parentPoll.amountRaised.numericalValue >= self.amountRaised.numericalValue else {
             return 0
         }
-        
         return (self.amountRaised.numericalValue / parentPoll.amountRaised.numericalValue).rounded()
     }
     
