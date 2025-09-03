@@ -77,7 +77,7 @@ extension TiltifyAPIClient {
                     break
                 }
             }
-            return campaigns.filter { $0.user.name != "Relay" }
+            return campaigns.filter { $0.user.name != "Relay" && $0.status == "published" }
         } catch {
             apiLogger.error("Unable to fetch supporting events: \(String(describing: error))")
         }
