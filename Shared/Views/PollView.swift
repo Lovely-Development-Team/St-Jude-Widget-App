@@ -63,6 +63,43 @@ struct PollView: View {
     }
 }
 
+struct PollViewPreview: View {
+    @State private var option1Value: Double = 20
+    @State private var option2Value: Double = 10
+    @State private var option3Value: Double = 5
+    
+    var totalValue: Double {
+        return self.option1Value + self.option2Value + self.option3Value
+    }
+    
+    var body: some View {
+        VStack {
+            PollView(poll: TiltifyCampaignPoll(active: true, amountRaised: .init(currency: "USD", value: "\(self.totalValue)"), id: UUID(), insertedAt: "", name: "Poll Name", options: [
+                .init(amountRaised: .init(currency: "USD", value: "\(self.option1Value)"), id: UUID(), insertedAt: "", name: "Option 1", updatedAt: ""),
+                .init(amountRaised: .init(currency: "USD", value: "\(self.option2Value)"), id: UUID(), insertedAt: "", name: "Option 2", updatedAt: ""),
+                .init(amountRaised: .init(currency: "USD", value: "\(self.option3Value)"), id: UUID(), insertedAt: "", name: "Option 3", updatedAt: "")
+            ], updatedAt: ""), campaignId: UUID())
+                .frame(height: 300)
+            
+        }
+        
+        GroupBox {
+            Text("Option 1")
+            Slider(value: self.$option1Value, in: 0...100)
+        }
+        
+        GroupBox {
+            Text("Option 2")
+            Slider(value: self.$option2Value, in: 0...100)
+        }
+        
+        GroupBox {
+            Text("Option 3")
+            Slider(value: self.$option3Value, in: 0...100)
+        }
+    }
+}
+
 #Preview {
-    PollView(poll: TiltifyCampaignPoll(active: true, amountRaised: .init(currency: "USD", value: "20"), id: UUID(), insertedAt: "", name: "Poll Name", options: [.init(amountRaised: .init(currency: "USD", value: "0"), id: UUID(), insertedAt: "", name: "Option 1", updatedAt: "")], updatedAt: ""), campaignId: UUID())
+    PollViewPreview()
 }
