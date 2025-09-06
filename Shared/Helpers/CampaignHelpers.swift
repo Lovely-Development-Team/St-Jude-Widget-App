@@ -60,12 +60,6 @@ extension TiltifyCampaignPollOption {
                 parentPoll.amountRaised.numericalValue >= self.amountRaised.numericalValue else {
             return 0
         }
-        return (self.amountRaised.numericalValue / parentPoll.amountRaised.numericalValue).rounded()
-    }
-    
-    func percentageOfPollBinding<T>(parentPoll: TiltifyCampaignPoll, defaultValue: T) -> Binding<T> {
-        return Binding<T>(get: {
-            return self.percentageOfPoll(parentPoll: parentPoll) as? T ?? defaultValue
-        }, set: {_ in})
+        return (self.amountRaised.numericalValue / parentPoll.amountRaised.numericalValue)
     }
 }
