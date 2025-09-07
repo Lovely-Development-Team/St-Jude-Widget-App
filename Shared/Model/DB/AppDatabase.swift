@@ -176,6 +176,8 @@ final class AppDatabase {
                 t.column("imageSrc", .text)
                 t.column("campaignId", .blob).references("campaign")
                 t.column("teamEventId", .blob).references("teamEvent")
+                t.column("quantity", .integer)
+                t.column("quantityRemaining", .integer)
             }
             
         }

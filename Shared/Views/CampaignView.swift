@@ -407,19 +407,33 @@ struct CampaignView: View {
                             }
                             HStack(alignment: .top) {
                                 if let url = URL(string: reward.imageSrc ?? "") {
-                                    KFImage.url(url)
-                                        .resizable()
-                                        .placeholder {
-                                            ProgressView()
-                                                .frame(width: 45, height: 45)
-                                        }.aspectRatio(contentMode: .fit)
-                                        .frame(width: 45, height: 45)
-                                        .modifier(PixelRounding())
+                                    NavigationLink(destination: {
+                                        FullSizeImageView(imageUrl: url)
+                                    }, label: {
+                                        KFImage.url(url)
+                                            .resizable()
+                                            .placeholder {
+                                                ProgressView()
+                                                    .frame(width: 45, height: 45)
+                                            }.aspectRatio(contentMode: .fit)
+                                            .frame(width: 45, height: 45)
+                                            .modifier(PixelRounding())
+                                    })
                                 }
                                 VStack {
                                     Text(reward.description)
                                         .font(.caption)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    
+                                    if let quantity = reward.quantity,
+                                       let quantityRemaining = reward.quantityRemaining {
+                                        HStack {
+                                            Text("\(quantityRemaining) of \(quantity) available!")
+                                                .font(.caption)
+                                                .foregroundStyle(Color.accentColor)
+                                            Spacer()
+                                        }
+                                    }
 
 
                                     if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {

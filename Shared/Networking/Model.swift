@@ -133,10 +133,12 @@ struct TiltifyCampaignReward: Codable {
     let image: TiltifyCampaignRewardImage?
     let active: Bool
     let ownerUsageType: String?
+    let quantity: Int?
+    let quantityRemaining: Int?
     
     // Define all possible keys that might appear in the JSON
     private enum CodingKeys: String, CodingKey {
-        case id, publicId, name, description, amount, image, active, ownerUsageType
+        case id, publicId, name, description, amount, image, active, ownerUsageType, quantity, quantityRemaining
     }
 
     // Custom decoder to handle the two possible keys for the 'id' property
@@ -154,6 +156,8 @@ struct TiltifyCampaignReward: Codable {
         self.image = try container.decodeIfPresent(TiltifyCampaignRewardImage.self, forKey: .image)
         self.active = try container.decode(Bool.self, forKey: .active)
         self.ownerUsageType = try container.decodeIfPresent(String.self, forKey: .ownerUsageType)
+        self.quantity = try container.decodeIfPresent(Int.self, forKey: .quantity)
+        self.quantityRemaining = try container.decodeIfPresent(Int.self, forKey: .quantityRemaining)
     }
     
     // Custom encoder to standardize the output
@@ -168,6 +172,8 @@ struct TiltifyCampaignReward: Codable {
         try container.encodeIfPresent(self.image, forKey: .image)
         try container.encode(self.active, forKey: .active)
         try container.encodeIfPresent(self.ownerUsageType, forKey: .ownerUsageType)
+        try container.encodeIfPresent(self.quantity, forKey: .quantity)
+        try container.encodeIfPresent(self.quantityRemaining, forKey: .quantityRemaining)
     }
     
 }
