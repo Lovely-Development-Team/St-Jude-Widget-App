@@ -22,6 +22,8 @@ struct Reward: Identifiable, Hashable {
     let imageSrc: String?
     let campaignId: UUID?
     let teamEventId: UUID?
+    let quantity: Int?
+    let quantityRemaining: Int?
 }
 
 extension Reward: Codable, FetchableRecord, MutablePersistableRecord {
@@ -32,6 +34,8 @@ extension Reward: Codable, FetchableRecord, MutablePersistableRecord {
         static let amountCurrency = Column(CodingKeys.amountCurrency)
         static let amountValue = Column(CodingKeys.amountValue)
         static let imageSrc = Column(CodingKeys.imageSrc)
+        static let quantity = Column(CodingKeys.quantity)
+        static let quantityRemaining = Column(CodingKeys.quantityRemaining)
     }
     
     static let campaign = belongsTo(Campaign.self)
@@ -56,6 +60,8 @@ extension Reward {
         self.imageSrc = reward.image?.src
         self.campaignId = campaignId
         self.teamEventId = teamEventId
+        self.quantity = reward.quantity
+        self.quantityRemaining = reward.quantityRemaining
     }
     
     func updated(fromReward reward: TiltifyCampaignReward, campaignId: UUID? = nil, teamEventId: UUID? = nil) -> Reward {
@@ -66,6 +72,8 @@ extension Reward {
                       amountValue: reward.amount.numericalValue,
                       imageSrc: reward.image?.src,
                       campaignId: campaignId,
-                      teamEventId: teamEventId)
+                      teamEventId: teamEventId,
+                      quantity: reward.quantity,
+                      quantityRemaining: reward.quantityRemaining)
     }
 }
