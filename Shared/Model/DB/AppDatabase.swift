@@ -103,6 +103,8 @@ final class AppDatabase {
                 t.column("amountValue", .double).notNull()
                 t.column("imageSrc", .text)
                 t.column("campaignId", .blob).notNull().references("campaign")
+                t.column("quantity", .integer)
+                t.column("quantityRemaining", .integer)
             }
             
             try db.alter(table: "campaign") { t in
