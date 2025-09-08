@@ -103,8 +103,6 @@ final class AppDatabase {
                 t.column("amountValue", .double).notNull()
                 t.column("imageSrc", .text)
                 t.column("campaignId", .blob).notNull().references("campaign")
-                t.column("quantity", .integer)
-                t.column("quantityRemaining", .integer)
             }
             
             try db.alter(table: "campaign") { t in
@@ -178,8 +176,6 @@ final class AppDatabase {
                 t.column("imageSrc", .text)
                 t.column("campaignId", .blob).references("campaign")
                 t.column("teamEventId", .blob).references("teamEvent")
-                t.column("quantity", .integer)
-                t.column("quantityRemaining", .integer)
             }
             
         }
@@ -189,6 +185,13 @@ final class AppDatabase {
                 t.column("id", .blob).primaryKey()
                 t.column("campaignId1", .blob).references("campaign")
                 t.column("campaignId2", .blob).references("campaign")
+            }
+        }
+        
+        migrator.registerMigration("addRewardCounts") { db in
+            try db.alter(table: "reward") { t in
+                t.add(column: "quantity", .integer)
+                t.add(column: "quantityRemaining", .integer)
             }
         }
         
