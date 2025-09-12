@@ -101,8 +101,10 @@ struct DonorList: View {
             }
         }
         .refreshable {
-            await refresh()
-            isRefreshing = false
+            Task {
+                await refresh()
+                isRefreshing = false   
+            }
         }
         .navigationTitle("Recent Donations")
         .navigationBarTitleDisplayMode(.inline)
