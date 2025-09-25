@@ -26,8 +26,13 @@ struct LockScreenInlineView: View {
         }
     }
     
-    var accessoryInlineLabel: String {
-        campaign?.percentageReached ?? 0 >= 1 ? "party.popper.fill" : ""
+    @ViewBuilder
+    func accessoryInlineLabel(title: String) -> some View {
+        if campaign?.percentageReached ?? 0 >= 1 {
+            Label(title, systemImage: "party.popper.fill")
+        } else {
+            Label(title, image: "relay.logo")
+        }
     }
     
     var body: some View {
@@ -42,10 +47,10 @@ struct LockScreenInlineView: View {
     @ViewBuilder
     var content: some View {
         if let campaign = campaign {
-            Label(accessoryInlineText, systemImage: accessoryInlineLabel)
+            self.accessoryInlineLabel(title: accessoryInlineText)
                 .widgetURL(URL(string: campaign.widgetURL)!)
         } else {
-            Label("Choose a fundraiser", systemImage: accessoryInlineLabel)
+            self.accessoryInlineLabel(title: "Choose a fundraiser")
         }
     }
 }
