@@ -13,7 +13,7 @@ struct CountdownView: View {
     @State private var showAbsoluteDate: Bool = false
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    let closingDate: Date? = nil // Date(timeIntervalSince1970: 1728309641)
+    let closingDate: Date? = Date(timeIntervalSince1970: 1759766400)
     let countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -33,6 +33,7 @@ struct CountdownView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             }
                         }
+                        .groupBoxStyle(BlockGroupBoxStyle())
                     } else {
                         GroupBox {
                             Group {
@@ -54,6 +55,7 @@ struct CountdownView: View {
 //                        .lineLimit(1)
 //                        .minimumScaleFactor(0.5)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .groupBoxStyle(BlockGroupBoxStyle())
                     }
                 }
             } else {
