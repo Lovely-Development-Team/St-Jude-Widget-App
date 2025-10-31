@@ -103,7 +103,7 @@ struct ScoreEntryView: View {
                         GridRow {
                             ZStack(alignment: .bottomLeading) {
                                 Color.clear
-                                Image(stephenIsWinning ? .stephenFighting : .stephenSuit)
+                                Image(stephenIsWinning ? .stephenFighting2025 : .stephenSuit2025)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(height: imageHeight)
@@ -122,7 +122,7 @@ struct ScoreEntryView: View {
                             }
                             ZStack(alignment: .topTrailing) {
                                 Color.clear
-                                Image(mykeIsWinning ? .mykeFighting : .mykeSuit)
+                                Image(mykeIsWinning ? .mykeFighting2025 : .mykeSuit2025)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(height: imageHeight)
@@ -183,7 +183,7 @@ struct ScoreEntryView: View {
                 ZStack {
                     Grid(verticalSpacing: 0) {
                         GridRow {
-                            Image(entry.score.stephen.score > entry.score.myke.score ? .stephenFighting : .stephenSuit)
+                            Image(entry.score.stephen.score > entry.score.myke.score ? .stephenFighting2025 : .stephenSuit2025)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: imageHeight)
@@ -203,7 +203,7 @@ struct ScoreEntryView: View {
                                 .lineLimit(1)
                                 .foregroundColor(WidgetAppearance.mykeLights),
                                       color: .black)
-                            Image(entry.score.stephen.score < entry.score.myke.score ? .mykeFighting : .mykeSuit)
+                            Image(entry.score.stephen.score < entry.score.myke.score ? .mykeFighting2025 : .mykeSuit2025)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: imageHeight)

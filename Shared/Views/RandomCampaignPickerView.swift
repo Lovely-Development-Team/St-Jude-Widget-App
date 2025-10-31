@@ -93,6 +93,49 @@ struct RandomCampaignPickerView: View {
         })
     }
     
+    @ViewBuilder
+    var wheelView: some View {
+        WheelLayout(radius: wheelRadius) {
+            ForEach(0..<wedgeCount) { index in
+                WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, campaignChoiceID: $campaignChoiceID, shouldFlip: index == indexToFlip)
+                    .frame(width: sectionWidth, height: wheelRadius)
+                    .rotationEffect(Angle(degrees: (360/Double(wedgeCount))*Double(index)))
+            }
+        }
+        .frame(width: wheelRadius*2, height: wheelRadius*2)
+        .clipShape(Circle())
+        .background(Color.black.clipShape(Circle()))
+        .shadow(radius: 10)
+        .overlay {
+            wheelCenterView
+        }
+        .rotationEffect(wheelRotation)
+        .padding([.bottom], -wheelRadius*(animationFinished ? 0.8 : 0.9))
+        .onTapGesture {
+            if animationFinished {
+                spinAgain()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var wheelCenterView: some View {
+        ZStack {
+            Image(.iconRegular)
+                .resizable()
+                .frame(width: wheelRadius/5, height: wheelRadius/5)
+                .overlay {
+                    Circle()
+                        .stroke(.black, lineWidth: 4)
+                }
+                .clipShape(Circle())
+                .rotationEffect(Angle(degrees: -wheelRotation.degrees))
+                .shadow(radius: 5)
+            Circle()
+                .stroke(.black, lineWidth: 4)
+        }
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Image(.confetti)
@@ -135,40 +178,7 @@ struct RandomCampaignPickerView: View {
             .padding([.bottom], wheelRadius*1.25)
         }
         .overlay(alignment:.bottom) {
-            WheelLayout(radius: wheelRadius) {
-                ForEach(0..<wedgeCount) { index in
-                    WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, campaignChoiceID: $campaignChoiceID, shouldFlip: index == indexToFlip)
-                        .frame(width: sectionWidth, height: wheelRadius)
-                        .rotationEffect(Angle(degrees: (360/Double(wedgeCount))*Double(index)))
-                }
-            }
-            .frame(width: wheelRadius*2, height: wheelRadius*2)
-            .clipShape(Circle())
-            .background(Color.black.clipShape(Circle()))
-            .shadow(radius: 10)
-            .overlay {
-                ZStack {
-                    Image(.fullSizeAppIcon)
-                        .resizable()
-                        .frame(width: wheelRadius/5, height: wheelRadius/5)
-                        .overlay {
-                            Circle()
-                                .stroke(.black, lineWidth: 4)
-                        }
-                        .clipShape(Circle())
-                        .rotationEffect(Angle(degrees: -wheelRotation.degrees))
-                        .shadow(radius: 5)
-                    Circle()
-                        .stroke(.black, lineWidth: 4)
-                }
-            }
-            .rotationEffect(wheelRotation)
-            .padding([.bottom], -wheelRadius*(animationFinished ? 0.8 : 0.9))
-            .onTapGesture {
-                if animationFinished {
-                    spinAgain()
-                }
-            }
+            self.wheelView
         }
         .background {
             GeometryReader { geo in
