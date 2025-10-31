@@ -301,7 +301,7 @@ struct AboutView: View {
             }
         }
         .onAppear {
-            self.currentIcon = AltIcon(rawValue: UIApplication.shared.alternateIconName?.replacingOccurrences(of: "icon-", with: "") ?? "original") ?? .original
+            self.currentIcon = AltIcon(rawValue: UIApplication.shared.alternateIconName?.replacingOccurrences(of: "icon-", with: "") ?? "regular") ?? .regular
         }
     }
     

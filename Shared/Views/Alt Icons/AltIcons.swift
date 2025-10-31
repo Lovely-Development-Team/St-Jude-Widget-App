@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 enum AltIcon: String, CaseIterable, Identifiable {
-    case original
-    case logo
+    case defaultIcon
+    case regular
     
     var id: String {
         self.rawValue
@@ -18,7 +18,7 @@ enum AltIcon: String, CaseIterable, Identifiable {
     
     var fileName: String? {
         switch self {
-        case .original:
+        case .defaultIcon:
             return nil
         default:
             return "icon-\(self.rawValue)"
@@ -27,13 +27,13 @@ enum AltIcon: String, CaseIterable, Identifiable {
     
     var image: some View {
         switch self {
-        case .original:
+        case .defaultIcon:
             return Image(uiImage: Bundle.main.icon ?? UIImage())
                 .resizable()
                 .modifier(PixelRounding())
         default:
             if let fileName {
-                return Image("\(fileName)-preview")
+                return Image("\(fileName)-image")
                     .resizable()
                     .modifier(PixelRounding())
             }

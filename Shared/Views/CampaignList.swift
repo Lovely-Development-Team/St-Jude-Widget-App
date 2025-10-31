@@ -545,7 +545,7 @@ struct CampaignList: View {
                 AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
                     .imageAtScale(scale: 0.5)
             } else if searchText.lowercased() == "l2cu" {
-                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixel2024)
                     .imageAtScale(scale: 0.5)
             }
         }

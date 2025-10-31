@@ -14,7 +14,7 @@ struct UndergroundBackground: ViewModifier {
         content
             .background {
                 GeometryReader { geometry in
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+                    AdaptiveImage(colorScheme: self.colorScheme, light: .undergroundRepeatable2024, dark: .undergroundRepeatable2024Dark)
                         .tiledImageAtScale(scale: Double.spriteScale)
                         .frame(height:geometry.size.height + 1000)
                         .animation(.none, value: UUID())

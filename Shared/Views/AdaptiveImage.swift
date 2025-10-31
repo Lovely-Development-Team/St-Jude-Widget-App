@@ -43,115 +43,110 @@ extension AdaptiveImage {
 extension AdaptiveImage {
     var isMyke: Bool {
         let mykeImages: [ImageResource] = [
-            .mykeIdle, .mykeWalk1, .mykeWalk2, .mykeWalk3, .mykeWalk4
+            .mykeIdle2024, .mykeWalk12024, .mykeWalk22024, .mykeWalk32024, .mykeWalk42024
         ]
         return mykeImages.contains(self.light)
     }
     
     var isStephen: Bool {
         let stephenImages: [ImageResource] = [
-            .stephenIdle, .stephenWalk1, .stephenWalk2, .stephenWalk3, .stephenWalk4
+            .stephenIdle2024, .stephenWalk12024, .stephenWalk22024, .stephenWalk32024, .stephenWalk42024
         ]
         return stephenImages.contains(self.light)
     }
     
     @ViewBuilder
     static func background(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .background, dark: .backgroundNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .background2024, dark: .background2024)
     }
     
     @ViewBuilder
     static func backgroundTall(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .backgroundTall, dark: .backgroundTallNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .backgroundTall2024, dark: .backgroundTall2024Dark)
     }
     
     @ViewBuilder
     static func backgroundStripe(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripe, dark: .backgroundStripeNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripe2024, dark: .backgroundStripe2024Dark)
     }
     
     @ViewBuilder
     static func backgroundStripeTall(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripeTall, dark: .backgroundStripeTallNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .backgroundStripeTall2024, dark: .backgroundStripeTall2024Dark)
     }
     
     @ViewBuilder
     static func bush(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .bush, dark: .bushNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .bush2024, dark: .bush2024Dark)
     }
     
     @ViewBuilder
     static func cloud(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .cloud, dark: .cloudNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .cloud2024, dark: .cloud2024Dark)
     }
     
     @ViewBuilder
     static func flower(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .flower1, dark: .flower1Night)
+        AdaptiveImage(colorScheme: colorScheme, light: .flower12024, dark: .flower12024Dark)
     }
     
     static func flowerAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
         return [
             // repeat 4 times for a full rotation
-            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
-            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
-            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
-            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night),
-            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
-            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
-            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
-            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night),
-            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
-            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
-            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
-            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night),
-            .init(colorScheme: colorScheme, light: .flower1, dark: .flower1Night),
-            .init(colorScheme: colorScheme, light: .flower2, dark: .flower2Night),
-            .init(colorScheme: colorScheme, light: .flower3, dark: .flower3Night),
-            .init(colorScheme: colorScheme, light: .flower4, dark: .flower4Night)
+            .init(colorScheme: colorScheme, light: .flower12024, dark: .flower12024Dark),
+            .init(colorScheme: colorScheme, light: .flower22024, dark: .flower22024Dark),
+            .init(colorScheme: colorScheme, light: .flower32024, dark: .flower32024Dark),
+            .init(colorScheme: colorScheme, light: .flower42024, dark: .flower42024Dark),
+            .init(colorScheme: colorScheme, light: .flower12024, dark: .flower12024Dark),
+            .init(colorScheme: colorScheme, light: .flower22024, dark: .flower22024Dark),
+            .init(colorScheme: colorScheme, light: .flower32024, dark: .flower32024Dark),
+            .init(colorScheme: colorScheme, light: .flower42024, dark: .flower42024Dark),
+            .init(colorScheme: colorScheme, light: .flower12024, dark: .flower12024Dark),
+            .init(colorScheme: colorScheme, light: .flower22024, dark: .flower22024Dark),
+            .init(colorScheme: colorScheme, light: .flower32024, dark: .flower32024Dark),
+            .init(colorScheme: colorScheme, light: .flower42024, dark: .flower42024Dark),
+            .init(colorScheme: colorScheme, light: .flower12024, dark: .flower12024Dark),
+            .init(colorScheme: colorScheme, light: .flower22024, dark: .flower22024Dark),
+            .init(colorScheme: colorScheme, light: .flower32024, dark: .flower32024Dark),
+            .init(colorScheme: colorScheme, light: .flower42024, dark: .flower42024Dark)
         ]
     }
     
     @ViewBuilder
     static func tallflower(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night)
+        AdaptiveImage(colorScheme: colorScheme, light: .tallflower12024, dark: .tallflower12024Dark)
     }
     
     static func tallFlowerAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
         return [
             // repeat 4 times for a full rotation
-            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
-            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
-            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
-            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night),
-            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
-            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
-            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
-            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night),
-            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
-            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
-            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
-            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night),
-            .init(colorScheme: colorScheme, light: .tallflower1, dark: .tallflower1Night),
-            .init(colorScheme: colorScheme, light: .tallflower2, dark: .tallflower2Night),
-            .init(colorScheme: colorScheme, light: .tallflower3, dark: .tallflower3Night),
-            .init(colorScheme: colorScheme, light: .tallflower4, dark: .tallflower4Night)
+            .init(colorScheme: colorScheme, light: .tallflower12024, dark: .tallflower12024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower22024, dark: .tallflower22024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower32024, dark: .tallflower32024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower42024, dark: .tallflower42024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower12024, dark: .tallflower12024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower22024, dark: .tallflower22024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower32024, dark: .tallflower32024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower42024, dark: .tallflower42024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower12024, dark: .tallflower12024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower22024, dark: .tallflower22024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower32024, dark: .tallflower32024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower42024, dark: .tallflower42024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower12024, dark: .tallflower12024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower22024, dark: .tallflower22024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower32024, dark: .tallflower32024Dark),
+            .init(colorScheme: colorScheme, light: .tallflower42024, dark: .tallflower42024Dark)
         ]
     }
     
     @ViewBuilder
     static func groundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .groundRepeatable, dark: .groundRepeatableNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .groundRepeatable2024, dark: .groundRepeatable2024Dark)
     }
     
     @ViewBuilder
     static func arena(colorScheme: ColorScheme) -> AdaptiveImage {
         AdaptiveImage(colorScheme: colorScheme, light: .arena, dark: .arena)
-    }
-    
-    @ViewBuilder
-    static func arenaWallSmol(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .arenaWallSmol, dark: .arenaWallSmol)
     }
     
     @ViewBuilder
@@ -161,72 +156,72 @@ extension AdaptiveImage {
 
     @ViewBuilder
     static func ground(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .ground, dark: .groundNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .ground2024, dark: .ground2024Dark)
     }
     
     @ViewBuilder
     static func groundSlope(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .groundSlope, dark: .groundSlopeNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .groundSlope2024, dark: .groundSlope2024Dark)
     }
     
     @ViewBuilder
     static func myke(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .mykeIdle)
+        AdaptiveImage(colorScheme: colorScheme, light: .mykeIdle2024)
     }
     
     @ViewBuilder
     static func skyRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .skyRepeatable, dark: .skyRepeatableNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .skyRepeatable2024, dark: .skyRepeatable2024Dark)
     }
     
     @ViewBuilder
     static func stephen(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .stephenIdle)
+        AdaptiveImage(colorScheme: colorScheme, light: .stephenIdle2024)
     }
     
     @ViewBuilder
     static func undergroundRepeatable(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .undergroundRepeatable, dark: .undergroundRepeatableNight)
+        AdaptiveImage(colorScheme: colorScheme, light: .undergroundRepeatable2024, dark: .undergroundRepeatable2024Dark)
     }
     
     @ViewBuilder
     static func questionBox(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .questionBox)
+        AdaptiveImage(colorScheme: colorScheme, light: .questionBox2024)
     }
     
     @ViewBuilder
     static func coin(colorScheme: ColorScheme) -> AdaptiveImage {
-        AdaptiveImage(colorScheme: colorScheme, light: .coin)
+        AdaptiveImage(colorScheme: colorScheme, light: .coin2024)
     }
     
     static func mykeWalkCycle(colorScheme: ColorScheme) -> [AdaptiveImage] {
         return [
-            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk1),
-            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk2),
-            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk3),
-            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk4)
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk12024),
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk22024),
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk32024),
+            AdaptiveImage(colorScheme: colorScheme, light: .mykeWalk42024)
         ]
     }
     
     static func stephenWalkCycle(colorScheme: ColorScheme) -> [AdaptiveImage] {
         return [
-            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk1),
-            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk2),
-            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk3),
-            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk4)
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk12024),
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk22024),
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk32024),
+            AdaptiveImage(colorScheme: colorScheme, light: .stephenWalk42024)
         ]
     }
     
     static func coinAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
         return [
-            AdaptiveImage(colorScheme: colorScheme, light: .coin1),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin2),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin3),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin4),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin5),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin2),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin3),
-            AdaptiveImage(colorScheme: colorScheme, light: .coin4)
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20241),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20242),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20243),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20244),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20245),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20242),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20243),
+            AdaptiveImage(colorScheme: colorScheme, light: .coinAnimation20244)
         ]
     }
     
@@ -260,11 +255,11 @@ extension AdaptiveImage {
     }
     
     static func isoGround(colorScheme: ColorScheme) -> AdaptiveImage {
-        return AdaptiveImage(colorScheme: colorScheme, light: .isoground, dark: .isogroundNight)
+        return AdaptiveImage(colorScheme: colorScheme, light: .isoground2024, dark: .isoground2024Dark)
     }
     
     static func jonyCube(colorScheme: ColorScheme) -> AdaptiveImage {
-        return AdaptiveImage(colorScheme: colorScheme, light: .jonycubePixel)
+        return AdaptiveImage(colorScheme: colorScheme, light: .jonycubePixel2024)
     }
     
     static func dogcow(colorScheme: ColorScheme) -> AdaptiveImage {
@@ -287,23 +282,23 @@ extension AdaptiveImage {
     }
     
     static func happyCleaningFace(colorScheme: ColorScheme) -> AdaptiveImage {
-        return AdaptiveImage(colorScheme: colorScheme, light: .daddy1)
+        return AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20241)
     }
     
     static func happyCleaningFaceAnimation(colorScheme: ColorScheme) -> [AdaptiveImage] {
         return [
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy1),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy2),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy3),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy4),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy1),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy2),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy3),
-            AdaptiveImage(colorScheme: colorScheme, light: .daddy4)
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20241),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20242),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20243),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20244),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20241),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20242),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20243),
+            AdaptiveImage(colorScheme: colorScheme, light: .happyCleaningFace20244)
         ]
     }
     
     static func weirdFish(colorScheme: ColorScheme) -> AdaptiveImage {
-        return AdaptiveImage(colorScheme: colorScheme, light: .weirdfishPixel)
+        return AdaptiveImage(colorScheme: colorScheme, light: .weirdfish2024)
     }
 }

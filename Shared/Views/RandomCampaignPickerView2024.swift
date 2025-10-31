@@ -166,7 +166,7 @@ struct RandomCampaignPickerView2024: View {
                     self.spriteImage = AdaptiveImage.dogcowJump(colorScheme: self.colorScheme)
                 }
             } else {
-                self.spriteImage = AdaptiveImage(colorScheme: self.colorScheme, light: self.isMyke ? .mykeWalk1 : .stephenWalk1)
+                self.spriteImage = AdaptiveImage(colorScheme: self.colorScheme, light: self.isMyke ? .mykeWalk12024 : .stephenWalk12024)
             }
             if let currentBox = self.currentBoxUnder {
                 self.activateBox(currentBox)

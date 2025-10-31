@@ -649,7 +649,7 @@ extension HeadToHeadWidgetView {
     var circularLockScreenContent: some View {
         ZStack {
             Gauge(value: progressBarValue, in: 0...1, label: {
-                Image(.coin)
+                Image(.coin2024)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .offset(y: 5)

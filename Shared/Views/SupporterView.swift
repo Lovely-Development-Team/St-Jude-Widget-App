@@ -113,7 +113,7 @@ struct SupporterView: View {
                             self.animate.toggle()
                         }
                     }) {
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixelLight)
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixel2024)
                             .imageAtScale(scale: .spriteScale * 2)
                             .padding()
                             .offset(x: 0, y: animate ? -5 : 0)
