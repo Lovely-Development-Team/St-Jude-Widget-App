@@ -29,12 +29,10 @@ struct BlinkingView: View {
             }
         }) {
             ZStack(alignment: .top){
-                AdaptiveImage(colorScheme: self.colorScheme, light: self.baseImage)
-                    .imageAtScale(scale: .spriteScale * 0.5)
+                Image.imageAtScale(self.baseImage, scale: .spriteScale * 0.5)
                     .padding(11)
                 if(animate){
-                    AdaptiveImage(colorScheme: self.colorScheme, light: self.blinkImage)
-                        .imageAtScale(scale: .spriteScale * 0.75)
+                    Image.imageAtScale(self.blinkImage, scale: .spriteScale * 0.75)
                 }
             }
             .animation(animate ? .linear(duration: 1).repeatForever(autoreverses: true) : animationType)
@@ -72,11 +70,9 @@ struct BlinkingStandingView: View {
                 }
             }) {
                 ZStack(alignment: .top){
-                    AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
-                        .imageAtScale(scale: self.scale * .spriteScale)
+                    Image.imageAtScale(playerImage.baseImage, scale: self.scale * .spriteScale)
                     if(animate){
-                        AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.lightImage)
-                            .imageAtScale(scale: self.scale * .spriteScale)
+                        Image.imageAtScale(playerImage.lightImage, scale: self.scale * .spriteScale)
                             .brightness(0.15)
                     }
                 }
@@ -130,13 +126,12 @@ struct StandingToThrowingView: View{
                     
                     ZStack {
                         if !self.animate && !defaultToThrowing {
-                            AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.baseImage)
-                                .imageAtScale(scale: .spriteScale * self.scale * playerImage.baseScale)
+                            Image.imageAtScale(playerImage.baseImage, scale: .spriteScale * self.scale * playerImage.baseScale)
                                 .padding( playerImage.isPaddingMirrored ? .leading : .trailing, playerImage.horizontalPadding)
                         }
                         else{
-                            AdaptiveImage(colorScheme: self.colorScheme, light: playerImage.throwImage ?? playerImage.fightImage)
-                                .imageAtScale(scale:  .spriteScale * self.scale * (playerImage.throwScale ?? playerImage.figthScale))
+                            Image.imageAtScale(playerImage.throwImage ?? playerImage.fightImage,
+                                               scale: .spriteScale * self.scale * (playerImage.throwScale ?? playerImage.figthScale))
                                 .scaleEffect(x: playerImage.isFightImageMirrored ? -1 : 1, y: 1)
                                 .padding(.bottom, playerImage.bottomPadding)
                         }
