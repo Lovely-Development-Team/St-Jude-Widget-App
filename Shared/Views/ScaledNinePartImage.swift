@@ -68,23 +68,23 @@ struct ScaledNinePartImage: View {
         Group {
             VStack(spacing:self.spacing) {
                 HStack(spacing:self.spacing) {
-                    Image.imageAtScale(resource: self.positionImage(for: .topLeft), scale: self.scale)
-                    Image.tiledImageAtScale(resource: self.positionImage(for: .top), scale: self.scale, axis: .horizontal)
-                    Image.imageAtScale(resource: self.positionImage(for: .topRight), scale: self.scale)
+                    Image.imageAtScale(self.positionImage(for: .topLeft), scale: self.scale)
+                    Image.tiledImageAtScale(self.positionImage(for: .top), scale: self.scale, axis: .horizontal)
+                    Image.imageAtScale(self.positionImage(for: .topRight), scale: self.scale)
                 }
                 HStack(spacing:self.spacing) {
-                    Image.tiledImageAtScale(resource: self.positionImage(for: .left), scale: self.scale, axis: .vertical)
+                    Image.tiledImageAtScale(self.positionImage(for: .left), scale: self.scale, axis: .vertical)
                     Spacer()
-                    Image.tiledImageAtScale(resource: self.positionImage(for: .right), scale: self.scale, axis: .vertical)
+                    Image.tiledImageAtScale(self.positionImage(for: .right), scale: self.scale, axis: .vertical)
                 }
                 HStack(spacing:self.spacing) {
-                    Image.imageAtScale(resource: self.positionImage(for: .bottomLeft), scale: self.scale)
-                    Image.tiledImageAtScale(resource: self.positionImage(for: .bottom), scale: self.scale, axis: .horizontal)
-                    Image.imageAtScale(resource: self.positionImage(for: .bottomRight), scale: self.scale)
+                    Image.imageAtScale(self.positionImage(for: .bottomLeft), scale: self.scale)
+                    Image.tiledImageAtScale(self.positionImage(for: .bottom), scale: self.scale, axis: .horizontal)
+                    Image.imageAtScale(self.positionImage(for: .bottomRight), scale: self.scale)
                 }
             }
             .overlay {
-                Image.tiledImageAtScale(resource: self.center, scale: self.scale)
+                Image.tiledImageAtScale(self.center, scale: self.scale)
                     .clipShape(RoundedRectangle(cornerRadius: (60 * self.scale)))
                     .padding((60 * self.scale) / 2)
             }

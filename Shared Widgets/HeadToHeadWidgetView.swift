@@ -88,11 +88,9 @@ struct HeadToHeadWidgetView: View {
     var backgroundView: some View {
         if(family == .systemSmall) {
             if campaign2 == winner {
-                AdaptiveImage.arena(colorScheme: .light)
-                    .imageAtScale()
+                Image.imageAtScale(.arena)
             } else {
-                AdaptiveImage.arenaFloor(colorScheme: .light)
-                    .tiledImageAtScale()
+                Image.tiledImageAtScale(.arenaFloor)
             }
         } else if(family == .systemExtraLarge || family == .systemLarge) {
             backgroundRectView(isHorizontal: false, isSkewed: false)
@@ -106,23 +104,19 @@ struct HeadToHeadWidgetView: View {
         if(isHorizontal) {
             GeometryReader { geo in
                 HStack(spacing: 0) {
-                    AdaptiveImage.arenaFloor(colorScheme: .light)
-                        .tiledImageAtScale()
+                    Image.tiledImageAtScale(.arenaFloor)
                         .frame(width: geo.frame(in: .local).size.width * min(0.9, max(0.1, CGFloat(self.progressBarValue))), height: geo.frame(in: .local).size.height)
                     Rectangle().fill(.black).frame(width: 2)
-                    AdaptiveImage.arena(colorScheme: .light)
-                        .tiledImageAtScale()
+                    Image.tiledImageAtScale(.arena)
                 }
             }
         } else {
             ZStack {
                 GeometryReader { geo in
                     VStack(spacing: 0) {
-                        AdaptiveImage.arenaFloor(colorScheme: .light)
-                            .tiledImageAtScale()
+                        Image.tiledImageAtScale(.arenaFloor)
                             .frame(width: geo.frame(in: .local).size.width, height: geo.frame(in: .local).size.height / 2)
-                        AdaptiveImage.arena(colorScheme: .light)
-                            .tiledImageAtScale()
+                        Image.tiledImageAtScale(.arena)
                     }
                 }
                 Rectangle()

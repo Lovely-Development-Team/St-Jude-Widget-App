@@ -26,17 +26,17 @@ struct AdaptiveImage: View, Identifiable {
         Image(currentImage)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .animation(.none, value: UUID())
+//            .animation(.none, value: UUID())
     }
 }
 
 extension AdaptiveImage {
     func imageAtScale(scale: Double = .spriteScale) -> some View {
-        Image.imageAtScale(resource: self.currentImage, scale: scale)
+        Image.imageAtScale( self.currentImage, scale: scale)
     }
     
     func tiledImageAtScale(scale: Double = .spriteScale, axis: Axis? = nil) -> some View {
-        Image.tiledImageAtScale(resource: self.currentImage, scale: scale, axis: axis)
+        Image.tiledImageAtScale(self.currentImage, scale: scale, axis: axis)
     }
 }
 

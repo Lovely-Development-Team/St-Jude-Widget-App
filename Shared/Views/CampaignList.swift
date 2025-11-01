@@ -542,11 +542,9 @@ struct CampaignList: View {
             }
             .padding(.horizontal)
             if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
-                AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
-                    .imageAtScale(scale: 0.5)
+                Image.imageAtScale(.jonycubePixel2024, scale: 0.5)
             } else if searchText.lowercased() == "l2cu" {
-                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixel2024)
-                    .imageAtScale(scale: 0.5)
+                Image.imageAtScale(.l2CuPixel2024, scale: 0.5)
             }
         }
     }

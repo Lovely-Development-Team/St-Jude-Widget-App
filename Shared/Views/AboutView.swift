@@ -204,8 +204,7 @@ struct AboutView: View {
                         self.selectedAccentColor = player.rawValue
                     }, label: {
                         HStack {
-                            AdaptiveImage(colorScheme: self.colorScheme, light: object.headImage)
-                                .imageAtScale(scale: .spriteScale)
+                            Image.imageAtScale(object.headImage, scale: .spriteScale)
                                 .scaleEffect(x: object.facingLeft ? -1 : 1)
                             Spacer()
                             Text(object.name)

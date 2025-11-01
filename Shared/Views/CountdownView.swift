@@ -20,6 +20,7 @@ struct CountdownView: View {
         Group {
             if let closingDate = closingDate {
                 VStack {
+                    Image.imageAtScale(.background2024)
                     if campaignsHaveClosed {
                         GroupBox {
                             VStack(spacing: 5) {

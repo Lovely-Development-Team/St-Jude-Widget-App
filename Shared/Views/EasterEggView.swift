@@ -101,8 +101,7 @@ struct EasterEggView: View {
                             self.animate.toggle()
                         }
                     }) {
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .l2CuPixel2024)
-                            .imageAtScale(scale: .spriteScale * 2)
+                        Image.imageAtScale(.l2CuPixel2024, scale: .spriteScale * 2)
                             .accessibility(hidden: true)
                             .offset(x: 0, y: animate ? -5 : 0)
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
@@ -149,20 +148,17 @@ struct EasterEggView: View {
         .background(alignment: .bottom) {
             ZStack(alignment: .bottom) {
                 VStack(spacing:0){
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
-                        .imageAtScale()
+                    Image.imageAtScale(.arenaWall)
                         .mask(LinearGradient(stops:[
                             .init(color: .clear, location: 0),
                             .init(color: .white, location: 0.25),
                             .init(color: .white, location: 1)
                         ], startPoint: .top, endPoint: .bottom))
                         .offset(y: 50)
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                        .imageAtScale()
+                    Image.imageAtScale(.blankWall)
                         .offset(y:50)
                 }
-                AdaptiveImage(colorScheme: self.colorScheme, light: .l2CURings)
-                    .imageAtScale()
+                Image.imageAtScale(.l2CURings)
                     .offset(y: 60)
             }
         }

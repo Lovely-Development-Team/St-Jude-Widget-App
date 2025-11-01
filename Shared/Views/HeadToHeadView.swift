@@ -137,8 +137,7 @@ struct HeadToHeadView: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .background {
                     VStack(spacing:0){
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .arenaWall)
-                            .imageAtScale()
+                        Image.imageAtScale(.arenaWall)
                             .mask {
                                 LinearGradient(stops: [
                                     .init(color: .clear, location: 0),
@@ -146,8 +145,7 @@ struct HeadToHeadView: View {
                                     .init(color: .white, location: 1)
                                 ], startPoint: .top, endPoint: .bottom)
                             }
-                        AdaptiveImage(colorScheme: self.colorScheme, light: .blankWall)
-                            .imageAtScale()
+                        Image.imageAtScale(.blankWall)
                     }
                 }
                 VStack {

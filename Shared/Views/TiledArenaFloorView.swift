@@ -14,8 +14,7 @@ struct TiledArenaFloorView: View {
         VStack(spacing: 0) {
             Color.arenaFloorSkySeparator
                 .frame(height: 10 * Double.spriteScale)
-            AdaptiveImage(colorScheme: self.colorScheme, light: .arenaFloorTiles)
-                .tiledImageAtScale()
+            Image.tiledImageAtScale(.arenaFloorTiles)
                 .frame(height: 100)
                 .mask {
                     LinearGradient(colors: [

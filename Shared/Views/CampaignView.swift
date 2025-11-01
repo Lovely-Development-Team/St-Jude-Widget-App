@@ -305,9 +305,6 @@ struct CampaignView: View {
 //                    RandomLandscapeView(data: self.$landscapeData) {}
                 }
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
-                
-//                AdaptiveImage.groundRepeatable(colorScheme: self.colorScheme)
-//                    .tiledImageAtScale(axis: .horizontal)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
         }
