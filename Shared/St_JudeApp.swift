@@ -44,7 +44,7 @@ struct St_JudeApp: App {
     }
 
     func changeSystemButtomColor(){
-        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(self.selectedAccentColor)
+//        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(self.selectedAccentColor)
     }
     
     var body: some Scene {
@@ -70,13 +70,7 @@ struct St_JudeApp: App {
                 mainAppViewID = UUID()
                 WidgetCenter.shared.reloadAllTimelines()
             }
-            .onAppear(){
-                changeSystemButtomColor()
-            }
-            .onChange(of: selectedAccentColorKey){
-                changeSystemButtomColor()
-            }
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(self.userColorScheme)
             .onReceive(NotificationCenter.default.publisher(for: .displayGlobalNotification)) { message in
                 guard let userInfo = message.userInfo,
                       let title = userInfo[NotificationCenter.globalNotificationTitleKey] as? String,
@@ -98,14 +92,6 @@ struct St_JudeApp: App {
             }, message: {
                 Text(globalAlertMessage)
             })
-            .accentColor(self.selectedAccentColor)
-            .tint(self.selectedAccentColor)
-            .onAppear {
-                // set the default accent color to Myke
-                if UserDefaults.shared.object(forKey: UserDefaults.selectedAccentColorKey) == nil {
-                    UserDefaults.shared.selectedAccentColor = Player.myke.rawValue
-                }
-            }
         }
     }
 }

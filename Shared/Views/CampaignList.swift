@@ -668,7 +668,7 @@ struct CampaignList: View {
             switch sheet {
             case .aboutScreen:
                 NavigationView {
-                    AboutView(campaignChoiceID: self.$selectedCampaignId)
+                    AboutView()
                         .background(Color.secondarySystemBackground)
                         .edgesIgnoringSafeArea(.all)
                 }
