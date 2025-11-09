@@ -291,7 +291,7 @@ struct CampaignView: View {
                                         .foregroundColor(.black)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
-                                .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
+                                .buttonStyle(PrimaryButtonStyle())
 
                             }
                             
@@ -434,7 +434,7 @@ struct CampaignView: View {
                                                     .font(.headline)
                                                     .foregroundColor(.black)
                                             })
-                                            .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
+                                            .buttonStyle(PrimaryButtonStyle())
                                             Spacer()
                                         }
                                     }

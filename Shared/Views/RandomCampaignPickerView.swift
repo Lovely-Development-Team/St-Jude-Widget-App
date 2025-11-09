@@ -166,7 +166,7 @@ struct RandomCampaignPickerView: View {
                                 .font(.headline)
                                 .foregroundColor(.black)
                         })
-                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                        .buttonStyle(PrimaryButtonStyle())
                         Spacer()
                         Button(action: spinAgain, label: {
                             Text("Spin Again")
@@ -193,12 +193,6 @@ struct RandomCampaignPickerView: View {
             chosenCampaign = getRandomCampaign()
             playAnimation()
             SoundEffectHelper.shared.play(.drumroll)
-        }
-        .background {
-            VStack(spacing: 0) {
-                SkyView2025(fadeOut: true, showGraffiti: true)
-                TiledArenaFloorView()
-            }
         }
 #if !os(macOS)
         .onReceive(timer) { _ in
@@ -247,12 +241,11 @@ struct WheelWedgeView: View {
     }
     
     let colors: [Color] = [
-        WidgetAppearance.stephenLights,
-        WidgetAppearance.caseyLights,
-        WidgetAppearance.mykeLights,
-        WidgetAppearance.bradLights,
-        WidgetAppearance.jasonLights,
-        WidgetAppearance.kathyLights,
+        Color.brandRed,
+        Color.brandBlue,
+        Color.brandGreen,
+        Color.brandPurple,
+        Color.brandYellow
     ]
     
     var body: some View {

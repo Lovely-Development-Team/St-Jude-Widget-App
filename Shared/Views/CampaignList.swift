@@ -231,7 +231,7 @@ struct CampaignList: View {
                             NavigationLink(destination: CampaignView(teamEvent: teamEvent), tag: teamEvent.id, selection: $selectedCampaignId) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
-                            .buttonStyle(PrimaryButtonStyle(tint: .accentColor, useCapsuleShape: false, useBoldText: false))
+                            .buttonStyle(PrimaryButtonStyle(useCapsuleShape: false, useBoldText: false))
                             .padding()
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
@@ -289,7 +289,7 @@ struct CampaignList: View {
                                     .font(.headline)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
+                            .buttonStyle(PrimaryButtonStyle())
                             .foregroundStyle(Color.black)
                         }
                     }
@@ -454,7 +454,7 @@ struct CampaignList: View {
                     .foregroundColor(.black)
                 }
                 .padding(.horizontal)
-                .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
+                .buttonStyle(PrimaryButtonStyle())
             } else {
                 Group {
                     if isLoading {
@@ -482,7 +482,7 @@ struct CampaignList: View {
                                 })
                                 .fontWeight(.bold)
                                 .multilineTextAlignment(.center)
-                                .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
+                                .buttonStyle(PrimaryButtonStyle())
                                 .foregroundStyle(.black)
                             }
                             .frame(maxWidth: .infinity)
