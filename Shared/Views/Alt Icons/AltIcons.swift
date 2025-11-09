@@ -11,9 +11,24 @@ import SwiftUI
 enum AltIcon: String, CaseIterable, Identifiable {
     case defaultIcon
     case regular
+    case icon2024
+    case icon2025
     
     var id: String {
         self.rawValue
+    }
+    
+    var title: String {
+        switch self {
+        case .regular:
+            return "Regular"
+        case .icon2024:
+            return "2024"
+        case .icon2025:
+            return "2025"
+        default:
+            return "Default"
+        }
     }
     
     var fileName: String? {

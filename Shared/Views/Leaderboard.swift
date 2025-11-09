@@ -35,10 +35,10 @@ struct Leaderboard: View {
                         Text(campaign.user.name)
                         Spacer()
                         if offset == 0 {
-                            Image("pixel-trophy")
+                            Image(systemName: "trophy")
                                 .foregroundStyle(Color.brandYellow)
                         } else if campaign.isStarred {
-                            Image("heart.fill.pixel")
+                            Image(systemName: "heart.fill")
                         }
                         Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
                             .monospacedDigit()

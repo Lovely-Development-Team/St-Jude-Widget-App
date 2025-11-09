@@ -65,7 +65,7 @@ struct ScoreEntryView: View {
     var scoreFont: Font {
         switch family {
         case .systemLarge, .systemExtraLarge, .systemMedium:
-            return .atSize(60)
+            return .title3
         default:
             return .title
         }

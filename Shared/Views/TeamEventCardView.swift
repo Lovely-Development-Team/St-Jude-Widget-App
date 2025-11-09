@@ -54,7 +54,7 @@ struct TeamEventCardView: View {
                                 
                 if showDisclosureIndicator {
                     Spacer()
-                    Image("pixel-chevron-right")
+                    Image(systemName: "chevron.right")
                         .opacity(0.8)
                 } else if showShareIcon {
                     Spacer()
@@ -75,7 +75,7 @@ struct TeamEventCardView: View {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
                     } label: {
-                        Label("Share", image: "share.pixel")
+                        Label("Share", image: "share")
                             .labelStyle(.iconOnly)
                     }
                 }
@@ -111,7 +111,7 @@ struct TeamEventCardView: View {
                 GroupBox {
                     self.contents
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, shadowColor: nil))
+                .backgroundStyle(Color.accentColor)
             } else {
                 self.contents
             }

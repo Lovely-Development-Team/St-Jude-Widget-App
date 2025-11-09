@@ -212,7 +212,6 @@ struct CampaignView: View {
                                             .bold()
                                     }
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
                                 //                            .padding(.vertical, 8)
                             }
 
@@ -231,7 +230,6 @@ struct CampaignView: View {
                                             })
                                         })
                                 }
-                                .groupBoxStyle(BlockGroupBoxStyle())
                             }
 #endif
 
@@ -250,7 +248,7 @@ struct CampaignView: View {
                                     }
                                     .frame(minHeight: 0, maxHeight: .infinity)
                                 }
-                                .buttonStyle(BlockButtonStyle(disabled: milestones.isEmpty))
+                                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
                                 .disabled(milestones.isEmpty)
                                 Button(action: {
                                     withAnimation {
@@ -266,7 +264,7 @@ struct CampaignView: View {
                                     }
                                     .frame(minHeight: 0, maxHeight: .infinity)
                                 }
-                                .buttonStyle(BlockButtonStyle(disabled: rewards.isEmpty))
+                                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
                                 .disabled(rewards.isEmpty)
                             }
                                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -293,7 +291,7 @@ struct CampaignView: View {
                                         .foregroundColor(.black)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
-                                .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
 
                             }
                             
@@ -307,9 +305,6 @@ struct CampaignView: View {
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
-        }
-        .background{
-            SkyView2025(fadeOut: true)
         }
     }
     
@@ -336,7 +331,6 @@ struct CampaignView: View {
                     }
                 }
             }
-            .groupBoxStyle(BlockGroupBoxStyle())
             .id("Milestones")
         }
     }
@@ -359,7 +353,7 @@ struct CampaignView: View {
                             Text("\(self.activePolls.count)")
                                 .foregroundStyle(.secondary)
                             
-                            Image("pixel-chevron-right")
+                            Image(systemName:"chevron.right")
                                 .foregroundStyle(.secondary)
                                 .rotationEffect(.degrees(self.showPolls ? 90 : 0))
                         }
@@ -374,7 +368,6 @@ struct CampaignView: View {
                     }
                 }
             }
-            .groupBoxStyle(BlockGroupBoxStyle())
         }
     }
     
@@ -414,7 +407,6 @@ struct CampaignView: View {
                                                     .frame(width: 45, height: 45)
                                             }.aspectRatio(contentMode: .fit)
                                             .frame(width: 45, height: 45)
-                                            .modifier(PixelRounding())
                                     })
                                 }
                                 VStack {
@@ -442,7 +434,7 @@ struct CampaignView: View {
                                                     .font(.headline)
                                                     .foregroundColor(.black)
                                             })
-                                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                            .buttonStyle(PrimaryButtonStyle(tint: .accentColor))
                                             Spacer()
                                         }
                                     }
@@ -458,7 +450,6 @@ struct CampaignView: View {
                     }
                 }
             }
-            .groupBoxStyle(BlockGroupBoxStyle())
             .id("Rewards")
         }
     }
@@ -473,13 +464,12 @@ struct CampaignView: View {
                         .multilineTextAlignment(.leading)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
 
                 if let topDonor = topDonor {
                     GroupBox {
                         VStack(spacing: 5) {
                             HStack(spacing: 4) {
-                                Image(.crownPixel)
+                                Image(systemName: "crown.fill")
                                 if donations.count == 1 {
                                     Text("Top and only Donor")
                                         .textCase(.uppercase)
@@ -500,7 +490,6 @@ struct CampaignView: View {
                             }
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                 }
 
                 if donations.count > 1 {
@@ -509,12 +498,12 @@ struct CampaignView: View {
                             HStack {
                                 Text("Recent Donations")
                                 Spacer()
-                                Image("pixel-chevron-right")
+                                Image(systemName: "chevron.right")
                                     .foregroundColor(.secondary)
                             }
                         }
                     }
-                    .buttonStyle(BlockButtonStyle())
+                    .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
                 }
 
                 self.pollsView
@@ -529,9 +518,6 @@ struct CampaignView: View {
             .frame(maxWidth: Double.stretchedContentMaxWidth)
         }
         .frame(maxWidth: .infinity)
-        .background(alignment: .top) {
-            TiledArenaFloorView()
-        }
     }
     
     var body: some View {
@@ -541,13 +527,6 @@ struct CampaignView: View {
                     // LogsView(logContainer: logsContainer)
                     self.topView(scrollViewReader: scrollViewReader)
                     self.contents(scrollViewReader:scrollViewReader)
-                        .background {
-                            GeometryReader { geometry in
-                                Color.arenaFloor
-                                    .frame(height:geometry.size.height + 1000)
-                                    .animation(.none, value: UUID())
-                            }
-                        }
                 }
             }
         }
@@ -611,7 +590,11 @@ struct CampaignView: View {
                         await starOrUnstar()
                     }
                 }) {
-                    Label("Starred", image: initialCampaign?.isStarred ?? false ? "heart.fill.pixel" : "heart.pixel")
+                    Label(title: {
+                        Text("Starred")
+                    }, icon: {
+                        Image(systemName: self.initialCampaign?.isStarred ?? false ? "heart.fill" : "heart.fill")
+                    })
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)
                 .disabled(teamEvent != nil)
@@ -626,7 +609,7 @@ struct CampaignView: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Image("pixel-refresh")
+                        Image(systemName: "arrow.clockwise")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }

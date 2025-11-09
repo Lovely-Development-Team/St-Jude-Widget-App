@@ -72,7 +72,6 @@ struct AboutView: View {
                        let stephenPostUrl = URL(string: stephenPostUrlString) {
                         Link(destination: stephenPostUrl) {
                             Text("Read Stephen's post")
-                                .fontWeight(.bold)
                                 .foregroundColor(.black)
                                 .fullWidth(alignment: .center)
                         }
@@ -83,7 +82,6 @@ struct AboutView: View {
                        let mykePostUrl = URL(string: mykePostUrlString) {
                         Link(destination: mykePostUrl) {
                             Text("Read Myke's post")
-                                .fontWeight(.bold)
                                 .foregroundColor(.black)
                                 .fullWidth(alignment: .center)
                         }
@@ -105,7 +103,6 @@ struct AboutView: View {
                     .padding(.top)
                 Link(destination: URL(string: "https://tildy.dev/")!, label: {
                     Text("tildy.dev")
-                        .fontWeight(.bold)
                         .foregroundColor(.black)
                         .fullWidth(alignment: .center)
                 })
@@ -117,7 +114,6 @@ struct AboutView: View {
                     showSupporterSheet = true
                 }) {
                     Text("Supporters")
-                        .fontWeight(.bold)
                         .foregroundColor(.black)
                         .fullWidth(alignment: .center)
                 }
@@ -229,7 +225,6 @@ struct ToggleSetting: View {
                     
                 }) {
                     Text("Yes")
-                        .fontWeight(.bold)
                         .foregroundColor(!self.setting ? .black : .primary)
                         .frame(maxWidth: .infinity)
                 }
@@ -239,7 +234,6 @@ struct ToggleSetting: View {
                     self.onEnable?()
                 }) {
                     Text("No")
-                        .fontWeight(.bold)
                         .foregroundColor(self.setting ? .black : .primary)
                         .frame(maxWidth: .infinity)
                 }
@@ -254,34 +248,23 @@ struct AltIconButton: View {
     @Binding var currentIcon: AltIcon?
     var icon: AltIcon
     
-    @ViewBuilder
-    var content: some View {
-        Button(action: {
-            icon.set()
-            withAnimation {
-                currentIcon = icon
-            }
-        }) {
-            icon.image
-                .frame(width: 75, height: 75)
-        }
-    }
-    
     var body: some View {
-        Group {
-            if #available(iOS 26.0, *) {
-                self.content
-                    .buttonStyle(.plain)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 10))
-            } else {
-                self.content
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(radius: 10)
+            Button(action: {
+                icon.set()
+                withAnimation {
+                    currentIcon = icon
+                }
+            }) {
+                VStack {
+                    icon.image
+                        .frame(width: 75, height: 75)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(radius: 10)
+                    Text(icon.title)
+                        .foregroundStyle(self.currentIcon == self.icon ? .black : .primary)
+                }
             }
-        }
-        .shadow(color: self.currentIcon == self.icon ? Color.accentColor : .black.opacity(0.5), radius: 10)
-        .scaleEffect(self.currentIcon == self.icon ? 1.0 : 0.75)
+            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }
 }
 
