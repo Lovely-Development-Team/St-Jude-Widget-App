@@ -38,7 +38,7 @@ struct PollView: View {
                                 .foregroundStyle(isMax ? Color.accentColor : .white)
                             
                             if isMax {
-                                Image(.crownPixel)
+                                Image(systemName: "crown.fill")
                                     .foregroundStyle(Color.accentColor)
                             }
                             

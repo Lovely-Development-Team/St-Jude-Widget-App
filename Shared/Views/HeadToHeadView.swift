@@ -65,7 +65,6 @@ struct HeadToHeadView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
                 .cornerRadius(5)
-                .modifier(PixelRounding())
         } else {
             EmptyView()
         }
@@ -73,26 +72,24 @@ struct HeadToHeadView: View {
     
     @ViewBuilder
     func campaignDetails(for campaign: Campaign, alignment: TextAlignment) -> some View {
-        NavigationLink(destination: CampaignView(initialCampaign: campaign)) {
-            ZStack(alignment: alignment == .leading ? .topTrailing : .topLeading) {
-                HStack(alignment: .top) {
-                    if alignment == .leading {
-                        image(for: campaign)
-                    } else {
-                        Spacer()
-                    }
-                    Text(campaign.title)
-                        .multilineTextAlignment(alignment)
-                        .font(.title2)
-                        .bold()
-                    if alignment == .trailing {
-                        image(for: campaign)
-                    } else {
-                        Spacer()
-                    }
+        ZStack(alignment: alignment == .leading ? .topTrailing : .topLeading) {
+            HStack(alignment: .top) {
+                if alignment == .leading {
+                    image(for: campaign)
+                } else {
+                    Spacer()
                 }
-                .frame(minWidth: 0, maxWidth: .infinity)
+                Text(campaign.title)
+                    .multilineTextAlignment(alignment)
+                    .font(.title2)
+                    .bold()
+                if alignment == .trailing {
+                    image(for: campaign)
+                } else {
+                    Spacer()
+                }
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
         }
         
     }
@@ -115,52 +112,19 @@ struct HeadToHeadView: View {
                         Text("Head to Head!")
                     }
                 }
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .font(.title)
                 .bold()
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .frame(minHeight: 140)
                 .padding()
-                .background(alignment: .bottom) {
-                    HStack(alignment: .bottom) {
-                        if animateIn {
-                            StandingToThrowingView(player: .stephen, isMirrored: true, defaultToThrowing: campaign1.totalRaisedNumerical == highestTotal, onTap:{
-                                SoundEffectHelper.shared.play(.stephenRandom)
-                            })
-                            StandingToThrowingView(player: .myke, defaultToThrowing: campaign2.totalRaisedNumerical == highestTotal, onTap: {
-                                SoundEffectHelper.shared.play(.mykeRandom)
-                            })
-                        }
-                    }
-                    .padding(.horizontal)
-                }
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .background {
-                    VStack(spacing:0){
-                        Image.imageAtScale(.arenaWall)
-                            .mask {
-                                LinearGradient(stops: [
-                                    .init(color: .clear, location: 0),
-                                    .init(color: .white, location: 0.25),
-                                    .init(color: .white, location: 1)
-                                ], startPoint: .top, endPoint: .bottom)
-                            }
-                        Image.imageAtScale(.blankWall)
-                    }
-                }
                 VStack {
                     Group {
                         ZStack(alignment: .topTrailing) {
                             if animateIn {
-                                GroupBox {
+                                NavigationLink(destination: CampaignView(initialCampaign: campaign2)) {
                                     ZStack {
-                                        if campaign1.totalRaisedNumerical == highestTotal {
-                                            GroupBox {
-                                                Rectangle().fill(.clear)
-                                            }
-                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil, scale: Double.spriteScale * 0.6))
-                                            .padding(8)
-                                        }
                                         VStack(spacing: 0) {
                                             campaignDetails(for: campaign1, alignment: .leading)
                                                 .transition(.move(edge: .leading))
@@ -175,27 +139,10 @@ struct HeadToHeadView: View {
                                             }
                                             .transition(.move(edge: .leading))
                                         }
-                                        .padding()
                                     }
                                 }
-                                .foregroundColor(.white)
-                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign1.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_1.fillColor : .secondarySystemBackground, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_1.fillColor))
-                                .overlay(alignment: .bottomTrailing) {
-                                    if campaign1.totalRaisedNumerical == highestTotal {
-                                        GroupBox {
-                                            Image(.partyPopperFillPixel)
-                                                .foregroundColor(.black)
-                                                .padding(.horizontal, 10)
-                                                .padding(.vertical, 8)
-                                        }
-                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_1.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_1.fillColor, shadowColor: nil,
-                                                                          overridePositions: [
-                                                                            .topRight: .top,
-                                                                            .bottomLeft: .left
-                                                                          ]))
-                                    }
-                                }
-                                    
+                                .foregroundColor(.black)
+                                .buttonStyle(PrimaryButtonStyle(tint: HEAD_TO_HEAD_COLOR_1.fillColor, useCapsuleShape: false, useBoldText: false))
                             }
                         }
                         
@@ -203,19 +150,13 @@ struct HeadToHeadView: View {
                             ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.fillColor, fillColor: HEAD_TO_HEAD_COLOR_1.fillColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
                                     .frame(height: 20)
                                     .padding(.vertical, 10)
+                                    .shadow(radius: 10)
                         }
                         
                         ZStack(alignment: .bottomLeading) {
                             if animateIn {
-                                GroupBox {
+                                NavigationLink(destination: CampaignView(initialCampaign: campaign2)) {
                                     ZStack {
-                                        if campaign2.totalRaisedNumerical == highestTotal {
-                                            GroupBox {
-                                                Rectangle().fill(.clear)
-                                            }
-                                            .groupBoxStyle(BlockGroupBoxStyle(tint:.secondarySystemBackground, edgeColor: nil, shadowColor: nil, scale: Double.spriteScale * 0.6))
-                                            .padding(8)
-                                        }
                                         VStack(spacing: 0) {
                                             HStack(alignment: .firstTextBaseline) {
                                                 Spacer()
@@ -230,26 +171,10 @@ struct HeadToHeadView: View {
                                                 .padding(.top)
                                                 .transition(.move(edge: .trailing))
                                         }
-                                        .padding()
                                     }
                                 }
-                                .foregroundColor(.white)
-                                .groupBoxStyle(BlockGroupBoxStyle(tint: campaign2.totalRaisedNumerical == highestTotal ? HEAD_TO_HEAD_COLOR_2.fillColor : .secondarySystemBackground, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: HEAD_TO_HEAD_COLOR_2.fillColor))
-                                .overlay(alignment: .topLeading) {
-                                    if campaign2.totalRaisedNumerical == highestTotal {
-                                        GroupBox {
-                                            Image(.partyPopperFillPixel)
-                                                .foregroundColor(.black)
-                                                .padding(.horizontal, 10)
-                                                .padding(.vertical, 8)
-                                        }
-                                        .groupBoxStyle(BlockGroupBoxStyle(tint: HEAD_TO_HEAD_COLOR_2.fillColor, padding: false, edgeColor: HEAD_TO_HEAD_COLOR_2.fillColor, shadowColor: nil,
-                                                                          overridePositions: [
-                                                                            .topRight: .right,
-                                                                            .bottomLeft: .bottom
-                                                                          ]))
-                                    }
-                                }
+                                .foregroundStyle(.black)
+                                .buttonStyle(PrimaryButtonStyle(tint: HEAD_TO_HEAD_COLOR_2.fillColor, useCapsuleShape: false, useBoldText: false))
                             }
                         }
                         Spacer()
@@ -258,19 +183,6 @@ struct HeadToHeadView: View {
                 }
                 .padding()
                 .frame(minWidth: 0, maxWidth: .infinity)
-                .background {
-                    GeometryReader { geometry in
-                        Color.arenaFloor
-                            .frame(height:geometry.size.height + 1000)
-                            .mask {
-                                LinearGradient(stops: [
-                                    .init(color: .clear, location: 0),
-                                    .init(color: .white, location: 0.05),
-                                    .init(color: .white, location: 1)
-                                ], startPoint: .top, endPoint: .bottom)
-                            }
-                    }
-                }
             }
         }
         .onAppear {

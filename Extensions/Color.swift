@@ -134,4 +134,18 @@ extension Color {
     static var randomBrandedColor: Color {
         return [Color.brandYellow, Color.brandRed, Color.brandBlue, Color.brandGreen, Color.brandPurple].randomElement() ?? Color.brandYellow
     }
+    
+    var opposite: Color {
+        guard let cgColor = self.cgColor,
+              let components = cgColor.components,
+              components.count >= 3 else {
+            return self.darker()
+        }
+        
+        let red = components[0],
+            green = components[1],
+            blue = components[2]
+        
+        return Color.init(red: 1-red, green: 1-green, blue: 1-blue)
+    }
 }

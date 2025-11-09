@@ -71,13 +71,8 @@ struct ProgressBar: View {
     @ViewBuilder
     var pixeledProgressBar: some View {
         GeometryReader { geometry in
-            if disablePixelBorder {
-                longProgressBar(geometry: geometry)
-                    .clipShape(Capsule())
-            } else {
-                longProgressBar(geometry: geometry)
-                    .modifier(PixelRounding(geometry: geometry, pixelScale: self.pixelScale))
-            }
+            longProgressBar(geometry: geometry)
+                .clipShape(Capsule())
         }
     }
     

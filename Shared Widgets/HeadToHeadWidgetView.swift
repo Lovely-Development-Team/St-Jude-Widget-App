@@ -243,23 +243,23 @@ extension HeadToHeadWidgetView {
             if let username = winner?.username {
                 Text(username)
                     .foregroundStyle(labelColor)
-                    .font(.headline(disablePixelFont: shouldDisablePixelTheme))
+                    .font(.headline/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                     .lineLimit(1)
             } else {
                 Text("Username")
                     .foregroundStyle(labelColor)
-                    .font(.headline(disablePixelFont: shouldDisablePixelTheme))
+                    .font(.headline/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                     .lineLimit(1)
                     .redacted(reason: .placeholder)
             }
             if let winner = winner {
                 Text(winner.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                     .foregroundStyle(labelColor)
-                    .font(.caption(disablePixelFont: shouldDisablePixelTheme))
+                    .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
             } else {
                 Text("$123,456.00")
                     .foregroundStyle(labelColor)
-                    .font(.caption(disablePixelFont: shouldDisablePixelTheme))
+                    .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                     .redacted(reason: .placeholder)
             }
             ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2, stroke: true, disablePixelBorder: shouldDisablePixelTheme)
@@ -291,22 +291,22 @@ extension HeadToHeadWidgetView {
                             if let campaign1 = campaign1 {
                                 Text(campaign1.username ?? "Unknown")
                                     .foregroundStyle(labelColor)
-                                    .font(.headline(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.headline/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .lineLimit(1)
                                 Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                     .foregroundStyle(labelColor)
-                                    .font(.caption(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             } else {
                                 Text("Username")
                                     .foregroundStyle(labelColor)
-                                    .font(.headline(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.headline/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     .lineLimit(1)
                                     .redacted(reason: .placeholder)
                                 Text("$123,456.00")
                                     .foregroundStyle(labelColor)
-                                    .font(.caption(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     .redacted(reason: .placeholder)
                             }
@@ -315,7 +315,6 @@ extension HeadToHeadWidgetView {
                         .padding(.vertical, 4)
                         .padding(.horizontal, 12)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(padding: false))
                 }
                 .frame(maxWidth: .infinity)
                 VStack(alignment: .trailing) {
@@ -334,25 +333,25 @@ extension HeadToHeadWidgetView {
                             if let campaign2 = campaign2 {
                                 Text(campaign2.username ?? "Unknown")
                                     .foregroundStyle(labelColor)
-                                    .font(.headline(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.headline/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                                     .multilineTextAlignment(.trailing)
                                     .lineLimit(1)
                                 Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                     .foregroundStyle(labelColor)
-                                    .font(.caption(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                             } else {
                                 Text("Username")
                                     .foregroundStyle(labelColor)
-                                    .font(.headline(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.headline/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                                     .multilineTextAlignment(.trailing)
                                     .lineLimit(1)
                                     .redacted(reason: .placeholder)
                                 Text("$123,456.00")
                                     .foregroundStyle(labelColor)
-                                    .font(.caption(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                                     .redacted(reason: .placeholder)
                             }
@@ -361,7 +360,6 @@ extension HeadToHeadWidgetView {
                         .padding(.vertical, 4)
                         .padding(.horizontal, 12)
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle(padding: false))
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -390,20 +388,20 @@ extension HeadToHeadWidgetView {
                                         if let campaign1 = campaign1 {
                                             Text(campaign1.username ?? "Unknown")
                                                 .foregroundStyle(labelColor)
-                                                .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .bold()
                                             Text(campaign1.name)
                                                 .foregroundStyle(labelColor)
-                                                .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                         } else {
                                             Text("Username")
                                                 .foregroundStyle(labelColor)
-                                                .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .bold()
                                                 .redacted(reason: .placeholder)
                                             Text("Some Campaign for St. Jude")
                                                 .foregroundStyle(labelColor)
-                                                .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .redacted(reason: .placeholder)
                                         }
                                     }
@@ -413,13 +411,13 @@ extension HeadToHeadWidgetView {
                                     if let campaign1 = campaign1 {
                                         Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                             .foregroundStyle(labelColor)
-                                            .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                            .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                             .fontWeight(.bold)
                                             .lineLimit(1)
                                     } else {
                                         Text("$123,456.00")
                                             .foregroundStyle(labelColor)
-                                            .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                            .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                             .fontWeight(.bold)
                                             .lineLimit(1)
                                             .redacted(reason: .placeholder)
@@ -428,7 +426,6 @@ extension HeadToHeadWidgetView {
                             }
                             //                        .frame(minWidth: 0, maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                         Spacer()
                     }
                     if(campaign1?.id == winner?.id) {
@@ -450,13 +447,13 @@ extension HeadToHeadWidgetView {
                                     if let campaign2 = campaign2 {
                                         Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                             .foregroundStyle(labelColor)
-                                            .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                            .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                             .fontWeight(.bold)
                                             .lineLimit(1)
                                     } else {
                                         Text("$123,456.00")
                                             .foregroundStyle(labelColor)
-                                            .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                            .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                             .fontWeight(.bold)
                                             .lineLimit(1)
                                             .redacted(reason: .placeholder)
@@ -467,23 +464,23 @@ extension HeadToHeadWidgetView {
                                         if let campaign2 = campaign2 {
                                             Text(campaign2.username ?? "Unknown")
                                                 .foregroundStyle(labelColor)
-                                                .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .bold()
                                                 .multilineTextAlignment(.trailing)
                                             Text(campaign2.name)
                                                 .foregroundStyle(labelColor)
-                                                .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .multilineTextAlignment(.trailing)
                                         } else {
                                             Text("Username")
                                                 .foregroundStyle(labelColor)
-                                                .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .bold()
                                                 .multilineTextAlignment(.trailing)
                                                 .redacted(reason: .placeholder)
                                             Text("Some Campaign for St. Jude")
                                                 .foregroundStyle(labelColor)
-                                                .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                                .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                                 .multilineTextAlignment(.trailing)
                                                 .redacted(reason: .placeholder)
                                         }
@@ -492,7 +489,6 @@ extension HeadToHeadWidgetView {
                                 }
                             }
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                     }
                     
                     if(campaign2?.id == winner?.id) {
@@ -536,29 +532,29 @@ extension HeadToHeadWidgetView {
                                 if let campaign1 = campaign1 {
                                     Text(campaign1.username ?? "Unknown")
                                         .foregroundStyle(labelColor)
-                                        .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                        .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                         .bold()
                                     Text(campaign1.name)
                                         .foregroundStyle(labelColor)
-                                        .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                        .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                         .foregroundStyle(labelColor)
-                                        .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                        .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                         .fontWeight(.bold)
                                     //                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                 } else {
                                     Text("Username")
                                         .foregroundStyle(labelColor)
-                                        .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                        .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                         .bold()
                                         .redacted(reason: .placeholder)
                                     Text("Some Campaign for St. Jude")
                                         .foregroundStyle(labelColor)
-                                        .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                        .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                         .redacted(reason: .placeholder)
                                     Text("$123,456.00")
                                         .foregroundStyle(labelColor)
-                                        .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                        .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                         .fontWeight(.bold)
                                         .redacted(reason: .placeholder)
                                     //                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -566,7 +562,6 @@ extension HeadToHeadWidgetView {
                             }
                             //                            .frame(minWidth: 0, maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                         .padding(.trailing, 4)
                     }
                     Spacer()
@@ -590,40 +585,39 @@ extension HeadToHeadWidgetView {
                             if let campaign2 = campaign2 {
                                 Text(campaign2.username ?? "Unknown")
                                     .foregroundStyle(labelColor)
-                                    .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .bold()
                                     .multilineTextAlignment(.trailing)
                                 Text(campaign2.name)
                                     .foregroundStyle(labelColor)
-                                    .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .multilineTextAlignment(.trailing)
                                 Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol))
                                     .foregroundStyle(labelColor)
-                                    .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .fontWeight(.bold)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                             } else {
                                 Text("Username")
                                     .foregroundStyle(labelColor)
-                                    .font(.title2(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.title2/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .bold()
                                     .multilineTextAlignment(.trailing)
                                     .redacted(reason: .placeholder)
                                 Text("Some Campaign for St. Jude")
                                     .foregroundStyle(labelColor)
-                                    .font(.body(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .multilineTextAlignment(.trailing)
                                     .redacted(reason: .placeholder)
                                 Text("$123,456.00")
                                     .foregroundStyle(labelColor)
-                                    .font(.title(disablePixelFont: shouldDisablePixelTheme))
+                                    .font(.title/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                                     .fontWeight(.bold)
                                     .redacted(reason: .placeholder)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle())
                         .padding(.leading, 4)
                     }
                 }

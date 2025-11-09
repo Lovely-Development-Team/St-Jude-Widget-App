@@ -31,7 +31,7 @@ struct LockScreenCircularView: View {
                 }
                 .gaugeStyle(.accessoryCircularCapacity)
                 if campaign?.percentageReached ?? 0 >= 1 {
-                    Image(.partyPopperFillPixel)
+                    Image(systemName: "party.popper.fill")
                 } else {
                     Group {
                         if shouldShowGoalPercentage {

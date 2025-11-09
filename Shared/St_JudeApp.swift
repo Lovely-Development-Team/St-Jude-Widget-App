@@ -56,12 +56,12 @@ struct St_JudeApp: App {
                             WidgetCenter.shared.reloadAllTimelines()
                         }
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-//                    .navigationTitle(navTitle)
+//                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle(navTitle)
             }
             .id(mainAppViewID)
             .navigationViewStyle(.stack)
-            .environment(\.font, Font.body)
+//            .environment(\.font, Font.body)
             .onChange(of: disablePixelFont) { newValue in
                 mainAppViewID = UUID()
                 WidgetCenter.shared.reloadAllTimelines()

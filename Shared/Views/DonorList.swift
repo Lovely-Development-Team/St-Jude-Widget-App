@@ -34,7 +34,7 @@ struct DonorList: View {
                         }
                     }
                     .foregroundColor(.black)
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                    .buttonStyle(PrimaryButtonStyle())
                     .padding()
                     
                     ForEach(donations, id: \.id) { donation in
@@ -60,7 +60,6 @@ struct DonorList: View {
                                 }
                             }
                         }
-                        .groupBoxStyle(BlockGroupBoxStyle(shadowColor: nil))
                         .padding(.horizontal)
                         .padding(.bottom, donation.id == donations.last?.id ? 10 : 0)
                     }

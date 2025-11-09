@@ -84,7 +84,6 @@ struct EasterEggView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
             }
-            .groupBoxStyle(BlockGroupBoxStyle())
             .padding()
             Spacer()
 
@@ -101,7 +100,12 @@ struct EasterEggView: View {
                             self.animate.toggle()
                         }
                     }) {
-                        Image.imageAtScale(.l2CuPixel2024, scale: .spriteScale * 2)
+                        Image(.l2Cu)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .scaledToFit()
+                            // TODO: do this better
+                            .scaleEffect(0.75)
                             .accessibility(hidden: true)
                             .offset(x: 0, y: animate ? -5 : 0)
                             .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
@@ -145,23 +149,6 @@ struct EasterEggView: View {
                     .offset(y: -10)
                 }
             }
-        .background(alignment: .bottom) {
-            ZStack(alignment: .bottom) {
-                VStack(spacing:0){
-                    Image.imageAtScale(.arenaWall)
-                        .mask(LinearGradient(stops:[
-                            .init(color: .clear, location: 0),
-                            .init(color: .white, location: 0.25),
-                            .init(color: .white, location: 1)
-                        ], startPoint: .top, endPoint: .bottom))
-                        .offset(y: 50)
-                    Image.imageAtScale(.blankWall)
-                        .offset(y:50)
-                }
-                Image.imageAtScale(.l2CURings)
-                    .offset(y: 60)
-            }
-        }
     }
     
     var body: some View {
@@ -196,10 +183,9 @@ struct EasterEggView: View {
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
+                            .buttonStyle(PrimaryButtonStyle())
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     GroupBox {
                         VStack{
                             Text("Supporters")
@@ -218,10 +204,9 @@ struct EasterEggView: View {
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
+                            .buttonStyle(PrimaryButtonStyle())
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
                     GroupBox {
                         VStack {
                             Text("L2CU drawing by rhl_, pixel art by Jelly and Justin.\nRelay for St. Jude crafted with care by The Lovely Developers. ")
@@ -239,36 +224,15 @@ struct EasterEggView: View {
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor, shadowColor: nil))
+                            .buttonStyle(PrimaryButtonStyle())
                         }
                     }
-                    .groupBoxStyle(BlockGroupBoxStyle())
-                    
-                    Button(action: {
-                        self.dismiss()
-                    }, label: {
-                        Text("Done")
-                            .font(.headline)
-                            .foregroundColor(.black)
-                            .fullWidth(alignment: .center)
-                    })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor))
-                    .padding(.horizontal)
                 }
                 .padding()
-                .background {
-                    GeometryReader { geometry in
-                        Color.arenaFloor
-                            .mask(LinearGradient(stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 0.02),
-                                .init(color: .white, location: 1)
-                            ], startPoint: .top, endPoint: .bottom))
-                            .frame(height:geometry.size.height + 1000)
-                    }
-                }
+                .padding(.bottom)
             }
         }
+        .padding(.top, 20)
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityLabel)
         .sheet(isPresented: $showSupporterSheet) {
@@ -287,7 +251,16 @@ struct EasterEggView: View {
         }, message: {
             Text("coins!")
         })
-        .background(Color.arenaFloor)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction, content: {
+                Button(action: {
+                    self.dismiss()
+                }, label: {
+                    Image(systemName: "xmark")
+                })
+            })
+        }
+        .background(.background)
     }
 }
 

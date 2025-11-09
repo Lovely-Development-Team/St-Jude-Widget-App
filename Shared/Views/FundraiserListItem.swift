@@ -32,9 +32,9 @@ struct FundraiserListItem: View {
     @ViewBuilder
     var disclosureIndicator: some View {
         if(campaign.isStarred) {
-            Image(.heartFillPixel)
+            Image(systemName: "heart.fill")
         } else {
-            Image(.pixelChevronRight)
+            Image(systemName: "chevron.right")
         }
     }
     
@@ -48,17 +48,17 @@ struct FundraiserListItem: View {
     
     var barColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
-            return .accentColor
+            return .brandRed
         } else {
-            return (Player(rawValue: self.selectedAccentColorKey) ?? .myke).opponent.getPlayer().color
+            return .brandYellow
         }
     }
     
     var fillColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
-            return (Player(rawValue: self.selectedAccentColorKey) ?? .myke).opponent.getPlayer().color
+            return .brandYellow
         } else {
-            return .accentColor
+            return .brandRed
         }
     }
     
@@ -74,7 +74,6 @@ struct FundraiserListItem: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
 //                .cornerRadius(5)
-                .modifier(PixelRounding())
         } else {
             EmptyView()
         }
@@ -128,8 +127,8 @@ struct FundraiserListItem: View {
                                     Text(campaign.title)
                                         .multilineTextAlignment(.leading)
                                         .font(.headline)
+                                        .foregroundStyle(.primary)
                                 })
-                                .buttonStyle(.plain)
                             } else {
                                 Text(campaign.title)
                                     .multilineTextAlignment(.leading)
@@ -210,7 +209,6 @@ struct FundraiserListItem: View {
             GroupBox {
                 self.contents
             }
-                .groupBoxStyle(BlockGroupBoxStyle())
         } else {
             self.contents
         }

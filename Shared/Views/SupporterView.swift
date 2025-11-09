@@ -59,7 +59,7 @@ struct SupporterView: View {
                     .foregroundColor(.black)
                     .fullWidth(alignment: .center)
             })
-            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+            .buttonStyle(PrimaryButtonStyle())
             .padding(.bottom, 30)
         }
         .padding()
@@ -82,7 +82,6 @@ struct SupporterView: View {
                         }
                     }
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
                 //                    }
             } else {
                 GroupBox {
@@ -92,7 +91,6 @@ struct SupporterView: View {
                         .fullWidth(alignment: .center)
                         .padding(.bottom, 40)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle())
             }
             Button(action: {
                 self.dismiss()
@@ -102,7 +100,7 @@ struct SupporterView: View {
                     .foregroundColor(.black)
                     .fullWidth(alignment: .center)
             })
-            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+            .buttonStyle(PrimaryButtonStyle())
             Button(action: {
                 withAnimation {
 #if !os(macOS)
@@ -115,34 +113,16 @@ struct SupporterView: View {
                     self.animate.toggle()
                 }
             }) {
-                Image.imageAtScale(.l2CuPixel2024, scale: .spriteScale * 2)
+                Image(.l2Cu)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
                     .padding()
                     .offset(x: 0, y: animate ? -5 : 0)
                     .animation(animate ? .easeInOut(duration: 0.15).repeatForever(autoreverses: true) : animationType)
             }
             .buttonStyle(PlainButtonStyle())
-            .background {
-                ZStack(alignment: .bottom) {
-                    Image.imageAtScale(.blankWall)
-                        .mask(LinearGradient(stops:[
-                            .init(color: .clear, location: 0),
-                            .init(color: .white, location: 0.25),
-                            .init(color: .white, location: 0.70),
-                            .init(color: .clear, location: 1)
-                        ], startPoint: .top, endPoint: .bottom))
-                    Image.imageAtScale(.l2CURings)
-                        .offset(y: 50)
-                }
-            }
         }
         .padding()
-        .background {
-            GeometryReader { geometry in
-                Color.arenaFloor
-                    .frame(height:geometry.size.height + 1000)
-                    .animation(.none, value: UUID())
-            }
-        }
     }
     
     var body: some View {
@@ -152,13 +132,8 @@ struct SupporterView: View {
                 self.supportersListView
             }
         }
-        .background {
-            Color.arenaFloor
-        }
         .background(ignoresSafeAreaEdges: .all)
         .navigationBarTitleDisplayMode(.inline)
-        .tint(Player(rawValue: self.selectedAccentColorKey)?.getPlayer().color ?? .accentColor)
-        .accentColor(Player(rawValue: self.selectedAccentColorKey)?.getPlayer().color ?? .accentColor)
     }
 }
 

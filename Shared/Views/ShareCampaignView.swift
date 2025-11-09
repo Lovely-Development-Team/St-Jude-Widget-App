@@ -54,7 +54,7 @@ struct ShareCampaignView: View {
     var standardView: some View {
         EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, disableCombos: disableCombos)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
-            .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+            .environment(\.font, Font.body/* TODO: (disablePixelFont: disablePixelTheme)*/)
             .frame(minHeight: 169)
             .dynamicTypeSize(.medium)
     }
@@ -63,10 +63,10 @@ struct ShareCampaignView: View {
     var renderView: some View {
         if self.exportForInstagram {
             instagramView
-                .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+                .environment(\.font, Font.body/* TODO: (disablePixelFont: disablePixelTheme)*/)
         } else {
             standardView
-                .environment(\.font, Font.body(disablePixelFont: disablePixelTheme))
+                .environment(\.font, Font.body/* TODO: (disablePixelFont: disablePixelTheme)*/)
         }
     }
     
@@ -106,7 +106,7 @@ struct ShareCampaignView: View {
             }
                 .font(.headline)
                 .foregroundColor(.black)
-                .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                .buttonStyle(PrimaryButtonStyle())
                 .padding()
         }
     }

@@ -26,6 +26,10 @@ struct HeadToHeadListItem: View {
         headToHead.campaign1.totalRaisedNumerical > headToHead.campaign2.totalRaisedNumerical
     }
     
+    var isTied: Bool {
+        headToHead.campaign1.totalRaisedNumerical == headToHead.campaign2.totalRaisedNumerical
+    }
+    
     var body: some View {
         ZStack(alignment: leading ? .topLeading : .topTrailing) {
             HStack {
@@ -33,19 +37,21 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(.primary)
-                GroupBox {
-                    Text("vs")
-                        .bold()
-                        .padding(8)
-                        .foregroundColor(.black)
-                }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: .accentColor, padding: false, edgeColor: .black, shadowColor: nil))
+                    .foregroundColor(self.headToHead.campaign1 == winner || isTied ? .black : .primary)
+                Text("vs")
+                    .bold()
+                    .padding(8)
+                    .foregroundColor(.white)
+                    .background {
+                        Circle()
+                            .foregroundStyle(Color.black)
+                    }
+                    .shadow(radius: 10)
                 Text(headToHead.campaign2.name)
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(.primary)
+                    .foregroundColor(self.headToHead.campaign2 == winner || isTied ? .black : .primary)
             }
         }
         .compositingGroup()
@@ -53,29 +59,13 @@ struct HeadToHeadListItem: View {
         .background(
             HStack(spacing: 4) {
                 GroupBox {
-                    if winner == headToHead.campaign1 {
-                        GroupBox {
-                            Rectangle().fill(.clear)
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
-                        .padding(4)
-                    } else {
                         Rectangle().fill(.clear)
-                    }
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: winner == headToHead.campaign1 ? .accentColor : Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), padding: false, shadowColor: winner == headToHead.campaign1 ? .accentColor : nil))
+                .backgroundStyle(headToHead.campaign1 == winner || self.isTied ? Color.accentColor : Color.tertiarySystemBackground)
                 GroupBox {
-                    if winner == headToHead.campaign2 {
-                        GroupBox {
-                            Rectangle().fill(.clear)
-                        }
-                        .groupBoxStyle(BlockGroupBoxStyle(tint: Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10)))
-                        .padding(4)
-                    } else {
-                        Rectangle().fill(.clear)
-                    }
+                    Rectangle().fill(.clear)
                 }
-                .groupBoxStyle(BlockGroupBoxStyle(tint: winner == headToHead.campaign2 ? .accentColor : Color(uiColor: .systemGroupedBackground).darker(by: leading ? 5 : 10), padding: false, shadowColor: winner == headToHead.campaign2 ? .accentColor : nil))
+                .backgroundStyle(headToHead.campaign2 == winner || self.isTied ? Color.accentColor : Color.tertiarySystemBackground)
             }
         )
     }
