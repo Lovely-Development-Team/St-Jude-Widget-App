@@ -45,7 +45,7 @@ struct MilestoneListView: View {
                     .opacity(reached ? 0.75 : 1)
             }
             ProgressBar(value: .constant(percentage), fillColor: .accentColor)
-                .frame(height: 10 * Double.spriteScale)
+                .frame(height: 3)
                 .opacity(reached ? 0.25 : 1)
         }
     }
@@ -55,9 +55,6 @@ struct MilestoneListView: View {
     GroupBox {
         VStack(spacing: 10) {
             MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "13"), name: "Milestone 123", publicId: .init())), reached: true)
-//            Rectangle()
-//                .frame(height: 10 * Double.spriteScale)
-//                .foregroundStyle(.secondary)
             MilestoneListView(milestone: Milestone(from: TiltifyMilestone(amount: .init(currency: "USD", value: "123"), name: "Milestone 123", publicId: .init())), reached: false)
         }
     }

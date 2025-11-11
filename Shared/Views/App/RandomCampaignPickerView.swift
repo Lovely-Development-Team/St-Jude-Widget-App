@@ -165,7 +165,6 @@ struct RandomCampaignPickerView: View {
                         }, label: {
                             Text("View this fundraiser")
                                 .font(.headline)
-                                .foregroundColor(.black)
                         })
                         .buttonStyle(PrimaryButtonStyle())
                         Spacer()

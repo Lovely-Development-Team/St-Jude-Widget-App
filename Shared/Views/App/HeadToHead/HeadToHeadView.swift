@@ -127,14 +127,17 @@ struct HeadToHeadView: View {
                                     ZStack {
                                         VStack(spacing: 0) {
                                             campaignDetails(for: campaign1, alignment: .leading)
+                                                .foregroundStyle(HEAD_TO_HEAD_COLOR_1.textColor)
                                                 .transition(.move(edge: .leading))
                                                 .padding(.bottom, 8)
                                             HStack(alignment: .lastTextBaseline) {
                                                 Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                                     .font(.title)
                                                     .fontWeight(.bold)
+                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.textColor)
                                                 Text(campaign1.user.username)
                                                     .font(.caption)
+                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.textColor)
                                                 Spacer()
                                             }
                                             .transition(.move(edge: .leading))
@@ -162,14 +165,17 @@ struct HeadToHeadView: View {
                                                 Spacer()
                                                 Text(campaign2.user.username)
                                                     .font(.caption)
+                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_2.textColor)
                                                 Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                                     .font(.title)
                                                     .fontWeight(.bold)
+                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_2.textColor)
                                             }
                                             .transition(.move(edge: .trailing))
                                             campaignDetails(for: campaign2, alignment: .trailing)
                                                 .padding(.top)
                                                 .transition(.move(edge: .trailing))
+                                                .foregroundStyle(HEAD_TO_HEAD_COLOR_2.textColor)
                                         }
                                     }
                                 }

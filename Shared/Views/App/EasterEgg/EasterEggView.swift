@@ -102,7 +102,6 @@ struct EasterEggView: View {
                 Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
                     Text("tildy.dev/stjude")
                         .font(.headline)
-                        .foregroundColor(.black)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
                 .buttonStyle(PrimaryButtonStyle())
@@ -120,7 +119,6 @@ struct EasterEggView: View {
                 }, label: {
                     Text("Supporters")
                         .font(.headline)
-                        .foregroundColor(.black)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
                 .buttonStyle(PrimaryButtonStyle())
@@ -140,7 +138,6 @@ struct EasterEggView: View {
                 }, label: {
                     Text("tildy.dev")
                         .font(.headline)
-                        .foregroundColor(.black)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
                 .buttonStyle(PrimaryButtonStyle())

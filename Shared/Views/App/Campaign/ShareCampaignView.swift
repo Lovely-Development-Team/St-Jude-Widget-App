@@ -86,7 +86,7 @@ struct ShareCampaignView: View {
     @ViewBuilder
     @MainActor
     var headerView: some View {
-        VStack(spacing: 0) {
+        VStack {
             standardView
                 .background {
                     GeometryReader { geo in
@@ -100,79 +100,61 @@ struct ShareCampaignView: View {
                     }
                 }
                 .cornerRadius((clipCorners ? 15 : 0))
-                .padding(.horizontal)
             ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
-                Label("Share", image: "share.pixel")
+                Label("Share", systemImage: "square.and.arrow.up")
             }
-                .font(.headline)
-                .foregroundColor(.black)
-                .buttonStyle(PrimaryButtonStyle())
-                .padding()
+            .buttonStyle(PrimaryButtonStyle())
+        }
+        .padding(.bottom)
+    }
+    
+    @ViewBuilder
+    var settingsView: some View {
+        Section(header: self.headerView) {
+            Picker("Appearance", selection: $appearance.animation()) {
+                ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
+                    Text(appearance.name).tag(appearance)
+                }
+            }
+            Toggle("Show Milestones", isOn: $showMilestones.animation())
+            if showMilestones {
+                Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
+                Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation())
+            }
+            Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation())
+            Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation())
+            Toggle(isOn: self.$clipCorners.animation(), label: {
+                VStack(alignment: .leading) {
+                    Text("Rounded Corners")
+                    if self.clipCorners {
+                        Text("Some popular social media platforms such as Discord may not display rounded corners as intended.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            })
+            Toggle("Disable Pixel Theme", isOn: disablePixelFontGlobally ? .constant(true) : $disablePixelTheme.animation())
+                .disabled(disablePixelFontGlobally)
+            Toggle("Export in 9:16", isOn: $exportForInstagram)
+            Toggle("Disable Goal Multipliers", isOn: $disableCombos)
         }
     }
     
+    
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack {
-                    headerView
-                    VStack {
-                        Toggle("Show Milestones", isOn: $showMilestones.animation()).padding(.top, 8).padding(.trailing)
-                        Divider().opacity(0.75)
-                        if showMilestones {
-                            Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation()).padding(.trailing)
-                            Divider().opacity(0.75)
-                            Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation()).padding(.trailing)
-                            Divider().opacity(0.75)
-                        }
-                        Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation()).padding(.trailing)
-                        Divider().opacity(0.75)
-                        Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation()).padding(.trailing)
-                        Divider().opacity(0.75)
-                        Toggle("Rounded Corners", isOn: $clipCorners.animation()).padding(.trailing)
-                        Divider().opacity(0.75)
-                        Toggle("Disable Pixel Theme", isOn: disablePixelFontGlobally ? .constant(true) : $disablePixelTheme.animation()).padding(.trailing)
-                            .disabled(disablePixelFontGlobally)
-                        Divider().opacity(0.75)
-                        Toggle("Export in 9:16", isOn: $exportForInstagram).padding(.trailing)
-                        Divider().opacity(0.75)
-                        Toggle("Disable Goal Multipliers", isOn: $disableCombos).padding(.trailing)
-                        Divider().opacity(0.75)
-                        HStack(alignment: .firstTextBaseline) {
-                            Text("Appearance")
-                            Spacer()
-                            Picker("Appearance", selection: $appearance.animation()) {
-                                ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
-                                    Text(appearance.name).tag(appearance)
-                                }
-                            }
-                        }
-                        .padding(.bottom, 8)
-                    }
-                    .padding(.leading)
-                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
-                    .padding(.horizontal)
-                    Text(clipCorners ? "Some popular social media platforms such as Discord may not display rounded corners as intended." : "")
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .font(.caption)
-                        .multilineTextAlignment(.leading)
-                        .foregroundStyle(Color.secondary)
-                        .padding(.horizontal, 30)
-                        .padding(.bottom)
-                }
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }) {
-                            Image(systemName: "xmark")
-                        }
-                    }
+        Form {
+            self.settingsView
+        }
+        .navigationTitle("Preview")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "xmark")
                 }
             }
-            .background(Color.secondarySystemBackground)
-            .navigationTitle("Preview")
-            .navigationBarTitleDisplayMode(.inline)
         }
         .onChange(of: appearance) { _ in
             render()

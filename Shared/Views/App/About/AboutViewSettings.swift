@@ -26,7 +26,7 @@ struct ToggleSetting: View {
                     
                 }) {
                     Text("Yes")
-                        .foregroundColor(!self.setting ? .black : .primary)
+                        .foregroundColor(!self.setting ? .contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(PrimaryButtonStyle(tint: !self.setting ? .accentColor : .tertiarySystemBackground))
@@ -37,7 +37,7 @@ struct ToggleSetting: View {
                     }
                 }) {
                     Text("No")
-                        .foregroundColor(self.setting ? .black : .primary)
+                        .foregroundColor(self.setting ? .contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(PrimaryButtonStyle(tint: self.setting ? .accentColor : .tertiarySystemBackground))
@@ -63,7 +63,7 @@ struct AltIconButton: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(radius: 10)
                     Text(icon.title)
-                        .foregroundStyle(self.currentIcon == self.icon ? .black : .primary)
+                        .foregroundStyle(self.currentIcon == self.icon ? Color.contentColorForAccent : Color.primary)
                 }
             }
             .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))

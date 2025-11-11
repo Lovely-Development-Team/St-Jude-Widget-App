@@ -12,12 +12,22 @@ struct PrimaryButtonStyle: ButtonStyle {
     var useCapsuleShape: Bool = true
     var cornerRadius: CGFloat = 10
     var useBoldText: Bool = true
+    var padding: CGFloat = 15
+    
+    var overrideTextColor: Color? = .white
     
     @ViewBuilder
     func content(configuration: Configuration) -> some View {
-        configuration.label
-            .padding()
-            .bold(self.useBoldText)
+        if let overrideTextColor = self.overrideTextColor {
+            configuration.label
+                .foregroundStyle(overrideTextColor)
+                .padding(self.padding)
+                .bold(self.useBoldText)
+        } else {
+            configuration.label
+                .padding(self.padding)
+                .bold(self.useBoldText)
+        }
     }
     
     @ViewBuilder

@@ -56,7 +56,6 @@ struct AboutView: View {
                        let stephenPostUrl = URL(string: stephenPostUrlString) {
                         Link(destination: stephenPostUrl) {
                             Text("Read Stephen's post")
-                                .foregroundColor(.black)
                                 .fullWidth(alignment: .center)
                         }
                         .buttonStyle(PrimaryButtonStyle())
@@ -66,7 +65,6 @@ struct AboutView: View {
                        let mykePostUrl = URL(string: mykePostUrlString) {
                         Link(destination: mykePostUrl) {
                             Text("Read Myke's post")
-                                .foregroundColor(.black)
                                 .fullWidth(alignment: .center)
                         }
                         .buttonStyle(PrimaryButtonStyle())
@@ -86,7 +84,6 @@ struct AboutView: View {
                         .fullWidth()
                     Link(destination: URL(string: "https://tildy.dev/")!, label: {
                         Text("tildy.dev")
-                            .foregroundColor(.black)
                             .fullWidth(alignment: .center)
                     })
                     .buttonStyle(PrimaryButtonStyle())
@@ -99,7 +96,6 @@ struct AboutView: View {
                         self.showSupporterSheet = true
                     }) {
                         Text("Supporters")
-                            .foregroundColor(.black)
                             .fullWidth(alignment: .center)
                     }
                     .buttonStyle(PrimaryButtonStyle())

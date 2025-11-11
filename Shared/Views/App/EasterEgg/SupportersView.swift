@@ -23,7 +23,6 @@ struct SupportersView: View {
             Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
                 Text("tildy.dev/stjude")
                     .font(.headline)
-                    .foregroundColor(.black)
                     .fullWidth(alignment: .center)
             })
             .buttonStyle(PrimaryButtonStyle())

@@ -214,7 +214,7 @@ struct CampaignList: View {
                         await fetch()
                     }
                 } label: {
-                    Label("Remove Head to Head", image: "trash")
+                    Label("Remove Head to Head", systemImage: "trash")
                 }
             }
         }
@@ -236,6 +236,7 @@ struct CampaignList: View {
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
                                 .padding()
+                                .foregroundStyle(Color.contentColorForAccent)
                         }
                     }
                 }
@@ -290,7 +291,6 @@ struct CampaignList: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
                             .buttonStyle(PrimaryButtonStyle())
-                            .foregroundStyle(Color.black)
                         }
                     }
                 } else {
@@ -451,7 +451,6 @@ struct CampaignList: View {
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         Image(systemName: "chevron.right")
                     }
-                    .foregroundColor(.black)
                 }
                 .padding(.horizontal)
                 .buttonStyle(PrimaryButtonStyle())
@@ -483,7 +482,6 @@ struct CampaignList: View {
                                 .fontWeight(.bold)
                                 .multilineTextAlignment(.center)
                                 .buttonStyle(PrimaryButtonStyle())
-                                .foregroundStyle(.black)
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -594,12 +592,12 @@ struct CampaignList: View {
                     VStack{
                         topView
                     }
-//                    .padding(.top)
 
                     VStack {
                         CountdownView()
                             .padding(.horizontal)
                         headToHeadListView
+                            .padding(.vertical)
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
                         fundraiserListView
                         easterEggView

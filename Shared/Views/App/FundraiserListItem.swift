@@ -27,7 +27,6 @@ struct FundraiserListItem: View {
     
     @State private var showShareLinkSheet: ShareURL? = nil
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
-    @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColorKey = 0
     
     @ViewBuilder
     var disclosureIndicator: some View {
@@ -37,14 +36,6 @@ struct FundraiserListItem: View {
             Image(systemName: "chevron.right")
         }
     }
-    
-//    var disclosureIndicatorIcon: String {
-//        if campaign.isStarred {
-//            return "star.fill"
-//        }
-//        return "chevron.right"
-//    }
-    
     
     var barColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
@@ -73,134 +64,144 @@ struct FundraiserListItem: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
-//                .cornerRadius(5)
+                .cornerRadius(5)
         } else {
             EmptyView()
         }
     }
     
     @ViewBuilder
-    var contents: some View {
-        Group {
-            if compact {
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(campaign.title)
-                            .lineLimit(1)
-                            .font(.headline)
-                        if showDisclosureIndicator {
-                            Spacer()
-//                            Image(systemName: disclosureIndicatorIcon)
-                            self.disclosureIndicator
-                                .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
-                        }
-                    }
-                    HStack {
-                        if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
-                            Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
-                                .foregroundColor(.secondary)
-                                .lineLimit(1)
-                        } else if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
-                            Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
-                                .foregroundColor(.secondary)
-                                .lineLimit(1)
-                        } else {
-                            Text(campaign.user.name)
-                                .foregroundColor(.secondary)
-                                .fullWidth(alignment: .leading)
-                        }
-                        Spacer()
-                        Text("\(campaign.totalRaisedDescription(showFullCurrencySymbol: false))")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .lineLimit(1)
-                            .layoutPriority(1)
-                    }
-                }
-            } else {
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(alignment: .top) {
-                        image()
-                        VStack(alignment: .leading, spacing: 2) {
-                            if !showDisclosureIndicator {
-                                Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!, label: {
-                                    Text(campaign.title)
-                                        .multilineTextAlignment(.leading)
-                                        .font(.headline)
-                                        .foregroundStyle(.primary)
-                                })
-                            } else {
-                                Text(campaign.title)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.headline)
-                            }
-                            Text(campaign.user.name)
-                                .multilineTextAlignment(.leading)
-                                .foregroundColor(.secondary)
-                        }
-                        if showDisclosureIndicator {
-                            Spacer()
-//                            Image(systemName: disclosureIndicatorIcon)
-                            self.disclosureIndicator
-                                .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
-                        } else if showShareIcon {
-                            Spacer()
-                            Menu {
-                                Button(action: {
-                                    showShareSheet = true
-                                }) {
-                                    Label("Share Image", systemImage: "photo")
-                                }
-                                Button(action: {
-                                    showShareLinkSheet = ShareURL(url: campaign.url)
-                                }) {
-                                    Label("Share Fundraiser Link", systemImage: "link")
-                                }
-                                Button(action: {
-                                    showShareLinkSheet = ShareURL(url: campaign.directDonateURL)
-                                }) {
-                                    Label("Share Direct Donation Link", systemImage: "dollarsign")
-                                }
-                            } label: {
-                                Label("Share", image: "share.pixel")
-                                    .labelStyle(.iconOnly)
-                            }
-                        }
-                    }
-                    Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                    if let progressBarAmount = campaign.progressBarAmount {
-                        HStack {
-                            if self.campaign.multiplier > 1 && !UserDefaults.shared.disableCombos {
-                                Text("\(self.campaign.multiplier)x")
-                                    .font(.headline)
-                                ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor)
-                                    .frame(height: 10)
-                            } else {
-                                ProgressBar(value: .constant(Float(progressBarAmount)), fillColor: .accentColor)
-                                    .frame(height: 10)
-                            }
-                        }
-                    }
-                    if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
-                        Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.top, 2)
-                    }
-                    if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
-                        Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.top, 2)
-                    }
-                }
-                .sheet(item: $showShareLinkSheet) { url in
-                    ShareSheetView(activityItems: [url.url])
+    func infoView(compact: Bool) -> some View {
+        if compact {
+            HStack {
+                Text(campaign.title)
+                    .lineLimit(1)
+                    .font(.headline)
+                if showDisclosureIndicator {
+                    Spacer()
+                    self.disclosureIndicator
+                        .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
                 }
             }
+        } else {
+            HStack(alignment: .top) {
+                image()
+                VStack(alignment: .leading) {
+                    if !showDisclosureIndicator {
+                        Link(destination: URL(string: "https://tiltify.com/@\(campaign.user.slug)/\(campaign.slug)")!, label: {
+                            Text(campaign.title)
+                                .multilineTextAlignment(.leading)
+                                .font(.headline)
+                                .foregroundStyle(.primary)
+                        })
+                        .buttonStyle(.plain)
+                    } else {
+                        Text(campaign.title)
+                            .multilineTextAlignment(.leading)
+                            .font(.headline)
+                    }
+                    Text(campaign.user.name)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.secondary)
+                }
+                if showDisclosureIndicator {
+                    Spacer()
+                    self.disclosureIndicator
+                        .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
+                } else if showShareIcon {
+                    Spacer()
+                    Menu {
+                        Button(action: {
+                            showShareSheet = true
+                        }) {
+                            Label("Share Image", systemImage: "photo")
+                        }
+                        Button(action: {
+                            showShareLinkSheet = ShareURL(url: campaign.url)
+                        }) {
+                            Label("Share Fundraiser Link", systemImage: "link")
+                        }
+                        Button(action: {
+                            showShareLinkSheet = ShareURL(url: campaign.directDonateURL)
+                        }) {
+                            Label("Share Direct Donation Link", systemImage: "dollarsign")
+                        }
+                    } label: {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                            .labelStyle(.iconOnly)
+                    }
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func amountView(compact: Bool) -> some View {
+        if compact {
+            HStack {
+                if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
+                    Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                } else if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
+                    Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                } else {
+                    Text(campaign.user.name)
+                        .foregroundColor(.secondary)
+                        .fullWidth(alignment: .leading)
+                }
+                Spacer()
+                Text("\(campaign.totalRaisedDescription(showFullCurrencySymbol: false))")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                    .layoutPriority(1)
+            }
+        } else {
+            Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+                .font(.title)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            if let progressBarAmount = campaign.progressBarAmount {
+                HStack {
+                    if self.campaign.multiplier > 1 && !UserDefaults.shared.disableCombos {
+                        Text("\(self.campaign.multiplier)x")
+                            .font(.headline)
+                        ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor)
+                            .frame(height: 10)
+                    } else {
+                        ProgressBar(value: .constant(Float(progressBarAmount)), fillColor: .accentColor)
+                            .frame(height: 10)
+                    }
+                }
+            }
+            if sortOrdersShowingPercentage.contains(sortOrder), let percentageReachedDesc = campaign.percentageReachedDescription {
+                Text("\(percentageReachedDesc) of \(campaign.goalDescription(showFullCurrencySymbol: false))")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.top, 2)
+            }
+            if sortOrder == .byAmountRemaining && campaign.goalNumerical - campaign.totalRaisedNumerical > 0 {
+                Text("\(campaign.amountRemainingDescription) until \(campaign.goalDescription(showFullCurrencySymbol: false))")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.top, 2)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var contents: some View {
+        Group {
+            VStack(spacing: 0) {
+                self.infoView(compact: self.compact)
+                self.amountView(compact: self.compact)
+            }
+        }
+        .sheet(item: $showShareLinkSheet) { url in
+            ShareSheetView(activityItems: [url.url])
         }
     }
     

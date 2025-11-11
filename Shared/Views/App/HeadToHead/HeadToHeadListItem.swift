@@ -37,7 +37,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(self.headToHead.campaign1 == winner || isTied ? .black : .primary)
+                    .foregroundColor(self.headToHead.campaign1 == winner || isTied ? .contentColorForAccent : .primary)
                 Text("vs")
                     .bold()
                     .padding(8)
@@ -51,7 +51,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(self.headToHead.campaign2 == winner || isTied ? .black : .primary)
+                    .foregroundColor(self.headToHead.campaign2 == winner || isTied ? .contentColorForAccent : .primary)
             }
         }
         .compositingGroup()
