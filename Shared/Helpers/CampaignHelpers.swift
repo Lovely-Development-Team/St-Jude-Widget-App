@@ -24,6 +24,8 @@ extension Campaign {
         }
         return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
     }
+    
+    static var significantAmount: Double? = nil
 }
 
 extension TiltifyWidgetData {

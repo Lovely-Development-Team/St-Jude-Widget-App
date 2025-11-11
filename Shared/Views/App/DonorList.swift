@@ -30,7 +30,7 @@ struct DonorList: View {
                             Text("View all donors on Tiltify")
                                 .fontWeight(.bold)
                             Spacer()
-                            Image(.boxArrowUpRightPixel)
+                            Image(systemName: "square.and.arrow.up")
                         }
                     }
                     .foregroundColor(.black)
@@ -46,7 +46,7 @@ struct DonorList: View {
                                         .font(.headline)
                                     Spacer()
 //                                    if !donation.incentives?.isEmpty ?? false {
-//                                        Image(.heartPixel)
+//                                        Image(systemName: "heart.fill")
 //                                            .foregroundColor(.secondary)
 //                                    }
                                     Text(donation.amount.description(showFullCurrencySymbol: false))
@@ -67,19 +67,6 @@ struct DonorList: View {
                 }
                 Spacer()
             }
-            .background {
-                    GeometryReader { geometry in
-                        Color.arenaFloor
-                            .frame(height:geometry.size.height + 1000)
-                            .mask {
-                                LinearGradient(stops: [
-                                    .init(color: .clear, location: 0),
-                                    .init(color: .white, location: 0.05),
-                                    .init(color: .white, location: 1)
-                                ], startPoint: .top, endPoint: .bottom)
-                            }
-                    }
-            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -93,7 +80,7 @@ struct DonorList: View {
                         if isRefreshing {
                             ProgressView()
                         }
-                        Image(.pixelRefresh)
+                        Image(systemName: "arrow.clockwise")
                             .opacity(isRefreshing ? 0 : 1)
                     }
                 }
