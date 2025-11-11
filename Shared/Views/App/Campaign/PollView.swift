@@ -15,25 +15,24 @@ struct PollView: View {
     var body: some View {
         GroupBox {
             VStack(alignment: .leading) {
-                HStack(alignment: .top) {
+                HStack(alignment: .center) {
                     Text(poll.name)
+                        .bold()
                     Spacer()
                     Link(destination: URL(string: "https://donate.tiltify.com/\(campaignId.uuidString)/incentives?pollPublicId=\(poll.id.uuidString.lowercased())")!, label: {
                         Text("Vote!")
-                            .foregroundStyle(.black)
                             .font(.caption)
                     })
-                    .buttonStyle(PrimaryButtonStyle())
+                    .buttonStyle(PrimaryButtonStyle(padding: 10))
                     .padding(.bottom, 4)
                 }
                 ForEach(poll.options, id: \.id) { option in
                     VStack {
                         HStack(alignment: .center) {
                             let isMax = option.isMax(parentPoll: poll)
-                            
                             Text(option.name)
                                 .font(.caption)
-                                .foregroundStyle(isMax ? Color.accentColor : .white)
+                                .foregroundStyle(isMax ? Color.accentColor : .primary)
                             
                             if isMax {
                                 Image(systemName: "crown.fill")
@@ -45,17 +44,17 @@ struct PollView: View {
                             VStack(alignment: .trailing) {
                                 Text("\(Int(option.percentageOfPoll(parentPoll: poll) * 100))%")
                                     .font(.caption)
-                                    .foregroundStyle(isMax ? Color.accentColor : .white)
+                                    .foregroundStyle(isMax ? Color.accentColor : .primary)
                                 Text(option.amountRaised.description(showFullCurrencySymbol: false))
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
                         }
                         ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: .accentColor)
+                            .frame(height: 10)
                     }
                 }
             }
-            .padding()
         }
     }
 }

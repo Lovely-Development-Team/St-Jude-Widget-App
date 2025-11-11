@@ -102,6 +102,16 @@ struct StJudeTotals: View {
     }
 }
 
+// MARK: View code for annual totals if we ever want that back
+
+//                    Text("Annual Fundraising Totals")
+//                        .fullWidth()
+//                        .font(.headline)
+//                        .padding(.top)
+//                    StJudeTotals(currentTotal: teamEvent.totalRaisedNumerical)
+//                        .frame(height: 150)
+//                        .padding(.bottom)
+
 #Preview {
     ScrollView {
         StJudeTotals()

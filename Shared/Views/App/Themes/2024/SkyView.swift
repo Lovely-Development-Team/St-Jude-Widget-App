@@ -35,46 +35,6 @@ struct SkyView: View {
     }
 }
 
-struct SkyView2025: View {
-    @Environment(\.colorScheme) var colorScheme
-    var fadeOut: Bool = false
-    var showGraffiti: Bool = false
-    
-    var body: some View {
-        Color.skyBackground2025
-            .overlay(alignment: .bottom) {
-                ForEach(0..<25) { i in
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .gradientBand)
-                        .tiledImageAtScale(axis: .horizontal)
-                        .opacity(0.2)
-                        .offset(y: -36 * Double(i))
-                }
-            }
-            .overlay(alignment: .bottom) {
-                if self.showGraffiti {
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .arenaGraffiti)
-                        .imageAtScale()
-                        .offset(y: -10)
-                } else {
-                    EmptyView()
-                }
-            }
-            .clipped()
-            .mask {
-                if self.fadeOut {
-                    LinearGradient(colors: [
-                        .white,
-                        .white,
-                        .white,
-                        .white,
-                        .clear
-                    ], startPoint: .bottom, endPoint: .top)
-                } else {
-                    Color.white
-                }
-            }
-    }
-}
 
 struct SkyViewPreviewView: View {
     @State private var height: Double = 500
@@ -82,7 +42,7 @@ struct SkyViewPreviewView: View {
     @State private var showGraffiti: Bool = false
     
     var body: some View {
-        SkyView2025(fadeOut: self.fadeOut, showGraffiti: self.showGraffiti)
+        SkyView()
             .frame(width: 300, height: self.height)
             .border(.black)
 //        Spacer()

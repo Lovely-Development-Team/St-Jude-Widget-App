@@ -176,4 +176,16 @@ extension WidgetAppearance {
         }
     }
     
+    // TODO: Finish this list
+    var textColor: Color {
+        switch self {
+        case .stephen:
+            return .black
+        case .myke:
+            return .white
+        default:
+            return Color.contentColorForAccent
+        }
+    }
+    
 }

@@ -15,6 +15,8 @@ extension TeamEvent {
         }
         return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
     }
+    
+    static var significantAmount: Double? = nil
 }
 
 extension Campaign {
@@ -24,8 +26,6 @@ extension Campaign {
         }
         return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
     }
-    
-    static var significantAmount: Double? = nil
 }
 
 extension TiltifyWidgetData {
@@ -39,11 +39,11 @@ extension TiltifyWidgetData {
 
 extension TiltifyCampaignPollOption {
     func isMax(parentPoll: TiltifyCampaignPoll) -> Bool {
-        
-        // Search for ties, return false if there are any
+        // Search for ties, return true since they're both in the lead
         for option in parentPoll.options {
+            if option.id == self.id { continue }
             if option.amountRaised.numericalValue == self.amountRaised.numericalValue {
-                return false
+                return true
             }
         }
         
