@@ -22,10 +22,8 @@ struct PollView: View {
                         Text("Vote!")
                             .foregroundStyle(.black)
                             .font(.caption)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
                     })
-                    .buttonStyle(BlockButtonStyle(tint: .accentColor, padding: false))
+                    .buttonStyle(PrimaryButtonStyle())
                     .padding(.bottom, 4)
                 }
                 ForEach(poll.options, id: \.id) { option in
@@ -59,7 +57,6 @@ struct PollView: View {
             }
             .padding()
         }
-        .groupBoxStyle(BlockGroupBoxStyle(tint: .tertiarySystemBackground, padding: false, shadowColor: nil))
     }
 }
 

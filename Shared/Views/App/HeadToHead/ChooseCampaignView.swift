@@ -62,11 +62,11 @@ struct ChooseCampaignView: View {
         .searchable(text: $searchText)
         .navigationTitle(titleText)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .cancellationAction) {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    Text("Cancel")
+                    Image(systemName: "xmark")
                 }
             }
         }

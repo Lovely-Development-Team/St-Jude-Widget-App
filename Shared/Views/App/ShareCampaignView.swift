@@ -161,11 +161,11 @@ struct ShareCampaignView: View {
                         .padding(.bottom)
                 }
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: .cancellationAction) {
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }) {
-                            Text("Done")
+                            Image(systemName: "xmark")
                         }
                     }
                 }

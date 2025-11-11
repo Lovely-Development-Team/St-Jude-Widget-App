@@ -56,7 +56,7 @@ struct St_JudeApp: App {
                             WidgetCenter.shared.reloadAllTimelines()
                         }
                     }
-//                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle(navTitle)
             }
             .id(mainAppViewID)

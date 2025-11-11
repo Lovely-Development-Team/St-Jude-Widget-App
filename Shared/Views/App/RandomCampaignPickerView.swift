@@ -10,6 +10,7 @@ import Kingfisher
 import AVKit
 
 struct RandomCampaignPickerView: View {
+    @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     
     @Binding var campaignChoiceID: UUID?
@@ -193,6 +194,16 @@ struct RandomCampaignPickerView: View {
             chosenCampaign = getRandomCampaign()
             playAnimation()
             SoundEffectHelper.shared.play(.drumroll)
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(action: {
+                    self.dismiss()
+                }, label: {
+                    Image(systemName: "xmark")
+                })
+                .animation(.linear(duration: 0))
+            }
         }
 #if !os(macOS)
         .onReceive(timer) { _ in

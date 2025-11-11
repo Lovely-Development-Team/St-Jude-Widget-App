@@ -60,7 +60,7 @@ struct Leaderboard: View {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    Text("Done")
+                    Image(systemName: "xmark")
                 }
             }
         }

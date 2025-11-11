@@ -9,50 +9,6 @@ import SwiftUI
 import GRDB
 import Kingfisher
 
-@Observable
-class LogsContainer {
-    var logs: [String] = []
-    
-    init(logs: [String]) {
-        self.logs = logs
-    }
-}
-
-struct LogsView: View {
-    let logContainer: LogsContainer
-    
-    var logs: [String] {
-        logContainer.logs
-    }
-    
-    var body: some View {
-        if !logs.isEmpty {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 3) {
-                        ForEach(Array(logs.enumerated()), id: \.0) { idx, log in
-                            Text(log)
-                                .foregroundColor(.black)
-                                .font(.system(.caption2))
-                                .multilineTextAlignment(.leading)
-                                .fullWidth(alignment: .leading)
-                                .id(idx)
-                        }
-                    }
-                    .padding(4)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                    .padding(.horizontal)
-                }
-                .frame(maxHeight: 200)
-                .onChange(of: logs) { oldValue, newValue in
-                    proxy.scrollTo(newValue.endIndex-1)
-                }
-            }
-        }
-    }
-}
-
 struct CampaignView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
@@ -88,7 +44,7 @@ struct CampaignView: View {
     
     @State private var hasDoneInitialAPIFetch: Bool = false
     
-    @State private var logsContainer: LogsContainer
+    @State private var logsContainer: LogsContainer = LogsContainer()
     @State private var refreshId: UUID = .init()
     
     private var activePolls: [TiltifyCampaignPoll] {
@@ -101,11 +57,11 @@ struct CampaignView: View {
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: nil)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
-        _logsContainer = State(wrappedValue: LogsContainer(logs: ["View initialized with Campaign, value \(initialCampaign.totalRaisedNumerical)"]))
+        self.logsContainer.addLog("View initialized with Campaign, value \(initialCampaign.totalRaisedNumerical)")
     }
     
     init(teamEvent: TeamEvent) {
-        _logsContainer = State(wrappedValue: LogsContainer(logs: ["View initialized with Team Event, value \(teamEvent.totalRaisedNumerical)"]))
+        self.logsContainer.addLog("View initialized with Team Event, value \(teamEvent.totalRaisedNumerical)")
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: teamEvent)
         _teamEventObservation = State(wrappedValue: AppDatabase.shared.observeTeamEventObservation())
@@ -196,9 +152,13 @@ struct CampaignView: View {
                                 GroupBox {
                                     VStack {
                                         HStack(spacing: 4) {
-//                                            if grandTotalRaised >= 2500000 {
-//                                                Image(.partyPopperFillPixel)
-//                                            }
+                                            // Optional threshold for a significant amount raised
+                                            if let significantAmount = Campaign.significantAmount {
+                                                if grandTotalRaised >= significantAmount {
+                                                    Image(.partyPopperFillPixel)
+                                                }
+                                            }
+                                            
                                             Text("Lifetime Total")
                                                 .textCase(.uppercase)
                                             Spacer()
@@ -214,7 +174,7 @@ struct CampaignView: View {
                                 }
                                 //                            .padding(.vertical, 8)
                             }
-
+                            
 #if DEBUG
                             if let initialCampaign = initialCampaign {
                                 GroupBox {
@@ -232,7 +192,7 @@ struct CampaignView: View {
                                 }
                             }
 #endif
-
+                            
                             LazyVGrid(columns: milestoneAndRewardButtonColumns) {
                                 Button(action: {
                                     withAnimation {
@@ -267,7 +227,7 @@ struct CampaignView: View {
                                 .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
                                 .disabled(rewards.isEmpty)
                             }
-                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             
                             ZStack {
                                 if let egg = easterEggDirectory[initialCampaign?.id ?? teamEvent?.id ?? UUID()] {
@@ -292,15 +252,15 @@ struct CampaignView: View {
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 })
                                 .buttonStyle(PrimaryButtonStyle())
-
+                                
                             }
                             
                             
                         }
                     }
                     .padding()
-
-//                    RandomLandscapeView(data: self.$landscapeData) {}
+                    
+                    //                    RandomLandscapeView(data: self.$landscapeData) {}
                 }
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
             }
@@ -311,7 +271,7 @@ struct CampaignView: View {
     @ViewBuilder
     var milestonesView: some View {
         if !milestones.isEmpty {
-                                
+            
             GroupBox {
                 VStack(spacing: 10) {
                     HStack(alignment: .firstTextBaseline) {
@@ -319,12 +279,12 @@ struct CampaignView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-
+                        
                         Spacer()
-
+                        
                         Text("\(milestones.count)")
                             .foregroundColor(.secondary)
-
+                        
                     }
                     ForEach(milestones, id: \.id) { milestone in
                         MilestoneListView(milestone: milestone, reached: milestoneReached(for: milestone), percentage: milestonePercentage(for: milestone))
@@ -381,10 +341,10 @@ struct CampaignView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-
+                        
                         Text("\(rewards.count)")
                             .foregroundColor(.secondary)
-
+                        
                     }
                     ForEach(rewards, id: \.id) { reward in
                         VStack(alignment: .leading) {
@@ -423,8 +383,8 @@ struct CampaignView: View {
                                             Spacer()
                                         }
                                     }
-
-
+                                    
+                                    
                                     if initialCampaign?.user.username == "TheLovelyDevelopers" && reward.name.contains("App Supporter") {
                                         HStack {
                                             Button(action: {
@@ -440,7 +400,7 @@ struct CampaignView: View {
                                     }
                                 }
                             }
-
+                            
                         }
                         if reward != rewards.last {
                             Rectangle()
@@ -464,7 +424,7 @@ struct CampaignView: View {
                         .multilineTextAlignment(.leading)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 }
-
+                
                 if let topDonor = topDonor {
                     GroupBox {
                         VStack(spacing: 5) {
@@ -491,7 +451,7 @@ struct CampaignView: View {
                         }
                     }
                 }
-
+                
                 if donations.count > 1 {
                     NavigationLink(destination: DonorList(campaignId: initialCampaign?.id ?? TEAM_EVENT_ID, campaignLink: fundraiserURL, donations: $donations, topDonor: $topDonor)) {
                         VStack {
@@ -505,7 +465,7 @@ struct CampaignView: View {
                     }
                     .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
                 }
-
+                
                 self.pollsView
                 
                 self.milestonesView
@@ -538,28 +498,28 @@ struct CampaignView: View {
         }
         .task {
             
-            logsContainer.logs.append("View opened")
+            logsContainer.addLog("View opened")
             
             // Campaign change watch
             if let campaignObservation = campaignObservation {
                 campaignCancellable = AppDatabase.shared.start(observation: campaignObservation) { error in
                     dataLogger.error("Error observing stored campaign: \(error.localizedDescription)")
-                    logsContainer.logs.append("Error observing stored campaign: \(error.localizedDescription)")
+                    logsContainer.addLog("Error observing stored campaign: \(error.localizedDescription)")
                 } onChange: { event in
                     fetchTask?.cancel()
                     fetchTask = Task {
-                        logsContainer.logs.append("Calling fetch from campaignObservation onChange")
+                        logsContainer.addLog("Calling fetch from campaignObservation onChange")
                         await fetch()
                     }
                 }
             } else if let teamEventObservation = teamEventObservation {
                 campaignCancellable = AppDatabase.shared.start(observation: teamEventObservation) { error in
                     dataLogger.error("Error observing stored team event: \(error.localizedDescription)")
-                    logsContainer.logs.append("Error observing stored team event: \(error.localizedDescription)")
+                    logsContainer.addLog("Error observing stored team event: \(error.localizedDescription)")
                 } onChange: { event in
                     fetchTask?.cancel()
                     fetchTask = Task {
-                        logsContainer.logs.append("Calling fetch from teamEventObservation onChange")
+                        logsContainer.addLog("Calling fetch from teamEventObservation onChange")
                         await fetch()
                     }
                 }
@@ -569,7 +529,7 @@ struct CampaignView: View {
         .task(id: refreshId, {
             // New API fetch
             if !hasDoneInitialAPIFetch {
-                logsContainer.logs.append("Doing initial API fetch")
+                logsContainer.addLog("Doing initial API fetch")
             }
             await refresh()
         })
@@ -581,7 +541,8 @@ struct CampaignView: View {
             }
         }
         .sheet(isPresented: $showSupporterSheet) {
-            SupporterView()
+            SupportersView()
+                .forSheet(displayMode: .large)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -632,6 +593,8 @@ struct CampaignView: View {
         return "Campaign"
     }
     
+    // MARK: - Data
+    
     func starOrUnstar() async {
         if let initialCampaign = initialCampaign {
             let newCampaign = initialCampaign.setStar(to: !initialCampaign.isStarred)
@@ -650,7 +613,7 @@ struct CampaignView: View {
     func refresh() async {
         guard !isRefreshing else {
             dataLogger.notice("Skipping refresh as one is already in-progress")
-            logsContainer.logs.append("Skipping refresh as one is already in-progress")
+            logsContainer.addLog("Skipping refresh as one is already in-progress")
             return
         }
         isRefreshing = true
@@ -660,22 +623,22 @@ struct CampaignView: View {
         
         if let existingTeamEvent = teamEvent {
             
-            logsContainer.logs.append("Doing API fetch for Team Event")
+            logsContainer.addLog("Doing API fetch for Team Event")
             
             if let apiEventData = await TiltifyAPIClient.shared.getFundraisingEvent() {
                 dataLogger.debug("[CampaignView] API fetched TeamEvent: \(apiEventData.name)")
-                logsContainer.logs.append("API fetched TeamEvent: \(apiEventData.totalAmountRaised.numericalValue)")
+                logsContainer.addLog("API fetched TeamEvent: \(apiEventData.totalAmountRaised.numericalValue)")
                 let apiEvent = TeamEvent(from: apiEventData)
                 do {
                     self.teamEvent = apiEvent
-                    logsContainer.logs.append("Updating stored team event from \(existingTeamEvent.totalRaisedNumerical) (\(existingTeamEvent.id)) to \(apiEvent.totalRaisedNumerical) (\(apiEvent.id))")
+                    logsContainer.addLog("Updating stored team event from \(existingTeamEvent.totalRaisedNumerical) (\(existingTeamEvent.id)) to \(apiEvent.totalRaisedNumerical) (\(apiEvent.id))")
                     if try await AppDatabase.shared.updateTeamEvent(apiEvent, changesFrom: existingTeamEvent) {
                         dataLogger.info("[CampaignView] Updated team event \(apiEvent.name) (id: \(apiEvent.id)")
-                        logsContainer.logs.append("Updated team event in database, now: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
+                        logsContainer.addLog("Updated team event in database, now: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
                     }
                 } catch {
                     dataLogger.error("[CampaignView] Updating stored team event failed: \(error.localizedDescription)")
-                    logsContainer.logs.append("Updating stored team event failed: \(error.localizedDescription)")
+                    logsContainer.addLog("Updating stored team event failed: \(error.localizedDescription)")
                 }
                 
                 await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
@@ -701,24 +664,24 @@ struct CampaignView: View {
                 
             } else {
                 dataLogger.debug("[CampaignView] Could not get team event from API")
-                logsContainer.logs.append("Could not get team event from API")
+                logsContainer.addLog("Could not get team event from API")
             }
             
             self.hasDoneInitialAPIFetch = true
 
-            logsContainer.logs.append("Calling fetch from database")
+            logsContainer.addLog("Calling fetch from database")
             await fetch()
             
         } else if let initialCampaign = initialCampaign {
             
             dataLogger.info("Campaign UUID: \(initialCampaign.id.uuidString)")
-            logsContainer.logs.append("Doing API fetch for Campaign \(initialCampaign.id)")
+            logsContainer.addLog("Doing API fetch for Campaign \(initialCampaign.id)")
             
             await updateCampaignFromAPI(for: initialCampaign, updateLocalCampaignState: true)
             
             self.hasDoneInitialAPIFetch = true
             
-            logsContainer.logs.append("Calling fetch from database")
+            logsContainer.addLog("Calling fetch from database")
             await fetch()
             
         }
@@ -852,38 +815,38 @@ struct CampaignView: View {
     
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
         
-        logsContainer.logs.append("Updating campaign from API: \(campaign.id)")
+        logsContainer.addLog("Updating campaign from API: \(campaign.id)")
         
         guard let response = await TiltifyAPIClient.shared.getCampaign(withId: campaign.id) else {
-            logsContainer.logs.append("Could not get campaign from API")
+            logsContainer.addLog("Could not get campaign from API")
             return
         }
         
         dataLogger.debug("\(campaign.id) Fetched campaign from the API: \(response.name)")
-        logsContainer.logs.append("Fetched campaign from the API: \(response.totalAmountRaised.numericalValue)")
+        logsContainer.addLog("Fetched campaign from the API: \(response.totalAmountRaised.numericalValue)")
         
         let apiCampaign = campaign.updated(from: response)
         do {
-            logsContainer.logs.append("Updating stored campaign from \(campaign.totalRaisedNumerical) to \(apiCampaign.totalRaisedNumerical)")
+            logsContainer.addLog("Updating stored campaign from \(campaign.totalRaisedNumerical) to \(apiCampaign.totalRaisedNumerical)")
             if try await AppDatabase.shared.updateCampaign(apiCampaign, changesFrom: campaign) {
                 dataLogger.info("\(campaign.id) Updated stored campaign: \(apiCampaign.id)")
-                logsContainer.logs.append("Updated stored campaign in database, now: \(apiCampaign.totalRaisedNumerical)")
+                logsContainer.addLog("Updated stored campaign in database, now: \(apiCampaign.totalRaisedNumerical)")
                 if updateLocalCampaignState {
                     self.initialCampaign = apiCampaign
                 }
             }
         } catch {
-            logsContainer.logs.append("Updating stored campaign failed: \(error.localizedDescription)")
+            logsContainer.addLog("Updating stored campaign failed: \(error.localizedDescription)")
             dataLogger.error("\(campaign.id) Updating stored campaign failed: \(error.localizedDescription)")
         }
         
-        logsContainer.logs.append("Updating milestones and rewards")
+        logsContainer.addLog("Updating milestones and rewards")
         
         await updateMilestonesInDatabase(forId: campaign.id)
         await updateRewardsInDatabase(forId: campaign.id)
         
-        logsContainer.logs.append("Done updating milestones and rewards")
-        logsContainer.logs.append("Updating donors and polls")
+        logsContainer.addLog("Done updating milestones and rewards")
+        logsContainer.addLog("Updating donors and polls")
         
         let apiTopDonor = await TiltifyAPIClient.shared.getCampaignTopDonor(forId: campaign.id)
         let apiDonations = await TiltifyAPIClient.shared.getCampaignDonations(forId: campaign.id)
@@ -899,46 +862,46 @@ struct CampaignView: View {
             }
         }
         
-        logsContainer.logs.append("Done updating donors and polls")
+        logsContainer.addLog("Done updating donors and polls")
         
     }
     
     /// Fetches the campaign data from GRDB
     func fetch() async {
         if let teamEvent = teamEvent {
-            logsContainer.logs.append("Fetching data for Team Event from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
+            logsContainer.addLog("Fetching data for Team Event from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
             if hasDoneInitialAPIFetch {
                 do {
                     dataLogger.notice("Fetching stored team event")
-                    logsContainer.logs.append("Fetching stored team event")
+                    logsContainer.addLog("Fetching stored team event")
                     self.teamEvent = try await AppDatabase.shared.fetchTeamEvent()
                     dataLogger.notice("Fetched stored team event")
-                    logsContainer.logs.append("Fetched stored team event: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
+                    logsContainer.addLog("Fetched stored team event: \(self.teamEvent?.totalRaisedNumerical ?? 99999)")
                 } catch {
                     dataLogger.error("Failed to fetch stored team event: \(error.localizedDescription)")
-                    logsContainer.logs.append("Failed to fetch stored team event: \(error.localizedDescription)")
+                    logsContainer.addLog("Failed to fetch stored team event: \(error.localizedDescription)")
                 }
             }
-            logsContainer.logs.append("Fetching rewards and milestones for team event")
+            logsContainer.addLog("Fetching rewards and milestones for team event")
             await fetchRewardsAndMilestones(for: teamEvent)
-            logsContainer.logs.append("Rewards and milestones fetched")
+            logsContainer.addLog("Rewards and milestones fetched")
         } else if let initialCampaign = initialCampaign {
-            logsContainer.logs.append("Fetching data for Campaign from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
+            logsContainer.addLog("Fetching data for Campaign from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
             if hasDoneInitialAPIFetch {
                 do {
                     dataLogger.notice("Fetching stored campaign: \(initialCampaign.id)")
-                    logsContainer.logs.append("Fetching stored campaign")
+                    logsContainer.addLog("Fetching stored campaign")
                     self.initialCampaign = try await AppDatabase.shared.fetchCampaign(with: initialCampaign.id)
                     dataLogger.notice("Fetched stored campaign: \(initialCampaign.id)")
-                    logsContainer.logs.append("Fetched stored campaign: \(self.initialCampaign?.totalRaisedNumerical ?? 99999)")
+                    logsContainer.addLog("Fetched stored campaign: \(self.initialCampaign?.totalRaisedNumerical ?? 99999)")
                 } catch {
                     dataLogger.error("Failed to fetch stored campaign \(initialCampaign.id): \(error.localizedDescription)")
-                    logsContainer.logs.append("Failed to fetch stored campaign: \(error.localizedDescription)")
+                    logsContainer.addLog("Failed to fetch stored campaign: \(error.localizedDescription)")
                 }
             }
-            logsContainer.logs.append("Fetching rewards and milestones for campaign")
+            logsContainer.addLog("Fetching rewards and milestones for campaign")
             await fetchRewardsAndMilestones(for: initialCampaign)
-            logsContainer.logs.append("Rewards and milestones fetched")
+            logsContainer.addLog("Rewards and milestones fetched")
         }
     }
     

@@ -1,0 +1,201 @@
+//
+//  EasterEggView.swift
+//  EasterEggView
+//
+//  Created by Tony Scida on 9/1/21.
+//
+
+import SwiftUI
+
+struct EasterEggView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) var openURL
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
+    @State private var animate = false
+    @State private var animationType: Animation? = .none
+    @State private var showSupporterSheet: Bool = false
+    #if !os(macOS)
+    let bounceHaptics = UIImpactFeedbackGenerator(style: .light)
+    let selectionHaptics = UISelectionFeedbackGenerator()
+    #endif
+    
+    @AppStorage(UserDefaults.coinCountKey, store: UserDefaults.shared) private var coinCount: Int = 0
+    @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
+    
+    @State private var showFullL2CUName = false
+    private var affirmationToShow: String = "Teamwork makes the dream work!"
+    
+    private let affirmations: [String] = [
+        "Teamwork makes the dream work!",
+        "You can do it!",
+        "Remember to stay hydrated!",
+        "You are so strong.",
+        "Do you need something to eat or drink?",
+        "I am so proud of the progress you've made.",
+    ]
+    
+    @State private var showCoinInput = false
+    @State private var coinInput = ""
+    
+    init() {
+        affirmationToShow = affirmations.randomElement() ?? "Teamwork makes the dream work!"
+    }
+    
+    var accessibilityLabel: Text {
+        Text("PixL2CU (\"Lovely to See You\") says \"\(affirmationToShow)\"")
+    }
+    
+    @ViewBuilder
+    var topView: some View {
+        VStack(spacing:0) {
+            GroupBox {
+                VStack {
+                    HStack(spacing: 5) {
+                        Button(action: {
+                            withAnimation {
+                                self.showFullL2CUName.toggle()
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    self.showFullL2CUName = false
+                                }
+                            }
+                        }) {
+                            Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        Text("says:")
+                    }
+                    .font(.headline)
+                    Text("“\(affirmationToShow)”")
+                        .font(.title3)
+                        .multilineTextAlignment(.center)
+                        .allowsTightening(true)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var mascotView: some View {
+        Image(.l2Cu)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding()
+            .accessibility(hidden: true)
+            .tapToAnimate(jumpHeight: 5)
+    }
+    
+    @ViewBuilder
+    var linksView: some View {
+        GroupBox {
+            VStack(alignment: .leading) {
+                Text("Love our apps?")
+                    .font(.title3)
+                    .bold()
+                Text("Support our fundraiser!")
+                Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
+                    Text("tildy.dev/stjude")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                })
+                .buttonStyle(PrimaryButtonStyle())
+            }
+        }
+        GroupBox {
+            VStack(alignment: .leading) {
+                Text("Supporters")
+                    .font(.title3)
+                    .bold()
+                Text("Our thanks to these awesome people for donating to our fundraiser!")
+                    .font(.body)
+                Button(action: {
+                    showSupporterSheet = true
+                }, label: {
+                    Text("Supporters")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                })
+                .buttonStyle(PrimaryButtonStyle())
+            }
+        }
+        GroupBox {
+            VStack(alignment: .leading) {
+                Text("Credits")
+                    .font(.title3)
+                    .bold()
+                Text("L2CU drawing by rhl_")
+                Text("Pixel art by Jelly and Justin")
+                Text("Relay for St. Jude crafted with care by The Lovely Developers")
+                
+                Button(action: {
+                    openURL(URL(string: "https://tildy.dev")!)
+                }, label: {
+                    Text("tildy.dev")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                })
+                .buttonStyle(PrimaryButtonStyle())
+            }
+        }
+    }
+    
+    var body: some View {
+        #if os(macOS)
+        HStack {
+            Spacer()
+            Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                  }) {
+                    Text("Dismiss")
+                          .fontWeight(.semibold)
+                          .foregroundColor(.accentColor)
+                  }
+                  .buttonStyle(PlainButtonStyle())
+                  .padding(.horizontal, 15)
+                  .padding(.vertical, 10)
+        }
+        #endif
+        ScrollView {
+            VStack {
+                self.topView
+                self.mascotView
+                self.linksView
+            }
+            .padding(.horizontal)
+        }
+        .navigationTitle("Hi there!")
+        .accessibilityElement(children: .ignore)
+        .accessibility(label: accessibilityLabel)
+        .sheet(isPresented: $showSupporterSheet) {
+            SupportersView()
+                .forSheet(displayMode: .large)
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction, content: {
+                Button(action: {
+                    self.dismiss()
+                }, label: {
+                    Image(systemName: "xmark")
+                })
+            })
+        }
+    }
+}
+
+struct EasterEggView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            EasterEggView()
+                .forSheet(displayMode: .large)
+        }
+    }
+}

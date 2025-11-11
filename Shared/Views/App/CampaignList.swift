@@ -527,7 +527,7 @@ struct CampaignList: View {
                                 Label(title: {
                                     Text(campaign.isStarred ? "Unfavourite" : "Favourite")
                                 }, icon: {
-                                    Image(systemName: campaign.isStarred ? "heart" : "heart.fill")
+                                    Image(systemName: campaign.isStarred ? "heart.fill" : "heart")
                                 })
                             }
                         }
@@ -660,60 +660,39 @@ struct CampaignList: View {
         }) { sheet in
             switch sheet {
             case .aboutScreen:
-                NavigationView {
-                    AboutView()
-                        .background(Color.secondarySystemBackground)
-                        .edgesIgnoringSafeArea(.all)
-                }
+                AboutView()
+                    .forSheet()
             case .leaderBoard:
-                NavigationView {
-                    Leaderboard(campaigns: allCampaigns) { campaign in
-                        showSheet = nil
-                        selectedCampaignId = campaign.id
-                    }
+                Leaderboard(campaigns: allCampaigns) { campaign in
+                    showSheet = nil
+                    selectedCampaignId = campaign.id
                 }
+                .forSheet()
             case .randomPicker:
-                NavigationView {
                     RandomCampaignPickerView(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
-//                    RandomCampaignPickerView2024(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
-//                        .navigationTitle("Pick a block!")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button("Done") {
-                                    showSheet = nil
-                                }
-                                .animation(.linear(duration: 0))
-                            }
-                        }
-                }
+                        .forSheet()
             case .easterEgg:
-                NavigationView {
-                    EasterEggView()
-                        .background(Color.secondarySystemBackground)
-                        .edgesIgnoringSafeArea(.all)
-                }
+                EasterEggView()
+                    .forSheet(displayMode: .large)
             case .startHeadToHead:
-                NavigationView {
-                    ChooseCampaignView() { campaign in
-                        showSheet = .continueHeadToHead(campaign: campaign)
-                    }
+                ChooseCampaignView() { campaign in
+                    showSheet = .continueHeadToHead(campaign: campaign)
                 }
+                .forSheet(displayMode: .large)
             case let .continueHeadToHead(firstCampaign):
-                NavigationView {
-                    ChooseCampaignView(otherCampaign: firstCampaign) { otherCampaign in
-                        Task {
-                            let headToHead = HeadToHead(id: UUID(), campaignId1: firstCampaign.id, campaignId2: otherCampaign.id)
-                            do {
-                                try await AppDatabase.shared.saveHeadToHead(headToHead)
-                            } catch {
-                                dataLogger.error("Could not create Head to Head: \(error.localizedDescription)")
-                            }
-                            await fetch()
-                            selectedCampaignId = headToHead.id
+                ChooseCampaignView(otherCampaign: firstCampaign) { otherCampaign in
+                    Task {
+                        let headToHead = HeadToHead(id: UUID(), campaignId1: firstCampaign.id, campaignId2: otherCampaign.id)
+                        do {
+                            try await AppDatabase.shared.saveHeadToHead(headToHead)
+                        } catch {
+                            dataLogger.error("Could not create Head to Head: \(error.localizedDescription)")
                         }
+                        await fetch()
+                        selectedCampaignId = headToHead.id
                     }
                 }
+                .forSheet(displayMode: .large)
             }
         }
         .toolbar {
