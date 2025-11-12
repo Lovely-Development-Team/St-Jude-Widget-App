@@ -595,9 +595,8 @@ struct CampaignList: View {
 
                     VStack {
                         CountdownView()
-                            .padding(.horizontal)
+                            .padding()
                         headToHeadListView
-                            .padding(.vertical)
                         fundraiserHeaderView(scrollViewReader: scrollViewReader)
                         fundraiserListView
                         easterEggView
@@ -665,7 +664,7 @@ struct CampaignList: View {
                     showSheet = nil
                     selectedCampaignId = campaign.id
                 }
-                .forSheet()
+                .forSheet(displayMode: .large)
             case .randomPicker:
                     RandomCampaignPickerView(campaignChoiceID: self.$selectedCampaignId, allCampaigns: allCampaigns)
                         .forSheet()

@@ -22,7 +22,6 @@ struct TeamEventCardView: View {
     func mainProgressBar(value: Float, color: Color) -> some View {
         ProgressBar(value: .constant(value), barColour: .contentColorForAccent.opacity(0.2), fillColor: color)
             .frame(height: 15)
-            .padding(.bottom, 2)
     }
     
     @ViewBuilder
@@ -30,27 +29,22 @@ struct TeamEventCardView: View {
         value
             .font(.largeTitle)
             .fontWeight(.bold)
-            .minimumScaleFactor(0.7)
             .lineLimit(1)
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
     }
     
     @ViewBuilder
     func mainPercentageReached(_ value: Text) -> some View {
         value
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             .opacity(0.8)
     }
     
     @ViewBuilder
     var contents: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading) {
             HStack {
                 Text(teamEvent?.name ?? "Relay for St. Jude 2025")
                     .multilineTextAlignment(.leading)
                     .font(.headline)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 2)
                                 
                 if showDisclosureIndicator {
                     Spacer()
@@ -83,9 +77,7 @@ struct TeamEventCardView: View {
             Text("St. Jude Children's Research Hospital")
                 .font(.subheadline)
                 .multilineTextAlignment(.leading)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 .opacity(0.8)
-                .padding(.bottom, 20)
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
                     mainProgressBar(value: Float(percentageReached), color: .contentColorForAccent)

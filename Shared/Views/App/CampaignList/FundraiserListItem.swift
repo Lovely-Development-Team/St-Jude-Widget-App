@@ -22,9 +22,7 @@ struct FundraiserListItem: View {
     var showShareIcon: Bool = false
     var showBackground: Bool = true
     @Binding var showShareSheet: Bool
-    
     let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
-    
     @State private var showShareLinkSheet: ShareURL? = nil
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
     
