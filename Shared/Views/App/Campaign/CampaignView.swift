@@ -160,6 +160,7 @@ struct CampaignView: View {
                             FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                         } else if let teamEvent = teamEvent {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
+                                .foregroundStyle(Color.contentColorForAccent)
                             
                             GroupBox {
                                 VStack {

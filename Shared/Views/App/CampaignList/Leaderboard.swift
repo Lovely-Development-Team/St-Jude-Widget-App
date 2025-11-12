@@ -22,39 +22,46 @@ struct Leaderboard: View {
             return c1.totalRaisedNumerical > c2.totalRaisedNumerical
         }
     }
+    
+    @ViewBuilder
+    func listRow(campaign: Campaign, offset: Int) -> some View {
+        Button(action: {
+            navigateTo(campaign)
+        }) {
+            HStack {
+                Text("\(offset + 1)")
+                    .monospacedDigit()
+                    .bold()
+                Text(campaign.user.name)
+                Spacer()
+                if offset == 0 {
+                    Image(systemName: "trophy")
+                        .foregroundStyle(Color.brandYellow)
+                } else if campaign.isStarred {
+                    Image(systemName: "heart.fill")
+                }
+                Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
+                    .monospacedDigit()
+                    .foregroundColor(.accentColor)
+            }
+            .foregroundColor(.primary)
+        }
+    }
         
     var body: some View {
         List {
             ForEach(Array(sortedCampaigns.enumerated()), id: \.offset) { offset, campaign in
-                Button(action: {
-                    navigateTo(campaign)
-                }) {
-                    HStack {
-                        Text("\(offset + 1)")
-                            .bold()
-                        Text(campaign.user.name)
-                        Spacer()
-                        if offset == 0 {
-                            Image(systemName: "trophy")
-                                .foregroundStyle(Color.brandYellow)
-                        } else if campaign.isStarred {
-                            Image(systemName: "heart.fill")
-                        }
-                        Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
-                            .monospacedDigit()
-                            .foregroundColor(.accentColor)
-                    }
-                    .foregroundColor(.primary)
+                if offset == 49 {
+                    self.listRow(campaign: campaign, offset: offset)
+                        .listRowSeparatorTint(Color.accentColor)
+                } else {
+                    self.listRow(campaign: campaign, offset: offset)
                 }
-                .listRowSeparatorTint(offset == 49 ? Color.accentColor : .secondary.opacity(0.5))
             }
             .listRowBackground(Color.clear)
         }
         .listStyle(.plain)
-        .background(.ultraThinMaterial)
-        .background(BrandShapeBackground())
         .navigationTitle("Leaderboard")
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {

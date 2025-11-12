@@ -22,12 +22,11 @@ struct CountdownView: View {
                 VStack {
                     if campaignsHaveClosed {
                         GroupBox {
-                            VStack(spacing: 5) {
+                            VStack(alignment: .leading) {
                                 Text("Fundraisers are now closed!")
                                     .font(.title3)
                                     .bold()
                                     .multilineTextAlignment(.leading)
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                 Text("An enormous thank you to everyone who helped raise such a phenomenal amount.")
                                     .multilineTextAlignment(.leading)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -37,13 +36,18 @@ struct CountdownView: View {
                         GroupBox {
                             Group {
                                 if showAbsoluteDate {
-                                    Text("Fundraisers close on ") + Text(closingDate, style: .date) + Text(" at ") + Text(closingDate, style: .time) + Text("!")
+                                    Group {
+                                        Text("Fundraisers close on ") + Text(closingDate, style: .date) + Text(" at ") + Text(closingDate, style: .time) + Text("!")
+                                    }
+                                        .fullWidth()
                                 } else {
-                                    Text("Fundraisers close in ") + Text(closingDate, style: .relative) + Text("!")
+                                    Group {
+                                        Text("Fundraisers close in ") + Text(closingDate, style: .relative) + Text("!")
+                                    }
+                                    .fullWidth()
                                 }
                             }
                             .bold()
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         }
                         .onTapGesture {
                             withAnimation {
@@ -51,9 +55,6 @@ struct CountdownView: View {
                             }
                         }
                         .font(.title3)
-//                        .lineLimit(1)
-//                        .minimumScaleFactor(0.5)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     }
                 }
             } else {
