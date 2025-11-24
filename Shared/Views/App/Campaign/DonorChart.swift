@@ -64,7 +64,7 @@ struct DonorChart: View {
             .onAppear {
                 calculateChartValues()
             }
-            .onChange(of: showDonationValues) { newValue in
+            .onChange(of: showDonationValues) {
                 calculateChartValues()
             }
         } else {

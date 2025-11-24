@@ -331,7 +331,7 @@ struct RandomCampaignPickerView2024: View {
     func questionBoxesView(containerGeometry: GeometryProxy) -> some View {
         HStack(spacing: 0) {
             if(!self.hitArr.isEmpty) {
-                ForEach(0..<self.numBoxes) { i in
+                ForEach(0..<self.numBoxes, id: \.self) { i in
                     Spacer()
                     Button(action: {
                         if !self.justinAnAnimationIsInProgressStopTryingToBreakThingsOkay {
@@ -538,7 +538,7 @@ struct RandomCampaignPickerView2024: View {
                 self.direction = false
             }
         }
-        .onChange(of: self.easterEggEnabled2024) { _ in
+        .onChange(of: self.easterEggEnabled2024) {
             if(self.easterEggEnabled2024) {
                 self.spriteImage = self.isMyke ? AdaptiveImage.jonyCube(colorScheme: self.colorScheme) : AdaptiveImage.dogcow(colorScheme: self.colorScheme)
                 self.animationImages = self.isMyke ? [AdaptiveImage.jonyCube(colorScheme: self.colorScheme)] : AdaptiveImage.dogcowWalkCycle(colorScheme: self.colorScheme)

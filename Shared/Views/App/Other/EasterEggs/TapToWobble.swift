@@ -35,7 +35,7 @@ struct TapToWobble: ViewModifier {
         }) {
             content
                 .rotationEffect(.degrees(animate ? degrees : 0), anchor: anchor)
-                .animation(animate ? .easeInOut(duration: duration).repeatForever(autoreverses: true) : animationType)
+                .animation(self.animate ? .easeInOut(duration: self.duration).repeatForever(autoreverses: true) : self.animationType, value: self.animate)
         }
         .buttonStyle(PlainButtonStyle())
     }

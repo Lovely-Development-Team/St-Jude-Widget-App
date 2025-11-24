@@ -35,8 +35,7 @@ struct BlinkingView: View {
                     Image.imageAtScale(self.blinkImage, scale: .spriteScale * 0.75)
                 }
             }
-            .animation(animate ? .linear(duration: 1).repeatForever(autoreverses: true) : animationType)
-            
+            .animation(self.animate ? .linear(duration: 1).repeatForever(autoreverses: true) : self.animationType, value: self.animate)
         }
     }
 }
@@ -78,7 +77,7 @@ struct BlinkingStandingView: View {
                 }
                 .scaleEffect(x: (isMirrored && !playerImage.isPaddingMirrored)  || (!isMirrored && playerImage.isPaddingMirrored) ? -1 : 1, y: 1)
                 .padding(.horizontal)
-                .animation(animate ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : animationType)
+                .animation(self.animate ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : self.animationType, value: self.animate)
                 
             }
             if(self.isMirrored){
@@ -138,7 +137,7 @@ struct StandingToThrowingView: View{
                     }
                     .padding(playerImage.isPaddingMirrored ? .leading : .trailing, 5)
                     .scaleEffect(x: (isMirrored && !playerImage.isPaddingMirrored)  || (!isMirrored && playerImage.isPaddingMirrored) ? -1 : 1, y: 1)
-                    .animation(animate ? .none : animationType)
+                    .animation(self.animate ? .none : self.animationType, value: self.animate)
                     
                 }
             }

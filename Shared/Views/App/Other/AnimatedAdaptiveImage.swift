@@ -33,9 +33,9 @@ struct AnimatedAdaptiveImage: View {
             }
         }
             .animation(.none, value: UUID())
-            .onChange(of: self.animating, perform: { _ in
+            .onChange(of: self.animating) {
                 self.animateIfNeeded()
-            })
+            }
             .onAppear {
                 self.animateIfNeeded()
             }
