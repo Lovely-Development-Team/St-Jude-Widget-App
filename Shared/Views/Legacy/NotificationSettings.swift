@@ -64,7 +64,7 @@ struct NotificationSettings: View {
                                         .bold()
                                 })
                                     .disabled(self.data.rejectedInputShowing)
-                                    .animation(.easeInOut(duration: 0.25))
+                                    .animation(.easeInOut(duration: 0.25), value: self.data.rejectedInputShowing)
                             }
                         }
                     }
@@ -105,8 +105,8 @@ struct NotificationSettings: View {
                         .disabled(self.keyboardShowing)
                 })
             })
-            .onChange(of: scenePhase) { newPhase in
-                if scenePhase != .active && newPhase != .background {
+            .onChange(of: scenePhase) {
+                if scenePhase != .active && scenePhase != .background {
                     self.data.refresh()
                 }
             }

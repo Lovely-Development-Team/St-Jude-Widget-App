@@ -31,7 +31,7 @@ struct RandomCampaignPickerView: View {
 #endif
     
     @State private var wheelRadius: Double = 300
-    @State private var wedgeCount = 18
+    @State private var wedgeCount: Int = 18
     
     var wheelCircumference: Double {
         return 2 * Double.pi * wheelRadius
@@ -57,7 +57,7 @@ struct RandomCampaignPickerView: View {
     @ViewBuilder
     var wheelView: some View {
         WheelLayout(radius: wheelRadius) {
-            ForEach(0..<wedgeCount) { index in
+            ForEach(0..<wedgeCount, id: \.self) { index in
                 WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, campaignChoiceID: $campaignChoiceID, shouldFlip: index == indexToFlip)
                     .frame(width: sectionWidth, height: wheelRadius)
                     .rotationEffect(Angle(degrees: (360/Double(wedgeCount))*Double(index)))

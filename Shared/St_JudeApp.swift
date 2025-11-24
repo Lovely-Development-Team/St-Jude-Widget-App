@@ -50,8 +50,8 @@ struct St_JudeApp: App {
         WindowGroup {
             NavigationStack {
                 CampaignList()
-                    .onChange(of: scenePhase) { newValue in
-                        if newValue == .active {
+                    .onChange(of: scenePhase) {
+                        if scenePhase == .active {
                             WidgetCenter.shared.reloadAllTimelines()
                         }
                     }
@@ -59,11 +59,11 @@ struct St_JudeApp: App {
             }
             .id(mainAppViewID)
 //            .environment(\.font, Font.body)
-            .onChange(of: disablePixelFont) { newValue in
+            .onChange(of: disablePixelFont) {
                 mainAppViewID = UUID()
                 WidgetCenter.shared.reloadAllTimelines()
             }
-            .onChange(of: appAppearance) { newValue in
+            .onChange(of: appAppearance) {
                 mainAppViewID = UUID()
                 WidgetCenter.shared.reloadAllTimelines()
             }

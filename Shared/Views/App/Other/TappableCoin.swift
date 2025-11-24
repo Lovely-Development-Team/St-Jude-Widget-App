@@ -66,14 +66,14 @@ struct TappableCoin: View, Identifiable {
                 ? AdaptiveImage.happyCleaningFace(colorScheme: .light)
                 : AdaptiveImage.coin(colorScheme: .light)
         }
-        .onChange(of: self.easterEggEnabled2024, perform: { value in
-            self.images = value
+        .onChange(of: self.easterEggEnabled2024) {
+            self.images = self.easterEggEnabled2024
                 ? AdaptiveImage.happyCleaningFaceAnimation(colorScheme: .light)
                 : AdaptiveImage.coinAnimation(colorScheme: .light)
-            self.idleImage = value
+            self.idleImage = self.easterEggEnabled2024
                 ? AdaptiveImage.happyCleaningFace(colorScheme: .light)
                 : AdaptiveImage.coin(colorScheme: .light)
-        })
+        }
     }
 }
 

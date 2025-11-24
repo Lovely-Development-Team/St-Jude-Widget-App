@@ -94,8 +94,8 @@ struct ShareCampaignView: View {
                             .onAppear {
                                 self.imageSize = geo.frame(in: .global).size
                             }
-                            .onChange(of: geo.frame(in: .global).size) { newValue in
-                                self.imageSize = newValue
+                            .onChange(of: geo.frame(in: .global).size) {
+                                self.imageSize = geo.frame(in: .global).size
                             }
                     }
                 }
@@ -156,37 +156,37 @@ struct ShareCampaignView: View {
                 }
             }
         }
-        .onChange(of: appearance) { _ in
+        .onChange(of: appearance) {
             render()
         }
-        .onChange(of: exportForInstagram) { _ in
+        .onChange(of: exportForInstagram) {
             render()
         }
-        .onChange(of: clipCorners) { _ in
+        .onChange(of: clipCorners) {
             render()
         }
-        .onChange(of: showMilestones) { _ in
+        .onChange(of: showMilestones) {
             render()
         }
-        .onChange(of: showMilestonePercentage) { _ in
+        .onChange(of: showMilestonePercentage) {
             render()
         }
-        .onChange(of: preferFutureMilestones) { _ in
+        .onChange(of: preferFutureMilestones) {
             render()
         }
-        .onChange(of: showFullCurrencySymbol) { _ in
+        .onChange(of: showFullCurrencySymbol) {
             render()
         }
-        .onChange(of: showMainGoalPercentage) { _ in
+        .onChange(of: showMainGoalPercentage) {
             render()
         }
-        .onChange(of: widgetData) { _ in
+        .onChange(of: widgetData) {
             render()
         }
-        .onChange(of: disablePixelTheme) { _ in
+        .onChange(of: disablePixelTheme) {
             render()
         }
-        .onChange(of: disableCombos) { _ in
+        .onChange(of: disableCombos) {
             render()
         }
         .task {

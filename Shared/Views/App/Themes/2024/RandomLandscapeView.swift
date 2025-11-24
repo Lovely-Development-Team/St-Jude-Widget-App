@@ -245,7 +245,7 @@ struct RandomLandscapeView<Content: View>: View {
     @ViewBuilder
     func backgroundLayer() -> some View {
         HStack(alignment: .bottom, spacing:0) {
-            ForEach(0..<self.data.numBackgroundSlots) { i in
+            ForEach(0..<self.data.numBackgroundSlots, id: \.self) { i in
                 Spacer()
                 if(self.data.backgroundBlockIndex == i) {
                     Group {
@@ -268,7 +268,7 @@ struct RandomLandscapeView<Content: View>: View {
     @ViewBuilder
     func elevatedLevel() -> some View {
         HStack(alignment: .bottom, spacing: 0) {
-            ForEach(0..<self.data.numBackgroundSlots) { i in
+            ForEach(0..<self.data.numBackgroundSlots, id: \.self) { i in
                 Spacer()
                 if(self.data.elevatedBlockIndex == i) {
                     VStack(spacing:0) {
