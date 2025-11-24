@@ -35,7 +35,11 @@ extension HeadToHead: Codable, FetchableRecord, MutablePersistableRecord {
     }
 }
 
-struct HeadToHeadWithCampaigns: Decodable, FetchableRecord {
+struct HeadToHeadWithCampaigns: Decodable, FetchableRecord, Hashable, Equatable {
+    static func ==(lhs: Self, rhs: Self) -> Bool {
+        return lhs.campaign1.id == rhs.campaign1.id && lhs.campaign2.id == rhs.campaign2.id
+    }
+    
     var headToHead: HeadToHead
     var campaign1: Campaign
     var campaign2: Campaign

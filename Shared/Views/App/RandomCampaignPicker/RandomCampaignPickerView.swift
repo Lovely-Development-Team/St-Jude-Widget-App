@@ -14,7 +14,7 @@ struct RandomCampaignPickerView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @Binding var campaignChoiceID: UUID?
-    var allCampaigns: [Campaign]
+    @State private var allCampaigns: [Campaign] = []
     @State private var chosenCampaign: Campaign?
     
     @State private var animationDuration: Double = 2.25
@@ -155,9 +155,12 @@ struct RandomCampaignPickerView: View {
             self.wheelRadius = min((1.5 * value) / 2.0, 300)
         }
         .onAppear {
-            chosenCampaign = getRandomCampaign()
-            playAnimation()
-            SoundEffectHelper.shared.play(.drumroll)
+            Task {
+                await self.fetch()
+                chosenCampaign = getRandomCampaign()
+                playAnimation()
+                SoundEffectHelper.shared.play(.drumroll)
+            }
         }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -175,6 +178,16 @@ struct RandomCampaignPickerView: View {
             }
         }
 #endif
+    }
+    
+    func fetch() async {
+        do {
+            dataLogger.notice("Fetched stored fundraiser")
+            try Task.checkCancellation()
+            self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
+        } catch {
+            dataLogger.error("Failed to fetch stored fundraisers: \(error.localizedDescription)")
+        }
     }
 }
 

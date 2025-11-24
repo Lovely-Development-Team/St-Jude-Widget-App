@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TeamEventCardView: View {
-    
     let teamEvent: TeamEvent?
     let showDisclosureIndicator: Bool
     var showShareIcon: Bool = false
