@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct Leaderboard: View {
-    
     @Environment(\.presentationMode) var presentationMode
     
-    var campaigns: [Campaign]
+    @State private var campaigns: [Campaign] = []
     var navigateTo: (_: Campaign) -> Void
+    
+    // Marker place for "top X campaigns"
+    @State private var leaderboardMarkerCutoff = 50
     
     var sortedCampaigns: [Campaign] {
         campaigns.filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }.sorted { c1, c2 in
@@ -51,7 +53,7 @@ struct Leaderboard: View {
     var body: some View {
         List {
             ForEach(Array(sortedCampaigns.enumerated()), id: \.offset) { offset, campaign in
-                if offset == 49 {
+                if offset == self.leaderboardMarkerCutoff-1 {
                     self.listRow(campaign: campaign, offset: offset)
                         .listRowSeparatorTint(Color.accentColor)
                 } else {
@@ -63,13 +65,28 @@ struct Leaderboard: View {
         .listStyle(.plain)
         .navigationTitle("Leaderboard")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "xmark")
                 }
             }
+        }
+        .onAppear {
+            Task {
+                await self.fetch()
+            }
+        }
+    }
+    
+    func fetch() async {
+        do {
+            dataLogger.notice("Fetched stored fundraiser")
+            try Task.checkCancellation()
+            self.campaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
+        } catch {
+            dataLogger.error("Failed to fetch stored fundraisers: \(error.localizedDescription)")
         }
     }
 }

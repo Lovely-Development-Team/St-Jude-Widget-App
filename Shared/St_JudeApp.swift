@@ -20,7 +20,6 @@ struct St_JudeApp: App {
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
     @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColorKey = 0
     @State private var mainAppViewID = UUID()
-    @State private var navTitle = "Relay for St. Jude"
     
     @State private var globalAlertTitle = ""
     @State private var globalAlertMessage = ""
@@ -49,7 +48,7 @@ struct St_JudeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
+            NavigationStack {
                 CampaignList()
                     .onChange(of: scenePhase) { newValue in
                         if newValue == .active {
@@ -57,10 +56,8 @@ struct St_JudeApp: App {
                         }
                     }
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle(navTitle)
             }
             .id(mainAppViewID)
-            .navigationViewStyle(.stack)
 //            .environment(\.font, Font.body)
             .onChange(of: disablePixelFont) { newValue in
                 mainAppViewID = UUID()

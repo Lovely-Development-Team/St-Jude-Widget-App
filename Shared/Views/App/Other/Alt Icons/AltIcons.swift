@@ -56,6 +56,7 @@ enum AltIcon: String, CaseIterable, Identifiable {
     }
     
     func set() {
+        // TODO: does this actually work?? i'm not entirely sure
         appLogger.debug("Setting icon to \(self.fileName ?? "nil")...")
         UIApplication.shared.setAlternateIconName(self.fileName)
     }

@@ -12,6 +12,7 @@ let HEAD_TO_HEAD_COLOR_1: WidgetAppearance = .stephen
 let HEAD_TO_HEAD_COLOR_2: WidgetAppearance = .myke
 
 struct HeadToHeadView: View {
+    @Namespace var namespace
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
@@ -123,7 +124,7 @@ struct HeadToHeadView: View {
                     Group {
                         ZStack(alignment: .topTrailing) {
                             if animateIn {
-                                NavigationLink(destination: CampaignView(initialCampaign: campaign2)) {
+                                NavigationLink(value: CampaignListDestination.campaign(self.campaign1, false)) {
                                     ZStack {
                                         VStack(spacing: 0) {
                                             campaignDetails(for: campaign1, alignment: .leading)
@@ -158,7 +159,7 @@ struct HeadToHeadView: View {
                         
                         ZStack(alignment: .bottomLeading) {
                             if animateIn {
-                                NavigationLink(destination: CampaignView(initialCampaign: campaign2)) {
+                                NavigationLink(value: CampaignListDestination.campaign(self.campaign2, false)) {
                                     ZStack {
                                         VStack(spacing: 0) {
                                             HStack(alignment: .firstTextBaseline) {

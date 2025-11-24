@@ -290,7 +290,7 @@ struct CampaignView: View {
                         }
                     }
                 }
-                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
+                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground, overrideTextColor: .primary))
             }
         }
         .padding(.bottom)
