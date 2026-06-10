@@ -293,31 +293,37 @@ struct FundraiserListView: View {
                     await self.fetch()
                 }
             })
-            Button(action: {
-                showSheet = .randomPicker
-            }) {
-                HStack {
-                    Text("Spin for a random Fundraiser!")
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.leading)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    Image(systemName: "chevron.right")
-                }
+            if #available(iOS 18.0, *) {
+                self.randomFundraiserButton
+                .matchedTransitionSource(id: "randomFundraiserButton", in: self.namespace)
+            } else {
+                self.randomFundraiserButton
             }
-            .buttonStyle(PrimaryButtonStyle())
-            .zoomTransitioniOS26Source(id: "randomFundraiserButton", namespace: self.namespace)
         }
     }
     
-    var body: some View {
-        ScrollViewReader { proxy in
-            VStack {
-                self.fundraiserHeaderContainer
-                self.extraOptionsView
-                self.fundraiserListContainer
+    @ViewBuilder
+    var randomFundraiserButton: some View {
+        Button(action: {
+            showSheet = .randomPicker
+        }) {
+            HStack {
+                Text("Spin for a random Fundraiser!")
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.leading)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                Image(systemName: "chevron.right")
             }
         }
-        .padding(.horizontal)
+        .buttonStyle(PrimaryButtonStyle(useGlass: false))
+    }
+    
+    var body: some View {
+        VStack {
+            self.fundraiserHeaderContainer
+            self.extraOptionsView
+            self.fundraiserListContainer
+        }
         .onAppear {
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder
             compactListMode = UserDefaults.shared.campaignListCompactView

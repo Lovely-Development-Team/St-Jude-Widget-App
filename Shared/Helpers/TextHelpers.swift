@@ -32,6 +32,7 @@ struct FullWidthText: ViewModifier {
 
 extension View {
     func fullWidth(alignment: TextAlignment = .leading) -> some View {
-        modifier(FullWidthText(alignment: alignment))
+        self
+            .modifier(FullWidthText(alignment: alignment))
     }
 }

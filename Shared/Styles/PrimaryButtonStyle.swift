@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrimaryButtonStyle: ButtonStyle {
+    var useGlass: Bool = true
     var tint: Color = .accentColor
     var useCapsuleShape: Bool = true
     var cornerRadius: CGFloat = 10
@@ -32,9 +33,9 @@ struct PrimaryButtonStyle: ButtonStyle {
     
     @ViewBuilder
     func capsuleShape(configuration: Configuration) -> some View {
-        if #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *), self.useGlass {
             self.content(configuration: configuration)
-                .contentShape(Capsule())
+                .contentShape(Rectangle())
                 .glassEffect(.regular.tint(self.tint).interactive())
         } else {
             self.content(configuration: configuration)
@@ -42,6 +43,7 @@ struct PrimaryButtonStyle: ButtonStyle {
                     self.tint
                 }
                 .contentShape(Capsule())
+                .clipShape(Capsule())
                 .shadow(radius: self.cornerRadius)
                 .opacity(configuration.isPressed ? 0.5 : 1.0)
         }
@@ -49,7 +51,7 @@ struct PrimaryButtonStyle: ButtonStyle {
     
     @ViewBuilder
     func roundRectShape(configuration: Configuration) -> some View {
-        if #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *), self.useGlass {
             self.content(configuration: configuration)
                 .contentShape(RoundedRectangle(cornerRadius: self.cornerRadius))
                 .glassEffect(.regular.tint(self.tint).interactive(), in: .rect(cornerRadius: self.cornerRadius))
@@ -59,6 +61,7 @@ struct PrimaryButtonStyle: ButtonStyle {
                     self.tint
                 }
                 .contentShape(RoundedRectangle(cornerRadius: self.cornerRadius))
+                .clipShape(RoundedRectangle(cornerRadius: self.cornerRadius))
                 .shadow(radius: self.cornerRadius)
                 .opacity(configuration.isPressed ? 0.5 : 1.0)
         }
