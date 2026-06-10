@@ -65,12 +65,12 @@ struct CampaignList: View {
                             NavigationLink(value: CampaignListDestination.teamEvent(teamEvent)) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
-                            .buttonStyle(PrimaryButtonStyle(useCapsuleShape: false, useBoldText: false))
-                            .padding()
+                            .buttonStyle(PrimaryButtonStyle(useGlass: false, useCapsuleShape: false, useBoldText: false))
+                            .padding(.vertical)
                             .zoomTransitioniOS26Source(id: "mainCampaignCard", namespace: self.namespace)
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
-                                .padding()
+                                .padding(.vertical)
                                 .foregroundStyle(Color.contentColorForAccent)
                         }
                     }
@@ -91,7 +91,6 @@ struct CampaignList: View {
 
                     VStack {
                         CountdownView()
-                            .padding(.horizontal)
                         FundraiserListView(namespace: self.namespace,
                                            showSheet: self.$showSheet,
                                            selectedCampaignId: self.$selectedCampaignId,
@@ -101,24 +100,23 @@ struct CampaignList: View {
                         // TODO: fix this
 //                        widgetCompatibilityView
                     }
-                    .padding(.top,-10)
                     .frame(maxWidth: .infinity)
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
-                
+                .padding(.horizontal)
             }
         }
         .navigationDestination(for: CampaignListDestination.self) { value in
             switch value {
             case let .teamEvent(teamEvent):
-                CampaignView(teamEvent: teamEvent)
+                CampaignView(teamEvent: teamEvent, namespace: self.namespace)
                     .zoomTransitioniOS26(id: "mainCampaignCard", namespace: self.namespace)
             case let .campaign(campaign, zoomTransition):
                 if zoomTransition {
-                    CampaignView(initialCampaign: campaign)
+                    CampaignView(initialCampaign: campaign, namespace: self.namespace)
                         .zoomTransitioniOS26(id: "subCampaignCard-\(campaign.id)", namespace: self.namespace)
                 } else {
-                    CampaignView(initialCampaign: campaign)
+                    CampaignView(initialCampaign: campaign, namespace: self.namespace)
                 }
             case let .headToHead(headToHead):
                 HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2)
@@ -216,9 +214,9 @@ extension CampaignList {
             }
             .frame(maxWidth: .infinity)
         })
-        .buttonStyle(PrimaryButtonStyle())
+        .buttonStyle(PrimaryButtonStyle(useGlass: false))
         .foregroundStyle(.black)
-        .padding(.horizontal)
+//        .padding(.horizontal)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
         .zoomTransitioniOS26Source(id: "easterEggButton", namespace: self.namespace)
     }

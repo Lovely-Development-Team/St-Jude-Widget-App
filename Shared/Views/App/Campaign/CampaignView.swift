@@ -10,6 +10,8 @@ import GRDB
 import Kingfisher
 
 struct CampaignView: View {
+    var namespace: Namespace.ID
+    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -50,14 +52,16 @@ struct CampaignView: View {
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
-    init(initialCampaign: Campaign) {
+    init(initialCampaign: Campaign, namespace: Namespace.ID) {
+        self.namespace = namespace
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: nil)
         _campaignObservation = State(wrappedValue: AppDatabase.shared.observeCampaignObservation(for: initialCampaign))
         self.logsContainer.addLog("View initialized with Campaign, value \(initialCampaign.totalRaisedNumerical)")
     }
     
-    init(teamEvent: TeamEvent) {
+    init(teamEvent: TeamEvent, namespace: Namespace.ID) {
+        self.namespace = namespace
         self.logsContainer.addLog("View initialized with Team Event, value \(teamEvent.totalRaisedNumerical)")
         _initialCampaign = State(wrappedValue: initialCampaign)
         _teamEvent = State(wrappedValue: teamEvent)
@@ -868,9 +872,11 @@ struct CampaignView: View {
 }
 
 struct CampaignView_Previews: PreviewProvider {
+    @Namespace static var namespace
+    
     static var previews: some View {
         NavigationView {
-            CampaignView(initialCampaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")))
+            CampaignView(initialCampaign: Campaign(from: TiltifyCauseCampaign(publicId: UUID(), name: "Aaron's Campaign for St Jude", slug: "aarons-campaign-for-st-jude", goal: TiltifyAmount(currency: "USD", value: "500"), totalAmountRaised: TiltifyAmount(currency: "USD", value: "294.00"), user: TiltifyUser(username: "agmcleod", slug: "agmcleod", avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil)), avatar: TiltifyAvatar(alt: "", src: "https://assets.tiltify.com/assets/default-avatar.png", height: nil, width: nil), description: "I'm fundraising for St. Jude Children's Research Hospital.")), namespace: Self.namespace)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Label("Back", systemImage: "chevron.left")
