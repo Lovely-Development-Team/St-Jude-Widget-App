@@ -12,4 +12,12 @@ enum Theme: String {
     case normal = "normal"
     case campaign2024 = "2024"
     case campaign2025 = "2025"
+    
+    static var current: Theme {
+        return .normal
+    }
+    
+    static var isThemeApplied: Bool {
+        return Self.current != .normal
+    }
 }

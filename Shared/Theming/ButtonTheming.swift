@@ -41,7 +41,7 @@ extension View {
                                      textColor: Color,
                                      capsuleShape: Bool,
                                      boldText: Bool) -> some View {
-        switch ThemeManager.currentTheme {
+        switch Theme.current {
         case .campaign2024:
             buttonStyle(BlockButtonStyle(tint: tint, overrideTextColor: textColor))
         default:
@@ -58,7 +58,7 @@ extension View {
                                        textColor: Color,
                                        capsuleShape: Bool,
                                        boldText: Bool) -> some View {
-        switch ThemeManager.currentTheme {
+        switch Theme.current {
         case .campaign2024:
             buttonStyle(BlockButtonStyle(tint: tint,
                                          overrideTextColor: textColor))
