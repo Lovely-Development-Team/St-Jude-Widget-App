@@ -209,7 +209,7 @@ struct CampaignView: View {
                                 }
                                 .frame(minHeight: 0, maxHeight: .infinity)
                             }
-                            .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
+                            .themedButton(type: .secondary)
                             .disabled(milestones.isEmpty)
                             Button(action: {
                                 withAnimation {
@@ -225,7 +225,7 @@ struct CampaignView: View {
                                 }
                                 .frame(minHeight: 0, maxHeight: .infinity)
                             }
-                            .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground))
+                            .themedButton(type: .secondary)
                             .disabled(rewards.isEmpty)
                         }
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -237,7 +237,7 @@ struct CampaignView: View {
                                 .font(.headline)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         })
-                        .buttonStyle(PrimaryButtonStyle())
+                        .themedButton(type: .primary)
                     }
                     
                     GroupBox {
@@ -294,7 +294,8 @@ struct CampaignView: View {
                         }
                     }
                 }
-                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground, overrideTextColor: .primary))
+                .themedButton(type: .secondary)
+//                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground, overrideTextColor: .primary))
             }
         }
         .padding(.bottom)
@@ -348,7 +349,7 @@ struct CampaignView: View {
                         }
                         .contentShape(Rectangle())
                     })
-                    .buttonStyle(.plain)
+                    .themedButton(type: .plain)
                     
                     if let initialCampaign, self.showPolls {
                         ForEach(self.activePolls, id: \.id) { poll in

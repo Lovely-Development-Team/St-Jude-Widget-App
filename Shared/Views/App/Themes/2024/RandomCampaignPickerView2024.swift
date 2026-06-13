@@ -214,7 +214,7 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                        .themedButton(type: .primary)
                                         Spacer()
                                         Button(action: {
                                             self.addInputToStack(input: .down)
@@ -230,7 +230,7 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                                        .themedButton(type: .primary)
                                     }
                                 }
                             Rectangle()
@@ -249,14 +249,16 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
-                                            self.addInputToStack(input: .left)
-                                            self.isMoving = true
-                                        }, action: {
-                                            self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
-                                        }, onEnd: {
-                                            self.isMoving = false
-                                        }))
+                                        // TODO: add back press and hold
+                                        .themedButton(type: .primary)
+//                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
+//                                            self.addInputToStack(input: .left)
+//                                            self.isMoving = true
+//                                        }, action: {
+//                                            self.moveSprite(containerGeometry: containerGeometry, by: -self.spriteIncrement)
+//                                        }, onEnd: {
+//                                            self.isMoving = false
+//                                        }))
                                         Spacer()
                                         Button(action: {}, label: {
                                             Rectangle()
@@ -268,14 +270,16 @@ struct RandomCampaignPickerView2024: View {
                                                 .frame(maxWidth: .infinity)
                                                 .aspectRatio(1.0, contentMode: .fit)
                                         })
-                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
-                                            self.addInputToStack(input: .right)
-                                            self.isMoving = true
-                                        }, action: {
-                                            self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
-                                        }, onEnd: {
-                                            self.isMoving = false
-                                        }))
+                                        // TODO: add back press and hold
+                                        .themedButton(type: .primary)
+//                                        .buttonStyle(BlockButtonStyle(tint: .accentColor, usingPressAndHoldGesture: true, onStart: {
+//                                            self.addInputToStack(input: .right)
+//                                            self.isMoving = true
+//                                        }, action: {
+//                                            self.moveSprite(containerGeometry: containerGeometry, by: self.spriteIncrement)
+//                                        }, onEnd: {
+//                                            self.isMoving = false
+//                                        }))
                                     }
                                 }
                         }
@@ -304,7 +308,7 @@ struct RandomCampaignPickerView2024: View {
                                             .foregroundStyle(.white)
                                     }
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .themedButton(type: .primary)
                         }
                         HStack(spacing: 0) {
                             Button(action: {
@@ -319,7 +323,7 @@ struct RandomCampaignPickerView2024: View {
                                             .foregroundStyle(.white)
                                     }
                             })
-                            .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                            .themedButton(type: .primary)
                             Spacer()
                         }
                     }
@@ -412,7 +416,7 @@ struct RandomCampaignPickerView2024: View {
                                                     }, label: {
                                                         FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showBackground: false, showShareSheet: self.$showShareSheet)
                                                     })
-                                                    .buttonStyle(BlockButtonStyle())
+                                                    .themedButton(type: .primary)
                                                 }
                                             } else {
                                                 GroupBox {
@@ -504,7 +508,7 @@ struct RandomCampaignPickerView2024: View {
                             Text("Start")
                                 .foregroundStyle(.white)
                         })
-                        .buttonStyle(BlockButtonStyle(tint: .accentColor))
+                        .themedButton(type: .primary)
                         .padding()
                         .padding(.bottom)
                     }

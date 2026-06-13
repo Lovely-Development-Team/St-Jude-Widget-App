@@ -58,7 +58,7 @@ struct AboutView: View {
                             Text("Read Stephen's post")
                                 .fullWidth(alignment: .center)
                         }
-                        .buttonStyle(PrimaryButtonStyle())
+                        .themedButton(type: .primary)
                     }
                     
                     if let mykePostUrlString = self.mykePostUrlString,
@@ -67,7 +67,7 @@ struct AboutView: View {
                             Text("Read Myke's post")
                                 .fullWidth(alignment: .center)
                         }
-                        .buttonStyle(PrimaryButtonStyle())
+                        .themedButton(type: .primary)
                     }
                 }
             }
@@ -86,7 +86,7 @@ struct AboutView: View {
                         Text("tildy.dev")
                             .fullWidth(alignment: .center)
                     })
-                    .buttonStyle(PrimaryButtonStyle())
+                    .themedButton(type: .primary)
                 }
                 
                 VStack(spacing:10) {
@@ -98,7 +98,7 @@ struct AboutView: View {
                         Text("Supporters")
                             .fullWidth(alignment: .center)
                     }
-                    .buttonStyle(PrimaryButtonStyle())
+                    .themedButton(type: .primary)
                 }
             }
         }

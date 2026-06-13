@@ -153,7 +153,7 @@ struct FundraiserListView: View {
                 })
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
-                .buttonStyle(PrimaryButtonStyle())
+                .themedButton(type: .primary)
             }
             .frame(maxWidth: .infinity)
         }
@@ -171,7 +171,7 @@ struct FundraiserListView: View {
                             }
                             .zoomTransitioniOS26Source(id: "subCampaignCard-\(campaign.id)", namespace: self.namespace)
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .themedButton(type: .plain)
 //                        .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground, useCapsuleShape: false))
                         .contextMenu {
                             Button(action: {
@@ -315,7 +315,8 @@ struct FundraiserListView: View {
                 Image(systemName: "chevron.right")
             }
         }
-        .buttonStyle(PrimaryButtonStyle(useGlass: false))
+        // TODO: remove glass
+        .themedButton(type: .primary)
     }
     
     var body: some View {

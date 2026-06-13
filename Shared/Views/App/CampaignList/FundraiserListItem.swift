@@ -92,7 +92,7 @@ struct FundraiserListItem: View {
                                 .font(.headline)
                                 .foregroundStyle(.primary)
                         })
-                        .buttonStyle(.plain)
+                        .themedButton(type: .plain)
                     } else {
                         Text(campaign.title)
                             .multilineTextAlignment(.leading)

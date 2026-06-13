@@ -25,7 +25,7 @@ struct SupportersView: View {
                     .font(.headline)
                     .fullWidth(alignment: .center)
             })
-            .buttonStyle(PrimaryButtonStyle())
+            .themedButton(type: .primary)
         }
     }
     

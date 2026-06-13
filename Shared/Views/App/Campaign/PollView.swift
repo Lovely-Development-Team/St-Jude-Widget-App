@@ -23,7 +23,8 @@ struct PollView: View {
                         Text("Vote!")
                             .font(.caption)
                     })
-                    .buttonStyle(PrimaryButtonStyle(padding: 10))
+                    // TODO: padding?
+                    .themedButton(type: .primary)
                     .padding(.bottom, 4)
                 }
                 ForEach(poll.options, id: \.id) { option in
