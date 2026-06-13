@@ -65,7 +65,9 @@ struct CampaignList: View {
                             NavigationLink(value: CampaignListDestination.teamEvent(teamEvent)) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
                             }
-                            .buttonStyle(PrimaryButtonStyle(useGlass: false, useCapsuleShape: false, useBoldText: false))
+                            .themedButton(type: .primary,
+                                          capsuleShape: false,
+                                          boldText: false)
                             .padding(.vertical)
                             .zoomTransitioniOS26Source(id: "mainCampaignCard", namespace: self.namespace)
                         } else {
@@ -214,7 +216,8 @@ extension CampaignList {
             }
             .frame(maxWidth: .infinity)
         })
-        .buttonStyle(PrimaryButtonStyle(useGlass: false))
+        // TODO: remove glass
+        .themedButton(type: .secondary, textColor: .white)
         .foregroundStyle(.black)
 //        .padding(.horizontal)
         .frame(maxWidth: Double.stretchedContentMaxWidth)

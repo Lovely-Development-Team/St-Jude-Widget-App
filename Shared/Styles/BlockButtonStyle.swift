@@ -11,6 +11,7 @@ struct BlockButtonStyle: ButtonStyle {
     var tint: Color = .secondarySystemBackground
     var padding: Bool = true
     var disabled: Bool = false
+    var overrideTextColor: Color? = nil
     
     var usingPressAndHoldGesture: Bool = false
     @State private var timer: Timer?
@@ -43,17 +44,27 @@ struct BlockButtonStyle: ButtonStyle {
             }
     }
     
+    @ViewBuilder
+    func buttonContent(configuration: Configuration) -> some View {
+        if let overrideTextColor = self.overrideTextColor {
+            configuration.label
+                .foregroundStyle(overrideTextColor)
+                .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
+                .animation(.none, value: UUID())
+        } else {
+            configuration.label
+                .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
+                .animation(.none, value: UUID())
+        }
+    }
+    
     func makeBody(configuration: Configuration) -> some View {
         Group {
             if(self.padding) {
-                configuration.label
-                    .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
-                    .animation(.none, value: UUID())
+                self.buttonContent(configuration: configuration)
                     .padding()
             } else {
-                configuration.label
-                    .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
-                    .animation(.none, value: UUID())
+                self.buttonContent(configuration: configuration)
             }
         }
         .background {

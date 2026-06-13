@@ -46,7 +46,7 @@ struct HeadToHeadListView: View {
                     }
                     .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+                .themedButton(type: .plain)
                 if headToHeads.count == 0 {
                     if showHeadToHeads {
                         VStack {
@@ -57,7 +57,7 @@ struct HeadToHeadListView: View {
                                     .font(.headline)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .buttonStyle(PrimaryButtonStyle())
+                            .themedButton(type: .primary)
                         }
                     }
                 } else {

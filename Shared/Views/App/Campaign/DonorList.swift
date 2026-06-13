@@ -25,7 +25,7 @@ struct DonorList: View {
                     }
                     .fullWidth()
                 }
-                .buttonStyle(PrimaryButtonStyle())
+                .themedButton(type: .primary)
                 
                 ForEach(donations, id: \.id) { donation in
                     GroupBox {

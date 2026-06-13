@@ -15,7 +15,7 @@ struct PrimaryButtonStyle: ButtonStyle {
     var useBoldText: Bool = true
     var padding: CGFloat = 15
     
-    var overrideTextColor: Color? = .white
+    var overrideTextColor: Color? = nil
     
     @ViewBuilder
     func content(configuration: Configuration) -> some View {

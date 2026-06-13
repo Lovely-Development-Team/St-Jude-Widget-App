@@ -29,7 +29,7 @@ struct ToggleSetting: View {
                         .foregroundColor(!self.setting ? .contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(PrimaryButtonStyle(tint: !self.setting ? .accentColor : .tertiarySystemBackground))
+                .themedButton(type: .primary, tint: !self.setting ? .accentColor : .tertiarySystemBackground)
                 Button(action: {
                     withAnimation {
                         self.setting = true
@@ -40,7 +40,7 @@ struct ToggleSetting: View {
                         .foregroundColor(self.setting ? .contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(PrimaryButtonStyle(tint: self.setting ? .accentColor : .tertiarySystemBackground))
+                .themedButton(type: .primary, tint: self.setting ? .accentColor : .tertiarySystemBackground)
             }
         }
     }
@@ -66,7 +66,10 @@ struct AltIconButton: View {
                         .foregroundStyle(self.currentIcon == self.icon ? Color.contentColorForAccent : Color.primary)
                 }
             }
-            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
+            .themedButton(type: .primary,
+                          tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground,
+                          capsuleShape: false)
+//            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }
 }
 

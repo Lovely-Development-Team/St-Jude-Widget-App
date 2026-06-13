@@ -65,7 +65,7 @@ struct EasterEggView: View {
                         }) {
                             Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .themedButton(type: .plain)
                         Text("says:")
                     }
                     .font(.headline)
@@ -104,7 +104,7 @@ struct EasterEggView: View {
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
-                .buttonStyle(PrimaryButtonStyle())
+                .themedButton(type: .primary)
             }
         }
         GroupBox {
@@ -121,7 +121,7 @@ struct EasterEggView: View {
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
-                .buttonStyle(PrimaryButtonStyle())
+                .themedButton(type: .primary)
             }
         }
         GroupBox {
@@ -140,7 +140,7 @@ struct EasterEggView: View {
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
-                .buttonStyle(PrimaryButtonStyle())
+                .themedButton(type: .primary)
             }
         }
     }
@@ -156,7 +156,7 @@ struct EasterEggView: View {
                           .fontWeight(.semibold)
                           .foregroundColor(.accentColor)
                   }
-                  .buttonStyle(PlainButtonStyle())
+                  .themedButton(type: .plain)
                   .padding(.horizontal, 15)
                   .padding(.vertical, 10)
         }

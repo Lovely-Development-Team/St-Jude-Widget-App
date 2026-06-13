@@ -61,7 +61,7 @@ struct CampaignRewardView: View {
                                 Text("Supporters")
                                     .font(.headline)
                             })
-                            .buttonStyle(PrimaryButtonStyle())
+                            .themedButton(type: .primary)
                             Spacer()
                         }
                     }

@@ -146,7 +146,10 @@ struct HeadToHeadView: View {
                                     }
                                 }
                                 .foregroundColor(.black)
-                                .buttonStyle(PrimaryButtonStyle(tint: HEAD_TO_HEAD_COLOR_1.fillColor, useCapsuleShape: false, useBoldText: false))
+                                .themedButton(type: .primary,
+                                              tint: HEAD_TO_HEAD_COLOR_1.fillColor,
+                                              capsuleShape: false,
+                                              boldText: false)
                             }
                         }
                         
@@ -181,7 +184,10 @@ struct HeadToHeadView: View {
                                     }
                                 }
                                 .foregroundStyle(.black)
-                                .buttonStyle(PrimaryButtonStyle(tint: HEAD_TO_HEAD_COLOR_2.fillColor, useCapsuleShape: false, useBoldText: false))
+                                .themedButton(type: .primary,
+                                              tint: HEAD_TO_HEAD_COLOR_2.fillColor,
+                                              capsuleShape: false,
+                                              boldText: false)
                             }
                         }
                         Spacer()
