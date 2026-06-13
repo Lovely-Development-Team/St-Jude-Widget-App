@@ -27,6 +27,7 @@ struct SupportersView: View {
             })
             .themedButton(type: .primary)
         }
+        .themedGroupBox(type: .primary)
     }
     
     @ViewBuilder
@@ -42,6 +43,7 @@ struct SupportersView: View {
                         }
                     }
                 }
+                .themedGroupBox(type: .primary)
             } else {
                 GroupBox {
                     ProgressView()
@@ -49,6 +51,7 @@ struct SupportersView: View {
                         .fullWidth(alignment: .center)
                         .padding(.bottom, 40)
                 }
+                .themedGroupBox(type: .primary)
             }
         }
     }

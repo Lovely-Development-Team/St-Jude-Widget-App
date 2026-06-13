@@ -208,6 +208,7 @@ struct FundraiserListItem: View {
             GroupBox {
                 self.contents
             }
+            .themedGroupBox(type: .primary)
         } else {
             self.contents
         }

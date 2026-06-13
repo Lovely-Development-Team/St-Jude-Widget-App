@@ -101,7 +101,7 @@ struct TeamEventCardView: View {
                 GroupBox {
                     self.contents
                 }
-                .backgroundStyle(Color.accentColor)
+                .themedGroupBox(type: .primary, primaryColor: .accentColor)
             } else {
                 self.contents
             }

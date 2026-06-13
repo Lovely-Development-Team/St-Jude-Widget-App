@@ -14,7 +14,7 @@ enum Theme: String {
     case campaign2025 = "2025"
     
     static var current: Theme {
-        return .normal
+        return .campaign2024
     }
     
     static var isThemeApplied: Bool {

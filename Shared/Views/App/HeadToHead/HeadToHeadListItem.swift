@@ -61,10 +61,12 @@ struct HeadToHeadListItem: View {
                 GroupBox {
                         Rectangle().fill(.clear)
                 }
+                .themedGroupBox(type: .primary)
                 .backgroundStyle(headToHead.campaign1 == winner || self.isTied ? Color.accentColor : Color.tertiarySystemBackground)
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
+                .themedGroupBox(type: .primary)
                 .backgroundStyle(headToHead.campaign2 == winner || self.isTied ? Color.accentColor : Color.tertiarySystemBackground)
             }
         )

@@ -21,7 +21,7 @@ struct BlockButtonStyle: ButtonStyle {
     @State private var pressing: Bool = false
     var timerDuration: Double = 0.05
     
-    var edgeColor: Color? = .accentColor
+    var edgeColor: Color? = nil
     var shadowColor: Color? = nil
     
     func gesture() -> some Gesture {

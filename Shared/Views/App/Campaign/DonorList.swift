@@ -51,6 +51,7 @@ struct DonorList: View {
                             }
                         }
                     }
+                    .themedGroupBox(type: .primary)
                 }
             }
             .padding()

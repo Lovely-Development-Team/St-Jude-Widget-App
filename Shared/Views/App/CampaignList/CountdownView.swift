@@ -32,6 +32,7 @@ struct CountdownView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             }
                         }
+                        .themedGroupBox(type: .primary)
                     } else {
                         GroupBox {
                             Group {
@@ -49,6 +50,7 @@ struct CountdownView: View {
                             }
                             .bold()
                         }
+                        .themedGroupBox(type: .primary)
                         .onTapGesture {
                             withAnimation {
                                 showAbsoluteDate.toggle()

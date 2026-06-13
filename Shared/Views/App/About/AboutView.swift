@@ -72,6 +72,7 @@ struct AboutView: View {
                 }
             }
         }
+        .themedGroupBox(type: .primary)
         
         GroupBox {
             VStack(spacing:20) {
@@ -102,6 +103,7 @@ struct AboutView: View {
                 }
             }
         }
+        .themedGroupBox(type: .primary)
     }
     
     @ViewBuilder
@@ -124,6 +126,7 @@ struct AboutView: View {
                 ToggleSetting(label: "Enable Goal Multipliers", setting: self.$disableCombos)
             }
         }
+        .themedGroupBox(type: .primary)
     }
     
     @ViewBuilder
@@ -142,6 +145,7 @@ struct AboutView: View {
                 }
             }
         }
+        .themedGroupBox(type: .primary)
     }
     
     var body: some View {
