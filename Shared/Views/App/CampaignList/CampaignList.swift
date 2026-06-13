@@ -216,10 +216,7 @@ extension CampaignList {
             }
             .frame(maxWidth: .infinity)
         })
-        // TODO: remove glass
-        .themedButton(type: .secondary, textColor: .white)
-        .foregroundStyle(.black)
-//        .padding(.horizontal)
+        .themedButton(type: .secondary)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
         .zoomTransitioniOS26Source(id: "easterEggButton", namespace: self.namespace)
     }

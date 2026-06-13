@@ -69,6 +69,7 @@ struct HeadToHeadListView: View {
                 }
             }
         }
+        .themedGroupBox(type: .primary)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     

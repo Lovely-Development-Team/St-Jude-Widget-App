@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct BlockGroupBoxStyle: GroupBoxStyle {
-    var tint: Color = .secondarySystemBackground
+    var tint: Color = .accentColor
     var padding: Bool = true
     
-    var edgeColor: Color? = .accentColor
-    var shadowColor: Color? = .accentColor
+    var edgeColor: Color? = nil
+    var shadowColor: Color? = nil
     var scale: Double = Double.spriteScale
     
     var overridePositions: [ScaledNinePartImage.EdgePosition: ScaledNinePartImage.EdgePosition] = [:]

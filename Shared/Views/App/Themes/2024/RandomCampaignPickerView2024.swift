@@ -424,7 +424,7 @@ struct RandomCampaignPickerView2024: View {
                                                         .font(.headline)
                                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                                 }
-                                                .groupBoxStyle(BlockGroupBoxStyle())
+                                                .themedGroupBox(type: .primary)
                                             }
                                         }
                                         .opacity(self.resultOpacity ? 1.0 : 0.0)

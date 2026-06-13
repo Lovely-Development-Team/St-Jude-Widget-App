@@ -78,6 +78,7 @@ struct EasterEggView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            .themedGroupBox(type: .primary)
         }
     }
     
@@ -107,6 +108,7 @@ struct EasterEggView: View {
                 .themedButton(type: .primary)
             }
         }
+        .themedGroupBox(type: .primary)
         GroupBox {
             VStack(alignment: .leading) {
                 Text("Supporters")
@@ -124,6 +126,7 @@ struct EasterEggView: View {
                 .themedButton(type: .primary)
             }
         }
+        .themedGroupBox(type: .primary)
         GroupBox {
             VStack(alignment: .leading) {
                 Text("Credits")
@@ -143,6 +146,7 @@ struct EasterEggView: View {
                 .themedButton(type: .primary)
             }
         }
+        .themedGroupBox(type: .primary)
     }
     
     var body: some View {

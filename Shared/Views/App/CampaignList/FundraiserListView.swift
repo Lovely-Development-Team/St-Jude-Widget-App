@@ -107,6 +107,7 @@ struct FundraiserListView: View {
                         }
                     }
                 }
+                .themedGroupBox(type: .primary)
             }
 
             if allCampaigns.count != 0 {
@@ -137,6 +138,7 @@ struct FundraiserListView: View {
             }
             .frame(maxWidth: .infinity)
         }
+        .themedGroupBox(type: .primary)
     }
     
     @ViewBuilder
@@ -157,6 +159,7 @@ struct FundraiserListView: View {
             }
             .frame(maxWidth: .infinity)
         }
+        .themedGroupBox(type: .primary)
     }
     
     @ViewBuilder
@@ -169,10 +172,10 @@ struct FundraiserListView: View {
                             GroupBox {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showBackground: false, showShareSheet: .constant(false))
                             }
+                            .themedGroupBox(type: .primary)
                             .zoomTransitioniOS26Source(id: "subCampaignCard-\(campaign.id)", namespace: self.namespace)
                         }
                         .themedButton(type: .plain)
-//                        .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground, useCapsuleShape: false))
                         .contextMenu {
                             Button(action: {
                                 showSheet = .continueHeadToHead(campaign: campaign)
@@ -210,20 +213,36 @@ struct FundraiserListView: View {
     @ViewBuilder
     var fundraiserHeaderContainer: some View {
         if #available(iOS 26.0, *) {
-            HStack {
-                Text("Fundraisers")
-                    .font(.title)
-                    .fontWeight(.bold)
-                Spacer()
-                if self.allCampaigns.count != 0 {
-                    Text("\(allCampaigns.count)")
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(
-                            Color.secondarySystemBackground
-                                .cornerRadius(15)
-                        )
+            if Theme.isThemeApplied {
+                GroupBox {
+                    HStack {
+                        Text("Fundraisers")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                        if self.allCampaigns.count != 0 {
+                            Text("\(allCampaigns.count)")
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                .themedGroupBox(type: .primary)
+            } else {
+                HStack {
+                    Text("Fundraisers")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    if self.allCampaigns.count != 0 {
+                        Text("\(allCampaigns.count)")
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Color.secondarySystemBackground
+                                    .cornerRadius(15)
+                            )
+                    }
                 }
             }
         } else {

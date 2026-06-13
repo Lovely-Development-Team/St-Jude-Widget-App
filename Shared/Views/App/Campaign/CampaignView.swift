@@ -149,6 +149,7 @@ struct CampaignView: View {
                         })
                     })
             }
+            .themedGroupBox(type: .primary)
         }
 #endif
     }
@@ -189,6 +190,7 @@ struct CampaignView: View {
                                         .bold()
                                 }
                             }
+                            .themedGroupBox(type: .primary)
                         }
                         
                         self.debugIdView
@@ -246,6 +248,7 @@ struct CampaignView: View {
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     }
+                    .themedGroupBox(type: .primary)
                     .padding(.vertical)
                 }
             }
@@ -280,6 +283,7 @@ struct CampaignView: View {
                     }
                 }
             }
+            .themedGroupBox(type: .primary)
         }
         
         Group {
@@ -321,6 +325,7 @@ struct CampaignView: View {
                     }
                 }
             }
+            .themedGroupBox(type: .primary)
             .id("Milestones")
         }
     }
@@ -358,6 +363,7 @@ struct CampaignView: View {
                     }
                 }
             }
+            .themedGroupBox(type: .primary)
         }
     }
     
@@ -381,6 +387,7 @@ struct CampaignView: View {
                     }
                 }
             }
+            .themedGroupBox(type: .primary)
             .id("Rewards")
         }
     }
