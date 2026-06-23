@@ -158,7 +158,7 @@ struct EasterEggView: View {
                   }) {
                     Text("Dismiss")
                           .fontWeight(.semibold)
-                          .foregroundColor(.accentColor)
+                          .foregroundColor(Theme.current.accentColor)
                   }
                   .themedButton(type: .plain)
                   .padding(.horizontal, 15)

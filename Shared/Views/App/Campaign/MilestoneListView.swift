@@ -31,7 +31,7 @@ struct MilestoneListView: View {
             layout {
                 HStack(alignment: .top) {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(reached ? .accentColor : .secondary)
+                        .foregroundColor(reached ? Theme.current.accentColor : .secondary)
                         .opacity(reached ? 1 : 0.25)
                     Text("\(milestone.name)")
                         .foregroundColor(reached ? .secondary : .primary)
@@ -41,10 +41,10 @@ struct MilestoneListView: View {
                     Spacer()
                 }
                 Text(milestone.amount.description(showFullCurrencySymbol: false))
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(Theme.current.accentColor)
                     .opacity(reached ? 0.75 : 1)
             }
-            ProgressBar(value: .constant(percentage), fillColor: .accentColor)
+            ProgressBar(value: .constant(percentage), fillColor: Theme.current.accentColor)
                 .frame(height: 3)
                 .opacity(reached ? 0.25 : 1)
         }

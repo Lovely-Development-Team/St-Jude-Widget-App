@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PrimaryButtonStyle: ButtonStyle {
     var useGlass: Bool = true
-    var tint: Color = .accentColor
+    var tint: Color = Theme.current.accentColor
     var useCapsuleShape: Bool = true
     var cornerRadius: CGFloat = 10
     var useBoldText: Bool = true

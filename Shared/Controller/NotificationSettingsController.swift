@@ -9,6 +9,8 @@ import Foundation
 import UserNotifications
 import Combine
 
+// TODO: Redo notification logic
+/*
 class NotificationSettingsController: ObservableObject {
 
     private var refreshing = false
@@ -182,3 +184,4 @@ class NotificationSettingsController: ObservableObject {
         }
     }
 }
+*/

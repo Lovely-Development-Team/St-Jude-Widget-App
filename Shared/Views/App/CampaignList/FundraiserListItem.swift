@@ -78,7 +78,7 @@ struct FundraiserListItem: View {
                 if showDisclosureIndicator {
                     Spacer()
                     self.disclosureIndicator
-                        .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
+                        .foregroundColor(campaign.isStarred ? Theme.current.accentColor : .secondary)
                 }
             }
         } else {
@@ -105,7 +105,7 @@ struct FundraiserListItem: View {
                 if showDisclosureIndicator {
                     Spacer()
                     self.disclosureIndicator
-                        .foregroundColor(campaign.isStarred ? .accentColor : .secondary)
+                        .foregroundColor(campaign.isStarred ? Theme.current.accentColor : .secondary)
                 } else if showShareIcon {
                     Spacer()
                     Menu {
@@ -170,7 +170,7 @@ struct FundraiserListItem: View {
                         ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor)
                             .frame(height: 10)
                     } else {
-                        ProgressBar(value: .constant(Float(progressBarAmount)), fillColor: .accentColor)
+                        ProgressBar(value: .constant(Float(progressBarAmount)), fillColor: Theme.current.accentColor)
                             .frame(height: 10)
                     }
                 }

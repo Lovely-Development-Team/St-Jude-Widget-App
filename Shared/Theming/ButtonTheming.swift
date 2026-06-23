@@ -17,7 +17,7 @@ extension View {
     @ViewBuilder
     func themedButton(type: ButtonType = .primary,
                       tint: Color? = nil,
-                      textColor: Color = .primary,
+                      textColor: Color = Theme.current.contentColorForAccent,
                       capsuleShape: Bool = true,
                       boldText: Bool = true) -> some View {
         switch type {
@@ -29,7 +29,7 @@ extension View {
         case .plain:
             buttonStyle(PlainButtonStyle())
         default:
-            self.themedPrimaryButton(tint: tint ?? .accentColor,
+            self.themedPrimaryButton(tint: tint ?? Theme.current.accentColor,
                                      textColor: textColor,
                                      capsuleShape: capsuleShape,
                                      boldText: boldText)

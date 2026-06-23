@@ -37,7 +37,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(self.headToHead.campaign1 == winner || isTied ? .contentColorForAccent : .primary)
+                    .foregroundColor(self.headToHead.campaign1 == winner || isTied ? Theme.current.contentColorForAccent : .primary)
                 Text("vs")
                     .bold()
                     .padding(8)
@@ -51,7 +51,7 @@ struct HeadToHeadListItem: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(self.headToHead.campaign2 == winner || isTied ? .contentColorForAccent : .primary)
+                    .foregroundColor(self.headToHead.campaign2 == winner || isTied ? Theme.current.contentColorForAccent : .primary)
             }
         }
         .compositingGroup()
@@ -62,12 +62,12 @@ struct HeadToHeadListItem: View {
                         Rectangle().fill(.clear)
                 }
                 .themedGroupBox(type: .primary)
-                .backgroundStyle(headToHead.campaign1 == winner || self.isTied ? Color.accentColor : Color.tertiarySystemBackground)
+                .backgroundStyle(headToHead.campaign1 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
                 .themedGroupBox(type: .primary)
-                .backgroundStyle(headToHead.campaign2 == winner || self.isTied ? Color.accentColor : Color.tertiarySystemBackground)
+                .backgroundStyle(headToHead.campaign2 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
             }
         )
     }

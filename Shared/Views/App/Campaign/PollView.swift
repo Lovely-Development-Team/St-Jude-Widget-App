@@ -33,11 +33,11 @@ struct PollView: View {
                             let isMax = option.isMax(parentPoll: poll)
                             Text(option.name)
                                 .font(.caption)
-                                .foregroundStyle(isMax ? Color.accentColor : .primary)
+                                .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
                             
                             if isMax {
                                 Image(systemName: "crown.fill")
-                                    .foregroundStyle(Color.accentColor)
+                                    .foregroundStyle(Theme.current.accentColor)
                             }
                             
                             Spacer()
@@ -45,13 +45,13 @@ struct PollView: View {
                             VStack(alignment: .trailing) {
                                 Text("\(Int(option.percentageOfPoll(parentPoll: poll) * 100))%")
                                     .font(.caption)
-                                    .foregroundStyle(isMax ? Color.accentColor : .primary)
+                                    .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
                                 Text(option.amountRaised.description(showFullCurrencySymbol: false))
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
                         }
-                        ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: .accentColor)
+                        ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: Theme.current.accentColor)
                             .frame(height: 10)
                     }
                 }

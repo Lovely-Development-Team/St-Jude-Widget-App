@@ -21,7 +21,7 @@ struct CampaignRewardView: View {
                     .font(.headline)
                 Spacer()
                 Text(self.reward.amount.description(showFullCurrencySymbol: false))
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(Theme.current.accentColor)
             }
             HStack(alignment: .top) {
                 if let url = URL(string: self.reward.imageSrc ?? "") {
@@ -47,7 +47,7 @@ struct CampaignRewardView: View {
                         HStack {
                             Text("\(quantityRemaining) of \(quantity) available!")
                                 .font(.caption)
-                                .foregroundStyle(Color.accentColor)
+                                .foregroundStyle(Theme.current.accentColor)
                             Spacer()
                         }
                     }

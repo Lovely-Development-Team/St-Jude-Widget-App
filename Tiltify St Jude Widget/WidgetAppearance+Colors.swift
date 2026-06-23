@@ -184,7 +184,7 @@ extension WidgetAppearance {
         case .myke:
             return .white
         default:
-            return Color.contentColorForAccent
+            return Theme.current.contentColorForAccent
         }
     }
     

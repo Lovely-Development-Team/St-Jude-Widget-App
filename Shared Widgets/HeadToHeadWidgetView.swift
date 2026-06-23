@@ -282,7 +282,7 @@ extension HeadToHeadWidgetView {
                             Image(.crownPixel)
                                 .font(.system(size: 30))
                                 .imageScale(.large)
-                                .foregroundStyle(Color.accentColor)
+                                .foregroundStyle(Theme.current.accentColor)
                                 .background(Circle().fill(.white).blur(radius: 30))
                         }
                     }
@@ -323,7 +323,7 @@ extension HeadToHeadWidgetView {
                             Image(.crownPixel)
                                 .font(.system(size: 30))
                                 .imageScale(.large)
-                                .foregroundStyle(Color.accentColor)
+                                .foregroundStyle(Theme.current.accentColor)
                                 .background(Circle().fill(.white).blur(radius: 30))
                         }
                         avatarImageView(for: campaign2 ?? sampleCampaign)
@@ -432,7 +432,7 @@ extension HeadToHeadWidgetView {
                         Image(.crownPixel)
                             .font(.system(size: 30))
                             .imageScale(.large)
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(Theme.current.accentColor)
                             .background(Circle().fill(.white).blur(radius: 30))
                     }
                 }
@@ -495,7 +495,7 @@ extension HeadToHeadWidgetView {
                         Image(.crownPixel)
                             .font(.system(size: 30))
                             .imageScale(.large)
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(Theme.current.accentColor)
                             .background(Circle().fill(.white).blur(radius: 30))
                     }
                 }
@@ -522,7 +522,7 @@ extension HeadToHeadWidgetView {
                                 Image(.crownPixel)
                                     .font(.system(size: 30))
                                     .imageScale(.large)
-                                    .foregroundStyle(Color.accentColor)
+                                    .foregroundStyle(Theme.current.accentColor)
                                     .background(Circle().fill(.white).blur(radius: 30))
                             }
                         }
@@ -574,7 +574,7 @@ extension HeadToHeadWidgetView {
                                 Image(.crownPixel)
                                     .font(.system(size: 30))
                                     .imageScale(.large)
-                                    .foregroundStyle(Color.accentColor)
+                                    .foregroundStyle(Theme.current.accentColor)
                                     .background(Circle().fill(.white).blur(radius: 30))
                             }
                             avatarImageView(for: campaign2 ?? sampleCampaign)

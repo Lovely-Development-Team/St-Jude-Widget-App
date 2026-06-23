@@ -7,6 +7,8 @@
 
 import Foundation
 
+// TODO: Redo notification logic
+/*
 func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     //check if cached amount is significant
     //uncomment below for testing
@@ -122,3 +124,4 @@ func checkSignificantAmounts(for widgetData: TiltifyWidgetData) {
     
     UserDefaults.shared.set(totalRaised, forKey: "cachedTotalRaised")
 }
+*/

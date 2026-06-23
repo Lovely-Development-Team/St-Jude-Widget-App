@@ -73,7 +73,7 @@ struct CampaignList: View {
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
                                 .padding(.vertical)
-                                .foregroundStyle(Color.contentColorForAccent)
+                                .foregroundStyle(Theme.current.contentColorForAccent)
                         }
                     }
                 }
