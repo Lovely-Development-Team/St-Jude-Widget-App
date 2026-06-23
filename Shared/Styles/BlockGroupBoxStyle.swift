@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlockGroupBoxStyle: GroupBoxStyle {
-    var tint: Color = .accentColor
+    var tint: Color = Theme.current.accentColor
     var padding: Bool = true
     
     var edgeColor: Color? = nil

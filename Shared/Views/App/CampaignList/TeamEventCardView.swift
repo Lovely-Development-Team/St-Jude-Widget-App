@@ -19,7 +19,7 @@ struct TeamEventCardView: View {
     
     @ViewBuilder
     func mainProgressBar(value: Float, color: Color) -> some View {
-        ProgressBar(value: .constant(value), barColour: .contentColorForAccent.opacity(0.2), fillColor: color)
+        ProgressBar(value: .constant(value), barColour: Theme.current.contentColorForAccent.opacity(0.2), fillColor: color)
             .frame(height: 15)
     }
     
@@ -79,14 +79,14 @@ struct TeamEventCardView: View {
                 .opacity(0.8)
             if let teamEvent = teamEvent {
                 if let percentageReached =  teamEvent.percentageReached {
-                    mainProgressBar(value: Float(percentageReached), color: .contentColorForAccent)
+                    mainProgressBar(value: Float(percentageReached), color: Theme.current.contentColorForAccent)
                 }
                 mainAmountRaised(Text(teamEvent.totalRaised.description(showFullCurrencySymbol: false)))
                 if let percentageReachedDesc = teamEvent.percentageReachedDescription {
                     mainPercentageReached(Text("\(percentageReachedDesc) of \(teamEvent.goal.description(showFullCurrencySymbol: false))"))
                 }
             } else {
-                mainProgressBar(value: 0, color: .contentColorForAccent)
+                mainProgressBar(value: 0, color: Theme.current.contentColorForAccent)
                 mainAmountRaised(Text("PLACEHOLDER"))
                     .redacted(reason: .placeholder)
                 mainPercentageReached(Text("PLACEHOLDER"))
@@ -101,7 +101,7 @@ struct TeamEventCardView: View {
                 GroupBox {
                     self.contents
                 }
-                .themedGroupBox(type: .primary, primaryColor: .accentColor)
+                .themedGroupBox(type: .primary, primaryColor: Theme.current.accentColor)
             } else {
                 self.contents
             }

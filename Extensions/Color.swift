@@ -9,11 +9,6 @@ import Foundation
 import SwiftUI
 
 extension Color {
-    // MARK: IMPORTANT! Update this when the accent color changes to make sure content in primary colored buttons is legible
-    static var contentColorForAccent: Color = .white
-}
-
-extension Color {
     
     static func rgb(_ red: Int, _ green: Int, _ blue: Int) -> Color {
         return Color(red: Double(red) / 255, green: Double(green) / 255, blue: Double(blue) / 255)

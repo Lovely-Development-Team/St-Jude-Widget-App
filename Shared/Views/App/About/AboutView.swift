@@ -13,6 +13,7 @@ struct AboutView: View {
     @Environment(\.dismiss) var dismiss
     
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
+    @AppStorage(UserDefaults.selectedThemeKey, store: UserDefaults.shared) private var selectedThemeId: Int = 0
     
     // 2024 Settings
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
@@ -127,6 +128,33 @@ struct AboutView: View {
             }
         }
         .themedGroupBox(type: .primary)
+        
+        #if DEBUG
+        GroupBox {
+            VStack(spacing: 20) {
+                Text("Theme")
+                    .font(.title3)
+                    .bold()
+                    .fullWidth()
+                Text("DEBUG ONLY. Selecting a theme will quit the app")
+                
+                ForEach(Theme.allCases, id: \.rawValue) { theme in
+                    Button(action: {
+                        self.selectedThemeId = theme.rawValue
+                        
+                        // Quit app. Some things need to reset on startup
+                        exit(0)
+                    }, label: {
+                        Text(theme.displayString)
+                    })
+                    .themedButton(type: .primary,
+                                  tint: self.selectedThemeId == theme.rawValue ? Theme.current.accentColor : .secondarySystemBackground,
+                                  textColor: self.selectedThemeId == theme.rawValue ? Theme.current.contentColorForAccent : .primary)
+                }
+            }
+        }
+        .themedGroupBox(type: .primary)
+        #endif 
     }
     
     @ViewBuilder

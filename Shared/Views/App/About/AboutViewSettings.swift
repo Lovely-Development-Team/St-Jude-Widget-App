@@ -26,10 +26,10 @@ struct ToggleSetting: View {
                     
                 }) {
                     Text("Yes")
-                        .foregroundColor(!self.setting ? .contentColorForAccent : .primary)
+                        .foregroundColor(!self.setting ? Theme.current.contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .themedButton(type: .primary, tint: !self.setting ? .accentColor : .tertiarySystemBackground)
+                .themedButton(type: .primary, tint: !self.setting ? Theme.current.accentColor : .tertiarySystemBackground)
                 Button(action: {
                     withAnimation {
                         self.setting = true
@@ -37,10 +37,10 @@ struct ToggleSetting: View {
                     }
                 }) {
                     Text("No")
-                        .foregroundColor(self.setting ? .contentColorForAccent : .primary)
+                        .foregroundColor(self.setting ? Theme.current.contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .themedButton(type: .primary, tint: self.setting ? .accentColor : .tertiarySystemBackground)
+                .themedButton(type: .primary, tint: self.setting ? Theme.current.accentColor : .tertiarySystemBackground)
             }
         }
     }
@@ -63,11 +63,11 @@ struct AltIconButton: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(radius: 10)
                     Text(icon.title)
-                        .foregroundStyle(self.currentIcon == self.icon ? Color.contentColorForAccent : Color.primary)
+                        .foregroundStyle(self.currentIcon == self.icon ? Theme.current.contentColorForAccent : Color.primary)
                 }
             }
             .themedButton(type: .primary,
-                          tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground,
+                          tint: self.currentIcon == self.icon ? Theme.current.accentColor : .tertiarySystemBackground,
                           capsuleShape: false)
 //            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }

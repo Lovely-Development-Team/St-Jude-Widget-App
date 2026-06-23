@@ -165,7 +165,7 @@ struct CampaignView: View {
                             FundraiserListItem(campaign: initialCampaign, sortOrder: .byGoal, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
                         } else if let teamEvent = teamEvent {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: false, showShareIcon: true, showShareSheet: $showShareView)
-                                .foregroundStyle(Color.contentColorForAccent)
+                                .foregroundStyle(Theme.current.contentColorForAccent)
                             
                             GroupBox {
                                 VStack {
@@ -182,7 +182,7 @@ struct CampaignView: View {
                                         Spacer()
                                     }
                                     .font(.caption)
-                                    .foregroundColor(.accentColor)
+                                    .foregroundColor(Theme.current.accentColor)
                                     Text(grandTotalRaisedDescription)
                                         .textSelection(.enabled)
                                         .fullWidth()
@@ -273,7 +273,7 @@ struct CampaignView: View {
                         Spacer()
                     }
                     .font(.caption)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(Theme.current.accentColor)
                     HStack(alignment: .top) {
                         Text(topDonor.name)
                             .multilineTextAlignment(.leading)

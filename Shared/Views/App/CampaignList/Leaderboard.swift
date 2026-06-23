@@ -44,7 +44,7 @@ struct Leaderboard: View {
                 }
                 Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
                     .monospacedDigit()
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(Theme.current.accentColor)
             }
             .foregroundColor(.primary)
         }
@@ -55,7 +55,7 @@ struct Leaderboard: View {
             ForEach(Array(sortedCampaigns.enumerated()), id: \.offset) { offset, campaign in
                 if offset == self.leaderboardMarkerCutoff-1 {
                     self.listRow(campaign: campaign, offset: offset)
-                        .listRowSeparatorTint(Color.accentColor)
+                        .listRowSeparatorTint(Theme.current.accentColor)
                 } else {
                     self.listRow(campaign: campaign, offset: offset)
                 }

@@ -39,6 +39,8 @@ extension UserDefaults {
     
     static let selectedAccentColorKey = "selectedAccentColorKey"
     
+    static let selectedThemeKey = "selectedThemeKey"
+    
     // DEBUG ONLY
     static let debugGlowOpacityKey = "debugGlowOpacityKey"
     static let debugEdgeHighlightOpacityKey = "debugEdgeHighlightOpacityKey"
@@ -108,6 +110,8 @@ extension UserDefaults {
         set { set(newValue, forKey: Self.inAppUseTrueBlackBackgroundKey) }
     }
     
+    // Commented out until we redo the notification logic
+    /*
     @objc var showMilestoneNotification: Bool {
         get { return bool(forKey: Self.showMilestoneNotificationKey) }
         set { setNotificationPreference(newValue: newValue, for: Self.showMilestoneNotificationKey) }
@@ -137,6 +141,7 @@ extension UserDefaults {
         get { double(forKey: Self.customNotificationAmountKey) }
         set { UserDefaults.shared.set(newValue, forKey: Self.customNotificationAmountKey) }
     }
+     */
     
     @objc var easterEggEnabled2024: Bool {
         get { bool(forKey: Self.easterEggEnabled2024Key) }
@@ -163,6 +168,11 @@ extension UserDefaults {
         set { UserDefaults.shared.set(newValue, forKey: Self.selectedAccentColorKey) }
     }
     
+    @objc var selectedTheme: Int {
+        get { object(forKey: Self.selectedThemeKey) as? Int ?? 0 }
+        set { UserDefaults.shared.set(newValue, forKey: Self.selectedThemeKey) }
+    }
+    
     @objc var debugGlowOpacity: Double {
         get { object(forKey: Self.debugGlowOpacityKey) as? Double ?? 0.5 }
         set { UserDefaults.shared.set(newValue, forKey: Self.debugGlowOpacityKey) }
@@ -174,6 +184,8 @@ extension UserDefaults {
     }
 }
 
+// Coin logic used in 2024. Not really needed I guess
+/*
 extension UserDefaults {
     func addCoin(numCoins: Int?) {
         var shouldShowNotification = false
@@ -196,3 +208,4 @@ extension UserDefaults {
         }
     }
 }
+*/

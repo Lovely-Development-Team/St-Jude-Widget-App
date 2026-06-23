@@ -7,6 +7,8 @@
 
 import Foundation
 
+// TODO: Redo notification logic
+/*
 func checkNewMilestones(for widgetData: TiltifyWidgetData) {
     if(!UserDefaults.shared.showMilestoneAddedNotification) { return }
     
@@ -33,3 +35,4 @@ func checkNewMilestones(for widgetData: TiltifyWidgetData) {
     
     UserDefaults.shared.set(currentIDs, forKey: "cachedMilestoneIDs")
 }
+*/

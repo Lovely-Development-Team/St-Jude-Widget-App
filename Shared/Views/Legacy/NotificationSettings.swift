@@ -9,8 +9,9 @@ import SwiftUI
 import UserNotifications
 import Combine
 
-// We'll add this back someday. 2026 maybe??
-struct NotificationSettings: View {
+// We'll add this back someday. 2026 maybe?? 2026-06-23: nah
+
+/*struct NotificationSettings: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.scenePhase) private var scenePhase
@@ -130,3 +131,4 @@ struct NotificationSettings_Previews: PreviewProvider {
         NotificationSettings()
     }
 }
+*/

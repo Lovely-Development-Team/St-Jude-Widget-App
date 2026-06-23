@@ -54,7 +54,7 @@ struct ChooseCampaignView: View {
                     }
                     Spacer()
                     Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(Theme.current.accentColor)
                 }
                 .foregroundColor(.primary)
             }

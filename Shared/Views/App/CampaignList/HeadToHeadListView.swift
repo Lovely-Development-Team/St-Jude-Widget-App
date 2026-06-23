@@ -34,7 +34,7 @@ struct HeadToHeadListView: View {
                                 Label("Start Head to Head", systemImage: "plus").labelStyle(.iconOnly)
                                     .fontWeight(.bold)
                             }
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(Theme.current.accentColor)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 4)
                             .aspectRatio(1.0, contentMode: .fit)
