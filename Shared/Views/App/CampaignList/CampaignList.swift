@@ -77,6 +77,7 @@ struct CampaignList: View {
                         }
                     }
                 }
+                Theme.current.topViewLandscape()
             }
             .frame(maxWidth: Double.stretchedContentMaxWidth)
         }
@@ -89,23 +90,43 @@ struct CampaignList: View {
                 VStack(spacing: 0) {
                     VStack{
                         self.topView
+                            .padding(.horizontal)
+                    }
+                    .background {
+                        Theme.current.skyView
+                            .mask {
+                                LinearGradient(stops: [
+                                    .init(color: .white, location: 0),
+                                    .init(color: .white, location: 0.5),
+                                    .init(color: .clear, location: 1)
+                                ], startPoint: .bottom, endPoint: .top)
+                            }
                     }
 
-                    VStack {
-                        CountdownView()
-                        FundraiserListView(namespace: self.namespace,
-                                           showSheet: self.$showSheet,
-                                           selectedCampaignId: self.$selectedCampaignId,
-                                           isRefreshing: self.$fundraiserListIsRefreshing)
+                    Group {
+                        VStack {
+                            CountdownView()
+                            FundraiserListView(namespace: self.namespace,
+                                               showSheet: self.$showSheet,
+                                               selectedCampaignId: self.$selectedCampaignId,
+                                               isRefreshing: self.$fundraiserListIsRefreshing)
+                            .padding(.top)
+                            self.easterEggView
+                            // TODO: fix this
+                            //                        widgetCompatibilityView
+                        }
                         .padding(.top)
-                        self.easterEggView
-                        // TODO: fix this
-//                        widgetCompatibilityView
                     }
                     .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
+                    .background {
+                        VStack(spacing: 0) {
+                            Theme.current.landscapeToBackgroundTransition
+                            Theme.current.backgroundView
+                        }
+                    }
                 }
                 .rotationEffect(Angle(degrees: rotationAnimation ? 0 : 360))
-                .padding(.horizontal)
             }
         }
         .navigationDestination(for: CampaignListDestination.self) { value in
@@ -216,7 +237,7 @@ extension CampaignList {
             }
             .frame(maxWidth: .infinity)
         })
-        .themedButton(type: .secondary)
+        .themedButton(type: .secondary, textColor: .primary)
         .frame(maxWidth: Double.stretchedContentMaxWidth)
         .zoomTransitioniOS26Source(id: "easterEggButton", namespace: self.namespace)
     }
