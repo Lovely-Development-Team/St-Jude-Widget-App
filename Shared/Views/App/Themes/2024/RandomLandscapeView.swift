@@ -234,13 +234,13 @@ struct RandomLandscapeData {
     }
 }
 
-struct RandomLandscapeView<Content: View>: View {
+struct RandomLandscapeView: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     
-    @Binding var data: RandomLandscapeData
+    @State private var data = RandomLandscapeData()
     
-    @ViewBuilder var content: Content
+//    @ViewBuilder var content: Content
     
     @ViewBuilder
     func backgroundLayer() -> some View {
@@ -304,16 +304,16 @@ struct RandomLandscapeView<Content: View>: View {
     var body: some View {
         VStack(spacing:0) {
             ZStack(alignment: .bottom) {
-                if(self.data.elevatedShown) {
-                    self.elevatedLevel()
-                }
-                self.content
-                self.groundLevel()
-            }
-            .background(alignment: .bottom) {
                 if(self.data.backgroundShown) {
                     self.backgroundLayer()
                 }
+                if(self.data.elevatedShown) {
+                    self.elevatedLevel()
+                }
+//                self.content
+                self.groundLevel()
+            }
+            .background(alignment: .bottom) {
             }
         }
         .frame(maxWidth: min(Double.screenWidth, Double.stretchedContentMaxWidth))
@@ -321,32 +321,32 @@ struct RandomLandscapeView<Content: View>: View {
 }
 
 struct RandomLandscapePreviewView: View {
-    @State private var data = RandomLandscapeData()
-    @State private var notMainData = RandomLandscapeData(isForMainScreen: false)
+//    @State private var data = RandomLandscapeData()
+//    @State private var notMainData = RandomLandscapeData(isForMainScreen: false)
     var body: some View {
         Group {
             ZStack {
-                RandomLandscapeView(data: self.$data) {
-                    Text("Main Screen")
-                }
+                RandomLandscapeView()
+//                    Text("Main Screen")
+//                }
             }
         }
         .border(.black)
         Button(action: {
-            self.data.generate()
+//            self.data.generate()
         }, label: {
             Text("New")
         })
         Group {
             ZStack {
-                RandomLandscapeView(data: self.$notMainData) {
-                    Text("Not Main Screen")
-                }
+                RandomLandscapeView()
+//                    Text("Not Main Screen")
+//                }
             }
         }
         .border(.black)
         Button(action: {
-            self.notMainData.generate()
+//            self.notMainData.generate()
         }, label: {
             Text("New")
         })

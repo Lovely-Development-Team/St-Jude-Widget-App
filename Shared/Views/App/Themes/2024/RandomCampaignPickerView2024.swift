@@ -399,7 +399,7 @@ struct RandomCampaignPickerView2024: View {
     var body: some View {
         GeometryReader { mainGeometry in
             VStack(spacing:0) {
-                RandomLandscapeView(data: self.$landscapeData) {
+//                RandomLandscapeView() {
                     Rectangle()
                         .foregroundStyle(.clear)
                         .overlay {
@@ -528,7 +528,7 @@ struct RandomCampaignPickerView2024: View {
                     }
                 }
             }
-        }
+//        }
         .onAppear {
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             if Bool.random() {

@@ -154,7 +154,7 @@ struct AboutView: View {
             }
         }
         .themedGroupBox(type: .primary)
-        #endif 
+        #endif
     }
     
     @ViewBuilder
@@ -178,15 +178,28 @@ struct AboutView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 0) {
                 self.headerView
                     .padding(.bottom)
+                    .padding(.horizontal)
+                    .background {
+                        Theme.current.skyView
+                    }
                 
-                self.descriptionView
-                self.settingsView
-                self.iconView
+                VStack {
+                    self.descriptionView
+                    self.settingsView
+                    self.iconView
+                }
+                .padding(.top)
+                .padding(.horizontal)
+                .background {
+                    VStack(spacing: 0) {
+                        Theme.current.landscapeToBackgroundTransition
+                        Theme.current.backgroundView
+                    }
+                }
             }
-            .padding(.horizontal)
         }
         .navigationTitle("About")
         .sheet(isPresented: self.$showSupporterSheet) {
