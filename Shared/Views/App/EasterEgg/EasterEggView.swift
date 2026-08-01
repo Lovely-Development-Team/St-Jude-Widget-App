@@ -84,7 +84,7 @@ struct EasterEggView: View {
     
     @ViewBuilder
     var mascotView: some View {
-        Image(.l2Cu)
+        Image(Theme.current.mascotImage)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding()
@@ -133,7 +133,12 @@ struct EasterEggView: View {
                     .font(.title3)
                     .bold()
                 Text("L2CU drawing by rhl_")
-                Text("Pixel art by Jelly and Justin")
+                if Theme.current.isPixel {
+                    Text("Pixel art by Jelly and Justin")
+                } else {
+                    Text("Art by Jelly")
+                }
+                
                 Text("Relay for St. Jude crafted with care by The Lovely Developers")
                 
                 Button(action: {
@@ -166,12 +171,27 @@ struct EasterEggView: View {
         }
         #endif
         ScrollView {
-            VStack {
-                self.topView
-                self.mascotView
-                self.linksView
+            VStack(spacing: 0) {
+                VStack {
+                    self.topView
+                    self.mascotView
+                }
+                .padding()
+                .background {
+                    Theme.current.skyView
+                }
+                
+                VStack {
+                    self.linksView
+                }
+                .padding()
+                .background {
+                    VStack(spacing: 0) {
+                        Theme.current.landscapeToBackgroundTransition
+                        Theme.current.backgroundView
+                    }
+                }
             }
-            .padding(.horizontal)
         }
         .navigationTitle("Hi there!")
         .accessibilityElement(children: .ignore)

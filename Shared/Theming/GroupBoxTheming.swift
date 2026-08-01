@@ -34,6 +34,7 @@ extension View {
                                              edgeColor: secondaryColor))
         default:
             groupBoxStyle(DefaultGroupBoxStyle())
+                .backgroundStyle(primaryColor)
         }
     }
 }

@@ -94,13 +94,6 @@ struct CampaignList: View {
                     }
                     .background {
                         Theme.current.skyView
-                            .mask {
-                                LinearGradient(stops: [
-                                    .init(color: .white, location: 0),
-                                    .init(color: .white, location: 0.5),
-                                    .init(color: .clear, location: 1)
-                                ], startPoint: .bottom, endPoint: .top)
-                            }
                     }
 
                     Group {
@@ -228,7 +221,7 @@ extension CampaignList {
                 Text("App from the Lovely Developers")
                     .font(.caption)
                     .bold()
-                Image(.l2CuHeadOutline)
+                Image(Theme.current.mascotHeadImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 30, height: 30)
