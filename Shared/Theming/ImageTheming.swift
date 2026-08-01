@@ -1,0 +1,28 @@
+//
+//  ImageTheming.swift
+//  St Jude (iOS)
+//
+//  Created by Justin Hamilton on 7/31/26.
+//
+
+import SwiftUI
+
+extension Theme {
+    var mascotImage: ImageResource {
+        switch self {
+        case .campaign2024, .campaign2025:
+            return .l2CuPixel2024
+        default:
+            return .l2Cu
+        }
+    }
+    
+    var mascotHeadImage: ImageResource {
+        switch self {
+        case .campaign2024, .campaign2025:
+            return .l2CuHeadPixel
+        default:
+            return .l2CuHeadOutline
+        }
+    }
+}

@@ -13,6 +13,11 @@ enum Theme: Int, CaseIterable {
     case campaign2024 = 1
     case campaign2025 = 2
     
+    var isPixel: Bool {
+        return self == .campaign2024
+        || self == .campaign2025
+    }
+    
     var accentColor: Color {
         switch self {
         case .campaign2024:
@@ -25,7 +30,7 @@ enum Theme: Int, CaseIterable {
     var contentColorForAccent: Color {
         switch self {
         case .campaign2024:
-            return .primary
+            return .black
         default:
             return .white
         }

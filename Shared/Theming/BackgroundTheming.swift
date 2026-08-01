@@ -20,11 +20,20 @@ extension Theme {
     
     @ViewBuilder
     var skyView: some View {
-        switch self {
-        case .campaign2024:
-            SkyView()
-        default:
-            EmptyView()
+        Group {
+            switch self {
+            case .campaign2024:
+                SkyView()
+            default:
+                EmptyView()
+            }
+        }
+        .mask {
+            LinearGradient(stops: [
+                .init(color: .white, location: 0),
+                .init(color: .white, location: 0.5),
+                .init(color: .clear, location: 0.9)
+            ], startPoint: .bottom, endPoint: .top)
         }
     }
     
@@ -42,7 +51,13 @@ extension Theme {
     var backgroundView: some View {
         switch self {
         case .campaign2024:
-            Image.tiledImageAtScale(.undergroundRepeatable2024)
+            Color.clear
+                .overlay {
+                    GeometryReader { geometry in
+                        Image.tiledImageAtScale(.undergroundRepeatable2024)
+                            .frame(height: geometry.size.height + 1000)
+                    }
+                }
         default:
             EmptyView()
         }

@@ -146,6 +146,7 @@ struct AboutView: View {
                         exit(0)
                     }, label: {
                         Text(theme.displayString)
+                            .fullWidth(alignment: .center)
                     })
                     .themedButton(type: .primary,
                                   tint: self.selectedThemeId == theme.rawValue ? Theme.current.accentColor : .secondarySystemBackground,

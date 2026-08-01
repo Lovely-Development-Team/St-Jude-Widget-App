@@ -298,8 +298,7 @@ struct CampaignView: View {
                         }
                     }
                 }
-                .themedButton(type: .secondary)
-//                .buttonStyle(PrimaryButtonStyle(tint: .secondarySystemBackground, overrideTextColor: .primary))
+                .themedButton(type: .secondary, textColor: .primary)
             }
         }
         .padding(.bottom)
@@ -395,20 +394,34 @@ struct CampaignView: View {
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollViewReader in
-                VStack {
-                    // LogsView(logContainer: logsContainer)
-                    self.infoView(scrollViewReader: scrollViewReader)
+                VStack(spacing: 0) {
+                    VStack {
+                        // LogsView(logContainer: logsContainer)
+                        self.infoView(scrollViewReader: scrollViewReader)
+                    }
+                    .padding()
+                    .background {
+                        Theme.current.skyView
+                    }
                     
-                    self.donorsView
-                    
-                    self.pollsView
-                    
-                    self.milestonesView
-                    
-                    self.rewardsView
+                    VStack {
+                        self.donorsView
+                        
+                        self.pollsView
+                        
+                        self.milestonesView
+                        
+                        self.rewardsView
+                    }
+                    .padding()
+                    .background {
+                        VStack(spacing: 0) {
+                            Theme.current.landscapeToBackgroundTransition
+                            Theme.current.backgroundView
+                        }
+                    }
                 }
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
-                .padding(.horizontal)
             }
         }
         .sheet(isPresented: $showShareView) {
