@@ -177,6 +177,21 @@ struct AboutView: View {
         .themedGroupBox(type: .primary)
     }
     
+    // Change this to reflect the tools used in development
+    static var aiWasUsed: Bool = false
+    
+    @ViewBuilder
+    var noAIView: some View {
+        if !Self.aiWasUsed {
+            Label(title: { Text("This app was developed by humans without the use of generative AI.") },
+                  icon: {
+                Image(.sparkleSlash)
+            })
+            .fullWidth(alignment: .center)
+            .padding(.top)
+        }
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -184,13 +199,14 @@ struct AboutView: View {
                     .padding(.bottom)
                     .padding(.horizontal)
                     .background {
-                        Theme.current.skyView
+                        Theme.current.skyView(forMainScreen: false)
                     }
                 
                 VStack {
                     self.descriptionView
                     self.settingsView
                     self.iconView
+                    self.noAIView
                 }
                 .padding(.top)
                 .padding(.horizontal)

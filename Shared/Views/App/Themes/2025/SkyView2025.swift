@@ -13,38 +13,41 @@ struct SkyView2025: View {
     var showGraffiti: Bool = false
     
     var body: some View {
-        Color.skyBackground2025
-            .overlay(alignment: .bottom) {
-                ForEach(0..<25) { i in
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .gradientBand)
-                        .tiledImageAtScale(axis: .horizontal)
-                        .opacity(0.2)
-                        .offset(y: -36 * Double(i))
+        VStack(spacing: 0) {
+            Color.skyBackground2025
+                .overlay(alignment: .bottom) {
+                    ForEach(0..<25) { i in
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .gradientBand)
+                            .tiledImageAtScale(axis: .horizontal)
+                            .opacity(0.2)
+                            .offset(y: -36 * Double(i))
+                    }
                 }
-            }
-            .overlay(alignment: .bottom) {
-                if self.showGraffiti {
-                    AdaptiveImage(colorScheme: self.colorScheme, light: .arenaGraffiti)
-                        .imageAtScale()
-                        .offset(y: -10)
-                } else {
-                    EmptyView()
+                .overlay(alignment: .bottom) {
+                    if self.showGraffiti {
+                        AdaptiveImage(colorScheme: self.colorScheme, light: .arenaGraffiti)
+                            .imageAtScale()
+                            .offset(y: -10)
+                    } else {
+                        EmptyView()
+                    }
                 }
-            }
-            .clipped()
-            .mask {
-                if self.fadeOut {
-                    LinearGradient(colors: [
-                        .white,
-                        .white,
-                        .white,
-                        .white,
-                        .clear
-                    ], startPoint: .bottom, endPoint: .top)
-                } else {
-                    Color.white
+                .clipped()
+                .mask {
+                    if self.fadeOut {
+                        LinearGradient(colors: [
+                            .white,
+                            .white,
+                            .white,
+                            .white,
+                            .clear
+                        ], startPoint: .bottom, endPoint: .top)
+                    } else {
+                        Color.white
+                    }
                 }
-            }
+            TiledArenaFloorView()
+        }
     }
 }
 

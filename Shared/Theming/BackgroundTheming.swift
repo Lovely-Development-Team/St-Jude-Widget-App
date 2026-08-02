@@ -12,18 +12,26 @@ extension Theme {
     func topViewLandscape(forMainScreen: Bool = true) -> some View {
         switch self {
         case .campaign2024:
-            RandomLandscapeView()
+            RandomLandscapeView(forMainScreen: forMainScreen)
+        case .campaign2025:
+            if forMainScreen {
+                StandingThrowingView2025()
+            } else {
+                EmptyView()
+            }
         default:
             EmptyView()
         }
     }
     
     @ViewBuilder
-    var skyView: some View {
+    func skyView(forMainScreen: Bool = true) -> some View {
         Group {
             switch self {
             case .campaign2024:
                 SkyView()
+            case .campaign2025:
+                SkyView2025(fadeOut: true, showGraffiti: forMainScreen)
             default:
                 EmptyView()
             }
@@ -49,17 +57,21 @@ extension Theme {
     
     @ViewBuilder
     var backgroundView: some View {
-        switch self {
-        case .campaign2024:
-            Color.clear
-                .overlay {
-                    GeometryReader { geometry in
-                        Image.tiledImageAtScale(.undergroundRepeatable2024)
-                            .frame(height: geometry.size.height + 1000)
+        Color.clear
+            .overlay {
+                GeometryReader { geometry in
+                    Group {
+                        switch self {
+                        case .campaign2024:
+                            Image.tiledImageAtScale(.undergroundRepeatable2024)
+                        case .campaign2025:
+                            Color.arenaFloor
+                        default:
+                            EmptyView()
+                        }
                     }
+                        .frame(height: geometry.size.height + 1000)
                 }
-        default:
-            EmptyView()
-        }
+            }
     }
 }

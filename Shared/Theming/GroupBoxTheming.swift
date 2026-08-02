@@ -21,7 +21,7 @@ extension View {
         switch type {
         default:
             self.primaryGroupBoxStyle(primaryColor: primaryColor ?? .secondarySystemBackground,
-                                      secondaryColor: .black)
+                                      secondaryColor: secondaryColor ?? .black)
         }
     }
     
@@ -32,6 +32,10 @@ extension View {
         case .campaign2024:
             groupBoxStyle(BlockGroupBoxStyle(tint: primaryColor,
                                              edgeColor: secondaryColor))
+        case .campaign2025:
+            groupBoxStyle(BlockGroupBoxStyle(tint: secondaryColor,
+                                             edgeColor: Theme.current.accentColor,
+                                             shadowColor: Theme.current.accentColor))
         default:
             groupBoxStyle(DefaultGroupBoxStyle())
                 .backgroundStyle(primaryColor)

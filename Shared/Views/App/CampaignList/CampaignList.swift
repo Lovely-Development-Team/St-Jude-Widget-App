@@ -73,10 +73,11 @@ struct CampaignList: View {
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
                                 .padding(.vertical)
-                                .foregroundStyle(Theme.current.contentColorForAccent)
+//                                .foregroundStyle(Theme.current.contentColorForAccent)
                         }
                     }
                 }
+                .padding(.horizontal)
                 Theme.current.topViewLandscape()
             }
             .frame(maxWidth: Double.stretchedContentMaxWidth)
@@ -90,10 +91,9 @@ struct CampaignList: View {
                 VStack(spacing: 0) {
                     VStack{
                         self.topView
-                            .padding(.horizontal)
                     }
                     .background {
-                        Theme.current.skyView
+                        Theme.current.skyView()
                     }
 
                     Group {
