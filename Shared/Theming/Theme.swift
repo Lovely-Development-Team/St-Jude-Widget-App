@@ -22,6 +22,8 @@ enum Theme: Int, CaseIterable {
         switch self {
         case .campaign2024:
             return .brandYellow
+        case .campaign2025:
+            return WidgetAppearance.myke.fillColor
         default:
             return .brandRed
         }
@@ -30,6 +32,8 @@ enum Theme: Int, CaseIterable {
     var contentColorForAccent: Color {
         switch self {
         case .campaign2024:
+            return .black
+        case .campaign2025:
             return .black
         default:
             return .white

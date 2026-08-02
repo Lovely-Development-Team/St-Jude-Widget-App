@@ -238,7 +238,7 @@ struct RandomLandscapeView: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     
-    @State private var data = RandomLandscapeData()
+    @State private var data: RandomLandscapeData
     
 //    @ViewBuilder var content: Content
     
@@ -317,6 +317,10 @@ struct RandomLandscapeView: View {
             }
         }
         .frame(maxWidth: min(Double.screenWidth, Double.stretchedContentMaxWidth))
+    }
+    
+    init(forMainScreen: Bool = true) {
+        self.data = RandomLandscapeData(isForMainScreen: forMainScreen)
     }
 }
 

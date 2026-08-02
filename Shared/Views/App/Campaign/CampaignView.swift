@@ -398,10 +398,11 @@ struct CampaignView: View {
                     VStack {
                         // LogsView(logContainer: logsContainer)
                         self.infoView(scrollViewReader: scrollViewReader)
+                        Theme.current.topViewLandscape(forMainScreen: false)
                     }
-                    .padding()
+                    .padding(.horizontal)
                     .background {
-                        Theme.current.skyView
+                        Theme.current.skyView(forMainScreen: false)
                     }
                     
                     VStack {

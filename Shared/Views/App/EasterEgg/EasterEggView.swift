@@ -178,7 +178,7 @@ struct EasterEggView: View {
                 }
                 .padding()
                 .background {
-                    Theme.current.skyView
+                    Theme.current.skyView(forMainScreen: false)
                 }
                 
                 VStack {
