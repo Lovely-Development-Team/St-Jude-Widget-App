@@ -8,7 +8,7 @@
 import Foundation
 import GRDB
 
-let RELAY_CAMPAIGN: UUID = UUID(uuidString: "0220c3fa-fc0e-4ae5-9dd9-174c956d5d1c")!
+let RELAY_CAMPAIGN: UUID = UUID(uuidString: "b9c77929-8f25-461b-98e3-86fd3c132dd1")!
 let TLD_CAMPAIGN: UUID = UUID(uuidString: "fe5b0f18-c993-4987-aab0-3167e2d3f91a")!
 
 struct TLDMilestones {

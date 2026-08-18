@@ -10,11 +10,9 @@ import Combine
 import WidgetKit
 
 let TEAM_EVENT_VANITY = "@relay"
-let TEAM_EVENT_SLUG = "relay-for-st-jude-2025"
-let TEAM_EVENT_ID = UUID(uuidString: "37917f91-8a86-4c28-b11a-0e25390c02d0")!
-let FUNDRAISING_EVENT_PUBLIC_ID = "1c6d5c76-1804-48fa-a474-2bfe1c52f48c"
-//let TEAM_EVENT_SLUG = "relay-for-st-jude-2024"
-//let TEAM_EVENT_SLUG = "relay-fm-for-st-jude-2023"
+let TEAM_EVENT_SLUG = "relay-for-st-jude-2026"
+let TEAM_EVENT_ID = UUID(uuidString: "7d3ee5c9-684a-47ae-bb88-ced83b19fa4e")!
+let FUNDRAISING_EVENT_PUBLIC_ID = "7d3ee5c9-684a-47ae-bb88-ced83b19fa4e"
 
 struct TiltifyRequest: Codable {
     let operationName: String
