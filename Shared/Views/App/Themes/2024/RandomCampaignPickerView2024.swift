@@ -459,7 +459,7 @@ struct RandomCampaignPickerView2024: View {
                                                                     }
                                                                     AdaptiveImage.jonyCube(colorScheme: self.colorScheme)
                                                                         .imageAtScale()
-                                                                        .padding(.bottom, (10 * 10) * Double.spriteScale)
+                                                                        .padding(.bottom, (10 * 10) * Theme.current.imageScale)
                                                                         .scaleEffect(x: self.direction ? -1 : 1)
                                                                     if(self.jumping) {
                                                                         Spacer()

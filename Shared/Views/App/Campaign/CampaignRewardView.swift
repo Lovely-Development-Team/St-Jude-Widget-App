@@ -71,7 +71,7 @@ struct CampaignRewardView: View {
         }
         if self.isLast {
             Rectangle()
-                .frame(height: 10 * Double.spriteScale)
+                .frame(height: 10 * Theme.current.imageScale)
                 .foregroundStyle(.secondary)
         }
     }

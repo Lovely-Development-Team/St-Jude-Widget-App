@@ -41,7 +41,7 @@ struct LockScreenRectangularView: View {
                     Text("\(campaign?.multiplier ?? 1)x")
                         .font(.caption)
                 }
-                ProgressBar(value: .constant(Float(campaign?.progressBarAmount(disableCombos: shouldDisableCombos) ?? 0)), fillColor: .white, pixelScale: Double.spriteScale/2)
+                ProgressBar(value: .constant(Float(campaign?.progressBarAmount(disableCombos: shouldDisableCombos) ?? 0)), fillColor: .white, pixelScale: Theme.current.imageScale/2)
                     .frame(height: 6)
             }
             if shouldShowGoalPercentage, let campaign = campaign, let percentage = campaign.shortPercentageReachedDescription {

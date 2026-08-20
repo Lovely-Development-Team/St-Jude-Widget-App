@@ -49,11 +49,11 @@ struct BlockButtonStyle: ButtonStyle {
         if let overrideTextColor = self.overrideTextColor {
             configuration.label
                 .foregroundStyle(overrideTextColor)
-                .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
+                .offset(x: (configuration.isPressed || self.pressing) ? 10 * Theme.current.imageScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Theme.current.imageScale : 0)
                 .animation(.none, value: UUID())
         } else {
             configuration.label
-                .offset(x: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Double.spriteScale : 0)
+                .offset(x: (configuration.isPressed || self.pressing) ? 10 * Theme.current.imageScale : 0, y: (configuration.isPressed || self.pressing) ? 10 * Theme.current.imageScale : 0)
                 .animation(.none, value: UUID())
         }
     }
@@ -80,7 +80,7 @@ struct BlockButtonStyle: ButtonStyle {
                 }
             }
             .compositingGroup()
-            .shadow(color: self.disabled ? .clear : .black.opacity(configuration.isPressed ? 0 : 0.5), radius: 0, x: 10 * Double.spriteScale, y: 10 * Double.spriteScale)
+            .shadow(color: self.disabled ? .clear : .black.opacity(configuration.isPressed ? 0 : 0.5), radius: 0, x: 10 * Theme.current.imageScale, y: 10 * Theme.current.imageScale)
             .animation(.none, value: UUID())
         }
         .gesture(usingPressAndHoldGesture ? self.gesture() : nil)

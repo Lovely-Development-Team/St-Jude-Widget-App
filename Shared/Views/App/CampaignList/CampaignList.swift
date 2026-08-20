@@ -64,6 +64,7 @@ struct CampaignList: View {
                         if let teamEvent = teamEvent {
                             NavigationLink(value: CampaignListDestination.teamEvent(teamEvent)) {
                                 TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false), showBackground: false)
+                                    .foregroundStyle(Theme.current.contentColorForAccent)
                             }
                             .themedButton(type: .primary,
                                           capsuleShape: false,
@@ -73,7 +74,7 @@ struct CampaignList: View {
                         } else {
                             TeamEventCardView(teamEvent: teamEvent, showDisclosureIndicator: true, showShareSheet: .constant(false))
                                 .padding(.vertical)
-//                                .foregroundStyle(Theme.current.contentColorForAccent)
+                                .foregroundStyle(Theme.current.contentColorForAccent)
                         }
                     }
                 }
@@ -99,6 +100,7 @@ struct CampaignList: View {
                     Group {
                         VStack {
                             CountdownView()
+                                .frame(maxWidth: Double.stretchedContentMaxWidth)
                             FundraiserListView(namespace: self.namespace,
                                                showSheet: self.$showSheet,
                                                selectedCampaignId: self.$selectedCampaignId,
@@ -116,6 +118,12 @@ struct CampaignList: View {
                         VStack(spacing: 0) {
                             Theme.current.landscapeToBackgroundTransition
                             Theme.current.backgroundView
+                        }
+                    }
+                    .overlay(alignment: .bottom) {
+                        if !self.isRefreshingAll {
+                            Theme.current.campaignListEasterEggView
+                                .offset(y: 700)
                         }
                     }
                 }

@@ -25,7 +25,7 @@ struct SkyView: View {
                         slice.tiledImageAtScale()
                     }
                 }
-                .frame(height: Double(geometry.size.height).roundDown(toNearest: Double(10 * self.slices.count) * Double.spriteScale))
+                .frame(height: Double(geometry.size.height).roundDown(toNearest: Double(10 * self.slices.count) * Theme.current.imageScale))
             }
             .overlay {
                 Color.black

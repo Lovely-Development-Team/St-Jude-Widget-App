@@ -188,7 +188,6 @@ struct AboutView: View {
                 Image(.sparkleSlash)
             })
             .fullWidth(alignment: .center)
-            .padding(.top)
         }
     }
     
@@ -206,7 +205,17 @@ struct AboutView: View {
                     self.descriptionView
                     self.settingsView
                     self.iconView
-                    self.noAIView
+                    Group {
+                        if Theme.isThemeApplied {
+                            GroupBox {
+                                self.noAIView
+                            }
+                            .themedGroupBox(type: .primary)
+                        } else {
+                            self.noAIView
+                        }
+                    }
+                    .padding(.top)
                 }
                 .padding(.top)
                 .padding(.horizontal)

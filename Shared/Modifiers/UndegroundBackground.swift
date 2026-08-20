@@ -14,7 +14,7 @@ struct UndergroundBackground: ViewModifier {
         content
             .background {
                 GeometryReader { geometry in
-                    Image.tiledImageAtScale(.undergroundRepeatable2024, scale: Double.spriteScale)
+                    Image.tiledImageAtScale(.undergroundRepeatable2024, scale: Theme.current.imageScale)
                         .frame(height:geometry.size.height + 1000)
                         .animation(.none, value: UUID())
                 }

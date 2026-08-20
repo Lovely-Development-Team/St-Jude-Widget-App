@@ -395,34 +395,43 @@ struct CampaignView: View {
         ScrollView {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
-                    VStack {
-                        // LogsView(logContainer: logsContainer)
-                        self.infoView(scrollViewReader: scrollViewReader)
-                        Theme.current.topViewLandscape(forMainScreen: false)
+                    HStack {
+                        Spacer()
+                        VStack {
+                            // LogsView(logContainer: logsContainer)
+                            self.infoView(scrollViewReader: scrollViewReader)
+                            Theme.current.topViewLandscape(forMainScreen: false)
+                        }
+                        .frame(maxWidth: Double.stretchedContentMaxWidth)
+                        Spacer()
                     }
-                    .padding(.horizontal)
                     .background {
                         Theme.current.skyView(forMainScreen: false)
                     }
                     
-                    VStack {
-                        self.donorsView
-                        
-                        self.pollsView
-                        
-                        self.milestonesView
-                        
-                        self.rewardsView
+                    HStack {
+                        Spacer()
+                        VStack {
+                            self.donorsView
+                            
+                            self.pollsView
+                            
+                            self.milestonesView
+                            
+                            self.rewardsView
+                        }
+                        .frame(maxWidth: Double.stretchedContentMaxWidth)
+                        Spacer()
                     }
-                    .padding()
                     .background {
                         VStack(spacing: 0) {
                             Theme.current.landscapeToBackgroundTransition
                             Theme.current.backgroundView
                         }
+                        .frame(maxWidth: .infinity)
                     }
                 }
-                .frame(maxWidth: Double.stretchedContentMaxWidth)
+                .frame(maxWidth: .infinity)
             }
         }
         .sheet(isPresented: $showShareView) {

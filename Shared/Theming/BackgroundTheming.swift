@@ -19,6 +19,8 @@ extension Theme {
             } else {
                 EmptyView()
             }
+        case .campaign2026:
+            LandscapeView2026(forMainScreen: forMainScreen)
         default:
             EmptyView()
         }
@@ -32,6 +34,32 @@ extension Theme {
                 SkyView()
             case .campaign2025:
                 SkyView2025(fadeOut: true, showGraffiti: forMainScreen)
+            case .campaign2026:
+                ZStack(alignment: .bottom) {
+                    Color.from256bit(red: 184, green: 192, blue: 177)
+                    Image(.sky2026)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: Double.stretchedContentMaxWidth)
+                        .background(ignoresSafeAreaEdges: .all)
+                        .background {
+                            HStack(spacing: 0) {
+                                ForEach(0..<50, id: \.self) { _ in
+                                    Image(.sky2026Stretchleft)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                                
+                                ForEach(0..<50, id: \.self) { _ in
+                                    Image(.sky2026Stretchright)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                            }
+                                .frame(width: 10000)
+                        }
+                }
+
             default:
                 EmptyView()
             }
@@ -50,6 +78,8 @@ extension Theme {
         switch self {
         case .campaign2024:
             Image.tiledImageAtScale(.groundRepeatable2024, axis: .horizontal)
+        case .campaign2026:
+            Image.tiledImageAtScale(.transition2026, scale: Theme.current.imageScale, axis: .horizontal)
         default:
             EmptyView()
         }
@@ -66,6 +96,8 @@ extension Theme {
                             Image.tiledImageAtScale(.undergroundRepeatable2024)
                         case .campaign2025:
                             Color.arenaFloor
+                        case .campaign2026:
+                            Image.tiledImageAtScale(.underground2026, scale: Theme.current.imageScale)
                         default:
                             EmptyView()
                         }
@@ -73,5 +105,20 @@ extension Theme {
                         .frame(height: geometry.size.height + 1000)
                 }
             }
+    }
+    
+    @ViewBuilder
+    var campaignListEasterEggView: some View {
+        Group {
+            switch self {
+            case .campaign2026:
+                Image(.graveyard2026)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: Double.stretchedContentMaxWidth)
+            default:
+                EmptyView()
+            }
+        }
     }
 }
