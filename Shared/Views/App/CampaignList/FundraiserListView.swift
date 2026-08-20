@@ -139,6 +139,7 @@ struct FundraiserListView: View {
             .frame(maxWidth: .infinity)
         }
         .themedGroupBox(type: .primary)
+        .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     
     @ViewBuilder
@@ -227,6 +228,7 @@ struct FundraiserListView: View {
                     }
                 }
                 .themedGroupBox(type: .primary)
+                .frame(maxWidth: Double.stretchedContentMaxWidth)
             } else {
                 HStack {
                     Text("Fundraisers")
@@ -244,6 +246,7 @@ struct FundraiserListView: View {
                             )
                     }
                 }
+                .frame(maxWidth: Double.stretchedContentMaxWidth)
             }
         } else {
             self.fundraiserHeaderView
@@ -314,9 +317,11 @@ struct FundraiserListView: View {
             })
             if #available(iOS 18.0, *) {
                 self.randomFundraiserButton
-                .matchedTransitionSource(id: "randomFundraiserButton", in: self.namespace)
+                    .frame(maxWidth: Double.stretchedContentMaxWidth)
+                    .matchedTransitionSource(id: "randomFundraiserButton", in: self.namespace)
             } else {
                 self.randomFundraiserButton
+                    .frame(maxWidth: Double.stretchedContentMaxWidth)
             }
         }
     }

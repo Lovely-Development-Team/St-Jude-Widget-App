@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 extension Image {
-    static func imageAtScale(_ resource: ImageResource, scale: Double = Double.spriteScale) -> some View {
+    static func imageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale) -> some View {
         let image = UIImage(resource: resource)
         let imageSize = image.size
         return Image(uiImage: image)
@@ -17,7 +17,7 @@ extension Image {
             .frame(width: imageSize.width * scale, height: imageSize.height * scale)
     }
     
-    static func tiledImageAtScale(_ resource: ImageResource, scale: Double = Double.spriteScale, axis: Axis? = nil) -> some View {
+    static func tiledImageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale, axis: Axis? = nil) -> some View {
         let image = UIImage(resource: resource)
         let imageSize = image.size
         

@@ -13,7 +13,7 @@ struct TiledArenaFloorView: View {
     var body: some View {
         VStack(spacing: 0) {
             Color.arenaFloorSkySeparator
-                .frame(height: 10 * Double.spriteScale)
+                .frame(height: 10 * Theme.current.imageScale)
             Image.tiledImageAtScale(.arenaFloorTiles)
                 .frame(height: 100)
                 .mask {

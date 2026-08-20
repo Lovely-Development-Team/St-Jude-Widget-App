@@ -93,7 +93,7 @@ struct LandscapeElement: Identifiable {
                             }, onTap: {
                                 SoundEffectHelper.shared.play(.softMatt)
                             })
-                                .padding(.bottom, (10 * 10) * Double.spriteScale)
+                                .padding(.bottom, (10 * 10) * Theme.current.imageScale)
                         }
                     }
             } else {

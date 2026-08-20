@@ -136,7 +136,7 @@ struct EasterEggView: View {
                 if Theme.current.isPixel {
                     Text("Pixel art by Jelly and Justin")
                 } else {
-                    Text("Art by Jelly")
+                    Text("Art by Jelly and Justin")
                 }
                 
                 Text("Relay for St. Jude crafted with care by The Lovely Developers")

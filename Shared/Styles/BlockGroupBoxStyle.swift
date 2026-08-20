@@ -13,7 +13,7 @@ struct BlockGroupBoxStyle: GroupBoxStyle {
     
     var edgeColor: Color? = nil
     var shadowColor: Color? = nil
-    var scale: Double = Double.spriteScale
+    var scale: Double = Theme.current.imageScale
     
     var overridePositions: [ScaledNinePartImage.EdgePosition: ScaledNinePartImage.EdgePosition] = [:]
     

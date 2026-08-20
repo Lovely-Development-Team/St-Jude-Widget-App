@@ -663,7 +663,7 @@ extension HeadToHeadWidgetView {
             }
             Text(winner?.totalRaisedDescription(showFullCurrencySymbol: showFullCurrencySymbol) ?? "$0")
                 .font(.footnote)
-            ProgressBar(value: .constant(Float(progressBarValue)), fillColor: .white, pixelScale: Double.spriteScale/2)
+            ProgressBar(value: .constant(Float(progressBarValue)), fillColor: .white, pixelScale: Theme.current.imageScale/2)
                 .frame(height: 6)
         }
     }

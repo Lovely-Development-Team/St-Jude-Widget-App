@@ -24,7 +24,7 @@ struct ProgressBar: View {
     var dividerWidth: CGFloat = 1
     var stroke: Bool = false
     var disablePixelBorder: Bool = false
-    var pixelScale: Double = Double.spriteScale
+    var pixelScale: Double = Theme.current.imageScale
     
     @ViewBuilder
     func longProgressBar(geometry: GeometryProxy) -> some View {

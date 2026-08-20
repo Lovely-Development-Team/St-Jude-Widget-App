@@ -12,6 +12,7 @@ enum Theme: Int, CaseIterable {
     case normal = 0
     case campaign2024 = 1
     case campaign2025 = 2
+    case campaign2026 = 3
     
     var isPixel: Bool {
         return self == .campaign2024
@@ -35,6 +36,8 @@ enum Theme: Int, CaseIterable {
             return .black
         case .campaign2025:
             return .black
+        case .campaign2026:
+            return .black
         default:
             return .white
         }
@@ -42,7 +45,7 @@ enum Theme: Int, CaseIterable {
     
     static var defaultTheme: Theme {
         // Update this for the current campaign
-        return .normal
+        return .campaign2026
     }
     
     static var current: Theme {
@@ -59,8 +62,19 @@ enum Theme: Int, CaseIterable {
             return "2024"
         case .campaign2025:
             return "2025"
+        case .campaign2026:
+            return "2026"
         default:
             return "Default"
+        }
+    }
+    
+    var imageScale: Double {
+        switch self {
+        case .campaign2026:
+            return 0.1
+        default:
+            return Double.spriteScale
         }
     }
 }

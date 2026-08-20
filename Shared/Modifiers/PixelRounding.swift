@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PixelRounding: ViewModifier {
     var geometry: GeometryProxy? = nil
-    var pixelScale: Double = Double.spriteScale
+    var pixelScale: Double = Theme.current.imageScale
     
     func body(content: Content) -> some View {
         if #available(iOS 15.0, *) {

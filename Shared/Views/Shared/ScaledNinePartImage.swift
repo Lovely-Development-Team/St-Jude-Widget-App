@@ -97,7 +97,7 @@ struct ScaledNinePartImage: View {
 struct BlockView: View {
     var tint: Color?
     var isPressed: Bool? = nil
-    var scale: Double = Double.spriteScale
+    var scale: Double = Theme.current.imageScale
     var edgeColor: Color?
     var shadowColor: Color?
     
