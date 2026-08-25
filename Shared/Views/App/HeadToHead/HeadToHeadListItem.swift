@@ -56,20 +56,53 @@ struct HeadToHeadListItem: View {
         }
         .compositingGroup()
         .padding()
-        .background(
+        .background {
             HStack(spacing: 4) {
-                GroupBox {
-                        Rectangle().fill(.clear)
-                }
-                .themedGroupBox(type: .primary)
-                .backgroundStyle(headToHead.campaign1 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
-                .themedGroupBox(type: .primary)
-                .backgroundStyle(headToHead.campaign2 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
+                .backgroundStyle(headToHead.campaign1 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
+                .overlay(alignment: .topLeading) {
+                    if headToHead.campaign1 == winner || self.isTied {
+                        if let h2hWinnerImage1 = Theme.current.headToHeadWinnerToken1 {
+                            Image(h2hWinnerImage1)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 30)
+                                .rotationEffect(.degrees(-15))
+                                .offset(x: -10, y: -10)
+                                .shadow(radius: 10)
+                        }
+                    }
+                }
+                GroupBox {
+                    Rectangle().fill(.clear)
+                }
+                .backgroundStyle(headToHead.campaign2
+                                 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
+                .overlay(alignment: .topTrailing) {
+                    if headToHead.campaign2 == winner || self.isTied {
+                        if let h2hWinnerImage2 = Theme.current.headToHeadWinnerToken2 {
+                            Image(h2hWinnerImage2)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 30)
+                                .rotationEffect(.degrees(15))
+                                .offset(x: 10, y: -10)
+                                .shadow(radius: 10)
+                        } else if let h2hWinnerImage1 = Theme.current.headToHeadWinnerToken1 {
+                            Image(h2hWinnerImage1)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 30)
+                                .rotationEffect(.degrees(15))
+                                .offset(x: 10, y: -10)
+                                .shadow(radius: 10)
+                        }
+                    }
+                }
             }
-        )
+        }
     }
 }
 

@@ -27,4 +27,22 @@ extension Theme {
             return .l2CuHeadOutline
         }
     }
+    
+    var headToHeadWinnerToken1: ImageResource? {
+        switch self {
+        case .campaign2026:
+            return .h2HWinner1
+        default:
+            return nil
+        }
+    }
+    
+    var headToHeadWinnerToken2: ImageResource? {
+        switch self {
+        case .campaign2026:
+            return .h2HWinner2
+        default:
+            return nil
+        }
+    }
 }

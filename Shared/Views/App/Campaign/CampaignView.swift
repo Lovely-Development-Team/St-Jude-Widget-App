@@ -138,6 +138,7 @@ struct CampaignView: View {
         if let initialCampaign = initialCampaign {
             GroupBox {
                 Text("\(initialCampaign.id)")
+                    .lineLimit(nil)
                     .font(.headline)
                     .foregroundColor(.primary)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
