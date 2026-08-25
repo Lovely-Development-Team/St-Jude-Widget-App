@@ -12,6 +12,8 @@ extension Theme {
         switch self {
         case .campaign2024, .campaign2025:
             return .l2CuPixel2024
+        case .campaign2026:
+            return .cowbotL2Cu
         default:
             return .l2Cu
         }
