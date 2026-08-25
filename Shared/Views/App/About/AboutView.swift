@@ -26,7 +26,7 @@ struct AboutView: View {
     @AppStorage(UserDefaults.debugGlowOpacityKey, store: UserDefaults.shared) private var debugGlowOpacity: Double = 0.5
     @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
     
-    private var stephenPostUrlString: String? = "https://512pixels.net/2025/08/st-jude-2025/"
+    private var stephenPostUrlString: String? = "https://512pixels.net/2026/08/st-jude-2026/"
     private var mykePostUrlString: String? = "https://www.theenthusiast.net/relay-for-st-jude-2025/"
     
     @State private var showSupporterSheet: Bool = false
