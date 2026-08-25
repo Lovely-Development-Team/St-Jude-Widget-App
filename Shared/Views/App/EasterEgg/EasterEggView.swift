@@ -27,14 +27,23 @@ struct EasterEggView: View {
     @State private var showFullL2CUName = false
     private var affirmationToShow: String = "Teamwork makes the dream work!"
     
-    private let affirmations: [String] = [
-        "Teamwork makes the dream work!",
-        "You can do it!",
-        "Remember to stay hydrated!",
-        "You are so strong.",
-        "Do you need something to eat or drink?",
-        "I am so proud of the progress you've made.",
-    ]
+    private var affirmations: [String] {
+        var list = [
+            "Teamwork makes the dream work!",
+            "You can do it!",
+            "Remember to stay hydrated!",
+            "You are so strong.",
+            "Do you need something to eat or drink?",
+            "I am so proud of the progress you've made.",
+        ]
+        
+        if Theme.current == .campaign2026 {
+            list.append("Yeehaw!")
+            list.append("Howdy pardner!")
+        }
+        
+        return list
+    }
     
     @State private var showCoinInput = false
     @State private var coinInput = ""
@@ -132,7 +141,7 @@ struct EasterEggView: View {
                 Text("Credits")
                     .font(.title3)
                     .bold()
-                Text("L2CU drawing by rhl_")
+                Text("L2CU drawing by rhl__")
                 if Theme.isThemeApplied {
                     if Theme.current.isPixel {
                         Text("Pixel art by Jelly\(Theme.current.didJustinContributeArt ? " and Justin" : "")")
