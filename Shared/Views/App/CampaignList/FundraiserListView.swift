@@ -25,12 +25,14 @@ struct FundraiserListView: View {
     
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
     
-    var searchResults: [Campaign] {
+    var searchResults: [Campaign]? {
         let query = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
         if query.isEmpty {
             return allCampaigns
         } else {
-            return allCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
+            let filtered = allCampaigns.filter { $0.title.lowercased().contains(query) || $0.user.username.lowercased().contains(query) }
+            return filtered.count > 0 ? filtered : nil
         }
     }
     
@@ -168,7 +170,8 @@ struct FundraiserListView: View {
         if(allCampaigns.count != 0) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
                 
-                ForEach(Array(searchResults.enumerated()), id: \.offset) { index, campaign in
+                if let unwrappedSearchResults = self.searchResults {
+                    ForEach(Array(unwrappedSearchResults.enumerated()), id: \.offset) { index, campaign in
                         NavigationLink(value: CampaignListDestination.campaign(campaign, true)) {
                             GroupBox {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showBackground: false, showShareSheet: .constant(false))
@@ -200,6 +203,17 @@ struct FundraiserListView: View {
                                 })
                             }
                         }
+                    }
+                } else {
+                    GroupBox {
+                        Label(title: {
+                            Text("No search results")
+                        }, icon: {
+                            Image(systemName: "exclamationmark.triangle")
+                        })
+                        .fullWidth(alignment: .center)
+                    }
+                    .themedGroupBox(type: .secondary)
                 }
             }
             // TODO: add these back

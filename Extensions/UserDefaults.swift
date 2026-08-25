@@ -169,7 +169,7 @@ extension UserDefaults {
     }
     
     @objc var selectedTheme: Int {
-        get { object(forKey: Self.selectedThemeKey) as? Int ?? 0 }
+        get { object(forKey: Self.selectedThemeKey) as? Int ?? Theme.defaultTheme.rawValue }
         set { UserDefaults.shared.set(newValue, forKey: Self.selectedThemeKey) }
     }
     

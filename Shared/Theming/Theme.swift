@@ -19,14 +19,52 @@ enum Theme: Int, CaseIterable {
         || self == .campaign2025
     }
     
-    var accentColor: Color {
+    // Will act as default
+    var lightAccentColor: Color {
         switch self {
         case .campaign2024:
             return .brandYellow
         case .campaign2025:
             return WidgetAppearance.myke.fillColor
+        case .campaign2026:
+            return .brandRed.darker()
         default:
             return .brandRed
+        }
+    }
+    
+    // Specify nil if this theme's accent color doesn't adjust for light/dark mode
+    var darkAccentColor: Color? {
+        switch self {
+        case .campaign2026:
+            return .brandRed
+        default:
+            return nil
+        }
+    }
+    
+    var accentColor: Color {
+        guard let darkColor = self.darkAccentColor else {
+            return self.lightAccentColor
+        }
+        
+        return Color(uiColor: UIColor(dynamicProvider: { traits in
+            switch traits.userInterfaceStyle {
+            case .dark:
+                return UIColor(darkColor)
+            default:
+                return UIColor(self.lightAccentColor)
+            }
+        }))
+    }
+    
+    // Used for the combo fill on the campaign progress bars
+    var alternateAccentColor: Color {
+        switch self {
+        case .campaign2026:
+            return .brandYellow.darker(by: 5)
+        default:
+            return .brandYellow
         }
     }
     
@@ -37,7 +75,7 @@ enum Theme: Int, CaseIterable {
         case .campaign2025:
             return .black
         case .campaign2026:
-            return .black
+            return .white
         default:
             return .white
         }
@@ -75,6 +113,24 @@ enum Theme: Int, CaseIterable {
             return 0.1
         default:
             return Double.spriteScale
+        }
+    }
+    
+    var forcedColorScheme: ColorScheme? {
+        switch self {
+        case .campaign2025:
+            return .dark
+        default:
+            return nil
+        }
+    }
+    
+    var didJustinContributeArt: Bool {
+        switch self {
+        case .campaign2024, .campaign2025, .campaign2026:
+            return true
+        default:
+            return false
         }
     }
 }

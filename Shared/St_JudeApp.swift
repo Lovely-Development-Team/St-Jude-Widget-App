@@ -32,6 +32,10 @@ struct St_JudeApp: App {
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     
     private var userColorScheme: ColorScheme? {
+        if let fromTheme = Theme.current.forcedColorScheme {
+            return fromTheme
+        }
+        
         switch self.appAppearance {
         case 0:
             return .light

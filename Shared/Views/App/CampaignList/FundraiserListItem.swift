@@ -37,17 +37,17 @@ struct FundraiserListItem: View {
     
     var barColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
-            return .brandRed
+            return Theme.current.accentColor
         } else {
-            return .brandYellow
+            return Theme.current.alternateAccentColor
         }
     }
     
     var fillColor: Color {
         if(self.campaign.multiplier % 2 == 0) {
-            return .brandYellow
+            return Theme.current.alternateAccentColor
         } else {
-            return .brandRed
+            return Theme.current.accentColor
         }
     }
     
