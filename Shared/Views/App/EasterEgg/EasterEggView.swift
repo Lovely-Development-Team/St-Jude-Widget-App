@@ -133,10 +133,12 @@ struct EasterEggView: View {
                     .font(.title3)
                     .bold()
                 Text("L2CU drawing by rhl_")
-                if Theme.current.isPixel {
-                    Text("Pixel art by Jelly and Justin")
-                } else {
-                    Text("Art by Jelly and Justin")
+                if Theme.isThemeApplied {
+                    if Theme.current.isPixel {
+                        Text("Pixel art by Jelly\(Theme.current.didJustinContributeArt ? " and Justin" : "")")
+                    } else {
+                        Text("Art by Jelly\(Theme.current.didJustinContributeArt ? " and Justin" : "")")
+                    }
                 }
                 
                 Text("Relay for St. Jude crafted with care by The Lovely Developers")

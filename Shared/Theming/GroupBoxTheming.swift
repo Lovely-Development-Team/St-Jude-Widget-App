@@ -36,8 +36,6 @@ extension View {
             groupBoxStyle(BlockGroupBoxStyle(tint: secondaryColor,
                                              edgeColor: Theme.current.accentColor,
                                              shadowColor: Theme.current.accentColor))
-        case .campaign2026:
-            groupBoxStyle(ImageGroupBoxStyle(background: .wood2026))
         default:
             groupBoxStyle(DefaultGroupBoxStyle())
                 .backgroundStyle(primaryColor)
