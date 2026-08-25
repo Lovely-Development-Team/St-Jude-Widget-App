@@ -112,14 +112,18 @@ struct HeadToHeadView: View {
                             .padding(.top, 5)
                         Text("Head to Head!")
                     }
+                    Theme.current.topViewLandscape(forMainScreen: true)
                 }
                 .foregroundColor(.primary)
                 .font(.title)
                 .bold()
-                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(minWidth: 0, maxWidth: Double.stretchedContentMaxWidth)
                 .frame(minHeight: 140)
-                .padding()
+                .padding(.vertical)
                 .frame(minWidth: 0, maxWidth: .infinity)
+                .background {
+                    Theme.current.skyView(forMainScreen: false)
+                }
                 VStack {
                     Group {
                         ZStack(alignment: .topTrailing) {
@@ -128,17 +132,17 @@ struct HeadToHeadView: View {
                                     ZStack {
                                         VStack(spacing: 0) {
                                             campaignDetails(for: campaign1, alignment: .leading)
-                                                .foregroundStyle(HEAD_TO_HEAD_COLOR_1.textColor)
+                                                .foregroundStyle(Theme.current.contentColorForAccent)
                                                 .transition(.move(edge: .leading))
                                                 .padding(.bottom, 8)
                                             HStack(alignment: .lastTextBaseline) {
                                                 Text(campaign1.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                                     .font(.title)
                                                     .fontWeight(.bold)
-                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.textColor)
+                                                    .foregroundStyle(Theme.current.contentColorForAccent)
                                                 Text(campaign1.user.username)
                                                     .font(.caption)
-                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_1.textColor)
+                                                    .foregroundStyle(Theme.current.contentColorForAccent)
                                                 Spacer()
                                             }
                                             .transition(.move(edge: .leading))
@@ -147,14 +151,14 @@ struct HeadToHeadView: View {
                                 }
                                 .foregroundColor(.black)
                                 .themedButton(type: .primary,
-                                              tint: HEAD_TO_HEAD_COLOR_1.fillColor,
+                                              tint: Theme.current.accentColor,
                                               capsuleShape: false,
                                               boldText: false)
                             }
                         }
                         
                         if animateIn {
-                            ProgressBar(value: .constant(progressBarValue), barColour: HEAD_TO_HEAD_COLOR_2.fillColor, fillColor: HEAD_TO_HEAD_COLOR_1.fillColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
+                            ProgressBar(value: .constant(progressBarValue), barColour: Theme.current.alternateAccentColor, fillColor: Theme.current.accentColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
                                     .frame(height: 20)
                                     .padding(.vertical, 10)
                                     .shadow(radius: 10)
@@ -169,23 +173,23 @@ struct HeadToHeadView: View {
                                                 Spacer()
                                                 Text(campaign2.user.username)
                                                     .font(.caption)
-                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_2.textColor)
+                                                    .foregroundStyle(Theme.current.contentColorForAlternateAccent)
                                                 Text(campaign2.totalRaisedDescription(showFullCurrencySymbol: false, trimDecimalPlaces: true))
                                                     .font(.title)
                                                     .fontWeight(.bold)
-                                                    .foregroundStyle(HEAD_TO_HEAD_COLOR_2.textColor)
+                                                    .foregroundStyle(Theme.current.contentColorForAlternateAccent)
                                             }
                                             .transition(.move(edge: .trailing))
                                             campaignDetails(for: campaign2, alignment: .trailing)
                                                 .padding(.top)
                                                 .transition(.move(edge: .trailing))
-                                                .foregroundStyle(HEAD_TO_HEAD_COLOR_2.textColor)
+                                                .foregroundStyle(Theme.current.contentColorForAlternateAccent)
                                         }
                                     }
                                 }
                                 .foregroundStyle(.black)
                                 .themedButton(type: .primary,
-                                              tint: HEAD_TO_HEAD_COLOR_2.fillColor,
+                                              tint: Theme.current.alternateAccentColor,
                                               capsuleShape: false,
                                               boldText: false)
                             }
@@ -196,6 +200,12 @@ struct HeadToHeadView: View {
                 }
                 .padding()
                 .frame(minWidth: 0, maxWidth: .infinity)
+                .background {
+                    VStack(spacing: 0) {
+                        Theme.current.landscapeToBackgroundTransition
+                        Theme.current.backgroundView
+                    }
+                }
             }
         }
         .onAppear {

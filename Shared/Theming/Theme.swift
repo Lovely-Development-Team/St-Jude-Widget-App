@@ -58,7 +58,7 @@ enum Theme: Int, CaseIterable {
         }))
     }
     
-    // Used for the combo fill on the campaign progress bars
+    // Used for the combo fill on the campaign progress bars and H2H opponent
     var alternateAccentColor: Color {
         switch self {
         case .campaign2026:
@@ -78,6 +78,13 @@ enum Theme: Int, CaseIterable {
             return .white
         default:
             return .white
+        }
+    }
+    
+    var contentColorForAlternateAccent: Color {
+        switch self {
+        default:
+            return .black
         }
     }
     
