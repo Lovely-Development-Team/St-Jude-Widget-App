@@ -58,9 +58,10 @@ struct SupportersView: View {
     
     @ViewBuilder
     var mascotView: some View {
-        Image(.l2Cu)
+        Image(Theme.current.mascotImage)
             .resizable()
             .aspectRatio(contentMode: .fit)
+            .frame(maxHeight: 200)
             .tapToAnimate(jumpHeight: 5)
             .padding()
     }

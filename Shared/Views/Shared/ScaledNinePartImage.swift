@@ -86,7 +86,7 @@ struct ScaledNinePartImage: View {
             .overlay {
                 Image.tiledImageAtScale(self.center, scale: self.scale)
                     .clipShape(RoundedRectangle(cornerRadius: (60 * self.scale)))
-                    .padding((60 * self.scale) / 2)
+                    .padding((100 * self.scale))
             }
         }
         .compositingGroup()

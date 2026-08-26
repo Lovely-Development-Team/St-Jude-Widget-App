@@ -113,6 +113,7 @@ struct HeadToHeadView: View {
                         Text("Head to Head!")
                     }
                     Theme.current.topViewLandscape(forMainScreen: true)
+                        .animation(nil, value: self.animateIn)
                 }
                 .foregroundColor(.primary)
                 .font(.title)
@@ -198,6 +199,7 @@ struct HeadToHeadView: View {
                     }
                     .frame(maxWidth: Double.stretchedContentMaxWidth)
                 }
+                .padding(.top)
                 .padding()
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .background {
@@ -210,9 +212,9 @@ struct HeadToHeadView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                withAnimation(.easeOut) {
+//                withAnimation(.easeOut) {
                     animateIn = true
-                }
+//                }
             }
         }
         .task {

@@ -39,7 +39,6 @@ struct EasterEggView: View {
         
         if Theme.current == .campaign2026 {
             list.append("Yeehaw!")
-            list.append("Howdy pardner!")
         }
         
         return list
@@ -47,6 +46,14 @@ struct EasterEggView: View {
     
     @State private var showCoinInput = false
     @State private var coinInput = ""
+    
+    private var viewTitle: String {
+        if Theme.current == .campaign2026 {
+            return "Howdy!"
+        }
+        
+        return "Hi there!"
+    }
     
     init() {
         affirmationToShow = affirmations.randomElement() ?? "Teamwork makes the dream work!"
@@ -204,7 +211,7 @@ struct EasterEggView: View {
                 }
             }
         }
-        .navigationTitle("Hi there!")
+        .navigationTitle(self.viewTitle)
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityLabel)
         .sheet(isPresented: $showSupporterSheet) {
