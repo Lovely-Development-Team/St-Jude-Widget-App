@@ -242,19 +242,22 @@ struct CampaignView: View {
                         })
                         .themedButton(type: .primary)
                     }
-                    
-                    GroupBox {
-                        Text(description)
-                            .font(.caption)
-                            .multilineTextAlignment(.leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    }
-                    .themedGroupBox(type: .primary)
-                    .padding(.vertical)
                 }
             }
             .frame(minWidth: 0, maxWidth: .infinity)
         }
+    }
+    
+    @ViewBuilder
+    var descriptionView: some View {
+        GroupBox {
+            Text(description)
+                .font(.caption)
+                .multilineTextAlignment(.leading)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+        }
+        .themedGroupBox(type: .primary)
+        .padding(.vertical)
     }
     
     @ViewBuilder
@@ -397,22 +400,22 @@ struct CampaignView: View {
             ScrollViewReader { scrollViewReader in
                 VStack(spacing: 0) {
                     HStack {
-                        Spacer()
                         VStack {
                             // LogsView(logContainer: logsContainer)
                             self.infoView(scrollViewReader: scrollViewReader)
                             Theme.current.topViewLandscape(forMainScreen: false)
                         }
                         .frame(maxWidth: Double.stretchedContentMaxWidth)
-                        Spacer()
                     }
+                    .padding(.horizontal)
                     .background {
                         Theme.current.skyView(forMainScreen: false)
                     }
                     
                     HStack {
-                        Spacer()
                         VStack {
+                            self.descriptionView
+                            
                             self.donorsView
                             
                             self.pollsView
@@ -422,8 +425,8 @@ struct CampaignView: View {
                             self.rewardsView
                         }
                         .frame(maxWidth: Double.stretchedContentMaxWidth)
-                        Spacer()
                     }
+                    .padding()
                     .background {
                         VStack(spacing: 0) {
                             Theme.current.landscapeToBackgroundTransition
@@ -458,7 +461,7 @@ struct CampaignView: View {
                     Label(title: {
                         Text("Starred")
                     }, icon: {
-                        Image(systemName: self.initialCampaign?.isStarred ?? false ? "heart.fill" : "heart.fill")
+                        Image(systemName: self.initialCampaign?.isStarred ?? false ? "heart.fill" : "heart")
                     })
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)

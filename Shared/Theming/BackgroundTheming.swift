@@ -97,7 +97,7 @@ extension Theme {
                         case .campaign2025:
                             Color.arenaFloor
                         case .campaign2026:
-                            Image.tiledImageAtScale(.underground2026, scale: Theme.current.imageScale)
+                            Image.tiledImageAtScale(.woodBackground2026, scale: Theme.current.imageScale)
                         default:
                             EmptyView()
                         }

@@ -117,7 +117,7 @@ enum Theme: Int, CaseIterable {
     var imageScale: Double {
         switch self {
         case .campaign2026:
-            return 0.1
+            return 0.5
         default:
             return Double.spriteScale
         }
@@ -127,6 +127,8 @@ enum Theme: Int, CaseIterable {
         switch self {
         case .campaign2025:
             return .dark
+//        case .campaign2026:
+//            return .light
         default:
             return nil
         }

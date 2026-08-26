@@ -48,6 +48,9 @@ extension View {
         case .campaign2025:
             buttonStyle(BlockButtonStyle(tint: tint, edgeColor: tint))
                 .foregroundStyle(textColor)
+        case .campaign2026:
+            buttonStyle(PaperButtonStyle(tint: tint))
+                .foregroundStyle(textColor)
         default:
             buttonStyle(PrimaryButtonStyle(useGlass: true,
                                            tint: tint,
@@ -69,6 +72,9 @@ extension View {
             .foregroundStyle(textColor)
         case .campaign2025:
             buttonStyle(BlockButtonStyle(tint: .secondarySystemBackground, edgeColor: Theme.current.accentColor))
+                .foregroundStyle(textColor)
+        case .campaign2026:
+            buttonStyle(PaperButtonStyle(tint: tint))
                 .foregroundStyle(textColor)
         default:
             buttonStyle(PrimaryButtonStyle(useGlass: false,

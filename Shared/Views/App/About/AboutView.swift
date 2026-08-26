@@ -215,7 +215,7 @@ struct AboutView: View {
                             self.noAIView
                         }
                     }
-                    .padding(.top)
+                    .padding(.vertical)
                 }
                 .padding(.top)
                 .padding(.horizontal)
