@@ -27,7 +27,7 @@ enum Theme: Int, CaseIterable {
         case .campaign2025:
             return WidgetAppearance.myke.fillColor
         case .campaign2026:
-            return .brandRed.darker()
+            return .accentColor2026
         default:
             return .brandRed
         }

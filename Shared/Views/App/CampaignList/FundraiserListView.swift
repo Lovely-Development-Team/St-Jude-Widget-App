@@ -58,10 +58,6 @@ struct FundraiserListView: View {
                                             .foregroundColor(.secondary)
                                             .padding(.horizontal, 8)
                                             .padding(.vertical, 4)
-                                            .background(
-                                                Color.tertiarySystemBackground
-                                                    .cornerRadius(15)
-                                            )
                                     }
                                     if self.dynamicTypeSize >= .xLarge {
                                         Spacer()
