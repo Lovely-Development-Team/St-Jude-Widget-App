@@ -20,13 +20,17 @@ struct TapToAnimate: ViewModifier {
     @State private var animate = false
     
     func body(content: Content) -> some View {
-        Button(action: {
-            self.animate.toggle()
-            self.onTap()
-            // TODO: add back haptics
-        }, label: {
+//        Button(action: {
+//            self.animate.toggle()
+//            self.onTap()
+//            // TODO: add back haptics
+//        }, label: {
             content
-        })
+            .onTapGesture {
+                self.animate.toggle()
+                self.onTap()
+            }
+//        })
         .keyframeAnimator(initialValue: AnimationValues(),
                           trigger: self.animate,
                           content: { view, value in
