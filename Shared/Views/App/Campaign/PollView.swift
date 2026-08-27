@@ -24,7 +24,7 @@ struct PollView: View {
                             .font(.caption)
                     })
                     // TODO: padding?
-                    .themedButton(type: .primary)
+                    .tint(Theme.current.accentColor)
                     .padding(.bottom, 4)
                 }
                 ForEach(poll.options, id: \.id) { option in
