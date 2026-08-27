@@ -242,7 +242,11 @@ struct AboutView: View {
             })
         }
         .onAppear {
-            self.currentIcon = AltIcon(rawValue: UIApplication.shared.alternateIconName?.replacingOccurrences(of: "icon-", with: "") ?? "regular") ?? .regular
+            if let appIcon = UIApplication.shared.alternateIconName {
+                self.currentIcon = AltIcon(rawValue: appIcon.replacingOccurrences(of: "icon-", with: "")) ?? .defaultIcon
+            } else {
+                self.currentIcon = AltIcon.defaultIcon
+            }
         }
     }
 }
