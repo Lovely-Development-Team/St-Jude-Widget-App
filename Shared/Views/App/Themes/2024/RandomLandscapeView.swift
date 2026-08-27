@@ -101,11 +101,7 @@ struct LandscapeElement: Identifiable {
                     AdaptiveImage.myke(colorScheme: colorScheme)
                         .imageAtScale()
                 }, onTap: {
-                    if(UserDefaults.shared.coinCount.isNice) {
-                        SoundEffectHelper.shared.play(.mykeNice)
-                    } else {
-                        SoundEffectHelper.shared.play(.mykeRandom)
-                    }
+                    SoundEffectHelper.shared.play(.mykeRandom)
                 })
             }
         case .stephen:
@@ -123,11 +119,7 @@ struct LandscapeElement: Identifiable {
                         .imageAtScale()
                         .scaleEffect(x: -1)
                 }, onTap: {
-                    if(UserDefaults.shared.coinCount.isNice) {
-                        SoundEffectHelper.shared.play(.stephenNice)
-                    } else {
-                        SoundEffectHelper.shared.play(.stephenRandom)
-                    }
+                    SoundEffectHelper.shared.play(.stephenNice)
                 })
             }
         case .bush:
