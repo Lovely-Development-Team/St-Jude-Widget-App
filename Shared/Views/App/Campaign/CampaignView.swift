@@ -403,9 +403,9 @@ struct CampaignView: View {
                         VStack {
                             // LogsView(logContainer: logsContainer)
                             self.infoView(scrollViewReader: scrollViewReader)
-                            Theme.current.topViewLandscape(forMainScreen: false)
                         }
                         .frame(maxWidth: Double.stretchedContentMaxWidth)
+                        .padding(.bottom)
                     }
                     .padding(.horizontal)
                     .background {

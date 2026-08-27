@@ -20,7 +20,7 @@ enum Theme: Int, CaseIterable {
     }
     
     // Will act as default
-    var lightAccentColor: Color {
+    private var lightAccentColor: Color {
         switch self {
         case .campaign2024:
             return .brandYellow
@@ -34,7 +34,7 @@ enum Theme: Int, CaseIterable {
     }
     
     // Specify nil if this theme's accent color doesn't adjust for light/dark mode
-    var darkAccentColor: Color? {
+    private var darkAccentColor: Color? {
         switch self {
         case .campaign2026:
             return .brandRed
