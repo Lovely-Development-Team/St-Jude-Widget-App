@@ -461,7 +461,7 @@ struct CampaignView: View {
                     Label(title: {
                         Text("Starred")
                     }, icon: {
-                        Image(systemName: self.initialCampaign?.isStarred ?? false ? "heart.fill" : "heart")
+                        Image(systemName: self.initialCampaign?.isStarred ?? false ? "star.fill" : "star")
                     })
                 }
                 .opacity(initialCampaign != nil ? 1 : 0)
