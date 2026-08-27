@@ -74,7 +74,6 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
             configuration.content
                 .padding()
         }
-            .compositingGroup()
             .background {
                 ScaledNinePartImage(topLeft: self.topLeadingCornerImage,
                                     top: .paperTop,
@@ -92,6 +91,7 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
                         .offset(y: 2)
                 }
             }
+            .compositingGroup()
             .shadow(radius: 10)
             .rotationEffect(.degrees(Double.random(in: -0.5...0.5)))
     }
