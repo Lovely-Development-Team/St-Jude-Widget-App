@@ -187,7 +187,7 @@ struct AboutView: View {
                   icon: {
                 Image(.sparkleSlash)
             })
-            .fullWidth(alignment: .center)
+            .fullWidth(alignment: .leading)
         }
     }
     

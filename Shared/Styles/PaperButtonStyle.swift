@@ -93,7 +93,6 @@ struct PaperButtonStyle: ButtonStyle {
                         .offset(y: 2)
                 }
             }
-            .shadow(radius: 10)
             .rotationEffect(.degrees(Double.random(in: -0.5...0.5)))
             .opacity(configuration.isPressed ? 0.5 : 1.0)
     }

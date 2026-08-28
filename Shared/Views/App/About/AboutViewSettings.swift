@@ -61,7 +61,6 @@ struct AltIconButton: View {
                     icon.image
                         .frame(width: 75, height: 75)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .shadow(radius: 10)
                     Text(icon.title)
                         .foregroundStyle(self.currentIcon == self.icon ? Theme.current.contentColorForAccent : Color.primary)
                 }
