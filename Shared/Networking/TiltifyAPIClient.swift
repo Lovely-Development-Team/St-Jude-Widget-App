@@ -83,6 +83,20 @@ extension TiltifyAPIClient {
         }
         return []
     }
+    
+    func getFundraisingEventMilestones() async -> [TiltifyMilestone] {
+        do {
+            let request = URLRequest(url: URL(string: "https://tiltify-proxy.prod.experience.stjude.org/public/fundraising_events/\(FUNDRAISING_EVENT_PUBLIC_ID)/milestones")!)
+            let (data, _) = try await self.session.data(for: request)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let responseData = try decoder.decode(StJudeProxyMilestones.self, from: data)
+            return responseData.data
+        } catch {
+            apiLogger.error("Unable to fetch fundraising event milestones: \(String(describing: error))")
+        }
+        return []
+    }
 }
 
 // MARK: Campaigns
@@ -121,7 +135,7 @@ extension TiltifyAPIClient {
     func getCampaignRewards(forId id: UUID) async -> [TiltifyCampaignReward] {
         var rewards: [TiltifyCampaignReward] = []
         do {
-            var request = TiltifyGetCampaignRewardsRequest(campaignId: id)
+            var request = TiltifyGetCampaignRewardsRequest(campaignId: id.uuidString == FUNDRAISING_EVENT_PUBLIC_ID ? UUID(uuidString: RELAY_SUBCAMPAIGN_ID)! : id)
             while true {
                 let response = try await self.send(request)
                 rewards.append(contentsOf: response.data)
@@ -172,7 +186,7 @@ extension TiltifyAPIClient {
     
     func getCampaignPolls(forId id: UUID) async -> [TiltifyCampaignPoll]? {
         do {
-            return try await self.send(TiltifyGetCampaignPollsRequest(campaignId: id)).data
+            return try await self.send(TiltifyGetCampaignPollsRequest(campaignId: id.uuidString == FUNDRAISING_EVENT_PUBLIC_ID ? UUID(uuidString: RELAY_SUBCAMPAIGN_ID)! : id)).data
         } catch {
             apiLogger.error("Unable to fetch campaign polls: \(String(describing: error))")
         }
