@@ -37,7 +37,7 @@ extension Theme {
             case .campaign2026:
                 ZStack(alignment: .bottom) {
                     Color.from256bit(red: 184, green: 192, blue: 177)
-                    Image(.sky2026)
+                    Image(forMainScreen ? .sky2026 : .sky2026Plain)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: Double.stretchedContentMaxWidth)

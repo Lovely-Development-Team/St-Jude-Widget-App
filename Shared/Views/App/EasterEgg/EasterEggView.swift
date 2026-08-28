@@ -202,6 +202,7 @@ struct EasterEggView: View {
                 VStack {
                     self.linksView
                 }
+                .padding(.top)
                 .padding()
                 .background {
                     VStack(spacing: 0) {

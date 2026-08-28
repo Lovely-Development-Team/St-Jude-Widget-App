@@ -386,7 +386,7 @@ struct CampaignView: View {
                         
                     }
                     ForEach(rewards, id: \.id) { reward in
-                        CampaignRewardView(reward: reward, isLast: reward == self.rewards.last, campaignUserName: self.initialCampaign?.user.username ?? "", showSupporterSheet: self.$showSupporterSheet)
+                        CampaignRewardView(reward: reward, campaignUserName: self.initialCampaign?.user.username ?? "", showSupporterSheet: self.$showSupporterSheet)
                     }
                 }
             }

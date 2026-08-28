@@ -10,7 +10,6 @@ import Kingfisher
 
 struct CampaignRewardView: View {
     var reward: Reward
-    var isLast: Bool
     var campaignUserName: String
     @Binding var showSupporterSheet: Bool
     
@@ -68,11 +67,6 @@ struct CampaignRewardView: View {
                 }
             }
             
-        }
-        if self.isLast {
-            Rectangle()
-                .frame(height: 10 * Theme.current.imageScale)
-                .foregroundStyle(.secondary)
         }
     }
 }
