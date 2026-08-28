@@ -27,7 +27,7 @@ struct AboutView: View {
     @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
     
     private var stephenPostUrlString: String? = "https://512pixels.net/2026/08/st-jude-2026/"
-    private var mykePostUrlString: String? = "https://www.theenthusiast.net/relay-for-st-jude-2025/"
+    private var mykePostUrlString: String? = "https://www.theenthusiast.net/relay-for-st-jude-2026/"
     
     @State private var showSupporterSheet: Bool = false
     @State private var currentIcon: AltIcon? = nil

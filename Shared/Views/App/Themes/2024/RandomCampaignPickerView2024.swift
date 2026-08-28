@@ -28,7 +28,7 @@ struct RandomCampaignPickerView2024: View {
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
     @Binding var campaignChoiceID: UUID?
-    var allCampaigns: [Campaign]
+    @State private var allCampaigns: [Campaign] = []
     @State private var chosenCampaign: Campaign? = nil
     
     @State private var jumping: Bool = false
@@ -530,6 +530,9 @@ struct RandomCampaignPickerView2024: View {
             }
 //        }
         .onAppear {
+            Task {
+                self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
+            }
             self.hitArr = (0..<self.numBoxes).map { _ in return false }
             if Bool.random() {
                 self.spriteImage = self.easterEggEnabled2024 ? AdaptiveImage.dogcow(colorScheme: self.colorScheme) : AdaptiveImage.stephen(colorScheme: self.colorScheme)
@@ -598,6 +601,6 @@ struct RandomCampaignPickerView2024: View {
 
 struct RandomCampaignPickerView2024_Previews: PreviewProvider {
     static var previews: some View {
-        RandomCampaignPickerView2024(campaignChoiceID: Binding<UUID?>(get: {return nil}, set: {_ in}), allCampaigns: [])
+        RandomCampaignPickerView2024(campaignChoiceID: Binding<UUID?>(get: {return nil}, set: {_ in}))
     }
 }
