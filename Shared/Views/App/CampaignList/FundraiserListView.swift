@@ -195,7 +195,7 @@ struct FundraiserListView: View {
                                 Label(title: {
                                     Text(campaign.isStarred ? "Unfavourite" : "Favourite")
                                 }, icon: {
-                                    Image(systemName: campaign.isStarred ? "heart.fill" : "heart")
+                                    Image(systemName: campaign.isStarred ? "star.fill" : "star")
                                 })
                             }
                         }
