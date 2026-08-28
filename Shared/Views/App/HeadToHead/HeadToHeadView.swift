@@ -11,6 +11,8 @@ import Kingfisher
 let HEAD_TO_HEAD_COLOR_1: WidgetAppearance = .stephen
 let HEAD_TO_HEAD_COLOR_2: WidgetAppearance = .myke
 
+let GROUP_BOX_BACKGROUND_2026: Color = .init(red: 255 / 255, green: 244 / 255, blue: 203 / 255)
+
 struct HeadToHeadView: View {
     @Namespace var namespace
     @Environment(\.presentationMode) var presentationMode
@@ -159,10 +161,12 @@ struct HeadToHeadView: View {
                         }
                         
                         if animateIn {
-                            ProgressBar(value: .constant(progressBarValue), barColour: Theme.current.alternateAccentColor, fillColor: Theme.current.accentColor, showDivider: true, dividerColor: .black, dividerWidth: 2)
+                            GroupBox {
+                                ProgressBar(value: .constant(progressBarValue), barColour: Theme.current.alternateAccentColor, fillColor: Theme.current.accentColor, showDivider: true, dividerColor: .black, dividerWidth: 2, stroke: true)
                                     .frame(height: 20)
                                     .padding(.vertical, 10)
-                                    .shadow(radius: 10)
+                            }
+                            .themedGroupBox(type: .primary)
                         }
                         
                         ZStack(alignment: .bottomLeading) {
