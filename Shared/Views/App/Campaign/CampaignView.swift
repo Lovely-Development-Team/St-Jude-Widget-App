@@ -38,7 +38,7 @@ struct CampaignView: View {
     
     @State private var isRefreshing: Bool = false
     
-    @State private var showPolls: Bool = false
+    @State private var showPolls: Bool = true
     @State private var polls: [TiltifyCampaignPoll] = []
     
     @State private var hasDoneInitialAPIFetch: Bool = false
