@@ -114,6 +114,10 @@ struct TiltifyMilestone: Codable {
     }
 }
 
+struct StJudeProxyMilestones: Codable {
+    let data: [TiltifyMilestone]
+}
+
 struct TiltifyAvatar: Codable, Hashable {
     let alt: String
     let src: String

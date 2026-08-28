@@ -38,7 +38,7 @@ struct CampaignView: View {
     
     @State private var isRefreshing: Bool = false
     
-    @State private var showPolls: Bool = false
+    @State private var showPolls: Bool = true
     @State private var polls: [TiltifyCampaignPoll] = []
     
     @State private var hasDoneInitialAPIFetch: Bool = false
@@ -562,6 +562,7 @@ struct CampaignView: View {
     
     /// Fetch data from the API, save it to the database
     func refresh() async {
+        
         guard !isRefreshing else {
             dataLogger.notice("Skipping refresh as one is already in-progress")
             logsContainer.addLog("Skipping refresh as one is already in-progress")
@@ -640,7 +641,12 @@ struct CampaignView: View {
     }
     
     func updateMilestonesInDatabase(forId id: UUID) async {
-        let apiMilestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: id)
+        let apiMilestones: [TiltifyMilestone]
+        if id == UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID) {
+            apiMilestones = await TiltifyAPIClient.shared.getFundraisingEventMilestones()
+        } else {
+            apiMilestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: id)
+        }
         dataLogger.debug("Updating Milestones for campaign \(id) with \(milestones.count)")
         
         var keyedApiMilestones: [UUID: Milestone] = apiMilestones.filter { $0.active }.reduce(into: [:]) { partialResult, ms in

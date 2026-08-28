@@ -40,7 +40,7 @@ struct Leaderboard: View {
                     Image(systemName: "trophy")
                         .foregroundStyle(Color.brandYellow)
                 } else if campaign.isStarred {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: "star.fill")
                 }
                 Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
                     .monospacedDigit()
