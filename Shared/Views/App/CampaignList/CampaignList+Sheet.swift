@@ -28,7 +28,7 @@ struct CampaignListSheetContent: View {
             .forSheet(displayMode: .large)
             .zoomTransitioniOS26(id: "leaderboardButton", namespace: self.namespace)
         case .randomPicker:
-                RandomCampaignPickerView(campaignChoiceID: self.$selectedCampaignId)
+            Theme.current.randomCampaignPicker(campaignChoice: self.$selectedCampaignId)
                     .forSheet()
                     .zoomTransitioniOS26(id: "randomFundraiserButton", namespace: self.namespace)
         case .easterEgg:
