@@ -16,16 +16,17 @@ struct SupportersView: View {
     @ViewBuilder
     var topView: some View {
         GroupBox {
-            Text("Our thanks to these awesome people for donating to our fundraiser!")
-                .padding(.top, 2)
-                .padding(.bottom, 10)
-                .multilineTextAlignment(.center)
-            Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
-                Text("tildy.dev/stjude")
-                    .font(.headline)
-                    .fullWidth(alignment: .center)
-            })
-            .themedButton(type: .primary)
+            VStack {
+                Text("Our thanks to these awesome people for donating to our fundraiser!")
+                    .padding(.top, 2)
+                    .multilineTextAlignment(.center)
+                Link(destination: URL(string: "https://tildy.dev/stjude")!, label: {
+                    Text("tildy.dev/stjude")
+                        .font(.headline)
+                        .fullWidth(alignment: .center)
+                })
+                .themedButton(type: .primary)
+            }
         }
         .themedGroupBox(type: .primary)
     }

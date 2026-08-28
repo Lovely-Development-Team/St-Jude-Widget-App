@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaperGroupBoxStyle: GroupBoxStyle {
     
-    var tint: Color = .white
+    var tint: Color = .paperColor2026
     
     enum CornerStyle: CaseIterable {
         case fold
@@ -85,6 +85,7 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
                                     bottom: .paperBottom,
                                     bottomRight: self.bottomTrailingCornerImage,
                                     scale: Theme.current.imageScale / 4)
+                .colorMultiply(.paperColor2026)
                 .colorMultiply(self.tint)
                 .overlay(alignment: .top) {
                     Image.imageAtScale(.paperNail, scale: Theme.current.imageScale * 0.75)

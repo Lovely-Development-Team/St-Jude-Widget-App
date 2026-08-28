@@ -120,6 +120,25 @@ extension Color {
         Color(.displayP3, red: red / 255, green: green / 255, blue: blue / 255, opacity: 1)
     }
     
+    static var invertedPrimary: Color {
+        return Color(uiColor: .init(dynamicProvider: { traits in
+            if traits.userInterfaceStyle == .dark {
+                return .black
+            } else {
+                return .white
+            }
+        }))
+    }
+    static var forcedPrimary: Color {
+        return Color(uiColor: .init(dynamicProvider: { traits in
+            if traits.userInterfaceStyle == .dark {
+                return .white
+            } else {
+                return .black
+            }
+        }))
+    }
+    
     static let brandYellow = from256bit(red: 247, green: 206, blue: 86)
     static let brandRed = from256bit(red: 194, green: 53, blue: 76)
     static let brandBlue = from256bit(red: 81, green: 184, blue: 212)
@@ -132,6 +151,7 @@ extension Color {
     static let arenaFloorSkySeparator = Color("arena-floor-sky-separator")
     
     static let accentColor2026 = from256bit(red: 174, green: 41, blue: 82)
+    static let paperColor2026 = from256bit(red: 255, green: 244, blue: 203)
     
     static var randomBrandedColor: Color {
         return [Color.brandYellow, Color.brandRed, Color.brandBlue, Color.brandGreen, Color.brandPurple].randomElement() ?? Color.brandYellow

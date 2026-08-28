@@ -194,7 +194,10 @@ struct AboutView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                self.headerView
+                VStack {
+                    self.headerView
+                    Theme.current.topViewLandscape(forMainScreen: false)
+                }
                     .padding(.bottom)
                     .padding(.horizontal)
                     .background {
@@ -217,6 +220,7 @@ struct AboutView: View {
                     }
                     .padding(.vertical)
                 }
+                .padding(.top)
                 .padding(.top)
                 .padding(.horizontal)
                 .background {

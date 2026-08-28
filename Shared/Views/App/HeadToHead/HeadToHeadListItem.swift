@@ -41,10 +41,10 @@ struct HeadToHeadListItem: View {
                 Text("vs")
                     .bold()
                     .padding(8)
-                    .foregroundColor(.white)
+                    .foregroundColor(.invertedPrimary)
                     .background {
                         Circle()
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.primary)
                     }
                     .shadow(radius: 10)
                 Text(headToHead.campaign2.name)

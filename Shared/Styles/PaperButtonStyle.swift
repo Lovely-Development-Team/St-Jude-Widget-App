@@ -75,7 +75,6 @@ struct PaperButtonStyle: ButtonStyle {
             configuration.label
                 .padding()
         }
-            .compositingGroup()
             .background {
                 ScaledNinePartImage(topLeft: self.topLeadingCornerImage,
                                     top: .paperTop,
@@ -87,12 +86,15 @@ struct PaperButtonStyle: ButtonStyle {
                                     bottom: .paperBottom,
                                     bottomRight: self.bottomTrailingCornerImage,
                                     scale: Theme.current.imageScale / 4)
+                .colorMultiply(.paperColor2026)
                 .colorMultiply(self.tint)
                 .overlay(alignment: .top) {
                     Image.imageAtScale(.paperNail, scale: Theme.current.imageScale * 0.75)
                         .offset(y: 2)
                 }
             }
+            .compositingGroup()
+            .shadow(radius: 10)
             .rotationEffect(.degrees(Double.random(in: -0.5...0.5)))
             .opacity(configuration.isPressed ? 0.5 : 1.0)
     }

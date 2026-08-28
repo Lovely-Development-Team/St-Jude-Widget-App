@@ -29,7 +29,7 @@ struct FundraiserListItem: View {
     @ViewBuilder
     var disclosureIndicator: some View {
         if(campaign.isStarred) {
-            Image(systemName: "start.fill")
+            Image(systemName: "star.fill")
         } else {
             Image(systemName: "chevron.right")
         }
