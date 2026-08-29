@@ -11,16 +11,19 @@ struct LandscapeView2026: View {
     @State private var forMainScreen: Bool
     @State private var showMyke: Bool
     @State private var showStephen: Bool
+    @State private var showBuildings: Bool
     
     var body: some View {
         if self.forMainScreen {
             ZStack {
-                Image(.building2026)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .scaleEffect(x: 1.1, y: 1.1)
-                    .offset(y: -10)
-                    .padding(.top)
+                if showBuildings {
+                    Image(.building2026)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaleEffect(x: 1.1, y: 1.1)
+                        .offset(y: -10)
+                        .padding(.top)
+                }
                 HStack {
                     Spacer()
                     EasterEggImage(content: {
@@ -54,10 +57,11 @@ struct LandscapeView2026: View {
         }
     }
     
-    init(forMainScreen: Bool = true, showMyke: Bool = true, showStephen: Bool = true) {
+    init(forMainScreen: Bool = true, showMyke: Bool = true, showStephen: Bool = true, showBuildings: Bool = true) {
         self.forMainScreen = forMainScreen
         self.showMyke = showMyke
         self.showStephen = showStephen
+        self.showBuildings = showBuildings
     }
 }
 

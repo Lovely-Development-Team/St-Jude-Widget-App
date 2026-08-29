@@ -43,7 +43,7 @@ struct ChooseCampaignView: View {
                         .font(.largeTitle.weight(.bold))
                         .fullWidth(alignment: .center)
                         .padding()
-                    Theme.current.topViewLandscape(forMainScreen: true, showStephen: otherCampaign != nil)
+                    Theme.current.topViewLandscape(forMainScreen: true, showMyke: otherCampaign == nil, showStephen: otherCampaign != nil, showBuildings: false)
                 }
                 .background {
                     Theme.current.skyView(forMainScreen: true)
