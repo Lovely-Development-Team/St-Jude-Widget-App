@@ -87,7 +87,7 @@ struct ShareCampaignView: View {
     @MainActor
     var headerView: some View {
         VStack {
-            GroupBox {
+//            GroupBox {
                 standardView
                     .background {
                         GeometryReader { geo in
@@ -101,8 +101,9 @@ struct ShareCampaignView: View {
                         }
                     }
                     .cornerRadius((clipCorners ? 15 : 0))
-            }
-            .themedGroupBox(type: .primary, id: "image-preview")
+                    .padding(.bottom)
+//            }
+//            .themedGroupBox(type: .primary, id: "image-preview")
             ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
@@ -115,15 +116,34 @@ struct ShareCampaignView: View {
     var settingsView: some View {
         GroupBox {
             VStack(spacing: 15) {
-                HStack {
-                    Text("Appearance")
-                    Spacer()
-                    Picker("Appearance", selection: $appearance.animation()) {
-                        ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
-                            Text(appearance.name).tag(appearance)
+                LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible()), .init(.flexible()), .init(.flexible())], alignment: .leading, spacing: 10) {
+                    ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
+                        Button(action: {
+                            self.appearance = appearance
+                        }) {
+                            Color.clear
+                            .aspectRatio(1, contentMode: .fill)
+                            .overlay {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(appearance.backgroundColors.first ?? .primary)
+                                        .stroke(self.appearance == appearance ? appearance.foregroundColor : .clear, lineWidth: 5)
+                                        .shadow(radius: self.appearance == appearance ? 10 : 0)
+                                    Circle()
+                                        .fill(appearance.foregroundColor)
+                                        .frame(width: 15, height: 15)
+                                    Circle()
+                                        .rotation(.degrees(-45))
+                                        .trim(from: 0, to: 0.5)
+                                        .fill(appearance.fillColor)
+                                        .frame(width: 15, height: 15)
+                                }
+                            }
                         }
+                        .sensoryFeedback(.success, trigger: self.appearance)
                     }
                 }
+                .padding(.top, 8)
                 Toggle("Show Milestones", isOn: $showMilestones.animation())
                 if showMilestones {
                     Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
