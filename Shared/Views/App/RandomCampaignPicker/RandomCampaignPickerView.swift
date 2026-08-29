@@ -122,13 +122,13 @@ struct RandomCampaignPickerView: View {
                         Text("View this fundraiser")
                             .font(.headline)
                     })
-                    .themedButton(type: .primary)
+                    .themedButton(type: .primary, id: chosenCampaign?.id)
                     Spacer()
                     Button(action: spinAgain, label: {
                         Text("Spin Again")
                     })
                     // TODO: padding?
-                    .themedButton(type: .primary)
+                    .themedButton(type: .primary, id: "spin-again")
 //                    .buttonStyle(PrimaryButtonStyle(padding: 10))
                     .padding(.bottom)
                 }

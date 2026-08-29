@@ -10,15 +10,28 @@ import SwiftUI
 struct PaperGroupBoxStyle: GroupBoxStyle {
     
     var tint: Color = .paperColor2026
+    var id: AnyHashable? = nil
+    
+    func combinedId(with other: AnyHashable) -> Int {
+        let ownHash = id?.hashValue ?? UUID().hashValue
+        let otherHash = other.hashValue
+        
+        return ownHash.hashValue &+ otherHash.hashValue
+    }
     
     enum CornerStyle: CaseIterable {
         case fold
         case tear
         case plain
+        
+        static func style(for id: Int) -> Self {
+            return CornerStyle.allCases[abs(id) % CornerStyle.allCases.count]
+        }
+        
     }
     
     var topLeadingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 0))
         
         switch style {
         case .fold:
@@ -31,7 +44,7 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
     }
     
     var topTrailingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 1))
         
         switch style {
         case .fold:
@@ -44,7 +57,7 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
     }
     
     var bottomLeadingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 2))
         
         switch style {
         case .fold:
@@ -57,7 +70,7 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
     }
     
     var bottomTrailingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 3))
         
         switch style {
         case .fold:
@@ -67,6 +80,10 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
         default:
             return .paperPlainBR
         }
+    }
+    
+    var rotation: Double {
+        Double(id.hashValue >> 11) * 0x1p-53 - 0.5
     }
     
     func makeBody(configuration: Configuration) -> some View {
@@ -94,6 +111,6 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
             }
             .compositingGroup()
             .shadow(radius: 10)
-            .rotationEffect(.degrees(Double.random(in: -0.5...0.5)))
+            .rotationEffect(.degrees(rotation))
     }
 }

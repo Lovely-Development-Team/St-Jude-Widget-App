@@ -9,6 +9,14 @@ import SwiftUI
 
 struct PaperButtonStyle: ButtonStyle {
     var tint: Color = .white
+    var id: AnyHashable? = UUID()
+    
+    func combinedId(with other: AnyHashable) -> Int {
+        let ownHash = id?.hashValue ?? UUID().hashValue
+        let otherHash = other.hashValue
+        
+        return ownHash.hashValue &+ otherHash.hashValue
+    }
     
     // TODO: the corners change whenever the view refreshes because the vars are recalculated.
     // please help fix this
@@ -16,10 +24,15 @@ struct PaperButtonStyle: ButtonStyle {
         case fold
         case tear
         case plain
+        
+        static func style(for id: Int) -> Self {
+            return CornerStyle.allCases[abs(id) % CornerStyle.allCases.count]
+        }
+        
     }
     
     var topLeadingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 0))
         
         switch style {
         case .fold:
@@ -32,7 +45,7 @@ struct PaperButtonStyle: ButtonStyle {
     }
     
     var topTrailingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 1))
         
         switch style {
         case .fold:
@@ -45,7 +58,7 @@ struct PaperButtonStyle: ButtonStyle {
     }
     
     var bottomLeadingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 2))
         
         switch style {
         case .fold:
@@ -58,7 +71,7 @@ struct PaperButtonStyle: ButtonStyle {
     }
     
     var bottomTrailingCornerImage: ImageResource {
-        let style = CornerStyle.allCases.randomElement() ?? .plain
+        let style = CornerStyle.style(for: combinedId(with: 3))
         
         switch style {
         case .fold:
@@ -68,6 +81,10 @@ struct PaperButtonStyle: ButtonStyle {
         default:
             return .paperPlainBR
         }
+    }
+    
+    var rotation: Double {
+        Double(id.hashValue >> 11) * 0x1p-53 - 0.5
     }
     
     func makeBody(configuration: Configuration) -> some View {
@@ -95,7 +112,7 @@ struct PaperButtonStyle: ButtonStyle {
             }
             .compositingGroup()
             .shadow(radius: 10)
-            .rotationEffect(.degrees(Double.random(in: -0.5...0.5)))
+            .rotationEffect(.degrees(rotation))
             .opacity(configuration.isPressed ? 0.5 : 1.0)
     }
 }

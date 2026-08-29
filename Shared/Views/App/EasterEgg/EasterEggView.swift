@@ -81,7 +81,7 @@ struct EasterEggView: View {
                         }) {
                             Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
                         }
-                        .themedButton(type: .plain)
+                        .themedButton(type: .plain, id: "l2cu")
                         Text("says:")
                     }
                     .font(.headline)
@@ -94,7 +94,7 @@ struct EasterEggView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
-            .themedGroupBox(type: .primary)
+            .themedGroupBox(type: .primary, id: "l2cu-group")
         }
     }
     
@@ -124,7 +124,7 @@ struct EasterEggView: View {
                 .themedButton(type: .primary)
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "support-link")
         GroupBox {
             VStack(alignment: .leading) {
                 Text("Supporters")
@@ -139,10 +139,10 @@ struct EasterEggView: View {
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                 })
-                .themedButton(type: .primary)
+                .themedButton(type: .primary, id: "supporters")
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "supporters-link")
         GroupBox {
             VStack(alignment: .leading) {
                 Text("Credits")
@@ -169,7 +169,7 @@ struct EasterEggView: View {
                 .themedButton(type: .primary)
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "bottom-group")
     }
     
     var body: some View {

@@ -105,7 +105,7 @@ struct FundraiserListView: View {
                         }
                     }
                 }
-                .themedGroupBox(type: .primary)
+                .themedGroupBox(type: .primary, id: "search")
             }
 
             if allCampaigns.count != 0 {
@@ -136,7 +136,7 @@ struct FundraiserListView: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "loading")
         .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     
@@ -154,11 +154,11 @@ struct FundraiserListView: View {
                 })
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
-                .themedButton(type: .primary)
+                .themedButton(type: .primary, id: "create-fundraiser")
             }
             .frame(maxWidth: .infinity)
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "no-fundraisers")
     }
     
     @ViewBuilder
@@ -172,10 +172,10 @@ struct FundraiserListView: View {
                             GroupBox {
                                 FundraiserListItem(campaign: campaign, sortOrder: fundraiserSortOrder, compact: compactListMode, showBackground: false, showShareSheet: .constant(false))
                             }
-                            .themedGroupBox(type: .primary)
+                            .themedGroupBox(type: .primary, id: campaign.id)
                             .zoomTransitioniOS26Source(id: "subCampaignCard-\(campaign.id)", namespace: self.namespace)
                         }
-                        .themedButton(type: .plain)
+                        .themedButton(type: .plain, id: campaign.id)
                         .contextMenu {
                             Button(action: {
                                 showSheet = .continueHeadToHead(campaign: campaign)
@@ -209,7 +209,7 @@ struct FundraiserListView: View {
                         })
                         .fullWidth(alignment: .center)
                     }
-                    .themedGroupBox(type: .secondary)
+                    .themedGroupBox(type: .secondary, id: "no-search-results")
                 }
             }
             // TODO: add these back
@@ -237,7 +237,7 @@ struct FundraiserListView: View {
                         }
                     }
                 }
-                .themedGroupBox(type: .primary)
+                .themedGroupBox(type: .primary, id: "title")
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
             } else {
                 HStack {
@@ -350,7 +350,7 @@ struct FundraiserListView: View {
             }
         }
         // TODO: remove glass
-        .themedButton(type: .primary)
+        .themedButton(type: .primary, id: "spin-random")
     }
     
     var body: some View {

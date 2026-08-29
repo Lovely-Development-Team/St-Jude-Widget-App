@@ -61,7 +61,7 @@ struct HeadToHeadListItem: View {
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
-                .themedGroupBox(type: .primary, primaryColor: headToHead.campaign1 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
+                .themedGroupBox(type: .primary, primaryColor: headToHead.campaign1 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground, id: "\(headToHead.campaign1.id)-\(headToHead.campaign2.id)")
                 .overlay(alignment: .topLeading) {
                     if headToHead.campaign1 == winner || self.isTied {
                         if let h2hWinnerImage1 = Theme.current.headToHeadWinnerToken1 {
@@ -78,7 +78,7 @@ struct HeadToHeadListItem: View {
                 GroupBox {
                     Rectangle().fill(.clear)
                 }
-                .themedGroupBox(type: .primary, primaryColor: headToHead.campaign2 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground)
+                .themedGroupBox(type: .primary, primaryColor: headToHead.campaign2 == winner || self.isTied ? Theme.current.accentColor : Color.tertiarySystemBackground, id: "\(headToHead.campaign1.id)-\(headToHead.campaign2.id)")
                 .overlay(alignment: .topTrailing) {
                     if headToHead.campaign2 == winner || self.isTied {
                         if let h2hWinnerImage2 = Theme.current.headToHeadWinnerToken2 {

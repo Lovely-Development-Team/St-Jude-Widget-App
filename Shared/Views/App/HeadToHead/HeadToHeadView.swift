@@ -156,7 +156,8 @@ struct HeadToHeadView: View {
                                 .themedButton(type: .primary,
                                               tint: Theme.current.accentColor,
                                               capsuleShape: false,
-                                              boldText: false)
+                                              boldText: false,
+                                              id: "top-h2h")
                             }
                         }
                         
@@ -166,7 +167,7 @@ struct HeadToHeadView: View {
                                     .frame(height: 20)
                                     .padding(.vertical, 10)
                             }
-                            .themedGroupBox(type: .primary)
+                            .themedGroupBox(type: .primary, id: "h2h-progress")
                         }
                         
                         ZStack(alignment: .bottomLeading) {
@@ -196,7 +197,8 @@ struct HeadToHeadView: View {
                                 .themedButton(type: .primary,
                                               tint: Theme.current.alternateAccentColor,
                                               capsuleShape: false,
-                                              boldText: false)
+                                              boldText: false,
+                                              id: "bottom-h2h")
                             }
                         }
                         Spacer()

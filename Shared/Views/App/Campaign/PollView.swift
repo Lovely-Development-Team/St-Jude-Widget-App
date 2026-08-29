@@ -57,7 +57,7 @@ struct PollView: View {
                 }
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: poll.id)
     }
 }
 

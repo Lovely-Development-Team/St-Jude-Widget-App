@@ -25,10 +25,10 @@ struct SupportersView: View {
                         .font(.headline)
                         .fullWidth(alignment: .center)
                 })
-                .themedButton(type: .primary)
+                .themedButton(type: .primary, id: "supporters")
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "supporters-top")
     }
     
     @ViewBuilder
@@ -44,7 +44,7 @@ struct SupportersView: View {
                         }
                     }
                 }
-                .themedGroupBox(type: .primary)
+                .themedGroupBox(type: .primary, id: "supporters-group")
             } else {
                 GroupBox {
                     ProgressView()
@@ -52,7 +52,7 @@ struct SupportersView: View {
                         .fullWidth(alignment: .center)
                         .padding(.bottom, 40)
                 }
-                .themedGroupBox(type: .primary)
+                .themedGroupBox(type: .primary, id: "supporters-group")
             }
         }
     }

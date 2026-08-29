@@ -68,7 +68,7 @@ struct CampaignList: View {
                             }
                             .themedButton(type: .primary,
                                           capsuleShape: false,
-                                          boldText: false)
+                                          boldText: false, id: teamEvent.id)
                             .padding(.vertical)
                             .zoomTransitioniOS26Source(id: "mainCampaignCard", namespace: self.namespace)
                         } else {
@@ -238,7 +238,7 @@ extension CampaignList {
             }
             .frame(maxWidth: .infinity)
         })
-        .themedButton(type: .secondary, textColor: .primary)
+        .themedButton(type: .secondary, textColor: .primary, id: "easter-egg-link")
         .frame(maxWidth: Double.stretchedContentMaxWidth)
         .zoomTransitioniOS26Source(id: "easterEggButton", namespace: self.namespace)
     }
