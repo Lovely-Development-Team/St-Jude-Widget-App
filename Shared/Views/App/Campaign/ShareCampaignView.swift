@@ -87,19 +87,22 @@ struct ShareCampaignView: View {
     @MainActor
     var headerView: some View {
         VStack {
-            standardView
-                .background {
-                    GeometryReader { geo in
-                        Color.clear
-                            .onAppear {
-                                self.imageSize = geo.frame(in: .global).size
-                            }
-                            .onChange(of: geo.frame(in: .global).size) {
-                                self.imageSize = geo.frame(in: .global).size
-                            }
+            GroupBox {
+                standardView
+                    .background {
+                        GeometryReader { geo in
+                            Color.clear
+                                .onAppear {
+                                    self.imageSize = geo.frame(in: .global).size
+                                }
+                                .onChange(of: geo.frame(in: .global).size) {
+                                    self.imageSize = geo.frame(in: .global).size
+                                }
+                        }
                     }
-                }
-                .cornerRadius((clipCorners ? 15 : 0))
+                    .cornerRadius((clipCorners ? 15 : 0))
+            }
+            .themedGroupBox(type: .primary, id: "image-preview")
             ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
@@ -110,40 +113,67 @@ struct ShareCampaignView: View {
     
     @ViewBuilder
     var settingsView: some View {
-        Section(header: self.headerView) {
-            Picker("Appearance", selection: $appearance.animation()) {
-                ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
-                    Text(appearance.name).tag(appearance)
-                }
-            }
-            Toggle("Show Milestones", isOn: $showMilestones.animation())
-            if showMilestones {
-                Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
-                Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation())
-            }
-            Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation())
-            Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation())
-            Toggle(isOn: self.$clipCorners.animation(), label: {
-                VStack(alignment: .leading) {
-                    Text("Rounded Corners")
-                    if self.clipCorners {
-                        Text("Some popular social media platforms such as Discord may not display rounded corners as intended.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+        GroupBox {
+            VStack(spacing: 15) {
+                HStack {
+                    Text("Appearance")
+                    Spacer()
+                    Picker("Appearance", selection: $appearance.animation()) {
+                        ForEach(WidgetAppearance.allCases, id: \.self) { appearance in
+                            Text(appearance.name).tag(appearance)
+                        }
                     }
                 }
-            })
-            Toggle("Disable Pixel Theme", isOn: disablePixelFontGlobally ? .constant(true) : $disablePixelTheme.animation())
-                .disabled(disablePixelFontGlobally)
-            Toggle("Export in 9:16", isOn: $exportForInstagram)
-            Toggle("Disable Goal Multipliers", isOn: $disableCombos)
+                Toggle("Show Milestones", isOn: $showMilestones.animation())
+                if showMilestones {
+                    Toggle("Show Milestone Percentage", isOn: $showMilestonePercentage.animation())
+                    Toggle("Prefer Future Milestones", isOn: $preferFutureMilestones.animation())
+                }
+                Toggle("Show Full Currency Symbol", isOn: $showFullCurrencySymbol.animation())
+                Toggle("Show Main Goal Percentage", isOn: $showMainGoalPercentage.animation())
+                Toggle(isOn: self.$clipCorners.animation(), label: {
+                    VStack(alignment: .leading) {
+                        Text("Rounded Corners")
+                        if self.clipCorners {
+                            Text("Some popular social media platforms such as Discord may not display rounded corners as intended.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                })
+                //            Toggle("Disable Pixel Theme", isOn: disablePixelFontGlobally ? .constant(true) : $disablePixelTheme.animation())
+                //                .disabled(disablePixelFontGlobally)
+                Toggle("Export in 9:16", isOn: $exportForInstagram)
+                Toggle("Disable Goal Multipliers", isOn: $disableCombos)
+            }
         }
+        .themedGroupBox(type: .primary)
     }
     
     
     var body: some View {
-        Form {
-            self.settingsView
+        ScrollView {
+            VStack(spacing: 0) {
+                VStack {
+                    self.headerView
+                }
+                .padding(.horizontal)
+                .background {
+                    Theme.current.skyView(forMainScreen: false)
+                }
+                VStack {
+                    self.settingsView
+                        .padding(.top)
+                }
+                .padding(.top)
+                .padding(.horizontal)
+                .background {
+                    VStack(spacing: 0) {
+                        Theme.current.landscapeToBackgroundTransition
+                        Theme.current.backgroundView
+                    }
+                }
+            }
         }
         .navigationTitle("Preview")
         .navigationBarTitleDisplayMode(.inline)

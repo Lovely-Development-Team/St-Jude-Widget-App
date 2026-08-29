@@ -30,6 +30,7 @@ struct ToggleSetting: View {
                         .frame(maxWidth: .infinity)
                 }
                 .themedButton(type: .primary, tint: !self.setting ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-yes-\(label)")
+                .sensoryFeedback(.success, trigger: self.setting)
                 Button(action: {
                     withAnimation {
                         self.setting = true
@@ -41,6 +42,7 @@ struct ToggleSetting: View {
                         .frame(maxWidth: .infinity)
                 }
                 .themedButton(type: .primary, tint: self.setting ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-no-\(label)")
+                .sensoryFeedback(.success, trigger: self.setting)
             }
         }
     }
