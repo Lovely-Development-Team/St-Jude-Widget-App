@@ -44,26 +44,54 @@ struct Leaderboard: View {
                 }
                 Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
                     .monospacedDigit()
-                    .foregroundColor(Theme.current.accentColor)
+                    .foregroundColor(offset == 0 ? .white : Theme.current.accentColor)
             }
-            .foregroundColor(.primary)
+            .foregroundColor(offset == 0 ? .white : .primary)
         }
+        .themedButton(type: offset == 0 ? .primary : .secondary, id: campaign.id)
     }
         
     var body: some View {
-        List {
-            ForEach(Array(sortedCampaigns.enumerated()), id: \.offset) { offset, campaign in
-                if offset == self.leaderboardMarkerCutoff-1 {
-                    self.listRow(campaign: campaign, offset: offset)
-                        .listRowSeparatorTint(Theme.current.accentColor)
-                } else {
-                    self.listRow(campaign: campaign, offset: offset)
+        ScrollView {
+            VStack(spacing: 0) {
+                ZStack(alignment: .top) {
+                    Theme.current.skyView(forMainScreen: false)
+                    
+                    VStack {
+                        
+                        Text("Leaderboard")
+                            .font(.largeTitle.weight(.bold))
+                            .fullWidth(alignment: .center)
+                        
+                        Spacer()
+                        
+                        if let first = sortedCampaigns.first {
+                            self.listRow(campaign: first, offset: 0)
+                        }
+                        
+                    }
+                    .padding()
+                    
+                }
+                VStack {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
+                        ForEach(Array(sortedCampaigns.dropFirst().enumerated()), id: \.offset) { offset, campaign in
+                            self.listRow(campaign: campaign, offset: offset + 1)
+                        }
+                    }
+                    .padding(.top)
+                }
+                .padding(.top)
+                .padding(.horizontal)
+                .background {
+                    VStack(spacing: 0) {
+                        Theme.current.landscapeToBackgroundTransition
+                        Theme.current.backgroundView
+                    }
                 }
             }
-            .listRowBackground(Color.clear)
         }
-        .listStyle(.plain)
-        .navigationTitle("Leaderboard")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
