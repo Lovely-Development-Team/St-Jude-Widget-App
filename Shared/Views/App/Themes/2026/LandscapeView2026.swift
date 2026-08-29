@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LandscapeView2026: View {
     @State private var forMainScreen: Bool
+    @State private var showMyke: Bool
+    @State private var showStephen: Bool
     
     var body: some View {
         if self.forMainScreen {
@@ -27,9 +29,12 @@ struct LandscapeView2026: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 100)
                     }, onTap: {
-                        SoundEffectHelper.shared.play(.mykeRandom)
+                        if showMyke {
+                            SoundEffectHelper.shared.play(.mykeRandom)
+                        }
                     })
                     .shadow(radius: 10)
+                    .opacity(showMyke ? 1 : 0)
                     Spacer()
                     EasterEggImage(content: {
                         Image(.stephen2026)
@@ -37,17 +42,22 @@ struct LandscapeView2026: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 100)
                     }, onTap: {
-                        SoundEffectHelper.shared.play(.stephenRandom)
+                        if showStephen {
+                            SoundEffectHelper.shared.play(.stephenRandom)
+                        }
                     })
                     .shadow(radius: 10)
+                    .opacity(showStephen ? 1 : 0)
                     Spacer()
                 }
             }
         }
     }
     
-    init(forMainScreen: Bool = true) {
+    init(forMainScreen: Bool = true, showMyke: Bool = true, showStephen: Bool = true) {
         self.forMainScreen = forMainScreen
+        self.showMyke = showMyke
+        self.showStephen = showStephen
     }
 }
 

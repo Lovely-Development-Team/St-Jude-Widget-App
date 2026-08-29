@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Theme {
     @ViewBuilder
-    func topViewLandscape(forMainScreen: Bool = true) -> some View {
+    func topViewLandscape(forMainScreen: Bool = true, showMyke: Bool = true, showStephen: Bool = true) -> some View {
         switch self {
         case .campaign2024:
             RandomLandscapeView(forMainScreen: forMainScreen)
@@ -20,7 +20,7 @@ extension Theme {
                 EmptyView()
             }
         case .campaign2026:
-            LandscapeView2026(forMainScreen: forMainScreen)
+            LandscapeView2026(forMainScreen: forMainScreen, showMyke: showMyke, showStephen: showStephen)
         default:
             EmptyView()
         }
