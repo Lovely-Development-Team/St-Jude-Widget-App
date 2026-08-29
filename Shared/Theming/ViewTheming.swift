@@ -14,7 +14,7 @@ extension Theme {
         case .campaign2024:
             RandomCampaignPickerView2024(campaignChoiceID: campaignChoice)
         case .campaign2026:
-            RandomCampaignPickerView2026()
+            RandomCampaignPickerView2026(campaignChoiceID: campaignChoice)
         default:
             RandomCampaignPickerView(campaignChoiceID: campaignChoice)
         }
