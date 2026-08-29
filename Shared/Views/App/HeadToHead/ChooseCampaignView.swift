@@ -38,13 +38,15 @@ struct ChooseCampaignView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ZStack(alignment: .top) {
-                    Theme.current.skyView(forMainScreen: false)
+                VStack {
                     Text(titleText)
                         .font(.largeTitle.weight(.bold))
                         .fullWidth(alignment: .center)
                         .padding()
-                    
+                    Theme.current.topViewLandscape(forMainScreen: true, showStephen: otherCampaign != nil)
+                }
+                .background {
+                    Theme.current.skyView(forMainScreen: true)
                 }
                 VStack {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
