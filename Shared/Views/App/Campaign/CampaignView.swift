@@ -68,6 +68,10 @@ struct CampaignView: View {
         _teamEventObservation = State(wrappedValue: AppDatabase.shared.observeTeamEventObservation())
     }
     
+    var localId: UUID {
+        teamEvent?.id ?? initialCampaign?.id ?? UUID()
+    }
+    
     var fundraiserURL: URL {
         if let initialCampaign = initialCampaign {
             return URL(string: "https://tiltify.com/@\(initialCampaign.user.slug)/\(initialCampaign.slug)")!
@@ -150,7 +154,7 @@ struct CampaignView: View {
                         })
                     })
             }
-            .themedGroupBox(type: .primary)
+            .themedGroupBox(type: .primary, id: initialCampaign.id)
         }
 #endif
     }
@@ -191,7 +195,7 @@ struct CampaignView: View {
                                         .bold()
                                 }
                             }
-                            .themedGroupBox(type: .primary)
+                            .themedGroupBox(type: .primary, id: teamEvent.id)
                         }
                         
                         self.debugIdView
@@ -212,7 +216,7 @@ struct CampaignView: View {
                                 }
                                 .frame(minHeight: 0, maxHeight: .infinity)
                             }
-                            .themedButton(type: .secondary)
+                            .themedButton(type: .secondary, id: "milestones-\(localId)")
                             .disabled(milestones.isEmpty)
                             Button(action: {
                                 withAnimation {
@@ -228,7 +232,7 @@ struct CampaignView: View {
                                 }
                                 .frame(minHeight: 0, maxHeight: .infinity)
                             }
-                            .themedButton(type: .secondary)
+                            .themedButton(type: .secondary, id: "rewards-\(localId)")
                             .disabled(rewards.isEmpty)
                         }
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -240,7 +244,7 @@ struct CampaignView: View {
                                 .font(.headline)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         })
-                        .themedButton(type: .primary)
+                        .themedButton(type: .primary, id: "donate-now-\(localId)")
                     }
                 }
             }
@@ -256,7 +260,7 @@ struct CampaignView: View {
                 .multilineTextAlignment(.leading)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "description-\(localId)")
         .padding(.vertical)
     }
     
@@ -287,7 +291,7 @@ struct CampaignView: View {
                     }
                 }
             }
-            .themedGroupBox(type: .primary)
+            .themedGroupBox(type: .primary, id: "donor-group-\(localId)")
         }
         
         Group {
@@ -302,7 +306,7 @@ struct CampaignView: View {
                         }
                     }
                 }
-                .themedButton(type: .secondary, textColor: .primary)
+                .themedButton(type: .secondary, textColor: .primary, id: "donations-\(localId)")
             }
         }
         .padding(.bottom)
@@ -328,7 +332,7 @@ struct CampaignView: View {
                     }
                 }
             }
-            .themedGroupBox(type: .primary)
+            .themedGroupBox(type: .primary, id: "milestones-group")
             .id("Milestones")
         }
     }
@@ -357,7 +361,7 @@ struct CampaignView: View {
                         }
                         .contentShape(Rectangle())
                     })
-                    .themedButton(type: .plain)
+                    .themedButton(type: .plain, id: "polls")
                     
                     if let initialCampaign, self.showPolls {
                         ForEach(self.activePolls, id: \.id) { poll in
@@ -366,7 +370,7 @@ struct CampaignView: View {
                     }
                 }
             }
-            .themedGroupBox(type: .primary)
+            .themedGroupBox(type: .primary, id: "polls-group")
         }
     }
     
@@ -390,7 +394,7 @@ struct CampaignView: View {
                     }
                 }
             }
-            .themedGroupBox(type: .primary)
+            .themedGroupBox(type: .primary, id: "rewards-group")
             .id("Rewards")
         }
     }

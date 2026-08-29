@@ -17,17 +17,19 @@ extension View {
     @ViewBuilder
     func themedGroupBox(type: GroupBoxType,
                         primaryColor: Color? = nil,
-                        secondaryColor: Color? = nil) -> some View {
+                        secondaryColor: Color? = nil,
+                        id: AnyHashable? = nil) -> some View {
         switch type {
         default:
             self.primaryGroupBoxStyle(primaryColor: primaryColor ?? .secondarySystemBackground,
-                                      secondaryColor: secondaryColor ?? .black)
+                                      secondaryColor: secondaryColor ?? .black, id: id)
         }
     }
     
     @ViewBuilder
     private func primaryGroupBoxStyle(primaryColor: Color,
-                                      secondaryColor: Color) -> some View {
+                                      secondaryColor: Color,
+                                      id: AnyHashable? = nil) -> some View {
         switch Theme.current {
         case .campaign2024:
             groupBoxStyle(BlockGroupBoxStyle(tint: primaryColor,
@@ -37,7 +39,7 @@ extension View {
                                              edgeColor: Theme.current.accentColor,
                                              shadowColor: Theme.current.accentColor))
         case .campaign2026:
-            groupBoxStyle(PaperGroupBoxStyle(tint: primaryColor))
+            groupBoxStyle(PaperGroupBoxStyle(tint: primaryColor, id: id))
         default:
             groupBoxStyle(DefaultGroupBoxStyle())
                 .backgroundStyle(primaryColor)

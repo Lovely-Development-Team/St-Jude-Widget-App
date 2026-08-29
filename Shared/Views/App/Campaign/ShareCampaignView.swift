@@ -103,7 +103,7 @@ struct ShareCampaignView: View {
             ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
-            .themedButton(type: .primary)
+            .themedButton(type: .primary, id: "share")
         }
         .padding(.bottom)
     }

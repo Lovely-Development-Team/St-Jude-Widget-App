@@ -46,7 +46,7 @@ struct HeadToHeadListView: View {
                     }
                     .contentShape(Rectangle())
                 }
-                .themedButton(type: .plain)
+                .themedButton(type: .plain, id: "h2hs")
                 if headToHeads.count == 0 {
                     if showHeadToHeads {
                         VStack {
@@ -57,7 +57,7 @@ struct HeadToHeadListView: View {
                                     .font(.headline)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             })
-                            .themedButton(type: .primary)
+                            .themedButton(type: .primary, id: "add-h2h")
                         }
                     }
                 } else {
@@ -69,7 +69,7 @@ struct HeadToHeadListView: View {
                 }
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "h2h-group")
         .frame(maxWidth: Double.stretchedContentMaxWidth)
     }
     

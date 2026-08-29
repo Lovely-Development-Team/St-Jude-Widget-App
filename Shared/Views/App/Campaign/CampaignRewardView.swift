@@ -60,7 +60,7 @@ struct CampaignRewardView: View {
                                 Text("Supporters")
                                     .font(.headline)
                             })
-                            .themedButton(type: .primary)
+                            .themedButton(type: .primary, id: "supporters")
                             Spacer()
                         }
                     }

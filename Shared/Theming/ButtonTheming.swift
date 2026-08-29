@@ -19,20 +19,23 @@ extension View {
                       tint: Color? = nil,
                       textColor: Color = Theme.current.contentColorForAccent,
                       capsuleShape: Bool = true,
-                      boldText: Bool = true) -> some View {
+                      boldText: Bool = true,
+                      id: AnyHashable? = nil) -> some View {
         switch type {
         case .secondary:
             self.themedSecondaryButton(tint: tint ?? .secondarySystemBackground,
                                        textColor: textColor,
                                        capsuleShape: capsuleShape,
-                                       boldText: boldText)
+                                       boldText: boldText,
+                                       id: id)
         case .plain:
             buttonStyle(PlainButtonStyle())
         default:
             self.themedPrimaryButton(tint: tint ?? Theme.current.accentColor,
                                      textColor: textColor,
                                      capsuleShape: capsuleShape,
-                                     boldText: boldText)
+                                     boldText: boldText,
+                                     id: id)
         }
     }
     
@@ -40,7 +43,8 @@ extension View {
     private func themedPrimaryButton(tint: Color,
                                      textColor: Color,
                                      capsuleShape: Bool,
-                                     boldText: Bool) -> some View {
+                                     boldText: Bool,
+                                     id: AnyHashable? = nil) -> some View {
         switch Theme.current {
         case .campaign2024:
             buttonStyle(BlockButtonStyle(tint: tint, overrideTextColor: textColor))
@@ -49,7 +53,7 @@ extension View {
             buttonStyle(BlockButtonStyle(tint: tint, edgeColor: tint))
                 .foregroundStyle(textColor)
         case .campaign2026:
-            buttonStyle(PaperButtonStyle(tint: tint))
+            buttonStyle(PaperButtonStyle(tint: tint, id: id))
                 .foregroundStyle(textColor)
         default:
             buttonStyle(PrimaryButtonStyle(useGlass: true,
@@ -64,7 +68,8 @@ extension View {
     private func themedSecondaryButton(tint: Color,
                                        textColor: Color,
                                        capsuleShape: Bool,
-                                       boldText: Bool) -> some View {
+                                       boldText: Bool,
+                                       id: AnyHashable? = nil) -> some View {
         switch Theme.current {
         case .campaign2024:
             buttonStyle(BlockButtonStyle(tint: tint,
@@ -74,7 +79,7 @@ extension View {
             buttonStyle(BlockButtonStyle(tint: .secondarySystemBackground, edgeColor: Theme.current.accentColor))
                 .foregroundStyle(textColor)
         case .campaign2026:
-            buttonStyle(PaperButtonStyle(tint: tint))
+            buttonStyle(PaperButtonStyle(tint: tint, id: id))
                 .foregroundStyle(textColor)
         default:
             buttonStyle(PrimaryButtonStyle(useGlass: false,

@@ -59,7 +59,7 @@ struct AboutView: View {
                             Text("Read Stephen's post")
                                 .fullWidth(alignment: .center)
                         }
-                        .themedButton(type: .primary)
+                        .themedButton(type: .primary, id: "stephen-post")
                     }
                     
                     if let mykePostUrlString = self.mykePostUrlString,
@@ -68,12 +68,12 @@ struct AboutView: View {
                             Text("Read Myke's post")
                                 .fullWidth(alignment: .center)
                         }
-                        .themedButton(type: .primary)
+                        .themedButton(type: .primary, id: "myke-post")
                     }
                 }
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "top-group")
         
         GroupBox {
             VStack(spacing:20) {
@@ -88,7 +88,7 @@ struct AboutView: View {
                         Text("tildy.dev")
                             .fullWidth(alignment: .center)
                     })
-                    .themedButton(type: .primary)
+                    .themedButton(type: .primary, id: "tildy-link")
                 }
                 
                 VStack(spacing:10) {
@@ -100,11 +100,11 @@ struct AboutView: View {
                         Text("Supporters")
                             .fullWidth(alignment: .center)
                     }
-                    .themedButton(type: .primary)
+                    .themedButton(type: .primary, id: "supporter-button")
                 }
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "about")
     }
     
     @ViewBuilder
@@ -127,7 +127,7 @@ struct AboutView: View {
                 ToggleSetting(label: "Enable Goal Multipliers", setting: self.$disableCombos)
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "settings-group")
         
         #if DEBUG
         GroupBox {
@@ -150,11 +150,11 @@ struct AboutView: View {
                     })
                     .themedButton(type: .primary,
                                   tint: self.selectedThemeId == theme.rawValue ? Theme.current.accentColor : .secondarySystemBackground,
-                                  textColor: self.selectedThemeId == theme.rawValue ? Theme.current.contentColorForAccent : .primary)
+                                  textColor: self.selectedThemeId == theme.rawValue ? Theme.current.contentColorForAccent : .primary, id: "theme")
                 }
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "theme-group")
         #endif
     }
     
@@ -174,7 +174,7 @@ struct AboutView: View {
                 }
             }
         }
-        .themedGroupBox(type: .primary)
+        .themedGroupBox(type: .primary, id: "alt-icon-group")
     }
     
     // Change this to reflect the tools used in development
@@ -213,7 +213,7 @@ struct AboutView: View {
                             GroupBox {
                                 self.noAIView
                             }
-                            .themedGroupBox(type: .primary)
+                            .themedGroupBox(type: .primary, id: "no-ai")
                         } else {
                             self.noAIView
                         }

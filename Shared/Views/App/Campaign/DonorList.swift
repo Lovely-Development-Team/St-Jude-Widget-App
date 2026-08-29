@@ -25,7 +25,7 @@ struct DonorList: View {
                     }
                     .fullWidth()
                 }
-                .themedButton(type: .primary)
+                .themedButton(type: .primary, id: "donors")
                 
                 ForEach(donations, id: \.id) { donation in
                     GroupBox {
@@ -51,7 +51,7 @@ struct DonorList: View {
                             }
                         }
                     }
-                    .themedGroupBox(type: .primary)
+                    .themedGroupBox(type: .primary, id: donation.id)
                 }
             }
             .padding()
