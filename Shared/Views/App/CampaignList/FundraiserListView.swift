@@ -77,7 +77,11 @@ struct FundraiserListView: View {
                                                     fundraiserSortOrder = order
                                                 }
                                             }) {
-                                                Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                                if fundraiserSortOrder == order {
+                                                    Label("Sort by \(order.description)", systemImage: "checkmark")
+                                                } else {
+                                                    Text("Sort by \(order.description)")
+                                                }
                                             }
                                         }
                                         Divider()
@@ -280,7 +284,11 @@ struct FundraiserListView: View {
                                                 fundraiserSortOrder = order
                                             }
                                         }) {
-                                            Label("Sort by \(order.description)", systemImage: fundraiserSortOrder == order ? "checkmark" : "")
+                                            if fundraiserSortOrder == order {
+                                                Label("Sort by \(order.description)", systemImage: "checkmark")
+                                            } else {
+                                                Text("Sort by \(order.description)")
+                                            }
                                         }
                                     }
                                     Divider()

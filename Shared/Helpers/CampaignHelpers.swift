@@ -16,7 +16,7 @@ extension TeamEvent {
         return (self.totalRaisedNumerical.truncatingRemainder(dividingBy: self.goalNumerical))/self.goalNumerical
     }
     
-    static var significantAmount: Double? = nil
+    static var significantAmount: Double? = 5_000_000
 }
 
 extension Campaign {

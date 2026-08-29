@@ -178,7 +178,7 @@ struct CampaignView: View {
                                         // Optional threshold for a significant amount raised
                                         if let significantAmount = TeamEvent.significantAmount {
                                             if grandTotalRaised >= significantAmount {
-                                                Image(.partyPopperFillPixel)
+                                                Image(systemName: "party.popper.fill")
                                             }
                                         }
                                         
