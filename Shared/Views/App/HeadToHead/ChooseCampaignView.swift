@@ -37,41 +37,58 @@ struct ChooseCampaignView: View {
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
-                if filteredCampaigns.count > 0 {
-                    ForEach(filteredCampaigns, id: \.self) { campaign in
-                        Button(action: {
-                            dismissSearch()
-                            searchText = ""
-                            presentationMode.wrappedValue.dismiss()
-                            done(campaign)
-                        }) {
-                            GroupBox {
-                                FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showDisclosureIndicator: false, compact: true, showBackground: false, showShareSheet: .constant(false))
-                            }
-                            .themedGroupBox(type: .primary, id: campaign.id)
-                        }
-                        .themedButton(type: .plain, id: campaign.id)
-                    }
-                } else {
-                    GroupBox {
-                        Label(title: {
-                            Text("No search results")
-                        }, icon: {
-                            Image(systemName: "exclamationmark.triangle")
-                        })
+            VStack(spacing: 0) {
+                ZStack(alignment: .top) {
+                    Theme.current.skyView(forMainScreen: false)
+                    Text(titleText)
+                        .font(.largeTitle.weight(.bold))
                         .fullWidth(alignment: .center)
+                        .padding()
+                    
+                }
+                VStack {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
+                        if filteredCampaigns.count > 0 {
+                            ForEach(filteredCampaigns, id: \.self) { campaign in
+                                Button(action: {
+                                    dismissSearch()
+                                    searchText = ""
+                                    presentationMode.wrappedValue.dismiss()
+                                    done(campaign)
+                                }) {
+                                    GroupBox {
+                                        FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showDisclosureIndicator: false, compact: true, showBackground: false, showShareSheet: .constant(false))
+                                    }
+                                    .themedGroupBox(type: .primary, id: campaign.id)
+                                }
+                                .themedButton(type: .plain, id: campaign.id)
+                            }
+                        } else {
+                            GroupBox {
+                                Label(title: {
+                                    Text("No search results")
+                                }, icon: {
+                                    Image(systemName: "exclamationmark.triangle")
+                                })
+                                .fullWidth(alignment: .center)
+                            }
+                            .themedGroupBox(type: .secondary, id: "no-search-results")
+                        }
                     }
-                    .themedGroupBox(type: .secondary, id: "no-search-results")
+                    .searchable(text: $searchText)
+                    .padding(.top)
+                }
+                .padding(.top)
+                .padding(.horizontal)
+                .background {
+                    VStack(spacing: 0) {
+                        Theme.current.landscapeToBackgroundTransition
+                        Theme.current.backgroundView
+                    }
                 }
             }
-            .padding()
-            .searchable(text: $searchText)
         }
-        .background {
-            Theme.current.backgroundView
-        }
-        .navigationTitle(titleText)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(action: {
