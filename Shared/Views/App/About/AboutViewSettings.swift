@@ -70,6 +70,7 @@ struct AltIconButton: View {
             .themedButton(type: .primary,
                           tint: self.currentIcon == self.icon ? Theme.current.accentColor : .tertiarySystemBackground,
                           capsuleShape: false, id: UUID())
+            .sensoryFeedback(.success, trigger: currentIcon)
 //            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }
 }
