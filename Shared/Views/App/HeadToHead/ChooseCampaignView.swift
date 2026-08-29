@@ -36,30 +36,41 @@ struct ChooseCampaignView: View {
     var done: (_: Campaign) -> Void
     
     var body: some View {
-        List(filteredCampaigns, id: \.self) { campaign in
-            Button(action: {
-                dismissSearch()
-                searchText = ""
-                presentationMode.wrappedValue.dismiss()
-                done(campaign)
-            }) {
-                HStack(alignment: .firstTextBaseline) {
-                    VStack {
-                        Text(campaign.name)
-                            .fullWidth()
-                        Text(campaign.user.name)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .fullWidth()
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300, maximum: .infinity), alignment: .top)]) {
+                if filteredCampaigns.count > 0 {
+                    ForEach(filteredCampaigns, id: \.self) { campaign in
+                        Button(action: {
+                            dismissSearch()
+                            searchText = ""
+                            presentationMode.wrappedValue.dismiss()
+                            done(campaign)
+                        }) {
+                            GroupBox {
+                                FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showDisclosureIndicator: false, compact: true, showBackground: false, showShareSheet: .constant(false))
+                            }
+                            .themedGroupBox(type: .primary, id: campaign.id)
+                        }
+                        .themedButton(type: .plain, id: campaign.id)
                     }
-                    Spacer()
-                    Text(campaign.totalRaisedDescription(showFullCurrencySymbol: false))
-                        .foregroundStyle(Theme.current.accentColor)
+                } else {
+                    GroupBox {
+                        Label(title: {
+                            Text("No search results")
+                        }, icon: {
+                            Image(systemName: "exclamationmark.triangle")
+                        })
+                        .fullWidth(alignment: .center)
+                    }
+                    .themedGroupBox(type: .secondary, id: "no-search-results")
                 }
-                .foregroundColor(.primary)
             }
+            .padding()
+            .searchable(text: $searchText)
         }
-        .searchable(text: $searchText)
+        .background {
+            Theme.current.backgroundView
+        }
         .navigationTitle(titleText)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {

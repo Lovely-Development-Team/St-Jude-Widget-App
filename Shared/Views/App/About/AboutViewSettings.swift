@@ -67,7 +67,7 @@ struct AltIconButton: View {
             }
             .themedButton(type: .primary,
                           tint: self.currentIcon == self.icon ? Theme.current.accentColor : .tertiarySystemBackground,
-                          capsuleShape: false, id: currentIcon?.title ?? "alt-icon")
+                          capsuleShape: false, id: UUID())
 //            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }
 }
