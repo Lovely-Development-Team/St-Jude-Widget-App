@@ -75,6 +75,7 @@ struct FundraiserListItem: View {
                 Text(campaign.title)
                     .lineLimit(1)
                     .font(.headline)
+                    .fullWidth(alignment: .leading)
                 if showDisclosureIndicator {
                     Spacer()
                     self.disclosureIndicator
