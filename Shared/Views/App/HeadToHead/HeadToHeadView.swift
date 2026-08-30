@@ -8,8 +8,8 @@
 import SwiftUI
 import Kingfisher
 
-let HEAD_TO_HEAD_COLOR_1: WidgetAppearance = .stephen
-let HEAD_TO_HEAD_COLOR_2: WidgetAppearance = .myke
+let HEAD_TO_HEAD_COLOR_1: WidgetAppearance = .yellow
+let HEAD_TO_HEAD_COLOR_2: WidgetAppearance = .stjude
 
 let GROUP_BOX_BACKGROUND_2026: Color = .init(red: 255 / 255, green: 244 / 255, blue: 203 / 255)
 
