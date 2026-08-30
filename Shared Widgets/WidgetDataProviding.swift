@@ -195,7 +195,7 @@ extension WidgetDataProviding {
     internal func fetchSnapshot(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (FundraisingEventEntry) -> ()) {
         Task {
             if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
-                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let milestones = await TiltifyAPIClient.shared.getFundraisingEventMilestones()
                 let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
                 let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(entry)
@@ -215,7 +215,7 @@ extension WidgetDataProviding {
     internal func fetchSnapshot(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (FundraisingLockScreenEventEntry) -> ()) {
         Task {
             if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
-                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let milestones = await TiltifyAPIClient.shared.getFundraisingEventMilestones()
                 let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
                 let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(entry)
@@ -235,7 +235,7 @@ extension WidgetDataProviding {
     internal func fetchTimeline(for configuration: FundraisingEventConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingEventEntry>) -> ()) {
         Task {
             if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
-                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let milestones = await TiltifyAPIClient.shared.getFundraisingEventMilestones()
                 let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
                 let entry = FundraisingEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(Timeline(entries: [entry], policy: .atEnd))
@@ -263,7 +263,7 @@ extension WidgetDataProviding {
     internal func fetchTimeline(for configuration: FundraisingEventLockScreenConfigurationIntent, in context: Context, completion: @escaping (Timeline<FundraisingLockScreenEventEntry>) -> ()) {
         Task {
             if let fundraisingEvent = await TiltifyAPIClient.shared.getFundraisingEvent() {
-                let milestones = await TiltifyAPIClient.shared.getCampaignMilestones(forId: TEAM_EVENT_ID)
+                let milestones = await TiltifyAPIClient.shared.getFundraisingEventMilestones()
                 let widgetData = TiltifyWidgetData(from: fundraisingEvent, milestones: milestones)
                 let entry = FundraisingLockScreenEventEntry(date: Date(), configuration: configuration, campaign: widgetData)
                 completion(Timeline(entries: [entry], policy: .atEnd))

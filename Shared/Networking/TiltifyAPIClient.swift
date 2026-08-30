@@ -178,7 +178,7 @@ extension TiltifyAPIClient {
         if let campaign = await self.getCampaign(withId: id) {
             return TIltifyCampaignWithMilestones(
                 campaign: campaign,
-                milestones: await self.getCampaignMilestones(forId: id)
+                milestones: await id == TEAM_EVENT_ID ? self.getFundraisingEventMilestones() : self.getCampaignMilestones(forId: id)
             )
         }
         return nil
