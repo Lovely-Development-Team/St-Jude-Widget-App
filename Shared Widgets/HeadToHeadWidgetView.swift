@@ -104,10 +104,12 @@ struct HeadToHeadWidgetView: View {
         if(isHorizontal) {
             GeometryReader { geo in
                 HStack(spacing: 0) {
-                    Image.tiledImageAtScale(.arenaFloor)
-                        .frame(width: geo.frame(in: .local).size.width * min(0.9, max(0.1, CGFloat(self.progressBarValue))), height: geo.frame(in: .local).size.height)
-                    Rectangle().fill(.black).frame(width: 2)
-                    Image.tiledImageAtScale(.arena)
+                    Theme.current.landscapeToBackgroundTransition
+                    //
+//                    Image.tiledImageAtScale(.arenaFloor)
+//                        .frame(width: geo.frame(in: .local).size.width * min(0.9, max(0.1, CGFloat(self.progressBarValue))), height: geo.frame(in: .local).size.height)
+//                    Rectangle().fill(.black).frame(width: 2)
+//                    Image.tiledImageAtScale(.arena)
                 }
             }
         } else {
