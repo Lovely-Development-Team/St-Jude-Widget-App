@@ -36,6 +36,29 @@ struct FundraiserListView: View {
         }
     }
     
+    
+    
+///    After the NavigationStack refactor this might not be needed. Keeping it in case we do end up needing it
+//    @ViewBuilder
+//    var widgetCompatibilityView: some View {
+////                                if selectedCampaignId != nil {
+//        /// In order to open a selected campaign when a widget is tapped, the corresponding
+//        /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
+//        /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
+//        /// trigger on the widget tap instead
+//        ForEach(allCampaigns, id: \.id) { campaign in
+//            NavigationLink(value: CampaignListDestination.campaign(campaign, true)) {
+//                EmptyView()
+//            }
+//        }
+//
+//        ForEach(headToHeads, id: \.headToHead.id) { headToHead in
+//            NavigationLink(value: CampaignListDestination.headToHead(headToHead)) {
+//                EmptyView()
+//            }
+//        }
+//    }
+    
     @ViewBuilder
     var fundraiserHeaderView: some View {
         Group {
@@ -366,6 +389,8 @@ struct FundraiserListView: View {
             self.fundraiserHeaderContainer
             self.extraOptionsView
             self.fundraiserListContainer
+///           After the NavigationStack refactor this might not be needed. Keeping it in case we do end up needing it
+//            self.widgetCompatibilityView
         }
         .onAppear {
             fundraiserSortOrder = UserDefaults.shared.campaignListSortOrder

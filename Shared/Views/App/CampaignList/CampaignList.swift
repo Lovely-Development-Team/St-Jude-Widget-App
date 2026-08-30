@@ -34,27 +34,6 @@ struct CampaignList: View {
     
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
-    // TODO: Fix this
-//    @ViewBuilder
-//    var widgetCompatibilityView: some View {
-//        //                        if selectedCampaignId != nil {
-//        /// In order to open a selected campaign when a widget is tapped, the corresponding
-//        /// NavigationLink needs to be loaded. That  isn't guaranteed when they are presented
-//        /// in a Lazy grid as below, so we create a bunch of empty/invisible NavigationLinks to
-//        /// trigger on the widget tap instead
-//        ForEach(allCampaigns, id: \.id) { campaign in
-//            NavigationLink(destination: CampaignView(initialCampaign: campaign), tag: campaign.id, selection: $selectedCampaignId) {
-//                EmptyView()
-//            }
-//        }
-//        
-//        ForEach(headToHeads, id: \.headToHead.id) { headToHead in
-//            NavigationLink(destination: HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2), tag: headToHead.headToHead.id, selection: $selectedCampaignId) {
-//                EmptyView()
-//            }
-//        }
-//    }
-    
     @Namespace var namespace
     
     @ViewBuilder
@@ -108,8 +87,6 @@ struct CampaignList: View {
                                                isRefreshing: self.$fundraiserListIsRefreshing)
                             .padding(.top)
                             self.easterEggView
-                            // TODO: fix this
-                            //                        widgetCompatibilityView
                         }
                         .padding(.top)
                     }
@@ -208,8 +185,14 @@ struct CampaignList: View {
         .onOpenURL { url in
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value
-            }), let id = queryComponents["id"] {
-                showSheet = nil
+            }), let id = queryComponents["id"], let uuid = UUID(uuidString: id) {
+                Task {
+                    if let campaign = try await AppDatabase.shared.fetchCampaign(with: uuid) {
+                        self.selectedDestination = .campaign(campaign, true)
+                    } else if let teamEvent = try await AppDatabase.shared.fetchTeamEvent(), uuid == teamEvent.id {
+                        self.selectedDestination = .teamEvent(teamEvent)
+                    }
+                }
             }
         }
         // MARK: Sheets
