@@ -258,7 +258,7 @@ struct ScoreEntryProvider: TimelineProvider {
     
     func getSnapshot(in context: Context, completion: @escaping (ScoreEntry) -> Void) {
         Task {
-            if let score = await TiltifyAPIClient.shared.fetchScore() {
+            if let score = await TiltifyAPIClient.shared.fetchStJudeScore() {
                 completion(ScoreEntry(date: .now, score: score))
             } else {
                 completion(ScoreEntry(date: .now, score: Score(myke: .zero, stephen: .zero)))
@@ -269,7 +269,7 @@ struct ScoreEntryProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<ScoreEntry>) -> Void) {
         Task {
             let score: Score
-            if let apiScore = await TiltifyAPIClient.shared.fetchScore() {
+            if let apiScore = await TiltifyAPIClient.shared.fetchStJudeScore() {
                 score = apiScore
             } else {
                 score = Score(myke: .zero, stephen: .zero)
