@@ -38,10 +38,6 @@ struct WidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
-    var shouldDisablePixelTheme: Bool {
-        entry.configuration.disablePixelTheme?.boolValue == true
-    }
-    
     var shouldDisableCombos: Bool {
         entry.configuration.disableCombos?.boolValue == true
     }
@@ -49,7 +45,7 @@ struct WidgetEntryView : View {
     @ViewBuilder
     var entryView: some View {
         if let campaign = entry.campaign {
-            EntryView(campaign: .constant(campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance, disablePixelFont: shouldDisablePixelTheme, disableCombos: shouldDisableCombos)
+            EntryView(campaign: .constant(campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance, disableCombos: shouldDisableCombos)
                 .widgetURL(URL(string: campaign.widgetURL)!)
                 .environment(\.font, Font.body/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
         } else {
