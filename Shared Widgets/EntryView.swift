@@ -38,20 +38,21 @@ struct EntryView: View {
     var titleFont: Font {
         switch family {
         case .systemSmall:
-            return .headline/* TODO: (disablePixelFont: disablePixelFont)*/
+            return .headline
         case .systemMedium:
-            return .title2/* TODO: (disablePixelFont: disablePixelFont)*/
+            return .title2
         default:
-            return .largeTitle/* TODO: (disablePixelFont: disablePixelFont)*/
+            return .largeTitle
         }
     }
     
     var raisedAmountFont: Font {
         switch family {
         case .systemSmall:
-            return .headline/* TODO: (disablePixelFont: disablePixelFont)*/
+            return .headline
         default:
-            return .largeTitle/* TODO: (disablePixelFont: disablePixelFont)*/
+            return .largeTitle
+            return .largeTitle
         }
     }
     
@@ -110,7 +111,7 @@ struct EntryView: View {
                 if campaign.multiplier > 1 && !disableCombos {
                     HStack {
                         Text("\(campaign.multiplier)x")
-                            .font(.caption/* TODO: (disablePixelFont: disablePixelFont)*/)
+                            .font(.caption)
                         ProgressBar(value: .constant(Float(progressBarAmount)), barColour: barColor, fillColor: fillColor, disablePixelBorder: disablePixelFont, pixelScale: mainProgressBarPixelScale)
                             .frame(height: mainProgressBarHeight)
                     }
@@ -137,7 +138,7 @@ struct EntryView: View {
                             Text("\(campaign.percentageReachedDescription ?? "Unknown") of")
                             Text(campaign.goalDescription(showFullCurrencySymbol: showFullCurrencySymbol, trimDecimalPlaces: true))
                         }
-                        .font(.caption/* TODO: (disablePixelFont: disablePixelFont)*/)
+                        .font(.caption)
                     }
                     if #available(iOS 15.0, *), showGoalPercentage, isExtraLargeSize(family: family) && DeviceType.isInWidget() {
                             if !self.centerVertically {
@@ -155,7 +156,7 @@ struct EntryView: View {
                 if showGoalPercentage,
                    family == .systemSmall && DeviceType.isInWidget() {
                     Text(campaign.percentageReachedDescription ?? "Unknown")
-                        .font(.caption/* TODO: (disablePixelFont: disablePixelFont)*/)
+                        .font(.caption)
                 }
             }
             .accessibilityElement(children: .ignore)
