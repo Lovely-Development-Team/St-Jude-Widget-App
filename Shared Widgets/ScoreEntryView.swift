@@ -223,7 +223,7 @@ struct ScoreEntryView: View {
         .ignoresSafeArea()
         .background {
             if(self.renderingMode == .fullColor) {
-                LinearGradient(colors: WidgetAppearance.stephen.backgroundColors, startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: WidgetAppearance.yellow.backgroundColors, startPoint: .top, endPoint: .bottom)
             }
         }
         .dynamicTypeSize(.medium)
