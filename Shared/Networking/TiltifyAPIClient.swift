@@ -198,6 +198,33 @@ extension TiltifyAPIClient {
 
 extension TiltifyAPIClient {
     
+    // St Jude
+    
+    func buildStJudeScoreRequest() -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://relay-scoreboard-v2.prod.experience.stjude.org/api/scoreboard")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        return request
+    }
+    
+    func fetchStJudeScore() async -> Score? {
+        do {
+            let request = buildStJudeScoreRequest()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            if let decoded = String(data: data, encoding: .utf8) {
+                dataLogger.debug("Score: \(decoded)")
+            } else {
+                dataLogger.debug("Score: not decodable")
+            }
+            return try JSONDecoder().decode(StJudeScore.self, from: data).score
+        } catch {
+            dataLogger.error("Fetching score failed: \(String(describing: error))")
+        }
+        return nil
+    }
+    
+    // Snailed It
+    
     func buildScoreRequest() -> URLRequest {
         var request = URLRequest(url: URL(string: "https://stjude-scoreboard.snailedit.online/api/co-founders")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

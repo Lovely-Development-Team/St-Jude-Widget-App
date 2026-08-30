@@ -413,6 +413,34 @@ struct Score: Codable {
     let stephen: ScoreItem
 }
 
+struct StJudeScoreItem: Codable {
+    let score: Double
+    let name: String
+}
+
+struct StJudeScore: Codable {
+    let entries: [StJudeScoreItem]
+    
+    var myke: ScoreItem {
+        for item in entries where item.name.lowercased() == "myke" {
+            return .init(score: item.score)
+        }
+        return .zero
+    }
+    
+    var stephen: ScoreItem {
+        for item in entries where item.name.lowercased() == "stephen" {
+            return .init(score: item.score)
+        }
+        return .zero
+    }
+    
+    var score: Score {
+        return .init(myke: self.myke, stephen: self.stephen)
+    }
+    
+}
+
 
 struct TiltifyMultiSearchQueryCampaignResult: Codable {
     let id: UUID
