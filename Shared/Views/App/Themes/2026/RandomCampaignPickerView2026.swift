@@ -11,7 +11,7 @@ import Kingfisher
 struct RandomCampaignPickerView2026: View {
     @Environment(\.dismiss) var dismiss
     
-    @Binding var campaignChoiceID: UUID?
+    @Binding var selectedDestination: CampaignListDestination?
     @State private var allCampaigns: [Campaign] = []
     @State private var selectedCampaign: Campaign? = nil
     @State private var isGameOver: Bool = false
@@ -130,7 +130,8 @@ struct RandomCampaignPickerView2026: View {
                                 .frame(height: 50)
                                 .cornerRadius(5)
                                 .onTapGesture {
-                                    self.campaignChoiceID = selectedCampaign.id
+//                                    self.campaignChoiceID = selectedCampaign.id
+                                    self.selectedDestination = .campaign(selectedCampaign, true)
                                     self.dismiss()
                                 }
                         }
@@ -141,7 +142,7 @@ struct RandomCampaignPickerView2026: View {
                     }
                     HStack {
                         Button(action: {
-                            self.campaignChoiceID = selectedCampaign.id
+                            self.selectedDestination = .campaign(selectedCampaign, true)
                             self.dismiss()
                         }, label: {
                             Text("Visit Campaign")
@@ -202,5 +203,5 @@ struct RandomCampaignPickerView2026: View {
 }
 
 #Preview {
-    RandomCampaignPickerView2026(campaignChoiceID: Binding<UUID?>.constant(nil))
+    RandomCampaignPickerView2026(selectedDestination: Binding<CampaignListDestination?>.constant(nil))
 }

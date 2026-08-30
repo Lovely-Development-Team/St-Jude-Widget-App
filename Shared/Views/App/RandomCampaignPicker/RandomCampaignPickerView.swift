@@ -13,7 +13,7 @@ struct RandomCampaignPickerView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     
-    @Binding var campaignChoiceID: UUID?
+    @Binding var selectedDestination: CampaignListDestination?
     @State private var allCampaigns: [Campaign] = []
     @State private var chosenCampaign: Campaign?
     
@@ -58,7 +58,7 @@ struct RandomCampaignPickerView: View {
     var wheelView: some View {
         WheelLayout(radius: wheelRadius) {
             ForEach(0..<wedgeCount, id: \.self) { index in
-                WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, campaignChoiceID: $campaignChoiceID, shouldFlip: index == indexToFlip)
+                WheelWedgeView(index: index, isTimeToFlip: $animationFinished, campaign: $chosenCampaign, selectedDestination: self.$selectedDestination, shouldFlip: index == indexToFlip)
                     .frame(width: sectionWidth, height: wheelRadius)
                     .rotationEffect(Angle(degrees: (360/Double(wedgeCount))*Double(index)))
             }
@@ -116,7 +116,7 @@ struct RandomCampaignPickerView: View {
                         .italic()
                         .foregroundStyle(.secondary)
                     Button(action: {
-                        campaignChoiceID = chosenCampaign?.id
+                        self.selectedDestination = .campaign(campaign, true)
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Text("View this fundraiser")

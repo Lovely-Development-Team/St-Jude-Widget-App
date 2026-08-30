@@ -15,7 +15,7 @@ struct FundraiserListView: View {
     
     @State private var fundraiserSortOrder: FundraiserSortOrder = .byName
     @State private var compactListMode: Bool = false
-    @Binding var selectedCampaignId: UUID?
+    @Binding var selectedDestination: CampaignListDestination?
     
     @State private var showSearchBar: Bool = false
     @State private var searchText = ""

@@ -9,14 +9,14 @@ import SwiftUI
 
 extension Theme {
     @ViewBuilder
-    func randomCampaignPicker(campaignChoice: Binding<UUID?>) -> some View {
+    func randomCampaignPicker(selectedDestination: Binding<CampaignListDestination?>) -> some View {
         switch self {
         case .campaign2024:
-            RandomCampaignPickerView2024(campaignChoiceID: campaignChoice)
+            RandomCampaignPickerView2024(selectedDestination: selectedDestination)
         case .campaign2026:
-            RandomCampaignPickerView2026(campaignChoiceID: campaignChoice)
+            RandomCampaignPickerView2026(selectedDestination: selectedDestination)
         default:
-            RandomCampaignPickerView(campaignChoiceID: campaignChoice)
+            RandomCampaignPickerView(selectedDestination: selectedDestination)
         }
     }
 }
