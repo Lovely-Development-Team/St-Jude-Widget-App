@@ -10,7 +10,7 @@ import SwiftUI
 struct CampaignListSheetContent: View {
     var sheet: CampaignListSheet
     @Binding var showSheet: CampaignListSheet?
-    @State private var selectedCampaignId: UUID? = nil
+    @Binding var selectedDestination: CampaignListDestination?
     @Binding var refreshFundraisers: Bool
     var namespace: Namespace.ID
     
@@ -23,12 +23,12 @@ struct CampaignListSheetContent: View {
         case .leaderBoard:
             Leaderboard() { campaign in
                 showSheet = nil
-                selectedCampaignId = campaign.id
+                self.selectedDestination = .campaign(campaign, true)
             }
             .forSheet(displayMode: .large)
             .zoomTransitioniOS26(id: "leaderboardButton", namespace: self.namespace)
         case .randomPicker:
-            Theme.current.randomCampaignPicker(campaignChoice: self.$selectedCampaignId)
+            Theme.current.randomCampaignPicker(selectedDestination: self.$selectedDestination)
                     .forSheet()
                     .zoomTransitioniOS26(id: "randomFundraiserButton", namespace: self.namespace)
         case .easterEgg:
@@ -49,7 +49,7 @@ struct CampaignListSheetContent: View {
                     } catch {
                         dataLogger.error("Could not create Head to Head: \(error.localizedDescription)")
                     }
-                    selectedCampaignId = headToHead.id
+                    self.selectedDestination = .headToHead(HeadToHeadWithCampaigns(headToHead: headToHead, campaign1: firstCampaign, campaign2: otherCampaign))
                 }
                 self.refreshFundraisers = true
             }

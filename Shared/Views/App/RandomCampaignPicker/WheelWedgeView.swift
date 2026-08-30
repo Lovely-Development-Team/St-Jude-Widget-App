@@ -13,7 +13,7 @@ struct WheelWedgeView: View {
     var index: Int
     @Binding var isTimeToFlip: Bool
     @Binding var campaign: Campaign?
-    @Binding var campaignChoiceID: UUID?
+    @Binding var selectedDestination: CampaignListDestination?
     var shouldFlip: Bool
     
     @ViewBuilder
@@ -27,7 +27,7 @@ struct WheelWedgeView: View {
                 .aspectRatio(contentMode: .fit)
                 .cornerRadius(5)
                 .onTapGesture {
-                    campaignChoiceID = campaign.id
+                    self.selectedDestination = .campaign(campaign, true)
                     presentationMode.wrappedValue.dismiss()
                 }
         } else {

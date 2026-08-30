@@ -31,6 +31,8 @@ struct St_JudeApp: App {
     
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     
+    @State private var navigationPath = NavigationPath()
+    
     private var userColorScheme: ColorScheme? {
         if let fromTheme = Theme.current.forcedColorScheme {
             return fromTheme
@@ -52,8 +54,8 @@ struct St_JudeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                CampaignList()
+            NavigationStack(path: self.$navigationPath) {
+                CampaignList(navigationPath: self.$navigationPath)
                     .onChange(of: scenePhase) {
                         if scenePhase == .active {
                             WidgetCenter.shared.reloadAllTimelines()

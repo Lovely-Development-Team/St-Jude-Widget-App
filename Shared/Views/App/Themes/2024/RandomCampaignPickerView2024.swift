@@ -27,7 +27,7 @@ struct RandomCampaignPickerView2024: View {
     @State private var landscapeData = RandomLandscapeData(isForMainScreen: false)
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024 = false
     
-    @Binding var campaignChoiceID: UUID?
+    @Binding var selectedDestination: CampaignListDestination?
     @State private var allCampaigns: [Campaign] = []
     @State private var chosenCampaign: Campaign? = nil
     
@@ -411,7 +411,7 @@ struct RandomCampaignPickerView2024: View {
                                             if let campaign = self.chosenCampaign {
                                                 VStack {
                                                     Button(action: {
-                                                        self.campaignChoiceID = self.chosenCampaign?.id
+//                                                        self.campaignChoiceID = self.chosenCampaign?.id
                                                         self.dismiss()
                                                     }, label: {
                                                         FundraiserListItem(campaign: campaign, sortOrder: .byAmountRaised, showBackground: false, showShareSheet: self.$showShareSheet)
@@ -579,7 +579,7 @@ struct RandomCampaignPickerView2024: View {
             } else {
                 Button(action: {
                     // TODO: Update with our campaign ID
-                    self.campaignChoiceID = UUID(uuidString: "FE5B0F18-C993-4987-AAB0-3167E2D3F91A")
+//                    self.campaignChoiceID = UUID(uuidString: "FE5B0F18-C993-4987-AAB0-3167E2D3F91A")
                     self.dismiss()
                 }, label: {
                     Text("Visit our campaign!")
@@ -601,6 +601,6 @@ struct RandomCampaignPickerView2024: View {
 
 struct RandomCampaignPickerView2024_Previews: PreviewProvider {
     static var previews: some View {
-        RandomCampaignPickerView2024(campaignChoiceID: Binding<UUID?>(get: {return nil}, set: {_ in}))
+        RandomCampaignPickerView2024(selectedDestination: Binding<CampaignListDestination?>(get: {return nil}, set: {_ in}))
     }
 }

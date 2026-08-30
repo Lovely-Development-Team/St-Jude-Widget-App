@@ -24,9 +24,11 @@ struct CampaignList: View {
     
     @State private var showSheet: CampaignListSheet? = nil
     
-    @State private var selectedCampaignId: UUID?
+    @State private var selectedDestination: CampaignListDestination?
     
     @State private var rotationAnimation: Bool = false
+    
+    @Binding var navigationPath: NavigationPath
     
     @AppStorage(UserDefaults.iconsUnlockedKey, store: UserDefaults.shared) private var iconsUnlocked: Bool = false
     
@@ -102,8 +104,7 @@ struct CampaignList: View {
                             CountdownView()
                                 .frame(maxWidth: Double.stretchedContentMaxWidth)
                             FundraiserListView(namespace: self.namespace,
-                                               showSheet: self.$showSheet,
-                                               selectedCampaignId: self.$selectedCampaignId,
+                                               showSheet: self.$showSheet, selectedDestination: self.$selectedDestination,
                                                isRefreshing: self.$fundraiserListIsRefreshing)
                             .padding(.top)
                             self.easterEggView
@@ -186,6 +187,13 @@ struct CampaignList: View {
                 await refresh()
             }
         }
+        .onChange(of: self.selectedDestination) {
+            guard let destination = self.selectedDestination else {
+                return
+            }
+            
+            self.navigationPath.append(destination)
+        }
         .onAppear {
             teamEventCancellable = AppDatabase.shared.start(observation: teamEventObservation) { error in
                 dataLogger.error("Error observing stored team event: \(error.localizedDescription)")
@@ -201,7 +209,6 @@ struct CampaignList: View {
             if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value
             }), let id = queryComponents["id"] {
-                selectedCampaignId = UUID(uuidString: id)
                 showSheet = nil
             }
         }
@@ -211,6 +218,7 @@ struct CampaignList: View {
         }) { sheet in
             CampaignListSheetContent(sheet: sheet,
                                      showSheet: self.$showSheet,
+                                     selectedDestination: self.$selectedDestination,
                                      refreshFundraisers: self.$fundraiserListIsRefreshing,
                                      namespace: self.namespace)
         }
@@ -280,7 +288,7 @@ extension CampaignList {
 struct CampaignList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CampaignList()
+            CampaignList(navigationPath: .constant(NavigationPath()))
                 .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.stack)
