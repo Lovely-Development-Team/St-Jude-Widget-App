@@ -35,10 +35,6 @@ struct HeadToHeadWidgetView: View {
         entry.configuration.openToHeadToHead?.boolValue ?? true
     }
     
-    var shouldDisablePixelTheme: Bool {
-        entry.configuration.disablePixelTheme?.boolValue == true
-    }
-    
     var progressBarFillColor: Color {
         return renderingMode == .vibrant ? .white : HEAD_TO_HEAD_COLOR_1.backgroundColors[0]
     }
@@ -264,7 +260,7 @@ extension HeadToHeadWidgetView {
                     .font(.caption/* TODO: (disablePixelFont: shouldDisablePixelTheme)*/)
                     .redacted(reason: .placeholder)
             }
-            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2, stroke: true, disablePixelBorder: shouldDisablePixelTheme)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor, dividerWidth: 2, stroke: true)
                 .frame(height: 10)
         }
         .frame(maxWidth: .infinity)

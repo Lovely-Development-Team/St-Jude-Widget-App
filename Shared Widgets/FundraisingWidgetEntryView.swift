@@ -37,12 +37,8 @@ struct FundraisingWidgetEntryView : View {
         entry.configuration.showMilestonePercentage?.boolValue == true
     }
     
-    var shouldDisablePixelTheme: Bool {
-        entry.configuration.disablePixelTheme?.boolValue == true
-    }
-    
     var rawEntryView: some View {
-        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance, disablePixelFont: shouldDisablePixelTheme, disableCombos: true)
+        EntryView(campaign: .constant(entry.campaign), showMilestones: shouldShowMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false, showGoalPercentage: shouldShowGoalPercentage, showMilestonePercentage: shouldShowMilestonePercentage, appearance: entry.configuration.appearance, disableCombos: true)
     }
     
     @ViewBuilder
