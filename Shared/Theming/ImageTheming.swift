@@ -31,7 +31,7 @@ extension Theme {
     var headToHeadWinnerToken1: ImageResource? {
         switch self {
         case .campaign2026:
-            return .h2HWinner1
+            return .challengeCoinMyke2026
         default:
             return nil
         }
@@ -40,7 +40,7 @@ extension Theme {
     var headToHeadWinnerToken2: ImageResource? {
         switch self {
         case .campaign2026:
-            return .h2HWinner2
+            return .challengeCoinStephen2026
         default:
             return nil
         }

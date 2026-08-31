@@ -142,4 +142,8 @@ enum Theme: Int, CaseIterable {
             return false
         }
     }
+    
+    var hasCustomRandomCampaignPicker: Bool {
+        return self == .campaign2024 || self == .campaign2026
+    }
 }

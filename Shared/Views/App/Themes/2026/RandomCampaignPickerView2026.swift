@@ -20,29 +20,28 @@ struct RandomCampaignPickerView2026: View {
     private let numPerShelf = 3
     private let targetSize: Double = 60
     
+    @State private var selectedTarget: (Int, Int)? = nil
+    
+    @State private var targetsVisible: Bool = false
+    
     enum TargetType: CaseIterable {
         case myke
         case stephen
-        case thirdBadOneIHaventPickedYet
+        case weirdfish
         
         static func mostlyRandom() -> TargetType {
-            let choice = Int.random(in: 0...10)
-            if choice < 2 {
-                return .thirdBadOneIHaventPickedYet
-            }
-            
-            let choice2 = Int.random(in: 0...1)
-            return choice2 == 0 ? .myke : .stephen
+            let choice = Int.random(in: 0..<10)
+            return choice < 5 ? .myke : .stephen
         }
         
-        var backgroundColor: Color {
+        var targetImage: SwiftUI.ImageResource {
             switch self {
             case .myke:
-                return .red
+                return .challengeCoinMyke2026Bright
             case .stephen:
-                return .blue
+                return .challengeCoinStephen2026Bright
             default:
-                return .black
+                return .challengeCoinWeirdFish2026
             }
         }
     }
@@ -70,17 +69,31 @@ struct RandomCampaignPickerView2026: View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
         
         Button(action: {
-            if targetType == .myke || targetType == .stephen {
-                self.selectedCampaign = self.allCampaigns.randomElement()
-            } else {
-                self.isGameOver = true
+            withAnimation {
+                self.selectedTarget = (shelfIndex, targetIndex)
+                self.targetsVisible = false
+            }
+                
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                withAnimation {
+                    if targetType == .myke || targetType == .stephen {
+                        self.selectedCampaign = self.allCampaigns.randomElement()
+                    } else {
+                        self.isGameOver = true
+                    }
+                }
             }
         }, label: {
-            Circle()
-                .foregroundStyle(targetType.backgroundColor)
+            Image(targetType.targetImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(height: self.targetSize)
         })
         .shadow(radius: 10)
+        .disabled(self.isGameOver || self.selectedCampaign != nil)
+        .opacity(self.targetsVisible || (self.selectedTarget ?? (-1, -1)) == (shelfIndex, targetIndex) ? 1.0 : 0.0)
+        .scaleEffect(y: self.targetsVisible || (self.selectedTarget ?? (-1, -1)) == (shelfIndex, targetIndex) ? 1.0 : 0.0)
+        .offset(y: self.targetsVisible || (self.selectedTarget ?? (-1, -1)) == (shelfIndex, targetIndex) ? 0 : 20)
     }
     
     @ViewBuilder
@@ -91,25 +104,74 @@ struct RandomCampaignPickerView2026: View {
                 ForEach(0..<self.numPerShelf, id: \.self) { targetIndex in
                     self.targetView(shelfIndex: shelfIndex,
                                     targetIndex: targetIndex)
+                    .offset(y: -5)
                     Spacer()
                 }
             }
-            Rectangle()
-                .foregroundStyle(Color.secondarySystemBackground)
-                .frame(height: 10)
+            .padding(.vertical)
+            .background {
+                HStack(spacing: 0) {
+                    Image(.randomcampaignpicker2026Shelfleft)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                    Image(.randomcampaignpicker2026Shelfcenter)
+                        .resizable()
+                    Image(.randomcampaignpicker2026Shelfright)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+            }
         }
     }
     
     @ViewBuilder
     var gameView: some View {
         VStack {
-            VStack {
-                Spacer()
-            ForEach(0..<self.numShelves, id: \.self) { shelfIndex in
-                    self.shelfView(shelfIndex: shelfIndex)
-                    Spacer()
+            Spacer()
+            Image(.randomcampaignpicker2026Sign)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .scaleEffect(x: 0.8, y: 0.8)
+                .shadow(radius: 10)
+                .padding()
+            VStack(spacing: 0) {
+                Image(.randomcampaignpicker2026Awning)
+                    .resizable()
+                    .frame(height: self.targetSize * 2)
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, -30)
+                    .zIndex(2)
+                VStack(spacing: 0) {
+                    ForEach(0..<self.numShelves, id: \.self) { shelfIndex in
+                        self.shelfView(shelfIndex: shelfIndex)
+                    }
                 }
+                .background {
+                    GeometryReader { geometry in
+                        let borderWidth: Double = 2
+                        Rectangle()
+                            .foregroundStyle(.black)
+                            .frame(width: geometry.size.width + (borderWidth * 2),
+                                   height: geometry.size.height + (borderWidth * 2))
+                            .offset(x: -borderWidth, y: -borderWidth)
+                    }
+                }
+                .padding(.horizontal)
+                .zIndex(1)
             }
+            Spacer()
+            
+            Button(action: {
+                self.dismiss()
+            }, label: {
+                Text("Exit")
+                    .fullWidth(alignment: .center)
+            })
+            .themedButton(type: .primary, id: "randomCampaignPicker2026ExitButton")
+            .padding(.horizontal)
+            .padding(.bottom)
+            
+            Spacer()
         }
     }
     
@@ -119,44 +181,68 @@ struct RandomCampaignPickerView2026: View {
             GroupBox {
                 VStack {
                     Text("Winner!")
-                    HStack {
-                        if let url = URL(string: selectedCampaign.avatar?.src ?? "") {
-                            KFImage.url(url)
-                                .resizable()
-                                .placeholder {
-                                    ProgressView()
-                                }
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 50)
-                                .cornerRadius(5)
-                                .onTapGesture {
-//                                    self.campaignChoiceID = selectedCampaign.id
-                                    self.selectedDestination = .campaign(selectedCampaign, true)
-                                    self.dismiss()
-                                }
-                        }
-                        VStack {
-                            Text(selectedCampaign.title)
-                            Text(selectedCampaign.user.username)
+                        .font(.title)
+                        .bold()
+                    GroupBox {
+                        HStack {
+                            if let url = URL(string: selectedCampaign.avatar?.src ?? "") {
+                                KFImage.url(url)
+                                    .resizable()
+                                    .placeholder {
+                                        ProgressView()
+                                    }
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 50)
+                                    .cornerRadius(5)
+                                    .onTapGesture {
+                                        self.selectedDestination = .campaign(selectedCampaign, true)
+                                        self.dismiss()
+                                    }
+                            }
+                            VStack(alignment: .leading) {
+                                Text(selectedCampaign.title)
+                                    .lineLimit(3)
+                                Text(selectedCampaign.user.username)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .fullWidth(alignment: .leading)
                         }
                     }
-                    HStack {
-                        Button(action: {
-                            self.selectedDestination = .campaign(selectedCampaign, true)
-                            self.dismiss()
-                        }, label: {
-                            Text("Visit Campaign")
-                        })
-                        Button(action: {
+                    .themedGroupBox(type: .primary, id: "randomCampaignPicker2026WinnerInfoBox")
+                    .padding(.bottom)
+                    
+                    Button(action: {
+                        self.selectedDestination = .campaign(selectedCampaign, true)
+                        self.dismiss()
+                    }, label: {
+                        Text("Visit Campaign")
+                            .fullWidth(alignment: .center)
+                    })
+                    .themedButton(type: .primary, id: "randomCampaignPicker2026GoToCampaignButton")
+                    Button(action: {
+                        withAnimation {
+                            self.selectedTarget = nil
                             self.selectedCampaign = nil
-                        }, label: {
-                            Text("Play Again")
-                        })
-                    }
+                            self.isGameOver = false
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            self.generateNewTargets()
+                            withAnimation {
+                                self.targetsVisible = true
+                                self.selectedCampaign = nil
+                            }
+                        }
+                    }, label: {
+                        Text("Play Again")
+                            .fullWidth(alignment: .center)
+                    })
+                    .themedButton(type: .secondary, textColor: .primary, id: "randomCampaignPicker2026ResetButton")
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
             }
+            .themedGroupBox(type: .primary, id: "randomCampaignPicker2026WinnerBox")
         }
     }
     
@@ -166,15 +252,53 @@ struct RandomCampaignPickerView2026: View {
             GroupBox {
                 VStack {
                     Text("Game Over!")
+                        .font(.title)
+                        .bold()
                     Button(action: {
-                        self.selectedCampaign = nil
-                        self.isGameOver = false
+                        withAnimation {
+                            self.selectedTarget = nil
+                            self.selectedCampaign = nil
+                            self.isGameOver = false
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            self.generateNewTargets()
+                            withAnimation {
+                                self.targetsVisible = true
+                                self.selectedCampaign = nil
+                            }
+                        }
                     }, label: {
                         Text("Play Again")
                     })
+                    .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
+            }
+            .themedGroupBox(type: .primary, id: "randomCampaignPicker2026GameOverBox")
+        }
+    }
+    
+    func generateNewTargets() {
+        self.targetTypes = []
+        
+        for _ in 0..<self.numShelves {
+            var shelfArray: [TargetType] = []
+            for _ in 0..<self.numPerShelf {
+                shelfArray.append(TargetType.mostlyRandom())
+            }
+            self.targetTypes.append(shelfArray)
+        }
+        
+        // insert a weird fish
+        let shelfIndex = Int.random(in: 0..<self.targetTypes.count)
+        let shelfArrLength = self.targetTypes[shelfIndex].count
+        self.targetTypes[shelfIndex][Int.random(in: 0..<shelfArrLength)] = .weirdfish
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            withAnimation {
+                self.targetsVisible = true
             }
         }
     }
@@ -182,21 +306,25 @@ struct RandomCampaignPickerView2026: View {
     var body: some View {
         ZStack {
             self.gameView
-            self.victoryView
-            self.gameOverView
+            Group {
+                self.victoryView
+                self.gameOverView
+            }
+            .padding()
         }
-        .padding()
+        .interactiveDismissDisabled()
+        .ignoresSafeArea()
+        .background {
+            GeometryReader { geometry in
+                Image.tiledImageAtScale(.woodBackground2026, scale: Theme.current.imageScale)
+                    .frame(height: geometry.size.height + 500)
+                    .offset(y: -250)
+            }
+        }
         .onAppear {
             Task {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
-            }
-            
-            for _ in 0..<self.numShelves {
-                var shelfArray: [TargetType] = []
-                for _ in 0..<self.numPerShelf {
-                    shelfArray.append(TargetType.mostlyRandom())
-                }
-                self.targetTypes.append(shelfArray)
+                self.generateNewTargets()
             }
         }
     }
