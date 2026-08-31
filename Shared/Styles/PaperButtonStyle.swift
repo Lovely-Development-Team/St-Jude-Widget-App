@@ -84,7 +84,8 @@ struct PaperButtonStyle: ButtonStyle {
     }
     
     var rotation: Double {
-        Double(id.hashValue >> 11) * 0x1p-53 - 0.5
+        let choice = (Double(UInt64(bitPattern: Int64(id.hashValue)) >> 11) * 0x1p-53) - 0.5
+        return choice
     }
     
     func makeBody(configuration: Configuration) -> some View {
