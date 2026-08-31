@@ -69,6 +69,7 @@ struct RandomCampaignPickerView2026: View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
         
         Button(action: {
+            SoundEffectHelper.shared.play(.shotRandom)
             withAnimation {
                 self.selectedTarget = (shelfIndex, targetIndex)
                 self.targetsVisible = false
@@ -78,8 +79,10 @@ struct RandomCampaignPickerView2026: View {
                 withAnimation {
                     if targetType == .myke || targetType == .stephen {
                         self.selectedCampaign = self.allCampaigns.randomElement()
+                        SoundEffectHelper.shared.play(.winner)
                     } else {
                         self.isGameOver = true
+                        SoundEffectHelper.shared.play(.gameover)
                     }
                 }
             }
@@ -220,19 +223,7 @@ struct RandomCampaignPickerView2026: View {
                     })
                     .themedButton(type: .primary, id: "randomCampaignPicker2026GoToCampaignButton")
                     Button(action: {
-                        withAnimation {
-                            self.selectedTarget = nil
-                            self.selectedCampaign = nil
-                            self.isGameOver = false
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            self.generateNewTargets()
-                            withAnimation {
-                                self.targetsVisible = true
-                                self.selectedCampaign = nil
-                            }
-                        }
+                        self.reset()
                     }, label: {
                         Text("Play Again")
                             .fullWidth(alignment: .center)
@@ -255,19 +246,7 @@ struct RandomCampaignPickerView2026: View {
                         .font(.title)
                         .bold()
                     Button(action: {
-                        withAnimation {
-                            self.selectedTarget = nil
-                            self.selectedCampaign = nil
-                            self.isGameOver = false
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            self.generateNewTargets()
-                            withAnimation {
-                                self.targetsVisible = true
-                                self.selectedCampaign = nil
-                            }
-                        }
+                        self.reset()
                     }, label: {
                         Text("Play Again")
                     })
@@ -303,6 +282,27 @@ struct RandomCampaignPickerView2026: View {
         }
     }
     
+    func reset() {
+        SoundEffectHelper.shared.stop()
+        withAnimation {
+            self.selectedTarget = nil
+            self.selectedCampaign = nil
+            self.isGameOver = false
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.75) {
+                SoundEffectHelper.shared.play(.begin)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.generateNewTargets()
+            withAnimation {
+                self.targetsVisible = true
+                self.selectedCampaign = nil
+            }
+        }
+    }
+    
     var body: some View {
         ZStack {
             self.gameView
@@ -324,7 +324,7 @@ struct RandomCampaignPickerView2026: View {
         .onAppear {
             Task {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
-                self.generateNewTargets()
+                self.reset()
             }
         }
     }

@@ -14,6 +14,7 @@ class SoundEffectHelper {
     
     static let numMykeSounds: Int = 20
     static let numStephenSounds: Int = 11
+    static let numShotSounds: Int = 10
     
     enum SoundEffect: String, CaseIterable {
         case none = ""
@@ -28,12 +29,20 @@ class SoundEffectHelper {
         case mykeNice = "mykenice"
         case stephenNice = "stephennice"
         
+        // 2026
+        case gameover = "gameover"
+        case shotRandom = "shot"
+        case winner = "winner"
+        case begin = "begin"
+        
         var soundEffectPlayer: SoundEffectPlayer {
             switch self {
             case .mykeRandom:
                 return RandomSoundEffectPlayer(soundEffects: (1...numMykeSounds).map({"myke\($0)"}), defaultSoundEffect: "myke1")
             case .stephenRandom:
                 return RandomSoundEffectPlayer(soundEffects: (1...numStephenSounds).map({"stephen\($0)"}), defaultSoundEffect: "stephen1")
+            case .shotRandom:
+                return RandomSoundEffectPlayer(soundEffects: (1...numShotSounds).map({"shot\($0)"}), defaultSoundEffect: "shot1")
             default:
                 return SoundEffectPlayer(soundEffect: self)
             }
