@@ -373,10 +373,17 @@ struct FundraiserListView: View {
             showSheet = .randomPicker
         }) {
             HStack {
-                Text("Spin for a random Fundraiser!")
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                if Theme.current.hasCustomRandomCampaignPicker {
+                    Text("Play for a random Fundraiser!")
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                } else {
+                    Text("Spin for a random Fundraiser!")
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                }
                 Image(systemName: "chevron.right")
             }
         }
