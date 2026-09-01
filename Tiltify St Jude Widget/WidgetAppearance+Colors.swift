@@ -48,7 +48,7 @@ extension WidgetAppearance {
     // 2026
     
     static let mykeRed2026 = Color.rgb(189,48,84)
-    static let stephenYelow2026 = Color.rgb(196,155,34)
+    static let stephenYellow2026 = Color.rgb(196,155,34)
     static let mykeWhite2026 = Color.rgb(219,225,232)
 
     static let allCases: [WidgetAppearance] = [
