@@ -64,8 +64,10 @@ struct ScoreEntryView: View {
     
     var scoreFont: Font {
         switch family {
-        case .systemLarge, .systemExtraLarge, .systemMedium:
+        case .systemMedium:
             return .title3
+        case .systemLarge,.systemExtraLarge:
+            return .largeTitle
         default:
             return .title
         }
@@ -75,6 +77,8 @@ struct ScoreEntryView: View {
         switch family {
         case .systemSmall, .systemMedium:
             return 80
+        case .systemExtraLarge:
+            return 200
         default:
             return 130
         }
@@ -94,46 +98,67 @@ struct ScoreEntryView: View {
             .compositingGroup()
     }
     
+    
     @ViewBuilder
     var homeScreenWidget: some View {
         VStack(spacing: 0) {
-            if family == .systemMedium {
+            if family == .systemMedium || family == .systemExtraLarge {
                 ZStack {
                     Grid(horizontalSpacing: 0) {
                         GridRow {
                             ZStack(alignment: .bottomLeading) {
                                 Color.clear
-                                Image(stephenIsWinning ? .stephenFighting2025 : .stephenSuit2025)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: imageHeight)
-                                    .padding()
+                                VStack{
+                                    Spacer()
+                                    Spacer()
+                                    HStack{
+                                        Spacer()
+                                        Spacer()
+                                        Image(.myke2026)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(height: imageHeight)
+                                            .padding()
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
                             }
                             .overlay(alignment: .topTrailing) {
-                                funkyText(of: Text(formatNumber(entry.score.stephen.score))
+                                funkyText(of:Text(formatNumber(entry.score.myke.score))
                                     .minimumScaleFactor(0.5)
                                     .multilineTextAlignment(.center)
                                     .lineLimit(1)
-                                    .foregroundColor(WidgetAppearance.stephenLights),
-                                          color: .black)
+                                    .foregroundColor(WidgetAppearance.mykeRed2026),
+                                          color:.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .topTrailing)
                                     .padding(4)
                                     .padding(.trailing, 10)
                             }
-                            ZStack(alignment: .topTrailing) {
+                            ZStack(alignment: .bottomTrailing) {
                                 Color.clear
-                                Image(mykeIsWinning ? .mykeFighting2025 : .mykeSuit2025)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: imageHeight)
-                                    .padding()
+                                VStack{
+                                    Spacer()
+                                    HStack{
+                                        Spacer()
+                                        Image(.stephen2026)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(height: imageHeight)
+                                            .padding()
+                                        Spacer()
+                                        Spacer()
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
                             }
-                            .overlay(alignment: .bottomLeading) {
-                                funkyText(of: Text(formatNumber(entry.score.myke.score))
+                            .overlay(alignment: .topLeading) {
+                                funkyText(of: Text(formatNumber(entry.score.stephen.score))
                                     .minimumScaleFactor(0.5)
                                     .multilineTextAlignment(.center)
                                     .lineLimit(1)
-                                    .foregroundColor(WidgetAppearance.mykeLights),
+                                    .foregroundColor(WidgetAppearance.stephenYellow),
                                           color: .black)
                                     .padding(4)
                                     .padding(.leading, 10)
@@ -142,13 +167,25 @@ struct ScoreEntryView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .frame(minHeight: 0, maxHeight: .infinity)
                     }
-                    Rectangle()
-                        .fill(.white)
-                        .frame(minHeight: 0, maxHeight: .infinity)
-                        .frame(width: 2)
-                        .rotationEffect(.degrees(3))
+                    if Theme.current != .campaign2026{
+                        Rectangle()
+                            .fill(.white)
+                            .frame(minHeight: 0, maxHeight: .infinity)
+                            .frame(width: 2)
+                            .rotationEffect(.degrees(3))
+                    }
                 }
                 .font(scoreFont)
+                .background {
+                    if(self.renderingMode == .fullColor) {
+                        Image(.sky2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                        Image(.building2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }
+                }
 //                HStack(alignment: .top) {
 //                    Image(stephenIsWinning ? .stephenFightingSmall : .stephenSuitSmall)
 //                        .resizable()
@@ -183,30 +220,35 @@ struct ScoreEntryView: View {
                 ZStack {
                     Grid(verticalSpacing: 0) {
                         GridRow {
-                            Image(entry.score.stephen.score > entry.score.myke.score ? .stephenFighting2025 : .stephenSuit2025)
+                            VStack{
+                                Spacer()
+                                funkyText(of: Text(formatNumber(entry.score.myke.score))
+                                    .minimumScaleFactor(0.5)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(1)
+                                    .foregroundColor(WidgetAppearance.mykeRed2026),
+                                          color: .black)
+                            }
+                            Image(.myke2026)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: imageHeight)
-                            funkyText(of: Text(formatNumber(entry.score.stephen.score))
-                                .minimumScaleFactor(0.5)
-                                .multilineTextAlignment(.center)
-                                .lineLimit(1)
-                                .foregroundColor(WidgetAppearance.stephenLights),
-                                      color: .black)
+                                .scaleEffect(x:-1)
                         }
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .frame(minHeight: 0, maxHeight: .infinity)
                         GridRow {
-                            funkyText(of: Text(formatNumber(entry.score.myke.score))
-                                .minimumScaleFactor(0.5)
-                                .multilineTextAlignment(.center)
-                                .lineLimit(1)
-                                .foregroundColor(WidgetAppearance.mykeLights),
-                                      color: .black)
-                            Image(entry.score.stephen.score < entry.score.myke.score ? .mykeFighting2025 : .mykeSuit2025)
+                            Image(.stephen2026)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: imageHeight)
+                                .scaleEffect(x:-1)
+                            funkyText(of: Text(formatNumber(entry.score.stephen.score))
+                                .minimumScaleFactor(0.5)
+                                .multilineTextAlignment(.center)
+                                .lineLimit(1)
+                                .foregroundColor(WidgetAppearance.stephenYellow),
+                                      color: .black)
                         }
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .frame(minHeight: 0, maxHeight: .infinity)
@@ -218,14 +260,58 @@ struct ScoreEntryView: View {
                         .rotationEffect(.degrees(-3))
                 }
                 .font(scoreFont)
+                .background {
+                    if(self.renderingMode == .fullColor) {
+                            VStack(spacing:0){
+                                GeometryReader { proxy in
+                                    ZStack{
+                                        Image(.sky2026)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                        Image(.building2026)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    }
+                                    .onAppear(){
+                                        print(proxy.size)
+                                    }
+                                    .scaleEffect(x:1.75,y:1.75)
+                                    .offset(x:proxy.size.width*0.25,y:proxy.size.height * -0.25)
+                                    .mask{
+                                        Rectangle()
+                                            .fill(.red)
+                                            .frame(minWidth: 0, maxWidth: .infinity)
+                                            .offset(x:-proxy.size.width*0.03)
+                                            .frame(height: proxy.size.height*1.10)
+                                            .rotationEffect(.degrees(-3))
+                                    }
+                                }
+                                GeometryReader { proxy in
+                                    ZStack{
+                                        Image(.sky2026)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                        Image(.building2026)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    }
+                                    .scaleEffect(x:1.75,y:1.75)
+                                    .offset(x:proxy.size.width * -0.3,y:proxy.size.height * 0.0)
+                                    .mask{
+                                        Rectangle()
+                                            .fill(.red)
+                                            .frame(minWidth: 0, maxWidth: .infinity)
+                                            .offset(x:-proxy.size.width*0.03,y:proxy.size.height*0.04)
+                                            .frame(height: proxy.size.height*1.10)
+                                            .rotationEffect(.degrees(-3))
+                                    }
+                                }
+                        }
+                    }
+                }
             }
         }
         .ignoresSafeArea()
-        .background {
-            if(self.renderingMode == .fullColor) {
-                LinearGradient(colors: WidgetAppearance.yellow.backgroundColors, startPoint: .top, endPoint: .bottom)
-            }
-        }
         .dynamicTypeSize(.medium)
         .mask {
             if(self.renderingMode == .fullColor) {
@@ -303,7 +389,17 @@ struct ScoreEntryView: View {
     }
 }
 
-#Preview(as: .accessoryRectangular, widget: {
+#Preview(as:.systemMedium, widget: {
+    ScoreWidget()
+}, timeline: {
+    ScoreEntry(date: .now, score: Score(myke: .init(score: 233), stephen: .init(score: 231)))
+})
+#Preview(as: .systemSmall, widget: {
+    ScoreWidget()
+}, timeline: {
+    ScoreEntry(date: .now, score: Score(myke: .init(score: 233), stephen: .init(score: 231)))
+})
+#Preview(as: .systemLarge, widget: {
     ScoreWidget()
 }, timeline: {
     ScoreEntry(date: .now, score: Score(myke: .init(score: 233), stephen: .init(score: 231)))
