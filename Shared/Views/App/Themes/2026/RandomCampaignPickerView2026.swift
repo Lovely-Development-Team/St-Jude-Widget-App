@@ -31,6 +31,7 @@ struct RandomCampaignPickerView2026: View {
     @State private var alertMessage: String = ""
     @State private var alertButtonText: String = ""
     @State private var showAlert: Bool = false
+    @State private var hapticToggle: Bool = false
     
     @State private var showQuickDrawResults: Bool = false
     @State private var quickDrawMode: Bool = false
@@ -98,6 +99,7 @@ struct RandomCampaignPickerView2026: View {
         
         Button(action: {
             SoundEffectHelper.shared.play(.shotRandom, allowOverlap: true)
+            hapticToggle.toggle()
             withAnimation {
                 self.selectedTargets.append((shelfIndex, targetIndex))
             }
@@ -133,6 +135,7 @@ struct RandomCampaignPickerView2026: View {
         .opacity(self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
         .scaleEffect(y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
         .offset(y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 0 : 20)
+        .sensoryFeedback(.success, trigger: self.hapticToggle)
     }
     
     @ViewBuilder
