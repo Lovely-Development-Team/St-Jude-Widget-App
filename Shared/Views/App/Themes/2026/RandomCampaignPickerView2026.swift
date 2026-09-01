@@ -11,6 +11,8 @@ import Kingfisher
 struct RandomCampaignPickerView2026: View {
     @Environment(\.dismiss) var dismiss
     
+    @AppStorage(UserDefaults.quickDrawModeUnlockedKey, store: UserDefaults.shared) private var quickDrawModeUnlocked: Bool = false
+    
     @Binding var selectedDestination: CampaignListDestination?
     @State private var allCampaigns: [Campaign] = []
     @State private var selectedCampaign: Campaign? = nil
@@ -20,9 +22,24 @@ struct RandomCampaignPickerView2026: View {
     private let numPerShelf = 3
     private let targetSize: Double = 60
     
-    @State private var selectedTarget: (Int, Int)? = nil
+    @State private var selectedTargets: [(Int, Int)] = []
     
     @State private var targetsVisible: Bool = false
+    
+    @State private var numTaps: Int = 0
+    @State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
+    @State private var alertButtonText: String = ""
+    @State private var showAlert: Bool = false
+    
+    @State private var showQuickDrawResults: Bool = false
+    @State private var quickDrawMode: Bool = false
+    @State private var quickDrawTimer: Timer? = nil
+    @State private var quickDrawTimeElapsed: TimeInterval = 0.0
+    @State private var showQuickDrawRules: Bool = false
+    @State private var shouldUnlockQuickDraw: Bool = false
+    
+    @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
     enum TargetType: CaseIterable {
         case myke
@@ -32,6 +49,10 @@ struct RandomCampaignPickerView2026: View {
         static func mostlyRandom() -> TargetType {
             let choice = Int.random(in: 0..<10)
             return choice < 5 ? .myke : .stephen
+        }
+        
+        static func completelyRandom() -> TargetType {
+            return TargetType.allCases.randomElement() ?? .myke
         }
         
         var targetImage: SwiftUI.ImageResource {
@@ -64,26 +85,41 @@ struct RandomCampaignPickerView2026: View {
         return shelfArray[targetIndex]
     }
     
+    func isTargetSelected(shelfIndex: Int, targetIndex: Int) -> Bool {
+        let item = (shelfIndex, targetIndex)
+        return self.selectedTargets.contains {
+            return $0 == (item)
+        }
+    }
+    
     @ViewBuilder
     func targetView(shelfIndex: Int, targetIndex: Int) -> some View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
         
         Button(action: {
-            SoundEffectHelper.shared.play(.shotRandom)
+            SoundEffectHelper.shared.play(.shotRandom, allowOverlap: true)
             withAnimation {
-                self.selectedTarget = (shelfIndex, targetIndex)
-                self.targetsVisible = false
+                self.selectedTargets.append((shelfIndex, targetIndex))
             }
-                
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                withAnimation {
-                    if targetType == .myke || targetType == .stephen {
-                        self.selectedCampaign = self.allCampaigns.randomElement()
-                        SoundEffectHelper.shared.play(.winner)
-                    } else {
-                        self.isGameOver = true
-                        SoundEffectHelper.shared.play(.gameover)
+            
+            if self.quickDrawMode {
+                self.processQuickDrawTap()
+                if targetType == .weirdfish {
+                    self.endQuickDrawGame(lost: true)
+                }
+            } else {
+                self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    withAnimation {
+                        if targetType == .myke || targetType == .stephen {
+                            self.selectedCampaign = self.allCampaigns.randomElement()
+                            SoundEffectHelper.shared.play(.winner)
+                        } else {
+                            self.isGameOver = true
+                            SoundEffectHelper.shared.play(.gameover)
+                        }
                     }
+                    self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = false
                 }
             }
         }, label: {
@@ -93,10 +129,10 @@ struct RandomCampaignPickerView2026: View {
                 .frame(height: self.targetSize)
         })
         .shadow(radius: 10)
-        .disabled(self.isGameOver || self.selectedCampaign != nil)
-        .opacity(self.targetsVisible || (self.selectedTarget ?? (-1, -1)) == (shelfIndex, targetIndex) ? 1.0 : 0.0)
-        .scaleEffect(y: self.targetsVisible || (self.selectedTarget ?? (-1, -1)) == (shelfIndex, targetIndex) ? 1.0 : 0.0)
-        .offset(y: self.targetsVisible || (self.selectedTarget ?? (-1, -1)) == (shelfIndex, targetIndex) ? 0 : 20)
+        .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawResults || self.showQuickDrawRules || self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay)
+        .opacity(self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
+        .scaleEffect(y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
+        .offset(y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 0 : 20)
     }
     
     @ViewBuilder
@@ -129,14 +165,22 @@ struct RandomCampaignPickerView2026: View {
     
     @ViewBuilder
     var gameView: some View {
-        VStack {
+        VStack(alignment: .center) {
             Spacer()
-            Image(.randomcampaignpicker2026Sign)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .scaleEffect(x: 0.8, y: 0.8)
-                .shadow(radius: 10)
-                .padding()
+            if self.quickDrawMode {
+                self.quickDrawHeader
+            } else {
+                Image(.randomcampaignpicker2026Sign)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleEffect(x: 0.8, y: 0.8)
+                    .shadow(radius: 10)
+                    .padding()
+                    .onTapGesture {
+                        self.tapSign()
+                    }
+            }
+            Spacer()
             VStack(spacing: 0) {
                 Image(.randomcampaignpicker2026Awning)
                     .resizable()
@@ -162,20 +206,41 @@ struct RandomCampaignPickerView2026: View {
                 .padding(.horizontal)
                 .zIndex(1)
             }
+            .frame(maxWidth: 400)
             Spacer()
             
-            Button(action: {
-                self.dismiss()
-            }, label: {
-                Text("Exit")
-                    .fullWidth(alignment: .center)
-            })
-            .themedButton(type: .primary, id: "randomCampaignPicker2026ExitButton")
+            VStack {
+                Button(action: {
+                    self.dismiss()
+                }, label: {
+                    Text("Exit")
+                        .fullWidth(alignment: .center)
+                })
+                .themedButton(type: .primary, id: "randomCampaignPicker2026ExitButton")
+                .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawRules || self.showQuickDrawResults)
+                if self.quickDrawModeUnlocked {
+                    Button(action: {
+                        withAnimation {
+                            self.quickDrawMode.toggle()
+                            self.reset()
+                            if self.quickDrawMode {
+                                self.showQuickDrawRules = true
+                            }
+                        }
+                    }, label: {
+                        Text(self.quickDrawMode ? "Normal Mode" : "Quick Draw Mode")
+                            .fullWidth(alignment: .center)
+                    })
+                    .themedButton(type: .secondary, textColor: .primary, id: "randomCampaignPicker2026QuickDrawButton")
+                    .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawRules || self.showQuickDrawResults)
+                }
+            }
             .padding(.horizontal)
             .padding(.bottom)
             
             Spacer()
         }
+        .frame(maxWidth: .infinity)
     }
     
     @ViewBuilder
@@ -283,11 +348,14 @@ struct RandomCampaignPickerView2026: View {
     }
     
     func reset() {
+        self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         SoundEffectHelper.shared.stop()
         withAnimation {
-            self.selectedTarget = nil
+            self.selectedTargets = []
             self.selectedCampaign = nil
             self.isGameOver = false
+            self.targetsVisible = false
+            self.showQuickDrawResults = false
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.75) {
@@ -299,7 +367,12 @@ struct RandomCampaignPickerView2026: View {
             withAnimation {
                 self.targetsVisible = true
                 self.selectedCampaign = nil
+                self.quickDrawTimeElapsed = 0.0
             }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = false
         }
     }
     
@@ -309,6 +382,8 @@ struct RandomCampaignPickerView2026: View {
             Group {
                 self.victoryView
                 self.gameOverView
+                self.quickDrawResultsView
+                self.quickDrawRulesView
             }
             .padding()
         }
@@ -327,6 +402,212 @@ struct RandomCampaignPickerView2026: View {
                 self.reset()
             }
         }
+        .alert(self.alertTitle, isPresented: self.$showAlert, actions: {
+            Button(action: {
+                self.showAlert = false
+                self.alertTitle = ""
+                self.alertMessage = ""
+                self.alertButtonText = ""
+                if self.shouldUnlockQuickDraw {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        withAnimation {
+                            self.quickDrawModeUnlocked = true
+                            self.quickDrawMode = true
+                            self.showQuickDrawRules = true
+                        }
+                    }
+                }
+            }, label: {
+                Text(self.alertButtonText)
+            })
+        }, message: {
+            Text(self.alertMessage)
+        })
+    }
+}
+
+// MARK: - Quick Draw Mode
+
+extension RandomCampaignPickerView2026 {
+    func areThereAnyNonWeirdFishTargetsLeft() -> Bool {
+        let allItems: [TargetType] = self.targetTypes.reduce(into: [TargetType](), { partial, current in
+            for type in current {
+                partial.append(type)
+            }
+        })
+        
+        let allNonWeirdFishItems = allItems.filter({$0 != .weirdfish})
+        
+        let allSelectedNonWeirdFishTypes = self.selectedTargets.map { (shelf, target) in self.targetType(for: shelf, and: target) }.filter { $0 != .weirdfish }
+        
+        return allSelectedNonWeirdFishTypes.count == allNonWeirdFishItems.count
+    }
+    
+    func processQuickDrawTap() {
+        if self.quickDrawTimer == nil {
+            self.quickDrawTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
+                self.quickDrawTimeElapsed += 0.1
+            })
+        }
+        
+        if self.areThereAnyNonWeirdFishTargetsLeft() {
+            self.endQuickDrawGame(lost: false)
+        }
+    }
+    
+    func endQuickDrawGame(lost: Bool) {
+        self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
+        self.quickDrawTimer?.invalidate()
+        self.quickDrawTimer = nil
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            withAnimation {
+                if lost {
+                    self.isGameOver = true
+                    SoundEffectHelper.shared.play(.gameover)
+                } else {
+                    self.showQuickDrawResults = true
+                    SoundEffectHelper.shared.play(.winner)
+                }
+            }
+            self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
+        }
+    }
+    
+    var randomCowboyism: String {
+        return [
+            "Rootin' Tootin'!",
+            "Nice Shootin'!",
+            "Yeehaw!",
+            "Sharp Shootin'!"
+        ].randomElement() ?? "Yeehaw!"
+    }
+    
+    @ViewBuilder
+    var quickDrawRulesView: some View {
+        if self.showQuickDrawRules {
+            GroupBox {
+                VStack {
+                    Text("Quick Draw Mode!")
+                        .font(.title)
+                        .bold()
+                    Text("Shoot the targets as quickly as you can! Make sure to avoid the Weird Fish!")
+                        .multilineTextAlignment(.center)
+                    Button(action: {
+                        self.showQuickDrawRules = false
+                    }, label: {
+                        Text("Let's go!")
+                    })
+                    .themedButton(type: .primary, id: "randomCampaignPicker2026QuickDrawStartButton")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+            }
+            .themedGroupBox(type: .primary, id: "randomCampaignPicker2026QuickDrawRulesBox")
+        }
+    }
+    
+    @ViewBuilder
+    var quickDrawResultsView: some View {
+        if self.showQuickDrawResults {
+            GroupBox {
+                VStack {
+                    Text(self.randomCowboyism)
+                        .font(.title)
+                        .bold()
+                    Text(quickDrawTimeElapsedFormatted)
+                    Button(action: {
+                        self.reset()
+                    }, label: {
+                        Text("Play Again")
+                    })
+                    .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+            }
+            .themedGroupBox(type: .primary, id: "randomCampaignPicker2026QuickDrawResultsBox")
+        }
+    }
+    
+    var quickDrawTimeElapsedFormatted: String {
+        let minutes = Int(Int(self.quickDrawTimeElapsed) / 60)
+        let sub60Seconds = self.quickDrawTimeElapsed.remainder(dividingBy: 60)
+        return "\(minutes < 10 ? "0" : "")\(minutes):\(sub60Seconds < 10 ? "0" : "")\(String(format: "%.02f", sub60Seconds))"
+    }
+    
+    @ViewBuilder
+    var quickDrawHeader: some View {
+            GroupBox {
+                VStack {
+                    Text("Quick Draw Mode!")
+                        .font(.title)
+                        .bold()
+                    Text(self.quickDrawTimeElapsedFormatted)
+                }
+            }
+            .themedGroupBox(type: .primary, id: "randomCampaignPicker2026QuickDrawTitle")
+    }
+    
+    // MARK: - Dialog
+    
+    func tapSign() {
+        self.numTaps += 1
+        self.shouldUnlockQuickDraw = false
+        
+        if self.quickDrawModeUnlocked {
+            self.alertTitle = "That's all"
+            self.alertMessage = "There's nothing else here. I swear"
+            self.alertButtonText = "ok bye"
+        } else {
+            if self.numTaps == 1 {
+                self.alertTitle = "Not like that"
+                self.alertMessage = "Don't tap the sign to win, tap the targets!"
+                self.alertButtonText = "ok sorry"
+            } else if self.numTaps == 2 {
+                self.alertTitle = "C'mon"
+                self.alertMessage = "What did I just say??"
+                self.alertButtonText = "my bad big dawg"
+            } else if self.numTaps == 3 {
+                self.alertTitle = "What are you expecting"
+                self.alertMessage = "Are you looking for some secret easter egg here?"
+                self.alertButtonText = "maybe"
+            } else if self.numTaps == 4 {
+                self.alertTitle = "Well there's nothing here"
+                self.alertMessage = "Too bad. Maybe you should just play the game we spent so much time on"
+                self.alertButtonText = "are you sure?"
+            } else if self.numTaps == 5 {
+                self.alertTitle = "The game is RIGHT there"
+                self.alertMessage = "We spent a lot of time on this game, why don't you give it a try?"
+                self.alertButtonText = "i'm good"
+            } else if self.numTaps == 6 {
+                self.alertTitle = "You're wasting your time"
+                self.alertMessage = "I'm not going to give you anything because you keep tapping the sign"
+                self.alertButtonText = "what if i do it again"
+            } else if self.numTaps == 7 {
+                self.alertTitle = "Fine."
+                self.alertMessage = "What do you want me to do here?"
+                self.alertButtonText = "game pls :)"
+            } else if self.numTaps == 8 {
+                self.alertTitle = "Seriously?"
+                self.alertMessage = "We give you one game and yet you want ANOTHER game?"
+                self.alertButtonText = "yes pls"
+            } else if self.numTaps == 9 {
+                self.alertTitle = "Alright whatever."
+                self.alertMessage = "I'm not making a new UI though. You're using this one"
+                self.alertButtonText = "ok i guess"
+            } else if self.numTaps == 10 {
+                self.alertTitle = "Have fun"
+                self.alertMessage = "Here's the secret game. Congrats"
+                self.alertButtonText = "tyyyyyy"
+                self.shouldUnlockQuickDraw = true
+            } else {
+                self.alertTitle = "That's all"
+                self.alertMessage = "There's nothing else here. I swear"
+                self.alertButtonText = "ok bye"
+            }
+        }
+        
+        self.showAlert = true
     }
 }
 
