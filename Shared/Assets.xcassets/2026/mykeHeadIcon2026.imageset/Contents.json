@@ -1,12 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "sky20262nofeatures-small 1.png",
+      "filename" : "mykeHeadIcon2026.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "sky20262nofeatures.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -18,5 +17,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
   }
 }
