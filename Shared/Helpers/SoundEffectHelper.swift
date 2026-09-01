@@ -34,6 +34,7 @@ class SoundEffectHelper {
         case shotRandom = "shot"
         case winner = "winner"
         case begin = "begin"
+        case hit = "hit"
         
         var soundEffectPlayer: SoundEffectPlayer {
             switch self {
@@ -63,7 +64,7 @@ class SoundEffectHelper {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setActive(false)
                     if UserDefaults.shared.playSoundsEvenWhenMuted {
-                        try audioSession.setCategory(.soloAmbient)
+                        try audioSession.setCategory(.soloAmbient, options: .mixWithOthers)
                     } else {
                         try audioSession.setCategory(.playback, options: .mixWithOthers)
                     }
@@ -75,7 +76,7 @@ class SoundEffectHelper {
             }
         }
         
-        func playSoundEffect() {
+        func playSoundEffect(allowOverlap: Bool = false) {
             self.audioPlayer?.stop()
             self.audioPlayer?.currentTime = 0.0
             self.audioPlayer?.play()
@@ -106,7 +107,7 @@ class SoundEffectHelper {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setActive(false)
                     if UserDefaults.shared.playSoundsEvenWhenMuted {
-                        try audioSession.setCategory(.soloAmbient)
+                        try audioSession.setCategory(.soloAmbient, options: .mixWithOthers)
                     } else {
                         try audioSession.setCategory(.playback, options: .mixWithOthers)
                     }
@@ -130,8 +131,10 @@ class SoundEffectHelper {
             }
         }
         
-        override func playSoundEffect() {
-            self.currentAudioPlayer?.stop()
+        override func playSoundEffect(allowOverlap: Bool = false) {
+            if !allowOverlap {
+                self.currentAudioPlayer?.stop()
+            }
             self.currentAudioPlayer = self.audioPlayers.randomElement() ?? self.defaultAudioPlayer
             self.currentAudioPlayer?.prepareToPlay()
             self.currentAudioPlayer?.currentTime = 0
@@ -162,7 +165,7 @@ class SoundEffectHelper {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setActive(false)
-            try audioSession.setCategory(.soloAmbient)
+            try audioSession.setCategory(.soloAmbient, options: .mixWithOthers)
         } catch {
             appLogger.debug("Could not set audio session category to playback: \(error.localizedDescription)")
         }
@@ -179,12 +182,12 @@ class SoundEffectHelper {
         }
     }
     
-    func play(_ soundEffect: SoundEffect) {
+    func play(_ soundEffect: SoundEffect, allowOverlap: Bool = false) {
         guard let soundEffectPlayer = self.soundEffects[soundEffect] else {
             return
         }
         
-        soundEffectPlayer.playSoundEffect()
+        soundEffectPlayer.playSoundEffect(allowOverlap: allowOverlap)
     }
     
     func stop(_ soundEffect: SoundEffect? = nil) {
