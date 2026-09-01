@@ -221,13 +221,16 @@ struct ScoreEntryView: View {
                     Grid(verticalSpacing: 0) {
                         GridRow {
                             VStack{
-                                Spacer()
+                                ForEach(0..<5){ _ in
+                                    Spacer()
+                                }
                                 funkyText(of: Text(formatNumber(entry.score.myke.score))
                                     .minimumScaleFactor(0.5)
                                     .multilineTextAlignment(.center)
                                     .lineLimit(1)
                                     .foregroundColor(WidgetAppearance.mykeRed2026),
                                           color: .black)
+                                Spacer()
                             }
                             Image(.myke2026)
                                 .resizable()
