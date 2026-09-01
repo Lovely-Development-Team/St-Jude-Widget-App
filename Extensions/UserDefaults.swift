@@ -41,6 +41,8 @@ extension UserDefaults {
     
     static let selectedThemeKey = "selectedThemeKey"
     
+    static let quickDrawModeUnlockedKey = "quickDrawModeUnlockedKey"
+    
     // DEBUG ONLY
     static let debugGlowOpacityKey = "debugGlowOpacityKey"
     static let debugEdgeHighlightOpacityKey = "debugEdgeHighlightOpacityKey"
@@ -181,6 +183,11 @@ extension UserDefaults {
     @objc var debugHighlightOpacity: Double {
         get { object(forKey: Self.debugEdgeHighlightOpacityKey) as? Double ?? 1.0 }
         set { UserDefaults.shared.set(newValue, forKey: Self.debugEdgeHighlightOpacityKey) }
+    }
+    
+    @objc var quickDrawModeUnlocked: Bool {
+        get { bool(forKey: Self.quickDrawModeUnlockedKey) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.quickDrawModeUnlockedKey) }
     }
 }
 
