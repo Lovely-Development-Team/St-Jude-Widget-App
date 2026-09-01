@@ -304,6 +304,7 @@ struct CampaignView: View {
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.secondary)
                         }
+                        .bold()
                     }
                 }
                 .themedButton(type: .secondary, textColor: .primary, id: "donations-\(localId)")
@@ -600,8 +601,8 @@ struct CampaignView: View {
                 await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
                 await self.updateRewardsInDatabase(forId: TEAM_EVENT_ID)
                 
-                async let apiTopDonorFetch = TiltifyAPIClient.shared.getCampaignTopDonor(forId: TEAM_EVENT_ID)
-                async let apiDonationsFetch = TiltifyAPIClient.shared.getCampaignDonations(forId: TEAM_EVENT_ID)
+                async let apiTopDonorFetch = TiltifyAPIClient.shared.getCampaignTopDonor(forId: RELAY_CAMPAIGN)
+                async let apiDonationsFetch = TiltifyAPIClient.shared.getCampaignDonations(forId: RELAY_CAMPAIGN)
                 async let apiPollsFetch = TiltifyAPIClient.shared.getCampaignPolls(forId: TEAM_EVENT_ID)
                 
                 let apiTopDonor = await apiTopDonorFetch
