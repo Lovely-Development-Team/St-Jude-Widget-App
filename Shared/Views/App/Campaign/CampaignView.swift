@@ -363,9 +363,9 @@ struct CampaignView: View {
                     })
                     .themedButton(type: .plain, id: "polls")
                     
-                    if let initialCampaign, self.showPolls {
+                    if self.showPolls {
                         ForEach(self.activePolls, id: \.id) { poll in
-                            PollView(poll: poll, campaignId: initialCampaign.id)
+                            PollView(poll: poll, campaignId: initialCampaign?.id ?? RELAY_CAMPAIGN)
                         }
                     }
                 }
