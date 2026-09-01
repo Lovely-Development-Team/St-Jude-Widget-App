@@ -8,6 +8,55 @@
 import SwiftUI
 import Kingfisher
 
+enum TargetType: CaseIterable {
+    case myke
+    case stephen
+    case weirdfish
+    
+    static func mostlyRandom() -> TargetType {
+        let choice = Int.random(in: 0..<10)
+        return choice < 5 ? .myke : .stephen
+    }
+    
+    static func completelyRandom() -> TargetType {
+        return TargetType.allCases.randomElement() ?? .myke
+    }
+    
+    var targetImage: SwiftUI.ImageResource {
+        switch self {
+        case .myke:
+            return .challengeCoinMyke2026Bright
+        case .stephen:
+            return .challengeCoinStephen2026Bright
+        default:
+            return .challengeCoinWeirdFish2026
+        }
+    }
+}
+
+struct Target: View {
+    let type: TargetType
+    let size: CGFloat
+    let onTap: () -> Void
+    
+    @State private var hapticToggle: Bool = false
+    
+    var body: some View {
+        Button(action: {
+            self.hapticToggle.toggle()
+            self.onTap()
+        }, label: {
+            Image(self.type.targetImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: self.size)
+        })
+        .shadow(radius: 10)
+        .sensoryFeedback(.success, trigger: self.hapticToggle)
+    }
+    
+}
+
 struct RandomCampaignPickerView2026: View {
     @Environment(\.dismiss) var dismiss
     
@@ -42,33 +91,11 @@ struct RandomCampaignPickerView2026: View {
     
     @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
-    enum TargetType: CaseIterable {
-        case myke
-        case stephen
-        case weirdfish
-        
-        static func mostlyRandom() -> TargetType {
-            let choice = Int.random(in: 0..<10)
-            return choice < 5 ? .myke : .stephen
-        }
-        
-        static func completelyRandom() -> TargetType {
-            return TargetType.allCases.randomElement() ?? .myke
-        }
-        
-        var targetImage: SwiftUI.ImageResource {
-            switch self {
-            case .myke:
-                return .challengeCoinMyke2026Bright
-            case .stephen:
-                return .challengeCoinStephen2026Bright
-            default:
-                return .challengeCoinWeirdFish2026
-            }
-        }
-    }
-    
     @State private var targetTypes: [[TargetType]] = []
+    
+    @State private var sliding: Bool = true
+    @State private var slideState: Int = -1
+    @State private var slideTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func targetType(for shelfIndex: Int, and targetIndex: Int) -> TargetType {
         let defaultTarget: TargetType = .myke
@@ -97,7 +124,7 @@ struct RandomCampaignPickerView2026: View {
     func targetView(shelfIndex: Int, targetIndex: Int) -> some View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
         
-        Button(action: {
+        Target(type: targetType, size: self.targetSize) {
             SoundEffectHelper.shared.play(.shotRandom, allowOverlap: true)
             hapticToggle.toggle()
             withAnimation {
@@ -110,6 +137,7 @@ struct RandomCampaignPickerView2026: View {
                     self.endQuickDrawGame(lost: true)
                 }
             } else {
+                self.sliding = false
                 self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     withAnimation {
@@ -124,33 +152,32 @@ struct RandomCampaignPickerView2026: View {
                     self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = false
                 }
             }
-        }, label: {
-            Image(targetType.targetImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: self.targetSize)
-        })
-        .shadow(radius: 10)
+        }
         .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawResults || self.showQuickDrawRules || self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay)
         .opacity(self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
-        .scaleEffect(y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
+        .scaleEffect(x: 1, y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 1.0 : 0.0)
         .offset(y: self.targetsVisible && !isTargetSelected(shelfIndex: shelfIndex, targetIndex: targetIndex) ? 0 : 20)
-        .sensoryFeedback(.success, trigger: self.hapticToggle)
     }
     
     @ViewBuilder
     func shelfView(shelfIndex: Int) -> some View {
         VStack {
             HStack {
-                Spacer()
+                if (!shelfIndex.isMultiple(of: 2) && slideState <= 0) || (shelfIndex.isMultiple(of: 2) && slideState >= 0) {
+                    Spacer()
+                }
                 ForEach(0..<self.numPerShelf, id: \.self) { targetIndex in
                     self.targetView(shelfIndex: shelfIndex,
                                     targetIndex: targetIndex)
                     .offset(y: -5)
-                    Spacer()
+                    if targetIndex + 1 != numPerShelf || (shelfIndex.isMultiple(of: 2) && slideState <= 0) || (!shelfIndex.isMultiple(of: 2) && slideState >= 0) {
+                        Spacer()
+                    }
                 }
             }
+            .padding(.horizontal, 20)
             .padding(.vertical)
+            .sensoryFeedback(.success, trigger: self.hapticToggle)
             .background {
                 HStack(spacing: 0) {
                     Image(.randomcampaignpicker2026Shelfleft)
@@ -212,12 +239,13 @@ struct RandomCampaignPickerView2026: View {
             .frame(maxWidth: 400)
             Spacer()
             
-            VStack {
+            HStack {
                 Button(action: {
                     self.dismiss()
                 }, label: {
                     Text("Exit")
                         .fullWidth(alignment: .center)
+                        .bold()
                 })
                 .themedButton(type: .primary, id: "randomCampaignPicker2026ExitButton")
                 .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawRules || self.showQuickDrawResults)
@@ -231,8 +259,9 @@ struct RandomCampaignPickerView2026: View {
                             }
                         }
                     }, label: {
-                        Text(self.quickDrawMode ? "Normal Mode" : "Quick Draw Mode")
+                        Text(self.quickDrawMode ? "Normal Mode" : "QuickDraw Mode")
                             .fullWidth(alignment: .center)
+                            .bold()
                     })
                     .themedButton(type: .secondary, textColor: .primary, id: "randomCampaignPicker2026QuickDrawButton")
                     .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawRules || self.showQuickDrawResults)
@@ -244,6 +273,13 @@ struct RandomCampaignPickerView2026: View {
             Spacer()
         }
         .frame(maxWidth: .infinity)
+        .onReceive(slideTimer) { _ in
+            if sliding {
+                withAnimation(.linear(duration: 1)) {
+                    slideState = -slideState
+                }
+            }
+        }
     }
     
     @ViewBuilder
@@ -353,7 +389,9 @@ struct RandomCampaignPickerView2026: View {
     func reset() {
         self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         SoundEffectHelper.shared.stop()
+        self.sliding = true
         withAnimation {
+            self.slideState = -1
             self.selectedTargets = []
             self.selectedCampaign = nil
             self.isGameOver = false
@@ -459,6 +497,7 @@ extension RandomCampaignPickerView2026 {
     }
     
     func endQuickDrawGame(lost: Bool) {
+        self.sliding = false
         self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         self.quickDrawTimer?.invalidate()
         self.quickDrawTimer = nil
@@ -490,7 +529,7 @@ extension RandomCampaignPickerView2026 {
         if self.showQuickDrawRules {
             GroupBox {
                 VStack {
-                    Text("Quick Draw Mode!")
+                    Text("QuickDraw Mode!")
                         .font(.title)
                         .bold()
                     Text("Shoot the targets as quickly as you can! Make sure to avoid the Weird Fish!")
@@ -542,7 +581,7 @@ extension RandomCampaignPickerView2026 {
     var quickDrawHeader: some View {
             GroupBox {
                 VStack {
-                    Text("Quick Draw Mode!")
+                    Text("QuickDraw Mode!")
                         .font(.title)
                         .bold()
                     Text(self.quickDrawTimeElapsedFormatted)
