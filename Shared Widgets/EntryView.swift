@@ -52,7 +52,6 @@ struct EntryView: View {
             return .headline
         default:
             return .largeTitle
-            return .largeTitle
         }
     }
     
