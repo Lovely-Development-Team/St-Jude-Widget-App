@@ -49,7 +49,7 @@ struct CampaignList: View {
                             }
                             .themedButton(type: .primary,
                                           capsuleShape: false,
-                                          boldText: false, id: teamEvent.id)
+                                          boldText: false, id: "MAIN_TEAM_EVENT_ID")
                             .padding(.vertical)
                             .zoomTransitioniOS26Source(id: "mainCampaignCard", namespace: self.namespace)
                         } else {
