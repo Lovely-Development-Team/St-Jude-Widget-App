@@ -84,7 +84,8 @@ struct CampaignList: View {
                                 .frame(maxWidth: Double.stretchedContentMaxWidth)
                             FundraiserListView(namespace: self.namespace,
                                                showSheet: self.$showSheet, selectedDestination: self.$selectedDestination,
-                                               isRefreshing: self.$fundraiserListIsRefreshing)
+                                               isRefreshing: self.$fundraiserListIsRefreshing,
+                                               rotationAnimation: self.$rotationAnimation)
                             .padding(.top)
                             self.easterEggView
                         }

@@ -25,6 +25,8 @@ struct FundraiserListView: View {
     
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
     
+    @Binding var rotationAnimation: Bool
+    
     var searchResults: [Campaign]? {
         let query = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -239,12 +241,19 @@ struct FundraiserListView: View {
                     .themedGroupBox(type: .secondary, id: "no-search-results")
                 }
             }
-            // TODO: add these back
-//            if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
-//                Image.imageAtScale(.jonycubePixel2024, scale: 0.5)
-//            } else if searchText.lowercased() == "l2cu" {
-//                Image.imageAtScale(.l2CuPixel2024, scale: 0.5)
-//            }
+            Group {
+                if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
+                    Image(.jonycube)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                } else if searchText.lowercased() == "l2cu" {
+                    Image(Theme.current.mascotImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+            }
+            .padding()
+            .frame(maxWidth: Double.stretchedContentMaxWidth)
         }
     }
     
@@ -429,9 +438,9 @@ struct FundraiserListView: View {
         }
         .onChange(of: searchText) {
             if self.searchText.lowercased() == "do a barrel roll" {
-//                rotationAnimation = false
+                self.rotationAnimation = false
                 withAnimation(.easeInOut(duration: 2.0)) {
-//                    rotationAnimation = true
+                    self.rotationAnimation = true
                 }
             }
         }
