@@ -84,8 +84,8 @@ struct RandomCampaignPickerView2026: View {
     
     @State private var showQuickDrawResults: Bool = false
     @State private var quickDrawMode: Bool = false
-    @State private var quickDrawTimer: Timer? = nil
-    @State private var quickDrawTimeElapsed: TimeInterval = 0.0
+    @State private var quickDrawTimeElapsed: TimeInterval? = nil
+    @State private var quickDrawTimeStarted: Date? = nil
     @State private var showQuickDrawRules: Bool = false
     @State private var shouldUnlockQuickDraw: Bool = false
     
@@ -248,7 +248,6 @@ struct RandomCampaignPickerView2026: View {
                         .bold()
                 })
                 .themedButton(type: .primary, id: "randomCampaignPicker2026ExitButton")
-                .disabled(self.isGameOver || self.selectedCampaign != nil || self.showQuickDrawRules || self.showQuickDrawResults)
                 if self.quickDrawModeUnlocked {
                     Button(action: {
                         withAnimation {
@@ -366,18 +365,27 @@ struct RandomCampaignPickerView2026: View {
     func generateNewTargets() {
         self.targetTypes = []
         
+        let total = self.numShelves * self.numPerShelf
+        
+        var targetArray: [TargetType] = []
+        for _ in 0..<(total.quotientAndRemainder(dividingBy: 2).quotient) {
+            targetArray.append(.myke)
+            targetArray.append(.stephen)
+        }
+        
+        if targetArray.count == total {
+            targetArray.remove(at: targetArray.indices.randomElement()!)
+        }
+        targetArray.append(.weirdfish)
+        targetArray = targetArray.shuffled()
+        
         for _ in 0..<self.numShelves {
             var shelfArray: [TargetType] = []
             for _ in 0..<self.numPerShelf {
-                shelfArray.append(TargetType.mostlyRandom())
+                shelfArray.append(targetArray.popLast() ?? .weirdfish)
             }
             self.targetTypes.append(shelfArray)
         }
-        
-        // insert a weird fish
-        let shelfIndex = Int.random(in: 0..<self.targetTypes.count)
-        let shelfArrLength = self.targetTypes[shelfIndex].count
-        self.targetTypes[shelfIndex][Int.random(in: 0..<shelfArrLength)] = .weirdfish
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation {
@@ -390,6 +398,7 @@ struct RandomCampaignPickerView2026: View {
         self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         SoundEffectHelper.shared.stop()
         self.sliding = true
+        self.quickDrawTimeStarted = nil
         withAnimation {
             self.slideState = -1
             self.selectedTargets = []
@@ -408,7 +417,7 @@ struct RandomCampaignPickerView2026: View {
             withAnimation {
                 self.targetsVisible = true
                 self.selectedCampaign = nil
-                self.quickDrawTimeElapsed = 0.0
+                self.quickDrawTimeElapsed = nil
             }
         }
         
@@ -485,10 +494,9 @@ extension RandomCampaignPickerView2026 {
     }
     
     func processQuickDrawTap() {
-        if self.quickDrawTimer == nil {
-            self.quickDrawTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
-                self.quickDrawTimeElapsed += 0.1
-            })
+        
+        if self.quickDrawTimeStarted == nil {
+            self.quickDrawTimeStarted = Date()
         }
         
         if self.areThereAnyNonWeirdFishTargetsLeft() {
@@ -499,8 +507,7 @@ extension RandomCampaignPickerView2026 {
     func endQuickDrawGame(lost: Bool) {
         self.sliding = false
         self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
-        self.quickDrawTimer?.invalidate()
-        self.quickDrawTimer = nil
+        self.quickDrawTimeElapsed = Date().timeIntervalSince(self.quickDrawTimeStarted ?? Date())
         DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
             withAnimation {
                 if lost {
@@ -550,31 +557,38 @@ extension RandomCampaignPickerView2026 {
     
     @ViewBuilder
     var quickDrawResultsView: some View {
-        if self.showQuickDrawResults {
+        if self.showQuickDrawResults, let quickDrawTimeElapsed = self.quickDrawTimeElapsed {
             GroupBox {
                 VStack {
                     Text(self.randomCowboyism)
                         .font(.title)
                         .bold()
-                    Text(quickDrawTimeElapsedFormatted)
-                    Button(action: {
-                        self.reset()
-                    }, label: {
-                        Text("Play Again")
-                    })
-                    .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
+                    HStack(alignment: .bottom) {
+                        Spacer()
+                        GroupBox {
+                            VStack {
+                                Text("\(quickDrawTimeElapsed, specifier: "%.2f")")
+                                    .font(.largeTitle)
+                                    .bold()
+                                Text("seconds")
+                            }
+                        }
+                        .themedGroupBox(type: .primary)
+                        Spacer()
+                        Button(action: {
+                            self.reset()
+                        }, label: {
+                            Text("Play Again")
+                        })
+                        .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
+                        Spacer()
+                    }
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
             }
             .themedGroupBox(type: .primary, id: "randomCampaignPicker2026QuickDrawResultsBox")
         }
-    }
-    
-    var quickDrawTimeElapsedFormatted: String {
-        let minutes = Int(Int(self.quickDrawTimeElapsed) / 60)
-        let sub60Seconds = self.quickDrawTimeElapsed.remainder(dividingBy: 60)
-        return "\(minutes < 10 ? "0" : "")\(minutes):\(sub60Seconds < 10 ? "0" : "")\(String(format: "%.02f", sub60Seconds))"
     }
     
     @ViewBuilder
@@ -584,7 +598,13 @@ extension RandomCampaignPickerView2026 {
                     Text("QuickDraw Mode!")
                         .font(.title)
                         .bold()
-                    Text(self.quickDrawTimeElapsedFormatted)
+                    if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
+                        if #available(iOS 18, *) {
+                            Text(.currentDate, format: .stopwatch(startingAt: quickDrawTimeStarted))
+                        }
+                    } else {
+                        Text("...")
+                    }
                 }
             }
             .themedGroupBox(type: .primary, id: "randomCampaignPicker2026QuickDrawTitle")
