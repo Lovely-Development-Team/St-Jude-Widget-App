@@ -82,11 +82,10 @@ struct EasterEggView: View {
                             Text(showFullL2CUName ? "Lovely to See You" : "L2CU")
                         }
                         .themedButton(type: .plain, id: "l2cu")
-                        Text("says:")
+                        Text("Cowbot says:")
                     }
-                    .font(.headline)
                     Text("“\(affirmationToShow)”")
-                        .font(.title3)
+                        .font(Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title3).pointSize))
                         .multilineTextAlignment(.center)
                         .allowsTightening(true)
                         .frame(maxWidth: .infinity, alignment: .center)
