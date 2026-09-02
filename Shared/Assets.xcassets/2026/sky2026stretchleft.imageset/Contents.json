@@ -2,18 +2,7 @@
   "images" : [
     {
       "filename" : "sky2026stretchleft.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "sky2026stretchleft-small.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "sky2026stretchleft-small 1.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

@@ -1,18 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "sky20262nofeatures-small 1.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "sky20262nofeatures.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "sky2026plain.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {
