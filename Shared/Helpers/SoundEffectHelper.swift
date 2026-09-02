@@ -64,9 +64,9 @@ class SoundEffectHelper {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setActive(false)
                     if UserDefaults.shared.playSoundsEvenWhenMuted {
-                        try audioSession.setCategory(.soloAmbient, options: .mixWithOthers)
+                        try audioSession.setCategory(.ambient, options: .duckOthers)
                     } else {
-                        try audioSession.setCategory(.playback, options: .mixWithOthers)
+                        try audioSession.setCategory(.playback, options: .duckOthers)
                     }
                     self.audioPlayer = try AVAudioPlayer(contentsOf: url)
                     self.audioPlayer?.prepareToPlay()
@@ -107,9 +107,9 @@ class SoundEffectHelper {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setActive(false)
                     if UserDefaults.shared.playSoundsEvenWhenMuted {
-                        try audioSession.setCategory(.soloAmbient, options: .mixWithOthers)
+                        try audioSession.setCategory(.ambient, options: .duckOthers)
                     } else {
-                        try audioSession.setCategory(.playback, options: .mixWithOthers)
+                        try audioSession.setCategory(.playback, options: .duckOthers)
                     }
                     let newAudioPlayer = try AVAudioPlayer(contentsOf: url)
                     return newAudioPlayer
@@ -165,7 +165,7 @@ class SoundEffectHelper {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setActive(false)
-            try audioSession.setCategory(.soloAmbient, options: .mixWithOthers)
+            try audioSession.setCategory(.ambient, options: .duckOthers)
         } catch {
             appLogger.debug("Could not set audio session category to playback: \(error.localizedDescription)")
         }
@@ -176,7 +176,7 @@ class SoundEffectHelper {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setActive(false)
-            try audioSession.setCategory(.playback, options: .mixWithOthers)
+            try audioSession.setCategory(.playback, options: .duckOthers)
         } catch {
             appLogger.debug("Could not set audio session category to ambient: \(error.localizedDescription)")
         }
