@@ -10,6 +10,7 @@ import SwiftUI
 struct PaperGroupBoxStyle: GroupBoxStyle {
     
     var tint: Color = .paperColor2026
+    var enableRotation: Bool
     var id: AnyHashable? = nil
     
     func combinedId(with other: AnyHashable) -> Int {
@@ -83,8 +84,11 @@ struct PaperGroupBoxStyle: GroupBoxStyle {
     }
     
     var rotation: Double {
-        let choice = (Double(UInt64(bitPattern: Int64(id.hashValue)) >> 11) * 0x1p-53) - 0.5
-        return choice
+        if self.enableRotation {
+            let choice = (Double(UInt64(bitPattern: Int64(id.hashValue)) >> 11) * 0x1p-53) - 0.5
+            return choice
+        }
+        return 0
     }
     
     func makeBody(configuration: Configuration) -> some View {

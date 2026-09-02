@@ -9,12 +9,19 @@ import Foundation
 import SwiftUI
 
 extension Image {
-    static func imageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale) -> some View {
+    static func imageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale, horizontalScale: Double? = Theme.current.imageScale) -> some View {
         let image = UIImage(resource: resource)
         let imageSize = image.size
-        return Image(uiImage: image)
-            .resizable()
-            .frame(width: imageSize.width * scale, height: imageSize.height * scale)
+        
+        if let horizontalScale {
+            return Image(uiImage: image)
+                .resizable()
+                .frame(width: imageSize.width * horizontalScale, height: imageSize.height * scale)
+        } else {
+            return Image(uiImage: image)
+                .resizable()
+                .frame(height: imageSize.height * scale)
+        }
     }
     
     static func tiledImageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale, axis: Axis? = nil) -> some View {
