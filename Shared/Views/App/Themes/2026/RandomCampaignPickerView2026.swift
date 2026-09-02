@@ -94,7 +94,7 @@ struct RandomCampaignPickerView2026: View {
     @State private var targetTypes: [[TargetType]] = []
     
     @State private var sliding: Bool = true
-    @State private var slideState: Int = -1
+    @State private var slideState: Bool = false
     @State private var slideTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func targetType(for shelfIndex: Int, and targetIndex: Int) -> TargetType {
@@ -163,14 +163,14 @@ struct RandomCampaignPickerView2026: View {
     func shelfView(shelfIndex: Int) -> some View {
         VStack {
             HStack {
-                if (!shelfIndex.isMultiple(of: 2) && slideState <= 0) || (shelfIndex.isMultiple(of: 2) && slideState >= 0) {
+                if (!shelfIndex.isMultiple(of: 2) && !slideState) || (shelfIndex.isMultiple(of: 2) && slideState) {
                     Spacer()
                 }
                 ForEach(0..<self.numPerShelf, id: \.self) { targetIndex in
                     self.targetView(shelfIndex: shelfIndex,
                                     targetIndex: targetIndex)
                     .offset(y: -5)
-                    if targetIndex + 1 != numPerShelf || (shelfIndex.isMultiple(of: 2) && slideState <= 0) || (!shelfIndex.isMultiple(of: 2) && slideState >= 0) {
+                    if targetIndex + 1 != numPerShelf || (shelfIndex.isMultiple(of: 2) && !slideState) || (!shelfIndex.isMultiple(of: 2) && slideState) {
                         Spacer()
                     }
                 }
@@ -274,8 +274,8 @@ struct RandomCampaignPickerView2026: View {
         .frame(maxWidth: .infinity)
         .onReceive(slideTimer) { _ in
             if sliding {
-                withAnimation(.linear(duration: 1)) {
-                    slideState = -slideState
+                withAnimation(.easeInOut(duration: 1)) {
+                    slideState.toggle()
                 }
             }
         }
@@ -322,6 +322,7 @@ struct RandomCampaignPickerView2026: View {
                         self.dismiss()
                     }, label: {
                         Text("Visit Campaign")
+                            .bold()
                             .fullWidth(alignment: .center)
                     })
                     .themedButton(type: .primary, id: "randomCampaignPicker2026GoToCampaignButton")
@@ -352,6 +353,7 @@ struct RandomCampaignPickerView2026: View {
                         self.reset()
                     }, label: {
                         Text("Play Again")
+                            .bold()
                     })
                     .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
                 }
@@ -400,7 +402,7 @@ struct RandomCampaignPickerView2026: View {
         self.sliding = true
         self.quickDrawTimeStarted = nil
         withAnimation {
-            self.slideState = -1
+            self.slideState.toggle()
             self.selectedTargets = []
             self.selectedCampaign = nil
             self.isGameOver = false
@@ -579,6 +581,7 @@ extension RandomCampaignPickerView2026 {
                             self.reset()
                         }, label: {
                             Text("Play Again")
+                                .bold()
                         })
                         .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
                         Spacer()
