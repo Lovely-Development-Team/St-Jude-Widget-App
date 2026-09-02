@@ -93,7 +93,7 @@ struct CampaignView: View {
     var description: AttributedString {
         let descr = teamEvent?.description ?? initialCampaign?.description ?? ""
         do {
-            return try AttributedString(markdown: descr)
+            return try AttributedString(markdown: descr, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace))
         } catch {
             return AttributedString(descr)
         }
