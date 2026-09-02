@@ -17,7 +17,7 @@ struct LandscapeView2026: View {
         if self.forMainScreen {
             ZStack {
                 if showBuildings {
-                    Image(.building2026)
+                    Image(.buildings2026)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .scaleEffect(x: 1.1, y: 1.1)
