@@ -11,7 +11,7 @@ import Kingfisher
 enum TargetType: CaseIterable {
     case myke
     case stephen
-    case weirdfish
+    case horse
     
     static func mostlyRandom() -> TargetType {
         let choice = Int.random(in: 0..<10)
@@ -29,7 +29,7 @@ enum TargetType: CaseIterable {
         case .stephen:
             return .challengeCoinStephen2026Bright
         default:
-            return .challengeCoinWeirdFish2026
+            return .challengeCoinHorse2026
         }
     }
 }
@@ -133,7 +133,7 @@ struct RandomCampaignPickerView2026: View {
             
             if self.quickDrawMode {
                 self.processQuickDrawTap()
-                if targetType == .weirdfish {
+                if targetType == .horse {
                     self.endQuickDrawGame(lost: true)
                 }
             } else {
@@ -376,13 +376,13 @@ struct RandomCampaignPickerView2026: View {
         if targetArray.count == total {
             targetArray.remove(at: targetArray.indices.randomElement()!)
         }
-        targetArray.append(.weirdfish)
+        targetArray.append(.horse)
         targetArray = targetArray.shuffled()
         
         for _ in 0..<self.numShelves {
             var shelfArray: [TargetType] = []
             for _ in 0..<self.numPerShelf {
-                shelfArray.append(targetArray.popLast() ?? .weirdfish)
+                shelfArray.append(targetArray.popLast() ?? .horse)
             }
             self.targetTypes.append(shelfArray)
         }
@@ -486,9 +486,9 @@ extension RandomCampaignPickerView2026 {
             }
         })
         
-        let allNonWeirdFishItems = allItems.filter({$0 != .weirdfish})
+        let allNonWeirdFishItems = allItems.filter({$0 != .horse})
         
-        let allSelectedNonWeirdFishTypes = self.selectedTargets.map { (shelf, target) in self.targetType(for: shelf, and: target) }.filter { $0 != .weirdfish }
+        let allSelectedNonWeirdFishTypes = self.selectedTargets.map { (shelf, target) in self.targetType(for: shelf, and: target) }.filter { $0 != .horse }
         
         return allSelectedNonWeirdFishTypes.count == allNonWeirdFishItems.count
     }
@@ -539,7 +539,7 @@ extension RandomCampaignPickerView2026 {
                     Text("QuickDraw Mode!")
                         .font(.title)
                         .bold()
-                    Text("Shoot the targets as quickly as you can! Make sure to avoid the Weird Fish!")
+                    Text("Shoot the targets as quickly as you can! Make sure to avoid Kathy's horse!")
                         .multilineTextAlignment(.center)
                     Button(action: {
                         self.showQuickDrawRules = false
