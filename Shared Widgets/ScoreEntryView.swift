@@ -139,151 +139,15 @@ struct ScoreEntryView: View {
     }
     
     @ViewBuilder
-    var smallScoreWidgetView: some View {
-        ZStack {
-            // Fill out the whole space
-            VStack {
-                self.scoreGroupBoxView
-                    .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
-                    .padding(.top, 10)
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .overlay(alignment: .top) {
-                        HStack(alignment: .top) {
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .overlay(alignment: .topTrailing) {
-                                    Image(.myke2026)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: self.imageHeight * 1.5)
-                                        .shadow(radius: 10)
-                                }
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .overlay(alignment: .topLeading) {
-                                    Image(.stephen2026)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: self.imageHeight * 1.5)
-                                        .shadow(radius: 10)
-                                }
-                        }
-                        .offset(y: -self.imageHeight / 4)
-                    }
-            }
-            .background {
-                Image.tiledImageAtScale(.woodBackground2026)
-            }
-        }
-    }
-    
-    @ViewBuilder
-    var mediumScoreWidgetView: some View {
-        ZStack {
-            // Fill out the whole space
-            Rectangle()
-                .foregroundStyle(.clear)
-            
-            HStack {
-                Spacer()
-                    .overlay(alignment: .trailing) {
-                        Image(.myke2026)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: self.imageHeight * 2)
-                            .padding(.top, self.imageHeight)
-                            .offset(x: 10)
-                            .shadow(radius: 10)
-                    }
-                    .zIndex(2)
-                self.scoreGroupBoxView
-                    .padding(.bottom, self.imageHeight / 3)
-                    .zIndex(1)
-                Spacer()
-                    .overlay {
-                        Image(.stephen2026)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: self.imageHeight * 2)
-                            .padding(.top, self.imageHeight)
-                            .offset(x: -10)
-                            .shadow(radius: 10)
-                    }
-                    .zIndex(2)
-            }
-        }
-        .background {
-            Group {
-                if(self.renderingMode == .fullColor) {
-                    Image(.sky2026)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    Image(.building2026)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(.top, self.imageHeight / 3)
-                }
-            }
-            .scaleEffect(x: 1.5, y: 1.5)
-            .padding(.bottom, self.imageHeight / 3)
-        }
-        
-    }
-    
-    @ViewBuilder
-    var largeScoreWidgetView: some View {
-        ZStack {
-            VStack {
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .overlay(alignment: .bottom) {
-                        self.scoreGroupBoxView
-                        .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
-                        .padding(.bottom)
-                    }
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .overlay(alignment: .top) {
-                        HStack {
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .overlay(alignment: .trailing){
-                                Image(.myke2026)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: self.imageHeight * 2)
-                                    .padding(.trailing)
-                                    .shadow(radius: 10)
-                                }
-                            Rectangle()
-                                .foregroundStyle(.clear)
-                                .overlay(alignment: .leading) {
-                                    Image(.stephen2026)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: self.imageHeight * 2)
-                                        .padding(.leading)
-                                        .shadow(radius: 10)
-                                }
-                        }
-                        .padding(.top)
-                    }
-            }
-            .background {
-                Image.tiledImageAtScale(.woodBackground2026)
-            }
-        }
-    }
-    
-    @ViewBuilder
     var homeScreenWidget: some View {
-        VStack(spacing: 0) {
+        Group {
             switch self.family {
             case .systemSmall:
                 self.smallScoreWidgetView
             case .systemLarge:
                 self.largeScoreWidgetView
+            case .systemExtraLarge:
+                self.extraLargeScoreWidgetView
             default:
                 self.mediumScoreWidgetView
             }
@@ -367,6 +231,205 @@ struct ScoreEntryView: View {
             content
                 .environment(\.font, Font.body)
         }
+    }
+}
+
+// MARK: - Individual Sizes
+extension ScoreEntryView {
+    @ViewBuilder
+    var smallScoreWidgetView: some View {
+        ZStack {
+            // Fill out the whole space
+            VStack {
+                self.scoreGroupBoxView
+                    .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
+                    .offset(y: 10)
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .overlay(alignment: .top) {
+                        HStack(alignment: .top) {
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .overlay(alignment: .topTrailing) {
+                                    Image(.myke2026)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: self.imageHeight * 1.5)
+                                        .shadow(radius: 10)
+                                }
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .overlay(alignment: .topLeading) {
+                                    Image(.stephen2026)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: self.imageHeight * 1.5)
+                                        .shadow(radius: 10)
+                                }
+                        }
+                        .offset(y: -self.imageHeight / 4)
+                    }
+            }
+            .background {
+                Image(.woodbackground2026Small)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var mediumScoreWidgetView: some View {
+        ZStack {
+            // Fill out the whole space
+            Rectangle()
+                .foregroundStyle(.clear)
+            
+            HStack {
+                Spacer()
+                    .overlay {
+                        Image(.myke2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: self.imageHeight * 2)
+                            .padding(.top, self.imageHeight)
+                            .offset(x: 10)
+                            .shadow(radius: 10)
+                    }
+                    .zIndex(2)
+                self.scoreGroupBoxView
+                    .padding(.bottom, self.imageHeight / 3)
+                    .zIndex(1)
+                Spacer()
+                    .overlay {
+                        Image(.stephen2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: self.imageHeight * 2)
+                            .padding(.top, self.imageHeight)
+                            .offset(x: -10)
+                            .shadow(radius: 10)
+                    }
+                    .zIndex(2)
+            }
+        }
+        .background {
+            Group {
+                if(self.renderingMode == .fullColor) {
+                    Image(.sky2026Small)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    Image(.buildings2026Small)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.top, self.imageHeight / 3)
+                }
+            }
+            .scaleEffect(x: 1.5, y: 1.5)
+            .padding(.bottom, self.imageHeight / 3)
+        }
+        
+    }
+    
+    @ViewBuilder
+    var largeScoreWidgetView: some View {
+        ZStack {
+            VStack {
+                Rectangle()
+                    .foregroundStyle(.clear)
+                    .overlay(alignment: .bottom) {
+                        self.scoreGroupBoxView
+                        .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
+                        .padding(.bottom)
+                    }
+                Rectangle()
+                    .foregroundStyle(.clear)
+                    .overlay(alignment: .top) {
+                        HStack {
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .overlay(alignment: .trailing){
+                                Image(.myke2026)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: self.imageHeight * 2)
+                                    .padding(.trailing)
+                                    .shadow(radius: 10)
+                                }
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .overlay(alignment: .leading) {
+                                    Image(.stephen2026)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: self.imageHeight * 2)
+                                        .padding(.leading)
+                                        .shadow(radius: 10)
+                                }
+                        }
+                        .padding(.top)
+                    }
+            }
+            .background {
+                Image(.woodBackground2026)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var extraLargeScoreWidgetView: some View {
+        ZStack {
+            // Fill out the whole space
+            Rectangle()
+                .foregroundStyle(.clear)
+            
+            HStack {
+                Spacer()
+                    .overlay {
+                        Image(.myke2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: self.imageHeight * 2)
+                            .padding(.top, self.imageHeight)
+                            .offset(x: 10)
+                            .shadow(radius: 10)
+                    }
+                    .zIndex(2)
+                self.scoreGroupBoxView
+                    .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
+                    .padding(.bottom, self.imageHeight / 3)
+                    .zIndex(1)
+                Spacer()
+                    .overlay {
+                        Image(.stephen2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: self.imageHeight * 2)
+                            .padding(.top, self.imageHeight)
+                            .offset(x: -10)
+                            .shadow(radius: 10)
+                    }
+                    .zIndex(2)
+            }
+        }
+        .background {
+            Group {
+                if(self.renderingMode == .fullColor) {
+                    Image(.sky2026Small)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    Image(.buildings2026Small)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.top, self.imageHeight / 3)
+                }
+            }
+            .scaleEffect(x: 1.5, y: 1.5)
+            .padding(.bottom, self.imageHeight / 3)
+        }
+        
     }
 }
 
