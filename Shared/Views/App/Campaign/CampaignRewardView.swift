@@ -36,33 +36,31 @@ struct CampaignRewardView: View {
                             .frame(width: 45, height: 45)
                     })
                 }
-                VStack {
-                    Text(self.reward.description)
-                        .font(.caption)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    
-                    if let quantity = self.reward.quantity,
-                       let quantityRemaining = self.reward.quantityRemaining {
-                        HStack {
-                            Text("\(quantityRemaining) of \(quantity) available!")
-                                .font(.caption)
-                                .foregroundStyle(Theme.current.accentColor)
-                            Spacer()
+                HStack(alignment: .top) {
+                    VStack {
+                        Text(self.reward.description)
+                            .font(.caption)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        
+                        if let quantity = self.reward.quantity,
+                           let quantityRemaining = self.reward.quantityRemaining {
+                            HStack {
+                                Text("\(quantityRemaining) of \(quantity) available!")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.current.accentColor)
+                                Spacer()
+                            }
                         }
                     }
-                    
-                    
                     if self.campaignUserName == "TheLovelyDevelopers" && self.reward.name.contains("App Supporter") {
-                        HStack {
-                            Button(action: {
-                                self.showSupporterSheet = true
-                            }, label: {
-                                Text("Supporters")
-                                    .font(.headline)
-                            })
-                            .themedButton(type: .primary, id: "supporters")
-                            Spacer()
-                        }
+                        Spacer()
+                        Button(action: {
+                            self.showSupporterSheet = true
+                        }, label: {
+                            Text("Supporters")
+                                .font(.headline)
+                        })
+                        .themedButton(type: .primary, id: "supporters")
                     }
                 }
             }
