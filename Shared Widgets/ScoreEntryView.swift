@@ -65,11 +65,11 @@ struct ScoreEntryView: View {
     var scoreFont: Font {
         switch family {
         case .systemMedium:
-            return .title3
+            return Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title3).pointSize)
         case .systemLarge,.systemExtraLarge:
-            return .largeTitle
+            return Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
         default:
-            return .title
+            return Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title1).pointSize)
         }
     }
     
@@ -120,7 +120,7 @@ struct ScoreEntryView: View {
                         Text(self.formatNumber(self.entry.score.myke.score))
                             .bold()
                             .foregroundStyle(WidgetAppearance.mykeRed2026)
-                            .font(.title)
+                            .font(Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title1).pointSize))
                     }
                     .padding(.trailing, 5)
                     VStack {
@@ -130,7 +130,7 @@ struct ScoreEntryView: View {
                         Text(self.formatNumber(self.entry.score.stephen.score))
                             .bold()
                             .foregroundStyle(WidgetAppearance.stephenYellow2026.darker(by: 5))
-                            .font(.title)
+                            .font(Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title1).pointSize))
                     }
                     .padding(.leading, 5)
                 }
