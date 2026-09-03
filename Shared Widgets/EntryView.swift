@@ -77,22 +77,36 @@ struct EntryView: View {
                 if useNormalBackgroundOniOS17 {
                     content
                         .padding()
-                        .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+                        .background(appearance.background)
                 } else {
                     content
-                        .containerBackground(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                        .containerBackground(for: .widget) {
+                            appearance.background
+                        }
                         .padding(showsBackground ? [] : .all, 5)
                 }
             } else {
                 content
                     .padding()
-                    .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+                    .background(appearance.background)
             }
         }
     }
     
     @ViewBuilder
     var content: some View {
+        if appearance.isWildWestTheme {
+            GroupBox {
+                actualContent
+            }
+            .themedGroupBox(type: .primary, id: "widget")
+        } else {
+            actualContent
+        }
+    }
+    
+    @ViewBuilder
+    var actualContent: some View {
         
         VStack(alignment: .leading, spacing: self.centerVertically ? 20 : 5) {
            

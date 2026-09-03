@@ -75,6 +75,26 @@
 					<key>INEnumValueName</key>
 					<string>yellow</string>
 				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Wild West - Wood</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>NpYyyJ</string>
+					<key>INEnumValueIndex</key>
+					<integer>3</integer>
+					<key>INEnumValueName</key>
+					<string>wildWestWood</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Wild West - Sky</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>ephPYw</string>
+					<key>INEnumValueIndex</key>
+					<integer>4</integer>
+					<key>INEnumValueName</key>
+					<string>wildWestSky</string>
+				</dict>
 			</array>
 		</dict>
 	</array>
