@@ -57,6 +57,8 @@ extension WidgetAppearance {
         .relay,
         .relaytrueblack,
         .yellow,
+        .wildWestWood,
+        .wildWestSky,
 //        .stephen,
 //        .myke,
 //        .kathy,
@@ -64,6 +66,17 @@ extension WidgetAppearance {
 //        .jason,
 //        .casey,
     ]
+    
+    var isWildWestTheme: Bool {
+        switch self {
+        case .wildWestWood:
+            return true
+        case .wildWestSky:
+            return true
+        default:
+            return false
+        }
+    }
     
     var name: String {
         switch self {
@@ -77,6 +90,10 @@ extension WidgetAppearance {
             return "Relay (True Black)"
         case .yellow:
             return "Relay Gold"
+        case .wildWestWood:
+            return "Wild West - Wood"
+        case .wildWestSky:
+            return "Wild West - Sky"
 //        case .stephen:
 //            return "Stephen's Suit"
 //        case .myke:
@@ -98,6 +115,12 @@ extension WidgetAppearance {
         switch self {
             
         case .yellow:
+            return .black
+            
+        case .wildWestWood:
+            return .black
+            
+        case .wildWestSky:
             return .black
             
 //        case .stephen:
@@ -179,6 +202,26 @@ extension WidgetAppearance {
                 Self.stjudeBlueDark,
                 Self.stjudeBlueLight
             ]
+        }
+    }
+    
+    @ViewBuilder
+    var background: some View {
+        switch self {
+        case .wildWestWood:
+            Image(.woodbackground2026Small)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(maxWidth: Double.stretchedContentMaxWidth)
+                .background(ignoresSafeAreaEdges: .all)
+        case .wildWestSky:
+            Image(.sky2026Small)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(maxWidth: Double.stretchedContentMaxWidth)
+                .background(ignoresSafeAreaEdges: .all)
+        default:
+            LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top)
         }
     }
     
