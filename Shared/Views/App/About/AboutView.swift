@@ -26,12 +26,14 @@ struct AboutView: View {
     @AppStorage(UserDefaults.debugGlowOpacityKey, store: UserDefaults.shared) private var debugGlowOpacity: Double = 0.5
     @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
     
-    private var stephenPostUrlString: String? = "https://512pixels.net/2026/08/st-jude-2026/"
-    private var mykePostUrlString: String? = "https://www.theenthusiast.net/relay-for-st-jude-2026/"
+    private var stephenPostUrlString: String? { "https://512pixels.net/2026/08/st-jude-2026/" }
+    private var mykePostUrlString: String? { "https://www.theenthusiast.net/relay-for-st-jude-2026/" }
     
     @State private var showSupporterSheet: Bool = false
     @State private var currentIcon: AltIcon? = nil
     @State private var showExtraIcons: Bool = false
+    
+    @Binding var selectedDestination: CampaignListDestination?
     
     @ViewBuilder
     var headerView: some View {
@@ -164,9 +166,7 @@ struct AboutView: View {
                 
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], alignment: .leading, spacing: 10) {
                     ForEach(AltIcon.allCases) { icon in
-                        if showExtraIcons || !icon.isExtra {
-                            AltIconButton(currentIcon: self.$currentIcon, icon: icon)
-                        }
+                        AltIconButton(currentIcon: self.$currentIcon, icon: icon, disabled: !showExtraIcons && icon.isExtra, selectedDestination: $selectedDestination)
                     }
                 }
             }
@@ -269,5 +269,5 @@ extension AboutView {
 }
 
 #Preview {
-    AboutView()
+    AboutView(selectedDestination: .constant(nil))
 }

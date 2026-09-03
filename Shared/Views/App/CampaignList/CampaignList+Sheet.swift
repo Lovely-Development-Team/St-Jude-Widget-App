@@ -17,7 +17,7 @@ struct CampaignListSheetContent: View {
     var body: some View {
         switch sheet {
         case .aboutScreen:
-            AboutView()
+            AboutView(selectedDestination: $selectedDestination)
                 .forSheet()
                 .zoomTransitioniOS26(id: "aboutButton", namespace: self.namespace)
         case .leaderBoard:
