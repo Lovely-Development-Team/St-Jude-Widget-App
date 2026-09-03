@@ -637,6 +637,15 @@ extension RandomCampaignPickerView2026 {
         }
     }
     
+    var formattedTimeForHeader: String {
+        guard let quickDrawTimeElapsed = self.quickDrawTimeElapsed else { return "00.00" }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.minimumIntegerDigits = 2
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        return numberFormatter.string(from: NSNumber(value: quickDrawTimeElapsed)) ?? "00.00"
+    }
+    
     @ViewBuilder
     var quickDrawHeader: some View {
             GroupBox {
@@ -644,12 +653,12 @@ extension RandomCampaignPickerView2026 {
                     Text("QuickDraw Mode!")
                         .font(self.titleFont)
                         .bold()
-                    if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
-                        if #available(iOS 18, *) {
+                    if #available(iOS 18, *) {
+                        if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
                             Text(.currentDate, format: .stopwatch(startingAt: quickDrawTimeStarted))
+                        } else {
+                            Text("00:\(formattedTimeForHeader)")
                         }
-                    } else {
-                        Text("00:00.00")
                     }
                 }
             }
