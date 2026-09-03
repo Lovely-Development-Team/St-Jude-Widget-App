@@ -412,8 +412,14 @@
 			membershipExceptions = (
 				CampaignTitle.swift,
 				EntryView.swift,
+				LiveActivities/Components/CrownView.swift,
+				LiveActivities/Components/ScoreActivityMinimalView.swift,
+				LiveActivities/Components/ScoreIcon.swift,
+				LiveActivities/ScoreActivity.swift,
+				LiveActivities/ScoreActivityAttributes.swift,
 				MilestoneView.swift,
 				SampleCampaign.swift,
+				ScoreGroupBoxView.swift,
 				WidgetFamily.swift,
 			);
 			target = 6357653326D1A73E004F04DE /* St Jude (iOS) */;
@@ -423,8 +429,14 @@
 			membershipExceptions = (
 				CampaignTitle.swift,
 				EntryView.swift,
+				LiveActivities/Components/CrownView.swift,
+				LiveActivities/Components/ScoreActivityMinimalView.swift,
+				LiveActivities/Components/ScoreIcon.swift,
+				LiveActivities/ScoreActivity.swift,
+				LiveActivities/ScoreActivityAttributes.swift,
 				MilestoneView.swift,
 				SampleCampaign.swift,
+				ScoreGroupBoxView.swift,
 				WidgetFamily.swift,
 			);
 			target = 6357653926D1A73E004F04DE /* St Jude (macOS) */;
@@ -1163,6 +1175,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Relay for St. Jude";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save Campaign Image";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1201,6 +1214,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Relay for St. Jude";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save Campaign Image";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1402,6 +1416,7 @@
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiltify St Jude Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1432,6 +1447,7 @@
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Tiltify St Jude Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
