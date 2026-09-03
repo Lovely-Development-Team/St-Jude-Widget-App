@@ -112,7 +112,17 @@ struct RandomCampaignPickerView2026: View {
             "The unicorn?! Surely you could see the dang horn!",
             "Well, congratulations. You’ve gone and hit a mythical beast.",
             "That there was a rare and valuable unicorn, ya fool!",
-            "You hit the unicorn. The West will never be the same."
+            "You hit the unicorn. The West will never be the same.",
+            "Kathy’s noble steed deserved better.",
+            "Kathy is gonna hear about this.",
+            "You hit Kathy’s unicorn?! Bold move, partner.",
+            "That was Kathy’s favourite unicorn. Run.",
+            "Kathy’s gonna be mighty sore about this.",
+            "You just hit Kathy’s trusty steed. I’d start riding.",
+            "Kathy’s horse? You’ve yee’d your last haw.",
+            "Well, partner… Kathy’s coming for you.",
+            "The steed belonged to Kathy. You might wanna leave town.",
+            "You missed the bandits and hit the unicorn. Impressive.",
         ].randomElement()!
     }
     
