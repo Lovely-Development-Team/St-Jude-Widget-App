@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon-brad2026-image.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
