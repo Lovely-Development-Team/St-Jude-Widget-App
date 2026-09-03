@@ -10,6 +10,16 @@ import SwiftUI
 
 enum AltIcon: String, CaseIterable, Identifiable {
     case defaultIcon
+    
+    case myke2026
+    case stephen2026
+    case jason2026
+    case casey2026
+    case kathy2026
+    case brad2026
+    case ground2026
+    case leather2026
+    
     case regular
     case icon2024
     case icon2025
@@ -26,6 +36,22 @@ enum AltIcon: String, CaseIterable, Identifiable {
             return "2024"
         case .icon2025:
             return "2025"
+        case .myke2026:
+            return "Myke"
+        case .stephen2026:
+            return "Stephen"
+        case .jason2026:
+            return "Jason"
+        case .casey2026:
+            return "Casey"
+        case .kathy2026:
+            return "Kathy"
+        case .brad2026:
+            return "Brad"
+        case .ground2026:
+            return "Ground"
+        case .leather2026:
+            return "Leather"
         default:
             return "Default"
         }
@@ -57,7 +83,11 @@ enum AltIcon: String, CaseIterable, Identifiable {
     
     func set() {
         appLogger.debug("Setting icon to \(self.fileName ?? "nil")...")
-        UIApplication.shared.setAlternateIconName(self.fileName)
+        UIApplication.shared.setAlternateIconName(self.fileName) { error in
+            if let error {
+                appLogger.error("Could not set icon to \(self.fileName ?? "nil"): \(error.localizedDescription)")
+            }
+        }
     }
     
 }
