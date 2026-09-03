@@ -105,6 +105,7 @@ struct TiltifyStJudeWidgets: WidgetBundle {
        CampaignLockScreenWidget()
 //       HeadToHeadWidget()
        ScoreWidget()
+       ScoreActivityConfiguration()
    }
 }
 
