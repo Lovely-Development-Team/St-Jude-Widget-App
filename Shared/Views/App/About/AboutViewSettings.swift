@@ -49,28 +49,62 @@ struct ToggleSetting: View {
 }
 
 struct AltIconButton: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var currentIcon: AltIcon?
     var icon: AltIcon
+    var disabled: Bool
+    @State private var showMilestoneAlert: Bool = false
+    @Binding var selectedDestination: CampaignListDestination?
     
     var body: some View {
             Button(action: {
-                icon.set()
-                withAnimation {
-                    currentIcon = icon
+                if !disabled {
+                    icon.set()
+                    withAnimation {
+                        currentIcon = icon
+                    }
+                } else {
+                    self.showMilestoneAlert = true
                 }
             }) {
                 VStack {
-                    icon.image
-                        .frame(width: 75, height: 75)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    Text(icon.title)
-                        .foregroundStyle(self.currentIcon == self.icon ? Theme.current.contentColorForAccent : Color.primary)
+                    ZStack {
+                        icon.image
+                            .frame(width: 75, height: 75)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .blur(radius: disabled ? 10 : 0)
+                        if disabled {
+                            Image(systemName: "lock.fill")
+                        }
+                    }
+                    if disabled {
+                        Text("Placholder").redacted(reason: .placeholder)
+                            .foregroundStyle(.primary)
+                    } else {
+                        Text(icon.title)
+                            .foregroundStyle(self.currentIcon == self.icon ? Theme.current.contentColorForAccent : Color.primary)
+                    }
                 }
             }
             .themedButton(type: .primary,
                           tint: self.currentIcon == self.icon ? Theme.current.accentColor : .tertiarySystemBackground,
                           capsuleShape: false, id: UUID())
             .sensoryFeedback(.success, trigger: currentIcon)
+            .alert("That there icon's locked.", isPresented: self.$showMilestoneAlert, actions: {
+                Button(action: {
+                    self.showMilestoneAlert = false
+                    Task {
+                        if let campaign = try? await AppDatabase.shared.fetchCampaign(with: TLD_CAMPAIGN) {
+                            self.selectedDestination = .campaign(campaign, true)
+                            self.dismiss()
+                        }
+                    }
+                }, label: {
+                    Text("Take me there!")
+                })
+            }, message: {
+                Text("Donate to our campaign to unlock it!")
+            })
 //            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }
 }
