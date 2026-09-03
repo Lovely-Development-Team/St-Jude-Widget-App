@@ -60,7 +60,7 @@ struct EasterEggView: View {
     }
     
     var accessibilityLabel: Text {
-        Text("PixL2CU (\"Lovely to See You\") says \"\(affirmationToShow)\"")
+        Text("Cowbot L2CU (\"Lovely to See You\") says \"\(affirmationToShow)\"")
     }
     
     @ViewBuilder
