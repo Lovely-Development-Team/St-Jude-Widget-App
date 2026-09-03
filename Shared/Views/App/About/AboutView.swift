@@ -31,6 +31,7 @@ struct AboutView: View {
     
     @State private var showSupporterSheet: Bool = false
     @State private var currentIcon: AltIcon? = nil
+    @State private var showExtraIcons: Bool = false
     
     @ViewBuilder
     var headerView: some View {
@@ -163,12 +164,17 @@ struct AboutView: View {
                 
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], alignment: .leading, spacing: 10) {
                     ForEach(AltIcon.allCases) { icon in
-                        AltIconButton(currentIcon: self.$currentIcon, icon: icon)
+                        if showExtraIcons || !icon.isExtra {
+                            AltIconButton(currentIcon: self.$currentIcon, icon: icon)
+                        }
                     }
                 }
             }
         }
         .themedGroupBox(type: .primary, id: "alt-icon-group")
+        .task {
+            self.showExtraIcons = await TLDCampaign.milestoneReached(name: "Alternate App Icons")
+        }
     }
     
     // Change this to reflect the tools used in development
@@ -244,7 +250,7 @@ struct AboutView: View {
                 self.currentIcon = AltIcon(rawValue: appIcon.replacingOccurrences(of: "icon-", with: "")) ?? .defaultIcon
             } else {
                 self.currentIcon = AltIcon.defaultIcon
-            }
+            }            
         }
     }
 }

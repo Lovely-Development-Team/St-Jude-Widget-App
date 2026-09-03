@@ -28,6 +28,21 @@ enum AltIcon: String, CaseIterable, Identifiable {
         self.rawValue
     }
     
+    var isExtra: Bool {
+        switch self {
+        case .defaultIcon:
+            return false
+        case .regular:
+            return false
+        case .icon2024:
+            return false
+        case .icon2025:
+            return false
+        default:
+            return true
+        }
+    }
+    
     var title: String {
         switch self {
         case .regular:
