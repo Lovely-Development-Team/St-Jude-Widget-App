@@ -97,6 +97,25 @@ struct RandomCampaignPickerView2026: View {
     @State private var slideState: Bool = false
     @State private var slideTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    @State private var randomFailureText: String = ""
+    
+    let titleFont = Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
+    
+    func getRandomFailureText() -> String {
+        return [
+            "You hit Kathy's unicorn?! What in tarnation!",
+            "That weren’t no ordinary horse, partner!",
+            "You just hit the most magical critter west of the Mississippi!",
+            "A unicorn?! Have you completely lost your marbles?",
+            "You had one job, gunslinger.",
+            "That unicorn had a horn and everything!",
+            "The unicorn?! Surely you could see the dang horn!",
+            "Well, congratulations. You’ve gone and hit a mythical beast.",
+            "That there was a rare and valuable unicorn, ya fool!",
+            "You hit the unicorn. The West will never be the same."
+        ].randomElement()!
+    }
+    
     func targetType(for shelfIndex: Int, and targetIndex: Int) -> TargetType {
         let defaultTarget: TargetType = .myke
         
@@ -287,7 +306,7 @@ struct RandomCampaignPickerView2026: View {
             GroupBox {
                 VStack {
                     Text("Winner!")
-                        .font(.title)
+                        .font(self.titleFont)
                         .bold()
                     GroupBox {
                         HStack {
@@ -347,8 +366,18 @@ struct RandomCampaignPickerView2026: View {
             GroupBox {
                 VStack {
                     Text("Game Over!")
-                        .font(.title)
+                        .font(self.titleFont)
                         .bold()
+                    
+                    Text(randomFailureText)
+                        .fullWidth(alignment: .center)
+                    
+                    Image(.kathyAndHorse2026)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 120)
+                        .padding(.vertical)
+                    
                     Button(action: {
                         self.reset()
                     }, label: {
@@ -448,6 +477,9 @@ struct RandomCampaignPickerView2026: View {
                     .offset(y: -250)
             }
         }
+        .onChange(of: isGameOver, initial: true) {
+            self.randomFailureText = getRandomFailureText()
+        }
         .onAppear {
             Task {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
@@ -537,11 +569,11 @@ extension RandomCampaignPickerView2026 {
     var quickDrawRulesView: some View {
         if self.showQuickDrawRules {
             GroupBox {
-                VStack {
+                VStack(spacing: 5) {
                     Text("QuickDraw Mode!")
-                        .font(.title)
+                        .font(self.titleFont)
                         .bold()
-                    Text("Shoot the targets as quickly as you can! Make sure to avoid Kathy's horse!")
+                    Text("Shoot the targets as quickly as you can! Make sure to avoid Kathy's steed!")
                         .multilineTextAlignment(.center)
                     Button(action: {
                         self.showQuickDrawRules = false
@@ -549,6 +581,7 @@ extension RandomCampaignPickerView2026 {
                         Text("Let's go!")
                     })
                     .themedButton(type: .primary, id: "randomCampaignPicker2026QuickDrawStartButton")
+                    .padding(.top)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -561,9 +594,9 @@ extension RandomCampaignPickerView2026 {
     var quickDrawResultsView: some View {
         if self.showQuickDrawResults, let quickDrawTimeElapsed = self.quickDrawTimeElapsed {
             GroupBox {
-                VStack {
+                VStack(spacing: 5) {
                     Text(self.randomCowboyism)
-                        .font(.title)
+                        .font(self.titleFont)
                         .bold()
                     HStack(alignment: .bottom) {
                         Spacer()
@@ -599,14 +632,14 @@ extension RandomCampaignPickerView2026 {
             GroupBox {
                 VStack {
                     Text("QuickDraw Mode!")
-                        .font(.title)
+                        .font(self.titleFont)
                         .bold()
                     if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
                         if #available(iOS 18, *) {
                             Text(.currentDate, format: .stopwatch(startingAt: quickDrawTimeStarted))
                         }
                     } else {
-                        Text("...")
+                        Text("00:00.00")
                     }
                 }
             }
