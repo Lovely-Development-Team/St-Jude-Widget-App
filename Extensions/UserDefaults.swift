@@ -31,7 +31,7 @@ extension UserDefaults {
     static let iconsUnlockedKey = "iconsUnlocked"
     
     static let disablePixelFontKey = "disablePixelFont"
-    static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
+    static let disableSoundsKey = "disableSounds"
     static let coinCountKey = "coinCount"
     static let appAppearanceKey = "appAppearance"
     static let disableCombosKey = "disableCombos"
@@ -57,9 +57,9 @@ extension UserDefaults {
         set { set(newValue, forKey: Self.coinCountKey) }
     }
     
-    @objc var playSoundsEvenWhenMuted: Bool {
-        get { bool(forKey: Self.playSoundsEvenWhenMutedKey) }
-        set { set(newValue, forKey: Self.playSoundsEvenWhenMutedKey) }
+    @objc var disableSounds: Bool {
+        get { bool(forKey: Self.disableSoundsKey) }
+        set { set(newValue, forKey: Self.disableSoundsKey) }
     }
     
     @objc var disablePixelFont: Bool {

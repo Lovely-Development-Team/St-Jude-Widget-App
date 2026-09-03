@@ -36,9 +36,7 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
             ]
         )
         
-        Task {
-            SoundEffectHelper.shared.setup()
-        }
+        SoundEffectHelper.shared.setup()
         initNotificationCenter()
         
         return true

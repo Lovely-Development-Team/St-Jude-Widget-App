@@ -17,7 +17,7 @@ struct AboutView: View {
     
     // 2024 Settings
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
-    @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
+    @AppStorage(UserDefaults.disableSoundsKey, store: UserDefaults.shared) private var disableSounds: Bool = false
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
     
@@ -116,13 +116,7 @@ struct AboutView: View {
                     .bold()
                     .fullWidth()
                 
-                ToggleSetting(label: "Play Sounds When Muted",
-                              setting: self.$playSoundsEvenWhenMuted, onEnable: {
-                    SoundEffectHelper.shared.setToPlayEvenOnMute()
-                },
-                              onDisable: {
-                    SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
-                })
+                ToggleSetting(label: "Enable Sounds", setting: self.$disableSounds)
                 
                 ToggleSetting(label: "Enable Goal Multipliers", setting: self.$disableCombos)
             }
