@@ -173,7 +173,7 @@ struct AboutView: View {
         }
         .themedGroupBox(type: .primary, id: "alt-icon-group")
         .task {
-            self.showExtraIcons = await TLDCampaign.milestoneReached(name: "Alternate App Icons")
+            self.showExtraIcons = await TLDCampaign.milestoneReached(.alternateAppIcons)
         }
     }
     
