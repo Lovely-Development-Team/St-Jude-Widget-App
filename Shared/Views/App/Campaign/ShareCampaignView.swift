@@ -126,17 +126,21 @@ struct ShareCampaignView: View {
                             .overlay {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(appearance.backgroundColors.first ?? .primary)
+                                        .fill(.clear)
                                         .stroke(self.appearance == appearance ? appearance.foregroundColor : .clear, lineWidth: 5)
+                                        .background {
+                                            appearance.background
+                                        }
+                                        .clipShape(RoundedRectangle(cornerRadius: 8)).clipped()
                                         .shadow(radius: self.appearance == appearance ? 10 : 0)
                                     Circle()
                                         .fill(appearance.foregroundColor)
-                                        .frame(width: 15, height: 15)
+                                        .frame(width: 20, height: 20)
                                     Circle()
                                         .rotation(.degrees(-45))
                                         .trim(from: 0, to: 0.5)
                                         .fill(appearance.fillColor)
-                                        .frame(width: 15, height: 15)
+                                        .frame(width: 20, height: 20)
                                 }
                             }
                         }
