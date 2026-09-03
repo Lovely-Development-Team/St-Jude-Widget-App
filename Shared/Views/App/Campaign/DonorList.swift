@@ -35,11 +35,10 @@ struct DonorList: View {
                                     .multilineTextAlignment(.leading)
                                     .font(.headline)
                                 Spacer()
-                                // TODO: Do we not want this?
-//                                    if !donation.incentives?.isEmpty ?? false {
-//                                        Image(systemName: "heart.fill")
-//                                            .foregroundColor(.secondary)
-//                                    }
+                                if !(donation.rewardClaims?.isEmpty ?? true) {
+                                    Image(systemName: "gift")
+                                        .foregroundColor(.secondary)
+                                }
                                 Text(donation.amount.description(showFullCurrencySymbol: false))
                             }
                             if let comment = donation.donorComment {

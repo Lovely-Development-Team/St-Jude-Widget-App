@@ -305,12 +305,19 @@ struct TiltifyDonorsForCampaignDonationIncentive: Codable {
     let type: String
 }
 
+struct TiltifyDonorsForCampaignDonationRewardClaim: Codable {
+    let id: UUID
+    let quantity: Int
+    let rewardId: UUID
+}
+
 struct TiltifyDonorsForCampaignDonation: Codable {
     let id: UUID
     let amount: TiltifyAmount
     let donorName: String
     let donorComment: String?
     let incentives: [TiltifyDonorsForCampaignDonationIncentive]?
+    let rewardClaims: [TiltifyDonorsForCampaignDonationRewardClaim]?
     let completedAt: String?
     
     var donationDate: Date? {
