@@ -11,14 +11,14 @@ import SwiftUI
 enum AltIcon: String, CaseIterable, Identifiable {
     case defaultIcon
     
+    case ground2026
+    case leather2026
     case myke2026
     case stephen2026
     case jason2026
     case casey2026
     case kathy2026
     case brad2026
-    case ground2026
-    case leather2026
     
     case regular
     case icon2024
