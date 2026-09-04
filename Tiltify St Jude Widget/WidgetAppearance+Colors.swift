@@ -206,16 +206,16 @@ extension WidgetAppearance {
     }
     
     @ViewBuilder
-    var background: some View {
+    func background(hasMemoryLimit: Bool = true) -> some View {
         switch self {
         case .wildWestWood:
-            Image(.woodbackground2026Small)
+            Image(hasMemoryLimit ? .woodbackground2026Small : .woodBackground2026)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
                 .background(ignoresSafeAreaEdges: .all)
         case .wildWestSky:
-            Image(.sky2026Small)
+            Image(hasMemoryLimit ? .sky2026Small : .sky2026)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
