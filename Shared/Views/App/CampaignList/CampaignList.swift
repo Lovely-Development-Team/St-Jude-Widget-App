@@ -12,6 +12,7 @@ enum CampaignListDestination: Hashable {
     case teamEvent(TeamEvent)
     case campaign(Campaign, Bool)
     case headToHead(HeadToHeadWithCampaigns)
+    case randomCampaignPicker(Bool)
 }
 
 struct CampaignList: View {
@@ -124,6 +125,13 @@ struct CampaignList: View {
             case let .headToHead(headToHead):
                 HeadToHeadView(campaign1: headToHead.campaign1, campaign2: headToHead.campaign2)
                     .zoomTransitioniOS26(id: "headToHead-\(headToHead.campaign1.id)-\(headToHead.campaign2.id)-", namespace: self.namespace)
+            case let .randomCampaignPicker(zoomTransition):
+                if zoomTransition {
+                    Theme.current.randomCampaignPicker(selectedDestination: self.$selectedDestination)
+                        .zoomTransitioniOS26(id: "randomCampaignPicker", namespace: self.namespace)
+                } else {
+                    Theme.current.randomCampaignPicker(selectedDestination: self.$selectedDestination)
+                }
             }
         }
         .navigationTitle("Relay for St. Jude")

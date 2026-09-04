@@ -37,22 +37,34 @@ enum TargetType: CaseIterable {
 struct Target: View {
     let type: TargetType
     let size: CGFloat
+    let index: (Int, Int)
+    @Binding var selectedTargets: [(Int, Int)]
     let onTap: () -> Void
     
     @State private var hapticToggle: Bool = false
     
+    var gesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged({_ in
+                if !self.selectedTargets.contains(where: { shelf2, target2 in
+                    let (shelf1, target1) = self.index
+                    
+                    return shelf1 == shelf2 && target1 == target2
+                }) {
+                    self.hapticToggle.toggle()
+                    self.onTap()
+                }
+            })
+    }
+    
     var body: some View {
-        Button(action: {
-            self.hapticToggle.toggle()
-            self.onTap()
-        }, label: {
-            Image(self.type.targetImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: self.size)
-        })
-        .shadow(radius: 10)
-        .sensoryFeedback(.success, trigger: self.hapticToggle)
+        Image(self.type.targetImage)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: self.size)
+            .shadow(radius: 10)
+            .gesture(self.gesture)
+            .sensoryFeedback(.success, trigger: self.hapticToggle)
     }
     
 }
@@ -154,7 +166,10 @@ struct RandomCampaignPickerView2026: View {
     func targetView(shelfIndex: Int, targetIndex: Int) -> some View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
         
-        Target(type: targetType, size: self.targetSize) {
+        Target(type: targetType,
+               size: self.targetSize,
+               index: (shelfIndex, targetIndex),
+               selectedTargets: self.$selectedTargets) {
             SoundEffectHelper.shared.play(.shotRandom, allowOverlap: true)
             hapticToggle.toggle()
             withAnimation {
@@ -331,8 +346,11 @@ struct RandomCampaignPickerView2026: View {
                                     .frame(height: 50)
                                     .cornerRadius(5)
                                     .onTapGesture {
-                                        self.selectedDestination = .campaign(selectedCampaign, true)
                                         self.dismiss()
+                                        // push the new view onto the nav stack after this one is dismissed
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                self.selectedDestination = .campaign(selectedCampaign, true)
+                                        }
                                     }
                             }
                             VStack(alignment: .leading) {
@@ -348,7 +366,10 @@ struct RandomCampaignPickerView2026: View {
                     .padding(.bottom)
                     
                     Button(action: {
-                        self.selectedDestination = .campaign(selectedCampaign, true)
+                        // push the new view onto the nav stack after this one is dismissed
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.selectedDestination = .campaign(selectedCampaign, true)
+                        }
                         self.dismiss()
                     }, label: {
                         Text("Visit Campaign")
@@ -479,8 +500,10 @@ struct RandomCampaignPickerView2026: View {
             }
             .padding()
         }
+        .navigationBarBackButtonHidden()
         .interactiveDismissDisabled()
         .ignoresSafeArea()
+        .statusBarHidden()
         .background {
             GeometryReader { geometry in
                 Image.tiledImageAtScale(.woodBackground2026, scale: Theme.current.imageScale)

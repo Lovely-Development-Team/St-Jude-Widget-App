@@ -379,7 +379,7 @@ struct FundraiserListView: View {
     @ViewBuilder
     var randomFundraiserButton: some View {
         Button(action: {
-            showSheet = .randomPicker
+            self.selectedDestination = .randomCampaignPicker(Theme.current.shouldZoomIntoRandomCampaignPicker)
         }) {
             HStack {
                 if Theme.current.hasCustomRandomCampaignPicker {
@@ -398,6 +398,7 @@ struct FundraiserListView: View {
         }
         // TODO: remove glass
         .themedButton(type: .primary, id: "spin-random")
+        .zoomTransitioniOS26Source(id: "randomCampaignPicker", namespace: self.namespace)
     }
     
     var body: some View {
