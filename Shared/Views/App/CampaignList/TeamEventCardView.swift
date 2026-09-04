@@ -13,7 +13,7 @@ struct TeamEventCardView: View {
     var showShareIcon: Bool = false
     var appearance: WidgetAppearance = .stjude
     @Binding var showShareSheet: Bool
-    @State private var showShareLinkSheet: ShareURL? = nil
+    @State private var shareLinkActivityItems: [Any]? = nil
     var showBackground: Bool = true
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
     
@@ -58,18 +58,21 @@ struct TeamEventCardView: View {
                             Label("Share Image", systemImage: "photo")
                         }
                         Button(action: {
-                            showShareLinkSheet = ShareURL(url: URL(string: "https://stjude.org/relay")!)
+                            shareLinkActivityItems = [URL(string: "https://stjude.org/relay")!]
                         }) {
                             Label("Share Event Link", systemImage: "link")
                         }
                         Button(action: {
-                            showShareLinkSheet = ShareURL(url: URL(string: "https://donate.tiltify.com/\(RELAY_SUBCAMPAIGN_ID)")!)
+                            shareLinkActivityItems = [URL(string: "https://donate.tiltify.com/\(RELAY_SUBCAMPAIGN_ID)")!]
                         }) {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
                     } label: {
                         Label("Share", systemImage: "square.and.arrow.up")
                             .labelStyle(.iconOnly)
+                    }
+                    .background {
+                        ShareSheetPresenter(activityItems: $shareLinkActivityItems)
                     }
                 }
             }
@@ -105,9 +108,6 @@ struct TeamEventCardView: View {
             } else {
                 self.contents
             }
-        }
-        .sheet(item: $showShareLinkSheet) { url in
-            ShareSheetView(activityItems: [url.url])
         }
     }
 }
