@@ -88,6 +88,7 @@ struct RandomCampaignPickerView2026: View {
     @State private var quickDrawTimeStarted: Date? = nil
     @State private var showQuickDrawRules: Bool = false
     @State private var shouldUnlockQuickDraw: Bool = false
+    @State private var quickDrawBestTime: Double? = UserDefaults.shared.quickDrawBestTime
     
     @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
@@ -558,6 +559,10 @@ extension RandomCampaignPickerView2026 {
                     self.isGameOver = true
                     SoundEffectHelper.shared.play(.gameover)
                 } else {
+                    if let quickDrawTimeElapsed = self.quickDrawTimeElapsed, self.quickDrawBestTime == nil || quickDrawTimeElapsed < self.quickDrawBestTime! {
+                        self.quickDrawBestTime = quickDrawTimeElapsed
+                        UserDefaults.shared.quickDrawBestTime = quickDrawTimeElapsed
+                    }
                     self.showQuickDrawResults = true
                     SoundEffectHelper.shared.play(.winner)
                 }
@@ -608,7 +613,12 @@ extension RandomCampaignPickerView2026 {
                     Text(self.randomCowboyism)
                         .font(self.titleFont)
                         .bold()
-                    HStack(alignment: .bottom) {
+                        .padding(.bottom)
+                    if quickDrawBestTime == quickDrawTimeElapsed {
+                        Text("You done hit a high score!")
+                            .padding(.bottom)
+                    }
+                    HStack {
                         Spacer()
                         GroupBox {
                             VStack {
@@ -628,6 +638,11 @@ extension RandomCampaignPickerView2026 {
                         })
                         .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
                         Spacer()
+                    }
+                    if let quickDrawBestTime = self.quickDrawBestTime {
+                        Text("Best: \(quickDrawBestTime, specifier: "%.2f") seconds")
+                            .font(.footnote)
+                            .padding(.top)
                     }
                 }
                 .frame(maxWidth: .infinity)

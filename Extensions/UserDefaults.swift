@@ -42,6 +42,7 @@ extension UserDefaults {
     static let selectedThemeKey = "selectedThemeKey"
     
     static let quickDrawModeUnlockedKey = "quickDrawModeUnlockedKey"
+    static let quickDrawBestTimeKey = "quickDrawBestTimeKey"
     
     // DEBUG ONLY
     static let debugGlowOpacityKey = "debugGlowOpacityKey"
@@ -188,6 +189,11 @@ extension UserDefaults {
     @objc var quickDrawModeUnlocked: Bool {
         get { bool(forKey: Self.quickDrawModeUnlockedKey) }
         set { UserDefaults.shared.set(newValue, forKey: Self.quickDrawModeUnlockedKey) }
+    }
+
+    var quickDrawBestTime: Double? {
+        get { object(forKey: Self.quickDrawBestTimeKey) as? Double }
+        set { UserDefaults.shared.set(newValue, forKey: Self.quickDrawBestTimeKey) }
     }
 }
 
