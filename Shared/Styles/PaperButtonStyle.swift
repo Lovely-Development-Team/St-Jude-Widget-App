@@ -107,7 +107,7 @@ struct PaperButtonStyle: ButtonStyle {
                 .colorMultiply(.paperColor2026)
                 .colorMultiply(self.tint)
                 .overlay(alignment: .top) {
-                    Image.imageAtScale(.paperNail, scale: Theme.current.imageScale * 0.75)
+                    Image.imageAtScale(.paperNail, scale: Theme.current.imageScale * 0.75, horizontalScale: Theme.current.imageScale * 0.75)
                         .offset(y: 2)
                 }
             }
