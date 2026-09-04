@@ -53,8 +53,8 @@ struct AltIconButton: View {
     @Binding var currentIcon: AltIcon?
     var icon: AltIcon
     var disabled: Bool
+    let goToCampaignTapped: () -> Void
     @State private var showMilestoneAlert: Bool = false
-    @Binding var selectedDestination: CampaignListDestination?
     
     var body: some View {
             Button(action: {
@@ -91,17 +91,16 @@ struct AltIconButton: View {
                           capsuleShape: false, id: "\(self.icon.rawValue)-\(self.icon.id)")
             .sensoryFeedback(.success, trigger: currentIcon)
             .alert("That there icon's locked.", isPresented: self.$showMilestoneAlert, actions: {
-                Button(action: {
+                Button("Take me there!", action: {
                     self.showMilestoneAlert = false
-                    Task {
-                        if let campaign = try? await AppDatabase.shared.fetchCampaign(with: TLD_CAMPAIGN) {
-                            self.selectedDestination = .campaign(campaign, true)
-                            self.dismiss()
-                        }
-                    }
-                }, label: {
-                    Text("Take me there!")
+                    goToCampaignTapped()
                 })
+                .keyboardShortcut(.defaultAction)
+                Button(role: .cancel, action: {
+                    self.showMilestoneAlert = false
+                }) {
+                    Text("I'll donate later...")
+                }
             }, message: {
                 Text("Donate to our campaign to unlock it!")
             })

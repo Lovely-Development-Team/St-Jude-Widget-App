@@ -32,7 +32,7 @@ struct AboutView: View {
     @State private var showSupporterSheet: Bool = false
     @State private var currentIcon: AltIcon? = nil
     @State private var showExtraIcons: Bool = false
-    
+    @Binding var tldCampaign: Campaign?
     @Binding var selectedDestination: CampaignListDestination?
     
     @ViewBuilder
@@ -166,7 +166,12 @@ struct AboutView: View {
                 
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], alignment: .leading, spacing: 10) {
                     ForEach(AltIcon.allCases) { icon in
-                        AltIconButton(currentIcon: self.$currentIcon, icon: icon, disabled: !showExtraIcons && icon.isExtra, selectedDestination: $selectedDestination)
+                        AltIconButton(currentIcon: self.$currentIcon, icon: icon, disabled: !showExtraIcons && icon.isExtra) {
+                            if let tldCampaign {
+                                self.dismiss()
+                                self.selectedDestination = .campaign(tldCampaign, true)
+                            }
+                        }
                     }
                 }
             }
@@ -269,5 +274,5 @@ extension AboutView {
 }
 
 #Preview {
-    AboutView(selectedDestination: .constant(nil))
+    AboutView(tldCampaign: .constant(nil), selectedDestination: .constant(nil))
 }
