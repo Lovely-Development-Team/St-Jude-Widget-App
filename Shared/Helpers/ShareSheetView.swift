@@ -70,3 +70,36 @@ struct ShareSheetView: UIViewControllerRepresentable {
         // nothing to do here
     }
 }
+
+// MARK: Fixing macOS sharing not working, reported by Stephen
+
+extension UIView {
+    var closestViewController: UIViewController? {
+        sequence(first: self as UIResponder, next: { $0.next })
+            .first { $0 is UIViewController } as? UIViewController
+    }
+}
+
+struct ShareSheetPresenter: UIViewRepresentable {
+    @Binding var activityItems: [Any]?
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView(frame: .zero)
+        view.isUserInteractionEnabled = false
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        guard let activityItems,
+              uiView.window != nil,
+              let presentingViewController = uiView.closestViewController,
+              presentingViewController.presentedViewController == nil else { return }
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: [SafariActivity()])
+        controller.popoverPresentationController?.sourceView = uiView
+        controller.popoverPresentationController?.sourceRect = uiView.bounds
+        controller.completionWithItemsHandler = { _, _, _, _ in
+            self.activityItems = nil
+        }
+        presentingViewController.present(controller, animated: true)
+    }
+}

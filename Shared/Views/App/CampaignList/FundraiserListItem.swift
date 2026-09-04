@@ -8,11 +8,6 @@
 import SwiftUI
 import Kingfisher
 
-struct ShareURL: Identifiable {
-    let id = UUID()
-    let url: URL
-}
-
 struct FundraiserListItem: View {
     
     let campaign: Campaign
@@ -23,7 +18,7 @@ struct FundraiserListItem: View {
     var showBackground: Bool = true
     @Binding var showShareSheet: Bool
     let sortOrdersShowingPercentage: [FundraiserSortOrder] = [.byGoal, .byPercentage]
-    @State private var showShareLinkSheet: ShareURL? = nil
+    @State private var shareLinkActivityItems: [Any]? = nil
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) var disableCombos: Bool = false
     
     @ViewBuilder
@@ -116,18 +111,21 @@ struct FundraiserListItem: View {
                             Label("Share Image", systemImage: "photo")
                         }
                         Button(action: {
-                            showShareLinkSheet = ShareURL(url: campaign.url)
+                            shareLinkActivityItems = [campaign.url]
                         }) {
                             Label("Share Fundraiser Link", systemImage: "link")
                         }
                         Button(action: {
-                            showShareLinkSheet = ShareURL(url: campaign.directDonateURL)
+                            shareLinkActivityItems = [campaign.directDonateURL]
                         }) {
                             Label("Share Direct Donation Link", systemImage: "dollarsign")
                         }
                     } label: {
                         Label("Share", systemImage: "square.and.arrow.up")
                             .labelStyle(.iconOnly)
+                    }
+                    .background {
+                        ShareSheetPresenter(activityItems: $shareLinkActivityItems)
                     }
                 }
             }
@@ -198,9 +196,6 @@ struct FundraiserListItem: View {
                 self.infoView(compact: self.compact)
                 self.amountView(compact: self.compact)
             }
-        }
-        .sheet(item: $showShareLinkSheet) { url in
-            ShareSheetView(activityItems: [url.url])
         }
     }
     
