@@ -171,6 +171,8 @@ struct CampaignList: View {
             }
             
             self.navigationPath.append(destination)
+            // Reset so selecting the same destination again still triggers this onChange
+            self.selectedDestination = nil
         }
         .onAppear {
             teamEventCancellable = AppDatabase.shared.start(observation: teamEventObservation) { error in
