@@ -28,6 +28,7 @@ struct EntryView: View {
     var mainProgressBarPixelScale: Double = .spriteScale
     var milestoneProgressBarHeight: CGFloat = 10
     var disableCombos: Bool = false
+    var hasMemoryLimit: Bool = true
 
     
     var showTwoMilestones: Bool {
@@ -77,18 +78,18 @@ struct EntryView: View {
                 if useNormalBackgroundOniOS17 {
                     content
                         .padding()
-                        .background(appearance.background)
+                        .background(appearance.background(hasMemoryLimit: self.hasMemoryLimit))
                 } else {
                     content
                         .containerBackground(for: .widget) {
-                            appearance.background
+                            appearance.background(hasMemoryLimit: self.hasMemoryLimit)
                         }
                         .padding(showsBackground ? [] : .all, 5)
                 }
             } else {
                 content
                     .padding()
-                    .background(appearance.background)
+                    .background(appearance.background(hasMemoryLimit: self.hasMemoryLimit))
             }
         }
     }

@@ -46,13 +46,13 @@ struct ShareCampaignView: View {
     }
     
     var instagramView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, additionalPadding: 40, mainProgressBarHeight: 30, mainProgressBarPixelScale: .spriteScale * 2, milestoneProgressBarHeight: 20, disableCombos: disableCombos)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, centerVertically: true, additionalPadding: 40, mainProgressBarHeight: 30, mainProgressBarPixelScale: .spriteScale * 2, milestoneProgressBarHeight: 20, disableCombos: disableCombos, hasMemoryLimit: false)
             .frame(width: CGSize.instagramStoryDimensions.width, height: CGSize.instagramStoryDimensions.height)
             .dynamicTypeSize(.accessibility3)
     }
     
     var standardView: some View {
-        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, disableCombos: disableCombos)
+        EntryView(campaign: $widgetData, showMilestones: showMilestones, preferFutureMilestones: preferFutureMilestones, showFullCurrencySymbol: showFullCurrencySymbol, showGoalPercentage: showMainGoalPercentage, showMilestonePercentage: showMilestonePercentage, appearance: appearance, useNormalBackgroundOniOS17: true, disablePixelFont: disablePixelTheme, disableCombos: disableCombos, hasMemoryLimit: false)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
             .environment(\.font, Font.body)
             .frame(minHeight: 169)
@@ -129,7 +129,7 @@ struct ShareCampaignView: View {
                                         .fill(.clear)
                                         .stroke(self.appearance == appearance ? appearance.foregroundColor : .clear, lineWidth: 5)
                                         .background {
-                                            appearance.background
+                                            appearance.background(hasMemoryLimit: false)
                                         }
                                         .clipShape(RoundedRectangle(cornerRadius: 8)).clipped()
                                         .shadow(radius: self.appearance == appearance ? 10 : 0)
