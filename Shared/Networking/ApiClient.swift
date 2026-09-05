@@ -189,6 +189,26 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         }
     }
 
+    func buildLiveActivityChannelRequest() -> URLRequest {
+        var components = URLComponents(string: "https://stjude-scoreboard.snailedit.online/api/live-activity-channel")!
+        components.queryItems = [URLQueryItem(name: "environment", value: apsEnvironment)]
+        var request = URLRequest(url: components.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        return request
+    }
+
+    func fetchLiveActivityChannelId() async -> String? {
+        do {
+            let request = buildLiveActivityChannelRequest()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            return try jsonDecoder.decode(LiveActivityChannelResponse.self, from: data).channelId
+        } catch {
+            dataLogger.error("Fetching live activity channel failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+
     func buildTeamEventRequest() throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com/gql")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

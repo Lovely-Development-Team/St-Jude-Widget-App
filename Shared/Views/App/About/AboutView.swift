@@ -157,22 +157,24 @@ struct AboutView: View {
         }
         .themedGroupBox(type: .primary, id: "theme-group")
         
-        GroupBox {
-            VStack(spacing: 20) {
-                Text("Live Activity")
-                    .font(.title3)
-                    .bold()
-                    .fullWidth()
-                
-                Button("Start Scores Live Activity") {
-                    Task {
-                        await liveActivityController.start()
+        if #available(iOS 18, *) {
+            GroupBox {
+                VStack(spacing: 20) {
+                    Text("Live Activity")
+                        .font(.title3)
+                        .bold()
+                        .fullWidth()
+                    
+                    Button("Start Scores Live Activity") {
+                        Task {
+                            await liveActivityController.start()
+                        }
                     }
+                    .themedButton(type: .primary, id: "start-live-activity")
                 }
-                .themedButton(type: .primary, id: "start-live-activity")
             }
+            .themedGroupBox(type: .primary, id: "live-activity-group")
         }
-        .themedGroupBox(type: .primary, id: "live-activity-group")
         #endif
     }
     

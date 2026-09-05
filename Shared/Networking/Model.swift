@@ -453,6 +453,10 @@ struct UpdatePushTokenRequestBody: Encodable {
     let environment: String
 }
 
+struct LiveActivityChannelResponse: Decodable {
+    let channelId: String
+}
+
 
 struct TiltifyMultiSearchQueryCampaignResult: Codable {
     let id: UUID
