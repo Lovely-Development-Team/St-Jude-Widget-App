@@ -11,7 +11,8 @@ import Observation
 @Observable
 class LiveActivityController {
     private var pushToStartTokenTask: Task<Void, Never>?
-    private var pushTokenUpdatesTask: Task<Void, Never>?
+    private var channelFetchTask: Task<Void, Never>?
+    private var channelId: String?
 
     init() {
         pushToStartTokenTask = Task {
@@ -19,13 +20,17 @@ class LiveActivityController {
                 await ApiClient.shared.uploadPushToken(tokenType: .liveActivityStart, scopeId: ScoreAttributes().activityType, token: token)
             }
         }
+        channelFetchTask = Task {
+            channelId = await ApiClient.shared.fetchLiveActivityChannelId()
+        }
     }
 
     deinit {
         pushToStartTokenTask?.cancel()
-        pushTokenUpdatesTask?.cancel()
+        channelFetchTask?.cancel()
     }
 
+    @available(iOS 18.0, *)
     func start() async {
         if Activity<ScoreAttributes>.activities.isEmpty,
            ActivityAuthorizationInfo().areActivitiesEnabled {
@@ -43,20 +48,22 @@ class LiveActivityController {
                         myke: 0, stephen: 0
                     )
                 }
+                
+                if channelId == nil {
+                    channelId = await ApiClient.shared.fetchLiveActivityChannelId()
+                }
+                
+                guard let channelId else {
+                    apiLogger.error("Channel ID unexpectedly nil")
+                    return
+                }
 
                 let activity = try Activity.request(
                     attributes: scoreAttributes,
                     content: .init(state: initialState, staleDate: nil),
-                    pushType: .token
+                    pushType: .channel(channelId)
                 )
                 appLogger.info("Started live activity")
-
-                pushTokenUpdatesTask?.cancel()
-                pushTokenUpdatesTask = Task {
-                    for await token in activity.pushTokenUpdates {
-                        await ApiClient.shared.uploadPushToken(tokenType: .liveActivityUpdate, scopeId: activity.id, token: token)
-                    }
-                }
             } catch {
                 fatalError("""
                                 Couldn't start activity
