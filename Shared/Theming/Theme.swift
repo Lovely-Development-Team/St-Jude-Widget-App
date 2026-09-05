@@ -94,7 +94,11 @@ enum Theme: Int, CaseIterable {
     }
     
     static var current: Theme {
-        return Theme(rawValue: UserDefaults.shared.selectedTheme) ?? Self.defaultTheme
+        guard let storedTheme = Theme(rawValue: UserDefaults.shared.selectedTheme),
+              storedTheme != .normal else {
+            return Self.defaultTheme
+        }
+        return storedTheme
     }
     
     static var isThemeApplied: Bool {

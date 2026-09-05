@@ -11,6 +11,7 @@ struct AboutView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @Environment(\.dismiss) var dismiss
+    @Environment(LiveActivityController.self) private var liveActivityController
     
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     @AppStorage(UserDefaults.selectedThemeKey, store: UserDefaults.shared) private var selectedThemeId: Int = 0
@@ -152,6 +153,25 @@ struct AboutView: View {
             }
         }
         .themedGroupBox(type: .primary, id: "theme-group")
+        
+        if #available(iOS 18, *) {
+            GroupBox {
+                VStack(spacing: 20) {
+                    Text("Live Activity")
+                        .font(.title3)
+                        .bold()
+                        .fullWidth()
+                    
+                    Button("Start Scores Live Activity") {
+                        Task {
+                            await liveActivityController.start()
+                        }
+                    }
+                    .themedButton(type: .primary, id: "start-live-activity")
+                }
+            }
+            .themedGroupBox(type: .primary, id: "live-activity-group")
+        }
         #endif
     }
     

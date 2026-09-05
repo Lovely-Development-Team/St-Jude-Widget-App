@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 import WidgetKit
+#if os(iOS)
+import UIKit
+#elseif os(macOS)
+import IOKit
+#endif
 
 let TEAM_EVENT_VANITY = "@relay"
 let TEAM_EVENT_SLUG = "relay-for-st-jude-2026"
@@ -109,6 +114,101 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         return nil
     }
     
+    private var apsEnvironment: String {
+        #if DEBUG
+        return "sandbox"
+        #else
+        return "production"
+        #endif
+    }
+
+    private func resolveDeviceId() async -> String? {
+        #if os(iOS)
+        return await UIDevice.current.identifierForVendor?.uuidString
+        #elseif os(macOS)
+        return Self.macAddress()
+        #endif
+    }
+
+    #if os(macOS)
+    private static func macAddress() -> String? {
+        var iterator: io_iterator_t = 0
+        let matchingDict = IOServiceMatching("IOEthernetInterface") as NSMutableDictionary
+        matchingDict["IOPropertyMatch"] = ["IOPrimaryInterface": true]
+
+        guard IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator) == KERN_SUCCESS else {
+            return nil
+        }
+        defer { IOObjectRelease(iterator) }
+
+        let service = IOIteratorNext(iterator)
+        guard service != 0 else { return nil }
+        defer { IOObjectRelease(service) }
+
+        var parentService: io_object_t = 0
+        guard IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService) == KERN_SUCCESS else {
+            return nil
+        }
+        defer { IOObjectRelease(parentService) }
+
+        guard let macAddressProperty = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, kCFAllocatorDefault, 0),
+              let macAddressData = macAddressProperty.takeRetainedValue() as? Data else {
+            return nil
+        }
+        return macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":")
+    }
+    #endif
+
+    func buildPushTokenRequest(deviceId: String, tokenType: PushTokenType, scopeId: String, token: Data) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://stjude-scoreboard.snailedit.online/api/push-tokens/\(deviceId)/\(tokenType)")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "PUT"
+        let body = UpdatePushTokenRequestBody(
+            scopeId: scopeId,
+            token: token.map { String(format: "%02x", $0) }.joined(),
+            environment: apsEnvironment
+        )
+        request.httpBody = try jsonEncoder.encode([body])
+        return request
+    }
+
+    func uploadPushToken(tokenType: PushTokenType, scopeId: String, token: Data) async {
+        guard let deviceId = await resolveDeviceId() else {
+            dataLogger.error("Unable to determine device identifier for push token upload")
+            return
+        }
+        do {
+            let request = try buildPushTokenRequest(deviceId: deviceId, tokenType: tokenType, scopeId: scopeId, token: token)
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let urlResponse = response as? HTTPURLResponse, urlResponse.statusCode == 204 else {
+                dataLogger.error("Uploading push token received error: \(String(bytes: data, encoding: .utf8) ?? "Unknown")")
+                return
+            }
+        } catch {
+            dataLogger.error("Uploading push token failed: \(error.localizedDescription)")
+        }
+    }
+
+    func buildLiveActivityChannelRequest() -> URLRequest {
+        var components = URLComponents(string: "https://stjude-scoreboard.snailedit.online/api/live-activity-channel")!
+        components.queryItems = [URLQueryItem(name: "environment", value: apsEnvironment)]
+        var request = URLRequest(url: components.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        return request
+    }
+
+    func fetchLiveActivityChannelId() async -> String? {
+        do {
+            let request = buildLiveActivityChannelRequest()
+            let (data, _) = try await URLSession.shared.data(for: request)
+            return try jsonDecoder.decode(LiveActivityChannelResponse.self, from: data).channelId
+        } catch {
+            dataLogger.error("Fetching live activity channel failed: \(error.localizedDescription)")
+        }
+        return nil
+    }
+
     func buildTeamEventRequest() throws -> URLRequest {
         var request = URLRequest(url: URL(string: "https://api.tiltify.com/gql")!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
