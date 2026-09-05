@@ -10,6 +10,22 @@ import Observation
 
 @Observable
 class LiveActivityController {
+    private var pushToStartTokenTask: Task<Void, Never>?
+    private var pushTokenUpdatesTask: Task<Void, Never>?
+
+    init() {
+        pushToStartTokenTask = Task {
+            for await token in Activity<ScoreAttributes>.pushToStartTokenUpdates {
+                await ApiClient.shared.uploadPushToken(tokenType: .liveActivityStart, scopeId: ScoreAttributes().activityType, token: token)
+            }
+        }
+    }
+
+    deinit {
+        pushToStartTokenTask?.cancel()
+        pushTokenUpdatesTask?.cancel()
+    }
+
     func start() async {
         if Activity<ScoreAttributes>.activities.isEmpty,
            ActivityAuthorizationInfo().areActivitiesEnabled {
@@ -27,13 +43,20 @@ class LiveActivityController {
                         myke: 0, stephen: 0
                     )
                 }
-                
-                _ = try Activity.request(
+
+                let activity = try Activity.request(
                     attributes: scoreAttributes,
                     content: .init(state: initialState, staleDate: nil),
                     pushType: .token
                 )
                 appLogger.info("Started live activity")
+
+                pushTokenUpdatesTask?.cancel()
+                pushTokenUpdatesTask = Task {
+                    for await token in activity.pushTokenUpdates {
+                        await ApiClient.shared.uploadPushToken(tokenType: .liveActivityUpdate, scopeId: activity.id, token: token)
+                    }
+                }
             } catch {
                 fatalError("""
                                 Couldn't start activity

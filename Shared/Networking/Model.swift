@@ -441,6 +441,18 @@ struct StJudeScore: Codable {
     
 }
 
+enum PushTokenType: String, Encodable {
+    case widget
+    case liveActivityStart = "live_activity_start"
+    case liveActivityUpdate = "live_activity_update"
+}
+
+struct UpdatePushTokenRequestBody: Encodable {
+    let scopeId: String
+    let token: String
+    let environment: String
+}
+
 
 struct TiltifyMultiSearchQueryCampaignResult: Codable {
     let id: UUID
