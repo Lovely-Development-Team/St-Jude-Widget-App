@@ -14,4 +14,6 @@ struct ScoreAttributes: ActivityAttributes {
         let stephen: Double
     }
     let activityType = "MykeVStephen"
+
+    private enum CodingKeys: CodingKey {}
 }
