@@ -1,0 +1,23 @@
+{
+  "meta" : {
+    "version" : "2024-11-15"
+  },
+  "resources" : {
+    "leaderboards" : [
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "defaultFormatter" : "ELAPSED_TIME_CENTISECOND",
+        "referenceName" : "quickdraw",
+        "scoreRangeEnd" : null,
+        "scoreRangeStart" : null,
+        "scoreSortType" : "ASC",
+        "submissionType" : "BEST_SCORE",
+        "vendorIdentifier" : "quickdraw",
+        "visibility" : "SHOW_FOR_ALL"
+      }
+    ]
+  }
+}
