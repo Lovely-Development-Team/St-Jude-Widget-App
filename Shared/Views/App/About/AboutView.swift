@@ -154,6 +154,7 @@ struct AboutView: View {
             }
         }
         .themedGroupBox(type: .primary, id: "theme-group")
+        #endif
         
         if #available(iOS 18, *) {
             GroupBox {
@@ -180,7 +181,6 @@ struct AboutView: View {
             }
             .themedGroupBox(type: .primary, id: "live-activity-group")
         }
-        #endif
     }
     
     @ViewBuilder
