@@ -464,6 +464,10 @@ struct LiveActivityChannelResponse: Decodable {
     let channelId: String
 }
 
+struct UpdateDeviceSettingsRequestBody: Encodable {
+    let autoStartLiveActivity: Bool
+}
+
 
 struct TiltifyMultiSearchQueryCampaignResult: Codable {
     let id: UUID

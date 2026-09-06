@@ -43,6 +43,7 @@ extension UserDefaults {
     
     static let quickDrawModeUnlockedKey = "quickDrawModeUnlockedKey"
     static let quickDrawBestTimeKey = "quickDrawBestTimeKey"
+    static let autoStartLiveActivityKey = "autoStartLiveActivity"
     
     // DEBUG ONLY
     static let debugGlowOpacityKey = "debugGlowOpacityKey"
@@ -194,6 +195,11 @@ extension UserDefaults {
     var quickDrawBestTime: Double? {
         get { object(forKey: Self.quickDrawBestTimeKey) as? Double }
         set { UserDefaults.shared.set(newValue, forKey: Self.quickDrawBestTimeKey) }
+    }
+        
+    @objc var autoStartLiveActivity: Bool {
+        get { object(forKey: Self.autoStartLiveActivityKey) as? Bool ?? true }
+        set { UserDefaults.shared.set(newValue, forKey: Self.autoStartLiveActivityKey) }
     }
 }
 
