@@ -16,7 +16,7 @@ class LiveActivityController {
     private var channelId: String?
 
     init() {
-        pushToStartTokenTask = Task {
+        pushToStartTokenTask = Task(priority: .low) {
             for await token in Activity<ScoreAttributes>.pushToStartTokenUpdates {
                 guard UserDefaults.shared.autoStartLiveActivity else { continue }
                 await ApiClient.shared.uploadPushToken(tokenType: .liveActivityStart, scopeId: ScoreAttributes().activityType, token: token)
