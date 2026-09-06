@@ -6,6 +6,7 @@
 //
 
 import ActivityKit
+import Foundation
 import Observation
 
 @Observable
@@ -17,6 +18,7 @@ class LiveActivityController {
     init() {
         pushToStartTokenTask = Task {
             for await token in Activity<ScoreAttributes>.pushToStartTokenUpdates {
+                guard UserDefaults.shared.autoStartLiveActivity else { continue }
                 await ApiClient.shared.uploadPushToken(tokenType: .liveActivityStart, scopeId: ScoreAttributes().activityType, token: token)
             }
         }

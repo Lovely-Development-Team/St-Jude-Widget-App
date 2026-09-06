@@ -21,6 +21,7 @@ struct AboutView: View {
     @AppStorage(UserDefaults.disableSoundsKey, store: UserDefaults.shared) private var disableSounds: Bool = false
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
+    @AppStorage(UserDefaults.autoStartLiveActivityKey, store: UserDefaults.shared) private var autoStartLiveActivity: Bool = true
     
     // 2025 Settings
     @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColor: Int = Player.randomInitial.rawValue
@@ -162,6 +163,13 @@ struct AboutView: View {
                         .bold()
                         .fullWidth()
                     
+                    Toggle("Auto-Start Live Activity", isOn: self.$autoStartLiveActivity)
+                        .onChange(of: autoStartLiveActivity) {
+                            Task {
+                                await ApiClient.shared.updateDeviceSettings(autoStartLiveActivity: autoStartLiveActivity)
+                            }
+                        }
+
                     Button("Start Scores Live Activity") {
                         Task {
                             await liveActivityController.start()

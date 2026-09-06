@@ -189,6 +189,32 @@ class ApiClient: NSObject, ObservableObject, URLSessionDelegate, URLSessionDataD
         }
     }
 
+    func buildDeviceSettingsRequest(deviceId: String, autoStartLiveActivity: Bool) throws -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://stjude-scoreboard.snailedit.online/api/device-settings/\(deviceId)")!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "PUT"
+        let body = UpdateDeviceSettingsRequestBody(autoStartLiveActivity: autoStartLiveActivity)
+        request.httpBody = try jsonEncoder.encode(body)
+        return request
+    }
+
+    func updateDeviceSettings(autoStartLiveActivity: Bool) async {
+        guard let deviceId = await resolveDeviceId() else {
+            dataLogger.error("Unable to determine device identifier for device settings update")
+            return
+        }
+        do {
+            let request = try buildDeviceSettingsRequest(deviceId: deviceId, autoStartLiveActivity: autoStartLiveActivity)
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let urlResponse = response as? HTTPURLResponse, urlResponse.statusCode == 204 else {
+                dataLogger.error("Updating device settings received error: \(String(bytes: data, encoding: .utf8) ?? "Unknown")")
+                return
+            }
+        } catch {
+            dataLogger.error("Updating device settings failed: \(error.localizedDescription)")
+        }
+    }
+
     func buildLiveActivityChannelRequest() -> URLRequest {
         var components = URLComponents(string: "https://stjude-scoreboard.snailedit.online/api/live-activity-channel")!
         components.queryItems = [URLQueryItem(name: "environment", value: apsEnvironment)]
