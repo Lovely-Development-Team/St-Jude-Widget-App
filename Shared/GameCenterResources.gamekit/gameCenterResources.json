@@ -3,6 +3,26 @@
     "version" : "2024-11-15"
   },
   "resources" : {
+    "leaderboardImages" : {
+      "quickdraw-en-US" : [
+        {
+          "localID" : "quickdraw-en-US",
+          "url" : "en-US\/LeaderboardImage-quickdraw-en-US.jpeg"
+        }
+      ]
+    },
+    "leaderboardLocalizations" : {
+      "quickdraw" : [
+        {
+          "formatterOverride" : "ELAPSED_TIME_CENTISECOND",
+          "formatterSuffix" : "",
+          "formatterSuffixSingular" : "",
+          "locale" : "en-US",
+          "localID" : "quickdraw-en-US",
+          "name" : "QuickDraw Leaderboard"
+        }
+      ]
+    },
     "leaderboards" : [
       {
         "activityProperties" : {

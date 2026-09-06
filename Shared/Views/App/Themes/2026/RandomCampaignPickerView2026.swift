@@ -593,10 +593,12 @@ extension RandomCampaignPickerView2026 {
             }
             self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         }
-        Task {
-            if let quickDrawTimeElapsed = self.quickDrawTimeElapsed, self.quickDrawBestTime == nil || quickDrawTimeElapsed < self.quickDrawBestTime! {
+        if GKLocalPlayer.local.isAuthenticated {
+            Task {
+                if let quickDrawTimeElapsed = self.quickDrawTimeElapsed, self.quickDrawBestTime == nil || quickDrawTimeElapsed < self.quickDrawBestTime! {
                     let hundrethOfSecTiming = Int((quickDrawTimeElapsed * 100).truncatingRemainder(dividingBy: 100))
                     try await GKLeaderboard.submitScore(hundrethOfSecTiming,context: 0,player: GKLocalPlayer.local, leaderboardIDs: ["quickdraw"])
+                }
             }
         }
     }
