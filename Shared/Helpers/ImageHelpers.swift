@@ -9,21 +9,19 @@ import Foundation
 import SwiftUI
 
 extension Image {
-    static func imageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale, horizontalScale: Double? = Theme.current.imageScale) -> some View {
+    static func imageAtScale(_ resource: ImageResource,
+                             scale: Double = Theme.current.imageScale) -> some View {
         let image = UIImage(resource: resource)
         let imageSize = image.size
         
-        if let horizontalScale {
-            return Image(uiImage: image)
-                .resizable()
-                .frame(width: imageSize.width * horizontalScale, height: imageSize.height * scale)
-        } else {
-            return Image(uiImage: image)
-                .resizable()
-                .frame(height: imageSize.height * scale)
-        }
+        return Image(uiImage: image)
+            .resizable()
+            .frame(width: imageSize.width * scale, height: imageSize.height * scale)
     }
     
+    
+    // this method might create scaling artifacts in some cases
+    // i.e. white lines on the paper style groupbox when scaled for a widget
     static func tiledImageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale, axis: Axis? = nil) -> some View {
         let image = UIImage(resource: resource)
         let imageSize = image.size
@@ -58,6 +56,30 @@ extension Image {
                     .frame(maxHeight: .infinity, alignment: .topLeading)
                     .animation(.none, value: UUID())
         }
-
+    }
+    
+    @ViewBuilder
+    static func flexibleImageAtScale(_ resource: ImageResource, scale: Double = Theme.current.imageScale, axis: Axis? = nil) -> some View {
+        let image = UIImage(resource: resource)
+        let imageSize = image.size
+        
+        if let axis = axis {
+            switch axis {
+            case .vertical:
+                Image(uiImage:image)
+                        .resizable()
+                        .frame(width: floor(imageSize.width * scale), alignment: .center)
+                        .frame(maxHeight: .infinity, alignment: .topLeading)
+            case .horizontal:
+                Image(uiImage:image)
+                        .resizable()
+                        .frame(height: floor(imageSize.height * scale), alignment: .center)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+            }
+        } else {
+            Image(uiImage:image)
+                .resizable()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
 }

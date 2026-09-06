@@ -68,19 +68,19 @@ struct ScaledNinePartImage: View {
         Group {
             VStack(spacing:self.spacing) {
                 HStack(spacing:self.spacing) {
-                    Image.imageAtScale(self.positionImage(for: .topLeft), scale: self.scale, horizontalScale: self.scale)
-                    Image.imageAtScale(self.positionImage(for: .top), scale: self.scale, horizontalScale: nil)
-                    Image.imageAtScale(self.positionImage(for: .topRight), scale: self.scale, horizontalScale: self.scale)
+                    Image.imageAtScale(self.positionImage(for: .topLeft), scale: self.scale)
+                    Image.flexibleImageAtScale(self.positionImage(for: .top), scale: self.scale, axis: .horizontal)
+                    Image.imageAtScale(self.positionImage(for: .topRight), scale: self.scale)
                 }
                 HStack(spacing:self.spacing) {
-                    Image.tiledImageAtScale(self.positionImage(for: .left), scale: self.scale, axis: .vertical)
+                    Image.flexibleImageAtScale(self.positionImage(for: .left), scale: self.scale, axis: .vertical)
                     Spacer()
-                    Image.tiledImageAtScale(self.positionImage(for: .right), scale: self.scale, axis: .vertical)
+                    Image.flexibleImageAtScale(self.positionImage(for: .right), scale: self.scale, axis: .vertical)
                 }
                 HStack(spacing:self.spacing) {
-                    Image.imageAtScale(self.positionImage(for: .bottomLeft), scale: self.scale, horizontalScale: self.scale)
-                    Image.imageAtScale(self.positionImage(for: .bottom), scale: self.scale, horizontalScale: nil)
-                    Image.imageAtScale(self.positionImage(for: .bottomRight), scale: self.scale, horizontalScale: self.scale)
+                    Image.imageAtScale(self.positionImage(for: .bottomLeft), scale: self.scale)
+                    Image.flexibleImageAtScale(self.positionImage(for: .bottom), scale: self.scale, axis: .horizontal)
+                    Image.imageAtScale(self.positionImage(for: .bottomRight), scale: self.scale)
                 }
             }
             .overlay {
