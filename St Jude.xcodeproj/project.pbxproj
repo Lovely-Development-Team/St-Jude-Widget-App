@@ -268,6 +268,7 @@
 				CurrencyHelpers.swift,
 				Fonts/ChicagoFLF.ttf,
 				"Fonts/KilnSans-Spiked.otf",
+				GameCenterResources.gamekit,
 				Helpers/AnimationHelpers.swift,
 				Helpers/BlinkingView.swift,
 				Helpers/CampaignHelpers.swift,
@@ -325,6 +326,7 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				CurrencyHelpers.swift,
+				GameCenterResources.gamekit,
 				Helpers/DeviceType.swift,
 				Helpers/DoubleHelpers.swift,
 				Helpers/ImageHelpers.swift,
@@ -358,6 +360,7 @@
 				CurrencyHelpers.swift,
 				Fonts/ChicagoFLF.ttf,
 				"Fonts/KilnSans-Spiked.otf",
+				GameCenterResources.gamekit,
 				Helpers/AnimationHelpers.swift,
 				Helpers/BlinkingView.swift,
 				Helpers/CampaignHelpers.swift,
@@ -1258,6 +1261,7 @@
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
