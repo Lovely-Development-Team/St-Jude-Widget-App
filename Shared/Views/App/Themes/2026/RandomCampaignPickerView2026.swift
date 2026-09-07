@@ -665,16 +665,33 @@ extension RandomCampaignPickerView2026 {
                             .padding(.bottom)
                     }
                     HStack {
-                        Spacer()
                         GroupBox {
                             VStack {
                                 Text("\(quickDrawTimeElapsed, specifier: "%.2f")")
                                     .font(.largeTitle)
                                     .bold()
                                 Text("seconds")
+                                if let quickDrawBestTime = self.quickDrawBestTime {
+                                    Text("Best: \(quickDrawBestTime, specifier: "%.2f") seconds")
+                                        .font(.footnote)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.top, 4)
+                                }
                             }
                         }
                         .themedGroupBox(type: .primary)
+                    }
+                    HStack {
+                        if GKLocalPlayer.local.isAuthenticated {
+                            Spacer()
+                            Button(action: {
+                                self.showLeaderboard = true
+                            }, label: {
+                                Text("Leaderboard")
+                                    .bold()
+                            })
+                            .themedButton(type: .primary, id: "randomCampaignPicker2026LeaderboardButton")
+                        }
                         Spacer()
                         Button(action: {
                             self.reset()
@@ -685,21 +702,7 @@ extension RandomCampaignPickerView2026 {
                         .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
                         Spacer()
                     }
-                    if let quickDrawBestTime = self.quickDrawBestTime {
-                        Text("Best: \(quickDrawBestTime, specifier: "%.2f") seconds")
-                            .font(.footnote)
-                            .padding(.top)
-                    }
-                    if GKLocalPlayer.local.isAuthenticated {
-                        Button(action: {
-                            self.showLeaderboard = true
-                        }, label: {
-                            Text("Leaderboard")
-                                .bold()
-                        })
-                        .themedButton(type: .primary, id: "randomCampaignPicker2026LeaderboardButton")
-                        .padding(.top)
-                    }
+                    .padding(.top)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
