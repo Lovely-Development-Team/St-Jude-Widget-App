@@ -102,6 +102,7 @@ struct RandomCampaignPickerView2026: View {
     @State private var showQuickDrawRules: Bool = false
     @State private var shouldUnlockQuickDraw: Bool = false
     @State private var quickDrawBestTime: Double? = UserDefaults.shared.quickDrawBestTime
+    @State private var showLeaderboard: Bool = false
     
     @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
@@ -515,6 +516,14 @@ struct RandomCampaignPickerView2026: View {
         .onChange(of: isGameOver, initial: true) {
             self.randomFailureText = getRandomFailureText()
         }
+        .onChange(of: self.quickDrawMode) {
+            if self.quickDrawMode {
+                GameCenterHelper.authenticateIfNeeded()
+            }
+        }
+        .sheet(isPresented: self.$showLeaderboard) {
+            GameCenterLeaderboardView(leaderboardID: "quickdraw")
+        }
         .onAppear {
             Task {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
@@ -593,11 +602,16 @@ extension RandomCampaignPickerView2026 {
             }
             self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         }
-        if GKLocalPlayer.local.isAuthenticated {
+        if !lost && GKLocalPlayer.local.isAuthenticated {
             Task {
-                if let quickDrawTimeElapsed = self.quickDrawTimeElapsed, self.quickDrawBestTime == nil || quickDrawTimeElapsed < self.quickDrawBestTime! {
-                    let hundrethOfSecTiming = Int((quickDrawTimeElapsed * 100).truncatingRemainder(dividingBy: 100))
-                    try await GKLeaderboard.submitScore(hundrethOfSecTiming,context: 0,player: GKLocalPlayer.local, leaderboardIDs: ["quickdraw"])
+                if let quickDrawTimeElapsed {
+                    let score = Int(quickDrawTimeElapsed * 100)
+                    appLogger.debug("Score submitted: \(score) from \(quickDrawTimeElapsed)")
+                    do {
+                        try await GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: ["quickdraw"])
+                    } catch {
+                        appLogger.warning("Could not submit score: \(error.localizedDescription)")
+                    }
                 }
             }
         }
@@ -675,6 +689,16 @@ extension RandomCampaignPickerView2026 {
                         Text("Best: \(quickDrawBestTime, specifier: "%.2f") seconds")
                             .font(.footnote)
                             .padding(.top)
+                    }
+                    if GKLocalPlayer.local.isAuthenticated {
+                        Button(action: {
+                            self.showLeaderboard = true
+                        }, label: {
+                            Text("Leaderboard")
+                                .bold()
+                        })
+                        .themedButton(type: .primary, id: "randomCampaignPicker2026LeaderboardButton")
+                        .padding(.top)
                     }
                 }
                 .frame(maxWidth: .infinity)
