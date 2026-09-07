@@ -44,6 +44,7 @@ extension UserDefaults {
     static let quickDrawModeUnlockedKey = "quickDrawModeUnlockedKey"
     static let quickDrawBestTimeKey = "quickDrawBestTimeKey"
     static let autoStartLiveActivityKey = "autoStartLiveActivity"
+    static let disableGameCenterKey = "disableGameCenter"
     
     // DEBUG ONLY
     static let debugGlowOpacityKey = "debugGlowOpacityKey"
@@ -200,6 +201,10 @@ extension UserDefaults {
     @objc var autoStartLiveActivity: Bool {
         get { object(forKey: Self.autoStartLiveActivityKey) as? Bool ?? true }
         set { UserDefaults.shared.set(newValue, forKey: Self.autoStartLiveActivityKey) }
+
+    @objc var disableGameCenter: Bool {
+        get { bool(forKey: Self.disableGameCenterKey) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.disableGameCenterKey) }
     }
 }
 

@@ -103,6 +103,7 @@ struct RandomCampaignPickerView2026: View {
     @State private var shouldUnlockQuickDraw: Bool = false
     @State private var quickDrawBestTime: Double? = UserDefaults.shared.quickDrawBestTime
     @State private var showLeaderboard: GameCenterLeaderboard? = nil
+    @AppStorage(UserDefaults.disableGameCenterKey, store: UserDefaults.shared) private var disableGameCenter: Bool = false
     
     @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
@@ -168,7 +169,7 @@ struct RandomCampaignPickerView2026: View {
     
     func logHorseHit() {
         self.horseHit += 1
-        if GKLocalPlayer.local.isAuthenticated {
+        if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
             Task {
                 await GameCenterHelper.submitScore(self.horseHit, for: .unicornHunter)
             }
@@ -425,7 +426,7 @@ struct RandomCampaignPickerView2026: View {
                     }
                     
                     Button(action: {
-                        if GKLocalPlayer.local.isAuthenticated {
+                        if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
                             self.showLeaderboard = .unicornHunter
                         }
                     }) {
@@ -549,21 +550,23 @@ struct RandomCampaignPickerView2026: View {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
                 self.reset()
                 
-                GameCenterHelper.authenticateIfNeeded {
-                    Task {
-                        if let gcBestScore = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .quickdraw) {
-                            guard gcBestScore > 0 else { return }
-                            let gcBestTime = Double(gcBestScore) / 100
-                            if self.quickDrawBestTime == nil || gcBestTime < self.quickDrawBestTime! {
-                                self.quickDrawBestTime = gcBestTime
-                                UserDefaults.shared.quickDrawBestTime = gcBestTime
+                if !self.disableGameCenter {
+                    GameCenterHelper.authenticateIfNeeded {
+                        Task {
+                            if let gcBestScore = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .quickdraw) {
+                                guard gcBestScore > 0 else { return }
+                                let gcBestTime = Double(gcBestScore) / 100
+                                if self.quickDrawBestTime == nil || gcBestTime < self.quickDrawBestTime! {
+                                    self.quickDrawBestTime = gcBestTime
+                                    UserDefaults.shared.quickDrawBestTime = gcBestTime
+                                }
+                            } else if let localBestTime = self.quickDrawBestTime {
+                                // No Game Center score yet, but we have a local best - submit it so it's not lost
+                                await GameCenterHelper.submitScoreForQuickDraw(localBestTime)
                             }
-                        } else if let localBestTime = self.quickDrawBestTime {
-                            // No Game Center score yet, but we have a local best - submit it so it's not lost
-                            await GameCenterHelper.submitScoreForQuickDraw(localBestTime)
-                        }
-                        if let horseHit = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .unicornHunter) {
-                            self.horseHit = horseHit
+                            if let horseHit = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .unicornHunter) {
+                                self.horseHit = horseHit
+                            }
                         }
                     }
                 }
@@ -642,7 +645,7 @@ extension RandomCampaignPickerView2026 {
             }
             self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
         }
-        if !lost && GKLocalPlayer.local.isAuthenticated {
+        if !lost && !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
             Task {
                 if let quickDrawTimeElapsed {
                     await GameCenterHelper.submitScoreForQuickDraw(quickDrawTimeElapsed)
@@ -716,7 +719,7 @@ extension RandomCampaignPickerView2026 {
                         .themedGroupBox(type: .primary)
                     }
                     HStack {
-                        if GKLocalPlayer.local.isAuthenticated {
+                        if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
                             Spacer()
                             Button(action: {
                                 self.showLeaderboard = .quickdraw

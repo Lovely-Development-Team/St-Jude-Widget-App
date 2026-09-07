@@ -27,6 +27,9 @@ struct AboutView: View {
     @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColor: Int = Player.randomInitial.rawValue
     @AppStorage(UserDefaults.debugGlowOpacityKey, store: UserDefaults.shared) private var debugGlowOpacity: Double = 0.5
     @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
+
+    // 2026 Settings
+    @AppStorage(UserDefaults.disableGameCenterKey, store: UserDefaults.shared) private var disableGameCenter: Bool = false
     
     private var stephenPostUrlString: String? { "https://512pixels.net/2026/08/st-jude-2026/" }
     private var mykePostUrlString: String? { "https://www.theenthusiast.net/relay-for-st-jude-2026/" }
@@ -122,8 +125,10 @@ struct AboutView: View {
                     .fullWidth()
                 
                 ToggleSetting(label: "Enable Sounds", setting: self.$disableSounds)
-                
+
                 ToggleSetting(label: "Enable Goal Multipliers", setting: self.$disableCombos)
+
+                ToggleSetting(label: "Enable Game Center", setting: self.$disableGameCenter)
             }
         }
         .themedGroupBox(type: .primary, id: "settings-group")

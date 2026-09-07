@@ -20,8 +20,12 @@ enum GameCenterLeaderboard: String, Identifiable {
 enum GameCenterHelper {
     private static var didAuthenticate = false
 
+    static var isDisabled: Bool {
+        UserDefaults.shared.disableGameCenter
+    }
+
     static func authenticateIfNeeded(onAuthenticated: @escaping () -> Void = {}) {
-        guard !didAuthenticate else { return }
+        guard !isDisabled, !didAuthenticate else { return }
         didAuthenticate = true
 
         #if canImport(UIKit)
@@ -42,12 +46,14 @@ enum GameCenterHelper {
     }
     
     static func submitScoreForQuickDraw(_ score: TimeInterval) async {
+        guard !isDisabled else { return }
         let calculatedScore = Int(round(score * 100))
         appLogger.debug("QuickDraw score being submitted: \(calculatedScore) from \(score)")
         await submitScore(calculatedScore, for: .quickdraw)
     }
-    
+
     static func submitScore(_ score: Int, for leaderboard: GameCenterLeaderboard) async {
+        guard !isDisabled else { return }
         do {
             appLogger.debug("Submitting score \(score) for \(leaderboard.rawValue)")
             try await GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [leaderboard.rawValue])
@@ -57,7 +63,7 @@ enum GameCenterHelper {
     }
 
     static func loadLocalPlayerBestScore(leaderboard: GameCenterLeaderboard) async -> Int? {
-        guard GKLocalPlayer.local.isAuthenticated else { return nil }
+        guard !isDisabled, GKLocalPlayer.local.isAuthenticated else { return nil }
         do {
             let leaderboards = try await GKLeaderboard.loadLeaderboards(IDs: [leaderboard.rawValue])
             guard let gkLeaderboard = leaderboards.first else { return nil }
