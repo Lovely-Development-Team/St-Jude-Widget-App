@@ -605,7 +605,7 @@ extension RandomCampaignPickerView2026 {
         if !lost && GKLocalPlayer.local.isAuthenticated {
             Task {
                 if let quickDrawTimeElapsed {
-                    let score = Int(quickDrawTimeElapsed * 100)
+                    let score = Int(round(quickDrawTimeElapsed * 100))
                     appLogger.debug("Score submitted: \(score) from \(quickDrawTimeElapsed)")
                     do {
                         try await GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: ["quickdraw"])
