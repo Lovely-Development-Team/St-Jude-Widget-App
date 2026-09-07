@@ -668,9 +668,12 @@ extension RandomCampaignPickerView2026 {
         if self.showQuickDrawRules {
             GroupBox {
                 VStack(spacing: 5) {
-                    Text("QuickDraw Mode!")
+                    Text("QuickDraw!")
                         .font(self.titleFont)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .fullWidth(alignment: .center)
                         .bold()
+                        .padding(.top)
                     Text("Shoot the targets as quickly as you can! Make sure to avoid Kathy's steed!")
                         .multilineTextAlignment(.center)
                     Button(action: {
@@ -689,12 +692,35 @@ extension RandomCampaignPickerView2026 {
     }
     
     @ViewBuilder
+    var quickDrawLeaderboardButton: some View {
+        Button(action: {
+            self.showLeaderboard = .quickdraw
+        }, label: {
+            Text("Leaderboard")
+                .bold()
+        })
+        .themedButton(type: .primary, id: "randomCampaignPicker2026LeaderboardButton")
+    }
+
+    @ViewBuilder
+    var quickDrawPlayAgainButton: some View {
+        Button(action: {
+            self.reset()
+        }, label: {
+            Text("Play Again")
+                .bold()
+        })
+        .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
+    }
+
+    @ViewBuilder
     var quickDrawResultsView: some View {
         if self.showQuickDrawResults, let quickDrawTimeElapsed = self.quickDrawTimeElapsed {
             GroupBox {
                 VStack(spacing: 5) {
                     Text(self.randomCowboyism)
                         .font(self.titleFont)
+                        .multilineTextAlignment(.center)
                         .bold()
                         .padding(.bottom)
                     if quickDrawBestTime == quickDrawTimeElapsed {
@@ -718,26 +744,22 @@ extension RandomCampaignPickerView2026 {
                         }
                         .themedGroupBox(type: .primary)
                     }
-                    HStack {
-                        if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+                    ViewThatFits(in: .horizontal) {
+                        HStack {
+                            if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+                                Spacer()
+                                self.quickDrawLeaderboardButton
+                            }
                             Spacer()
-                            Button(action: {
-                                self.showLeaderboard = .quickdraw
-                            }, label: {
-                                Text("Leaderboard")
-                                    .bold()
-                            })
-                            .themedButton(type: .primary, id: "randomCampaignPicker2026LeaderboardButton")
+                            self.quickDrawPlayAgainButton
+                            Spacer()
                         }
-                        Spacer()
-                        Button(action: {
-                            self.reset()
-                        }, label: {
-                            Text("Play Again")
-                                .bold()
-                        })
-                        .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
-                        Spacer()
+                        VStack {
+                            if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+                                self.quickDrawLeaderboardButton
+                            }
+                            self.quickDrawPlayAgainButton
+                        }
                     }
                     .padding(.top)
                 }
@@ -763,6 +785,7 @@ extension RandomCampaignPickerView2026 {
                 VStack {
                     Text("QuickDraw Mode!")
                         .font(self.titleFont)
+                        .multilineTextAlignment(.center)
                         .bold()
                     if #available(iOS 18, *) {
                         if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
