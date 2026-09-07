@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import BackgroundTasks
 import WidgetKit
-import GameKit
 
 class StJudeAppDelegate: NSObject, UIApplicationDelegate {
 //    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
@@ -37,24 +36,12 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
             ]
         )
         
-        GKLocalPlayer.local.authenticateHandler = { viewController, error in
-            if viewController != nil {
-                // Present the view controller so the player can sign in.
-                return
-            }
-            if error != nil {
-                // Player is not available
-                // Disable Game Center in the game.
-                return
-            }
-        }
-        
         SoundEffectHelper.shared.setup()
         initNotificationCenter()
-        
+
         return true
     }
-    
+
 //    func handleAppRefresh(task: BGAppRefreshTask) {
 //        refreshLogger.notice("Running background refresh")
 //        let apiClient = ApiClient.shared
