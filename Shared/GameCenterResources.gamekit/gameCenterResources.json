@@ -29,13 +29,27 @@
 
         },
         "archived" : false,
-        "defaultFormatter" : "ELAPSED_TIME_CENTISECOND",
+        "defaultFormatter" : "DECIMAL_POINT_2_PLACE",
         "referenceName" : "quickdraw",
         "scoreRangeEnd" : null,
         "scoreRangeStart" : null,
         "scoreSortType" : "ASC",
         "submissionType" : "BEST_SCORE",
         "vendorIdentifier" : "quickdraw",
+        "visibility" : "SHOW_FOR_ALL"
+      },
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "defaultFormatter" : "INTEGER",
+        "referenceName" : "Unicorn Hunter",
+        "scoreRangeEnd" : null,
+        "scoreRangeStart" : null,
+        "scoreSortType" : "DESC",
+        "submissionType" : "BEST_SCORE",
+        "vendorIdentifier" : "unicornhunter",
         "visibility" : "SHOW_FOR_ALL"
       }
     ]

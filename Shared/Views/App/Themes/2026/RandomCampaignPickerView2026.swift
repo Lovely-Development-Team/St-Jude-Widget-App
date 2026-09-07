@@ -102,7 +102,7 @@ struct RandomCampaignPickerView2026: View {
     @State private var showQuickDrawRules: Bool = false
     @State private var shouldUnlockQuickDraw: Bool = false
     @State private var quickDrawBestTime: Double? = UserDefaults.shared.quickDrawBestTime
-    @State private var showLeaderboard: Bool = false
+    @State private var showLeaderboard: GameCenterLeaderboard? = nil
     
     @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
@@ -113,6 +113,8 @@ struct RandomCampaignPickerView2026: View {
     @State private var slideTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State private var randomFailureText: String = ""
+    
+    @State private var horseHit: Int = 0
     
     let titleFont = Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
     
@@ -164,6 +166,15 @@ struct RandomCampaignPickerView2026: View {
         }
     }
     
+    func logHorseHit() {
+        self.horseHit += 1
+        if GKLocalPlayer.local.isAuthenticated {
+            Task {
+                await GameCenterHelper.submitScore(self.horseHit, for: .unicornHunter)
+            }
+        }
+    }
+    
     @ViewBuilder
     func targetView(shelfIndex: Int, targetIndex: Int) -> some View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
@@ -181,6 +192,7 @@ struct RandomCampaignPickerView2026: View {
             if self.quickDrawMode {
                 self.processQuickDrawTap()
                 if targetType == .horse {
+                    self.logHorseHit()
                     self.endQuickDrawGame(lost: true)
                 }
             } else {
@@ -194,6 +206,7 @@ struct RandomCampaignPickerView2026: View {
                         } else {
                             self.isGameOver = true
                             SoundEffectHelper.shared.play(.gameover)
+                            self.logHorseHit()
                         }
                     }
                     self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = false
@@ -406,11 +419,23 @@ struct RandomCampaignPickerView2026: View {
                     Text(randomFailureText)
                         .fullWidth(alignment: .center)
                     
-                    Image(.kathyAndHorse2026)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
-                        .padding(.vertical)
+                    if horseHit.isMultiple(of: 10) {
+                        Text("That's the \(horseHit)th time you've hit that poor creature!")
+                            .fullWidth(alignment: .center)
+                    }
+                    
+                    Button(action: {
+                        if GKLocalPlayer.local.isAuthenticated {
+                            self.showLeaderboard = .unicornHunter
+                        }
+                    }) {
+                        Image(.kathyAndHorse2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.vertical)
                     
                     Button(action: {
                         self.reset()
@@ -516,18 +541,33 @@ struct RandomCampaignPickerView2026: View {
         .onChange(of: isGameOver, initial: true) {
             self.randomFailureText = getRandomFailureText()
         }
-        .onChange(of: self.quickDrawMode) {
-            if self.quickDrawMode {
-                GameCenterHelper.authenticateIfNeeded()
-            }
-        }
-        .sheet(isPresented: self.$showLeaderboard) {
-            GameCenterLeaderboardView(leaderboardID: "quickdraw")
+        .sheet(item: self.$showLeaderboard) { leaderboard in
+            GameCenterLeaderboardView(leaderboard: leaderboard)
         }
         .onAppear {
             Task {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
                 self.reset()
+                
+                GameCenterHelper.authenticateIfNeeded {
+                    Task {
+                        if let gcBestScore = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .quickdraw) {
+                            guard gcBestScore > 0 else { return }
+                            let gcBestTime = Double(gcBestScore) / 100
+                            if self.quickDrawBestTime == nil || gcBestTime < self.quickDrawBestTime! {
+                                self.quickDrawBestTime = gcBestTime
+                                UserDefaults.shared.quickDrawBestTime = gcBestTime
+                            }
+                        } else if let localBestTime = self.quickDrawBestTime {
+                            // No Game Center score yet, but we have a local best - submit it so it's not lost
+                            await GameCenterHelper.submitScoreForQuickDraw(localBestTime)
+                        }
+                        if let horseHit = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .unicornHunter) {
+                            self.horseHit = horseHit
+                        }
+                    }
+                }
+                
             }
         }
         .alert(self.alertTitle, isPresented: self.$showAlert, actions: {
@@ -605,13 +645,7 @@ extension RandomCampaignPickerView2026 {
         if !lost && GKLocalPlayer.local.isAuthenticated {
             Task {
                 if let quickDrawTimeElapsed {
-                    let score = Int(round(quickDrawTimeElapsed * 100))
-                    appLogger.debug("Score submitted: \(score) from \(quickDrawTimeElapsed)")
-                    do {
-                        try await GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: ["quickdraw"])
-                    } catch {
-                        appLogger.warning("Could not submit score: \(error.localizedDescription)")
-                    }
+                    await GameCenterHelper.submitScoreForQuickDraw(quickDrawTimeElapsed)
                 }
             }
         }
@@ -685,7 +719,7 @@ extension RandomCampaignPickerView2026 {
                         if GKLocalPlayer.local.isAuthenticated {
                             Spacer()
                             Button(action: {
-                                self.showLeaderboard = true
+                                self.showLeaderboard = .quickdraw
                             }, label: {
                                 Text("Leaderboard")
                                     .bold()

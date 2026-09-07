@@ -10,10 +10,17 @@ import SwiftUI
 import UIKit
 #endif
 
+enum GameCenterLeaderboard: String, Identifiable {
+    case quickdraw = "quickdraw"
+    case unicornHunter = "unicornhunter"
+    
+    var id: String { self.rawValue }
+}
+
 enum GameCenterHelper {
     private static var didAuthenticate = false
 
-    static func authenticateIfNeeded() {
+    static func authenticateIfNeeded(onAuthenticated: @escaping () -> Void = {}) {
         guard !didAuthenticate else { return }
         didAuthenticate = true
 
@@ -29,8 +36,39 @@ enum GameCenterHelper {
                 appLogger.warning("Game Center authentication failed: \(error.localizedDescription)")
                 return
             }
+            onAuthenticated()
         }
         #endif
+    }
+    
+    static func submitScoreForQuickDraw(_ score: TimeInterval) async {
+        let calculatedScore = Int(round(score * 100))
+        appLogger.debug("QuickDraw score being submitted: \(calculatedScore) from \(score)")
+        await submitScore(calculatedScore, for: .quickdraw)
+    }
+    
+    static func submitScore(_ score: Int, for leaderboard: GameCenterLeaderboard) async {
+        do {
+            appLogger.debug("Submitting score \(score) for \(leaderboard.rawValue)")
+            try await GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [leaderboard.rawValue])
+        } catch {
+            appLogger.warning("Game Center score submission failed: \(error.localizedDescription)")
+        }
+    }
+
+    static func loadLocalPlayerBestScore(leaderboard: GameCenterLeaderboard) async -> Int? {
+        guard GKLocalPlayer.local.isAuthenticated else { return nil }
+        do {
+            let leaderboards = try await GKLeaderboard.loadLeaderboards(IDs: [leaderboard.rawValue])
+            guard let gkLeaderboard = leaderboards.first else { return nil }
+            let (localPlayerEntry, _) = try await gkLeaderboard.loadEntries(for: [GKLocalPlayer.local], timeScope: .allTime)
+            let score = localPlayerEntry?.score
+            appLogger.debug("Loaded Game Center best score for '\(leaderboard.rawValue)': \(score.debugDescription)")
+            return localPlayerEntry?.score
+        } catch {
+            appLogger.error("Failed to load Game Center best score for '\(leaderboard.rawValue)': \(error.localizedDescription)")
+            return nil
+        }
     }
 
     #if canImport(UIKit)
@@ -54,11 +92,11 @@ enum GameCenterHelper {
 
 #if canImport(UIKit)
 struct GameCenterLeaderboardView: UIViewControllerRepresentable {
-    let leaderboardID: String
+    let leaderboard: GameCenterLeaderboard
     @Environment(\.dismiss) private var dismiss
 
     func makeUIViewController(context: Context) -> GKGameCenterViewController {
-        let viewController = GKGameCenterViewController(leaderboardID: leaderboardID, playerScope: .global, timeScope: .allTime)
+        let viewController = GKGameCenterViewController(leaderboardID: leaderboard.rawValue, playerScope: .global, timeScope: .allTime)
         viewController.gameCenterDelegate = context.coordinator
         return viewController
     }
