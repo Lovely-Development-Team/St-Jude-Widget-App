@@ -40,6 +40,8 @@ struct AboutView: View {
     @Binding var tldCampaign: Campaign?
     @Binding var selectedDestination: CampaignListDestination?
     
+    @State private var showLiveActivityStartedAlert: Bool = false
+    
     @ViewBuilder
     var headerView: some View {
         Image(.bannerForeground)
@@ -168,20 +170,27 @@ struct AboutView: View {
                         .font(.title3)
                         .bold()
                         .fullWidth()
+
+                    Button("Start Myke vs. Stephen Live Activity") {
+                        Task {
+                            await liveActivityController.start()
+                        }
+                        self.showLiveActivityStartedAlert = true
+                    }
+                    .themedButton(type: .primary, id: "start-live-activity")
+                    .alert("Live Activity started!", isPresented: self.$showLiveActivityStartedAlert, actions: {
+                        Button("OK") { }
+                    }, message: {
+                        Text("Yeehaw!")
+                    })
                     
-                    Toggle("Auto-Start Live Activity", isOn: self.$autoStartLiveActivity)
+                    ToggleSetting(label: "Auto-Start Live Activity during Podcastathon", setting: self.$autoStartLiveActivity, flipBoolean: true)
                         .onChange(of: autoStartLiveActivity) {
                             Task {
                                 await ApiClient.shared.updateDeviceSettings(autoStartLiveActivity: autoStartLiveActivity)
                             }
                         }
-
-                    Button("Start Scores Live Activity") {
-                        Task {
-                            await liveActivityController.start()
-                        }
-                    }
-                    .themedButton(type: .primary, id: "start-live-activity")
+                    
                 }
             }
             .themedGroupBox(type: .primary, id: "live-activity-group")

@@ -10,8 +10,16 @@ import SwiftUI
 struct ToggleSetting: View {
     var label: String
     @Binding var setting: Bool
+    var flipBoolean: Bool = false
     var onEnable: (() -> Void)? = nil
     var onDisable: (() -> Void)? = nil
+    
+    var yesButtonActive: Bool {
+        flipBoolean ? self.setting : !self.setting
+    }
+    var noButtonActive: Bool {
+        flipBoolean ? !self.setting : self.setting
+    }
     
     var body: some View {
         VStack {
@@ -20,28 +28,28 @@ struct ToggleSetting: View {
             HStack {
                 Button(action: {
                     withAnimation {
-                        self.setting = false
+                        self.setting = flipBoolean ? true : false
                         self.onDisable?()
                     }
                     
                 }) {
                     Text("Yes")
-                        .foregroundColor(!self.setting ? Theme.current.contentColorForAccent : .primary)
+                        .foregroundColor(yesButtonActive ? Theme.current.contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .themedButton(type: .primary, tint: !self.setting ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-yes-\(label)")
+                .themedButton(type: .primary, tint: yesButtonActive ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-yes-\(label)")
                 .sensoryFeedback(.success, trigger: self.setting)
                 Button(action: {
                     withAnimation {
-                        self.setting = true
+                        self.setting = flipBoolean ? false : true
                         self.onEnable?()
                     }
                 }) {
                     Text("No")
-                        .foregroundColor(self.setting ? Theme.current.contentColorForAccent : .primary)
+                        .foregroundColor(noButtonActive ? Theme.current.contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .themedButton(type: .primary, tint: self.setting ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-no-\(label)")
+                .themedButton(type: .primary, tint: noButtonActive ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-no-\(label)")
                 .sensoryFeedback(.success, trigger: self.setting)
             }
         }

@@ -201,6 +201,7 @@ extension UserDefaults {
     @objc var autoStartLiveActivity: Bool {
         get { object(forKey: Self.autoStartLiveActivityKey) as? Bool ?? true }
         set { UserDefaults.shared.set(newValue, forKey: Self.autoStartLiveActivityKey) }
+    }
 
     @objc var disableGameCenter: Bool {
         get { bool(forKey: Self.disableGameCenterKey) }

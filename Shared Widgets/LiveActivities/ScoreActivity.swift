@@ -119,6 +119,7 @@ struct ScoreActivityConfiguration: Widget {
                     .zIndex(2)
                 ScoreGroupBoxView(myke: contentState.myke, stephen: contentState.stephen)
                     .padding(.bottom, 199 / 3)
+                    .padding(.top)
                     .zIndex(1)
                 Spacer()
                     .overlay {
