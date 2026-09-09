@@ -118,10 +118,10 @@ extension WidgetAppearance {
             return .black
             
         case .wildWestWood:
-            return .black
+            return .primary
             
         case .wildWestSky:
-            return .black
+            return .primary
             
 //        case .stephen:
 //            return Self.stephenLights
@@ -206,16 +206,16 @@ extension WidgetAppearance {
     }
     
     @ViewBuilder
-    func background(hasMemoryLimit: Bool = true) -> some View {
+    func background(isForWidget: Bool = true) -> some View {
         switch self {
         case .wildWestWood:
-            Image(hasMemoryLimit ? .woodbackground2026Small : .woodBackground2026)
+            Image(isForWidget ? .woodbackground2026Small : .woodBackground2026)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
                 .background(ignoresSafeAreaEdges: .all)
         case .wildWestSky:
-            Image(hasMemoryLimit ? .sky2026Small : .sky2026)
+            Image(isForWidget ? .sky2026Small : .sky2026)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: Double.stretchedContentMaxWidth)
