@@ -171,6 +171,8 @@ struct CampaignList: View {
             }
             
             self.navigationPath.append(destination)
+            
+            self.selectedDestination = nil
         }
         .onAppear {
             teamEventCancellable = AppDatabase.shared.start(observation: teamEventObservation) { error in
@@ -184,14 +186,26 @@ struct CampaignList: View {
             }
         }
         .onOpenURL { url in
-            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), components.host == "campaign", let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
+            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryComponents = components.queryItems?.reduce(into: [String: String](), { (result, item) in
                 result[item.name] = item.value
-            }), let id = queryComponents["id"], let uuid = UUID(uuidString: id) {
-                Task {
-                    if let campaign = try await AppDatabase.shared.fetchCampaign(with: uuid) {
-                        self.selectedDestination = .campaign(campaign, true)
-                    } else if let teamEvent = try await AppDatabase.shared.fetchTeamEvent(), uuid == teamEvent.id {
-                        self.selectedDestination = .teamEvent(teamEvent)
+            }) {
+                if components.host == "campaign", let id = queryComponents["id"], let uuid = UUID(uuidString: id) {
+                    Task {
+                        if let campaign = try await AppDatabase.shared.fetchCampaign(with: uuid) {
+                            self.selectedDestination = .campaign(campaign, true)
+                        } else if let teamEvent = try await AppDatabase.shared.fetchTeamEvent(), uuid == teamEvent.id {
+                            self.selectedDestination = .teamEvent(teamEvent)
+                        }
+                    }
+                } else if components.host == "headtohead", let id = queryComponents["id"], let uuid = UUID(uuidString: id) {
+                    Task {
+                        if let headToHead = try await AppDatabase.shared.fetchHeadToHead(with: uuid),
+                           let campaign1Id = headToHead.campaignId1,
+                           let campaign1 = try await AppDatabase.shared.fetchCampaign(with: campaign1Id),
+                           let campaign2Id = headToHead.campaignId2,
+                           let campaign2 = try await AppDatabase.shared.fetchCampaign(with: campaign2Id) {
+                            self.selectedDestination = .headToHead(HeadToHeadWithCampaigns(headToHead: headToHead, campaign1: campaign1, campaign2: campaign2))
+                        }
                     }
                 }
             }

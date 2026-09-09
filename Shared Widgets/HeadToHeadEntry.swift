@@ -17,6 +17,6 @@ struct HeadToHeadEntry: TimelineEntry {
     
     var widgetUrlString: String? {
         guard let id = headToHeadId else { return nil }
-        return "relay-fm-for-st-jude://campaign?id=\(id)"
+        return "relay-fm-for-st-jude://headtohead?id=\(id)"
     }
 }

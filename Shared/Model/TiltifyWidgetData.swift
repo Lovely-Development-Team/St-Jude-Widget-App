@@ -213,8 +213,17 @@ struct TiltifyWidgetData: Equatable {
         self.nextMilestone = Self.nextMilestone(at: campaignData.campaign.totalAmountRaised.numericalValue, in: self.milestones)
         self.futureMilestones = Self.futureMilestones(at: campaignData.campaign.totalAmountRaised.numericalValue, in: self.milestones)
         self.rewards = []
-        self.avatarImageData = nil
-        self.username = nil
+        do {
+            if let src = campaignData.campaign.avatar?.src, let url = URL(string: src) {
+                self.avatarImageData = try Data(contentsOf: url)
+            } else {
+                self.avatarImageData = nil
+            }
+        } catch {
+            dataLogger.debug("Could not get avatar image data: \(error)")
+            self.avatarImageData = nil
+        }
+        self.username = campaignData.campaign.user.username
     }
     
     init(from fundraisingEvent: TiltifyFundraisingEvent, milestones: [TiltifyMilestone]) {
@@ -325,7 +334,7 @@ struct TiltifyWidgetData: Equatable {
     }
     
     var widgetURL: String {
-        "relay-fm-for-st-jude://campaign?id=\(id)"
+        "relay-fm-for-st-jude://headtohead?id=\(id)"
     }
     
 }
