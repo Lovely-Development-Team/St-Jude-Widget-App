@@ -28,7 +28,7 @@ struct EntryView: View {
     var mainProgressBarPixelScale: Double = .spriteScale
     var milestoneProgressBarHeight: CGFloat = 10
     var disableCombos: Bool = false
-    var hasMemoryLimit: Bool = true
+    var isForWidget: Bool = true
 
     
     var showTwoMilestones: Bool {
@@ -69,7 +69,17 @@ struct EntryView: View {
     }
     
     var foregroundColor: Color {
+        if self.appearance.isWildWestTheme && !self.isForWidget {
+            return .black
+        }
         return appearance.foregroundColor
+    }
+    
+    var colorScheme: ColorScheme? {
+        if self.appearance.isWildWestTheme && !self.isForWidget {
+            return .light
+        }
+        return nil
     }
     
     var body: some View {
@@ -78,18 +88,18 @@ struct EntryView: View {
                 if useNormalBackgroundOniOS17 {
                     content
                         .padding()
-                        .background(appearance.background(hasMemoryLimit: self.hasMemoryLimit))
+                        .background(appearance.background(isForWidget: self.isForWidget))
                 } else {
                     content
                         .containerBackground(for: .widget) {
-                            appearance.background(hasMemoryLimit: self.hasMemoryLimit)
+                            appearance.background(isForWidget: self.isForWidget)
                         }
                         .padding(showsBackground ? [] : .all, 5)
                 }
             } else {
                 content
                     .padding()
-                    .background(appearance.background(hasMemoryLimit: self.hasMemoryLimit))
+                    .background(appearance.background(isForWidget: self.isForWidget))
             }
         }
     }
@@ -100,7 +110,7 @@ struct EntryView: View {
             GroupBox {
                 actualContent
             }
-            .themedGroupBox(type: .primary, id: "widget")
+            .themedGroupBox(type: .primary, primaryColor: self.isForWidget ? .secondarySystemBackground : .white, id: "widget")
         } else {
             actualContent
         }
