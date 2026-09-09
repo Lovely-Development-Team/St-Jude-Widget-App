@@ -610,6 +610,17 @@ extension HeadToHeadWidgetView {
                 }
             }
             .themedGroupBox(type: .primary, primaryColor: campaign2?.id == winner?.id ? Theme.current.accentColor : nil, id: "h2hXLWidgetCampaignBoxRight")
+            .overlay {
+            Text("vs")
+                .bold()
+                .padding(8)
+                .foregroundColor(.invertedPrimary)
+                .background {
+                    Circle()
+                        .foregroundStyle(Color.primary)
+                }
+                .shadow(radius: 10)
+            }
             ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: .black, dividerWidth: 2, stroke: true)
                 .frame(height: 30)
         }
