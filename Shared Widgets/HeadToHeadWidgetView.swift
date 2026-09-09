@@ -74,9 +74,9 @@ struct HeadToHeadWidgetView: View {
     }
     
     func labelColor(isWinner: Bool = false) -> Color {
-        if (family == .systemSmall) {
-            return isWinner ? Theme.current.contentColorForAccent : .black
-        }
+//        if (family == .systemSmall) {
+//            return isWinner ? Theme.current.contentColorForAccent : .black
+//        }
         return isWinner ? Theme.current.contentColorForAccent : .label
     }
     
@@ -610,11 +610,8 @@ extension HeadToHeadWidgetView {
                 }
             }
             .themedGroupBox(type: .primary, primaryColor: campaign2?.id == winner?.id ? Theme.current.accentColor : nil, id: "h2hXLWidgetCampaignBoxRight")
-            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: labelColor(isWinner: false), dividerWidth: 2)
+            ProgressBar(value: .constant(progressBarValue), barColour: progressBarBackgroundColor, fillColor: progressBarFillColor, showDivider: true, dividerColor: .black, dividerWidth: 2, stroke: true)
                 .frame(height: 30)
-                .overlay {
-                    Capsule().stroke(labelColor(isWinner: false), style: StrokeStyle(lineWidth: 2))
-                }
         }
     }
 }
@@ -625,7 +622,7 @@ extension HeadToHeadWidgetView {
     var circularLockScreenContent: some View {
         ZStack {
             Gauge(value: progressBarValue, in: 0...1, label: {
-                Image(.coin2024)
+                Image(systemName: "crown.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .offset(y: 5)
@@ -642,10 +639,7 @@ extension HeadToHeadWidgetView {
     var rectangularLockScreenContent: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(.crownPixel)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20)
+                Image(systemName: "crown.fill")
                 Text(winner?.username ?? "Unknown")
                     .font(.body)
             }
