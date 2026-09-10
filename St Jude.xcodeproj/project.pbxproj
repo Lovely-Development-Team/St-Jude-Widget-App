@@ -301,8 +301,11 @@
 				Networking/TiltifyAPIClientModels.swift,
 				Styles/BlockButtonStyle.swift,
 				Styles/BlockGroupBoxStyle.swift,
+				Styles/PaperButtonStyle.swift,
 				Styles/PaperGroupBoxStyle.swift,
+				Styles/PrimaryButtonStyle.swift,
 				Theming/BackgroundTheming.swift,
+				Theming/ButtonTheming.swift,
 				Theming/GroupBoxTheming.swift,
 				Theming/ImageTheming.swift,
 				Theming/Theme.swift,
@@ -327,10 +330,12 @@
 				Assets.xcassets,
 				CurrencyHelpers.swift,
 				GameCenterResources.gamekit,
+				Helpers/BlinkingView.swift,
 				Helpers/DeviceType.swift,
 				Helpers/DoubleHelpers.swift,
 				Helpers/ImageHelpers.swift,
 				Helpers/Players.swift,
+				Helpers/SoundEffectHelper.swift,
 				Loggers.swift,
 				Model/DB/AppDatabase.swift,
 				Model/DB/Campaign.swift,
@@ -348,8 +353,27 @@
 				Networking/Model.swift,
 				Networking/TiltifyAPIClient.swift,
 				Networking/TiltifyAPIClientModels.swift,
+				Styles/BlockButtonStyle.swift,
+				Styles/BlockGroupBoxStyle.swift,
+				Styles/PaperButtonStyle.swift,
+				Styles/PaperGroupBoxStyle.swift,
+				Styles/PrimaryButtonStyle.swift,
+				Theming/BackgroundTheming.swift,
+				Theming/ButtonTheming.swift,
+				Theming/GroupBoxTheming.swift,
+				Theming/ImageTheming.swift,
 				Theming/Theme.swift,
+				Views/App/Other/AdaptiveImage.swift,
+				Views/App/Other/AnimatedAdaptiveImage.swift,
 				Views/App/Other/EasterEggs/EasterEggImage.swift,
+				Views/App/Other/TappableCoin.swift,
+				Views/App/Themes/2024/RandomLandscapeView.swift,
+				Views/App/Themes/2024/SkyView.swift,
+				Views/App/Themes/2025/SkyView2025.swift,
+				Views/App/Themes/2025/StandingThrowingView2025.swift,
+				Views/App/Themes/2025/TiledArenaFloorView.swift,
+				Views/App/Themes/2026/LandscapeView2026.swift,
+				Views/Shared/ScaledNinePartImage.swift,
 			);
 			target = 63BFF19A26D5D37C0023263D /* Intents Extension */;
 		};
@@ -393,8 +417,11 @@
 				Networking/TiltifyAPIClientModels.swift,
 				Styles/BlockButtonStyle.swift,
 				Styles/BlockGroupBoxStyle.swift,
+				Styles/PaperButtonStyle.swift,
 				Styles/PaperGroupBoxStyle.swift,
+				Styles/PrimaryButtonStyle.swift,
 				Theming/BackgroundTheming.swift,
+				Theming/ButtonTheming.swift,
 				Theming/GroupBoxTheming.swift,
 				Theming/ImageTheming.swift,
 				Theming/Theme.swift,
@@ -989,7 +1016,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -1020,7 +1047,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "macOS WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -1079,7 +1106,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1143,7 +1170,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1174,7 +1201,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1215,7 +1242,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1256,7 +1283,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -1290,7 +1317,7 @@
 				CODE_SIGN_ENTITLEMENTS = "St Jude (macOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				ENABLE_APP_SANDBOX = YES;
@@ -1319,7 +1346,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1343,7 +1370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1369,7 +1396,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1394,7 +1421,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1421,7 +1448,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
@@ -1452,7 +1479,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "Tiltify St Jude WidgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tiltify St Jude Widget/Info.plist";
@@ -1482,7 +1509,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Intents Extension/Info.plist";
@@ -1510,7 +1537,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Intents Extension/Intents Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 237;
+				CURRENT_PROJECT_VERSION = 240;
 				DEVELOPMENT_TEAM = QRVYSKD5TN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Intents Extension/Info.plist";

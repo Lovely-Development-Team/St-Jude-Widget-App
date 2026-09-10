@@ -28,6 +28,7 @@ struct EntryView: View {
     var mainProgressBarPixelScale: Double = .spriteScale
     var milestoneProgressBarHeight: CGFloat = 10
     var disableCombos: Bool = false
+    var isForWidget: Bool = true
 
     
     var showTwoMilestones: Bool {
@@ -68,7 +69,17 @@ struct EntryView: View {
     }
     
     var foregroundColor: Color {
+        if self.appearance.isWildWestTheme && !self.isForWidget {
+            return .black
+        }
         return appearance.foregroundColor
+    }
+    
+    var colorScheme: ColorScheme? {
+        if self.appearance.isWildWestTheme && !self.isForWidget {
+            return .light
+        }
+        return nil
     }
     
     var body: some View {
@@ -77,22 +88,36 @@ struct EntryView: View {
                 if useNormalBackgroundOniOS17 {
                     content
                         .padding()
-                        .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+                        .background(appearance.background(isForWidget: self.isForWidget))
                 } else {
                     content
-                        .containerBackground(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top), for: .widget)
+                        .containerBackground(for: .widget) {
+                            appearance.background(isForWidget: self.isForWidget)
+                        }
                         .padding(showsBackground ? [] : .all, 5)
                 }
             } else {
                 content
                     .padding()
-                    .background(LinearGradient(colors: backgroundColors, startPoint: .bottom, endPoint: .top))
+                    .background(appearance.background(isForWidget: self.isForWidget))
             }
         }
     }
     
     @ViewBuilder
     var content: some View {
+        if appearance.isWildWestTheme {
+            GroupBox {
+                actualContent
+            }
+            .themedGroupBox(type: .primary, primaryColor: self.isForWidget ? .secondarySystemBackground : .white, id: "widget")
+        } else {
+            actualContent
+        }
+    }
+    
+    @ViewBuilder
+    var actualContent: some View {
         
         VStack(alignment: .leading, spacing: self.centerVertically ? 20 : 5) {
            
