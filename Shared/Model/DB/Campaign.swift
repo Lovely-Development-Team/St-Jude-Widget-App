@@ -146,6 +146,11 @@ extension Campaign: Codable, FetchableRecord, MutablePersistableRecord {
     var rewards: QueryInterfaceRequest<Reward> {
         request(for: Campaign.rewards)
     }
+    
+    static let polls = hasMany(Poll.self)
+    var polls: QueryInterfaceRequest<Poll> {
+        request(for: Campaign.polls)
+    }
 }
 
 extension Campaign {
@@ -427,6 +432,51 @@ extension Campaign {
         
     }
     
-
+    func updatePollsInDatabase(with apiPolls: [TiltifyCampaignPoll]) async {
+        // Only store polls for favorited campaigns
+        guard self.isStarred else { return }
+        
+        var keyedApiPolls: [UUID: Poll] = apiPolls.reduce(into: [:]) { partialResult, poll in
+            partialResult.updateValue(Poll(from: poll, campaignId: self.id), forKey: poll.id)
+        }
+        
+        do {
+            let dbPolls = try await AppDatabase.shared.fetchSortedPolls(for: self)
+            
+            // For each poll from the database...
+            for dbPoll in dbPolls {
+                if let apiPoll = keyedApiPolls[dbPoll.id] {
+                    // Update it from the API if it exists...
+                    keyedApiPolls.removeValue(forKey: dbPoll.id)
+                    dataLogger.debug("Updating Poll \(apiPoll.name)")
+                    do {
+                        try await AppDatabase.shared.updatePoll(apiPoll, changesFrom: dbPoll)
+                    } catch {
+                        dataLogger.error("Failed to update Poll: \(apiPoll.name): \(error.localizedDescription)")
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Poll \(dbPoll.name)")
+                    do {
+                        try await AppDatabase.shared.deletePoll(dbPoll)
+                    } catch {
+                        dataLogger.error("Failed to delete Poll: \(dbPoll.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            
+            // For each new reward in the API, save it to the database
+            for apiPoll in keyedApiPolls.values {
+                dataLogger.debug("Creating Poll: \(apiPoll.name)")
+                do {
+                    try await AppDatabase.shared.savePoll(apiPoll)
+                } catch {
+                    dataLogger.error("Failed to save Poll: \(apiPoll.name): \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            dataLogger.debug("Failed to update Polls: \(error.localizedDescription)")
+        }
+    }
     
 }

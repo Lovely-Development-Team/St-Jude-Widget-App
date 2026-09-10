@@ -195,6 +195,26 @@ final class AppDatabase {
             }
         }
         
+        migrator.registerMigration("addPolls") { db in
+            try db.create(table: "poll") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text)
+                t.column("active", .boolean)
+                t.column("totalRaisedValue", .double)
+                t.column("totalRaisedCurrency", .text)
+                t.column("campaignId", .blob).notNull().references("campaign")
+            }
+            
+            try db.create(table: "pollOption") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text)
+                t.column("amountRaisedValue", .double)
+                t.column("amountRaisedCurrency", .text)
+                t.column("campaignId", .blob).notNull().references("poll")
+                
+            }
+        }
+        
         return migrator
     }
 }
@@ -368,6 +388,27 @@ extension AppDatabase {
         }
     }
     
+    // MARK: Polls
+    @discardableResult
+    func savePoll(_ poll: Poll) async throws -> Poll {
+        try await dbWriter.write { db in
+            try poll.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deletePoll(_ poll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try poll.delete(db)
+        }
+    }
+    
+    func fetchSortedPolls(for campaign: Campaign) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try campaign.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
     /**
      If the campaign has any difference from the other campaign, executes an
      UPDATE statement so that those differences and only those difference are
@@ -397,6 +438,13 @@ extension AppDatabase {
     func updateReward(_ newReward: Reward, changesFrom oldReward: Reward) async throws -> Bool {
         try await dbWriter.write { db in
             try newReward.updateChanges(db, from: oldReward)
+        }
+    }
+    
+    @discardableResult
+    func updatePoll(_ newPoll: Poll, changesFrom oldPoll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPoll.updateChanges(db, from: oldPoll)
         }
     }
     
