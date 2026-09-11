@@ -39,14 +39,14 @@ struct CampaignView: View {
     @State private var isRefreshing: Bool = false
     
     @State private var showPolls: Bool = true
-    @State private var polls: [TiltifyCampaignPoll] = []
+    @State private var polls: [Poll] = []
     
     @State private var hasDoneInitialAPIFetch: Bool = false
     
     @State private var logsContainer: LogsContainer = LogsContainer()
     @State private var refreshId: UUID = .init()
     
-    private var activePolls: [TiltifyCampaignPoll] {
+    private var activePolls: [Poll] {
         return self.polls.filter { $0.active }
     }
     
@@ -600,23 +600,16 @@ struct CampaignView: View {
                 
                 await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
                 await self.updateRewardsInDatabase(forId: TEAM_EVENT_ID)
+                await self.updatePollsInDatabase(forId: TEAM_EVENT_ID)
                 
                 async let apiTopDonorFetch = TiltifyAPIClient.shared.getCampaignTopDonor(forId: RELAY_CAMPAIGN)
                 async let apiDonationsFetch = TiltifyAPIClient.shared.getCampaignDonations(forId: RELAY_CAMPAIGN)
-                async let apiPollsFetch = TiltifyAPIClient.shared.getCampaignPolls(forId: TEAM_EVENT_ID)
                 
                 let apiTopDonor = await apiTopDonorFetch
                 let apiDonations = await apiDonationsFetch
                 withAnimation {
                     topDonor = apiTopDonor
                     donations = apiDonations
-                }
-                
-                let apiPolls = await apiPollsFetch
-                if let apiPolls = apiPolls {
-                    withAnimation {
-                        self.polls = apiPolls
-                    }
                 }
                 
             } else {
@@ -775,6 +768,97 @@ struct CampaignView: View {
         
     }
     
+    struct ApiPollToDbPollWrapper {
+        let poll: Poll
+        let options: [PollOption]
+    }
+    
+    func updatePollsInDatabase(forId id: UUID) async {
+        
+        // Only save polls to DB when campaign is starred
+        
+//        guard self.initialCampaign?.isStarred ?? false else {
+//            return
+//        }
+        
+        let apiPolls = await TiltifyAPIClient.shared.getCampaignPolls(forId: id)
+        dataLogger.debug("Updating Polls for campaign \(id) with \(polls.count)")
+        
+        var keyedApiPolls: [UUID: ApiPollToDbPollWrapper] = apiPolls.filter { $0.active }.reduce(into: [:]) { partialResult, poll in
+            let pollObj: Poll
+            if teamEvent != nil {
+                pollObj = Poll(from: poll, teamEventId: UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID))
+            } else {
+                pollObj = Poll(from: poll, campaignId: id)
+            }
+            
+            let pollOptionsObj = poll.options.map { apiPollOption in
+                return PollOption(from: apiPollOption, pollId: poll.id)
+            }
+            
+            let objToInsert = ApiPollToDbPollWrapper(poll: pollObj, options: pollOptionsObj)
+            
+            partialResult.updateValue(objToInsert, forKey: poll.id)
+        }
+        
+        do {
+            let dbPolls: [Poll]
+            if let teamEvent {
+                dbPolls = try await AppDatabase.shared.fetchSortedPolls(for: teamEvent)
+            } else {
+                if let campaign = initialCampaign {
+                    dbPolls = try await AppDatabase.shared.fetchSortedPolls(for: campaign)
+                } else {
+                    dbPolls = []
+                }
+            }
+            // For each reward from the database...
+            for dbPoll in dbPolls {
+                if let apiPoll = keyedApiPolls[dbPoll.id]?.poll {
+                    // Update it from the API if it exists...
+                    keyedApiPolls.removeValue(forKey: dbPoll.id)
+                    dataLogger.debug("Updating Poll \(apiPoll.name)")
+                    do {
+                        try await AppDatabase.shared.updatePoll(apiPoll, changesFrom: dbPoll)
+                    } catch {
+                        dataLogger.error("Failed to update Poll: \(apiPoll.name): \(error.localizedDescription)")
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Poll \(dbPoll.name)")
+                    do {
+                        try await AppDatabase.shared.deletePoll(dbPoll)
+                    } catch {
+                        dataLogger.error("Failed to delete Poll \(dbPoll.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            // For each new reward in the API, save it to the database
+            for apiPollWrapper in keyedApiPolls.values {
+                let apiPoll = apiPollWrapper.poll
+                dataLogger.debug("Creating Poll: \(apiPoll.name)")
+                do {
+                    try await AppDatabase.shared.savePoll(apiPoll)
+                } catch {
+                    dataLogger.error("Failed to save Poll \(apiPoll.name): \(error.localizedDescription)")
+                }
+                
+                let apiPollOptions = apiPollWrapper.options
+                for apiPollOption in apiPollOptions {
+                    dataLogger.debug("Creating Poll Option: \(apiPollOption.name) on Poll: \(apiPoll.name)")
+                    do {
+                        try await AppDatabase.shared.savePollOption(apiPollOption)
+                    } catch {
+                        dataLogger.error("Failed to save Poll Option \(apiPollOption.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+        } catch {
+            dataLogger.debug("Failed to update Poll: \(error.localizedDescription)")
+        }
+        
+    }
+    
     func updateCampaignFromAPI(for campaign: Campaign, updateLocalCampaignState: Bool = false) async {
         
         logsContainer.addLog("Updating campaign from API: \(campaign.id)")
@@ -806,6 +890,7 @@ struct CampaignView: View {
         
         await updateMilestonesInDatabase(forId: campaign.id)
         await updateRewardsInDatabase(forId: campaign.id)
+        await self.updatePollsInDatabase(forId: campaign.id)
         
         logsContainer.addLog("Done updating milestones and rewards")
         logsContainer.addLog("Updating donors and polls")
@@ -815,13 +900,6 @@ struct CampaignView: View {
         withAnimation {
             topDonor = apiTopDonor
             donations = apiDonations
-        }
-        
-        let apiPolls = await TiltifyAPIClient.shared.getCampaignPolls(forId: campaign.id)
-        if let apiPolls = apiPolls {
-            withAnimation {
-                self.polls = apiPolls
-            }
         }
         
         logsContainer.addLog("Done updating donors and polls")
@@ -845,7 +923,7 @@ struct CampaignView: View {
                 }
             }
             logsContainer.addLog("Fetching rewards and milestones for team event")
-            await fetchRewardsAndMilestones(for: teamEvent)
+            await fetchRewardsAndMilestonesAndPolls(for: teamEvent)
             logsContainer.addLog("Rewards and milestones fetched")
         } else if let initialCampaign = initialCampaign {
             logsContainer.addLog("Fetching data for Campaign from database: done initial API fetch? \(hasDoneInitialAPIFetch)")
@@ -862,12 +940,12 @@ struct CampaignView: View {
                 }
             }
             logsContainer.addLog("Fetching rewards and milestones for campaign")
-            await fetchRewardsAndMilestones(for: initialCampaign)
+            await fetchRewardsAndMilestonesAndPolls(for: initialCampaign)
             logsContainer.addLog("Rewards and milestones fetched")
         }
     }
     
-    func fetchRewardsAndMilestones(for teamEvent: TeamEvent) async {
+    func fetchRewardsAndMilestonesAndPolls(for teamEvent: TeamEvent) async {
         do {
             dataLogger.notice("Fetching stored milestones for team event")
             let fetchedMilestones = try await AppDatabase.shared.fetchSortedMilestones(for: teamEvent)
@@ -888,9 +966,21 @@ struct CampaignView: View {
         } catch {
             dataLogger.error("Failed to fetch stored rewards for team event: \(error.localizedDescription)")
         }
+        
+        do {
+            dataLogger.notice("Fetching stored polls for team event")
+            let fetchedPolls = try await AppDatabase.shared.fetchSortedPolls(for: teamEvent)
+            withAnimation {
+                self.polls = fetchedPolls
+            }
+            dataLogger.notice("Fetched stored polls for team event: \(self.polls.count)")
+            
+        } catch {
+            dataLogger.error("Failed to fetch stored polls for team event: \(error.localizedDescription)")
+        }
     }
     
-    func fetchRewardsAndMilestones(for campaign: Campaign) async {
+    func fetchRewardsAndMilestonesAndPolls(for campaign: Campaign) async {
         
         do {
             dataLogger.notice("Fetching stored milestones for \(campaign.id)")
@@ -911,6 +1001,18 @@ struct CampaignView: View {
             dataLogger.notice("Fetched stored rewards for \(campaign.id)")
         } catch {
             dataLogger.error("Failed to fetch stored rewards for \(campaign.id): \(error.localizedDescription)")
+        }
+        
+        do {
+            dataLogger.notice("Fetching stored polls for \(campaign.id)")
+            let fetchedPolls = try await AppDatabase.shared.fetchSortedPolls(for: campaign)
+            withAnimation {
+                self.polls = fetchedPolls
+            }
+            dataLogger.notice("Fetched stored polls for \(campaign.id): \(self.polls.count)")
+            
+        } catch {
+            dataLogger.error("Failed to fetch stored polls for \(campaign.id): \(error.localizedDescription)")
         }
         
     }

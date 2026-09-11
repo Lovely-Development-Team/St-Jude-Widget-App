@@ -332,6 +332,7 @@ extension Campaign {
                     
                     await self.updateMilestonesInDatabase(with: await TiltifyAPIClient.shared.getCampaignMilestones(forId: id))
                     await self.updateRewardsInDatabase(with: await TiltifyAPIClient.shared.getCampaignRewards(forId: id))
+                    await self.updatePollsInDatabase(with: await TiltifyAPIClient.shared.getCampaignPolls(forId: id))
                     
                     return apiCampaign
                 }

@@ -184,13 +184,13 @@ extension TiltifyAPIClient {
         return nil
     }
     
-    func getCampaignPolls(forId id: UUID) async -> [TiltifyCampaignPoll]? {
+    func getCampaignPolls(forId id: UUID) async -> [TiltifyCampaignPoll] {
         do {
             return try await self.send(TiltifyGetCampaignPollsRequest(campaignId: id.uuidString == FUNDRAISING_EVENT_PUBLIC_ID ? UUID(uuidString: RELAY_SUBCAMPAIGN_ID)! : id)).data
         } catch {
             apiLogger.error("Unable to fetch campaign polls: \(String(describing: error))")
         }
-        return nil
+        return []
     }
 }
 

@@ -15,6 +15,7 @@ struct Poll: Identifiable, Hashable {
     let totalRaisedValue: Double
     let totalRaisedCurrency: String
     let campaignId: UUID?
+    let teamEventId: UUID?
 }
 
 extension Poll: Codable, FetchableRecord, MutablePersistableRecord {
@@ -35,16 +36,26 @@ extension Poll: Codable, FetchableRecord, MutablePersistableRecord {
     var parentCampaign: QueryInterfaceRequest<Campaign> {
         request(for: Poll.parentCampaign)
     }
+    
+    static let parentTeamEvent = belongsTo(TeamEvent.self)
+    var parentTeamEvent: QueryInterfaceRequest<TeamEvent> {
+        request(for: Poll.parentTeamEvent)
+    }
 }
 
 extension Poll {
-    init(from poll: TiltifyCampaignPoll, campaignId: UUID? = nil) {
+    init(from poll: TiltifyCampaignPoll, campaignId: UUID? = nil, teamEventId: UUID? = nil) {
         self.id = poll.id
         self.name = poll.name
         self.active = poll.active
         self.totalRaisedValue = poll.amountRaised.numericalValue
         self.totalRaisedCurrency = poll.amountRaised.currency
         self.campaignId = campaignId
+        self.teamEventId = teamEventId
+    }
+    
+    var amountRaised: TiltifyAmount {
+        return TiltifyAmount(currency: self.totalRaisedCurrency, value: String(self.totalRaisedValue))
     }
 }
 
@@ -79,5 +90,36 @@ extension PollOption {
         self.amountRaisedValue = pollOption.amountRaised.numericalValue
         self.amountRaisedCurrency = pollOption.amountRaised.currency
         self.pollId = pollId
+    }
+    
+    var amountRaised: TiltifyAmount {
+        return TiltifyAmount(currency: self.amountRaisedCurrency, value: String(self.amountRaisedValue))
+    }
+    
+    func isMax(parentPoll: Poll, options: [PollOption]) -> Bool {
+        // Search for ties, return true since they're both in the lead
+        for option in options {
+            if option.id == self.id { continue }
+            if option.amountRaised.numericalValue == self.amountRaised.numericalValue {
+                return true
+            }
+        }
+        
+        // Sort all options
+        let sortedOptions = options.sorted {
+            $0.amountRaised.numericalValue > $1.amountRaised.numericalValue
+        }
+        
+        // Is self the highest one?
+        return self.id == sortedOptions.first?.id
+    }
+    
+    func percentageOfPoll(parentPoll: Poll) -> Double {
+        guard parentPoll.amountRaised.numericalValue > 0,
+                self.amountRaised.numericalValue > 0,
+                parentPoll.amountRaised.numericalValue >= self.amountRaised.numericalValue else {
+            return 0
+        }
+        return (self.amountRaised.numericalValue / parentPoll.amountRaised.numericalValue)
     }
 }

@@ -202,7 +202,8 @@ final class AppDatabase {
                 t.column("active", .boolean)
                 t.column("totalRaisedValue", .double)
                 t.column("totalRaisedCurrency", .text)
-                t.column("campaignId", .blob).notNull().references("campaign")
+                t.column("campaignId", .blob).references("campaign")
+                t.column("teamEventId", .blob).references("teamEvent")
             }
             
             try db.create(table: "pollOption") { t in
@@ -210,7 +211,7 @@ final class AppDatabase {
                 t.column("name", .text)
                 t.column("amountRaisedValue", .double)
                 t.column("amountRaisedCurrency", .text)
-                t.column("campaignId", .blob).notNull().references("poll")
+                t.column("pollId", .blob).notNull().references("poll")
                 
             }
         }
@@ -403,9 +404,56 @@ extension AppDatabase {
         }
     }
     
+    @discardableResult
+    func updatePoll(_ newPoll: Poll, changesFrom oldPoll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPoll.updateChanges(db, from: oldPoll)
+        }
+    }
+    
+    func fetchAllPolls() async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try Poll.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
     func fetchSortedPolls(for campaign: Campaign) async throws -> [Poll] {
         try await dbWriter.read { db in
             try campaign.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchSortedPolls(for teamEvent: TeamEvent) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try teamEvent.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    // MARK: - PollOptions
+    @discardableResult
+    func savePollOption(_ pollOption: PollOption) async throws -> PollOption {
+        try await dbWriter.write { db in
+            try pollOption.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deletePollOption(_ pollOption: PollOption) async throws -> Bool {
+        try await dbWriter.write { db in
+            try pollOption.delete(db)
+        }
+    }
+    
+    @discardableResult
+    func updatePollOption(_ newPollOption: PollOption, changesFrom oldPollOption: PollOption) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPollOption.updateChanges(db, from: oldPollOption)
+        }
+    }
+    
+    func fetchPollOptions(for poll: Poll) async throws -> [PollOption] {
+        try await dbWriter.read { db in
+            try poll.pollOptions.order(Column("name").asc).fetchAll(db)
         }
     }
     
@@ -438,13 +486,6 @@ extension AppDatabase {
     func updateReward(_ newReward: Reward, changesFrom oldReward: Reward) async throws -> Bool {
         try await dbWriter.write { db in
             try newReward.updateChanges(db, from: oldReward)
-        }
-    }
-    
-    @discardableResult
-    func updatePoll(_ newPoll: Poll, changesFrom oldPoll: Poll) async throws -> Bool {
-        try await dbWriter.write { db in
-            try newPoll.updateChanges(db, from: oldPoll)
         }
     }
     
