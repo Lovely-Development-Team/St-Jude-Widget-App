@@ -360,7 +360,8 @@ extension WidgetDataProviding {
                                configuration: PollConfigurationIntent(),
                                poll: Poll.samplePoll,
                                options: PollOption.samplePollOptions,
-                               parentCampaign: nil)
+                               parentCampaign: nil,
+                               openParentCampaign: false)
     }
     
     internal func fetchSnapshot(for configuration: PollConfigurationIntent, in context: Context, completion: @escaping (PollWidgetEntry) -> ()) {
@@ -369,7 +370,8 @@ extension WidgetDataProviding {
                                         configuration: PollConfigurationIntent(),
                                         poll: Poll.samplePoll,
                                         options: PollOption.samplePollOptions,
-                                        parentCampaign: nil)
+                                        parentCampaign: nil,
+                                        openParentCampaign: false)
             completion(entry)
             return
         }
@@ -389,14 +391,16 @@ extension WidgetDataProviding {
                                             configuration: configuration,
                                             poll: pollObj,
                                             options: pollOptionsObj,
-                                            parentCampaign: campaignObj)
+                                            parentCampaign: campaignObj,
+                                            openParentCampaign: configuration.openPollOnTap?.boolValue ?? true)
                 completion(entry)
             } else {
                 let entry = PollWidgetEntry(date: Date(),
                                             configuration: configuration,
                                             poll: nil,
                                             options: [],
-                                            parentCampaign: nil)
+                                            parentCampaign: nil,
+                                            openParentCampaign: false)
                 completion(entry)
             }
         }
@@ -408,7 +412,8 @@ extension WidgetDataProviding {
                                        configuration: configuration,
                                        poll: nil,
                                        options: [],
-                                       parentCampaign: nil)
+                                       parentCampaign: nil,
+                                        openParentCampaign: false)
             completion(Timeline(entries: [entry], policy: .atEnd))
             return
         }
@@ -439,14 +444,16 @@ extension WidgetDataProviding {
                                                 configuration: configuration,
                                                 poll: pollObj,
                                                 options: pollOptionsObj,
-                                                parentCampaign: campaignObj)
+                                                parentCampaign: campaignObj,
+                                                openParentCampaign: configuration.openPollOnTap?.boolValue ?? true)
                     entries.append(entry)
                 } else {
                     let entry = PollWidgetEntry(date: Date(),
                                                 configuration: configuration,
                                                 poll: nil,
                                                 options: [],
-                                                parentCampaign: nil)
+                                                parentCampaign: nil,
+                                                openParentCampaign: false)
                     entries.append(entry)
                 }
             } else {
@@ -454,7 +461,8 @@ extension WidgetDataProviding {
                                             configuration: configuration,
                                             poll: nil,
                                             options: [],
-                                            parentCampaign: nil)
+                                            parentCampaign: nil,
+                                            openParentCampaign: false)
                 entries.append(entry)
             }
             

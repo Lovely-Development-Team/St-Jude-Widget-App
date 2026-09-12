@@ -34,12 +34,16 @@ struct ActivePollsView: View {
                             }
                             .contentShape(Rectangle())
                         })
-                        .themedButton(type: .plain, id: "activePollsHeader")
+                        .themedButton(type: .plain)
                         
                         if !self.collapsed {
                             ForEach(self.activePolls) { poll in
                                 PollView(poll: poll, campaignId: (poll.campaignId ?? poll.teamEventId), showParentCampaignInfo: true)
                             }
+                            Text("Star a campaign, and its polls will show here!")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .padding(.top, 5)
                         }
                     }
                 }

@@ -14,4 +14,12 @@ struct PollWidgetEntry: TimelineEntry {
     let poll: Poll?
     let options: [PollOption]
     let parentCampaign: TiltifyWidgetData?
+    let openParentCampaign: Bool
+    
+    var widgetURL: String {
+        if let parentCampaign, self.openParentCampaign {
+            return "relay-fm-for-st-jude://campaign?id=\(parentCampaign.id)"
+        }
+        return "relay-fm-for-st-jude://"
+    }
 }

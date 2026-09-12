@@ -22,6 +22,7 @@ struct PollWidget: Widget {
                                 parentCampaign: entry.parentCampaign,
                                 appearance: entry.configuration.appearance,
                                 showFullCurrencySymbol: entry.configuration.showFullCurrencySymbol?.boolValue ?? false)
+            .widgetURL(URL(string: entry.widgetURL)!)
         })
         .supportedFamilies([
             .systemSmall,
@@ -39,23 +40,39 @@ struct PollWidget: Widget {
 #Preview(as: .systemSmall, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(),
+                    poll: Poll.samplePoll,
+                    options: PollOption.samplePollOptions,
+                    parentCampaign: sampleCampaign,
+                    openParentCampaign: false)
 })
 
 #Preview(as: .systemMedium, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(),
+                    poll: Poll.samplePoll,
+                    options: PollOption.samplePollOptions,
+                    parentCampaign: sampleCampaign,
+                    openParentCampaign: false)
 })
 
 #Preview(as: .systemLarge, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(),
+                    poll: Poll.samplePoll,
+                    options: PollOption.samplePollOptions,
+                    parentCampaign: sampleCampaign,
+                    openParentCampaign: false)
 })
 
 #Preview(as: .systemExtraLarge, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(),
+                    poll: Poll.samplePoll,
+                    options: PollOption.samplePollOptions,
+                    parentCampaign: sampleCampaign,
+                    openParentCampaign: false)
 })

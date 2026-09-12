@@ -35,7 +35,12 @@ struct PollWidgetEntryView: View {
     }
     
     var minimumScaleFactor: Double {
-        return self.widgetFamilyForLayout == .systemSmall ? 0.7 : 1.0
+        switch self.widgetFamilyForLayout {
+        case .systemSmall, .systemMedium:
+            return 0.7
+        default:
+            return 1.0
+        }
     }
     
     // MARK: Title
