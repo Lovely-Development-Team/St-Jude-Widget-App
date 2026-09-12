@@ -226,3 +226,19 @@ struct TiltifyGetCampaignPollsRequest: TiltifyAPIPaginatedRequest {
         "api/public/campaigns/\(campaignId)/polls"
     }
 }
+
+struct TiltifyGetCampaignPollByIdResponse: Decodable {
+    let data: TiltifyCampaignPoll
+}
+
+struct TiltifyGetCampaignPollByIdRequest: TiltifyAPIPaginatedRequest {
+    typealias Response = TiltifyGetCampaignPollByIdResponse
+    let campaignId: UUID
+    let pollId: UUID
+    var after: String?
+    var limit: Int = 1
+    
+    var resourceName: String {
+        "api/public/campaigns/\(campaignId)/polls/\(pollId)"
+    }
+}

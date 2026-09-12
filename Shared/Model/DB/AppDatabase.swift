@@ -195,6 +195,27 @@ final class AppDatabase {
             }
         }
         
+        migrator.registerMigration("addPolls") { db in
+            try db.create(table: "poll") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text)
+                t.column("active", .boolean)
+                t.column("totalRaisedValue", .double)
+                t.column("totalRaisedCurrency", .text)
+                t.column("campaignId", .blob).references("campaign")
+                t.column("teamEventId", .blob).references("teamEvent")
+            }
+            
+            try db.create(table: "pollOption") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text)
+                t.column("amountRaisedValue", .double)
+                t.column("amountRaisedCurrency", .text)
+                t.column("pollId", .blob).notNull().references("poll")
+                
+            }
+        }
+        
         return migrator
     }
 }
@@ -365,6 +386,100 @@ extension AppDatabase {
                 }
                 return $0.amount.value < $1.amount.value
             }
+        }
+    }
+    
+    // MARK: Polls
+    @discardableResult
+    func savePoll(_ poll: Poll) async throws -> Poll {
+        try await dbWriter.write { db in
+            try poll.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deletePoll(_ poll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try poll.delete(db)
+        }
+    }
+    
+    @discardableResult
+    func updatePoll(_ newPoll: Poll, changesFrom oldPoll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPoll.updateChanges(db, from: oldPoll)
+        }
+    }
+    
+    func fetchAllActivePollsForStarredCampaigns() async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try Poll.order(Column("name").asc)
+                .including(required: Poll.parentCampaign
+                    .filter(Column("isStarred") == true))
+                .filter(Column("active") == true)
+                .fetchAll(db)
+        }
+    }
+    
+    func fetchAllActivePollsForTeamEvent() async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try Poll.order(Column("name").asc)
+                .including(required: Poll.parentTeamEvent
+                    .filter(Column("publicId") == UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)))
+                .filter(Column("active") == true)
+                .fetchAll(db)
+        }
+    }
+    
+    func fetchSortedPolls(for campaign: Campaign) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try campaign.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchSortedPolls(for teamEvent: TeamEvent) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try teamEvent.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchParentCampaign(for poll: Poll) async throws -> Campaign? {
+        try await dbWriter.read { db in
+            try poll.parentCampaign.fetchOne(db)
+        }
+    }
+    
+    func fetchParentTeamEvent(for poll: Poll) async throws -> TeamEvent? {
+        try await dbWriter.read { db in
+            try poll.parentTeamEvent.fetchOne(db)
+        }
+    }
+    
+    // MARK: - PollOptions
+    @discardableResult
+    func savePollOption(_ pollOption: PollOption) async throws -> PollOption {
+        try await dbWriter.write { db in
+            try pollOption.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deletePollOption(_ pollOption: PollOption) async throws -> Bool {
+        try await dbWriter.write { db in
+            try pollOption.delete(db)
+        }
+    }
+    
+    @discardableResult
+    func updatePollOption(_ newPollOption: PollOption, changesFrom oldPollOption: PollOption) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPollOption.updateChanges(db, from: oldPollOption)
+        }
+    }
+    
+    func fetchPollOptions(for poll: Poll) async throws -> [PollOption] {
+        try await dbWriter.read { db in
+            try poll.pollOptions.order(Column("amountRaisedValue").asc).fetchAll(db)
         }
     }
     

@@ -166,6 +166,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		43928B6830559F7D007C33F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Poll Widgets/PollWidget.swift",
+				"Poll Widgets/PollWidgetEntry.swift",
+				"Poll Widgets/PollWidgetTimelineProvider.swift",
+			);
+			target = 63574A1126D658FD00A2D495 /* macOS WidgetExtension */;
+		};
 		5EE6B25E2E449B7300DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -288,6 +297,7 @@
 				Model/DB/HeadToHead.swift,
 				Model/DB/Milestone.swift,
 				Model/DB/Persistence.swift,
+				Model/DB/Poll.swift,
 				Model/DB/Reward.swift,
 				Model/DB/TeamEvent.swift,
 				Model/TiltifyWidgetData.swift,
@@ -342,6 +352,7 @@
 				Model/DB/HeadToHead.swift,
 				Model/DB/Milestone.swift,
 				Model/DB/Persistence.swift,
+				Model/DB/Poll.swift,
 				Model/DB/Reward.swift,
 				Model/DB/TeamEvent.swift,
 				Model/TiltifyWidgetData.swift,
@@ -373,6 +384,7 @@
 				Views/App/Themes/2025/StandingThrowingView2025.swift,
 				Views/App/Themes/2025/TiledArenaFloorView.swift,
 				Views/App/Themes/2026/LandscapeView2026.swift,
+				Views/Shared/ProgressBar.swift,
 				Views/Shared/ScaledNinePartImage.swift,
 			);
 			target = 63BFF19A26D5D37C0023263D /* Intents Extension */;
@@ -404,6 +416,7 @@
 				Model/DB/HeadToHead.swift,
 				Model/DB/Milestone.swift,
 				Model/DB/Persistence.swift,
+				Model/DB/Poll.swift,
 				Model/DB/Reward.swift,
 				Model/DB/TeamEvent.swift,
 				Model/TiltifyWidgetData.swift,
@@ -451,6 +464,7 @@
 				LiveActivities/ScoreActivity.swift,
 				LiveActivities/ScoreActivityAttributes.swift,
 				MilestoneView.swift,
+				"Poll Widgets/PollWidgetEntryView.swift",
 				SampleCampaign.swift,
 				ScoreGroupBoxView.swift,
 				WidgetFamily.swift,
@@ -468,6 +482,7 @@
 				LiveActivities/ScoreActivity.swift,
 				LiveActivities/ScoreActivityAttributes.swift,
 				MilestoneView.swift,
+				"Poll Widgets/PollWidgetEntryView.swift",
 				SampleCampaign.swift,
 				ScoreGroupBoxView.swift,
 				WidgetFamily.swift,
@@ -487,7 +502,7 @@
 		5EE6B27D2E449B7C00DEBA1C /* Tiltify St Jude Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B28B2E449B7C00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B28C2E449B7C00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B28D2E449B7C00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B28E2E449B7C00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B28F2E449B7C00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Tiltify St Jude Widget"; sourceTree = "<group>"; };
 		5EE6B2942E449B7E00DEBA1C /* macOS Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B29A2E449B7E00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B29B2E449B7E00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "macOS Widget"; sourceTree = "<group>"; };
 		5EE6B3252E449B8F00DEBA1C /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B46E2E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B46F2E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4702E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4712E449B8F00DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-		5EE6B4842E449B9900DEBA1C /* Shared Widgets */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B4AD2E449B9900DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4AE2E449B9900DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared Widgets"; sourceTree = "<group>"; };
+		5EE6B4842E449B9900DEBA1C /* Shared Widgets */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5EE6B4AD2E449B9900DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5EE6B4AE2E449B9900DEBA1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 43928B6830559F7D007C33F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared Widgets"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */

@@ -351,3 +351,123 @@ extension WidgetDataProviding {
         }
     }
 }
+
+// MARK: - Poll Widgets
+
+extension WidgetDataProviding {
+    internal func fetchPlaceholder(in context: Context) -> PollWidgetEntry {
+        return PollWidgetEntry(date: Date(),
+                               configuration: PollConfigurationIntent(),
+                               poll: Poll.samplePoll,
+                               options: PollOption.samplePollOptions,
+                               parentCampaign: nil,
+                               openParentCampaign: false)
+    }
+    
+    internal func fetchSnapshot(for configuration: PollConfigurationIntent, in context: Context, completion: @escaping (PollWidgetEntry) -> ()) {
+        guard let poll = configuration.poll else {
+            let entry = PollWidgetEntry(date: Date(),
+                                        configuration: PollConfigurationIntent(),
+                                        poll: Poll.samplePoll,
+                                        options: PollOption.samplePollOptions,
+                                        parentCampaign: nil,
+                                        openParentCampaign: false)
+            completion(entry)
+            return
+        }
+        
+        Task {
+            if let pollId = UUID(uuidString: poll.identifier ?? ""),
+               let campaignId = UUID(uuidString: poll.parentCampaignId ?? ""),
+               let pollData = await TiltifyAPIClient.shared.getPoll(campaignId: campaignId, pollId: pollId),
+               let parentCampaignData = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: campaignId) {
+                let pollObj = Poll(from: pollData)
+                let pollOptionsObj = pollData.options.map { option in
+                    return PollOption(from: option, pollId: pollData.id)
+                }
+                let campaignObj = TiltifyWidgetData(from: parentCampaignData)
+                
+                let entry = PollWidgetEntry(date: Date(),
+                                            configuration: configuration,
+                                            poll: pollObj,
+                                            options: pollOptionsObj,
+                                            parentCampaign: campaignObj,
+                                            openParentCampaign: configuration.openPollOnTap?.boolValue ?? true)
+                completion(entry)
+            } else {
+                let entry = PollWidgetEntry(date: Date(),
+                                            configuration: configuration,
+                                            poll: nil,
+                                            options: [],
+                                            parentCampaign: nil,
+                                            openParentCampaign: false)
+                completion(entry)
+            }
+        }
+    }
+    
+    internal func fetchTimeline(for configuration: PollConfigurationIntent, in context: Context, completion: @escaping (Timeline<PollWidgetEntry>) -> ()) {
+        guard let poll = configuration.poll else {
+            let entry = PollWidgetEntry(date: Date(),
+                                       configuration: configuration,
+                                       poll: nil,
+                                       options: [],
+                                       parentCampaign: nil,
+                                        openParentCampaign: false)
+            completion(Timeline(entries: [entry], policy: .atEnd))
+            return
+        }
+        
+        Task {
+            var entries: [PollWidgetEntry] = []
+            
+            if let pollId = UUID(uuidString: poll.identifier ?? ""),
+               let campaignId = UUID(uuidString: poll.parentCampaignId ?? poll.parentTeamEventId ?? ""),
+               let pollData = await TiltifyAPIClient.shared.getPoll(campaignId: campaignId, pollId: pollId) {
+                var campaignObj: TiltifyWidgetData? = nil
+                
+                if let parentCampaignId = UUID(uuidString: poll.parentCampaignId ?? ""),
+                   let parentCampaignData = await TiltifyAPIClient.shared.getCampaignWithMilestones(forId: parentCampaignId) {
+                    campaignObj = TiltifyWidgetData(from: parentCampaignData)
+                } else if let parentTeamEventData = await TiltifyAPIClient.shared.getFundraisingEvent() {
+                    let parentTeamEventMilestones = await TiltifyAPIClient.shared.getFundraisingEventMilestones()
+                    campaignObj = TiltifyWidgetData(from: parentTeamEventData, milestones: parentTeamEventMilestones)
+                }
+                
+                if let campaignObj {
+                    let pollObj = Poll(from: pollData)
+                    let pollOptionsObj = pollData.options.map { option in
+                        return PollOption(from: option, pollId: pollData.id)
+                    }
+                    
+                    let entry = PollWidgetEntry(date: Date(),
+                                                configuration: configuration,
+                                                poll: pollObj,
+                                                options: pollOptionsObj,
+                                                parentCampaign: campaignObj,
+                                                openParentCampaign: configuration.openPollOnTap?.boolValue ?? true)
+                    entries.append(entry)
+                } else {
+                    let entry = PollWidgetEntry(date: Date(),
+                                                configuration: configuration,
+                                                poll: nil,
+                                                options: [],
+                                                parentCampaign: nil,
+                                                openParentCampaign: false)
+                    entries.append(entry)
+                }
+            } else {
+                let entry = PollWidgetEntry(date: Date(),
+                                            configuration: configuration,
+                                            poll: nil,
+                                            options: [],
+                                            parentCampaign: nil,
+                                            openParentCampaign: false)
+                entries.append(entry)
+            }
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+        }
+    }
+}

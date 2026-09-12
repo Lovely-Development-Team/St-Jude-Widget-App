@@ -21,6 +21,7 @@ extension UserDefaults {
     static let shareScreenshotDisablePixelThemeKey = "shareScreenshotDisablePixelTheme"
     static let shareScreenshotExport169Key = "shareScreenshotExport169"
     static let shareScreenshotDisableCombosKey = "shareScreenshotDisableCombos"
+    static let shareScreenshotPollDisbleParentCampaignInfoKey = "shareScreenshotPollDisbleParentCampaignInfo"
     
     @objc var shareScreenshotExport169: Bool {
         get { bool(forKey: Self.shareScreenshotExport169Key) }
@@ -67,6 +68,11 @@ extension UserDefaults {
     var shareScreenshotDisableCombos: Bool {
         get { bool(forKey: Self.shareScreenshotDisableCombosKey) }
         set { set(newValue, forKey: Self.shareScreenshotDisableCombosKey) }
+    }
+    
+    var shareScreenshotPollDisbleParentCampaignInfo: Bool {
+        get { bool(forKey: Self.shareScreenshotPollDisbleParentCampaignInfoKey) }
+        set { set(newValue, forKey: Self.shareScreenshotPollDisbleParentCampaignInfoKey) }
     }
     
 }

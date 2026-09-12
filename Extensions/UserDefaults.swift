@@ -27,6 +27,7 @@ extension UserDefaults {
     
     static let shouldShowHeadToHeadKey = "shouldShowHeadToHead"
     static let expandHeadToHeadSectionKey = "expandHeadToHeadSection"
+    static let expandMainPollsSectionKey = "expandMainPollsSection"
     static let easterEggEnabled2024Key = "easterEggEnabled2024"
     static let iconsUnlockedKey = "iconsUnlocked"
     
@@ -78,6 +79,11 @@ extension UserDefaults {
     @objc var expandHeadToHeadSection: Bool {
         get { bool(forKey: Self.expandHeadToHeadSectionKey) }
         set { set(newValue, forKey: Self.expandHeadToHeadSectionKey) }
+    }
+    
+    @objc var expandMainPollsSection: Bool {
+        get { bool(forKey: Self.expandMainPollsSectionKey) }
+        set { set(newValue, forKey: Self.expandMainPollsSectionKey) }
     }
     
     @objc var relayData: Data? {

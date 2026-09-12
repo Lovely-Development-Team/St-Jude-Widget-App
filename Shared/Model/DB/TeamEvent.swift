@@ -121,6 +121,11 @@ extension TeamEvent: Codable, FetchableRecord, MutablePersistableRecord {
     var rewards: QueryInterfaceRequest<Reward> {
         request(for: TeamEvent.rewards)
     }
+    
+    static let polls = hasMany(Poll.self)
+    var polls: QueryInterfaceRequest<Poll> {
+        request(for: TeamEvent.polls)
+    }
 }
 
 extension TeamEvent {
@@ -159,5 +164,122 @@ extension TeamEvent {
         self.goalValue = apiData.goal.value
         self.goalNumericalValue = apiData.goal.numericalValue
     }
+}
+
+extension TeamEvent {
+    func checkForPollUpdates() async {
+        await self.updatePollsInDatabase(with: await TiltifyAPIClient.shared.getCampaignPolls(forId: id))
+    }
     
+    struct ApiPollToDbPollWrapper {
+        let poll: Poll
+        let options: [PollOption]
+    }
+    
+    func updatePollsInDatabase(with apiPolls: [TiltifyCampaignPoll]) async {
+        
+        // Only save polls to DB when campaign is starred
+        dataLogger.debug("Updating Polls for team event")
+        
+        var keyedApiPolls: [UUID: ApiPollToDbPollWrapper] = apiPolls.filter { $0.active }.reduce(into: [:]) { partialResult, poll in
+            let pollObj = Poll(from: poll, teamEventId: self.publicId)
+            
+            let pollOptionsObj = poll.options.map { apiPollOption in
+                return PollOption(from: apiPollOption, pollId: poll.id)
+            }
+            
+            let objToInsert = ApiPollToDbPollWrapper(poll: pollObj, options: pollOptionsObj)
+            
+            partialResult.updateValue(objToInsert, forKey: poll.id)
+        }
+        
+        do {
+            let dbPolls = try await AppDatabase.shared.fetchSortedPolls(for: self)
+            
+            // For each poll from the database...
+            for dbPoll in dbPolls {
+                if let apiPollWrapper = keyedApiPolls[dbPoll.id] {
+                    let apiPoll = apiPollWrapper.poll
+                    // Update it from the API if it exists...
+                    keyedApiPolls.removeValue(forKey: dbPoll.id)
+                    dataLogger.debug("Updating Poll \(apiPoll.name)")
+                    do {
+                        try await AppDatabase.shared.updatePoll(apiPoll, changesFrom: dbPoll)
+                    } catch {
+                        dataLogger.error("Failed to update Poll: \(apiPoll.name): \(error.localizedDescription)")
+                    }
+
+                    var keyedApiPollOptions: [UUID: PollOption] = apiPollWrapper.options.reduce(into: [:]) { partial, option in
+                        partial.updateValue(option, forKey: option.id)
+                    }
+                    
+                    do {
+                        for dbPollOption in try await AppDatabase.shared.fetchPollOptions(for: dbPoll) {
+                            if let apiPollOption = keyedApiPollOptions[dbPollOption.id] {
+                                keyedApiPollOptions.removeValue(forKey: dbPollOption.id)
+                                // Update it from the API if it exists
+                                try await AppDatabase.shared.updatePollOption(apiPollOption, changesFrom: dbPollOption)
+                            } else {
+                                // Remove it from the DB if it doesn't
+                                try await AppDatabase.shared.deletePollOption(dbPollOption)
+                            }
+                        }
+                    } catch {
+                        dataLogger.error("Couldn't update or remove poll option from API: \(error.localizedDescription)")
+                    }
+                        
+                    // Add each new poll option from the API to the DB
+                    for apiPollOption in keyedApiPollOptions.values {
+                        do {
+                            try await AppDatabase.shared.savePollOption(apiPollOption)
+                        } catch {
+                            dataLogger.error("Failed to add new poll option: \(apiPollOption.name): \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    // Remove it from the database if it doesn't...
+                    dataLogger.debug("Removing Poll \(dbPoll.name)")
+                    
+                    // Remove all the options from the db first
+                    for pollOption in try await AppDatabase.shared.fetchPollOptions(for: dbPoll) {
+                        dataLogger.debug("Removing poll option: \(pollOption.name)")
+                        do {
+                            try await AppDatabase.shared.deletePollOption(pollOption)
+                        } catch {
+                            dataLogger.error("Failed to delete poll option \(pollOption.name): \(error.localizedDescription)")
+                        }
+                    }
+                            
+                    do {
+                        try await AppDatabase.shared.deletePoll(dbPoll)
+                    } catch {
+                        dataLogger.error("Failed to delete Poll \(dbPoll.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+            // For each new poll in the API, save it to the database
+            for apiPollWrapper in keyedApiPolls.values {
+                let apiPoll = apiPollWrapper.poll
+                dataLogger.debug("Creating Poll: \(apiPoll.name)")
+                do {
+                    try await AppDatabase.shared.savePoll(apiPoll)
+                } catch {
+                    dataLogger.error("Failed to save Poll \(apiPoll.name): \(error.localizedDescription)")
+                }
+                
+                let apiPollOptions = apiPollWrapper.options
+                for apiPollOption in apiPollOptions {
+                    dataLogger.debug("Creating Poll Option: \(apiPollOption.name) on Poll: \(apiPoll.name)")
+                    do {
+                        try await AppDatabase.shared.savePollOption(apiPollOption)
+                    } catch {
+                        dataLogger.error("Failed to save Poll Option \(apiPollOption.name): \(error.localizedDescription)")
+                    }
+                }
+            }
+        } catch {
+            dataLogger.debug("Failed to update Poll: \(error.localizedDescription)")
+        }
+        
+    }
 }
