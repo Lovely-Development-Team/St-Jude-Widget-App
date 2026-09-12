@@ -546,6 +546,12 @@ struct FundraiserListView: View {
                         dataLogger.error("Failed to delete campaign \(dbCampaign.id) \(dbCampaign.name): \(error.localizedDescription)")
                     }
                 }
+                
+                if dbCampaign.isStarred || dbCampaign.id == UUID(uuidString: RELAY_SUBCAMPAIGN_ID) {
+                    dataLogger.debug("Checking for polls on Campaign: \(dbCampaign.id)...")
+                    await dbCampaign.checkForPollUpdates()
+                    dataLogger.debug("Fetched poll updates for Campaign: \(dbCampaign.id)...")
+                }
             }
             // For each new campaign in the API, save it to the database
             for apiCampaign in keyedApiCampaigns.values {

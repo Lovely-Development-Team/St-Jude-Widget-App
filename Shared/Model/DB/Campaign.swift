@@ -433,6 +433,10 @@ extension Campaign {
         
     }
     
+    func checkForPollUpdates() async {
+        await self.updatePollsInDatabase(with: await TiltifyAPIClient.shared.getCampaignPolls(forId: id))
+    }
+    
     func updatePollsInDatabase(with apiPolls: [TiltifyCampaignPoll]) async {
         // Only store polls for favorited campaigns
         guard self.isStarred else { return }
