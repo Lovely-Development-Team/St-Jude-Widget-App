@@ -35,3 +35,27 @@ struct PollWidget: Widget {
         .description("Keep tabs on your favorite poll from the Relay campaign or your starred campaigns!")
     }
 }
+
+#Preview(as: .systemSmall, widget: {
+    PollWidget()
+}, timeline: {
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 2, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+})
+
+#Preview(as: .systemMedium, widget: {
+    PollWidget()
+}, timeline: {
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 2, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+})
+
+#Preview(as: .systemLarge, widget: {
+    PollWidget()
+}, timeline: {
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 3, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+})
+
+#Preview(as: .systemExtraLarge, widget: {
+    PollWidget()
+}, timeline: {
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 3, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+})

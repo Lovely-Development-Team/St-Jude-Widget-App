@@ -10,19 +10,31 @@ import WidgetKit
 
 struct PollWidgetEntryView: View {
     @Environment(\.widgetFamily) var widgetFamily
+    @Environment(\.showsWidgetContainerBackground) var showsBackground
+    @Environment(\.widgetRenderingMode) var renderingMode
+    
     var poll: Poll?
     var options: [PollOption]
     var parentCampaign: TiltifyWidgetData?
     var appearance: WidgetAppearance
     var showFullCurrencySymbol: Bool
+    var showParentCampaignInfo: Bool = true
+    var useNormalBackground: Bool = false
+    var isForWidget: Bool = true
+    
+    var overrideWidgetFamily: WidgetFamily? = nil
+    
+    var widgetFamilyForLayout: WidgetFamily {
+        return self.overrideWidgetFamily ?? self.widgetFamily
+    }
     
     var minimumScaleFactor: Double {
-        return self.widgetFamily == .systemSmall ? 0.7 : 1.0
+        return self.widgetFamilyForLayout == .systemSmall ? 0.7 : 1.0
     }
     
     // MARK: Title
     var lineLimitForTitle: Int {
-        switch self.widgetFamily {
+        switch self.widgetFamilyForLayout {
         case .systemSmall, .systemMedium:
             return 2
         default:
@@ -31,7 +43,7 @@ struct PollWidgetEntryView: View {
     }
     
     var fontForTitle: Font {
-        switch self.widgetFamily {
+        switch self.widgetFamilyForLayout {
         case .systemSmall, .systemMedium:
             return .caption
         default:
@@ -40,7 +52,7 @@ struct PollWidgetEntryView: View {
     }
     
     var fontForCampaignName: Font {
-        switch self.widgetFamily {
+        switch self.widgetFamilyForLayout {
         case .systemSmall, .systemMedium:
             return .caption
         default:
@@ -49,24 +61,26 @@ struct PollWidgetEntryView: View {
     }
     
     @ViewBuilder
-    func titleView(for poll: Poll, parentCampaign: TiltifyWidgetData) -> some View {
+    func titleView(for poll: Poll, parentCampaign: TiltifyWidgetData?) -> some View {
         VStack(alignment: .leading) {
             Text(poll.name)
                 .font(self.fontForTitle)
                 .bold()
                 .lineLimit(self.lineLimitForTitle)
                 .minimumScaleFactor(self.minimumScaleFactor)
-            Text(parentCampaign.name)
-                .font(self.fontForCampaignName)
-                .lineLimit(1)
-                .foregroundStyle(.secondary)
-                .minimumScaleFactor(self.minimumScaleFactor)
+            if let parentCampaign, self.showParentCampaignInfo {
+                Text(parentCampaign.name)
+                    .font(self.fontForCampaignName)
+                    .lineLimit(1)
+                    .foregroundStyle(.secondary)
+                    .minimumScaleFactor(self.minimumScaleFactor)
+            }
         }
     }
     
     // MARK: Options
     var numOptionsToShow: Int {
-        switch self.widgetFamily {
+        switch self.widgetFamilyForLayout {
         case .systemSmall:
             return 1
         case .systemMedium:
@@ -80,7 +94,7 @@ struct PollWidgetEntryView: View {
     }
     
     var lineLimitForOptionNames: Int {
-        switch self.widgetFamily {
+        switch self.widgetFamilyForLayout {
         case .systemSmall:
             return 2
         case .systemMedium:
@@ -91,7 +105,7 @@ struct PollWidgetEntryView: View {
     }
     
     var progressBarHeight: Double {
-        switch self.widgetFamily {
+        switch self.widgetFamilyForLayout {
         case .systemSmall, .systemMedium:
             return 5
         default:
@@ -113,7 +127,7 @@ struct PollWidgetEntryView: View {
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                             .minimumScaleFactor(self.minimumScaleFactor)
-                        if option.isMax(parentPoll: poll, options: self.options) && self.widgetFamily == .systemSmall {
+                        if option.isMax(parentPoll: poll, options: self.options) && self.widgetFamilyForLayout == .systemSmall {
                             Image(systemName: "crown.fill")
                                 .imageScale(.small)
                                 .foregroundStyle(self.appearance.fillColor)
@@ -121,7 +135,7 @@ struct PollWidgetEntryView: View {
                     }
                 }
                 Spacer()
-                if option.isMax(parentPoll: poll, options: self.options) && self.widgetFamily != .systemSmall {
+                if option.isMax(parentPoll: poll, options: self.options) && self.widgetFamilyForLayout != .systemSmall {
                     Image(systemName: "crown.fill")
                         .imageScale(.small)
                         .foregroundStyle(self.appearance.fillColor)
@@ -133,23 +147,22 @@ struct PollWidgetEntryView: View {
     }
     
     @ViewBuilder
-    var content: some View {
+    var actualContent: some View {
         Group {
-            if let poll = self.poll,
-               let parentCampaign = self.parentCampaign {
-                    VStack(alignment: .leading) {
-                        self.titleView(for: poll, parentCampaign: parentCampaign)
-                        Spacer()
-                        if poll.active {
-                            ForEach(self.options.prefix(self.numOptionsToShow)) { option in
-                                VStack(alignment: .leading) {
-                                    self.optionView(for: option, poll: poll)
-                                }
+            if let poll = self.poll {
+                VStack(alignment: .leading) {
+                    self.titleView(for: poll, parentCampaign: self.parentCampaign)
+                    Spacer()
+                    if poll.active {
+                        ForEach(self.options.prefix(self.numOptionsToShow)) { option in
+                            VStack(alignment: .leading) {
+                                self.optionView(for: option, poll: poll)
                             }
-                        } else {
-                            Text("This poll has ended.")
                         }
+                    } else {
+                        Text("This poll has ended.")
                     }
+                }
             } else {
                 self.placeholderView
             }
@@ -157,20 +170,31 @@ struct PollWidgetEntryView: View {
         .foregroundStyle(self.appearance.foregroundColor)
     }
     
-    var body: some View {
+    @ViewBuilder
+    var content: some View {
         if self.appearance.isWildWestTheme {
             GroupBox {
-                self.content
+                self.actualContent
             }
             .themedGroupBox(type: .primary, id: "pollWidgetContainer")
-            .containerBackground(for: .widget, content: {
-                self.appearance.background(isForWidget: true)
-            })
+        } else {
+            self.actualContent
+        }
+    }
+    
+    var body: some View {
+        if self.useNormalBackground {
+            self.content
+                .padding()
+                .background {
+                    self.appearance.background(isForWidget: self.isForWidget)
+                }
         } else {
             self.content
-                .containerBackground(for: .widget, content: {
-                    self.appearance.background(isForWidget: true)
-                })
+                .containerBackground(for: .widget) {
+                    self.appearance.background(isForWidget: self.isForWidget)
+                }
+                .padding(showsBackground ? [] : .all, 5)
         }
     }
     
@@ -179,28 +203,3 @@ struct PollWidgetEntryView: View {
         Text("Select A Poll")
     }
 }
-
-#Preview(as: .systemSmall, widget: {
-    PollWidget()
-}, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 2, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
-})
-
-#Preview(as: .systemMedium, widget: {
-    PollWidget()
-}, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 2, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
-})
-
-#Preview(as: .systemLarge, widget: {
-    PollWidget()
-}, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 3, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
-})
-
-#Preview(as: .systemExtraLarge, widget: {
-    PollWidget()
-}, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 3, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
-})
-

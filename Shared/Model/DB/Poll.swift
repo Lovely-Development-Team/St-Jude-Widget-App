@@ -80,6 +80,13 @@ extension Poll {
         return nil
     }
     
+    var pollURL: URL? {
+        guard let parentId = self.campaignId ?? self.teamEventId else {
+            return nil
+        }
+        return URL(string: "https://donate.tiltify.com/\(parentId.uuidString.lowercased())/incentives?pollPublicId=\(self.id.uuidString.lowercased())")!
+    }
+    
     static var samplePoll: Poll {
         return Poll(id: UUID(), name: "How many options should the test poll have?", active: true, totalRaisedValue: 100, totalRaisedCurrency: "USD", campaignId: UUID(), teamEventId: nil)
     }

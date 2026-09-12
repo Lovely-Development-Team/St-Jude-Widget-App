@@ -13,30 +13,53 @@ struct PollView: View {
     @State private var pollOptions: [PollOption] = []
     let campaignId: UUID?
     var showParentCampaignInfo: Bool = false
-    @State private var parentCampaignName: String? = nil
+    @State private var parentCampaign: Campaign? = nil
+    @State private var parentTeamEvent: TeamEvent? = nil
+    @State private var showShareView: Bool = false
+    @State private var shareLinkActivityItems: [Any]? = nil
     
     var body: some View {
         Group {
             if let campaignId = self.campaignId {
                 GroupBox {
                     VStack(alignment: .leading) {
-                        if self.showParentCampaignInfo,
-                           let name = self.parentCampaignName {
-                            Text(name)
-                                .font(.title3)
-                                .bold()
-                        }
-                        HStack(alignment: .center) {
-                            Text(poll.name)
-                                .bold()
+                        HStack {
+                            VStack(alignment: .leading) {
+                                if self.showParentCampaignInfo {
+                                    if let parentCampaign = self.parentCampaign {
+                                        Text(parentCampaign.name)
+                                            .font(.title3)
+                                            .bold()
+                                    } else if let parentTeamEvent = self.parentTeamEvent {
+                                        Text(parentTeamEvent.name)
+                                            .font(.title3)
+                                            .bold()
+                                    }
+                                }
+                                Text(poll.name)
+                                    .bold()
+                            }
                             Spacer()
-                            Link(destination: URL(string: "https://donate.tiltify.com/\(campaignId.uuidString)/incentives?pollPublicId=\(poll.id.uuidString.lowercased())")!, label: {
-                                Text("Vote!")
-                                    .font(.caption)
-                            })
-                            // TODO: padding?
-                            .tint(Theme.current.accentColor)
-                            .padding(.bottom, 4)
+                            Menu {
+                                Button(action: {
+                                    self.showShareView = true
+                                }) {
+                                    Label("Share Image", systemImage: "photo")
+                                }
+                                if let url = self.poll.pollURL {
+                                    Button(action: {
+                                        shareLinkActivityItems = [url]
+                                    }) {
+                                        Label("Share Poll Link", systemImage: "link")
+                                    }
+                                }
+                            } label: {
+                                Label("Share", systemImage: "square.and.arrow.up")
+                                    .labelStyle(.iconOnly)
+                            }
+                            .background {
+                                ShareSheetPresenter(activityItems: $shareLinkActivityItems)
+                            }
                         }
                         ForEach(self.pollOptions) { option in
                             VStack {
@@ -66,10 +89,23 @@ struct PollView: View {
                                     .frame(height: 10)
                             }
                         }
+                        if let url = self.poll.pollURL {
+                            Link(destination: url, label: {
+                                Text("Vote!")
+                                    .fontWeight(.bold)
+                                    .frame(maxWidth: .infinity)
+                            })
+                            .themedButton(type: .primary, id: "pollVoteButton-\(campaignId.uuidString)")
+                            .padding(.top)
+                        }
                     }
                 }
                 .themedGroupBox(type: .primary, id: poll.id)
             }
+        }
+        .sheet(isPresented: self.$showShareView) {
+            SharePollView(poll: self.poll, options: self.pollOptions, parentCampaign: self.parentCampaign, parentTeamEvent: self.parentTeamEvent)
+                .forSheet()
         }
         .task {
             do {
@@ -78,9 +114,19 @@ struct PollView: View {
                     self.pollOptions = fetchedPollOptions
                 }
                 
-                self.parentCampaignName = await self.poll.parentCampaignName()
             } catch {
                 dataLogger.error("Could not fetch poll options for poll id \(self.poll.id): \(error.localizedDescription)")
+            }
+            
+            do {
+                // Attempt to get the parent campaign, fallback to team event
+                if let parentCampaign = try await AppDatabase.shared.fetchParentCampaign(for: self.poll) {
+                    self.parentCampaign = parentCampaign
+                } else if let parentTeamEvent = try await AppDatabase.shared.fetchParentTeamEvent(for: self.poll) {
+                    self.parentTeamEvent = parentTeamEvent
+                }
+            } catch {
+                dataLogger.error("Failed to fetch parent campaign of poll: \(self.poll.name): \(error.localizedDescription)")
             }
         }
     }
