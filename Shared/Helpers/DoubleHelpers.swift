@@ -40,4 +40,7 @@ extension Double {
         return q + min(r, 1)
     }
     
+    var formattedAsPercent: String {
+        return "\(Int(self * 100))%"
+    }
 }

@@ -358,18 +358,18 @@ extension WidgetDataProviding {
     internal func fetchPlaceholder(in context: Context) -> PollWidgetEntry {
         return PollWidgetEntry(date: Date(),
                                configuration: PollConfigurationIntent(),
-                               poll: nil,
-                               options: [],
+                               poll: Poll.samplePoll,
+                               options: PollOption.samplePollOptions,
                                parentCampaign: nil)
     }
     
     internal func fetchSnapshot(for configuration: PollConfigurationIntent, in context: Context, completion: @escaping (PollWidgetEntry) -> ()) {
         guard let poll = configuration.poll else {
             let entry = PollWidgetEntry(date: Date(),
-                                       configuration: configuration,
-                                       poll: nil,
-                                       options: [],
-                                       parentCampaign: nil)
+                                        configuration: PollConfigurationIntent(),
+                                        poll: Poll.samplePoll,
+                                        options: PollOption.samplePollOptions,
+                                        parentCampaign: nil)
             completion(entry)
             return
         }

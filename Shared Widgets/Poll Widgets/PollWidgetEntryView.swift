@@ -24,6 +24,12 @@ struct PollWidgetEntryView: View {
     
     var overrideWidgetFamily: WidgetFamily? = nil
     
+    var sortedOptions: [PollOption] {
+        return self.options.sorted(by: {
+            return $0.amountRaised.numericalValue >= $1.amountRaised.numericalValue
+        })
+    }
+    
     var widgetFamilyForLayout: WidgetFamily {
         return self.overrideWidgetFamily ?? self.widgetFamily
     }
@@ -106,7 +112,7 @@ struct PollWidgetEntryView: View {
     
     var progressBarHeight: Double {
         switch self.widgetFamilyForLayout {
-        case .systemSmall, .systemMedium:
+        case .systemSmall, .systemMedium, .accessoryRectangular:
             return 5
         default:
             return 10
@@ -154,7 +160,7 @@ struct PollWidgetEntryView: View {
                     self.titleView(for: poll, parentCampaign: self.parentCampaign)
                     Spacer()
                     if poll.active {
-                        ForEach(self.options.prefix(self.numOptionsToShow)) { option in
+                        ForEach(self.sortedOptions.prefix(self.numOptionsToShow)) { option in
                             VStack(alignment: .leading) {
                                 self.optionView(for: option, poll: poll)
                             }
@@ -183,23 +189,81 @@ struct PollWidgetEntryView: View {
     }
     
     var body: some View {
-        if self.useNormalBackground {
-            self.content
-                .padding()
-                .background {
-                    self.appearance.background(isForWidget: self.isForWidget)
-                }
-        } else {
-            self.content
-                .containerBackground(for: .widget) {
-                    self.appearance.background(isForWidget: self.isForWidget)
-                }
-                .padding(showsBackground ? [] : .all, 5)
+        switch self.widgetFamilyForLayout {
+        case .accessoryInline:
+            self.accessoryInlineContent
+        case .accessoryRectangular:
+            self.accessoryRectangularContent
+        default:
+            if self.useNormalBackground {
+                self.content
+                    .padding()
+                    .background {
+                        self.appearance.background(isForWidget: self.isForWidget)
+                    }
+            } else {
+                self.content
+                    .containerBackground(for: .widget) {
+                        self.appearance.background(isForWidget: self.isForWidget)
+                    }
+                    .padding(showsBackground ? [] : .all, 5)
+            }
         }
     }
     
     @ViewBuilder
     var placeholderView: some View {
         Text("Select A Poll")
+            .bold()
+    }
+}
+
+// MARK: - Lock Screen Widgets (only .accessoryRectangular and .accessoryInline)
+extension PollWidgetEntryView {
+    
+    // Only show crown, percent, and as much visible title as possible
+    @ViewBuilder
+    var accessoryInlineContent: some View {
+        if let poll = self.poll {
+            if let highestOption = self.sortedOptions.first {
+                Text("\(Image(systemName: "crown.fill")) \(highestOption.percentageOfPoll(parentPoll: poll).formattedAsPercent) • \(highestOption.name)")
+            } else {
+                Text("\(Image(systemName: "crown.fill")) \(poll.name)")
+            }
+        } else {
+            Text("Select a poll")
+        }
+    }
+    
+    @ViewBuilder
+    var accessoryRectangularContent: some View {
+        if let poll = self.poll {
+            if let highestOption = self.sortedOptions.first {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(highestOption.name)
+                            .font(.caption)
+                            .bold()
+                            .minimumScaleFactor(0.7)
+                        Spacer()
+                        Image(systemName: "crown.fill")
+                            .imageScale(.small)
+                    }
+                    Text(highestOption.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    ProgressBar(value: .constant(Float(highestOption.percentageOfPoll(parentPoll: poll))), fillColor: self.appearance.fillColor)
+                        .frame(height: self.progressBarHeight)
+                }
+            } else {
+                Text(poll.name)
+                    .font(.caption)
+                    .bold()
+            }
+        } else {
+            Text("Select a poll")
+                .font(.caption)
+                .bold()
+        }
     }
 }

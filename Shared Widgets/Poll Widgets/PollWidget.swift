@@ -39,23 +39,23 @@ struct PollWidget: Widget {
 #Preview(as: .systemSmall, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 2, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
 })
 
 #Preview(as: .systemMedium, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 2, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
 })
 
 #Preview(as: .systemLarge, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 3, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
 })
 
 #Preview(as: .systemExtraLarge, widget: {
     PollWidget()
 }, timeline: {
-    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions(count: 3, poll: Poll.samplePoll), parentCampaign: sampleCampaign)
+    PollWidgetEntry(date: Date(), configuration: .init(), poll: Poll.samplePoll, options: PollOption.samplePollOptions, parentCampaign: sampleCampaign)
 })

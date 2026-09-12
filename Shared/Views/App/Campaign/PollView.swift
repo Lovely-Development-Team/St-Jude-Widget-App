@@ -18,6 +18,12 @@ struct PollView: View {
     @State private var showShareView: Bool = false
     @State private var shareLinkActivityItems: [Any]? = nil
     
+    var sortedOptions: [PollOption] {
+        return self.pollOptions.sorted(by: {
+            return $0.amountRaised.numericalValue >= $1.amountRaised.numericalValue
+        })
+    }
+    
     var body: some View {
         Group {
             if let campaignId = self.campaignId {
@@ -61,7 +67,7 @@ struct PollView: View {
                                 ShareSheetPresenter(activityItems: $shareLinkActivityItems)
                             }
                         }
-                        ForEach(self.pollOptions) { option in
+                        ForEach(self.sortedOptions) { option in
                             VStack {
                                 HStack(alignment: .center) {
                                     let isMax = option.isMax(parentPoll: poll, options: self.pollOptions)
@@ -77,7 +83,7 @@ struct PollView: View {
                                     Spacer()
                                     
                                     VStack(alignment: .trailing) {
-                                        Text("\(Int(option.percentageOfPoll(parentPoll: poll) * 100))%")
+                                        Text(option.percentageOfPoll(parentPoll: poll).formattedAsPercent)
                                             .font(.caption)
                                             .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
                                         Text(option.amountRaised.description(showFullCurrencySymbol: false))
@@ -104,7 +110,7 @@ struct PollView: View {
             }
         }
         .sheet(isPresented: self.$showShareView) {
-            SharePollView(poll: self.poll, options: self.pollOptions, parentCampaign: self.parentCampaign, parentTeamEvent: self.parentTeamEvent)
+            SharePollView(poll: self.poll, options: self.sortedOptions, parentCampaign: self.parentCampaign, parentTeamEvent: self.parentTeamEvent)
                 .forSheet()
         }
         .task {
