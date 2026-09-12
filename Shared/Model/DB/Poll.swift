@@ -79,6 +79,10 @@ extension Poll {
         
         return nil
     }
+    
+    static var samplePoll: Poll {
+        return Poll(id: UUID(), name: "How many options should the test poll have?", active: true, totalRaisedValue: 100, totalRaisedCurrency: "USD", campaignId: UUID(), teamEventId: nil)
+    }
 }
 
 // MARK: - PollOption
@@ -143,5 +147,15 @@ extension PollOption {
             return 0
         }
         return (self.amountRaised.numericalValue / parentPoll.amountRaised.numericalValue)
+    }
+    
+    static func samplePollOptions(count: Int, poll: Poll) -> [PollOption] {
+        return (1...count).map { index in
+            return PollOption(id: UUID(),
+                              name: "The poll should have \(index) options",
+                              amountRaisedValue: poll.amountRaised.numericalValue / Double(count),
+                              amountRaisedCurrency: "USD",
+                              pollId: poll.id)
+        }
     }
 }

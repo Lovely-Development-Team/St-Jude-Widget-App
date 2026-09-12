@@ -155,6 +155,7 @@
 		<string>GetFundraiserIntent</string>
 		<string>GetMainFundraisingEventIntent</string>
 		<string>HeadToHeadConfigurationIntent</string>
+		<string>PollConfigurationIntent</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

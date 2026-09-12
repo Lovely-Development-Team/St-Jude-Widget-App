@@ -479,7 +479,7 @@ extension AppDatabase {
     
     func fetchPollOptions(for poll: Poll) async throws -> [PollOption] {
         try await dbWriter.read { db in
-            try poll.pollOptions.order(Column("name").asc).fetchAll(db)
+            try poll.pollOptions.order(Column("amountRaisedValue").asc).fetchAll(db)
         }
     }
     
