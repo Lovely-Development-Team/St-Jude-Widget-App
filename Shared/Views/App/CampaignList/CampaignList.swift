@@ -264,6 +264,15 @@ extension CampaignList {
             } catch {
                 dataLogger.error("Updating stored team event failed: \(error.localizedDescription)")
             }
+            
+            // Update polls for team event
+            dataLogger.debug("Updating polls for team event...")
+            do {
+                let teamEvent = try await AppDatabase.shared.fetchTeamEvent()
+                await teamEvent?.checkForPollUpdates()
+            } catch {
+                dataLogger.error("Failed to update polls for team event: \(error.localizedDescription)")
+            }
         }
         self.isRefreshing = false
     }

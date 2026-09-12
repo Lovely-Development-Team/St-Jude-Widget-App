@@ -411,9 +411,23 @@ extension AppDatabase {
         }
     }
     
-    func fetchAllPolls() async throws -> [Poll] {
+    func fetchAllActivePollsForStarredCampaigns() async throws -> [Poll] {
         try await dbWriter.read { db in
-            try Poll.order(Column("name").asc).fetchAll(db)
+            try Poll.order(Column("name").asc)
+                .including(required: Poll.parentCampaign
+                    .filter(Column("isStarred") == true))
+                .filter(Column("active") == true)
+                .fetchAll(db)
+        }
+    }
+    
+    func fetchAllActivePollsForTeamEvent() async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try Poll.order(Column("name").asc)
+                .including(required: Poll.parentTeamEvent
+                    .filter(Column("publicId") == UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)))
+                .filter(Column("active") == true)
+                .fetchAll(db)
         }
     }
     
@@ -426,6 +440,18 @@ extension AppDatabase {
     func fetchSortedPolls(for teamEvent: TeamEvent) async throws -> [Poll] {
         try await dbWriter.read { db in
             try teamEvent.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchParentCampaign(for poll: Poll) async throws -> Campaign? {
+        try await dbWriter.read { db in
+            try poll.parentCampaign.fetchOne(db)
+        }
+    }
+    
+    func fetchParentTeamEvent(for poll: Poll) async throws -> TeamEvent? {
+        try await dbWriter.read { db in
+            try poll.parentTeamEvent.fetchOne(db)
         }
     }
     

@@ -57,6 +57,28 @@ extension Poll {
     var amountRaised: TiltifyAmount {
         return TiltifyAmount(currency: self.totalRaisedCurrency, value: String(self.totalRaisedValue))
     }
+    
+    func parentCampaignName() async -> String? {
+        // Attempt to get the parent campaign name
+        do {
+            if let parentCampaign = try await AppDatabase.shared.fetchParentCampaign(for: self) {
+                return parentCampaign.title
+            }
+        } catch {
+            dataLogger.error("Failed to fetch parent campaign of poll: \(self.name): \(error.localizedDescription)")
+        }
+        
+        // Attempt to get the parent team event name
+        do {
+            if let parentTeamEvent = try await AppDatabase.shared.fetchParentTeamEvent(for: self) {
+                return parentTeamEvent.name
+            }
+        } catch {
+            dataLogger.error("Failed to fetch parent team event of poll: \(self.name): \(error.localizedDescription)")
+        }
+        
+        return nil
+    }
 }
 
 // MARK: - PollOption

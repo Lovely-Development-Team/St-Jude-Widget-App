@@ -774,13 +774,6 @@ struct CampaignView: View {
     }
     
     func updatePollsInDatabase(forId id: UUID) async {
-        
-        // Only save polls to DB when campaign is starred
-        
-//        guard self.initialCampaign?.isStarred ?? false else {
-//            return
-//        }
-        
         let apiPolls = await TiltifyAPIClient.shared.getCampaignPolls(forId: id)
         dataLogger.debug("Updating Polls for campaign \(id) with \(polls.count)")
         
@@ -812,9 +805,11 @@ struct CampaignView: View {
                     dbPolls = []
                 }
             }
-            // For each reward from the database...
+            
+            // For each poll from the database...
             for dbPoll in dbPolls {
-                if let apiPoll = keyedApiPolls[dbPoll.id]?.poll {
+                if let apiPollWrapper = keyedApiPolls[dbPoll.id] {
+                    let apiPoll = apiPollWrapper.poll
                     // Update it from the API if it exists...
                     keyedApiPolls.removeValue(forKey: dbPoll.id)
                     dataLogger.debug("Updating Poll \(apiPoll.name)")
@@ -823,9 +818,48 @@ struct CampaignView: View {
                     } catch {
                         dataLogger.error("Failed to update Poll: \(apiPoll.name): \(error.localizedDescription)")
                     }
+
+                    var keyedApiPollOptions: [UUID: PollOption] = apiPollWrapper.options.reduce(into: [:]) { partial, option in
+                        partial.updateValue(option, forKey: option.id)
+                    }
+                    
+                    do {
+                        for dbPollOption in try await AppDatabase.shared.fetchPollOptions(for: dbPoll) {
+                            if let apiPollOption = keyedApiPollOptions[dbPollOption.id] {
+                                keyedApiPollOptions.removeValue(forKey: dbPollOption.id)
+                                // Update it from the API if it exists
+                                try await AppDatabase.shared.updatePollOption(apiPollOption, changesFrom: dbPollOption)
+                            } else {
+                                // Remove it from the DB if it doesn't
+                                try await AppDatabase.shared.deletePollOption(dbPollOption)
+                            }
+                        }
+                    } catch {
+                        dataLogger.error("Couldn't update or remove poll option from API: \(error.localizedDescription)")
+                    }
+                        
+                    // Add each new poll option from the API to the DB
+                    for apiPollOption in keyedApiPollOptions.values {
+                        do {
+                            try await AppDatabase.shared.savePollOption(apiPollOption)
+                        } catch {
+                            dataLogger.error("Failed to add new poll option: \(apiPollOption.name): \(error.localizedDescription)")
+                        }
+                    }
                 } else {
                     // Remove it from the database if it doesn't...
                     dataLogger.debug("Removing Poll \(dbPoll.name)")
+                    
+                    // Remove all the options from the db first
+                    for pollOption in try await AppDatabase.shared.fetchPollOptions(for: dbPoll) {
+                        dataLogger.debug("Removing poll option: \(pollOption.name)")
+                        do {
+                            try await AppDatabase.shared.deletePollOption(pollOption)
+                        } catch {
+                            dataLogger.error("Failed to delete poll option \(pollOption.name): \(error.localizedDescription)")
+                        }
+                    }
+                            
                     do {
                         try await AppDatabase.shared.deletePoll(dbPoll)
                     } catch {
@@ -833,7 +867,7 @@ struct CampaignView: View {
                     }
                 }
             }
-            // For each new reward in the API, save it to the database
+            // For each new poll in the API, save it to the database
             for apiPollWrapper in keyedApiPolls.values {
                 let apiPoll = apiPollWrapper.poll
                 dataLogger.debug("Creating Poll: \(apiPoll.name)")

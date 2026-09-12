@@ -11,60 +11,74 @@ struct PollView: View {
     
     let poll: Poll
     @State private var pollOptions: [PollOption] = []
-    let campaignId: UUID
+    let campaignId: UUID?
+    var showParentCampaignInfo: Bool = false
+    @State private var parentCampaignName: String? = nil
     
     var body: some View {
-        GroupBox {
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Text(poll.name)
-                        .bold()
-                    Spacer()
-                    Link(destination: URL(string: "https://donate.tiltify.com/\(campaignId.uuidString)/incentives?pollPublicId=\(poll.id.uuidString.lowercased())")!, label: {
-                        Text("Vote!")
-                            .font(.caption)
-                    })
-                    // TODO: padding?
-                    .tint(Theme.current.accentColor)
-                    .padding(.bottom, 4)
-                }
-                ForEach(self.pollOptions) { option in
-                    VStack {
+        Group {
+            if let campaignId = self.campaignId {
+                GroupBox {
+                    VStack(alignment: .leading) {
+                        if self.showParentCampaignInfo,
+                           let name = self.parentCampaignName {
+                            Text(name)
+                                .font(.title3)
+                                .bold()
+                        }
                         HStack(alignment: .center) {
-                            let isMax = option.isMax(parentPoll: poll, options: self.pollOptions)
-                            Text(option.name)
-                                .font(.caption)
-                                .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
-                            
-                            if isMax {
-                                Image(systemName: "crown.fill")
-                                    .foregroundStyle(Theme.current.accentColor)
-                            }
-                            
+                            Text(poll.name)
+                                .bold()
                             Spacer()
-                            
-                            VStack(alignment: .trailing) {
-                                Text("\(Int(option.percentageOfPoll(parentPoll: poll) * 100))%")
+                            Link(destination: URL(string: "https://donate.tiltify.com/\(campaignId.uuidString)/incentives?pollPublicId=\(poll.id.uuidString.lowercased())")!, label: {
+                                Text("Vote!")
                                     .font(.caption)
-                                    .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
-                                Text(option.amountRaised.description(showFullCurrencySymbol: false))
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                            })
+                            // TODO: padding?
+                            .tint(Theme.current.accentColor)
+                            .padding(.bottom, 4)
+                        }
+                        ForEach(self.pollOptions) { option in
+                            VStack {
+                                HStack(alignment: .center) {
+                                    let isMax = option.isMax(parentPoll: poll, options: self.pollOptions)
+                                    Text(option.name)
+                                        .font(.caption)
+                                        .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
+                                    
+                                    if isMax {
+                                        Image(systemName: "crown.fill")
+                                            .foregroundStyle(Theme.current.accentColor)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    VStack(alignment: .trailing) {
+                                        Text("\(Int(option.percentageOfPoll(parentPoll: poll) * 100))%")
+                                            .font(.caption)
+                                            .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
+                                        Text(option.amountRaised.description(showFullCurrencySymbol: false))
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: Theme.current.accentColor)
+                                    .frame(height: 10)
                             }
                         }
-                        ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: Theme.current.accentColor)
-                            .frame(height: 10)
                     }
                 }
+                .themedGroupBox(type: .primary, id: poll.id)
             }
         }
-        .themedGroupBox(type: .primary, id: poll.id)
         .task {
             do {
                 let fetchedPollOptions = try await AppDatabase.shared.fetchPollOptions(for: self.poll)
                 withAnimation {
                     self.pollOptions = fetchedPollOptions
                 }
+                
+                self.parentCampaignName = await self.poll.parentCampaignName()
             } catch {
                 dataLogger.error("Could not fetch poll options for poll id \(self.poll.id): \(error.localizedDescription)")
             }
@@ -72,6 +86,7 @@ struct PollView: View {
     }
 }
 
+// im too tired to add this back
 //struct PollViewPreview: View {
 //    @State private var option1Value: Double = 20
 //    @State private var option2Value: Double = 10
