@@ -32,7 +32,7 @@ extension UserDefaults {
     static let iconsUnlockedKey = "iconsUnlocked"
     
     static let disablePixelFontKey = "disablePixelFont"
-    static let playSoundsEvenWhenMutedKey = "playSoundsEvenWhenMuted"
+    static let disableSoundsKey = "disableSounds"
     static let coinCountKey = "coinCount"
     static let appAppearanceKey = "appAppearance"
     static let disableCombosKey = "disableCombos"
@@ -43,6 +43,9 @@ extension UserDefaults {
     static let selectedThemeKey = "selectedThemeKey"
     
     static let quickDrawModeUnlockedKey = "quickDrawModeUnlockedKey"
+    static let quickDrawBestTimeKey = "quickDrawBestTimeKey"
+    static let autoStartLiveActivityKey = "autoStartLiveActivity"
+    static let disableGameCenterKey = "disableGameCenter"
     
     // DEBUG ONLY
     static let debugGlowOpacityKey = "debugGlowOpacityKey"
@@ -58,9 +61,9 @@ extension UserDefaults {
         set { set(newValue, forKey: Self.coinCountKey) }
     }
     
-    @objc var playSoundsEvenWhenMuted: Bool {
-        get { bool(forKey: Self.playSoundsEvenWhenMutedKey) }
-        set { set(newValue, forKey: Self.playSoundsEvenWhenMutedKey) }
+    @objc var disableSounds: Bool {
+        get { bool(forKey: Self.disableSoundsKey) }
+        set { set(newValue, forKey: Self.disableSoundsKey) }
     }
     
     @objc var disablePixelFont: Bool {
@@ -194,6 +197,21 @@ extension UserDefaults {
     @objc var quickDrawModeUnlocked: Bool {
         get { bool(forKey: Self.quickDrawModeUnlockedKey) }
         set { UserDefaults.shared.set(newValue, forKey: Self.quickDrawModeUnlockedKey) }
+    }
+
+    var quickDrawBestTime: Double? {
+        get { object(forKey: Self.quickDrawBestTimeKey) as? Double }
+        set { UserDefaults.shared.set(newValue, forKey: Self.quickDrawBestTimeKey) }
+    }
+        
+    @objc var autoStartLiveActivity: Bool {
+        get { object(forKey: Self.autoStartLiveActivityKey) as? Bool ?? true }
+        set { UserDefaults.shared.set(newValue, forKey: Self.autoStartLiveActivityKey) }
+    }
+
+    @objc var disableGameCenter: Bool {
+        get { bool(forKey: Self.disableGameCenterKey) }
+        set { UserDefaults.shared.set(newValue, forKey: Self.disableGameCenterKey) }
     }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import GRDB
 
 let RELAY_CAMPAIGN: UUID = UUID(uuidString: "b9c77929-8f25-461b-98e3-86fd3c132dd1")!
-let TLD_CAMPAIGN: UUID = UUID(uuidString: "fe5b0f18-c993-4987-aab0-3167e2d3f91a")!
+let TLD_CAMPAIGN: UUID = UUID(uuidString: "7dc3abf5-1ad7-4e4d-af45-f92fba682e92")!
 
 struct TLDMilestones {
     static let IconsUnlocked: Double = 400

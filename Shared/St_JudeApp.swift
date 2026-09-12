@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import Intents
+import ActivityKit
 
 @main
 struct St_JudeApp: App {
@@ -32,6 +33,7 @@ struct St_JudeApp: App {
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     
     @State private var navigationPath = NavigationPath()
+    @State private var liveActivityController = LiveActivityController()
     
     private var userColorScheme: ColorScheme? {
         if let fromTheme = Theme.current.forcedColorScheme {
@@ -62,6 +64,7 @@ struct St_JudeApp: App {
                         }
                     }
                     .navigationBarTitleDisplayMode(.inline)
+                    .environment(liveActivityController)
             }
             .id(mainAppViewID)
 //            .environment(\.font, Font.body)

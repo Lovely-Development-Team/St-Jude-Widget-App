@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let renderedShareImageFileName = "St Jude Fundraiser.png"
+
 extension CGSize {
     static let instagramStoryDimensions = CGSize(width: 1080, height: 1920)
 }
@@ -33,6 +35,8 @@ struct ShareCampaignView: View {
     @AppStorage(UserDefaults.shareScreenshotDisableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
     
     @State private var renderedImage = Image(systemName: "photo")
+    @State private var renderedImageURL: URL? = nil
+    @State private var shareActivityItems: [Any]? = nil
     @State private var imageSize: CGSize = .zero
     
     init(campaign: Campaign) {
@@ -79,7 +83,24 @@ struct ShareCampaignView: View {
             renderer.proposedSize = ProposedViewSize(self.exportForInstagram ? .instagramStoryDimensions : imageSize)
             if let uiImage = renderer.uiImage {
                 renderedImage = Image(uiImage: uiImage)
+                renderedImageURL = writeToTemporaryFile(uiImage)
             }
+        }
+    }
+    
+    // macOS sharing fixes, needs an actual file with a proper filename
+    private func writeToTemporaryFile(_ uiImage: UIImage) -> URL? {
+        guard let data = uiImage.pngData() else {
+            dataLogger.error("Unable to create PNG data from rendered image")
+            return nil
+        }
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(renderedShareImageFileName)
+        do {
+            try data.write(to: url, options: .atomic)
+            return url
+        } catch {
+            dataLogger.error("Unable to write rendered image to \(url.path): \(error.localizedDescription)")
+            return nil
         }
     }
     
@@ -104,10 +125,31 @@ struct ShareCampaignView: View {
                     .padding(.bottom)
 //            }
 //            .themedGroupBox(type: .primary, id: "image-preview")
-            ShareLink(item: renderedImage, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
-                Label("Share", systemImage: "square.and.arrow.up")
+            if ProcessInfo.processInfo.isiOSAppOnMac {
+                Button(action: {
+                    if let renderedImageURL {
+                        shareActivityItems = [renderedImageURL]
+                    }
+                }) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+                .themedButton(type: .primary, id: campaign?.id)
+                .disabled(renderedImageURL == nil)
+                .background {
+                    ShareSheetPresenter(activityItems: $shareActivityItems)
+                }
+            } else if let renderedImageURL {
+                ShareLink(item: renderedImageURL, preview: SharePreview(Text("Fundraiser image"), image: renderedImage)) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+                .themedButton(type: .primary, id: campaign?.id)
+            } else {
+                Button(action: {}) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+                .themedButton(type: .primary, id: campaign?.id)
+                .disabled(true)
             }
-            .themedButton(type: .primary, id: campaign?.id)
         }
         .padding(.bottom)
     }

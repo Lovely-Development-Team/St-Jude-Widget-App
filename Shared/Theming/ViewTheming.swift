@@ -19,4 +19,8 @@ extension Theme {
             RandomCampaignPickerView(selectedDestination: selectedDestination)
         }
     }
+    
+    var shouldZoomIntoRandomCampaignPicker: Bool {
+        return self != .campaign2026
+    }
 }

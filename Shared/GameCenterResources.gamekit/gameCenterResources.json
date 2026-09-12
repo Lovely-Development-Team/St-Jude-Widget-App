@@ -1,0 +1,57 @@
+{
+  "meta" : {
+    "version" : "2024-11-15"
+  },
+  "resources" : {
+    "leaderboardImages" : {
+      "quickdraw-en-US" : [
+        {
+          "localID" : "quickdraw-en-US",
+          "url" : "en-US\/LeaderboardImage-quickdraw-en-US.jpeg"
+        }
+      ]
+    },
+    "leaderboardLocalizations" : {
+      "quickdraw" : [
+        {
+          "formatterOverride" : "ELAPSED_TIME_CENTISECOND",
+          "formatterSuffix" : "",
+          "formatterSuffixSingular" : "",
+          "locale" : "en-US",
+          "localID" : "quickdraw-en-US",
+          "name" : "QuickDraw Leaderboard"
+        }
+      ]
+    },
+    "leaderboards" : [
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "defaultFormatter" : "DECIMAL_POINT_2_PLACE",
+        "referenceName" : "quickdraw",
+        "scoreRangeEnd" : null,
+        "scoreRangeStart" : null,
+        "scoreSortType" : "ASC",
+        "submissionType" : "BEST_SCORE",
+        "vendorIdentifier" : "quickdraw",
+        "visibility" : "SHOW_FOR_ALL"
+      },
+      {
+        "activityProperties" : {
+
+        },
+        "archived" : false,
+        "defaultFormatter" : "INTEGER",
+        "referenceName" : "Unicorn Hunter",
+        "scoreRangeEnd" : null,
+        "scoreRangeStart" : null,
+        "scoreSortType" : "DESC",
+        "submissionType" : "BEST_SCORE",
+        "vendorIdentifier" : "unicornhunter",
+        "visibility" : "SHOW_FOR_ALL"
+      }
+    ]
+  }
+}

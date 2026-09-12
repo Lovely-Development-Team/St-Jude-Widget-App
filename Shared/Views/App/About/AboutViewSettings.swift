@@ -10,8 +10,16 @@ import SwiftUI
 struct ToggleSetting: View {
     var label: String
     @Binding var setting: Bool
+    var flipBoolean: Bool = false
     var onEnable: (() -> Void)? = nil
     var onDisable: (() -> Void)? = nil
+    
+    var yesButtonActive: Bool {
+        flipBoolean ? self.setting : !self.setting
+    }
+    var noButtonActive: Bool {
+        flipBoolean ? !self.setting : self.setting
+    }
     
     var body: some View {
         VStack {
@@ -20,28 +28,28 @@ struct ToggleSetting: View {
             HStack {
                 Button(action: {
                     withAnimation {
-                        self.setting = false
+                        self.setting = flipBoolean ? true : false
                         self.onDisable?()
                     }
                     
                 }) {
                     Text("Yes")
-                        .foregroundColor(!self.setting ? Theme.current.contentColorForAccent : .primary)
+                        .foregroundColor(yesButtonActive ? Theme.current.contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .themedButton(type: .primary, tint: !self.setting ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-yes-\(label)")
+                .themedButton(type: .primary, tint: yesButtonActive ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-yes-\(label)")
                 .sensoryFeedback(.success, trigger: self.setting)
                 Button(action: {
                     withAnimation {
-                        self.setting = true
+                        self.setting = flipBoolean ? false : true
                         self.onEnable?()
                     }
                 }) {
                     Text("No")
-                        .foregroundColor(self.setting ? Theme.current.contentColorForAccent : .primary)
+                        .foregroundColor(noButtonActive ? Theme.current.contentColorForAccent : .primary)
                         .frame(maxWidth: .infinity)
                 }
-                .themedButton(type: .primary, tint: self.setting ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-no-\(label)")
+                .themedButton(type: .primary, tint: noButtonActive ? Theme.current.accentColor : .tertiarySystemBackground, id: "toggle-no-\(label)")
                 .sensoryFeedback(.success, trigger: self.setting)
             }
         }
@@ -49,28 +57,61 @@ struct ToggleSetting: View {
 }
 
 struct AltIconButton: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var currentIcon: AltIcon?
     var icon: AltIcon
+    var disabled: Bool
+    let goToCampaignTapped: () -> Void
+    @State private var showMilestoneAlert: Bool = false
     
     var body: some View {
             Button(action: {
-                icon.set()
-                withAnimation {
-                    currentIcon = icon
+                if !disabled {
+                    icon.set()
+                    withAnimation {
+                        currentIcon = icon
+                    }
+                } else {
+                    self.showMilestoneAlert = true
                 }
             }) {
                 VStack {
-                    icon.image
-                        .frame(width: 75, height: 75)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    Text(icon.title)
-                        .foregroundStyle(self.currentIcon == self.icon ? Theme.current.contentColorForAccent : Color.primary)
+                    ZStack {
+                        icon.image
+                            .frame(width: 75, height: 75)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .blur(radius: disabled ? 10 : 0)
+                        if disabled {
+                            Image(systemName: "lock.fill")
+                        }
+                    }
+                    if disabled {
+                        Text("Placholder").redacted(reason: .placeholder)
+                            .foregroundStyle(.primary)
+                    } else {
+                        Text(icon.title)
+                            .foregroundStyle(self.currentIcon == self.icon ? Theme.current.contentColorForAccent : Color.primary)
+                    }
                 }
             }
             .themedButton(type: .primary,
                           tint: self.currentIcon == self.icon ? Theme.current.accentColor : .tertiarySystemBackground,
-                          capsuleShape: false, id: UUID())
+                          capsuleShape: false, id: "\(self.icon.rawValue)-\(self.icon.id)")
             .sensoryFeedback(.success, trigger: currentIcon)
+            .alert("That there icon's locked.", isPresented: self.$showMilestoneAlert, actions: {
+                Button("Take me there!", action: {
+                    self.showMilestoneAlert = false
+                    goToCampaignTapped()
+                })
+                .keyboardShortcut(.defaultAction)
+                Button(role: .cancel, action: {
+                    self.showMilestoneAlert = false
+                }) {
+                    Text("I'll donate later...")
+                }
+            }, message: {
+                Text("Donate to our campaign to unlock it!")
+            })
 //            .buttonStyle(PrimaryButtonStyle(tint: self.currentIcon == self.icon ? .accentColor : .tertiarySystemBackground, useCapsuleShape: false))
     }
 }

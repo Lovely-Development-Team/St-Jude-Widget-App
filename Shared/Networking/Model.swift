@@ -305,12 +305,19 @@ struct TiltifyDonorsForCampaignDonationIncentive: Codable {
     let type: String
 }
 
+struct TiltifyDonorsForCampaignDonationRewardClaim: Codable {
+    let id: UUID
+    let quantity: Int
+    let rewardId: UUID
+}
+
 struct TiltifyDonorsForCampaignDonation: Codable {
     let id: UUID
     let amount: TiltifyAmount
     let donorName: String
     let donorComment: String?
     let incentives: [TiltifyDonorsForCampaignDonationIncentive]?
+    let rewardClaims: [TiltifyDonorsForCampaignDonationRewardClaim]?
     let completedAt: String?
     
     var donationDate: Date? {
@@ -439,6 +446,26 @@ struct StJudeScore: Codable {
         return .init(myke: self.myke, stephen: self.stephen)
     }
     
+}
+
+enum PushTokenType: String, Encodable {
+    case widget
+    case liveActivityStart = "live_activity_start"
+    case liveActivityUpdate = "live_activity_update"
+}
+
+struct UpdatePushTokenRequestBody: Encodable {
+    let scopeId: String
+    let token: String
+    let environment: String
+}
+
+struct LiveActivityChannelResponse: Decodable {
+    let channelId: String
+}
+
+struct UpdateDeviceSettingsRequestBody: Encodable {
+    let autoStartLiveActivity: Bool
 }
 
 

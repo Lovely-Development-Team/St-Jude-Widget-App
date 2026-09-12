@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import GameKit
 
 enum TargetType: CaseIterable {
     case myke
@@ -37,22 +38,34 @@ enum TargetType: CaseIterable {
 struct Target: View {
     let type: TargetType
     let size: CGFloat
+    let index: (Int, Int)
+    @Binding var selectedTargets: [(Int, Int)]
     let onTap: () -> Void
     
     @State private var hapticToggle: Bool = false
     
+    var gesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged({_ in
+                if !self.selectedTargets.contains(where: { shelf2, target2 in
+                    let (shelf1, target1) = self.index
+                    
+                    return shelf1 == shelf2 && target1 == target2
+                }) {
+                    self.hapticToggle.toggle()
+                    self.onTap()
+                }
+            })
+    }
+    
     var body: some View {
-        Button(action: {
-            self.hapticToggle.toggle()
-            self.onTap()
-        }, label: {
-            Image(self.type.targetImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: self.size)
-        })
-        .shadow(radius: 10)
-        .sensoryFeedback(.success, trigger: self.hapticToggle)
+        Image(self.type.targetImage)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: self.size)
+            .shadow(radius: 10)
+            .gesture(self.gesture)
+            .sensoryFeedback(.success, trigger: self.hapticToggle)
     }
     
 }
@@ -88,6 +101,9 @@ struct RandomCampaignPickerView2026: View {
     @State private var quickDrawTimeStarted: Date? = nil
     @State private var showQuickDrawRules: Bool = false
     @State private var shouldUnlockQuickDraw: Bool = false
+    @State private var quickDrawBestTime: Double? = UserDefaults.shared.quickDrawBestTime
+    @State private var showLeaderboard: GameCenterLeaderboard? = nil
+    @AppStorage(UserDefaults.disableGameCenterKey, store: UserDefaults.shared) private var disableGameCenter: Bool = false
     
     @State private var benAnAnimationIsInProgressStopTryingToBreakThingsOkay: Bool = false
     
@@ -98,6 +114,8 @@ struct RandomCampaignPickerView2026: View {
     @State private var slideTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @State private var randomFailureText: String = ""
+    
+    @State private var horseHit: Int = 0
     
     let titleFont = Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
     
@@ -149,11 +167,23 @@ struct RandomCampaignPickerView2026: View {
         }
     }
     
+    func logHorseHit() {
+        self.horseHit += 1
+        if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+            Task {
+                await GameCenterHelper.submitScore(self.horseHit, for: .unicornHunter)
+            }
+        }
+    }
+    
     @ViewBuilder
     func targetView(shelfIndex: Int, targetIndex: Int) -> some View {
         let targetType = self.targetType(for: shelfIndex, and: targetIndex)
         
-        Target(type: targetType, size: self.targetSize) {
+        Target(type: targetType,
+               size: self.targetSize,
+               index: (shelfIndex, targetIndex),
+               selectedTargets: self.$selectedTargets) {
             SoundEffectHelper.shared.play(.shotRandom, allowOverlap: true)
             hapticToggle.toggle()
             withAnimation {
@@ -163,6 +193,7 @@ struct RandomCampaignPickerView2026: View {
             if self.quickDrawMode {
                 self.processQuickDrawTap()
                 if targetType == .horse {
+                    self.logHorseHit()
                     self.endQuickDrawGame(lost: true)
                 }
             } else {
@@ -176,6 +207,7 @@ struct RandomCampaignPickerView2026: View {
                         } else {
                             self.isGameOver = true
                             SoundEffectHelper.shared.play(.gameover)
+                            self.logHorseHit()
                         }
                     }
                     self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = false
@@ -330,8 +362,11 @@ struct RandomCampaignPickerView2026: View {
                                     .frame(height: 50)
                                     .cornerRadius(5)
                                     .onTapGesture {
-                                        self.selectedDestination = .campaign(selectedCampaign, true)
                                         self.dismiss()
+                                        // push the new view onto the nav stack after this one is dismissed
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                self.selectedDestination = .campaign(selectedCampaign, true)
+                                        }
                                     }
                             }
                             VStack(alignment: .leading) {
@@ -347,7 +382,10 @@ struct RandomCampaignPickerView2026: View {
                     .padding(.bottom)
                     
                     Button(action: {
-                        self.selectedDestination = .campaign(selectedCampaign, true)
+                        // push the new view onto the nav stack after this one is dismissed
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.selectedDestination = .campaign(selectedCampaign, true)
+                        }
                         self.dismiss()
                     }, label: {
                         Text("Visit Campaign")
@@ -382,11 +420,23 @@ struct RandomCampaignPickerView2026: View {
                     Text(randomFailureText)
                         .fullWidth(alignment: .center)
                     
-                    Image(.kathyAndHorse2026)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
-                        .padding(.vertical)
+                    if horseHit.isMultiple(of: 10) {
+                        Text("That's the \(horseHit)th time you've hit that poor creature!")
+                            .fullWidth(alignment: .center)
+                    }
+                    
+                    Button(action: {
+                        if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+                            self.showLeaderboard = .unicornHunter
+                        }
+                    }) {
+                        Image(.kathyAndHorse2026)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.vertical)
                     
                     Button(action: {
                         self.reset()
@@ -478,8 +528,10 @@ struct RandomCampaignPickerView2026: View {
             }
             .padding()
         }
+        .navigationBarBackButtonHidden()
         .interactiveDismissDisabled()
         .ignoresSafeArea()
+        .statusBarHidden()
         .background {
             GeometryReader { geometry in
                 Image.tiledImageAtScale(.woodBackground2026, scale: Theme.current.imageScale)
@@ -490,10 +542,35 @@ struct RandomCampaignPickerView2026: View {
         .onChange(of: isGameOver, initial: true) {
             self.randomFailureText = getRandomFailureText()
         }
+        .sheet(item: self.$showLeaderboard) { leaderboard in
+            GameCenterLeaderboardView(leaderboard: leaderboard)
+        }
         .onAppear {
             Task {
                 self.allCampaigns = try await AppDatabase.shared.fetchAllCampaigns().filter { !HIDDEN_CAMPAIGN_IDS.contains($0.id) }
                 self.reset()
+                
+                if !self.disableGameCenter {
+                    GameCenterHelper.authenticateIfNeeded {
+                        Task {
+                            if let gcBestScore = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .quickdraw) {
+                                guard gcBestScore > 0 else { return }
+                                let gcBestTime = Double(gcBestScore) / 100
+                                if self.quickDrawBestTime == nil || gcBestTime < self.quickDrawBestTime! {
+                                    self.quickDrawBestTime = gcBestTime
+                                    UserDefaults.shared.quickDrawBestTime = gcBestTime
+                                }
+                            } else if let localBestTime = self.quickDrawBestTime {
+                                // No Game Center score yet, but we have a local best - submit it so it's not lost
+                                await GameCenterHelper.submitScoreForQuickDraw(localBestTime)
+                            }
+                            if let horseHit = await GameCenterHelper.loadLocalPlayerBestScore(leaderboard: .unicornHunter) {
+                                self.horseHit = horseHit
+                            }
+                        }
+                    }
+                }
+                
             }
         }
         .alert(self.alertTitle, isPresented: self.$showAlert, actions: {
@@ -558,11 +635,22 @@ extension RandomCampaignPickerView2026 {
                     self.isGameOver = true
                     SoundEffectHelper.shared.play(.gameover)
                 } else {
+                    if let quickDrawTimeElapsed = self.quickDrawTimeElapsed, self.quickDrawBestTime == nil || quickDrawTimeElapsed < self.quickDrawBestTime! {
+                        self.quickDrawBestTime = quickDrawTimeElapsed
+                        UserDefaults.shared.quickDrawBestTime = quickDrawTimeElapsed
+                    }
                     self.showQuickDrawResults = true
                     SoundEffectHelper.shared.play(.winner)
                 }
             }
             self.benAnAnimationIsInProgressStopTryingToBreakThingsOkay = true
+        }
+        if !lost && !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+            Task {
+                if let quickDrawTimeElapsed {
+                    await GameCenterHelper.submitScoreForQuickDraw(quickDrawTimeElapsed)
+                }
+            }
         }
     }
     
@@ -580,9 +668,12 @@ extension RandomCampaignPickerView2026 {
         if self.showQuickDrawRules {
             GroupBox {
                 VStack(spacing: 5) {
-                    Text("QuickDraw Mode!")
+                    Text("QuickDraw!")
                         .font(self.titleFont)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .fullWidth(alignment: .center)
                         .bold()
+                        .padding(.top)
                     Text("Shoot the targets as quickly as you can! Make sure to avoid Kathy's steed!")
                         .multilineTextAlignment(.center)
                     Button(action: {
@@ -601,34 +692,76 @@ extension RandomCampaignPickerView2026 {
     }
     
     @ViewBuilder
+    var quickDrawLeaderboardButton: some View {
+        Button(action: {
+            self.showLeaderboard = .quickdraw
+        }, label: {
+            Text("Leaderboard")
+                .bold()
+        })
+        .themedButton(type: .primary, id: "randomCampaignPicker2026LeaderboardButton")
+    }
+
+    @ViewBuilder
+    var quickDrawPlayAgainButton: some View {
+        Button(action: {
+            self.reset()
+        }, label: {
+            Text("Play Again")
+                .bold()
+        })
+        .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
+    }
+
+    @ViewBuilder
     var quickDrawResultsView: some View {
         if self.showQuickDrawResults, let quickDrawTimeElapsed = self.quickDrawTimeElapsed {
             GroupBox {
                 VStack(spacing: 5) {
                     Text(self.randomCowboyism)
                         .font(self.titleFont)
+                        .multilineTextAlignment(.center)
                         .bold()
-                    HStack(alignment: .bottom) {
-                        Spacer()
+                        .padding(.bottom)
+                    if quickDrawBestTime == quickDrawTimeElapsed {
+                        Text("You done hit a high score!")
+                            .padding(.bottom)
+                    }
+                    HStack {
                         GroupBox {
                             VStack {
                                 Text("\(quickDrawTimeElapsed, specifier: "%.2f")")
                                     .font(.largeTitle)
                                     .bold()
                                 Text("seconds")
+                                if let quickDrawBestTime = self.quickDrawBestTime {
+                                    Text("Best: \(quickDrawBestTime, specifier: "%.2f") seconds")
+                                        .font(.footnote)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.top, 4)
+                                }
                             }
                         }
                         .themedGroupBox(type: .primary)
-                        Spacer()
-                        Button(action: {
-                            self.reset()
-                        }, label: {
-                            Text("Play Again")
-                                .bold()
-                        })
-                        .themedButton(type: .primary, id: "randomCampaignPicker2026ResetButton")
-                        Spacer()
                     }
+                    ViewThatFits(in: .horizontal) {
+                        HStack {
+                            if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+                                Spacer()
+                                self.quickDrawLeaderboardButton
+                            }
+                            Spacer()
+                            self.quickDrawPlayAgainButton
+                            Spacer()
+                        }
+                        VStack {
+                            if !self.disableGameCenter && GKLocalPlayer.local.isAuthenticated {
+                                self.quickDrawLeaderboardButton
+                            }
+                            self.quickDrawPlayAgainButton
+                        }
+                    }
+                    .padding(.top)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -637,19 +770,29 @@ extension RandomCampaignPickerView2026 {
         }
     }
     
+    var formattedTimeForHeader: String {
+        guard let quickDrawTimeElapsed = self.quickDrawTimeElapsed else { return "00.00" }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.minimumIntegerDigits = 2
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        return numberFormatter.string(from: NSNumber(value: quickDrawTimeElapsed)) ?? "00.00"
+    }
+    
     @ViewBuilder
     var quickDrawHeader: some View {
             GroupBox {
                 VStack {
                     Text("QuickDraw Mode!")
                         .font(self.titleFont)
+                        .multilineTextAlignment(.center)
                         .bold()
-                    if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
-                        if #available(iOS 18, *) {
+                    if #available(iOS 18, *) {
+                        if let quickDrawTimeStarted = self.quickDrawTimeStarted, quickDrawTimeElapsed == nil {
                             Text(.currentDate, format: .stopwatch(startingAt: quickDrawTimeStarted))
+                        } else {
+                            Text("00:\(formattedTimeForHeader)")
                         }
-                    } else {
-                        Text("00:00.00")
                     }
                 }
             }

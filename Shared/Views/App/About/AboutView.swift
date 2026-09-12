@@ -11,26 +11,36 @@ struct AboutView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @Environment(\.dismiss) var dismiss
+    @Environment(LiveActivityController.self) private var liveActivityController
     
     @AppStorage(UserDefaults.appAppearanceKey, store: UserDefaults.shared) private var appAppearance: Int = 2
     @AppStorage(UserDefaults.selectedThemeKey, store: UserDefaults.shared) private var selectedThemeId: Int = 0
     
     // 2024 Settings
     @AppStorage(UserDefaults.disablePixelFontKey, store: UserDefaults.shared) private var disablePixelFont: Bool = false
-    @AppStorage(UserDefaults.playSoundsEvenWhenMutedKey, store: UserDefaults.shared) private var playSoundsEvenWhenMuted: Bool = false
+    @AppStorage(UserDefaults.disableSoundsKey, store: UserDefaults.shared) private var disableSounds: Bool = false
     @AppStorage(UserDefaults.easterEggEnabled2024Key, store: UserDefaults.shared) private var easterEggEnabled2024: Bool = false
     @AppStorage(UserDefaults.disableCombosKey, store: UserDefaults.shared) private var disableCombos: Bool = false
+    @AppStorage(UserDefaults.autoStartLiveActivityKey, store: UserDefaults.shared) private var autoStartLiveActivity: Bool = true
     
     // 2025 Settings
     @AppStorage(UserDefaults.selectedAccentColorKey, store: UserDefaults.shared) private var selectedAccentColor: Int = Player.randomInitial.rawValue
     @AppStorage(UserDefaults.debugGlowOpacityKey, store: UserDefaults.shared) private var debugGlowOpacity: Double = 0.5
     @AppStorage(UserDefaults.debugEdgeHighlightOpacityKey, store: UserDefaults.shared) private var debugEdgeHighlightOpacity: Double = 1.0
+
+    // 2026 Settings
+    @AppStorage(UserDefaults.disableGameCenterKey, store: UserDefaults.shared) private var disableGameCenter: Bool = false
     
-    private var stephenPostUrlString: String? = "https://512pixels.net/2026/08/st-jude-2026/"
-    private var mykePostUrlString: String? = "https://www.theenthusiast.net/relay-for-st-jude-2026/"
+    private var stephenPostUrlString: String? { "https://512pixels.net/2026/08/st-jude-2026/" }
+    private var mykePostUrlString: String? { "https://www.theenthusiast.net/relay-for-st-jude-2026/" }
     
     @State private var showSupporterSheet: Bool = false
     @State private var currentIcon: AltIcon? = nil
+    @State private var showExtraIcons: Bool = false
+    @Binding var tldCampaign: Campaign?
+    @Binding var selectedDestination: CampaignListDestination?
+    
+    @State private var showLiveActivityStartedAlert: Bool = false
     
     @ViewBuilder
     var headerView: some View {
@@ -116,15 +126,11 @@ struct AboutView: View {
                     .bold()
                     .fullWidth()
                 
-                ToggleSetting(label: "Play Sounds When Muted",
-                              setting: self.$playSoundsEvenWhenMuted, onEnable: {
-                    SoundEffectHelper.shared.setToPlayEvenOnMute()
-                },
-                              onDisable: {
-                    SoundEffectHelper.shared.setToOnlyPlayWhenUnmuted()
-                })
-                
+                ToggleSetting(label: "Enable Sounds", setting: self.$disableSounds)
+
                 ToggleSetting(label: "Enable Goal Multipliers", setting: self.$disableCombos)
+
+                ToggleSetting(label: "Enable Game Center", setting: self.$disableGameCenter)
             }
         }
         .themedGroupBox(type: .primary, id: "settings-group")
@@ -156,6 +162,39 @@ struct AboutView: View {
         }
         .themedGroupBox(type: .primary, id: "theme-group")
         #endif
+        
+        if #available(iOS 18, *) {
+            GroupBox {
+                VStack(spacing: 20) {
+                    Text("Live Activity")
+                        .font(.title3)
+                        .bold()
+                        .fullWidth()
+
+                    Button("Start Myke vs. Stephen Live Activity") {
+                        Task {
+                            await liveActivityController.start()
+                        }
+                        self.showLiveActivityStartedAlert = true
+                    }
+                    .themedButton(type: .primary, id: "start-live-activity")
+                    .alert("Live Activity started!", isPresented: self.$showLiveActivityStartedAlert, actions: {
+                        Button("OK") { }
+                    }, message: {
+                        Text("Yeehaw!")
+                    })
+                    
+                    ToggleSetting(label: "Auto-Start Live Activity during Podcastathon", setting: self.$autoStartLiveActivity, flipBoolean: true)
+                        .onChange(of: autoStartLiveActivity) {
+                            Task {
+                                await ApiClient.shared.updateDeviceSettings(autoStartLiveActivity: autoStartLiveActivity)
+                            }
+                        }
+                    
+                }
+            }
+            .themedGroupBox(type: .primary, id: "live-activity-group")
+        }
     }
     
     @ViewBuilder
@@ -169,12 +208,20 @@ struct AboutView: View {
                 
                 LazyVGrid(columns: [.init(.flexible()), .init(.flexible()), .init(.flexible())], alignment: .leading, spacing: 10) {
                     ForEach(AltIcon.allCases) { icon in
-                        AltIconButton(currentIcon: self.$currentIcon, icon: icon)
+                        AltIconButton(currentIcon: self.$currentIcon, icon: icon, disabled: !showExtraIcons && icon.isExtra) {
+                            if let tldCampaign {
+                                self.dismiss()
+                                self.selectedDestination = .campaign(tldCampaign, true)
+                            }
+                        }
                     }
                 }
             }
         }
         .themedGroupBox(type: .primary, id: "alt-icon-group")
+        .task {
+            self.showExtraIcons = await TLDCampaign.milestoneReached(.alternateAppIcons)
+        }
     }
     
     // Change this to reflect the tools used in development
@@ -250,7 +297,7 @@ struct AboutView: View {
                 self.currentIcon = AltIcon(rawValue: appIcon.replacingOccurrences(of: "icon-", with: "")) ?? .defaultIcon
             } else {
                 self.currentIcon = AltIcon.defaultIcon
-            }
+            }            
         }
     }
 }
@@ -269,5 +316,5 @@ extension AboutView {
 }
 
 #Preview {
-    AboutView()
+    AboutView(tldCampaign: .constant(nil), selectedDestination: .constant(nil))
 }

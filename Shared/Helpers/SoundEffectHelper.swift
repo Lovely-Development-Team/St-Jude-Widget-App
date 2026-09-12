@@ -7,17 +7,16 @@
 //
 
 import Foundation
-import AVKit
+import AVFoundation
 
 class SoundEffectHelper {
     static var shared = SoundEffectHelper()
-    
+
     static let numMykeSounds: Int = 20
     static let numStephenSounds: Int = 11
     static let numShotSounds: Int = 10
-    
+
     enum SoundEffect: String, CaseIterable {
-        case none = ""
         case drumroll = "drumroll"
         case mykeRandom = "mykeRandom"
         case stephenRandom = "stephenRandom"
@@ -28,180 +27,104 @@ class SoundEffectHelper {
         case underworld = "underworld"
         case mykeNice = "mykenice"
         case stephenNice = "stephennice"
-        
+
         // 2026
         case gameover = "gameover"
         case shotRandom = "shot"
         case winner = "winner"
         case begin = "begin"
         case hit = "hit"
-        
-        var soundEffectPlayer: SoundEffectPlayer {
+
+        var fileNames: [String] {
             switch self {
             case .mykeRandom:
-                return RandomSoundEffectPlayer(soundEffects: (1...numMykeSounds).map({"myke\($0)"}), defaultSoundEffect: "myke1")
+                return (1...numMykeSounds).map { "myke\($0)" }
             case .stephenRandom:
-                return RandomSoundEffectPlayer(soundEffects: (1...numStephenSounds).map({"stephen\($0)"}), defaultSoundEffect: "stephen1")
+                return (1...numStephenSounds).map { "stephen\($0)" }
             case .shotRandom:
-                return RandomSoundEffectPlayer(soundEffects: (1...numShotSounds).map({"shot\($0)"}), defaultSoundEffect: "shot1")
+                return (1...numShotSounds).map { "shot\($0)" }
             default:
-                return SoundEffectPlayer(soundEffect: self)
+                return [self.rawValue]
             }
         }
     }
-    
-    class SoundEffectPlayer {
-        private var soundEffect: SoundEffect
-        private var audioPlayer: AVAudioPlayer?
-        
-        init(soundEffect: SoundEffect) {
-            self.soundEffect = soundEffect
-        }
-        
-        func setupSoundEffect() {
-            do {
-                if let url = Bundle.main.url(forResource: self.soundEffect.rawValue, withExtension: "mp3") {
-                    let audioSession = AVAudioSession.sharedInstance()
-                    try audioSession.setActive(false)
-                    if UserDefaults.shared.playSoundsEvenWhenMuted {
-                        try audioSession.setCategory(.ambient, options: .duckOthers)
-                    } else {
-                        try audioSession.setCategory(.playback, options: .duckOthers)
-                    }
-                    self.audioPlayer = try AVAudioPlayer(contentsOf: url)
-                    self.audioPlayer?.prepareToPlay()
-                }
-            } catch {
-                print("SoundEffectHelper: \(error.localizedDescription)")
-            }
-        }
-        
-        func playSoundEffect(allowOverlap: Bool = false) {
-            self.audioPlayer?.stop()
-            self.audioPlayer?.currentTime = 0.0
-            self.audioPlayer?.play()
-        }
-        
-        func stop() {
-            self.audioPlayer?.stop()
-        }
-    }
-    
-    class RandomSoundEffectPlayer: SoundEffectPlayer {
-        private var soundEffectList: [String]
-        private var audioPlayers: [AVAudioPlayer] = []
-        
+
+    private class SoundEffectPlayer {
+        private let audioPlayers: [AVAudioPlayer]
         private var currentAudioPlayer: AVAudioPlayer?
-        private var defaultSoundEffect: String
-        private var defaultAudioPlayer: AVAudioPlayer?
-        
-        init(soundEffects: [String], defaultSoundEffect: String) {
-            self.soundEffectList = soundEffects
-            self.defaultSoundEffect = defaultSoundEffect
-            super.init(soundEffect: .none)
-        }
-        
-        func getAudioPlayer(for fileName: String) -> AVAudioPlayer? {
-            do {
-                if let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") {
-                    let audioSession = AVAudioSession.sharedInstance()
-                    try audioSession.setActive(false)
-                    if UserDefaults.shared.playSoundsEvenWhenMuted {
-                        try audioSession.setCategory(.ambient, options: .duckOthers)
-                    } else {
-                        try audioSession.setCategory(.playback, options: .duckOthers)
-                    }
-                    let newAudioPlayer = try AVAudioPlayer(contentsOf: url)
-                    return newAudioPlayer
-                } else {
+
+        init(fileNames: [String]) {
+            self.audioPlayers = fileNames.compactMap { fileName in
+                guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else {
+                    appLogger.warning("Missing sound effect: \(fileName).mp3")
                     return nil
                 }
-            } catch {
-                print("RandomSoundEffectPlayer: \(error.localizedDescription)")
-                return nil
-            }
-        }
-        
-        override func setupSoundEffect() {
-            self.defaultAudioPlayer = self.getAudioPlayer(for: self.defaultSoundEffect)
-            for soundEffect in self.soundEffectList {
-                if let newPlayer = self.getAudioPlayer(for: soundEffect) {
-                    self.audioPlayers.append(newPlayer)
+                do {
+                    let audioPlayer = try AVAudioPlayer(contentsOf: url)
+                    audioPlayer.prepareToPlay()
+                    return audioPlayer
+                } catch {
+                    appLogger.error("Could not load \(fileName).mp3: \(error.localizedDescription)")
+                    return nil
                 }
             }
         }
-        
-        override func playSoundEffect(allowOverlap: Bool = false) {
+
+        func play(allowOverlap: Bool) {
             if !allowOverlap {
-                self.currentAudioPlayer?.stop()
+                self.stop()
             }
-            self.currentAudioPlayer = self.audioPlayers.randomElement() ?? self.defaultAudioPlayer
-            self.currentAudioPlayer?.prepareToPlay()
-            self.currentAudioPlayer?.currentTime = 0
-            self.currentAudioPlayer?.play()
+            guard let audioPlayer = self.audioPlayers.randomElement() else { return }
+            self.currentAudioPlayer = audioPlayer
+            audioPlayer.currentTime = 0
+            audioPlayer.play()
         }
-        
-        override func stop() {
-            self.currentAudioPlayer?.stop()
+
+        func stop() {
+            for audioPlayer in self.audioPlayers {
+                audioPlayer.stop()
+            }
+            self.currentAudioPlayer = nil
         }
     }
-    
-    var soundEffects: [SoundEffect: SoundEffectPlayer] = [:]
-    
-    init() {
-        self.setup()
-    }
-    
+
+    private var soundEffects: [SoundEffect: SoundEffectPlayer] = [:]
+
+    // Always play sounds on this background queue thing to avoid blocking main
+    private let audioQueue = DispatchQueue(label: "dev.snailedit.stjude.soundEffects")
+
     func setup() {
-        for soundEffect in SoundEffect.allCases {
-            let player = soundEffect.soundEffectPlayer
-            player.setupSoundEffect()
-            self.soundEffects[soundEffect] = player
-        }
-    }
-    
-    func setToPlayEvenOnMute() {
-        appLogger.debug("Setting audio session to playback")
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(false)
-            try audioSession.setCategory(.ambient, options: .duckOthers)
-        } catch {
-            appLogger.debug("Could not set audio session category to playback: \(error.localizedDescription)")
-        }
-    }
-    
-    func setToOnlyPlayWhenUnmuted() {
-        appLogger.debug("Setting audio session to ambient")
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(false)
-            try audioSession.setCategory(.playback, options: .duckOthers)
-        } catch {
-            appLogger.debug("Could not set audio session category to ambient: \(error.localizedDescription)")
-        }
-    }
-    
-    func play(_ soundEffect: SoundEffect, allowOverlap: Bool = false) {
-        guard let soundEffectPlayer = self.soundEffects[soundEffect] else {
-            return
-        }
-        
-        soundEffectPlayer.playSoundEffect(allowOverlap: allowOverlap)
-    }
-    
-    func stop(_ soundEffect: SoundEffect? = nil) {
-        guard let soundEffect = soundEffect else {
-            for item in self.soundEffects {
-                item.value.stop()
+        self.audioQueue.async {
+            do {
+                let audioSession = AVAudioSession.sharedInstance()
+                try audioSession.setCategory(.playback, options: [.mixWithOthers])
+                try audioSession.setActive(true)
+            } catch {
+                appLogger.error("Could not configure audio session: \(error.localizedDescription)")
             }
-            return
+
+            self.soundEffects = SoundEffect.allCases.reduce(into: [SoundEffect: SoundEffectPlayer]()) { result, soundEffect in
+                result[soundEffect] = SoundEffectPlayer(fileNames: soundEffect.fileNames)
+            }
         }
-        
-        guard let soundEffectPlayer = self.soundEffects[soundEffect] else {
-            return
+    }
+
+    func play(_ soundEffect: SoundEffect, allowOverlap: Bool = false) {
+        guard !UserDefaults.shared.disableSounds else { return }
+        self.audioQueue.async {
+            self.soundEffects[soundEffect]?.play(allowOverlap: allowOverlap)
         }
-        
-        soundEffectPlayer.stop()
+    }
+
+    func stop(_ soundEffect: SoundEffect? = nil) {
+        self.audioQueue.async {
+            guard let soundEffect = soundEffect else {
+                for player in self.soundEffects.values {
+                    player.stop()
+                }
+                return
+            }
+            self.soundEffects[soundEffect]?.stop()
+        }
     }
 }

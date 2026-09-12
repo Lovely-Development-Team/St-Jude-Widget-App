@@ -36,14 +36,12 @@ class StJudeAppDelegate: NSObject, UIApplicationDelegate {
             ]
         )
         
-        Task {
-            SoundEffectHelper.shared.setup()
-        }
+        SoundEffectHelper.shared.setup()
         initNotificationCenter()
-        
+
         return true
     }
-    
+
 //    func handleAppRefresh(task: BGAppRefreshTask) {
 //        refreshLogger.notice("Running background refresh")
 //        let apiClient = ApiClient.shared
