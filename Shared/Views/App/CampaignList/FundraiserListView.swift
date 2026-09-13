@@ -242,15 +242,7 @@ struct FundraiserListView: View {
                 }
             }
             Group {
-                if searchText.lowercased() == "jonycube" || searchText.lowercased() == "jony cube" {
-                    Image(.jonycube)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } else if searchText.lowercased() == "l2cu" {
-                    Image(Theme.current.mascotImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                }
+                Theme.current.viewForEasterEggString(string: self.searchText)
             }
             .padding()
             .frame(maxWidth: Double.stretchedContentMaxWidth)
