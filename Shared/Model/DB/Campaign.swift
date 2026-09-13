@@ -465,9 +465,14 @@ extension Campaign {
             // For each poll from the database...
             for dbPoll in dbPolls {
                 if let apiPollWrapper = keyedApiPolls[dbPoll.id] {
-                    let apiPoll = apiPollWrapper.poll
+                    var apiPoll = apiPollWrapper.poll
                     // Update it from the API if it exists...
                     keyedApiPolls.removeValue(forKey: dbPoll.id)
+                    
+                    if apiPoll.endsAt == nil && !apiPoll.active && dbPoll.manualClosedAt == nil {
+                        apiPoll.manualClosedAtString = Date().formatted(.iso8601)
+                    }
+                    
                     dataLogger.debug("Updating Poll \(apiPoll.name)")
                     do {
                         try await AppDatabase.shared.updatePoll(apiPoll, changesFrom: dbPoll)

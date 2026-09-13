@@ -198,21 +198,27 @@ final class AppDatabase {
         migrator.registerMigration("addPolls") { db in
             try db.create(table: "poll") { t in
                 t.column("id", .blob).primaryKey()
-                t.column("name", .text)
-                t.column("active", .boolean)
-                t.column("totalRaisedValue", .double)
-                t.column("totalRaisedCurrency", .text)
+                t.column("name", .text).notNull()
+                t.column("active", .boolean).notNull()
+                t.column("totalRaisedValue", .double).notNull()
+                t.column("totalRaisedCurrency", .text).notNull()
                 t.column("campaignId", .blob).references("campaign")
                 t.column("teamEventId", .blob).references("teamEvent")
             }
             
             try db.create(table: "pollOption") { t in
                 t.column("id", .blob).primaryKey()
-                t.column("name", .text)
-                t.column("amountRaisedValue", .double)
-                t.column("amountRaisedCurrency", .text)
+                t.column("name", .text).notNull()
+                t.column("amountRaisedValue", .double).notNull()
+                t.column("amountRaisedCurrency", .text).notNull()
                 t.column("pollId", .blob).notNull().references("poll")
-                
+            }
+        }
+        
+        migrator.registerMigration("addEndsAtDateToPollTable") { db in
+            try db.alter(table: "poll") { t in
+                t.add(column: "endsAtString", .text)
+                t.add(column: "manualClosedAtString", .text)
             }
         }
         
@@ -413,21 +419,41 @@ extension AppDatabase {
     
     func fetchAllActivePollsForStarredCampaigns() async throws -> [Poll] {
         try await dbWriter.read { db in
-            try Poll.order(Column("name").asc)
+            let polls = try Poll.order(Column("name").asc)
                 .including(required: Poll.parentCampaign
                     .filter(Column("isStarred") == true))
-                .filter(Column("active") == true)
+                .filter(Column("active") == true
+                        || Column("manualClosedAtString") != nil
+                        || Column("endsAtString") != nil)
                 .fetchAll(db)
+            return polls.filter { poll in
+                if let endsAt = poll.endsAt {
+                    return endsAt.isInTheLast(seconds: TimeInterval.oneDay)
+                } else if let manualClosedAt = poll.manualClosedAt {
+                    return manualClosedAt.isInTheLast(seconds: TimeInterval.oneDay)
+                }
+                return poll.active
+            }
         }
     }
     
     func fetchAllActivePollsForTeamEvent() async throws -> [Poll] {
         try await dbWriter.read { db in
-            try Poll.order(Column("name").asc)
+            let polls = try Poll.order(Column("name").asc)
                 .including(required: Poll.parentTeamEvent
                     .filter(Column("publicId") == UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)))
-                .filter(Column("active") == true)
+                .filter(Column("active") == true
+                        || Column("manualClosedAtString") != nil
+                        || Column("endsAtString") != nil)
                 .fetchAll(db)
+            return polls.filter { poll in
+                if let endsAt = poll.endsAt {
+                    return endsAt.isInTheLast(seconds: TimeInterval.oneDay)
+                } else if let manualClosedAt = poll.manualClosedAt {
+                    return manualClosedAt.isInTheLast(seconds: TimeInterval.oneDay)
+                }
+                return poll.active
+            }
         }
     }
     

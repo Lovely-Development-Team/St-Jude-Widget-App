@@ -18,11 +18,40 @@ struct PollView: View {
     @State private var showShareView: Bool = false
     @State private var shareLinkActivityItems: [Any]? = nil
     
+    @State private var countdownTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var showRelativeTime: Bool = false
+    
+    @State private var hidePoll: Bool = false
+    
+    @State private var current: Date = Date()
+    
+    func refreshTime() {
+        if let endsAt = poll.endsAt {
+            self.showRelativeTime = endsAt.isInTheNext(seconds: TimeInterval.oneDay)
+            
+            if !self.pollHasClosed && endsAt < Date() {
+                withAnimation {
+                    self.pollHasClosed = true
+                }
+            }
+        }
+        
+        if let manualClosedAt = poll.manualClosedAt {
+            if !self.pollHasClosed && manualClosedAt < Date() {
+                withAnimation {
+                    self.pollHasClosed = true
+                }
+            }
+        }
+    }
+    
     var sortedOptions: [PollOption] {
         return self.pollOptions.sorted(by: {
             return $0.amountRaised.numericalValue >= $1.amountRaised.numericalValue
         })
     }
+    
+    @State private var pollHasClosed: Bool = false
     
     var body: some View {
         Group {
@@ -95,7 +124,31 @@ struct PollView: View {
                                     .frame(height: 10)
                             }
                         }
-                        if let url = self.poll.pollURL {
+                        if let endsAt = poll.endsAt {
+                            if self.pollHasClosed {
+                                Text("This poll has closed")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            } else {
+                                if self.showRelativeTime {
+                                    Group {
+                                        Text("Ends in ") + Text(endsAt, style: .relative)
+                                    }
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                } else {
+                                    Text("Ends at \(endsAt.formatted(date: .abbreviated, time: .shortened))")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        } else if let manualClosedAt = poll.manualClosedAt,
+                                  manualClosedAt <= self.current {
+                            Text("This poll has closed")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        if let url = self.poll.pollURL, !self.pollHasClosed {
                             Link(destination: url, label: {
                                 Text("Vote!")
                                     .fontWeight(.bold)
@@ -134,6 +187,11 @@ struct PollView: View {
             } catch {
                 dataLogger.error("Failed to fetch parent campaign of poll: \(self.poll.name): \(error.localizedDescription)")
             }
+            
+            self.refreshTime()
+        }
+        .onReceive(self.countdownTimer) { _ in
+            self.refreshTime()
         }
     }
 }

@@ -210,6 +210,7 @@ struct TiltifyCampaignPoll: Decodable {
     let name: String
     let options: [TiltifyCampaignPollOption]
     let updatedAt: String
+    let endsAtString: String?
 }
 
 struct TiltifyGetCampaignPollsResponse: Decodable {

@@ -16,6 +16,13 @@ struct Poll: Identifiable, Hashable {
     let totalRaisedCurrency: String
     let campaignId: UUID?
     let teamEventId: UUID?
+    
+    // From the API
+    let endsAtString: String?
+    
+    // Manual endsAt override, used for when endsAt = nil and campaign.active goes false
+    // to display poll for a bit after it closes
+    var manualClosedAtString: String?
 }
 
 extension Poll: Codable, FetchableRecord, MutablePersistableRecord {
@@ -25,6 +32,8 @@ extension Poll: Codable, FetchableRecord, MutablePersistableRecord {
         static let active = Column(CodingKeys.active)
         static let totalRaisedValue = Column(CodingKeys.totalRaisedValue)
         static let totalRaisedCurrency = Column(CodingKeys.totalRaisedCurrency)
+        static let endsAtString = Column(CodingKeys.endsAtString)
+        static let manualClosedAtString = Column(CodingKeys.manualClosedAtString)
     }
     
     static let pollOptions = hasMany(PollOption.self)
@@ -52,6 +61,8 @@ extension Poll {
         self.totalRaisedCurrency = poll.amountRaised.currency
         self.campaignId = campaignId
         self.teamEventId = teamEventId
+        self.endsAtString = poll.endsAtString
+        self.manualClosedAtString = nil
     }
     
     var amountRaised: TiltifyAmount {
@@ -87,8 +98,24 @@ extension Poll {
         return URL(string: "https://donate.tiltify.com/\(parentId.uuidString.lowercased())/incentives?pollPublicId=\(self.id.uuidString.lowercased())")!
     }
     
+    var endsAt: Date? {
+        if let endsAtString {
+            return ISO8601DateFormatter().date(from: endsAtString)
+        }
+        
+        return nil
+    }
+    
+    var manualClosedAt: Date? {
+        if let manualClosedAtString {
+            return ISO8601DateFormatter().date(from: manualClosedAtString)
+        }
+        
+        return nil
+    }
+    
     static var samplePoll: Poll {
-        return Poll(id: UUID(), name: "Which host will win the Podcastathon?", active: true, totalRaisedValue: 100, totalRaisedCurrency: "USD", campaignId: UUID(), teamEventId: nil)
+        return Poll(id: UUID(), name: "Which host will win the Podcastathon?", active: true, totalRaisedValue: 100, totalRaisedCurrency: "USD", campaignId: UUID(), teamEventId: nil, endsAtString: nil, manualClosedAtString: nil)
     }
 }
 

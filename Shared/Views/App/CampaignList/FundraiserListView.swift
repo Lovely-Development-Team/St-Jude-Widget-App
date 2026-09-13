@@ -458,6 +458,7 @@ struct FundraiserListView: View {
         } catch {
             dataLogger.error("Starring/unstarring stored campaign failed: \(error.localizedDescription)")
         }
+        await campaign.checkForPollUpdates()
         await fetch()
     }
     
