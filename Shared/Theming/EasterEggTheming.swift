@@ -20,6 +20,10 @@ extension Theme {
             Image(Theme.current.mascotImage)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+        case "grey":
+            Image(.bsod)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
         default:
             EmptyView()
         }
