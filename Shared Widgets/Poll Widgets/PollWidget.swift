@@ -28,9 +28,7 @@ struct PollWidget: Widget {
             .systemSmall,
             .systemMedium,
             .systemLarge,
-            .systemExtraLarge,
-            .accessoryInline,
-            .accessoryRectangular
+            .systemExtraLarge
         ])
         .configurationDisplayName("Poll")
         .description("Keep tabs on your favorite poll from the Relay campaign or your starred campaigns!")

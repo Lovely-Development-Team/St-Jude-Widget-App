@@ -36,3 +36,28 @@ class PollConfigurationIntentHandler: NSObject, PollConfigurationIntentHandling 
         return INObjectCollection(items: widgetPolls)
     }
 }
+
+class PollLockScreenConfigurationIntentHandler: NSObject, PollLockScreenConfigurationIntentHandling {
+    func resolvePoll(for intent: PollLockScreenConfigurationIntent) async -> WidgetPollResolutionResult {
+        guard let poll = intent.poll else {
+            return .notRequired()
+        }
+        
+        return .success(with: poll)
+    }
+    
+    func providePollOptionsCollection(for intent: PollLockScreenConfigurationIntent) async throws -> INObjectCollection<WidgetPoll> {
+        
+        let teamEventPolls = try await AppDatabase.shared.fetchAllActivePollsForTeamEvent()
+        let campaignPolls = try await AppDatabase.shared.fetchAllActivePollsForStarredCampaigns()
+        
+        let widgetPolls: [WidgetPoll] = ([] + teamEventPolls + campaignPolls).map { poll in
+            let widgetPoll = WidgetPoll(identifier: poll.id.uuidString, display: poll.name)
+            widgetPoll.parentCampaignId = poll.campaignId?.uuidString
+            widgetPoll.parentTeamEventId = poll.teamEventId?.uuidString
+            return widgetPoll
+        }
+        
+        return INObjectCollection(items: widgetPolls)
+    }
+}

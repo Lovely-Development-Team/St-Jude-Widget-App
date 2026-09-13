@@ -25,6 +25,8 @@ class IntentHandler: INExtension {
             return HeadToHeadConfigurationIntentHandler()
         case is PollConfigurationIntent:
             return PollConfigurationIntentHandler()
+        case is PollLockScreenConfigurationIntent:
+            return PollLockScreenConfigurationIntentHandler()
         default:
             return self
         }
