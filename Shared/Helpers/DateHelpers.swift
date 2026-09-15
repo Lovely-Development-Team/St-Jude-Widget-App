@@ -12,16 +12,22 @@ extension TimeInterval {
     static let oneDay: TimeInterval = 60 * 60 * 24
 }
 
+extension String {
+    var swiftCompatible8601DateString: String? {
+        return self.replacing(/\.\d+/, with: "")
+    }
+}
+
 extension Date {
     func isInTheNext(seconds: TimeInterval) -> Bool {
         let comparisonDate = Date().addingTimeInterval(seconds)
         
-        return comparisonDate >= self && self >= Date()
+        return comparisonDate >= self
     }
     
     func isInTheLast(seconds: TimeInterval) -> Bool {
         let comparisonDate = Date().addingTimeInterval(-seconds)
-        return comparisonDate <= self && self <= Date()
+        return comparisonDate <= self
     }
 }
 

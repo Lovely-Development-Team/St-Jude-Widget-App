@@ -23,8 +23,8 @@ class PollConfigurationIntentHandler: NSObject, PollConfigurationIntentHandling 
     
     func providePollOptionsCollection(for intent: PollConfigurationIntent) async throws -> INObjectCollection<WidgetPoll> {
         
-        let teamEventPolls = try await AppDatabase.shared.fetchAllActivePollsForTeamEvent()
-        let campaignPolls = try await AppDatabase.shared.fetchAllActivePollsForStarredCampaigns()
+        let teamEventPolls = try await AppDatabase.shared.fetchPollsForTeamEvent()
+        let campaignPolls = try await AppDatabase.shared.fetchPollsForStarredCampaigns()
         
         let widgetPolls: [WidgetPoll] = ([] + teamEventPolls + campaignPolls).map { poll in
             let widgetPoll = WidgetPoll(identifier: poll.id.uuidString, display: poll.name)
@@ -48,8 +48,8 @@ class PollLockScreenConfigurationIntentHandler: NSObject, PollLockScreenConfigur
     
     func providePollOptionsCollection(for intent: PollLockScreenConfigurationIntent) async throws -> INObjectCollection<WidgetPoll> {
         
-        let teamEventPolls = try await AppDatabase.shared.fetchAllActivePollsForTeamEvent()
-        let campaignPolls = try await AppDatabase.shared.fetchAllActivePollsForStarredCampaigns()
+        let teamEventPolls = try await AppDatabase.shared.fetchPollsForTeamEvent()
+        let campaignPolls = try await AppDatabase.shared.fetchPollsForStarredCampaigns()
         
         let widgetPolls: [WidgetPoll] = ([] + teamEventPolls + campaignPolls).map { poll in
             let widgetPoll = WidgetPoll(identifier: poll.id.uuidString, display: poll.name)

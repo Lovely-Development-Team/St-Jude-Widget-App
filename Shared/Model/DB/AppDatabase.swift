@@ -417,7 +417,7 @@ extension AppDatabase {
         }
     }
     
-    func fetchAllActivePollsForStarredCampaigns() async throws -> [Poll] {
+    func fetchPollsForStarredCampaigns(includeInactive: Bool = false) async throws -> [Poll] {
         try await dbWriter.read { db in
             let polls = try Poll.order(Column("name").asc)
                 .including(required: Poll.parentCampaign
@@ -427,6 +427,10 @@ extension AppDatabase {
                         || Column("endsAtString") != nil)
                 .fetchAll(db)
             return polls.filter { poll in
+                if includeInactive {
+                    return true
+                }
+                
                 if let endsAt = poll.endsAt {
                     return endsAt.isInTheLast(seconds: TimeInterval.oneDay)
                 } else if let manualClosedAt = poll.manualClosedAt {
@@ -437,7 +441,7 @@ extension AppDatabase {
         }
     }
     
-    func fetchAllActivePollsForTeamEvent() async throws -> [Poll] {
+    func fetchPollsForTeamEvent(includeInactive: Bool = false) async throws -> [Poll] {
         try await dbWriter.read { db in
             let polls = try Poll.order(Column("name").asc)
                 .including(required: Poll.parentTeamEvent
@@ -447,6 +451,10 @@ extension AppDatabase {
                         || Column("endsAtString") != nil)
                 .fetchAll(db)
             return polls.filter { poll in
+                if includeInactive {
+                    return true
+                }
+                
                 if let endsAt = poll.endsAt {
                     return endsAt.isInTheLast(seconds: TimeInterval.oneDay)
                 } else if let manualClosedAt = poll.manualClosedAt {

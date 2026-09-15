@@ -10,6 +10,7 @@ import SwiftUI
 struct ActivePollsView: View {
     @State private var collapsed: Bool = false
     var activePolls: [Poll] = []
+    @Binding var pollsUpdatedAt: Date
     
     var body: some View {
         Group {
@@ -38,7 +39,7 @@ struct ActivePollsView: View {
                         
                         if !self.collapsed {
                             ForEach(self.activePolls) { poll in
-                                PollView(poll: poll, campaignId: (poll.campaignId ?? poll.teamEventId), showParentCampaignInfo: true)
+                                PollView(poll: poll, campaignId: (poll.campaignId ?? poll.teamEventId), showParentCampaignInfo: true, pollsUpdatedAt: self.$pollsUpdatedAt)
                             }
                             Text("Star a campaign, and its polls will show here!")
                                 .font(.caption)
@@ -59,5 +60,5 @@ struct ActivePollsView: View {
 }
 
 #Preview {
-    ActivePollsView()
+    ActivePollsView(pollsUpdatedAt: .constant(Date()))
 }

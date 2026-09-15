@@ -13,6 +13,8 @@ struct PollView: View {
     @State private var pollOptions: [PollOption] = []
     let campaignId: UUID?
     var showParentCampaignInfo: Bool = false
+    @Binding var pollsUpdatedAt: Date
+    
     @State private var parentCampaign: Campaign? = nil
     @State private var parentTeamEvent: TeamEvent? = nil
     @State private var showShareView: Bool = false
@@ -91,6 +93,7 @@ struct PollView: View {
                             } label: {
                                 Label("Share", systemImage: "square.and.arrow.up")
                                     .labelStyle(.iconOnly)
+                                    .padding(.vertical, 5)
                             }
                             .background {
                                 ShareSheetPresenter(activityItems: $shareLinkActivityItems)
@@ -167,32 +170,41 @@ struct PollView: View {
                 .forSheet()
         }
         .task {
-            do {
-                let fetchedPollOptions = try await AppDatabase.shared.fetchPollOptions(for: self.poll)
-                withAnimation {
-                    self.pollOptions = fetchedPollOptions
-                }
-                
-            } catch {
-                dataLogger.error("Could not fetch poll options for poll id \(self.poll.id): \(error.localizedDescription)")
+            await self.refresh()
+        }
+        .onChange(of: self.pollsUpdatedAt) {
+            Task {
+                await self.refresh()
             }
-            
-            do {
-                // Attempt to get the parent campaign, fallback to team event
-                if let parentCampaign = try await AppDatabase.shared.fetchParentCampaign(for: self.poll) {
-                    self.parentCampaign = parentCampaign
-                } else if let parentTeamEvent = try await AppDatabase.shared.fetchParentTeamEvent(for: self.poll) {
-                    self.parentTeamEvent = parentTeamEvent
-                }
-            } catch {
-                dataLogger.error("Failed to fetch parent campaign of poll: \(self.poll.name): \(error.localizedDescription)")
-            }
-            
-            self.refreshTime()
         }
         .onReceive(self.countdownTimer) { _ in
             self.refreshTime()
         }
+    }
+    
+    func refresh() async {
+        do {
+            let fetchedPollOptions = try await AppDatabase.shared.fetchPollOptions(for: self.poll)
+            withAnimation {
+                self.pollOptions = fetchedPollOptions
+            }
+            
+        } catch {
+            dataLogger.error("Could not fetch poll options for poll id \(self.poll.id): \(error.localizedDescription)")
+        }
+        
+        do {
+            // Attempt to get the parent campaign, fallback to team event
+            if let parentCampaign = try await AppDatabase.shared.fetchParentCampaign(for: self.poll) {
+                self.parentCampaign = parentCampaign
+            } else if let parentTeamEvent = try await AppDatabase.shared.fetchParentTeamEvent(for: self.poll) {
+                self.parentTeamEvent = parentTeamEvent
+            }
+        } catch {
+            dataLogger.error("Failed to fetch parent campaign of poll: \(self.poll.name): \(error.localizedDescription)")
+        }
+        
+        self.refreshTime()
     }
 }
 

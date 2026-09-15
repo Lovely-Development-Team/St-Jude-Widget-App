@@ -61,7 +61,7 @@ extension Poll {
         self.totalRaisedCurrency = poll.amountRaised.currency
         self.campaignId = campaignId
         self.teamEventId = teamEventId
-        self.endsAtString = poll.endsAtString
+        self.endsAtString = poll.endsAt
         self.manualClosedAtString = nil
     }
     
@@ -99,7 +99,7 @@ extension Poll {
     }
     
     var endsAt: Date? {
-        if let endsAtString {
+        if let endsAtString = self.endsAtString?.swiftCompatible8601DateString {
             return ISO8601DateFormatter().date(from: endsAtString)
         }
         
@@ -107,7 +107,7 @@ extension Poll {
     }
     
     var manualClosedAt: Date? {
-        if let manualClosedAtString {
+        if let manualClosedAtString = self.manualClosedAtString?.swiftCompatible8601DateString {
             return ISO8601DateFormatter().date(from: manualClosedAtString)
         }
         

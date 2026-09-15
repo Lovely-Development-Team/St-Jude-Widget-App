@@ -40,6 +40,7 @@ struct CampaignView: View {
     
     @State private var showPolls: Bool = true
     @State private var polls: [Poll] = []
+    @State private var pollsUpdatedAt: Date = Date()
     
     @State private var hasDoneInitialAPIFetch: Bool = false
     
@@ -366,7 +367,7 @@ struct CampaignView: View {
                     
                     if self.showPolls {
                         ForEach(self.activePolls, id: \.id) { poll in
-                            PollView(poll: poll, campaignId: initialCampaign?.id ?? RELAY_CAMPAIGN)
+                            PollView(poll: poll, campaignId: initialCampaign?.id ?? RELAY_CAMPAIGN, pollsUpdatedAt: self.$pollsUpdatedAt)
                         }
                     }
                 }
@@ -601,6 +602,8 @@ struct CampaignView: View {
                 await self.updateMilestonesInDatabase(forId: TEAM_EVENT_ID)
                 await self.updateRewardsInDatabase(forId: TEAM_EVENT_ID)
                 await self.updatePollsInDatabase(forId: TEAM_EVENT_ID)
+                
+                self.pollsUpdatedAt = Date()
                 
                 async let apiTopDonorFetch = TiltifyAPIClient.shared.getCampaignTopDonor(forId: RELAY_CAMPAIGN)
                 async let apiDonationsFetch = TiltifyAPIClient.shared.getCampaignDonations(forId: RELAY_CAMPAIGN)
