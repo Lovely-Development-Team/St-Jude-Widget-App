@@ -110,8 +110,8 @@ struct ScoreEntryView: View {
     }
     
     @ViewBuilder
-    var scoreGroupBoxView: some View{
-        ScoreGroupBoxView(myke: entry.score.myke.score, stephen: entry.score.stephen.score)
+    func scoreGroupBoxView(showBackground: Bool = true) -> some View{
+        ScoreGroupBoxView(myke: entry.score.myke.score, stephen: entry.score.stephen.score, showBackground: showBackground)
     }
     
     @ViewBuilder
@@ -186,15 +186,19 @@ struct ScoreEntryView: View {
     
     @ViewBuilder
     var content: some View {
-        switch family {
-        case .accessoryInline:
-            lockScreenInline
-        case .accessoryRectangular:
-            lockScreenRectangular
-        case .accessoryCircular:
-            lockScreenCircular
-        default:
-            homeScreenWidget
+        if self.renderingMode == .fullColor {
+            switch family {
+            case .accessoryInline:
+                lockScreenInline
+            case .accessoryRectangular:
+                lockScreenRectangular
+            case .accessoryCircular:
+                lockScreenCircular
+            default:
+                homeScreenWidget
+            }
+        } else {
+            self.nonFullColorContent
         }
     }
     
@@ -208,6 +212,11 @@ struct ScoreEntryView: View {
                 .environment(\.font, Font.body)
         }
     }
+    
+    @ViewBuilder
+    var nonFullColorContent: some View {
+        self.scoreGroupBoxView(showBackground: false)
+    }
 }
 
 // MARK: - Individual Sizes
@@ -217,7 +226,7 @@ extension ScoreEntryView {
         ZStack {
             // Fill out the whole space
             VStack {
-                self.scoreGroupBoxView
+                self.scoreGroupBoxView()
                     .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
                     .offset(y: 10)
                 Rectangle()
@@ -243,7 +252,7 @@ extension ScoreEntryView {
                                         .shadow(radius: 10)
                                 }
                         }
-                        .offset(y: -self.imageHeight / 4)
+                        .offset(y: -self.imageHeight / 5)
                     }
             }
             .background {
@@ -273,7 +282,7 @@ extension ScoreEntryView {
                             .shadow(radius: 10)
                     }
                     .zIndex(2)
-                self.scoreGroupBoxView
+                self.scoreGroupBoxView()
                     .padding(.bottom, self.imageHeight / 3)
                     .zIndex(1)
                 Spacer()
@@ -314,7 +323,7 @@ extension ScoreEntryView {
                 Rectangle()
                     .foregroundStyle(.clear)
                     .overlay(alignment: .bottom) {
-                        self.scoreGroupBoxView
+                        self.scoreGroupBoxView()
                         .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
                         .padding(.bottom)
                     }
@@ -373,7 +382,7 @@ extension ScoreEntryView {
                             .shadow(radius: 10)
                     }
                     .zIndex(2)
-                self.scoreGroupBoxView
+                self.scoreGroupBoxView()
                     .scaleEffect(x: self.textScaleFactor, y: self.textScaleFactor)
                     .padding(.bottom, self.imageHeight / 3)
                     .zIndex(1)

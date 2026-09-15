@@ -197,7 +197,7 @@ struct PollWidgetEntryView: View {
     
     @ViewBuilder
     var content: some View {
-        if self.appearance.isWildWestTheme {
+        if self.appearance.isWildWestTheme && self.renderingMode == .fullColor {
             GroupBox {
                 self.actualContent
             }
