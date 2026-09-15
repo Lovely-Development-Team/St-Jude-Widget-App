@@ -95,7 +95,14 @@ extension Poll {
         guard let parentId = self.campaignId ?? self.teamEventId else {
             return nil
         }
-        return URL(string: "https://donate.tiltify.com/\(parentId.uuidString.lowercased())/incentives?pollPublicId=\(self.id.uuidString.lowercased())")!
+        
+        var parentIdString = parentId.uuidString
+        
+        if parentIdString == FUNDRAISING_EVENT_PUBLIC_ID {
+            parentIdString = RELAY_SUBCAMPAIGN_ID
+        }
+        
+        return URL(string: "https://donate.tiltify.com/\(parentIdString)/incentives?pollPublicId=\(self.id.uuidString.lowercased())")!
     }
     
     var endsAt: Date? {
