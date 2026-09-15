@@ -42,6 +42,7 @@ struct SharePollView: View {
                             useNormalBackground: true,
                             isForWidget: false,
                             overrideWidgetFamily: .systemExtraLarge)
+            .scaleEffect(x: 1.01, y: 1.01)
             .frame(width: CGSize.instagramStoryDimensions.width, height: CGSize.instagramStoryDimensions.height)
             .dynamicTypeSize(.accessibility3)
     }
@@ -56,6 +57,7 @@ struct SharePollView: View {
                             useNormalBackground: true,
                             isForWidget: false,
                             overrideWidgetFamily: .systemExtraLarge)
+            .scaleEffect(x: 1.01, y: 1.01)
             .clipShape(RoundedRectangle(cornerRadius: (clipCorners ? 15 : 0)))
             .environment(\.font, Font.body)
             .frame(minHeight: 169)

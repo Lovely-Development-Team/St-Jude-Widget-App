@@ -24,6 +24,20 @@ struct PollWidgetEntryView: View {
     
     var overrideWidgetFamily: WidgetFamily? = nil
     
+    var foregroundColor: Color {
+        if self.appearance.isWildWestTheme && !self.isForWidget {
+            return .black
+        }
+        return appearance.foregroundColor
+    }
+    
+    var colorScheme: ColorScheme? {
+        if self.appearance.isWildWestTheme && !self.isForWidget {
+            return .light
+        }
+        return nil
+    }
+    
     var sortedOptions: [PollOption] {
         return self.options.sorted(by: {
             return $0.amountRaised.numericalValue >= $1.amountRaised.numericalValue
@@ -178,7 +192,7 @@ struct PollWidgetEntryView: View {
                 self.placeholderView
             }
         }
-        .foregroundStyle(self.appearance.foregroundColor)
+        .foregroundStyle(self.foregroundColor)
     }
     
     @ViewBuilder
@@ -187,7 +201,7 @@ struct PollWidgetEntryView: View {
             GroupBox {
                 self.actualContent
             }
-            .themedGroupBox(type: .primary, id: "pollWidgetContainer")
+            .themedGroupBox(type: .primary, primaryColor: self.isForWidget ? .secondarySystemBackground : .white, id: "pollWidgetContainer")
         } else {
             self.actualContent
         }
