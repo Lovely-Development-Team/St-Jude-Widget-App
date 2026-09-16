@@ -170,7 +170,7 @@ struct PollWidgetEntryView: View {
     
     func crownForSmallWidget(for option: PollOption) -> Text {
         if option.isMax(options: self.options) && self.widgetFamilyForLayout == .systemSmall {
-            return Text(" \(Image(systemName: "crown.fill"))")
+            return Text(" \(Image(.cowboyhat).symbolVariant(.fill))")
         }
         return Text("")
     }
@@ -178,7 +178,8 @@ struct PollWidgetEntryView: View {
     @ViewBuilder
     func crownAndOptionName(for option: PollOption) -> some View {
         if option.isMax(options: self.options) {
-            Image(systemName: "crown.fill")
+            Image(.cowboyhat)
+                .symbolVariant(.fill)
                 .foregroundStyle(self.appearance.fillColor)
                 .minimumScaleFactor(self.minimumScaleFactor)
                 .font(fontForOptionNames)
@@ -195,7 +196,8 @@ struct PollWidgetEntryView: View {
             if self.widgetFamilyForLayout == .systemSmall {
                 VStack(alignment: .leading, spacing: 5) {
                     if !self.appearance.isWildWestTheme {
-                        Image(systemName: "crown.fill")
+                        Image(.cowboyhat)
+                            .symbolVariant(.fill)
                             .foregroundStyle(self.appearance.fillColor)
                             .minimumScaleFactor(self.minimumScaleFactor)
                             .font(fontForOptionNames)
@@ -211,7 +213,8 @@ struct PollWidgetEntryView: View {
                                 .foregroundStyle(.secondary)
                                 .minimumScaleFactor(self.minimumScaleFactor)
                             Spacer()
-                            Image(systemName: "crown.fill")
+                            Image(.cowboyhat)
+                                .symbolVariant(.fill)
                                 .foregroundStyle(self.appearance.fillColor)
                                 .minimumScaleFactor(self.minimumScaleFactor)
                                 .font(fontForOptionNames)
@@ -246,7 +249,8 @@ struct PollWidgetEntryView: View {
                     }
                     if option.isMax(options: self.options) {
                         Spacer()
-                        Image(systemName: "crown.fill")
+                        Image(.cowboyhat)
+                            .symbolVariant(.fill)
                             .imageScale(self.crownImageScale)
                             .foregroundStyle(self.appearance.fillColor)
                     }
@@ -353,9 +357,9 @@ extension PollWidgetEntryView {
     var accessoryInlineContent: some View {
         if let poll = self.poll {
             if let highestOption = self.sortedOptions.first {
-                Text("\(Image(systemName: "crown.fill")) \(highestOption.percentageOfPoll(parentPoll: poll).formattedAsPercent) • \(highestOption.name)")
+                Text("\(Image(.cowboyhat)) \(highestOption.percentageOfPoll(parentPoll: poll).formattedAsPercent) • \(highestOption.name)")
             } else {
-                Text("\(Image(systemName: "crown.fill")) \(poll.name)")
+                Text("\(Image(.cowboyhat)) \(poll.name)")
             }
         } else {
             Text("Select a poll")
@@ -373,7 +377,7 @@ extension PollWidgetEntryView {
                             .bold()
                             .minimumScaleFactor(0.7)
                         Spacer()
-                        Image(systemName: "crown.fill")
+                        Image(.cowboyhat)
                             .imageScale(.small)
                     }
                     Text(highestOption.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))

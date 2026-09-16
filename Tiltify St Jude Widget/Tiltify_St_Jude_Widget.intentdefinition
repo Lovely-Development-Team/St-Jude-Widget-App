@@ -103,11 +103,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>25C56</string>
+	<string>25G83</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>17F42</string>
+	<string>17F113</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>26.5</string>
+	<string>26.6</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -1706,7 +1706,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Open Poll On Tap</string>
+					<string>Open Campaign On Tap</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>DANMV7</string>
 					<key>INIntentParameterDisplayPriority</key>
@@ -1896,7 +1896,7 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
-					<string>Open Poll On Tap</string>
+					<string>Open Campaign On Tap</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>H1tO1n</string>
 					<key>INIntentParameterDisplayPriority</key>

@@ -108,7 +108,8 @@ struct PollView: View {
                                         .foregroundStyle(isMax ? Theme.current.accentColor : .primary)
                                     
                                     if isMax {
-                                        Image(systemName: "crown.fill")
+                                        Image(.cowboyhat)
+                                            .symbolVariant(.fill)
                                             .foregroundStyle(Theme.current.accentColor)
                                     }
                                     
