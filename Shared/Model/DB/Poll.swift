@@ -122,7 +122,7 @@ extension Poll {
     }
     
     static var samplePoll: Poll {
-        return Poll(id: UUID(), name: "Which host will win the Podcastathon?", active: true, totalRaisedValue: 100, totalRaisedCurrency: "USD", campaignId: UUID(), teamEventId: nil, endsAtString: nil, manualClosedAtString: nil)
+        return Poll(id: UUID(), name: "Who would win?", active: true, totalRaisedValue: 100, totalRaisedCurrency: "USD", campaignId: UUID(), teamEventId: nil, endsAtString: nil, manualClosedAtString: nil)
     }
 }
 
@@ -179,16 +179,14 @@ extension PollOption {
     }
     
     static var samplePollOptions: [PollOption] {
-        let position = Double(Int.random(in: 30...70))
-        
         let option1 = PollOption(id: UUID(),
-                                 name: "Myke",
-                                 amountRaisedValue: position,
+                                 name: "L2CU",
+                                 amountRaisedValue: 95,
                                  amountRaisedCurrency: "USD",
                                  pollId: UUID())
         let option2 = PollOption(id: UUID(),
-                                 name: "Stephen",
-                                 amountRaisedValue: 100-position,
+                                 name: "R2D2",
+                                 amountRaisedValue: 5,
                                  amountRaisedCurrency: "USD",
                                  pollId: UUID())
         return [option1, option2]
