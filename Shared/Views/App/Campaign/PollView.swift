@@ -102,7 +102,7 @@ struct PollView: View {
                         ForEach(self.sortedOptions) { option in
                             VStack {
                                 HStack(alignment: .center) {
-                                    let isMax = option.isMax(parentPoll: poll, options: self.pollOptions)
+                                    let isMax = option.isMax(options: self.pollOptions)
                                     Text(option.name)
                                         .font(.caption)
                                         .foregroundStyle(isMax ? Theme.current.accentColor : .primary)

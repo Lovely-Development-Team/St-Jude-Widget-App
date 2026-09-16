@@ -168,16 +168,16 @@ struct PollWidgetEntryView: View {
         }
     }
     
-    func crownForSmallWidget(for option: PollOption, in parentPoll: Poll) -> Text {
-        if option.isMax(parentPoll: parentPoll, options: self.options) && self.widgetFamilyForLayout == .systemSmall {
+    func crownForSmallWidget(for option: PollOption) -> Text {
+        if option.isMax(options: self.options) && self.widgetFamilyForLayout == .systemSmall {
             return Text(" \(Image(systemName: "crown.fill"))")
         }
         return Text("")
     }
     
     @ViewBuilder
-    func crownAndOptionName(for option: PollOption, in parentPoll: Poll) -> some View {
-        if option.isMax(parentPoll: parentPoll, options: self.options) {
+    func crownAndOptionName(for option: PollOption) -> some View {
+        if option.isMax(options: self.options) {
             Image(systemName: "crown.fill")
                 .foregroundStyle(self.appearance.fillColor)
                 .minimumScaleFactor(self.minimumScaleFactor)
@@ -244,7 +244,7 @@ struct PollWidgetEntryView: View {
                         .font(fontForOptionNames)
                         .minimumScaleFactor(self.minimumScaleFactor)
                     }
-                    if option.isMax(parentPoll: poll, options: self.options) {
+                    if option.isMax(options: self.options) {
                         Spacer()
                         Image(systemName: "crown.fill")
                             .imageScale(self.crownImageScale)

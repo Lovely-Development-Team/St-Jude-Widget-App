@@ -163,22 +163,10 @@ extension PollOption {
         return TiltifyAmount(currency: self.amountRaisedCurrency, value: String(self.amountRaisedValue))
     }
     
-    func isMax(parentPoll: Poll, options: [PollOption]) -> Bool {
-        // Search for ties, return true since they're both in the lead
-        for option in options {
-            if option.id == self.id { continue }
-            if option.amountRaised.numericalValue == self.amountRaised.numericalValue {
-                return true
-            }
-        }
-        
-        // Sort all options
-        let sortedOptions = options.sorted {
-            $0.amountRaised.numericalValue > $1.amountRaised.numericalValue
-        }
-        
-        // Is self the highest one?
-        return self.id == sortedOptions.first?.id
+    func isMax(options: [PollOption]) -> Bool {
+        guard self.amountRaised.numericalValue != 0 else { return false }
+        let maxValue = options.map { $0.amountRaisedValue }.max()
+        return self.amountRaised.numericalValue == maxValue
     }
     
     func percentageOfPoll(parentPoll: Poll) -> Double {
