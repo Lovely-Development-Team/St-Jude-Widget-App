@@ -53,7 +53,7 @@ struct PollWidgetEntryView: View {
         case .systemSmall:
             return 0.4
         case .systemMedium:
-            return 0.4
+            return 0.2
         default:
             return 1.0
         }
@@ -72,6 +72,9 @@ struct PollWidgetEntryView: View {
     var fontForTitle: Font {
         switch self.widgetFamilyForLayout {
         case .systemMedium, .systemLarge, .systemExtraLarge:
+            if self.appearance.isWildWestTheme {
+                return .headline
+            }
             return .title
         default:
             return .body
@@ -98,18 +101,15 @@ struct PollWidgetEntryView: View {
     
     @ViewBuilder
     func titleView(for poll: Poll, parentCampaign: TiltifyWidgetData?) -> some View {
-        ViewThatFits {
-            VStack(alignment: .leading) {
-                pollName(for: poll)
-                if let parentCampaign, self.showParentCampaignInfo {
-                    Text(parentCampaign.name)
-                        .font(self.fontForCampaignName)
-                        .lineLimit(1)
-                        .foregroundStyle(.secondary)
-                        .minimumScaleFactor(self.minimumScaleFactor)
-                }
-            }
+        VStack(alignment: .leading) {
             pollName(for: poll)
+            if let parentCampaign, self.showParentCampaignInfo && self.widgetFamilyForLayout != .systemSmall {
+                Text(parentCampaign.name)
+                    .font(self.fontForCampaignName)
+                    .lineLimit(2)
+                    .foregroundStyle(.secondary)
+                    .minimumScaleFactor(self.minimumScaleFactor)
+            }
         }
     }
     
@@ -239,7 +239,7 @@ struct PollWidgetEntryView: View {
                                 .minimumScaleFactor(self.minimumScaleFactor)
                         }
                         Group {
-                            Text(option.name) + Text(" • ") + Text(option.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol)).foregroundStyle(.secondary)
+                            Text(option.name) + Text(" ") + Text(option.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol)).foregroundStyle(.secondary)
                         }
                         .font(fontForOptionNames)
                         .minimumScaleFactor(self.minimumScaleFactor)
@@ -252,6 +252,9 @@ struct PollWidgetEntryView: View {
                     }
                     
                 }
+            }
+            if self.widgetFamilyForLayout == .systemLarge && self.sortedOptions.count == 5 && option != self.sortedOptions.first {
+                Spacer()
             }
             ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: self.appearance.fillColor)
                 .frame(height: self.progressBarHeight)
@@ -269,9 +272,23 @@ struct PollWidgetEntryView: View {
                         if self.numOptionsToShow == 1, let option = self.sortedOptions.first {
                             self.optionView(for: option, poll: poll)
                         } else {
-                            ForEach(self.sortedOptions.prefix(self.numOptionsToShow)) { option in
+                            if self.widgetFamilyForLayout == .systemLarge && self.sortedOptions.count == 5 {
                                 VStack(alignment: .leading) {
-                                    self.optionView(for: option, poll: poll)
+                                    self.optionView(for: self.sortedOptions.first!, poll: poll)
+                                }
+                                LazyVGrid(columns: [.init(), .init()]) {
+                                    ForEach(self.sortedOptions.dropFirst()) { option in
+                                        VStack(alignment: .leading) {
+                                            Spacer()
+                                            self.optionView(for: option, poll: poll)
+                                        }
+                                    }
+                                }
+                            } else {
+                                ForEach(self.sortedOptions.prefix(self.numOptionsToShow)) { option in
+                                    VStack(alignment: .leading) {
+                                        self.optionView(for: option, poll: poll)
+                                    }
                                 }
                             }
                         }
