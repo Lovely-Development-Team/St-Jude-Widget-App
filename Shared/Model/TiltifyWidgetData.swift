@@ -261,13 +261,13 @@ struct TiltifyWidgetData: Equatable {
     
     static func nextMilestone(at totalRaised: Double, in milestones: [Milestone]) -> Milestone? {
         return milestones.first { milestone in
-            return milestone.amount.value >= totalRaised
+            return milestone.amount.value > totalRaised
         }
     }
     
     static func futureMilestones(at totalRaised: Double, in milestones: [Milestone]) -> [Milestone] {
         return milestones.filter { milestone in
-            return milestone.amount.value >= totalRaised
+            return milestone.amount.value > totalRaised
         }
     }
     
