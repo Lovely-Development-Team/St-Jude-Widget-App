@@ -56,6 +56,9 @@ struct ActivePollsView: View {
         .onAppear {
             self.collapsed = UserDefaults.shared.expandMainPollsSection
         }
+        .onChange(of: self.collapsed) {
+            UserDefaults.shared.expandMainPollsSection = self.collapsed
+        }
     }
 }
 
