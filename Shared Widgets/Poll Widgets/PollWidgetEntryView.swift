@@ -50,8 +50,10 @@ struct PollWidgetEntryView: View {
     
     var minimumScaleFactor: Double {
         switch self.widgetFamilyForLayout {
-        case .systemSmall, .systemMedium:
-            return 0.7
+        case .systemSmall:
+            return 0.4
+        case .systemMedium:
+            return 0.4
         default:
             return 1.0
         }
@@ -69,8 +71,8 @@ struct PollWidgetEntryView: View {
     
     var fontForTitle: Font {
         switch self.widgetFamilyForLayout {
-        case .systemSmall, .systemMedium:
-            return .caption
+        case .systemMedium, .systemLarge, .systemExtraLarge:
+            return .title
         default:
             return .body
         }
@@ -86,20 +88,28 @@ struct PollWidgetEntryView: View {
     }
     
     @ViewBuilder
+    func pollName(for poll: Poll) -> some View {
+        Text(poll.name)
+            .font(self.fontForTitle)
+            .bold()
+            .lineLimit(self.lineLimitForTitle)
+            .minimumScaleFactor(self.minimumScaleFactor)
+    }
+    
+    @ViewBuilder
     func titleView(for poll: Poll, parentCampaign: TiltifyWidgetData?) -> some View {
-        VStack(alignment: .leading) {
-            Text(poll.name)
-                .font(self.fontForTitle)
-                .bold()
-                .lineLimit(self.lineLimitForTitle)
-                .minimumScaleFactor(self.minimumScaleFactor)
-            if let parentCampaign, self.showParentCampaignInfo {
-                Text(parentCampaign.name)
-                    .font(self.fontForCampaignName)
-                    .lineLimit(1)
-                    .foregroundStyle(.secondary)
-                    .minimumScaleFactor(self.minimumScaleFactor)
+        ViewThatFits {
+            VStack(alignment: .leading) {
+                pollName(for: poll)
+                if let parentCampaign, self.showParentCampaignInfo {
+                    Text(parentCampaign.name)
+                        .font(self.fontForCampaignName)
+                        .lineLimit(1)
+                        .foregroundStyle(.secondary)
+                        .minimumScaleFactor(self.minimumScaleFactor)
+                }
             }
+            pollName(for: poll)
         }
     }
     
@@ -121,11 +131,22 @@ struct PollWidgetEntryView: View {
     var lineLimitForOptionNames: Int {
         switch self.widgetFamilyForLayout {
         case .systemSmall:
-            return 2
+            return 3
         case .systemMedium:
             return 1
         default:
             return 2
+        }
+    }
+    
+    var fontForOptionNames: Font {
+        switch self.widgetFamilyForLayout {
+        case .systemSmall:
+            return .caption
+        case .systemMedium:
+            return .caption
+        default:
+            return .body
         }
     }
     
@@ -138,32 +159,98 @@ struct PollWidgetEntryView: View {
         }
     }
     
+    var crownImageScale: Image.Scale {
+        switch self.widgetFamilyForLayout {
+        case .systemSmall, .systemMedium:
+            return .small
+        default:
+            return .medium
+        }
+    }
+    
+    func crownForSmallWidget(for option: PollOption, in parentPoll: Poll) -> Text {
+        if option.isMax(parentPoll: parentPoll, options: self.options) && self.widgetFamilyForLayout == .systemSmall {
+            return Text(" \(Image(systemName: "crown.fill"))")
+        }
+        return Text("")
+    }
+    
+    @ViewBuilder
+    func crownAndOptionName(for option: PollOption, in parentPoll: Poll) -> some View {
+        if option.isMax(parentPoll: parentPoll, options: self.options) {
+            Image(systemName: "crown.fill")
+                .foregroundStyle(self.appearance.fillColor)
+                .minimumScaleFactor(self.minimumScaleFactor)
+                .font(fontForOptionNames)
+        }
+        Text(option.name)
+            .minimumScaleFactor(self.minimumScaleFactor)
+            .font(fontForOptionNames)
+            .lineLimit(self.lineLimitForOptionNames)
+    }
+    
     @ViewBuilder
     func optionView(for option: PollOption, poll: Poll) -> some View {
         VStack(alignment: .leading) {
-            HStack {
-                VStack(alignment: .leading) {
+            if self.widgetFamilyForLayout == .systemSmall {
+                VStack(alignment: .leading, spacing: 5) {
+                    if !self.appearance.isWildWestTheme {
+                        Image(systemName: "crown.fill")
+                            .foregroundStyle(self.appearance.fillColor)
+                            .minimumScaleFactor(self.minimumScaleFactor)
+                            .font(fontForOptionNames)
+                    }
                     Text(option.name)
                         .minimumScaleFactor(self.minimumScaleFactor)
-                        .font(.caption)
+                        .font(fontForOptionNames)
                         .lineLimit(self.lineLimitForOptionNames)
-                    HStack {
+                    if self.appearance.isWildWestTheme {
+                        HStack {
+                            Text(option.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))
+                                .font(fontForOptionNames)
+                                .foregroundStyle(.secondary)
+                                .minimumScaleFactor(self.minimumScaleFactor)
+                            Spacer()
+                            Image(systemName: "crown.fill")
+                                .foregroundStyle(self.appearance.fillColor)
+                                .minimumScaleFactor(self.minimumScaleFactor)
+                                .font(fontForOptionNames)
+                        }
+                    } else {
                         Text(option.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))
-                            .font(.caption2)
+                            .font(fontForOptionNames)
                             .foregroundStyle(.secondary)
                             .minimumScaleFactor(self.minimumScaleFactor)
-                        if option.isMax(parentPoll: poll, options: self.options) && self.widgetFamilyForLayout == .systemSmall {
-                            Image(systemName: "crown.fill")
-                                .imageScale(.small)
-                                .foregroundStyle(self.appearance.fillColor)
-                        }
                     }
                 }
-                Spacer()
-                if option.isMax(parentPoll: poll, options: self.options) && self.widgetFamilyForLayout != .systemSmall {
-                    Image(systemName: "crown.fill")
-                        .imageScale(.small)
-                        .foregroundStyle(self.appearance.fillColor)
+            } else {
+            
+                HStack(alignment: .bottom) {
+                    
+                    ViewThatFits {
+                        VStack(alignment: .leading) {
+                            Text(option.name)
+                                .minimumScaleFactor(self.minimumScaleFactor)
+                                .font(fontForOptionNames)
+                                .lineLimit(self.lineLimitForOptionNames)
+                            Text(option.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))
+                                .font(fontForOptionNames)
+                                .foregroundStyle(.secondary)
+                                .minimumScaleFactor(self.minimumScaleFactor)
+                        }
+                        Group {
+                            Text(option.name) + Text(" • ") + Text(option.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol)).foregroundStyle(.secondary)
+                        }
+                        .font(fontForOptionNames)
+                        .minimumScaleFactor(self.minimumScaleFactor)
+                    }
+                    if option.isMax(parentPoll: poll, options: self.options) {
+                        Spacer()
+                        Image(systemName: "crown.fill")
+                            .imageScale(self.crownImageScale)
+                            .foregroundStyle(self.appearance.fillColor)
+                    }
+                    
                 }
             }
             ProgressBar(value: .constant(Float(option.percentageOfPoll(parentPoll: poll))), fillColor: self.appearance.fillColor)
@@ -179,9 +266,13 @@ struct PollWidgetEntryView: View {
                     self.titleView(for: poll, parentCampaign: self.parentCampaign)
                     Spacer()
                     if poll.active {
-                        ForEach(self.sortedOptions.prefix(self.numOptionsToShow)) { option in
-                            VStack(alignment: .leading) {
-                                self.optionView(for: option, poll: poll)
+                        if self.numOptionsToShow == 1, let option = self.sortedOptions.first {
+                            self.optionView(for: option, poll: poll)
+                        } else {
+                            ForEach(self.sortedOptions.prefix(self.numOptionsToShow)) { option in
+                                VStack(alignment: .leading) {
+                                    self.optionView(for: option, poll: poll)
+                                }
                             }
                         }
                     } else {
