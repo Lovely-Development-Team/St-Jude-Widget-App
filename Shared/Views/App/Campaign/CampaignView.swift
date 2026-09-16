@@ -88,7 +88,7 @@ struct CampaignView: View {
         } else {
             id = TEAM_EVENT_ID
         }
-        return URL(string: "https://donate.tiltify.com/\(id.uuidString)")!
+        return URL(string: "https://donate.tiltify.com/\(id.uuidString.lowercased())/amount")!
     }
     
     var description: AttributedString {
