@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActivePollsView: View {
-    @State private var collapsed: Bool = false
+    @State private var collapsed: Bool = true
     var activePolls: [Poll] = []
     @Binding var pollsUpdatedAt: Date
     
@@ -54,10 +54,10 @@ struct ActivePollsView: View {
             }
         }
         .onAppear {
-            self.collapsed = UserDefaults.shared.expandMainPollsSection
+            self.collapsed = !UserDefaults.shared.expandMainPollsSection
         }
         .onChange(of: self.collapsed) {
-            UserDefaults.shared.expandMainPollsSection = self.collapsed
+            UserDefaults.shared.expandMainPollsSection = !self.collapsed
         }
     }
 }

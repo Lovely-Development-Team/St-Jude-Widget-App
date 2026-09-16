@@ -51,9 +51,9 @@ extension PollLockScreenWidgetEntryView {
     var accessoryInlineContent: some View {
         if let poll = self.poll {
             if let highestOption = self.sortedOptions.first {
-                Text("\(Image(systemName: "crown.fill")) \(highestOption.percentageOfPoll(parentPoll: poll).formattedAsPercent) • \(highestOption.name)")
+                Text("\(Theme.current.trophyIcon) \(highestOption.percentageOfPoll(parentPoll: poll).formattedAsPercent) • \(highestOption.name)")
             } else {
-                Text("\(Image(systemName: "crown.fill")) \(poll.name)")
+                Text("\(Theme.current.trophyIcon) \(poll.name)")
             }
         } else {
             Text("Select a poll")
@@ -71,7 +71,7 @@ extension PollLockScreenWidgetEntryView {
                             .bold()
                             .minimumScaleFactor(0.7)
                         Spacer()
-                        Image(systemName: "crown.fill")
+                        Theme.current.trophyIcon
                             .imageScale(.small)
                     }
                     Text(highestOption.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))

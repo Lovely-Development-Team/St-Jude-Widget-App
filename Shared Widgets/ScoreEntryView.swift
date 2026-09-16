@@ -152,9 +152,11 @@ struct ScoreEntryView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             Text(formatNumber(entry.score.myke.score))
+                .font(Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title3).pointSize))
                 .fixedSize(horizontal: true, vertical: false)
             Spacer()
             Text(formatNumber(entry.score.stephen.score))
+                .font(Font.custom("KilnSansSpiked", size: UIFont.preferredFont(forTextStyle: .title3).pointSize))
                 .fixedSize(horizontal: true, vertical: false)
             Image(.stephenHeadIcon2026)
                 .resizable()
@@ -186,19 +188,19 @@ struct ScoreEntryView: View {
     
     @ViewBuilder
     var content: some View {
-        if self.renderingMode == .fullColor {
-            switch family {
-            case .accessoryInline:
-                lockScreenInline
-            case .accessoryRectangular:
-                lockScreenRectangular
-            case .accessoryCircular:
-                lockScreenCircular
-            default:
+        switch self.family {
+        case .accessoryInline:
+            lockScreenInline
+        case .accessoryRectangular:
+            lockScreenRectangular
+        case .accessoryCircular:
+            lockScreenCircular
+        default:
+            if self.renderingMode == .fullColor {
                 homeScreenWidget
+            } else {
+                self.nonFullColorContent
             }
-        } else {
-            self.nonFullColorContent
         }
     }
     
@@ -215,7 +217,21 @@ struct ScoreEntryView: View {
     
     @ViewBuilder
     var nonFullColorContent: some View {
-        self.scoreGroupBoxView(showBackground: false)
+        HStack {
+            if self.family != .systemSmall {
+                Image(.mykeHeadIcon2026)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+            }
+            self.scoreGroupBoxView(showBackground: false)
+            if self.family != .systemSmall {
+                Image(.stephenHeadIcon2026)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+            }
+        }
     }
 }
 

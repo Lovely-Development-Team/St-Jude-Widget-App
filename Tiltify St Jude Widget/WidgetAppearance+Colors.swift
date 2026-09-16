@@ -237,4 +237,12 @@ extension WidgetAppearance {
         }
     }
     
+    var trophyIconName: Image {
+        switch self {
+        case .wildWestSky, .wildWestWood:
+            return Image(.cowboyhat)
+        default:
+            return Image(systemName: "crown.fill")
+        }
+    }
 }

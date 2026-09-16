@@ -24,6 +24,10 @@ extension Theme {
             Image(.bsod)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+        case "!", "la li lu le lo":
+            Image(.metalgear)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
         default:
             EmptyView()
         }

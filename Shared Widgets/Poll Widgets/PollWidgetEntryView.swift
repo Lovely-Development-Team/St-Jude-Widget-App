@@ -170,7 +170,7 @@ struct PollWidgetEntryView: View {
     
     func crownForSmallWidget(for option: PollOption) -> Text {
         if option.isMax(options: self.options) && self.widgetFamilyForLayout == .systemSmall {
-            return Text(" \(Image(.cowboyhat).symbolVariant(.fill))")
+            return Text(" \(self.appearance.trophyIconName.symbolVariant(.fill))")
         }
         return Text("")
     }
@@ -178,7 +178,7 @@ struct PollWidgetEntryView: View {
     @ViewBuilder
     func crownAndOptionName(for option: PollOption) -> some View {
         if option.isMax(options: self.options) {
-            Image(.cowboyhat)
+            self.appearance.trophyIconName
                 .symbolVariant(.fill)
                 .foregroundStyle(self.appearance.fillColor)
                 .minimumScaleFactor(self.minimumScaleFactor)
@@ -196,7 +196,7 @@ struct PollWidgetEntryView: View {
             if self.widgetFamilyForLayout == .systemSmall {
                 VStack(alignment: .leading, spacing: 5) {
                     if !self.appearance.isWildWestTheme {
-                        Image(.cowboyhat)
+                        self.appearance.trophyIconName
                             .symbolVariant(.fill)
                             .foregroundStyle(self.appearance.fillColor)
                             .minimumScaleFactor(self.minimumScaleFactor)
@@ -213,7 +213,7 @@ struct PollWidgetEntryView: View {
                                 .foregroundStyle(.secondary)
                                 .minimumScaleFactor(self.minimumScaleFactor)
                             Spacer()
-                            Image(.cowboyhat)
+                            self.appearance.trophyIconName
                                 .symbolVariant(.fill)
                                 .foregroundStyle(self.appearance.fillColor)
                                 .minimumScaleFactor(self.minimumScaleFactor)
@@ -249,7 +249,7 @@ struct PollWidgetEntryView: View {
                     }
                     if option.isMax(options: self.options) {
                         Spacer()
-                        Image(.cowboyhat)
+                        self.appearance.trophyIconName
                             .symbolVariant(.fill)
                             .imageScale(self.crownImageScale)
                             .foregroundStyle(self.appearance.fillColor)
@@ -321,10 +321,6 @@ struct PollWidgetEntryView: View {
     
     var body: some View {
         switch self.widgetFamilyForLayout {
-        case .accessoryInline:
-            self.accessoryInlineContent
-        case .accessoryRectangular:
-            self.accessoryRectangularContent
         default:
             if self.useNormalBackground {
                 self.content
@@ -346,55 +342,5 @@ struct PollWidgetEntryView: View {
     var placeholderView: some View {
         Text("Select A Poll")
             .bold()
-    }
-}
-
-// MARK: - Lock Screen Widgets (only .accessoryRectangular and .accessoryInline)
-extension PollWidgetEntryView {
-    
-    // Only show crown, percent, and as much visible title as possible
-    @ViewBuilder
-    var accessoryInlineContent: some View {
-        if let poll = self.poll {
-            if let highestOption = self.sortedOptions.first {
-                Text("\(Image(.cowboyhat)) \(highestOption.percentageOfPoll(parentPoll: poll).formattedAsPercent) • \(highestOption.name)")
-            } else {
-                Text("\(Image(.cowboyhat)) \(poll.name)")
-            }
-        } else {
-            Text("Select a poll")
-        }
-    }
-    
-    @ViewBuilder
-    var accessoryRectangularContent: some View {
-        if let poll = self.poll {
-            if let highestOption = self.sortedOptions.first {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(highestOption.name)
-                            .font(.caption)
-                            .bold()
-                            .minimumScaleFactor(0.7)
-                        Spacer()
-                        Image(.cowboyhat)
-                            .imageScale(.small)
-                    }
-                    Text(highestOption.amountRaised.description(showFullCurrencySymbol: self.showFullCurrencySymbol))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    ProgressBar(value: .constant(Float(highestOption.percentageOfPoll(parentPoll: poll))), fillColor: self.appearance.fillColor)
-                        .frame(height: self.progressBarHeight)
-                }
-            } else {
-                Text(poll.name)
-                    .font(.caption)
-                    .bold()
-            }
-        } else {
-            Text("Select a poll")
-                .font(.caption)
-                .bold()
-        }
     }
 }

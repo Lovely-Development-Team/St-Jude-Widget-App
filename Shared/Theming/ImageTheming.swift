@@ -45,4 +45,13 @@ extension Theme {
             return nil
         }
     }
+    
+    var trophyIcon: Image {
+        switch self {
+        case .campaign2026:
+            Image(.cowboyhat)
+        default:
+            Image(systemName: "crown.fill")
+        }
+    }
 }
