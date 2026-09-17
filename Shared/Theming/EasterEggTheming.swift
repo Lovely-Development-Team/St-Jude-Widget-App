@@ -21,20 +21,21 @@ extension Theme {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
         case "grey":
-            Image(.bsod)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            GroupBox {
+                Image(.bsod)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+            .themedGroupBox(type: .primary)
         case "!", "la li lu le lo":
-            Image(.metalgear)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-        default:
-            EmptyView()
-        }
-        
-        switch self {
-        case .campaign2026:
-            if string.lowercased() == "clementine" {
+            GroupBox {
+                Image(.metalgear)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+            .themedGroupBox(type: .primary)
+        case "clementine":
+            if self == .campaign2026 {
                 FeedClementineView()
             }
         default:

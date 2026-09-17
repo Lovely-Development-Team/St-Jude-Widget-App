@@ -271,7 +271,7 @@ struct CampaignView: View {
             GroupBox {
                 VStack(spacing: 5) {
                     HStack(spacing: 4) {
-                        Image(systemName: "crown.fill")
+                        Theme.current.trophyIcon
                         if donations.count == 1 {
                             Text("Top and only Donor")
                                 .textCase(.uppercase)
