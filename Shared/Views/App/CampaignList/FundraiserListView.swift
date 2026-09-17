@@ -24,6 +24,8 @@ struct FundraiserListView: View {
     @State private var isInitialLoad: Bool = true
     
     @State private var headToHeads: [HeadToHeadWithCampaigns] = []
+    @State private var activePolls: [Poll] = []
+    @State private var pollsUpdatedAt: Date = Date()
     
     @Binding var rotationAnimation: Bool
     
@@ -37,7 +39,6 @@ struct FundraiserListView: View {
             return filtered.count > 0 ? filtered : nil
         }
     }
-    
     
     
 ///    After the NavigationStack refactor this might not be needed. Keeping it in case we do end up needing it
@@ -351,6 +352,8 @@ struct FundraiserListView: View {
     
     @ViewBuilder
     var extraOptionsView: some View {
+        ActivePollsView(activePolls: self.activePolls, pollsUpdatedAt: self.$pollsUpdatedAt)
+        
         if self.allCampaigns.count != 0 {
             HeadToHeadListView(namespace: self.namespace, headToHeads: self.$headToHeads, showSheet: self.$showSheet, onDelete: {
                 Task {
@@ -448,6 +451,7 @@ struct FundraiserListView: View {
         } catch {
             dataLogger.error("Starring/unstarring stored campaign failed: \(error.localizedDescription)")
         }
+        await campaign.checkForPollUpdates()
         await fetch()
     }
     
@@ -556,6 +560,32 @@ struct FundraiserListView: View {
             dataLogger.error("Could not update campaigns")
         }
         
+        // Update team event polls once all campaigns have been updated
+        dataLogger.notice("Updating polls for team event...")
+        do {
+            if let teamEvent = try await AppDatabase.shared.fetchTeamEvent() {
+                await teamEvent.checkForPollUpdates()
+            }
+        } catch {
+            dataLogger.error("Failed to update polls for team event: \(error.localizedDescription)")
+        }
+        
+        // Update polls once all campaigns have been updated
+        dataLogger.notice("Updating polls for starred campaigns...")
+        do {
+            for dbCampaign in try await AppDatabase.shared.fetchAllCampaigns() {
+                if dbCampaign.isStarred {
+                    dataLogger.debug("Checking for polls on Campaign: \(dbCampaign.id)...")
+                    await dbCampaign.checkForPollUpdates()
+                    dataLogger.debug("Fetched poll updates for Campaign: \(dbCampaign.id)...")
+                }
+            }
+        } catch {
+            dataLogger.error("Failed to update stored polls: \(error.localizedDescription)")
+        }
+        
+        self.pollsUpdatedAt = Date()
+        
         await self.fetch()
         self.isRefreshing = false
         self.isInitialLoad = false
@@ -580,6 +610,20 @@ struct FundraiserListView: View {
             dataLogger.notice("Fetched stored head to heads")
         } catch {
             dataLogger.error("Failed to fetch store head to heads: \(error.localizedDescription)")
+        }
+        
+        // Fetch starred active polls
+        dataLogger.notice("Fetching stored active polls...")
+        do {
+            let fetchedTeamEventPolls = try await AppDatabase.shared.fetchPollsForTeamEvent()
+            let fetchedCampaignPolls = try await AppDatabase.shared.fetchPollsForStarredCampaigns()
+            withAnimation {
+                self.activePolls = fetchedTeamEventPolls
+                self.activePolls.append(contentsOf: fetchedCampaignPolls)
+            }
+            dataLogger.notice("Fetched stored active polls")
+        } catch {
+            dataLogger.error("Failed to fetch polls: \(error.localizedDescription)")
         }
     }
 }

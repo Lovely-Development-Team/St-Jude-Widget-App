@@ -37,11 +37,20 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>icon-leather2026</key>
+			<key>icon-icon2024</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>icon-leather2026</string>
+					<string>icon-icon2024</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>icon-icon2025</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>icon-icon2025</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -64,6 +73,15 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
+			<key>icon-leather2026</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>icon-leather2026</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 			<key>icon-myke2026</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -73,38 +91,20 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>icon-stephen2026</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>icon-stephen2026</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>icon-icon2024</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>icon-icon2024</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>icon-icon2025</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>icon-icon2025</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
 			<key>icon-regular</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>icon-regular</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>icon-stephen2026</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>icon-stephen2026</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -155,6 +155,8 @@
 		<string>GetFundraiserIntent</string>
 		<string>GetMainFundraisingEventIntent</string>
 		<string>HeadToHeadConfigurationIntent</string>
+		<string>PollConfigurationIntent</string>
+		<string>PollLockScreenConfigurationIntent</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

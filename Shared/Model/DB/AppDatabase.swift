@@ -195,6 +195,33 @@ final class AppDatabase {
             }
         }
         
+        migrator.registerMigration("addPolls") { db in
+            try db.create(table: "poll") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("active", .boolean).notNull()
+                t.column("totalRaisedValue", .double).notNull()
+                t.column("totalRaisedCurrency", .text).notNull()
+                t.column("campaignId", .blob).references("campaign")
+                t.column("teamEventId", .blob).references("teamEvent")
+            }
+            
+            try db.create(table: "pollOption") { t in
+                t.column("id", .blob).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("amountRaisedValue", .double).notNull()
+                t.column("amountRaisedCurrency", .text).notNull()
+                t.column("pollId", .blob).notNull().references("poll")
+            }
+        }
+        
+        migrator.registerMigration("addEndsAtDateToPollTable") { db in
+            try db.alter(table: "poll") { t in
+                t.add(column: "endsAtString", .text)
+                t.add(column: "manualClosedAtString", .text)
+            }
+        }
+        
         return migrator
     }
 }
@@ -365,6 +392,128 @@ extension AppDatabase {
                 }
                 return $0.amount.value < $1.amount.value
             }
+        }
+    }
+    
+    // MARK: Polls
+    @discardableResult
+    func savePoll(_ poll: Poll) async throws -> Poll {
+        try await dbWriter.write { db in
+            try poll.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deletePoll(_ poll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try poll.delete(db)
+        }
+    }
+    
+    @discardableResult
+    func updatePoll(_ newPoll: Poll, changesFrom oldPoll: Poll) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPoll.updateChanges(db, from: oldPoll)
+        }
+    }
+    
+    func fetchPollsForStarredCampaigns(includeInactive: Bool = false) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            let polls = try Poll.order(Column("name").asc)
+                .including(required: Poll.parentCampaign
+                    .filter(Column("isStarred") == true))
+                .filter(Column("active") == true
+                        || Column("manualClosedAtString") != nil
+                        || Column("endsAtString") != nil)
+                .fetchAll(db)
+            return polls.filter { poll in
+                if includeInactive {
+                    return true
+                }
+                
+                if let endsAt = poll.endsAt {
+                    return endsAt.isInTheLast(seconds: TimeInterval.oneDay)
+                } else if let manualClosedAt = poll.manualClosedAt {
+                    return manualClosedAt.isInTheLast(seconds: TimeInterval.oneDay)
+                }
+                return poll.active
+            }
+        }
+    }
+    
+    func fetchPollsForTeamEvent(includeInactive: Bool = false) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            let polls = try Poll.order(Column("name").asc)
+                .including(required: Poll.parentTeamEvent
+                    .filter(Column("publicId") == UUID(uuidString: FUNDRAISING_EVENT_PUBLIC_ID)))
+                .filter(Column("active") == true
+                        || Column("manualClosedAtString") != nil
+                        || Column("endsAtString") != nil)
+                .fetchAll(db)
+            return polls.filter { poll in
+                if includeInactive {
+                    return true
+                }
+                
+                if let endsAt = poll.endsAt {
+                    return endsAt.isInTheLast(seconds: TimeInterval.oneDay)
+                } else if let manualClosedAt = poll.manualClosedAt {
+                    return manualClosedAt.isInTheLast(seconds: TimeInterval.oneDay)
+                }
+                return poll.active
+            }
+        }
+    }
+    
+    func fetchSortedPolls(for campaign: Campaign) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try campaign.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchSortedPolls(for teamEvent: TeamEvent) async throws -> [Poll] {
+        try await dbWriter.read { db in
+            try teamEvent.polls.order(Column("name").asc).fetchAll(db)
+        }
+    }
+    
+    func fetchParentCampaign(for poll: Poll) async throws -> Campaign? {
+        try await dbWriter.read { db in
+            try poll.parentCampaign.fetchOne(db)
+        }
+    }
+    
+    func fetchParentTeamEvent(for poll: Poll) async throws -> TeamEvent? {
+        try await dbWriter.read { db in
+            try poll.parentTeamEvent.fetchOne(db)
+        }
+    }
+    
+    // MARK: - PollOptions
+    @discardableResult
+    func savePollOption(_ pollOption: PollOption) async throws -> PollOption {
+        try await dbWriter.write { db in
+            try pollOption.saved(db)
+        }
+    }
+    
+    @discardableResult
+    func deletePollOption(_ pollOption: PollOption) async throws -> Bool {
+        try await dbWriter.write { db in
+            try pollOption.delete(db)
+        }
+    }
+    
+    @discardableResult
+    func updatePollOption(_ newPollOption: PollOption, changesFrom oldPollOption: PollOption) async throws -> Bool {
+        try await dbWriter.write { db in
+            try newPollOption.updateChanges(db, from: oldPollOption)
+        }
+    }
+    
+    func fetchPollOptions(for poll: Poll) async throws -> [PollOption] {
+        try await dbWriter.read { db in
+            try poll.pollOptions.order(Column("amountRaisedValue").asc).fetchAll(db)
         }
     }
     

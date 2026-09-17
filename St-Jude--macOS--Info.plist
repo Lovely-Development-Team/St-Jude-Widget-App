@@ -11,6 +11,8 @@
 		<string>GetFundraiserIntent</string>
 		<string>GetMainFundraisingEventIntent</string>
 		<string>HeadToHeadConfigurationIntent</string>
+		<string>PollConfigurationIntent</string>
+		<string>PollLockScreenConfigurationIntent</string>
 	</array>
 </dict>
 </plist>

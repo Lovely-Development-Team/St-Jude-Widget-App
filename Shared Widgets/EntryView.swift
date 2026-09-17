@@ -106,7 +106,7 @@ struct EntryView: View {
     
     @ViewBuilder
     var content: some View {
-        if appearance.isWildWestTheme {
+        if appearance.isWildWestTheme && self.renderingMode == .fullColor {
             GroupBox {
                 actualContent
             }

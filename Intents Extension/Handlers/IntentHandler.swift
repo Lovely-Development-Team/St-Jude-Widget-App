@@ -23,6 +23,10 @@ class IntentHandler: INExtension {
             return CampaignConfigurationIntentHandler()
         case is HeadToHeadConfigurationIntent:
             return HeadToHeadConfigurationIntentHandler()
+        case is PollConfigurationIntent:
+            return PollConfigurationIntentHandler()
+        case is PollLockScreenConfigurationIntent:
+            return PollLockScreenConfigurationIntentHandler()
         default:
             return self
         }

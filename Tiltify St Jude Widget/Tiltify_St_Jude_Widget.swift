@@ -106,6 +106,8 @@ struct TiltifyStJudeWidgets: WidgetBundle {
 //       HeadToHeadWidget()
        ScoreWidget()
        ScoreActivityConfiguration()
+       PollWidget()
+       PollLockScreenWidget()
    }
 }
 

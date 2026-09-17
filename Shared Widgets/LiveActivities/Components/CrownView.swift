@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CrownView: View {
     var body: some View {
-        Image(.crownPixel)
+        Theme.current.trophyIcon
             .font(.system(size: 10))
             .imageScale(.small)
     }
