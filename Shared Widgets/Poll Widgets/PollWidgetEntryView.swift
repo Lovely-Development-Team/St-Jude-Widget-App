@@ -162,7 +162,7 @@ struct PollWidgetEntryView: View {
     var crownImageScale: Image.Scale {
         switch self.widgetFamilyForLayout {
         case .systemSmall, .systemMedium:
-            return .small
+            return self.appearance.isWildWestTheme ? .medium : .small
         default:
             return .medium
         }
@@ -170,7 +170,7 @@ struct PollWidgetEntryView: View {
     
     func crownForSmallWidget(for option: PollOption) -> Text {
         if option.isMax(options: self.options) && self.widgetFamilyForLayout == .systemSmall {
-            return Text(" \(self.appearance.trophyIconName.symbolVariant(.fill))")
+            return Text(" \(self.appearance.trophyIcon.symbolVariant(.fill))")
         }
         return Text("")
     }
@@ -178,7 +178,7 @@ struct PollWidgetEntryView: View {
     @ViewBuilder
     func crownAndOptionName(for option: PollOption) -> some View {
         if option.isMax(options: self.options) {
-            self.appearance.trophyIconName
+            self.appearance.trophyIcon
                 .symbolVariant(.fill)
                 .foregroundStyle(self.appearance.fillColor)
                 .minimumScaleFactor(self.minimumScaleFactor)
@@ -196,7 +196,7 @@ struct PollWidgetEntryView: View {
             if self.widgetFamilyForLayout == .systemSmall {
                 VStack(alignment: .leading, spacing: 5) {
                     if !self.appearance.isWildWestTheme {
-                        self.appearance.trophyIconName
+                        self.appearance.trophyIcon
                             .symbolVariant(.fill)
                             .foregroundStyle(self.appearance.fillColor)
                             .minimumScaleFactor(self.minimumScaleFactor)
@@ -213,7 +213,7 @@ struct PollWidgetEntryView: View {
                                 .foregroundStyle(.secondary)
                                 .minimumScaleFactor(self.minimumScaleFactor)
                             Spacer()
-                            self.appearance.trophyIconName
+                            self.appearance.trophyIcon
                                 .symbolVariant(.fill)
                                 .foregroundStyle(self.appearance.fillColor)
                                 .minimumScaleFactor(self.minimumScaleFactor)
@@ -249,7 +249,7 @@ struct PollWidgetEntryView: View {
                     }
                     if option.isMax(options: self.options) {
                         Spacer()
-                        self.appearance.trophyIconName
+                        self.appearance.trophyIcon
                             .symbolVariant(.fill)
                             .imageScale(self.crownImageScale)
                             .foregroundStyle(self.appearance.fillColor)

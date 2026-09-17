@@ -237,7 +237,7 @@ extension WidgetAppearance {
         }
     }
     
-    var trophyIconName: Image {
+    var trophyIcon: Image {
         switch self {
         case .wildWestSky, .wildWestWood:
             return Image(.cowboyhat)
